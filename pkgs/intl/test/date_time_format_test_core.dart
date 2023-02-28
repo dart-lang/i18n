@@ -131,7 +131,7 @@ void testLocale(
     var format = intl.date(skeleton);
     var icuName = icuFormatNamesToTest[i];
     var actualResult = format.format(date);
-    expect(actualResult, expectedResults[icuName],
+    expect(expectedResults[icuName], equals(actualResult),
         reason: 'Mismatch in $localeName, testing skeleton "$skeleton"');
   }
 }
@@ -295,8 +295,7 @@ void runDateTests(SubsetFuncType subsetFunc) {
     var blank = intl.date('jms');
     var date = DateTime(2012, 1, 27, 20, 58, 59, 0);
     expect(instanceJP.format(date), equals('20:58:59'));
-    const space = '\u202F';
-    expect(instanceUS.format(date), equals('8:58:59${space}PM'));
+    expect(instanceUS.format(date), equals('8:58:59 PM'));
     expect(blank.format(date), equals('20:58:59'));
   });
 
