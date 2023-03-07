@@ -1,11 +1,13 @@
 ## Overview
 
-This repository is home to Dart I18N and L10N related packages.
+This repository is home to Dart internationalization (i18n) and localization (l10n) related packages.
 
 ## Packages
 
 | Package | Description | Version |
 | --- | --- | --- |
+| intl | Dart native package for i18n functionality | 0.18.0 |
+| intl_translation | Handle translation messages in Dart code | 0.18.1 |
 
 <!--
 ## Publishing automation
