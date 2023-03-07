@@ -37,7 +37,8 @@ jobs:
 
       - run: dart analyze --fatal-infos
 
-      - run: dart format --output=none --set-exit-if-changed .
+      # Note that the files in example/lib/generated aren't formatted.
+      - run: dart format --output=none --set-exit-if-changed bin lib
         if: ${{matrix.run-tests}}
 
       - run: dart test
