@@ -1,0 +1,10 @@
+# Configuration for .github/workflows/pull_request_label.yml. 
+
+'infra':
+  - '.github/**'
+
+'pkg:intl':
+  - 'pkgs/intl/**'
+
+'pkg:intl_translation':
+  - 'pkgs/intl_translation/**'
