@@ -1,0 +1,45 @@
+name: package:intl_translation
+permissions: read-all
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/intl_translation.yml'
+      - 'pkgs/intl_translation/**'
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/intl_translation.yml'
+      - 'pkgs/intl_translation/**'
+  schedule:
+    - cron: '0 0 * * 0' # weekly
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pkgs/intl_translation
+    strategy:
+      matrix:
+        sdk: [stable, dev] # {pkgs.versions}
+        include:
+          - sdk: stable
+            run-tests: true
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: dart-lang/setup-dart@a57a6c04cf7d4840e88432aad6281d1e125f0d46
+        with:
+          sdk: ${{matrix.sdk}}
+
+      - run: dart pub get
+
+      - run: dart analyze --fatal-infos
+
+      # Note that the files in example/lib/generated aren't formatted.
+      - run: dart format --output=none --set-exit-if-changed bin lib
+        if: ${{matrix.run-tests}}
+
+      - run: dart test
+        if: ${{matrix.run-tests}}

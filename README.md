@@ -6,10 +6,9 @@ This repository is home to Dart internationalization (i18n) and localization (l1
 
 | Package | Description | Version |
 | --- | --- | --- |
-| intl | Dart native package for i18n functionality | 0.18.0 |
-| intl_translation | Handle translation messages in Dart code | 0.18.1 |
+| [intl](pkgs/intl/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl) |
+| [intl_translation](pkgs/intl_translation/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl_translation.svg)](https://pub.dev/packages/intl_translation) |
 
-<!--
 ## Publishing automation
 
 For information about our publishing automation and release process, see
@@ -17,4 +16,3 @@ https://github.com/dart-lang/ecosystem/wiki/Publishing-automation.
 
 For additional information about contributing, see our
 [contributing](CONTRIBUTING.md) page.
--->
