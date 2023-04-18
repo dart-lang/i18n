@@ -41,5 +41,9 @@ jobs:
       - run: dart format --output=none --set-exit-if-changed bin lib
         if: ${{matrix.run-tests}}
 
-      - run: dart test
-        if: ${{matrix.run-tests}}
+      # TODO(mosum): Uncomment once ICU4X is the backend
+      # - name: Run VM tests
+      #   run: dart test --platform vm
+
+      - name: Run Chrome tests
+        run: dart test --platform chrome
