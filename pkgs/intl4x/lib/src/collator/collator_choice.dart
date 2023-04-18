@@ -6,7 +6,7 @@ import 'package:intl4x/intl.dart';
 
 import 'collator_4x.dart';
 import 'collator_options.dart';
-import 'collator_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
+import 'collator_stub.dart' if (dart.library.js) 'collator_ecma.dart';
 import 'collator_impl.dart';
 
 class CollatorChoice {
