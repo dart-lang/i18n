@@ -1,7 +1,7 @@
 name: intl4x
 description: An absolute bare-bones web app.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+version: 0.0.1-dev
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 
 environment:
   sdk: '>=2.18.4-374.0.dev <=3.0.0'
