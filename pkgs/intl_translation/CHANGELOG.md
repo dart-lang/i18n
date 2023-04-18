@@ -1,3 +1,6 @@
+## 0.18.2
+  * Update git path in pubspec
+
 ## 0.18.1
   * Update analyzer dependency to `5.2.0`.
   * Address analyzer deprecations.
