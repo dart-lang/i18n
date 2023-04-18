@@ -1,0 +1,16 @@
+name: intl4x
+description: An absolute bare-bones web app.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: '>=2.18.4-374.0.dev <=3.0.0'
+
+dependencies:
+  js: ^0.6.5
+  
+dev_dependencies:
+  build_runner: ^2.1.4
+  build_web_compilers: ^3.2.1
+  lints: ^2.0.0
+  test: ^1.22.1

@@ -8,6 +8,7 @@ This repository is home to Dart internationalization (i18n) and localization (l1
 | --- | --- | --- |
 | [intl](pkgs/intl/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl) |
 | [intl_translation](pkgs/intl_translation/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl_translation.svg)](https://pub.dev/packages/intl_translation) |
+| [intl4x](pkgs/intl4x/) | Contains a package intended to wrap around ICU4X on web and native, and browser built-in intl on the web. | |
 
 ## Publishing automation
 
