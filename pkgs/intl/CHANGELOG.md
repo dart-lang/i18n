@@ -1,7 +1,7 @@
 ## 0.18.1
-  * Update ruble sign and update corresponding test.
-  * Remove unimplemented timezone functionality.
-  * Update git path in pubspec.
+ * Update ruble sign and update corresponding test.
+ * Remove unimplemented timezone functionality.
+ * Update git path in pubspec.
 
 ## 0.18.0
  * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
