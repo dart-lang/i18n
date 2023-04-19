@@ -5,7 +5,7 @@ publish_to: none
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_shrinker
 
 environment:
-  sdk: '>=3.0.0-163.0.dev <4.0.0'
+  sdk: '>=2.18.0 <3.0.0'
 
 # Add regular dependencies here.
 dependencies:
