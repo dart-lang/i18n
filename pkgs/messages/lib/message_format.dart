@@ -1,0 +1,46 @@
+// ignore_for_file: non_constant_identifier_names
+export 'message.dart';
+
+int DELIMITER = 0;
+int NUL = 21;
+
+int VERSION = 0;
+
+final jsonPreambleLength = 4;
+
+abstract class MessageList {
+  String get locale;
+  String get hash;
+  bool get hasIds;
+
+  String generateStringAtIndex(int index, List args);
+
+  String generateStringAtId(String id, List args);
+}
+
+enum PluralEnum {
+  zeroWord,
+  zeroNumber,
+  oneWord,
+  oneNumber,
+  twoWord,
+  twoNumber,
+  few,
+  many,
+}
+
+class Plural {
+  static const int zeroWord = 1;
+  static const int zeroNumber = 2;
+  static const int oneWord = 3;
+  static const int oneNumber = 4;
+  static const int twoWord = 5;
+  static const int twoNumber = 6;
+  static const int few = 7;
+  static const int many = 8;
+}
+
+class Gender {
+  static const int female = 1;
+  static const int male = 2;
+}

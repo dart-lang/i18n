@@ -1,0 +1,30 @@
+name: example_web
+description: An absolute bare-bones web app.
+version: 1.0.0
+
+publish_to: none
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: '>=3.0.0-52.0.dev <4.0.0'
+
+# Add regular dependencies here.
+dependencies:
+  messages:
+    path: ../../messages
+
+dev_dependencies:
+  messages_builder:
+    path: ../../messages_builder
+  build_runner: ^2.4.0
+  build_web_compilers: ^4.0.2
+  lints: ^2.0.0
+
+messages:
+  useJson: true
+  generateMethods: true
+  generateFindById: true
+  generateFindByEnum: false
+  generateFindByIndex: true
+  useCleaner: false
+  async: true

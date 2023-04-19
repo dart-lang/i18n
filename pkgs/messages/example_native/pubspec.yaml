@@ -1,0 +1,31 @@
+name: example
+description: A sample command-line application.
+version: 1.0.0
+
+publish_to: none
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: '>=2.19.0-374.0.dev <3.0.0'
+
+dependencies:
+  messages:
+    path: ../../messages
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
+  messages_builder:
+    path: ../../messages_builder
+  build_runner: ^2.3.3
+  build_web_compilers: ^3.2.0
+
+messages:
+  useJson: true
+  generateMethods: true
+  generateFindById: true
+  generateFindByEnum: false
+  generateFindByIndex: true
+  useCleaner: false
+  async: false
+  inline: true

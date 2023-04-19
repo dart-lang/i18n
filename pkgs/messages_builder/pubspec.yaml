@@ -1,0 +1,27 @@
+name: messages_builder
+description: Build the messages for consumption by package:messages
+version: 0.0.1-dev
+publish_to: none
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_builder
+
+environment:
+  sdk: '>=2.18.0-374.0.dev <3.0.0'
+
+dependencies:
+  intl: ^0.18.0
+  code_builder: ^4.3.0
+  dart_style: ^2.2.4
+  glob: ^2.1.1
+  messages:
+    path: ../messages
+  messages_serializer:
+    path: ../messages_serializer
+  yaml: ^3.1.1
+  build: ^2.3.1
+  path: ^1.8.2
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
+  build_runner: ^2.0.0
+  build_web_compilers: ^3.0.0

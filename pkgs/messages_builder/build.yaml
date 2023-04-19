@@ -1,0 +1,8 @@
+# Read about `build.yaml` at https://pub.dev/packages/build_config
+builders:
+  copyBuilder:
+    import: "package:messages_builder/builder.dart"
+    builder_factories: ["carbBuilder"]
+    build_extensions: {'.arb': ['.carb','.carb.dart', '.g.dart', '.json'], '^pubspec.yaml': []}
+    build_to: source
+    auto_apply: root_package

@@ -1,0 +1,73 @@
+namespace i18n;
+
+table NumberCase {
+  key:ubyte;
+  value:MessageIndex;
+}
+table StringCase {
+  key:string;
+  value:MessageIndex;
+}
+
+table Placeholder {
+  arg_index:ubyte;
+}
+
+table GenderMessage {
+  opt male:MessageIndex;
+  opt female:MessageIndex;
+  other:MessageIndex;
+}
+
+table PluralMessage {
+  opt word_cases:[NumberCase];
+  opt number_cases:[NumberCase];
+  opt few:MessageIndex;
+  opt many:MessageIndex;
+  other:MessageIndex;
+}
+
+table SelectMessage {
+  cases:[StringCase];
+}
+
+table StringMessage {//strings with placeholders!
+  startOffset:int;//ends where next one starts
+}
+
+union MessageType {
+  StringMessage,
+  SelectMessage,
+  PluralMessage,
+  GenderMessage,
+  Placeholder,
+}
+
+table Message {
+  messages:MessageType || [MessageType];
+  arg_indices:[ubyte];
+  id:string;
+}
+ 
+table MessageList {
+  messages:[Message];
+  locale:string;
+  opt fallback_locale:string;
+}
+ 
+root_type MessageList;
+
+
+struct Messages{
+
+}
+
+
+//* = [NUL]
+"""
+Hello WorldWelcome back1*2*null*null*null2
+^          ^           ^                 ^
+1st        2nd         Plural            select
+                         Other
+                           one...
+"""

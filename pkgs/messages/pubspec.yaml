@@ -1,0 +1,19 @@
+name: messages
+description: Localize your application
+version: 0.0.1-dev
+publish_to: none
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages
+
+environment:
+  sdk: '>=2.19.0 <4.0.0'
+
+dependencies:
+  intl: ^0.18.0
+  js: ^0.6.5
+  messages_serializer:
+    path: ../messages_serializer
+  collection: ^1.17.1
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.16.0
