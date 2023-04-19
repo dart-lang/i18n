@@ -2,10 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: prefer_function_declarations_over_variables
-
-import 'dart:io';
-
 import 'package:example/testarbctx2.g.dart';
 import 'package:messages/intl.dart';
 
@@ -39,7 +35,7 @@ Future<void> main(List<String> arguments) async {
   ///TODO have methods which belong to the class look differently than message methods
   print('#Get through Intl.message, but without instantiating');
 
-  var loadFromLibStrategy = (id) => File('lib/$id').readAsBytesSync();
+  // var loadFromLibStrategy = (id) => File('lib/$id').readAsBytesSync();
   var myMessagesAbout = AboutPageMessages();
   print('About message en:');
   myMessagesAbout.loadLocale('en');
