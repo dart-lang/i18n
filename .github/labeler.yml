@@ -8,3 +8,15 @@
 
 'pkg:intl_translation':
   - 'pkgs/intl_translation/**'
+
+'pkg:messages':
+  - 'pkgs/messages/**'
+
+'pkg:messages_builder':
+  - 'pkgs/messages_builder/**'
+
+'pkg:messages_serializer':
+  - 'pkgs/messages_serializer/**'
+
+'pkg:messages_shrinker':
+  - 'pkgs/messages_shrinker/**'
