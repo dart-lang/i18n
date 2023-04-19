@@ -35,6 +35,9 @@ jobs:
 
       - run: dart pub get
 
+      - run: dart run build_runner build
+        working-directory: pkgs/messages/example_native
+
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
