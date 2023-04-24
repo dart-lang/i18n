@@ -24,12 +24,12 @@ class JsonData {
   });
 
   test('native', () {
-    var testfile = File('test/testarb.carb');
+    var testfile = File('test/data/testarb.carb');
     var output = MessageShrinker().shrinkNative(
       testfile.readAsBytesSync(),
       [1],
     );
-    var testShrunkfile = File('test/testarb_shrunk.carb');
+    var testShrunkfile = File('test/data/testarb_shrunk.carb');
     var expectedOutput = testShrunkfile.readAsBytesSync();
     expect(output, expectedOutput);
   });
