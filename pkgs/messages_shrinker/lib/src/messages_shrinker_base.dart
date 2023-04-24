@@ -14,8 +14,8 @@ class MessageShrinker {
     var newFile = File(newFileName);
     if (fileName.endsWith('.carb.dart')) {
       var buffer = file.readAsStringSync();
-      var jsonExtraction = extractJsonFromClass(buffer);
-      var newBuffer = shrinkJson(jsonExtraction.json, messagesToKeep);
+      var jsonExtracted = extractJsonFromClass(buffer);
+      var newBuffer = shrinkJson(jsonExtracted, messagesToKeep);
       newFile.writeAsString(newBuffer);
     } else if (fileName.endsWith('.carb')) {
       var bytes = file.readAsBytesSync();
@@ -50,20 +50,8 @@ class MessageShrinker {
   }
 }
 
-class JsonExtraction {
-  final String before;
-  final String json;
-  final String after;
-
-  JsonExtraction(this.before, this.json, this.after);
-}
-
-JsonExtraction extractJsonFromClass(String buffer) {
+String extractJsonFromClass(String buffer) {
   var jsonStart = buffer.indexOf('r\'');
   var jsonEnd = buffer.lastIndexOf('\';');
-  return JsonExtraction(
-    buffer.substring(0, jsonStart + 2),
-    buffer.substring(jsonStart + 2, jsonEnd),
-    buffer.substring(jsonEnd),
-  );
+  return buffer.substring(jsonStart + 2, jsonEnd);
 }
