@@ -1,34 +1,23 @@
-import 'package:messages/message_format.dart';
-import 'package:messages/message_json.dart';
+import 'dart:typed_data';
 
-import 'testarb.carb.dart' as testarb;
-import 'testarb_de.carb.dart' as testarb_de;
+import 'package:messages/message_format.dart';
+import 'package:messages/message_native.dart';
 
 class HomePageMessages {
-  HomePageMessages() {
-    loadAllLocales();
-  }
+  HomePageMessages(this._loadingStrategy);
+
+  final Uint8List Function(String id) _loadingStrategy;
 
   String _currentLocale = 'en';
 
   final Map<String, MessageList> _messages = {};
 
-  final _carbs = {'de': 'testarb_de.carb.dart', 'en': 'testarb.carb.dart'};
+  final _carbs = {'de': 'testarb_de.carb', 'en': 'testarb.carb'};
 
   final _messageListHashes = {
-    'testarb_de.carb.dart': '8qk919',
-    'testarb.carb.dart': 's69t31'
+    'testarb_de.carb': '8qk919',
+    'testarb.carb': 's69t31'
   };
-
-  String _loadingStrategy(String id) {
-    if (id == 'testarb_de.carb.dart') {
-      return testarb_de.JsonData.jsonData;
-    } else if (id == 'testarb.carb.dart') {
-      return testarb.JsonData.jsonData;
-    }
-
-    throw ArgumentError();
-  }
 
   String get currentLocale => _currentLocale;
   MessageList get _currentMessages => _messages[currentLocale]!;
@@ -58,9 +47,8 @@ class HomePageMessages {
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      String data = _loadingStrategy(carb);
-      var messageList = MessageListJson.fromString(data);
-
+      Uint8List data = _loadingStrategy(carb);
+      var messageList = MessageListNative.fromBuffer(data);
       if (messageList.hash != _messageListHashes[carb]) {
         throw ArgumentError(
             'Messages file has different hash "${messageList.hash}" than generated code "${_messageListHashes[carb]}".');

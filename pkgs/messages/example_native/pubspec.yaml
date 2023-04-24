@@ -23,7 +23,7 @@ dev_dependencies:
   path: ^1.8.3
 
 messages:
-  useJson: true
+  useJson: false
   generateMethods: true
   generateFindById: true
   generateFindByEnum: false
