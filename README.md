@@ -7,7 +7,7 @@ This repository is home to Dart internationalization (i18n) and localization (l1
 | Package | Description | Version |
 | --- | --- | --- |
 | [intl](pkgs/intl/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl) |
-| [intl_translation](pkgs/intl_translation/) | Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues. | [![pub package](https://img.shields.io/pub/v/intl_translation.svg)](https://pub.dev/packages/intl_translation) |
+| [intl_translation](pkgs/intl_translation/) | Contains code to localize apps to different locales, by extracting to ARB files and generating code to retrieve messages from ARB files. | [![pub package](https://img.shields.io/pub/v/intl_translation.svg)](https://pub.dev/packages/intl_translation) |
 
 ## Publishing automation
 
