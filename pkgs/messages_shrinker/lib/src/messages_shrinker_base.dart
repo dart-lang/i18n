@@ -5,7 +5,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:messages/message_format.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 
 class MessageShrinker {
@@ -29,25 +28,25 @@ class MessageShrinker {
   }
 
   String shrinkJson(String buffer, List<int> messagesToKeep) {
-    var json = WebDeserializer(buffer).deserialize();
-    var newMessageList = <Message>[];
-    for (var messageIndex in messagesToKeep) {
-      newMessageList.add(json.messages[messageIndex]);
-    }
-    return WebSerializer(json.hasIds)
-        .serialize(json.hash, json.locale, newMessageList)
+    var messageList = WebDeserializer(buffer).deserialize();
+    return WebSerializer(messageList.hasIds)
+        .serialize(
+          messageList.hash,
+          messageList.locale,
+          messagesToKeep.map((index) => messageList.messages[index]).toList(),
+        )
         .data;
   }
 
   Uint8List shrinkNative(Uint8List bytes, List<int> messagesToKeep) {
-    var deserializer = NativeDeserializer(bytes);
-    var messageList = deserializer.deserialize();
-    var serialized = NativeSerializer(deserializer.hasIds).serialize(
-      messageList.hash,
-      messageList.locale,
-      messagesToKeep.map((index) => messageList.messages[index]).toList(),
-    );
-    return serialized.data;
+    var messageList = NativeDeserializer(bytes).deserialize();
+    return NativeSerializer(messageList.hasIds)
+        .serialize(
+          messageList.hash,
+          messageList.locale,
+          messagesToKeep.map((index) => messageList.messages[index]).toList(),
+        )
+        .data;
   }
 }
 
