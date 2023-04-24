@@ -22,6 +22,9 @@ abstract class Serializer<T> {
   Serialization<T> serialize(
     String hash,
     String locale,
-    List<Message> messages,
-  );
+    List<Message> messages, {
+    bool useWrapper = true,
+  });
+
+  Serialization<T> Function(T) get wrapper;
 }

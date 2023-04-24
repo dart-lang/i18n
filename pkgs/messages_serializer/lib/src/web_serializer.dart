@@ -18,8 +18,9 @@ class WebSerializer extends Serializer<String> {
   Serialization<String> serialize(
     String hash,
     String locale,
-    List<Message> messages,
-  ) {
+    List<Message> messages, {
+    bool useWrapper = true,
+  }) {
     result.clear();
 
     var preamble = [
@@ -37,6 +38,13 @@ class WebSerializer extends Serializer<String> {
 
     var jsonString = jsonEncode(result);
 
+    return useWrapper ? wrapper(jsonString) : Serialization(jsonString);
+  }
+
+  @override
+  Serialization<String> Function(String p1) get wrapper => dartWrapper;
+
+  Serialization<String> dartWrapper(String jsonString) {
     var lib = Library(
       (lb) => lb
         ..body.add(Class(

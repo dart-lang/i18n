@@ -60,7 +60,7 @@ void main() {
         serializeThenDeserialize<String>(
           messages,
           () => WebSerializer(writeIds),
-          (data) => WebDeserializer(_extractJsonFromClass(data)),
+          (data) => WebDeserializer(data),
         );
 
         serializeThenDeserialize<Uint8List>(
@@ -80,7 +80,12 @@ void serializeThenDeserialize<T>(
 ) {
   var hash = 'testhash';
   var locale = 'de_DE';
-  var serialized = serializer().serialize(hash, locale, messages);
+  var serialized = serializer().serialize(
+    hash,
+    locale,
+    messages,
+    useWrapper: false,
+  );
   var deserialized = deserializer(serialized.data).deserialize();
   expect(deserialized.hash, hash);
   expect(deserialized.locale, locale);
@@ -126,10 +131,4 @@ void compareMessage(Message? original, Message? deserialized) {
     }
     expect(deserialized.argIndex, original.argIndex);
   }
-}
-
-String _extractJsonFromClass(String buffer) {
-  var jsonStart = buffer.indexOf('r\'');
-  var jsonEnd = buffer.lastIndexOf('\';');
-  return buffer.substring(jsonStart + 2, jsonEnd);
 }

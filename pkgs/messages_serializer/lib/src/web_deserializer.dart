@@ -76,6 +76,7 @@ class WebDeserializer extends Deserializer<MessageListWeb> {
       } else if (type == CombinedMessage.type) {
         return _forCombined(message, start, id);
       } else {
+        if (isTopLevel && hasId) id = message[0];
         return _forString(message, start - 1, id);
       }
     } else if (message is String) {

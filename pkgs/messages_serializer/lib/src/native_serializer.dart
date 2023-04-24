@@ -20,8 +20,9 @@ class NativeSerializer extends Serializer<Uint8List> {
   Serialization<Uint8List> serialize(
     String hash,
     String locale,
-    List<Message> messages,
-  ) {
+    List<Message> messages, {
+    bool useWrapper = true,
+  }) {
     addVarInt(VERSION);
     addString(hash);
     addString(locale);
@@ -35,8 +36,12 @@ class NativeSerializer extends Serializer<Uint8List> {
       addVarInt(messageOffsets[i] + offsetBlockStartVarint.length);
     }
     result.insertAll(0, offsetBlockStartVarint);
-    return Serialization(Uint8List.fromList(result));
+    return wrapper(Uint8List.fromList(result));
   }
+
+  @override
+  Serialization<Uint8List> Function(Uint8List data) get wrapper =>
+      (data) => Serialization(data);
 
   void addVarInt(int s) => addAll(VarInt.toVarint(s));
 

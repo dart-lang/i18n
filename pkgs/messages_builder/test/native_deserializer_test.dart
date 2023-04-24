@@ -59,9 +59,3 @@ void main() {
     }
   });
 }
-
-String extractJsonFromClass(String buffer) {
-  var jsonStart = buffer.indexOf('r\'');
-  var jsonEnd = buffer.lastIndexOf('\';');
-  return buffer.substring(jsonStart + 2, jsonEnd);
-}

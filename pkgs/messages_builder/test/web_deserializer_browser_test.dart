@@ -20,9 +20,13 @@ void main() {
     var message1 = MessageWithMetadata(message, [], 'helloWorld');
     var messageList = <MessageWithMetadata>[message1];
     var buffer = WebSerializer()
-        .serialize('', '', messageList.map((e) => e.message).toList())
+        .serialize(
+          '',
+          '',
+          messageList.map((e) => e.message).toList(),
+          useWrapper: false,
+        )
         .data;
-    buffer = extractJsonFromClass(buffer);
     var messages = MessageListJson.fromString(buffer);
     expect(messages.generateStringAtIndex(0, []), 'Hello World');
   });
@@ -31,9 +35,13 @@ void main() {
     var arb = <String, dynamic>{'@@locale': 'en', 'helloWorld': 'Hello World'};
     var parsed = ArbParser().parseMessageFile(arb);
     var buffer = WebSerializer()
-        .serialize('', '', parsed.messages.map((e) => e.message).toList())
+        .serialize(
+          '',
+          '',
+          parsed.messages.map((e) => e.message).toList(),
+          useWrapper: false,
+        )
         .data;
-    buffer = extractJsonFromClass(buffer);
     var messageList = MessageListJson.fromString(buffer);
     expect(messageList.generateStringAtIndex(0, []), 'Hello World');
   });
@@ -42,17 +50,15 @@ void main() {
     Map<String, dynamic> arb = jsonDecode(arbFile);
     var parsed = ArbParser().parseMessageFile(arb);
     var buffer = WebSerializer()
-        .serialize('', '', parsed.messages.map((e) => e.message).toList())
+        .serialize(
+          '',
+          '',
+          parsed.messages.map((e) => e.message).toList(),
+          useWrapper: false,
+        )
         .data;
-    buffer = extractJsonFromClass(buffer);
     var messageListJson = MessageListJson.fromString(buffer);
     expect(messageListJson.generateStringAtIndex(2, ['female', 'b']),
         'test One new message');
   });
-}
-
-String extractJsonFromClass(String buffer) {
-  var jsonStart = buffer.indexOf('r\'');
-  var jsonEnd = buffer.lastIndexOf('\';');
-  return buffer.substring(jsonStart + 2, jsonEnd);
 }

@@ -1,7 +1,3 @@
-// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:messages/message_format.dart';
 import 'package:messages/message_json.dart';
 
@@ -19,7 +15,7 @@ class HomePageMessages {
 
   final _messageListHashes = {
     'testarb_de.carb.dart': 'gm66hr',
-    'testarb.carb.dart': '9i8i52'
+    'testarb.carb.dart': 's69t31'
   };
 
   Future<String> _loadingStrategy(String id) async {
@@ -74,8 +70,26 @@ class HomePageMessages {
     }
   }
 
+  String helloAndWelcome(
+    String firstName,
+    String lastName,
+  ) =>
+      _currentMessages.generateStringAtIndex(
+          HomePageMessagesIndex.helloAndWelcome, [firstName, lastName]);
   String newMessages(int newMessages) => _currentMessages
       .generateStringAtIndex(HomePageMessagesIndex.newMessages, [newMessages]);
+  String newMessages2(
+    String gender,
+    int newVar,
+  ) =>
+      _currentMessages.generateStringAtIndex(
+          HomePageMessagesIndex.newMessages2, [gender, newVar]);
+  String helloAndWelcome2(
+    String firstName,
+    String lastName,
+  ) =>
+      _currentMessages.generateStringAtIndex(
+          HomePageMessagesIndex.helloAndWelcome2, [firstName, lastName]);
 }
 
 class StaticIconProvider {
@@ -85,7 +99,13 @@ class StaticIconProvider {
 // StaticIconProvider annotation to have constant finder ignore this class
 @staticIconProvider
 class HomePageMessagesIndex {
-  static const int newMessages = 0;
+  static const int helloAndWelcome = 0;
+
+  static const int newMessages = 1;
+
+  static const int newMessages2 = 2;
+
+  static const int helloAndWelcome2 = 3;
 }
 
 const staticIconProvider = StaticIconProvider();
