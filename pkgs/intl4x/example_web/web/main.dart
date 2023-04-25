@@ -2,14 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@JS()
-library static_interop;
-
 import 'dart:html';
 
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/src/number_format/number_format_options.dart';
-import 'package:js/js.dart';
 
 void main() {
   num number = 300000;
