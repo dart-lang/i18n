@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/intl.dart';
-import 'package:intl4x/src/list_format/list_format_options.dart';
+import '../../intl.dart';
+import 'list_format_options.dart';
 
 import 'list_formatter.dart';
 

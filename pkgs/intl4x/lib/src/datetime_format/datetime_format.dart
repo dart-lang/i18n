@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/intl.dart';
-import 'package:intl4x/src/datetime_format/datetime_format_options.dart';
-
+import '../../intl.dart';
 import 'datetime_format_4x.dart';
+import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';
 import 'datetime_formatter.dart';

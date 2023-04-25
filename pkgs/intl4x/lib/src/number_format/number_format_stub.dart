@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/intl.dart';
+import '../../intl.dart';
 
 import 'number_format_options.dart';
 import 'number_formatter.dart';
