@@ -37,8 +37,7 @@ jobs:
 
       - run: dart analyze --fatal-infos
 
-      # Note that the files in example/lib/generated aren't formatted.
-      - run: dart format --output=none --set-exit-if-changed bin lib
+      - run: dart format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
 
       # TODO(mosum): Uncomment once ICU4X is the backend

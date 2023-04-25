@@ -4,12 +4,13 @@
 
 import 'dart:typed_data';
 
-import 'ecma_policy.dart';
 import 'src/collator/collator_choice.dart';
 import 'src/datetime_format/datetime_format.dart';
+import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
 import 'src/number_format/number_format.dart';
 
+export 'src/ecma_policy.dart';
 // export 'src/number_format/number_format_options.dart'
 //     show
 //         CompactNotation,

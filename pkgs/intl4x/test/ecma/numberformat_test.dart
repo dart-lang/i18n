@@ -5,7 +5,6 @@
 @TestOn('browser')
 library;
 
-import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl.dart';
 import 'package:intl4x/src/number_format/number_format_options.dart';
 import 'package:test/test.dart';
