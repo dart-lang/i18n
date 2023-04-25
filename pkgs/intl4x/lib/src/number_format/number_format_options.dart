@@ -33,19 +33,32 @@ class NumberFormatOptions {
     required this.minimumIntegerDigits,
     this.fractionDigits,
     this.significantDigits,
-  }) {
-    assert(minimumIntegerDigits >= 1 && minimumIntegerDigits <= 21);
-    assert([1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000]
-        .contains(roundingIncrement ?? 1));
-  }
+  })  : assert(minimumIntegerDigits >= 1 && minimumIntegerDigits <= 21),
+        assert([
+          1,
+          2,
+          5,
+          10,
+          20,
+          25,
+          50,
+          100,
+          200,
+          250,
+          500,
+          1000,
+          2000,
+          2500,
+          5000
+        ].contains(roundingIncrement ?? 1));
 }
 
 class FractionDigits {
   final int? minimum;
   final int? maximum;
 
-  FractionDigits({this.minimum, this.maximum}) {
-    assert(minimum != null ? 0 <= minimum! && minimum! <= 20 : true);
+  FractionDigits({this.minimum, this.maximum})
+      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true) {
     //TODO: add checks dependent on style
   }
 }

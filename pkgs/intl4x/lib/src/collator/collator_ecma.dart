@@ -2,15 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@JS()
-
-import 'package:intl4x/src/utils.dart';
 import 'package:intl4x/intl.dart';
+@JS()
+import 'package:intl4x/src/utils.dart';
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
-import 'collator_options.dart';
 import 'collator_impl.dart';
+import 'collator_options.dart';
 
 Collator getCollator(Intl intl, CollatorOptions options) =>
     CollatorECMA(intl, options);
@@ -32,7 +31,7 @@ class CollatorECMA extends Collator {
 
   @override
   int compareImpl(String a, String b) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
     setProperty(o, 'usage', options.usage.name);
     if (options.sensitivity != null) {
@@ -52,7 +51,7 @@ class CollatorECMA extends Collator {
   @override
   List<String> supportedLocalesOf(
       List<String> locales, LocaleMatcher localeMatcher) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }

@@ -4,8 +4,8 @@
 
 import 'package:intl4x/intl.dart';
 
-import 'collator_options.dart';
 import 'collator_impl.dart';
+import 'collator_options.dart';
 
 Collator getCollator4X(Intl intl, CollatorOptions options) =>
     Collator4X(intl, options);

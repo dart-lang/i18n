@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@JS()
-
-import 'package:intl4x/src/utils.dart';
 import 'package:intl4x/intl.dart';
+@JS()
+import 'package:intl4x/src/utils.dart';
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
@@ -32,7 +31,7 @@ class NumberFormatECMA extends NumberFormatter {
 
   @override
   String formatImpl(Object number) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'sign', options.signDisplay.name);
     if (options.notation is CompactNotation) {
       setProperty(o, 'compactDisplay', options.signDisplay.name);
@@ -87,7 +86,7 @@ class NumberFormatECMA extends NumberFormatter {
   @override
   List<String> supportedLocalesOf(
       List<String> locales, LocaleMatcher localeMatcher) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }

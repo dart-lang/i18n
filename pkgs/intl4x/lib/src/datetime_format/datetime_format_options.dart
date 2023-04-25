@@ -47,10 +47,8 @@ class DatetimeFormatOptions {
     this.second,
     this.fractionalSecondDigits,
     this.timeZoneName,
-  }) {
-    assert(fractionalSecondDigits == null ||
-        (0 <= fractionalSecondDigits! && fractionalSecondDigits! <= 4));
-  }
+  }) : assert(fractionalSecondDigits == null ||
+            (0 <= fractionalSecondDigits && fractionalSecondDigits <= 4));
 }
 
 enum DateStyle {

@@ -6,12 +6,12 @@ import 'package:intl4x/intl_test.dart';
 import 'package:test/test.dart';
 
 void testWithFormatting<T>(
-  description,
+  dynamic description,
   T Function() body, {
   String? testOn,
   Timeout? timeout,
-  skip,
-  tags,
+  dynamic skip,
+  dynamic tags,
   Map<String, dynamic>? onPlatform,
   int? retry,
 }) {

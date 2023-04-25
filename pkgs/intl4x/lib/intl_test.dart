@@ -6,7 +6,7 @@ import 'dart:async';
 
 bool isInTest() {
   if (Zone.current[#test.declarer] != null &&
-      !Zone.current[#test.allowFormatting]) {
+      !(Zone.current[#test.allowFormatting] as bool)) {
     return true;
   } else {
     return false;

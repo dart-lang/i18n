@@ -61,7 +61,7 @@ String _ecmaFormatNumber(String locale, num number,
     String? compactDisplay,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
-  var options = js.newObject();
+  var options = js.newObject<Object>();
   if (notation != null) js.setProperty(options, 'notation', notation);
   if (compactDisplay != null) {
     js.setProperty(options, 'compactDisplay', compactDisplay);
@@ -146,7 +146,7 @@ void _validateLong(String locale, List<List<String>> expected) {
 }
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
-  var options = js.newObject();
+  var options = js.newObject<Object>();
   js.setProperty(options, 'notation', 'compact');
   if (t.maximumIntegerDigits != null) {
     js.setProperty(options, 'maximumIntegerDigits', t.maximumIntegerDigits);

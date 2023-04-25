@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @TestOn('browser')
+library;
 
 import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl.dart';

@@ -38,7 +38,7 @@ class DatetimeFormatECMA extends DatetimeFormatter {
 
   @override
   String formatImpl(DateTime datetime) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', datetimeFormatterData.localeMatcher.jsName);
     if (datetimeFormatterData.dateStyle != null) {
       setProperty(o, 'dateStyle', datetimeFormatterData.dateStyle!.name);
@@ -107,7 +107,7 @@ class DatetimeFormatECMA extends DatetimeFormatter {
   @override
   List<String> supportedLocalesOf(
       List<String> locales, LocaleMatcher localeMatcher) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }

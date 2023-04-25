@@ -2,10 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@JS()
-
-import 'package:intl4x/src/utils.dart';
 import 'package:intl4x/intl.dart';
+@JS()
+import 'package:intl4x/src/utils.dart';
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
@@ -32,7 +31,7 @@ class ListFormatECMA extends ListFormatter {
 
   @override
   String formatImpl(List<String> list) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'sign', listFormatOptions.localeMatcher.jsName);
     setProperty(o, 'type', listFormatOptions.type.name);
     setProperty(o, 'style', listFormatOptions.style.name);
@@ -42,7 +41,7 @@ class ListFormatECMA extends ListFormatter {
   @override
   List<String> supportedLocalesOf(
       List<String> locales, LocaleMatcher localeMatcher) {
-    var o = newObject();
+    var o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
