@@ -5,7 +5,6 @@
 import '../../intl4x.dart';
 
 import 'number_format_4x.dart';
-import 'number_format_options.dart';
 import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 import 'number_formatter.dart';
 

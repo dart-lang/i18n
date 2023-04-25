@@ -8,7 +8,6 @@ import 'package:js/js_util.dart';
 import '../../intl4x.dart';
 @JS()
 import '../utils.dart';
-import 'number_format_options.dart';
 import 'number_formatter.dart';
 
 NumberFormatter getNumberFormatter(Intl intl, NumberFormatOptions options) =>

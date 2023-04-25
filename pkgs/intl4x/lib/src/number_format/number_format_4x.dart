@@ -4,7 +4,6 @@
 
 import '../../intl4x.dart';
 
-import 'number_format_options.dart';
 import 'number_formatter.dart';
 
 NumberFormatter getNumberFormatter4X(Intl intl, NumberFormatOptions options) =>

@@ -5,7 +5,6 @@
 import '../../intl4x.dart';
 
 import '../../intl4x_testutils.dart';
-import 'number_format_options.dart';
 
 abstract class NumberFormatter {
   final Intl intl;
