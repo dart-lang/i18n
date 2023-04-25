@@ -12,6 +12,3 @@ bool get isInTest {
     return false;
   }
 }
-
-T withFormatting<T>(T Function() callback) =>
-    runZoned(callback, zoneValues: {#test.allowFormatting: true});

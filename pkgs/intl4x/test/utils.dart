@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/intl4x_testutils.dart';
+import 'dart:async';
+
 import 'package:test/test.dart';
 
 void testWithFormatting<T>(
@@ -26,3 +27,6 @@ void testWithFormatting<T>(
     retry: retry,
   );
 }
+
+T withFormatting<T>(T Function() callback) =>
+    runZoned(callback, zoneValues: {#test.allowFormatting: true});
