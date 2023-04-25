@@ -6,7 +6,6 @@
 library;
 
 import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/src/list_format/list_format_options.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';

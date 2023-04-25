@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-import 'datetime_format_options.dart';
 import 'datetime_formatter.dart';
 
 DatetimeFormatter getDatetimeFormatter(

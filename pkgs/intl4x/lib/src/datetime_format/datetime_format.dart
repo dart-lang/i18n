@@ -4,7 +4,6 @@
 
 import '../../intl4x.dart';
 import 'datetime_format_4x.dart';
-import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';
 import 'datetime_formatter.dart';

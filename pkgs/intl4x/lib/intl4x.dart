@@ -10,32 +10,10 @@ import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
 import 'src/number_format/number_format.dart';
 
+export 'src/datetime_format/datetime_format_options.dart';
 export 'src/ecma_policy.dart';
-export 'src/number_format/number_format_options.dart'
-    show
-        CompactDisplay,
-        CompactNotation,
-        CurrencyDisplay,
-        CurrencySign,
-        CurrencyStyle,
-        DecimalStyle,
-        EngineeringNotation,
-        FractionDigits,
-        Grouping,
-        Notation,
-        NumberFormatOptions,
-        PercentStyle,
-        RoundingMode,
-        RoundingPriority,
-        ScientificNotation,
-        SignDisplay,
-        SignificantDigits,
-        StandardNotation,
-        Style,
-        TrailingZeroDisplay,
-        Unit,
-        UnitDisplay,
-        UnitStyle;
+export 'src/list_format/list_format_options.dart';
+export 'src/number_format/number_format_options.dart';
 
 class Intl {
   final EcmaPolicy ecmaPolicy;
