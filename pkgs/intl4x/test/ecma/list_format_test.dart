@@ -16,15 +16,15 @@ void main() {
     var list = ['A', 'B', 'C'];
     var listFormat = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.custom(style: Style.long);
+      var formatter = listFormat.custom(style: ListStyle.long);
       expect(formatter.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.custom(style: Style.short);
+      var formatter = listFormat.custom(style: ListStyle.short);
       expect(formatter.format(list), 'A, B, & C');
     });
     testWithFormatting('narrow', () {
-      var formatter = listFormat.custom(style: Style.narrow);
+      var formatter = listFormat.custom(style: ListStyle.narrow);
       expect(formatter.format(list), 'A, B, C');
     });
   });
@@ -51,14 +51,14 @@ void main() {
     var listFormat = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
       var formatter = listFormat.custom(
-        style: Style.narrow,
+        style: ListStyle.narrow,
         type: Type.conjunction,
       );
       expect(formatter.format(list), 'A, B, C');
     });
     testWithFormatting('short', () {
       var formatter = listFormat.custom(
-        style: Style.short,
+        style: ListStyle.short,
         type: Type.unit,
       );
       expect(formatter.format(list), 'A, B, C');

@@ -17,7 +17,7 @@ class ListFormat {
   ListFormatter custom({
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Type type = Type.conjunction,
-    Style style = Style.long,
+    ListStyle style = ListStyle.long,
   }) {
     var options = ListFormatOptions(
       localeMatcher: localeMatcher,

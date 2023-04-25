@@ -7,7 +7,7 @@ import 'list_formatter.dart';
 class ListFormatOptions {
   final LocaleMatcher localeMatcher;
   final Type type;
-  final Style style;
+  final ListStyle style;
 
   ListFormatOptions({
     required this.localeMatcher,
@@ -22,7 +22,7 @@ enum Type {
   unit;
 }
 
-enum Style {
+enum ListStyle {
   long,
   short,
   narrow;

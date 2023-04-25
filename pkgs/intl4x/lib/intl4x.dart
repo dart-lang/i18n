@@ -11,31 +11,31 @@ import 'src/list_format/list_format.dart';
 import 'src/number_format/number_format.dart';
 
 export 'src/ecma_policy.dart';
-// export 'src/number_format/number_format_options.dart'
-//     show
-//         CompactNotation,
-//         CurrencyStyle,
-//         DecimalStyle,
-//         EngineeringNotation,
-//         FractionDigits,
-//         Notation,
-//         NumberFormatOptions,
-//         PercentStyle,
-//         ScientificNotation,
-//         SignificantDigits,
-//         StandardNotation,
-//         Style,
-//         UnitStyle,
-//         CompactDisplay,
-//         CurrencyDisplay,
-//         CurrencySign,
-//         Grouping,
-//         RoundingMode,
-//         RoundingPriority,
-//         SignDisplay,
-//         TrailingZeroDisplay,
-//         Unit,
-//         UnitDisplay;
+export 'src/number_format/number_format_options.dart'
+    show
+        CompactDisplay,
+        CompactNotation,
+        CurrencyDisplay,
+        CurrencySign,
+        CurrencyStyle,
+        DecimalStyle,
+        EngineeringNotation,
+        FractionDigits,
+        Grouping,
+        Notation,
+        NumberFormatOptions,
+        PercentStyle,
+        RoundingMode,
+        RoundingPriority,
+        ScientificNotation,
+        SignDisplay,
+        SignificantDigits,
+        StandardNotation,
+        Style,
+        TrailingZeroDisplay,
+        Unit,
+        UnitDisplay,
+        UnitStyle;
 
 class Intl {
   final EcmaPolicy ecmaPolicy;
