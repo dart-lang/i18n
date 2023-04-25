@@ -4,7 +4,7 @@
 
 import 'dart:async';
 
-bool isInTest() {
+bool get isInTest {
   if (Zone.current[#test.declarer] != null &&
       !(Zone.current[#test.allowFormatting] as bool)) {
     return true;

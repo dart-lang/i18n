@@ -13,12 +13,8 @@ abstract class Collator {
 
   Collator(this.intl, this.options);
 
-  int compare(String a, String b) {
-    if (isInTest()) {
-      return a.compareTo(b);
-    }
-    return compareImpl(a, b);
-  }
+  int compare(String a, String b) =>
+      isInTest ? a.compareTo(b) : compareImpl(a, b);
 
   int compareImpl(String a, String b);
 

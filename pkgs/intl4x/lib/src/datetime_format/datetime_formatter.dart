@@ -14,7 +14,7 @@ abstract class DatetimeFormatter {
   DatetimeFormatter(this.intl, this.datetimeFormatterData);
 
   String format(DateTime datetime) {
-    if (isInTest()) {
+    if (isInTest) {
       return '${datetime.toIso8601String()}-${intl.locale}';
     }
     return formatImpl(datetime);

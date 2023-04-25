@@ -14,7 +14,7 @@ abstract class NumberFormatter {
   NumberFormatter(this.intl, this.options);
 
   String format(Object number) {
-    if (isInTest()) {
+    if (isInTest) {
       return '$number-${intl.locale}';
     }
     return formatImpl(number);

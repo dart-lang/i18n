@@ -14,7 +14,7 @@ abstract class ListFormatter {
   ListFormatter(this.intl, this.listFormatOptions);
 
   String format(List<String> list) {
-    if (isInTest()) {
+    if (isInTest) {
       return '${list.join(', ')}-${intl.locale}';
     }
     return formatImpl(list);
