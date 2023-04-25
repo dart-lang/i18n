@@ -2,31 +2,42 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-abstract class EcmaPolicy {
+abstract final class EcmaPolicy {
   const EcmaPolicy();
 
   bool useFor(String locale);
+
+  Set<String> get locales;
 }
 
-class AlwaysEcma extends EcmaPolicy {
+final class AlwaysEcma extends EcmaPolicy {
   const AlwaysEcma();
 
   @override
   bool useFor(String locale) => true;
+
+  @override
+  Set<String> get locales => throw UnimplementedError();
 }
 
-class NeverEcma extends EcmaPolicy {
+final class NeverEcma extends EcmaPolicy {
   const NeverEcma();
 
   @override
   bool useFor(String locale) => false;
+
+  @override
+  Set<String> get locales => {};
 }
 
-class SometimesEcma extends EcmaPolicy {
+final class SometimesEcma extends EcmaPolicy {
   final Set<String> useForLocales;
 
   const SometimesEcma(this.useForLocales);
 
   @override
   bool useFor(String locale) => useForLocales.contains(locale);
+
+  @override
+  Set<String> get locales => useForLocales;
 }

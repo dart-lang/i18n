@@ -8,6 +8,7 @@ import 'number_format_4x.dart';
 import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 import 'number_formatter.dart';
 
+/// Number formatting functionality of the browser.
 class NumberFormat {
   final Intl intl;
 

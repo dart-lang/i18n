@@ -4,7 +4,7 @@
 
 import 'dart:typed_data';
 
-import 'src/collator/collator_choice.dart';
+import 'src/collator/collation.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
@@ -15,6 +15,12 @@ export 'src/ecma_policy.dart';
 export 'src/list_format/list_format_options.dart';
 export 'src/number_format/number_format_options.dart';
 
+/// The main class for all i18n calls, containing references to other
+/// functions such as
+/// * [NumberFormat]
+/// * [DatetimeFormat]
+/// * [ListFormat]
+/// * [Collation].
 class Intl {
   final EcmaPolicy ecmaPolicy;
 
@@ -24,23 +30,31 @@ class Intl {
   late final NumberFormat _numberFormat;
   late final DatetimeFormat _datetimeFormat;
   late final ListFormat _listFormat;
-  late final CollatorChoice _collator;
+  late final Collation _collator;
 
+  /// Construct an [Intl] instance providing the current [locale], the
+  /// [ecmaPolicy] defining which locales should fall back to the browser
+  /// provided functions, as well as the [availableData] for each of the
+  /// locales.
   Intl({
-    this.ecmaPolicy = const AlwaysEcma(),
     this.locale = 'en',
-    this.availableLocales = const {},
+    this.ecmaPolicy = const AlwaysEcma(),
     this.availableData = const {},
   }) {
     _numberFormat = NumberFormat(this);
     _datetimeFormat = DatetimeFormat(this);
     _listFormat = ListFormat(this);
-    _collator = CollatorChoice(this);
+    _collator = Collation(this);
   }
 
   String locale;
 
-  final Set<String> availableLocales;
+  /// The set of available locales, either through
+  Set<String> get availableLocales =>
+      {...ecmaPolicy.locales, ...availableData.keys};
+
+  /// The ICU4X data for each of the locales. The exact data structure is yet
+  /// to be determined.
   final Map<String, List<Icu4xKey>> availableData;
 
   void addSupportedLocales(Iterable<String> locales) {
@@ -64,7 +78,7 @@ class Intl {
   NumberFormat get numberFormat => _numberFormat;
   DatetimeFormat get datetimeFormat => _datetimeFormat;
   ListFormat get listFormat => _listFormat;
-  CollatorChoice get collator => _collator;
+  Collation get collator => _collator;
 }
 
 typedef Icu4xKey = String;

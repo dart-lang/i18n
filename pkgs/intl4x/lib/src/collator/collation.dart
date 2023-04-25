@@ -9,10 +9,10 @@ import 'collator_impl.dart';
 import 'collator_options.dart';
 import 'collator_stub.dart' if (dart.library.js) 'collator_ecma.dart';
 
-class CollatorChoice {
+class Collation {
   final Intl intl;
 
-  const CollatorChoice(this.intl);
+  const Collation(this.intl);
 
   Collator custom({
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
