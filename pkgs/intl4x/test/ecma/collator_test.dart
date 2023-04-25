@@ -5,7 +5,7 @@
 @TestOn('browser')
 library;
 
-import 'package:intl4x/intl.dart';
+import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';

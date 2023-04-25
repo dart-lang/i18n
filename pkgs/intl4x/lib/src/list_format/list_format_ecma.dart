@@ -5,7 +5,7 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
-import '../../intl.dart';
+import '../../intl4x.dart';
 @JS()
 import '../utils.dart';
 import 'list_format_options.dart';

@@ -7,7 +7,7 @@ library static_interop;
 
 import 'dart:html';
 
-import 'package:intl4x/intl.dart';
+import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/src/number_format/number_format_options.dart';
 import 'package:js/js.dart';
 
