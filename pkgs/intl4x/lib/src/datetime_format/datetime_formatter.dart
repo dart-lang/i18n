@@ -4,7 +4,7 @@
 
 import 'package:intl4x/intl.dart';
 
-import '../../intl_test.dart';
+import '../../intl_testutils.dart';
 import 'datetime_format_options.dart';
 
 abstract class DatetimeFormatter {

@@ -4,7 +4,7 @@
 
 import 'package:intl4x/intl.dart';
 
-import '../../intl_test.dart';
+import '../../intl_testutils.dart';
 import 'list_format_options.dart';
 
 abstract class ListFormatter {
