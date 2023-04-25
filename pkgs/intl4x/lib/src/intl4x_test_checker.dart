@@ -4,6 +4,8 @@
 
 import 'dart:async';
 
+/// Check if we are in a test environment, by checking for the `#test.declarer`
+/// symbol defined in the zone in which a Dart test runs.
 bool get isInTest {
   if (Zone.current[#test.declarer] != null &&
       !(Zone.current[#test.allowFormatting] as bool)) {
