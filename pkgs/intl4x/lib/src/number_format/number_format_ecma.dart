@@ -63,20 +63,16 @@ class NumberFormatECMA extends NumberFormatter {
     }
     setProperty(o, 'minimumIntegerDigits', options.minimumIntegerDigits);
     if (options.fractionDigits != null) {
-      if (options.fractionDigits!.minimum != null) {
-        setProperty(
-            o, 'minimumFractionDigits', options.fractionDigits!.minimum);
+      if (options.fractionDigits!.$1 != null) {
+        setProperty(o, 'minimumFractionDigits', options.fractionDigits!.$1);
       }
-      if (options.fractionDigits!.maximum != null) {
-        setProperty(
-            o, 'maximumFractionDigits', options.fractionDigits!.maximum);
+      if (options.fractionDigits!.$2 != null) {
+        setProperty(o, 'maximumFractionDigits', options.fractionDigits!.$2);
       }
     }
     if (options.significantDigits != null) {
-      setProperty(
-          o, 'minimumSignificantDigits', options.significantDigits!.minimum);
-      setProperty(
-          o, 'maximumSignificantDigits', options.significantDigits!.maximum);
+      setProperty(o, 'minimumSignificantDigits', options.significantDigits!.$1);
+      setProperty(o, 'maximumSignificantDigits', options.significantDigits!.$2);
     }
     setProperty(o, 'trailingZeroDisplay', options.trailingZeroDisplay.name);
     return NumberFormatJS(localeToJs(intl.locale), o).format(number);

@@ -14,7 +14,7 @@ void main() {
   );
   var nf = intl.numberFormat.custom(
     style: CurrencyStyle(currency: 'USD'),
-    digits: Digits.withFractionDigits(FractionDigits(maximum: 2)),
+    digits: Digits.withFractionDigits(minimum: 0, maximum: 2),
     // roundingIncrement: 5,
     roundingMode: RoundingMode.halfCeil,
   );

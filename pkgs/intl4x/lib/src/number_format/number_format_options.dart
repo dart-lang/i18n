@@ -19,7 +19,6 @@ class NumberFormatOptions {
   final Grouping useGrouping;
   final String? numberingSystem;
   final RoundingMode roundingMode;
-  final int? roundingIncrement;
   final TrailingZeroDisplay trailingZeroDisplay;
   final int minimumIntegerDigits;
   final Digits? digits;
@@ -37,7 +36,6 @@ class NumberFormatOptions {
     required this.signDisplay,
     required this.useGrouping,
     required this.roundingMode,
-    this.roundingIncrement,
     required this.trailingZeroDisplay,
     required this.minimumIntegerDigits,
     this.digits,
@@ -45,9 +43,12 @@ class NumberFormatOptions {
 
   RoundingPriority? get roundingPriority => digits?.roundingPriority;
 
-  FractionDigits? get fractionDigits => digits?.fractionDigits;
+  (int? minimum, int? maximum)? get fractionDigits => digits?.fractionDigits;
 
-  SignificantDigits? get significantDigits => digits?.significantDigits;
+  (int? minimum, int? maximum)? get significantDigits =>
+      digits?.significantDigits;
+
+  int? get roundingIncrement => digits?.roundingIncrement;
 }
 
 class FractionDigits {
@@ -82,23 +83,54 @@ enum RoundingPriority {
 }
 
 class Digits {
-  final FractionDigits? fractionDigits;
-  final SignificantDigits? significantDigits;
+  final (int?, int?)? fractionDigits;
+  final (int?, int?)? significantDigits;
   final RoundingPriority? roundingPriority;
+  final int? roundingIncrement;
 
-  Digits.withFractionDigits(this.fractionDigits)
-      : significantDigits = null,
+  Digits.withIncrement(
+    this.roundingIncrement, [
+    int? fractionDigit,
+  ])  : fractionDigits =
+            fractionDigit != null ? (fractionDigit, fractionDigit) : null,
+        significantDigits = null,
         roundingPriority = null;
 
-  Digits.withSignificantDigits(this.significantDigits)
-      : fractionDigits = null,
+  Digits.withFractionDigits({int minimum = 0, int maximum = 20})
+      : fractionDigits = (minimum, maximum),
+        significantDigits = null,
+        roundingPriority = null,
+        roundingIncrement = null;
+
+  Digits.withSignificantDigits({
+    int minimum = 1,
+    int maximum = 21,
+    this.roundingIncrement,
+  })  : significantDigits = (minimum, maximum),
+        fractionDigits = null,
         roundingPriority = null;
 
-  Digits.withSignificantAndFractionDigits(
-    this.significantDigits,
-    this.fractionDigits, [
+  Digits.withSignificantAndFractionDigits({
+    int minimumSignificantDigits = 1,
+    int maximumSignificantDigits = 21,
+    int minimumFractionDigits = 0,
+    int maximumFractionDigits = 20,
     this.roundingPriority = RoundingPriority.auto,
-  ]);
+  })  : fractionDigits = (minimumFractionDigits, maximumFractionDigits),
+        significantDigits =
+            (minimumSignificantDigits, maximumSignificantDigits),
+        roundingIncrement = null;
+
+  Digits.all({
+    required this.roundingIncrement,
+    int minimumSignificantDigits = 1,
+    int maximumSignificantDigits = 21,
+    int? fractionDigit,
+    this.roundingPriority = RoundingPriority.auto,
+  })  : significantDigits =
+            (minimumSignificantDigits, maximumSignificantDigits),
+        fractionDigits =
+            fractionDigit != null ? (fractionDigit, fractionDigit) : null;
 }
 
 enum RoundingMode {
