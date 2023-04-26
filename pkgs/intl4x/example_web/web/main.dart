@@ -15,7 +15,6 @@ void main() {
   var nf = intl.numberFormat.custom(
     style: CurrencyStyle(currency: 'USD'),
     digits: Digits.withFractionDigits(minimum: 0, maximum: 2),
-    // roundingIncrement: 5,
     roundingMode: RoundingMode.halfCeil,
   );
   querySelector('#output')?.text = 'Format $number: ${nf.formatImpl(number)}';

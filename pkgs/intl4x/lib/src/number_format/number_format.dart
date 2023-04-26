@@ -115,7 +115,6 @@ class NumberFormat {
   }) {
     return _custom(
       style: style,
-      compactDisplay: compactDisplay,
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: CompactNotation(compactDisplay: compactDisplay),
@@ -158,7 +157,6 @@ class NumberFormat {
   }
 
   NumberFormatter _custom({
-    CompactDisplay? compactDisplay,
     Style style = const DecimalStyle(),
     String? currency,
     CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
@@ -181,7 +179,6 @@ class NumberFormat {
       style: style,
       currency: currency,
       currencyDisplay: currencyDisplay,
-      compactDisplay: compactDisplay,
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,

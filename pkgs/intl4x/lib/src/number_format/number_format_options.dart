@@ -6,7 +6,6 @@ import 'number_formatter.dart';
 
 class NumberFormatOptions {
   // Specific Options
-  final CompactDisplay? compactDisplay;
   final Style style;
   final String? currency;
   final CurrencyDisplay currencyDisplay;
@@ -26,7 +25,6 @@ class NumberFormatOptions {
   const NumberFormatOptions({
     this.unit,
     required this.unitDisplay,
-    this.compactDisplay,
     required this.style,
     this.currency,
     required this.currencyDisplay,

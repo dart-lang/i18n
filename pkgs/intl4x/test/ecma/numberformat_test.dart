@@ -34,5 +34,9 @@ void main() {
     testWithFormatting('percent', () {
       expect(intl.numberFormat.percent().format(4.33), '433%');
     });
+
+    testWithFormatting('compact', () {
+      expect(intl.numberFormat.compact().format(4.33), '4.3');
+    });
   });
 }

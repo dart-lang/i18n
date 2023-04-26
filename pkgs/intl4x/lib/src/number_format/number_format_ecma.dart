@@ -33,7 +33,8 @@ class _NumberFormatECMA extends NumberFormatter {
     var o = newObject<Object>();
     setProperty(o, 'sign', options.signDisplay.name);
     if (options.notation is CompactNotation) {
-      setProperty(o, 'compactDisplay', options.signDisplay.name);
+      setProperty(o, 'compactDisplay',
+          (options.notation as CompactNotation).compactDisplay.name);
     }
     if (options.style is CurrencyStyle) {
       var currencyStyle = options.style as CurrencyStyle;
