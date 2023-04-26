@@ -8,12 +8,16 @@ import 'package:intl4x/intl4x.dart';
 
 void main() {
   num number = 300000;
-  var nf = Intl().numberFormat.custom(
-        style: CurrencyStyle(currency: 'USD'),
-        fractionDigits: FractionDigits(maximum: 2),
-        // roundingIncrement: 5,
-        roundingMode: RoundingMode.halfCeil,
-      );
+  var intl = Intl(
+    locale: 'en',
+    ecmaPolicy: AlwaysEcma(),
+  );
+  var nf = intl.numberFormat.custom(
+    style: CurrencyStyle(currency: 'USD'),
+    fractionDigits: FractionDigits(maximum: 2),
+    // roundingIncrement: 5,
+    roundingMode: RoundingMode.halfCeil,
+  );
   querySelector('#output')?.text = 'Format $number: ${nf.formatImpl(number)}';
   print(nf.formatImpl(11.21)); // "$11.20"
   print(nf.formatImpl(11.22)); // "$11.20"

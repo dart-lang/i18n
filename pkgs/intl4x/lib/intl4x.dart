@@ -32,42 +32,47 @@ class Intl {
   late final ListFormat _listFormat;
   late final Collation _collator;
 
-  /// Construct an [Intl] instance providing the current [locale], the
+  /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
-  /// provided functions, as well as the [availableData] for each of the
-  /// locales.
+  /// provided functions.
   Intl({
     this.locale = 'en',
     this.ecmaPolicy = const AlwaysEcma(),
-    this.availableData = const {},
   }) {
     _numberFormat = NumberFormat(this);
     _datetimeFormat = DatetimeFormat(this);
     _listFormat = ListFormat(this);
     _collator = Collation(this);
+    icu4xDataKeys.addAll(getInitialICU4XDataKeys());
   }
 
   String locale;
 
   /// The set of available locales, either through
-  Set<String> get availableLocales =>
-      {...ecmaPolicy.locales, ...availableData.keys};
+  Set<String> get availableLocales => {
+        ...ecmaPolicy.locales,
+        ...icu4xDataKeys.keys,
+      };
 
   /// The ICU4X data for each of the locales. The exact data structure is yet
   /// to be determined.
-  final Map<String, List<Icu4xKey>> availableData;
-
-  void addSupportedLocales(Iterable<String> locales) {
-    availableLocales.addAll(locales);
-  }
+  final Map<String, List<Icu4xKey>> icu4xDataKeys = {};
 
   void addIcu4XData(Data data) {
     var callbackFromICUTellingMeWhatLocalesTheDataContained =
-        <String, List<Icu4xKey>>{};
-    availableData.addAll(callbackFromICUTellingMeWhatLocalesTheDataContained);
-    addSupportedLocales(
-        callbackFromICUTellingMeWhatLocalesTheDataContained.keys);
+        extractKeysFromData();
+    icu4xDataKeys.addAll(callbackFromICUTellingMeWhatLocalesTheDataContained);
     throw UnimplementedError('Call to ICU4X here');
+  }
+
+  Map<String, List<Icu4xKey>> extractKeysFromData() {
+    //TODO: Add implementation
+    return {};
+  }
+
+  Map<String, List<Icu4xKey>> getInitialICU4XDataKeys() {
+    //TODO: Add implementation
+    return {};
   }
 
   bool get useEcma =>
@@ -83,15 +88,15 @@ class Intl {
 
 typedef Icu4xKey = String;
 
-abstract class Data {}
+abstract final class Data {}
 
-class StringData {
+final class JsonData extends Data {
   final String value;
 
-  StringData(this.value);
+  JsonData(this.value);
 }
 
-class BlobData {
+final class BlobData extends Data {
   final Uint8List value;
 
   BlobData(this.value);

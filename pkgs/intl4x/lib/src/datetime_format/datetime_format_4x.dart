@@ -22,7 +22,7 @@ class DatetimeFormat4X extends DatetimeFormatter {
     List<String> locales,
     LocaleMatcher localeMatcher,
   ) {
-    return intl.availableData.entries
+    return intl.icu4xDataKeys.entries
         .where((element) => element.value.contains('NumberFormat'))
         .map((e) => e.key)
         .toList();

@@ -6,6 +6,7 @@ import 'number_formatter.dart';
 
 class NumberFormatOptions {
   final LocaleMatcher localeMatcher;
+  final CompactDisplay? compactDisplay;
   final SignDisplay signDisplay;
   final Style style;
   final Notation notation;
@@ -21,6 +22,7 @@ class NumberFormatOptions {
 
   NumberFormatOptions({
     required this.localeMatcher,
+    this.compactDisplay,
     required this.signDisplay,
     required this.style,
     required this.notation,

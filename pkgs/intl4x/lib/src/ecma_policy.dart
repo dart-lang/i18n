@@ -1,8 +1,7 @@
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
-abstract final class EcmaPolicy {
+sealed class EcmaPolicy {
   const EcmaPolicy();
 
   bool useFor(String locale);
@@ -27,7 +26,7 @@ final class NeverEcma extends EcmaPolicy {
   bool useFor(String locale) => false;
 
   @override
-  Set<String> get locales => {};
+  Set<String> get locales => const {};
 }
 
 final class SometimesEcma extends EcmaPolicy {
