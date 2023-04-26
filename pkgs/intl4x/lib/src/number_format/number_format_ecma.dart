@@ -20,7 +20,7 @@ class NumberFormatJS {
 }
 
 @JS('Intl.NumberFormat.supportedLocalesOf')
-external List<String> supportedLocalesOfJS(
+external List<String> _supportedLocalesOfJS(
   List<String> listOfLocales, [
   Object options,
 ]);
@@ -83,6 +83,6 @@ class NumberFormatECMA extends NumberFormatter {
       List<String> locales, LocaleMatcher localeMatcher) {
     var o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
 }
