@@ -21,10 +21,7 @@ abstract class NumberFormatter {
 
   String formatImpl(Object number);
 
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  );
+  List<String> supportedLocalesOf(List<String> locales);
 }
 
 enum LocaleMatcher {

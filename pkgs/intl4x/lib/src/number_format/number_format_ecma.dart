@@ -11,11 +11,11 @@ import '../utils.dart';
 import 'number_formatter.dart';
 
 NumberFormatter getNumberFormatter(Intl intl, NumberFormatOptions options) =>
-    NumberFormatECMA(intl, options);
+    _NumberFormatECMA(intl, options);
 
 @JS('Intl.NumberFormat')
-class NumberFormatJS {
-  external factory NumberFormatJS([String locale, Object options]);
+class _NumberFormatJS {
+  external factory _NumberFormatJS([String locale, Object options]);
   external String format(Object num);
 }
 
@@ -25,8 +25,8 @@ external List<String> _supportedLocalesOfJS(
   Object options,
 ]);
 
-class NumberFormatECMA extends NumberFormatter {
-  const NumberFormatECMA(super.intl, super.numberFormatOptions);
+class _NumberFormatECMA extends NumberFormatter {
+  const _NumberFormatECMA(super.intl, super.numberFormatOptions);
 
   @override
   String formatImpl(Object number) {
@@ -75,14 +75,13 @@ class NumberFormatECMA extends NumberFormatter {
       setProperty(o, 'maximumSignificantDigits', options.significantDigits!.$2);
     }
     setProperty(o, 'trailingZeroDisplay', options.trailingZeroDisplay.name);
-    return NumberFormatJS(localeToJs(intl.locale), o).format(number);
+    return _NumberFormatJS(localeToJs(intl.locale), o).format(number);
   }
 
   @override
-  List<String> supportedLocalesOf(
-      List<String> locales, LocaleMatcher localeMatcher) {
+  List<String> supportedLocalesOf(List<String> locales) {
     var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
     return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
 }
