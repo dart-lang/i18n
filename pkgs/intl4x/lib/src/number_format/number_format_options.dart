@@ -5,10 +5,16 @@
 import 'number_formatter.dart';
 
 class NumberFormatOptions {
-  final LocaleMatcher localeMatcher;
+  // Specific Options
   final CompactDisplay? compactDisplay;
-  final SignDisplay signDisplay;
   final Style style;
+  final String? currency;
+  final CurrencyDisplay currencyDisplay;
+  final Unit? unit;
+  final UnitDisplay unitDisplay;
+  // General options
+  final LocaleMatcher localeMatcher;
+  final SignDisplay signDisplay;
   final Notation notation;
   final Grouping useGrouping;
   final String? numberingSystem;
@@ -20,49 +26,35 @@ class NumberFormatOptions {
   final FractionDigits? fractionDigits;
   final SignificantDigits? significantDigits;
 
-  NumberFormatOptions({
-    required this.localeMatcher,
+  const NumberFormatOptions({
+    this.unit,
+    required this.unitDisplay,
     this.compactDisplay,
-    required this.signDisplay,
     required this.style,
+    this.currency,
+    required this.currencyDisplay,
+    required this.localeMatcher,
     required this.notation,
-    required this.useGrouping,
     this.numberingSystem,
+    required this.signDisplay,
+    required this.useGrouping,
     required this.roundingMode,
     this.roundingPriority,
-    required this.roundingIncrement,
+    this.roundingIncrement,
     required this.trailingZeroDisplay,
     required this.minimumIntegerDigits,
     this.fractionDigits,
     this.significantDigits,
-  })  : assert(minimumIntegerDigits >= 1 && minimumIntegerDigits <= 21),
-        assert([
-          1,
-          2,
-          5,
-          10,
-          20,
-          25,
-          50,
-          100,
-          200,
-          250,
-          500,
-          1000,
-          2000,
-          2500,
-          5000
-        ].contains(roundingIncrement ?? 1));
+  });
 }
 
 class FractionDigits {
   final int? minimum;
   final int? maximum;
 
-  FractionDigits({this.minimum, this.maximum})
-      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true) {
-    //TODO: add checks dependent on style
-  }
+  //TODO: add checks dependent on style
+  const FractionDigits({this.minimum, this.maximum})
+      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true);
 }
 
 class SignificantDigits {

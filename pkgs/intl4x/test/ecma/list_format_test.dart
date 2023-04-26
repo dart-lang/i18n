@@ -13,7 +13,8 @@ import '../utils.dart';
 void main() {
   group('List style options', () {
     var list = ['A', 'B', 'C'];
-    var listFormat = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').listFormat;
+    var listFormat =
+        Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
       var formatter = listFormat.custom(style: ListStyle.long);
       expect(formatter.format(list), 'A, B, and C');
@@ -30,7 +31,8 @@ void main() {
 
   group('List type options', () {
     var list = ['A', 'B', 'C'];
-    var listFormat = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').listFormat;
+    var listFormat =
+        Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
       var formatter = listFormat.custom(type: Type.conjunction);
       expect(formatter.format(list), 'A, B, and C');
@@ -47,7 +49,8 @@ void main() {
 
   group('List style and type combinations', () {
     var list = ['A', 'B', 'C'];
-    var listFormat = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').listFormat;
+    var listFormat =
+        Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
       var formatter = listFormat.custom(
         style: ListStyle.narrow,

@@ -26,7 +26,7 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class NumberFormatECMA extends NumberFormatter {
-  NumberFormatECMA(super.intl, super.numberFormatOptions);
+  const NumberFormatECMA(super.intl, super.numberFormatOptions);
 
   @override
   String formatImpl(Object number) {

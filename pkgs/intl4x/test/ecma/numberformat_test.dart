@@ -12,10 +12,10 @@ import '../utils.dart';
 
 void main() {
   group('NumberFormat options', () {
-    var intl = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US');
+    var intl = Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US');
     testWithFormatting('significantDigits', () {
       var formatter = intl.numberFormat.custom(
-        significantDigits: SignificantDigits(minimum: 1, maximum: 3),
+        significantDigits: const SignificantDigits(minimum: 1, maximum: 3),
       );
       expect(formatter.format(3), '3');
       expect(formatter.format(3.1), '3.1');
@@ -26,9 +26,13 @@ void main() {
     testWithFormatting('fractionDigits', () {
       var formatter = intl.numberFormat.custom(
         minimumIntegerDigits: 3,
-        fractionDigits: FractionDigits(minimum: 4),
+        fractionDigits: const FractionDigits(minimum: 4),
       );
       expect(formatter.format(4.33), '004.3300');
+    });
+
+    testWithFormatting('percent', () {
+      expect(intl.numberFormat.percent().format(4.33), '433%');
     });
   });
 }

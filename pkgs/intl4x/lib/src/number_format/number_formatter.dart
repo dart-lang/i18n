@@ -10,11 +10,11 @@ abstract class NumberFormatter {
   final Intl intl;
   final NumberFormatOptions options;
 
-  NumberFormatter(this.intl, this.options);
+  const NumberFormatter(this.intl, this.options);
 
   String format(Object number) {
     if (isInTest) {
-      return '$number-${intl.locale}';
+      return '$number//${intl.locale}';
     }
     return formatImpl(number);
   }
