@@ -19,12 +19,10 @@ class NumberFormatOptions {
   final Grouping useGrouping;
   final String? numberingSystem;
   final RoundingMode roundingMode;
-  final RoundingPriority? roundingPriority;
   final int? roundingIncrement;
   final TrailingZeroDisplay trailingZeroDisplay;
   final int minimumIntegerDigits;
-  final FractionDigits? fractionDigits;
-  final SignificantDigits? significantDigits;
+  final Digits? digits;
 
   const NumberFormatOptions({
     this.unit,
@@ -39,13 +37,17 @@ class NumberFormatOptions {
     required this.signDisplay,
     required this.useGrouping,
     required this.roundingMode,
-    this.roundingPriority,
     this.roundingIncrement,
     required this.trailingZeroDisplay,
     required this.minimumIntegerDigits,
-    this.fractionDigits,
-    this.significantDigits,
+    this.digits,
   });
+
+  RoundingPriority? get roundingPriority => digits?.roundingPriority;
+
+  FractionDigits? get fractionDigits => digits?.fractionDigits;
+
+  SignificantDigits? get significantDigits => digits?.significantDigits;
 }
 
 class FractionDigits {
@@ -77,6 +79,26 @@ enum RoundingPriority {
   auto,
   morePrecision,
   lessPrecision;
+}
+
+class Digits {
+  final FractionDigits? fractionDigits;
+  final SignificantDigits? significantDigits;
+  final RoundingPriority? roundingPriority;
+
+  Digits.withFractionDigits(this.fractionDigits)
+      : significantDigits = null,
+        roundingPriority = null;
+
+  Digits.withSignificantDigits(this.significantDigits)
+      : fractionDigits = null,
+        roundingPriority = null;
+
+  Digits.withSignificantAndFractionDigits(
+    this.significantDigits,
+    this.fractionDigits, [
+    this.roundingPriority = RoundingPriority.auto,
+  ]);
 }
 
 enum RoundingMode {

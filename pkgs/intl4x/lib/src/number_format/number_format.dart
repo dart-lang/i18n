@@ -22,14 +22,12 @@ class NumberFormat {
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
-    RoundingPriority? roundingPriority,
     int? roundingIncrement,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
-    FractionDigits? fractionDigits,
-    SignificantDigits? significantDigits,
+    Digits? digits,
   }) {
-    return custom(
+    return _custom(
       style: const PercentStyle(),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
@@ -37,12 +35,9 @@ class NumberFormat {
       useGrouping: useGrouping,
       numberingSystem: numberingSystem,
       roundingMode: roundingMode,
-      roundingPriority: roundingPriority,
       roundingIncrement: roundingIncrement,
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
-      fractionDigits: fractionDigits,
-      significantDigits: significantDigits,
     );
   }
 
@@ -56,14 +51,12 @@ class NumberFormat {
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
-    RoundingPriority? roundingPriority,
     int? roundingIncrement,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
-    FractionDigits? fractionDigits,
-    SignificantDigits? significantDigits,
+    Digits? digits,
   }) {
-    return custom(
+    return _custom(
       unit: unit,
       unitDisplay: unitDisplay,
       style: UnitStyle(unit: unit),
@@ -73,12 +66,10 @@ class NumberFormat {
       useGrouping: useGrouping,
       numberingSystem: numberingSystem,
       roundingMode: roundingMode,
-      roundingPriority: roundingPriority,
       roundingIncrement: roundingIncrement,
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
-      fractionDigits: fractionDigits,
-      significantDigits: significantDigits,
+      digits: digits,
     );
   }
 
@@ -93,14 +84,12 @@ class NumberFormat {
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
-    RoundingPriority? roundingPriority,
     int? roundingIncrement,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
-    FractionDigits? fractionDigits,
-    SignificantDigits? significantDigits,
+    Digits? digits,
   }) {
-    return custom(
+    return _custom(
       currency: currency,
       currencyDisplay: currencyDisplay,
       style: CurrencyStyle(currency: currency),
@@ -110,17 +99,45 @@ class NumberFormat {
       useGrouping: useGrouping,
       numberingSystem: numberingSystem,
       roundingMode: roundingMode,
-      roundingPriority: roundingPriority,
       roundingIncrement: roundingIncrement,
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
-      fractionDigits: fractionDigits,
-      significantDigits: significantDigits,
+      digits: digits,
     );
   }
 
   NumberFormatter compact({
     CompactDisplay compactDisplay = CompactDisplay.short,
+    //General options
+    Style style = const DecimalStyle(),
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    SignDisplay signDisplay = SignDisplay.auto,
+    Grouping useGrouping = Grouping.auto,
+    String? numberingSystem,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    int? roundingIncrement,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+    int minimumIntegerDigits = 1,
+    Digits? digits,
+  }) {
+    return _custom(
+      style: style,
+      compactDisplay: compactDisplay,
+      localeMatcher: localeMatcher,
+      signDisplay: signDisplay,
+      notation: CompactNotation(compactDisplay: compactDisplay),
+      useGrouping: useGrouping,
+      numberingSystem: numberingSystem,
+      roundingMode: roundingMode,
+      roundingIncrement: roundingIncrement,
+      trailingZeroDisplay: trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits,
+      digits: digits,
+    );
+  }
+
+  NumberFormatter custom({
+    Style style = const DecimalStyle(),
     //General options
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
@@ -128,31 +145,29 @@ class NumberFormat {
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
-    RoundingPriority? roundingPriority,
     int? roundingIncrement,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
-    FractionDigits? fractionDigits,
-    SignificantDigits? significantDigits,
+    Digits? digits,
   }) {
-    return custom(
-      compactDisplay: compactDisplay,
+    return _custom(
+      unitDisplay: UnitDisplay.short,
+      style: style,
+      currencyDisplay: CurrencyDisplay.symbol,
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
       useGrouping: useGrouping,
       numberingSystem: numberingSystem,
       roundingMode: roundingMode,
-      roundingPriority: roundingPriority,
       roundingIncrement: roundingIncrement,
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
-      fractionDigits: fractionDigits,
-      significantDigits: significantDigits,
+      digits: digits,
     );
   }
 
-  NumberFormatter custom({
+  NumberFormatter _custom({
     CompactDisplay? compactDisplay,
     Style style = const DecimalStyle(),
     String? currency,
@@ -166,12 +181,10 @@ class NumberFormat {
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
-    RoundingPriority? roundingPriority,
     int? roundingIncrement,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
-    FractionDigits? fractionDigits,
-    SignificantDigits? significantDigits,
+    Digits? digits,
   }) {
     var options = NumberFormatOptions(
       unit: unit,
@@ -186,12 +199,10 @@ class NumberFormat {
       useGrouping: useGrouping,
       numberingSystem: numberingSystem,
       roundingMode: roundingMode,
-      roundingPriority: roundingPriority,
       roundingIncrement: roundingIncrement,
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
-      fractionDigits: fractionDigits,
-      significantDigits: significantDigits,
+      digits: digits,
     );
     if (intl.ecmaPolicy.useFor(intl.locale)) {
       return getNumberFormatter(intl, options);
