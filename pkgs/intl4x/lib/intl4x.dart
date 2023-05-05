@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:typed_data';
+import 'package:intl4x/src/data.dart';
 
 import 'src/collator/collation.dart';
 import 'src/datetime_format/datetime_format.dart';
@@ -96,17 +96,3 @@ class Intl {
 }
 
 typedef Icu4xKey = String;
-
-abstract final class Data {}
-
-final class JsonData extends Data {
-  final String value;
-
-  JsonData(this.value);
-}
-
-final class BlobData extends Data {
-  final Uint8List value;
-
-  BlobData(this.value);
-}
