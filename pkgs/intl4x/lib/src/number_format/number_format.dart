@@ -202,7 +202,7 @@ class NumberFormat {
       digits: digits,
     );
     final NumberFormatter nf;
-    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+    if (_intl.useEcma) {
       nf = getNumberFormatter(_intl, options);
     } else {
       nf = getNumberFormatter4X(_intl, options);

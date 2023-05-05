@@ -60,7 +60,7 @@ class DatetimeFormat {
       timeZoneName: timeZoneName,
     );
     DatetimeFormatter datetimeFormatter;
-    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+    if (_intl.useEcma) {
       datetimeFormatter = getDatetimeFormatter(_intl, datetimeFormatOptions);
     } else {
       datetimeFormatter = getDatetimeFormatter4X(_intl, datetimeFormatOptions);

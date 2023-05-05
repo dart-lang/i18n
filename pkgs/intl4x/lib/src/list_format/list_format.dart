@@ -26,7 +26,7 @@ class ListFormat {
       style: style,
     );
     ListFormatter listFormatter;
-    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+    if (_intl.useEcma) {
       listFormatter = getListFormatter(_intl, options);
     } else {
       listFormatter = getListFormatter4X(_intl, options);

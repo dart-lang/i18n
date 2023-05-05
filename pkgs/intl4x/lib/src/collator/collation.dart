@@ -36,7 +36,7 @@ class Collation {
       collation: collation,
     );
     Collator collator;
-    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+    if (_intl.useEcma) {
       collator = getCollator(_intl, options);
     } else {
       collator = getCollator4X(_intl, options);

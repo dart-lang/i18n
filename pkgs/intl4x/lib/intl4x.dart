@@ -33,8 +33,10 @@ export 'src/number_format/number_format_options.dart';
 class Intl {
   final EcmaPolicy ecmaPolicy;
 
-  String dyliblocation = 'path.dll'; //What about path.wasm? How to load this?
-  String datalocation = 'data.blob'; //What about additional data?
+  // ignore: unused_field, prefer_final_fields
+  String _dyliblocation = 'path.dll'; //What about path.wasm? How to load this?
+  // ignore: unused_field, prefer_final_fields
+  String _datalocation = 'data.blob'; //What about additional data?
 
   late final NumberFormat _numberFormat;
   late final DatetimeFormat _datetimeFormat;
