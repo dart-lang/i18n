@@ -49,10 +49,9 @@ class CollatorECMA extends Collator {
   }
 
   @override
-  List<String> supportedLocalesOf(
-      List<String> locales, LocaleMatcher localeMatcher) {
+  List<String> supportedLocalesOf(List<String> locales) {
     var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
 }

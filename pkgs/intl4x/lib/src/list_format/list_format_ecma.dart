@@ -26,22 +26,21 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class ListFormatECMA extends ListFormatter {
-  ListFormatECMA(super.intl, super.listFormatOptions);
+  ListFormatECMA(super.intl, super.options);
 
   @override
   String formatImpl(List<String> list) {
     var o = newObject<Object>();
-    setProperty(o, 'sign', listFormatOptions.localeMatcher.jsName);
-    setProperty(o, 'type', listFormatOptions.type.name);
-    setProperty(o, 'style', listFormatOptions.style.name);
+    setProperty(o, 'sign', options.localeMatcher.jsName);
+    setProperty(o, 'type', options.type.name);
+    setProperty(o, 'style', options.style.name);
     return ListFormatJS(localeToJs(intl.locale), o).format(list);
   }
 
   @override
-  List<String> supportedLocalesOf(
-      List<String> locales, LocaleMatcher localeMatcher) {
+  List<String> supportedLocalesOf(List<String> locales) {
     var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
 }

@@ -14,7 +14,7 @@ void main() {
   group('List style options', () {
     var list = ['A', 'B', 'C'];
     var collatorChoice = Intl(
-      ecmaPolicy: AlwaysEcma(),
+      ecmaPolicy: const AlwaysEcma(),
       locale: 'en_US',
     ).collator;
     testWithFormatting('long', () {

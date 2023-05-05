@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-
 import '../intl4x_test_checker.dart';
 
 abstract class NumberFormatter {
@@ -22,12 +21,4 @@ abstract class NumberFormatter {
   String formatImpl(Object number);
 
   List<String> supportedLocalesOf(List<String> locales);
-}
-
-enum LocaleMatcher {
-  lookup('lookup'),
-  bestfit('best fit');
-
-  final String jsName;
-  const LocaleMatcher(this.jsName);
 }

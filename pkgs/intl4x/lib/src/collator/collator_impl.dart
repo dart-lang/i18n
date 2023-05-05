@@ -18,16 +18,5 @@ abstract class Collator {
 
   int compareImpl(String a, String b);
 
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  );
-}
-
-enum LocaleMatcher {
-  lookup('lookup'),
-  bestfit('best fit');
-
-  final String jsName;
-  const LocaleMatcher(this.jsName);
+  List<String> supportedLocalesOf(List<String> locales);
 }

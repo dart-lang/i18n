@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
+import '../options.dart';
 import 'datetime_format_4x.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';

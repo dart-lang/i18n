@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-
 import 'list_formatter.dart';
 
 ListFormatter getListFormatter4X(Intl intl, ListFormatOptions options) =>
@@ -18,10 +17,7 @@ class ListFormat4X extends ListFormatter {
   }
 
   @override
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  ) {
+  List<String> supportedLocalesOf(List<String> locales) {
     return intl.icu4xDataKeys.entries
         .where((element) => element.value.contains('NumberFormat'))
         .map((e) => e.key)

@@ -12,7 +12,7 @@ import '../utils.dart';
 
 void main() {
   group('Datetime options', () {
-    var intl = Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US');
+    var intl = Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US');
     testWithFormatting('fractionDigits', () {
       var formatter = intl.datetimeFormat.custom();
       expect(formatter.format(DateTime(2020, 4, 1, 15)), '4/1/2020');
@@ -21,7 +21,7 @@ void main() {
 
   testWithFormatting('complex', () {
     var formatter =
-        Intl(ecmaPolicy: AlwaysEcma(), locale: 'en_US').datetimeFormat.custom(
+        Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').datetimeFormat.custom(
               year: Year.numeric,
               month: Month.numeric,
               day: Day.numeric,

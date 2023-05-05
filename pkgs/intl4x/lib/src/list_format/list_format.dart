@@ -4,6 +4,7 @@
 
 import '../../intl4x.dart';
 
+import '../options.dart';
 import 'list_format_4x.dart';
 import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
 import 'list_formatter.dart';

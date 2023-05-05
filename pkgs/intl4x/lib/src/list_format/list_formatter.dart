@@ -3,14 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-
 import '../intl4x_test_checker.dart';
 
 abstract class ListFormatter {
   final Intl intl;
-  final ListFormatOptions listFormatOptions;
+  final ListFormatOptions options;
 
-  ListFormatter(this.intl, this.listFormatOptions);
+  ListFormatter(this.intl, this.options);
 
   String format(List<String> list) {
     if (isInTest) {
@@ -21,16 +20,5 @@ abstract class ListFormatter {
 
   String formatImpl(List<String> list);
 
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  );
-}
-
-enum LocaleMatcher {
-  lookup('lookup'),
-  bestfit('best fit');
-
-  final String jsName;
-  const LocaleMatcher(this.jsName);
+  List<String> supportedLocalesOf(List<String> locales);
 }

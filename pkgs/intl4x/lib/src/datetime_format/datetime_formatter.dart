@@ -8,9 +8,9 @@ import '../intl4x_test_checker.dart';
 
 abstract class DatetimeFormatter {
   final Intl intl;
-  final DatetimeFormatOptions datetimeFormatterData;
+  final DatetimeFormatOptions options;
 
-  DatetimeFormatter(this.intl, this.datetimeFormatterData);
+  DatetimeFormatter(this.intl, this.options);
 
   String format(DateTime datetime) {
     if (isInTest) {
@@ -21,16 +21,5 @@ abstract class DatetimeFormatter {
 
   String formatImpl(DateTime datetime);
 
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  );
-}
-
-enum LocaleMatcher {
-  lookup('lookup'),
-  bestfit('best fit');
-
-  final String jsName;
-  const LocaleMatcher(this.jsName);
+  List<String> supportedLocalesOf(List<String> locales);
 }

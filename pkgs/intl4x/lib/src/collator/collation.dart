@@ -4,6 +4,7 @@
 
 import '../../intl4x.dart';
 
+import '../options.dart';
 import 'collator_4x.dart';
 import 'collator_impl.dart';
 import 'collator_options.dart';

@@ -18,10 +18,7 @@ class DatetimeFormat4X extends DatetimeFormatter {
   }
 
   @override
-  List<String> supportedLocalesOf(
-    List<String> locales,
-    LocaleMatcher localeMatcher,
-  ) {
+  List<String> supportedLocalesOf(List<String> locales) {
     return intl.icu4xDataKeys.entries
         .where((element) => element.value.contains('NumberFormat'))
         .map((e) => e.key)
