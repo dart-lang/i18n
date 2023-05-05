@@ -2,9 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/src/data.dart';
-
 import 'src/collator/collation.dart';
+import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
@@ -14,6 +13,8 @@ export 'src/datetime_format/datetime_format_options.dart';
 export 'src/ecma_policy.dart';
 export 'src/list_format/list_format_options.dart';
 export 'src/number_format/number_format_options.dart';
+
+typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
@@ -38,10 +39,10 @@ class Intl {
   // ignore: unused_field, prefer_final_fields
   String _datalocation = 'data.blob'; //What about additional data?
 
-  late final NumberFormat _numberFormat;
-  late final DatetimeFormat _datetimeFormat;
-  late final ListFormat _listFormat;
-  late final Collation _collator;
+  late final NumberFormat numberFormat;
+  late final DatetimeFormat datetimeFormat;
+  late final ListFormat listFormat;
+  late final Collation collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
@@ -50,10 +51,10 @@ class Intl {
     this.locale = 'en',
     this.ecmaPolicy = const AlwaysEcma(),
   }) {
-    _numberFormat = NumberFormat(this);
-    _datetimeFormat = DatetimeFormat(this);
-    _listFormat = ListFormat(this);
-    _collator = Collation(this);
+    numberFormat = NumberFormat(this);
+    datetimeFormat = DatetimeFormat(this);
+    listFormat = ListFormat(this);
+    collation = Collation(this);
     icu4xDataKeys.addAll(getInitialICU4XDataKeys());
   }
 
@@ -86,15 +87,9 @@ class Intl {
     return {};
   }
 
+  /// Whether to use the browser with the current settings
   bool get useEcma =>
       ecmaPolicy is AlwaysEcma ||
       (ecmaPolicy is SometimesEcma &&
           (ecmaPolicy as SometimesEcma).useForLocales.contains(locale));
-
-  NumberFormat get numberFormat => _numberFormat;
-  DatetimeFormat get datetimeFormat => _datetimeFormat;
-  ListFormat get listFormat => _listFormat;
-  Collation get collation => _collator;
 }
-
-typedef Icu4xKey = String;
