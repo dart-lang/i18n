@@ -10,11 +10,12 @@ import 'datetime_format_stub.dart'
 import 'datetime_formatter.dart';
 
 class DatetimeFormat {
-  final Intl intl;
+  final Intl _intl;
 
-  const DatetimeFormat(this.intl);
+  const DatetimeFormat(this._intl);
 
-  DatetimeFormatter custom({
+  String format(
+    DateTime datetime, {
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     DateStyle? dateStyle,
     TimeStyle? timeStyle,
@@ -58,10 +59,12 @@ class DatetimeFormat {
       fractionalSecondDigits: fractionalSecondDigits,
       timeZoneName: timeZoneName,
     );
-    if (intl.ecmaPolicy.useFor(intl.locale)) {
-      return getDatetimeFormatter(intl, datetimeFormatOptions);
+    DatetimeFormatter datetimeFormatter;
+    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+      datetimeFormatter = getDatetimeFormatter(_intl, datetimeFormatOptions);
     } else {
-      return getDatetimeFormatter4X(intl, datetimeFormatOptions);
+      datetimeFormatter = getDatetimeFormatter4X(_intl, datetimeFormatOptions);
     }
+    return datetimeFormatter.format(datetime);
   }
 }

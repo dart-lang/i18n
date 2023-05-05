@@ -10,11 +10,12 @@ import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
 import 'list_formatter.dart';
 
 class ListFormat {
-  final Intl intl;
+  final Intl _intl;
 
-  const ListFormat(this.intl);
+  const ListFormat(this._intl);
 
-  ListFormatter custom({
+  String format(
+    List<String> list, {
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Type type = Type.conjunction,
     ListStyle style = ListStyle.long,
@@ -24,10 +25,12 @@ class ListFormat {
       type: type,
       style: style,
     );
-    if (intl.ecmaPolicy.useFor(intl.locale)) {
-      return getListFormatter(intl, options);
+    ListFormatter listFormatter;
+    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+      listFormatter = getListFormatter(_intl, options);
     } else {
-      return getListFormatter4X(intl, options);
+      listFormatter = getListFormatter4X(_intl, options);
     }
+    return listFormatter.format(list);
   }
 }

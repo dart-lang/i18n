@@ -21,6 +21,15 @@ export 'src/number_format/number_format_options.dart';
 /// * [DatetimeFormat]
 /// * [ListFormat]
 /// * [Collation].
+///
+/// The functionalities are called through getters on an `Intl` instance, i.e.
+/// ```dart
+/// final numberFormat = Intl(
+///   ecmaPolicy: const AlwaysEcma(),
+///   locale: 'en_US',
+/// ).numberFormat;
+/// print(numberFormat.percent().format(0.5)); //prints 50%
+/// ```
 class Intl {
   final EcmaPolicy ecmaPolicy;
 
@@ -83,7 +92,7 @@ class Intl {
   NumberFormat get numberFormat => _numberFormat;
   DatetimeFormat get datetimeFormat => _datetimeFormat;
   ListFormat get listFormat => _listFormat;
-  Collation get collator => _collator;
+  Collation get collation => _collator;
 }
 
 typedef Icu4xKey = String;

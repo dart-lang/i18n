@@ -11,27 +11,25 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main() {
-  group('Datetime options', () {
-    var intl = Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US');
-    testWithFormatting('fractionDigits', () {
-      var formatter = intl.datetimeFormat.custom();
-      expect(formatter.format(DateTime(2020, 4, 1, 15)), '4/1/2020');
-    });
+  var intl = Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US');
+
+  testWithFormatting('fractionDigits', () {
+    var formatted = intl.datetimeFormat.format(DateTime(2020, 4, 1, 15));
+    expect(formatted, '4/1/2020');
   });
 
   testWithFormatting('complex', () {
-    var formatter =
-        Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').datetimeFormat.custom(
-              year: Year.numeric,
-              month: Month.numeric,
-              day: Day.numeric,
-              hour: Hour.numeric,
-              minute: Minute.numeric,
-              second: Second.numeric,
-              hour12: false,
-              timeZone: 'America/Los_Angeles',
-            );
-    expect(formatter.format(DateTime.utc(2012, 12, 20, 3, 0, 0, 200)),
-        '12/19/2012, 19:00:00');
+    var formatted = intl.datetimeFormat.format(
+      DateTime.utc(2012, 12, 20, 3, 0, 0, 200),
+      year: Year.numeric,
+      month: Month.numeric,
+      day: Day.numeric,
+      hour: Hour.numeric,
+      minute: Minute.numeric,
+      second: Second.numeric,
+      hour12: false,
+      timeZone: 'America/Los_Angeles',
+    );
+    expect(formatted, '12/19/2012, 19:00:00');
   });
 }

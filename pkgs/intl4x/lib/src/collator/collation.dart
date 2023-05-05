@@ -11,11 +11,13 @@ import 'collator_options.dart';
 import 'collator_stub.dart' if (dart.library.js) 'collator_ecma.dart';
 
 class Collation {
-  final Intl intl;
+  final Intl _intl;
 
-  const Collation(this.intl);
+  const Collation(this._intl);
 
-  Collator custom({
+  int compare(
+    String a,
+    String b, {
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Usage usage = Usage.sort,
     Sensitivity? sensitivity,
@@ -33,10 +35,12 @@ class Collation {
       caseFirst: caseFirst,
       collation: collation,
     );
-    if (intl.ecmaPolicy.useFor(intl.locale)) {
-      return getCollator(intl, options);
+    Collator collator;
+    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+      collator = getCollator(_intl, options);
     } else {
-      return getCollator4X(intl, options);
+      collator = getCollator4X(_intl, options);
     }
+    return collator.compare(a, b);
   }
 }

@@ -16,16 +16,13 @@ void main() {
     var listFormat =
         Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.custom(style: ListStyle.long);
-      expect(formatter.format(list), 'A, B, and C');
+      expect(listFormat.format(list, style: ListStyle.long), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.custom(style: ListStyle.short);
-      expect(formatter.format(list), 'A, B, & C');
+      expect(listFormat.format(list, style: ListStyle.short), 'A, B, & C');
     });
     testWithFormatting('narrow', () {
-      var formatter = listFormat.custom(style: ListStyle.narrow);
-      expect(formatter.format(list), 'A, B, C');
+      expect(listFormat.format(list, style: ListStyle.narrow), 'A, B, C');
     });
   });
 
@@ -34,16 +31,16 @@ void main() {
     var listFormat =
         Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.custom(type: Type.conjunction);
-      expect(formatter.format(list), 'A, B, and C');
+      var formatter = listFormat.format(list, type: Type.conjunction);
+      expect(formatter, 'A, B, and C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.custom(type: Type.disjunction);
-      expect(formatter.format(list), 'A, B, or C');
+      var formatter = listFormat.format(list, type: Type.disjunction);
+      expect(formatter, 'A, B, or C');
     });
     testWithFormatting('narrow', () {
-      var formatter = listFormat.custom(type: Type.unit);
-      expect(formatter.format(list), 'A, B, C');
+      var formatter = listFormat.format(list, type: Type.unit);
+      expect(formatter, 'A, B, C');
     });
   });
 
@@ -52,18 +49,20 @@ void main() {
     var listFormat =
         Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US').listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.custom(
+      var formatter = listFormat.format(
+        list,
         style: ListStyle.narrow,
         type: Type.conjunction,
       );
-      expect(formatter.format(list), 'A, B, C');
+      expect(formatter, 'A, B, C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.custom(
+      var formatter = listFormat.format(
+        list,
         style: ListStyle.short,
         type: Type.unit,
       );
-      expect(formatter.format(list), 'A, B, C');
+      expect(formatter, 'A, B, C');
     });
   });
 }

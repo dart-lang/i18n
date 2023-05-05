@@ -16,10 +16,9 @@ void main() {
     var collatorChoice = Intl(
       ecmaPolicy: const AlwaysEcma(),
       locale: 'en_US',
-    ).collator;
+    ).collation;
     testWithFormatting('long', () {
-      var formatter = collatorChoice.custom();
-      expect(list..sort(formatter.compare), orderedEquals(list));
+      expect(list..sort(collatorChoice.compare), orderedEquals(list));
     });
   });
 }

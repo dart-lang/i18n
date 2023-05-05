@@ -11,11 +11,12 @@ import 'number_formatter.dart';
 
 /// Number formatting functionality of the browser.
 class NumberFormat {
-  final Intl intl;
+  final Intl _intl;
 
-  const NumberFormat(this.intl);
+  const NumberFormat(this._intl);
 
-  NumberFormatter percent({
+  String percent(
+    Object number, {
     //General options
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
@@ -28,6 +29,7 @@ class NumberFormat {
     Digits? digits,
   }) {
     return _custom(
+      number,
       style: const PercentStyle(),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
@@ -40,7 +42,8 @@ class NumberFormat {
     );
   }
 
-  NumberFormatter unit({
+  String unit(
+    Object number, {
     required Unit unit,
     UnitDisplay unitDisplay = UnitDisplay.short,
     //General options
@@ -55,6 +58,7 @@ class NumberFormat {
     Digits? digits,
   }) {
     return _custom(
+      number,
       unit: unit,
       unitDisplay: unitDisplay,
       style: UnitStyle(unit: unit),
@@ -70,7 +74,8 @@ class NumberFormat {
     );
   }
 
-  NumberFormatter currency({
+  String currency(
+    Object number, {
     required String currency,
     CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
     CurrencySign currencySign = CurrencySign.standard,
@@ -86,6 +91,7 @@ class NumberFormat {
     Digits? digits,
   }) {
     return _custom(
+      number,
       currency: currency,
       currencyDisplay: currencyDisplay,
       style: CurrencyStyle(currency: currency),
@@ -101,7 +107,8 @@ class NumberFormat {
     );
   }
 
-  NumberFormatter compact({
+  String compact(
+    Object number, {
     CompactDisplay compactDisplay = CompactDisplay.short,
     //General options
     Style style = const DecimalStyle(),
@@ -115,6 +122,7 @@ class NumberFormat {
     Digits? digits,
   }) {
     return _custom(
+      number,
       style: style,
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
@@ -128,7 +136,8 @@ class NumberFormat {
     );
   }
 
-  NumberFormatter custom({
+  String format(
+    Object number, {
     Style style = const DecimalStyle(),
     //General options
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
@@ -142,6 +151,7 @@ class NumberFormat {
     Digits? digits,
   }) {
     return _custom(
+      number,
       unitDisplay: UnitDisplay.short,
       style: style,
       currencyDisplay: CurrencyDisplay.symbol,
@@ -157,7 +167,8 @@ class NumberFormat {
     );
   }
 
-  NumberFormatter _custom({
+  String _custom(
+    Object number, {
     Style style = const DecimalStyle(),
     String? currency,
     CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
@@ -190,10 +201,12 @@ class NumberFormat {
       minimumIntegerDigits: minimumIntegerDigits,
       digits: digits,
     );
-    if (intl.ecmaPolicy.useFor(intl.locale)) {
-      return getNumberFormatter(intl, options);
+    final NumberFormatter nf;
+    if (_intl.ecmaPolicy.useFor(_intl.locale)) {
+      nf = getNumberFormatter(_intl, options);
     } else {
-      return getNumberFormatter4X(intl, options);
+      nf = getNumberFormatter4X(_intl, options);
     }
+    return nf.format(number);
   }
 }
