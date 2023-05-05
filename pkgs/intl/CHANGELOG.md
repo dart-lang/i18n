@@ -1,12 +1,13 @@
 ## 0.19.0-dev
 
-* Add `tryParse` to NumberFormat
-* Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat
+ * Add `tryParse` to NumberFormat.
+ * Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
  * Remove unimplemented timezone functionality.
  * Update git path in pubspec.
+ * Update to CLDR v42.
 
 ## 0.18.0
  * Add support for `minimumSignificantDigits` / `maximumSignificantDigits` in
