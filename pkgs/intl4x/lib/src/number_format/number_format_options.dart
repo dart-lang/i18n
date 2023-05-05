@@ -49,24 +49,24 @@ class NumberFormatOptions {
   int? get roundingIncrement => digits?.roundingIncrement;
 }
 
-class FractionDigits {
+final class FractionDigits {
   final int? minimum;
   final int? maximum;
 
   //TODO: add checks dependent on style
   const FractionDigits({this.minimum, this.maximum})
-      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true);
+      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true),
+        assert(minimum != null && maximum != null ? minimum <= maximum : true);
 }
 
-class SignificantDigits {
+final class SignificantDigits {
   final int minimum;
   final int maximum;
 
-  const SignificantDigits({this.minimum = 1, this.maximum = 21});
-  //  {
-  //   assert(1 <= minimum && minimum <= 21);
-  //   assert(1 <= maximum && maximum <= 21);
-  // }
+  SignificantDigits({this.minimum = 1, this.maximum = 21})
+      : assert(1 <= minimum && minimum <= 21),
+        assert(1 <= maximum && maximum <= 21),
+        assert(minimum <= maximum);
 }
 
 enum TrailingZeroDisplay {
@@ -80,7 +80,7 @@ enum RoundingPriority {
   lessPrecision;
 }
 
-class Digits {
+final class Digits {
   final (int?, int?)? fractionDigits;
   final (int?, int?)? significantDigits;
   final RoundingPriority? roundingPriority;
@@ -239,12 +239,12 @@ enum Unit {
   const Unit([this._jsName]);
 }
 
-abstract class Notation {
+sealed class Notation {
   const Notation();
   String get name;
 }
 
-class CompactNotation extends Notation {
+final class CompactNotation extends Notation {
   final CompactDisplay compactDisplay;
 
   CompactNotation({this.compactDisplay = CompactDisplay.short});
@@ -252,36 +252,36 @@ class CompactNotation extends Notation {
   String get name => 'compact';
 }
 
-class StandardNotation extends Notation {
+final class StandardNotation extends Notation {
   const StandardNotation();
   @override
   String get name => 'standard';
 }
 
-class ScientificNotation extends Notation {
+final class ScientificNotation extends Notation {
   @override
   String get name => 'scientific';
 }
 
-class EngineeringNotation extends Notation {
+final class EngineeringNotation extends Notation {
   @override
   String get name => 'engineering';
 }
 
-abstract class Style {
+sealed class Style {
   String get name;
 
   const Style();
 }
 
-class DecimalStyle extends Style {
+final class DecimalStyle extends Style {
   const DecimalStyle();
 
   @override
   String get name => 'decimal';
 }
 
-class CurrencyStyle extends Style {
+final class CurrencyStyle extends Style {
   final String currency;
   final CurrencySign sign;
   final CurrencyDisplay display;
@@ -295,13 +295,13 @@ class CurrencyStyle extends Style {
   String get name => 'currency';
 }
 
-class PercentStyle extends Style {
+final class PercentStyle extends Style {
   const PercentStyle();
   @override
   String get name => 'percent';
 }
 
-class UnitStyle extends Style {
+final class UnitStyle extends Style {
   final Unit unit;
   final UnitDisplay unitDisplay;
 

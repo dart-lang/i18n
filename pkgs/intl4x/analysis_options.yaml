@@ -4,3 +4,4 @@ linter:
   rules:
     prefer_relative_imports: True
     prefer_const_constructors: True
+    unnecessary_parenthesis: True
