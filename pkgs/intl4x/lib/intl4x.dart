@@ -11,9 +11,9 @@ import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_4x.dart';
 import 'src/datetime_format/datetime_format_stub.dart'
     if (dart.library.js) 'src/datetime_format/datetime_format_ecma.dart';
-import 'src/ecma_defaults/ecma_stub.dart'
+import 'src/ecma/ecma_stub.dart'
     if (dart.library.js) 'src/ecma_defaults/ecma_web.dart';
-import 'src/ecma_policy.dart';
+import 'src/ecma/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_4x.dart';
 import 'src/list_format/list_format_stub.dart'
@@ -24,7 +24,7 @@ import 'src/number_format/number_format_stub.dart'
     if (dart.library.js) 'src/number_format/number_format_ecma.dart';
 
 export 'src/datetime_format/datetime_format_options.dart';
-export 'src/ecma_policy.dart';
+export 'src/ecma/ecma_policy.dart';
 export 'src/list_format/list_format_options.dart';
 export 'src/number_format/number_format_options.dart';
 
