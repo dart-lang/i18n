@@ -1,5 +1,4 @@
-import '../intl4x.dart';
-
+typedef Locale = String;
 // TODO: add all locales which are supported by ICU4X / Browsers
 const List<Locale> allLocales = [
   'de_DE',

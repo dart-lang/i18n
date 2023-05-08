@@ -30,7 +30,6 @@ export 'src/list_format/list_format_options.dart';
 export 'src/number_format/number_format_options.dart';
 
 typedef Icu4xKey = String;
-typedef Locale = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as

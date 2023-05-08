@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
+import '../locales.dart';
 
 /// The policy on whether to use the browsers built-in `Intl` functionality, or
 /// rather use ICU4X,

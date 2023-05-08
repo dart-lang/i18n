@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
+import '../locales.dart';
 import '../options.dart';
 import 'datetime_format.dart';
 

@@ -7,6 +7,7 @@ import 'package:js/js_util.dart';
 
 @JS()
 import '../../intl4x.dart';
+import '../locales.dart';
 import '../options.dart';
 import '../utils.dart';
 import 'datetime_format.dart';
