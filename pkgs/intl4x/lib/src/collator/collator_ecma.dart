@@ -5,7 +5,7 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
-import '../locales.dart';
+import '../locale.dart';
 import '../options.dart';
 @JS()
 import '../utils.dart';

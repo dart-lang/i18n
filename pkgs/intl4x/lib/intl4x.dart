@@ -17,7 +17,7 @@ import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_4x.dart';
 import 'src/list_format/list_format_stub.dart'
     if (dart.library.js) 'src/list_format/list_format_ecma.dart';
-import 'src/locales.dart';
+import 'src/locale.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_4x.dart';
 import 'src/number_format/number_format_stub.dart'
