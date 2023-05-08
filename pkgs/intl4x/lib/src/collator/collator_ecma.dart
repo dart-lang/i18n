@@ -5,14 +5,13 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
-import '../../intl4x.dart';
+import '../options.dart';
 @JS()
 import '../utils.dart';
-import 'collator_impl.dart';
+import 'collator.dart';
 import 'collator_options.dart';
 
-Collator getCollator(Intl intl, CollatorOptions options) =>
-    CollatorECMA(intl, options);
+Collator getCollator(String locale) => CollatorECMA(locale);
 
 @JS('Intl.Collator')
 class CollatorJS {
@@ -27,31 +26,41 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class CollatorECMA extends Collator {
-  CollatorECMA(super.intl, super.numberFormatOptions);
+  CollatorECMA(super.locale);
+
+  // @override
+  // List<String> supportedLocalesOf(List<String> locales) {
+  //   var o = newObject<Object>();
+  //   setProperty(o, 'localeMatcher', localeMatcher.jsName);
+  //   return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  // }
 
   @override
-  int compareImpl(String a, String b) {
+  int compareImpl(
+    String a,
+    String b, {
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    Usage usage = Usage.sort,
+    Sensitivity? sensitivity,
+    bool ignorePunctuation = false,
+    bool numeric = false,
+    CaseFirst? caseFirst,
+    String? collation,
+  }) {
     var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
-    setProperty(o, 'usage', options.usage.name);
-    if (options.sensitivity != null) {
-      setProperty(o, 'sensitivity', options.sensitivity!.jsName);
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'usage', usage.name);
+    if (sensitivity != null) {
+      setProperty(o, 'sensitivity', sensitivity.jsName);
     }
-    setProperty(o, 'ignorePunctuation', options.ignorePunctuation);
-    setProperty(o, 'numeric', options.numeric);
-    if (options.caseFirst != null) {
-      setProperty(o, 'caseFirst', options.caseFirst!.jsName);
+    setProperty(o, 'ignorePunctuation', ignorePunctuation);
+    setProperty(o, 'numeric', numeric);
+    if (caseFirst != null) {
+      setProperty(o, 'caseFirst', caseFirst.jsName);
     }
-    if (options.collation != null) {
-      setProperty(o, 'collation', options.collation!);
+    if (collation != null) {
+      setProperty(o, 'collation', collation);
     }
-    return CollatorJS(localeToJs(intl.locale), o).compare(a, b);
-  }
-
-  @override
-  List<String> supportedLocalesOf(List<String> locales) {
-    var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return CollatorJS(localeToJs(locale), o).compare(a, b);
   }
 }

@@ -7,12 +7,12 @@ import 'package:js/js_util.dart';
 
 @JS()
 import '../../intl4x.dart';
+import '../options.dart';
 import '../utils.dart';
-import 'datetime_formatter.dart';
+import 'datetime_format.dart';
 
-DatetimeFormatter getDatetimeFormatter(
-        Intl intl, DatetimeFormatOptions datetimeFormatterData) =>
-    DatetimeFormatECMA(intl, datetimeFormatterData);
+DatetimeFormat getDatetimeFormatter(String locale) =>
+    DatetimeFormatECMA(locale);
 
 @JS('Date')
 class DateJS {
@@ -31,78 +31,98 @@ external List<String> supportedLocalesOfJS(
   Object options,
 ]);
 
-class DatetimeFormatECMA extends DatetimeFormatter {
-  DatetimeFormatECMA(super.intl, super.options);
+class DatetimeFormatECMA extends DatetimeFormat {
+  DatetimeFormatECMA(super.locale);
+
+  // @override
+  // List<String> supportedLocalesOf(List<String> locales) {
+  //   var o = newObject<Object>();
+  //   setProperty(o, 'localeMatcher', localeMatcher.jsName);
+  //   return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  // }
 
   @override
-  String formatImpl(DateTime datetime) {
+  String formatImpl(DateTime datetime,
+      {LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+      DateStyle? dateStyle,
+      TimeStyle? timeStyle,
+      Calendar? calendar,
+      DayPeriod? dayPeriod,
+      NumberingSystem? numberingSystem,
+      String? timeZone,
+      bool? hour12,
+      HourCycle? hourCycle,
+      FormatMatcher? formatMatcher,
+      Weekday? weekday,
+      Era? era,
+      Year? year,
+      Month? month,
+      Day? day,
+      Hour? hour,
+      Minute? minute,
+      Second? second,
+      int? fractionalSecondDigits,
+      TimeZoneName? timeZoneName}) {
     var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
-    if (options.dateStyle != null) {
-      setProperty(o, 'dateStyle', options.dateStyle!.name);
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    if (dateStyle != null) {
+      setProperty(o, 'dateStyle', dateStyle.name);
     }
-    if (options.timeStyle != null) {
-      setProperty(o, 'timeStyle', options.timeStyle!.name);
+    if (timeStyle != null) {
+      setProperty(o, 'timeStyle', timeStyle.name);
     }
-    if (options.calendar != null) {
-      setProperty(o, 'calendar', options.calendar!.jsName);
+    if (calendar != null) {
+      setProperty(o, 'calendar', calendar.jsName);
     }
-    if (options.dayPeriod != null) {
-      setProperty(o, 'dayPeriod', options.dayPeriod!.name);
+    if (dayPeriod != null) {
+      setProperty(o, 'dayPeriod', dayPeriod.name);
     }
-    if (options.numberingSystem != null) {
-      setProperty(o, 'numberingSystem', options.numberingSystem!.name);
+    if (numberingSystem != null) {
+      setProperty(o, 'numberingSystem', numberingSystem.name);
     }
-    if (options.timeZone != null) {
-      setProperty(o, 'timeZone', options.timeZone!);
+    if (timeZone != null) {
+      setProperty(o, 'timeZone', timeZone);
     }
-    if (options.hour12 != null) {
-      setProperty(o, 'hour12', options.hour12!);
+    if (hour12 != null) {
+      setProperty(o, 'hour12', hour12);
     }
-    if (options.hourCycle != null) {
-      setProperty(o, 'hourCycle', options.hourCycle!.name);
+    if (hourCycle != null) {
+      setProperty(o, 'hourCycle', hourCycle.name);
     }
-    if (options.formatMatcher != null) {
-      setProperty(o, 'formatMatcher', options.formatMatcher!.jsName);
+    if (formatMatcher != null) {
+      setProperty(o, 'formatMatcher', formatMatcher.jsName);
     }
-    if (options.weekday != null) {
-      setProperty(o, 'weekday', options.weekday!.name);
+    if (weekday != null) {
+      setProperty(o, 'weekday', weekday.name);
     }
-    if (options.era != null) {
-      setProperty(o, 'era', options.era!.name);
+    if (era != null) {
+      setProperty(o, 'era', era.name);
     }
-    if (options.year != null) {
-      setProperty(o, 'year', options.year!.jsName);
+    if (year != null) {
+      setProperty(o, 'year', year.jsName);
     }
-    if (options.month != null) {
-      setProperty(o, 'month', options.month!.jsName);
+    if (month != null) {
+      setProperty(o, 'month', month.jsName);
     }
-    if (options.day != null) {
-      setProperty(o, 'day', options.day!.jsName);
+    if (day != null) {
+      setProperty(o, 'day', day.jsName);
     }
-    if (options.hour != null) {
-      setProperty(o, 'hour', options.hour!.jsName);
+    if (hour != null) {
+      setProperty(o, 'hour', hour.jsName);
     }
-    if (options.minute != null) {
-      setProperty(o, 'minute', options.minute!.jsName);
+    if (minute != null) {
+      setProperty(o, 'minute', minute.jsName);
     }
-    if (options.second != null) {
-      setProperty(o, 'second', options.second!.jsName);
+    if (second != null) {
+      setProperty(o, 'second', second.jsName);
     }
-    if (options.fractionalSecondDigits != null) {
-      setProperty(o, 'fractionalSecondDigits', options.fractionalSecondDigits!);
+    if (fractionalSecondDigits != null) {
+      setProperty(o, 'fractionalSecondDigits', fractionalSecondDigits);
     }
-    if (options.timeZoneName != null) {
-      setProperty(o, 'timeZoneName', options.timeZoneName!.name);
+    if (timeZoneName != null) {
+      setProperty(o, 'timeZoneName', timeZoneName.name);
     }
-    return DatetimeFormatJS(localeToJs(intl.locale), o)
+    return DatetimeFormatJS(localeToJs(locale), o)
         .format(DateJS(datetime.millisecondsSinceEpoch));
-  }
-
-  @override
-  List<String> supportedLocalesOf(List<String> locales) {
-    var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
 }

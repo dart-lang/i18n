@@ -2,12 +2,24 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'src/collator/collation.dart';
+import 'src/collator/collator.dart';
+import 'src/collator/collator_4x.dart';
+import 'src/collator/collator_stub.dart'
+    if (dart.library.js) 'src/collator/collator_ecma.dart';
 import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
+import 'src/datetime_format/datetime_format_4x.dart';
+import 'src/datetime_format/datetime_format_stub.dart'
+    if (dart.library.js) 'src/datetime_format/this_doesnt_exist.dart';
 import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
+import 'src/list_format/list_format_4x.dart';
+import 'src/list_format/list_format_stub.dart'
+    if (dart.library.js) 'src/list_format/list_format_ecma.dart';
 import 'src/number_format/number_format.dart';
+import 'src/number_format/number_format_4x.dart';
+import 'src/number_format/number_format_stub.dart'
+    if (dart.library.js) 'src/number_format/number_format_ecma.dart';
 
 export 'src/datetime_format/datetime_format_options.dart';
 export 'src/ecma_policy.dart';
@@ -21,7 +33,7 @@ typedef Icu4xKey = String;
 /// * [NumberFormat]
 /// * [DatetimeFormat]
 /// * [ListFormat]
-/// * [Collation].
+/// * [Collator].
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart
@@ -42,7 +54,7 @@ class Intl {
   late final NumberFormat numberFormat;
   late final DatetimeFormat datetimeFormat;
   late final ListFormat listFormat;
-  late final Collation collation;
+  late final Collator collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
@@ -51,10 +63,17 @@ class Intl {
     this.locale = 'en',
     this.ecmaPolicy = const AlwaysEcma(),
   }) {
-    numberFormat = NumberFormat(this);
-    datetimeFormat = DatetimeFormat(this);
-    listFormat = ListFormat(this);
-    collation = Collation(this);
+    if (useEcma) {
+      numberFormat = getNumberFormatter(locale);
+      datetimeFormat = getDatetimeFormatter(locale);
+      listFormat = getListFormatter(locale);
+      collation = getCollator(locale);
+    } else {
+      numberFormat = getNumberFormatter4X(locale);
+      datetimeFormat = getDatetimeFormatter4X(locale);
+      listFormat = getListFormatter4X(locale);
+      collation = getCollator4X(locale);
+    }
     icu4xDataKeys.addAll(getInitialICU4XDataKeys());
   }
 

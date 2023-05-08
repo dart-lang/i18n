@@ -6,12 +6,12 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../../intl4x.dart';
+import '../options.dart';
 @JS()
 import '../utils.dart';
-import 'list_formatter.dart';
+import 'list_format.dart';
 
-ListFormatter getListFormatter(Intl intl, ListFormatOptions options) =>
-    ListFormatECMA(intl, options);
+ListFormat getListFormatter(String locale) => ListFormatECMA(locale);
 
 @JS('Intl.ListFormat')
 class ListFormatJS {
@@ -25,22 +25,27 @@ external List<String> supportedLocalesOfJS(
   Object options,
 ]);
 
-class ListFormatECMA extends ListFormatter {
-  ListFormatECMA(super.intl, super.options);
+class ListFormatECMA extends ListFormat {
+  ListFormatECMA(super.locale);
+
+  // @override
+  // List<String> supportedLocalesOf(List<String> locales) {
+  //   var o = newObject<Object>();
+  //   setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
+  //   return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  // }
 
   @override
-  String formatImpl(List<String> list) {
+  String formatImpl(
+    List<String> list, {
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    Type type = Type.conjunction,
+    ListStyle style = ListStyle.long,
+  }) {
     var o = newObject<Object>();
-    setProperty(o, 'sign', options.localeMatcher.jsName);
-    setProperty(o, 'type', options.type.name);
-    setProperty(o, 'style', options.style.name);
-    return ListFormatJS(localeToJs(intl.locale), o).format(list);
-  }
-
-  @override
-  List<String> supportedLocalesOf(List<String> locales) {
-    var o = newObject<Object>();
-    setProperty(o, 'localeMatcher', options.localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    setProperty(o, 'sign', localeMatcher.jsName);
+    setProperty(o, 'type', type.name);
+    setProperty(o, 'style', style.name);
+    return ListFormatJS(localeToJs(locale), o).format(list);
   }
 }

@@ -2,55 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
-
-class DatetimeFormatOptions {
-  final LocaleMatcher localeMatcher;
-  final DateStyle? dateStyle;
-  final TimeStyle? timeStyle;
-  final Calendar? calendar;
-  final DayPeriod? dayPeriod;
-  final NumberingSystem? numberingSystem;
-  final String? timeZone;
-  final bool? hour12;
-  final HourCycle? hourCycle;
-  final FormatMatcher? formatMatcher;
-  final Weekday? weekday;
-  final Era? era;
-  final Year? year;
-  final Month? month;
-  final Day? day;
-  final Hour? hour;
-  final Minute? minute;
-  final Second? second;
-  final int? fractionalSecondDigits;
-  final TimeZoneName? timeZoneName;
-
-  DatetimeFormatOptions({
-    required this.localeMatcher,
-    this.dateStyle,
-    this.timeStyle,
-    this.calendar,
-    this.dayPeriod,
-    this.numberingSystem,
-    this.timeZone,
-    this.hour12,
-    this.hourCycle,
-    this.formatMatcher,
-    this.weekday,
-    this.era,
-    this.year,
-    this.month,
-    this.day,
-    this.hour,
-    this.minute,
-    this.second,
-    this.fractionalSecondDigits,
-    this.timeZoneName,
-  }) : assert(fractionalSecondDigits == null ||
-            (0 <= fractionalSecondDigits && fractionalSecondDigits <= 4));
-}
-
 enum DateStyle {
   full,
   long,

@@ -3,24 +3,29 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-import 'list_formatter.dart';
+import '../options.dart';
+import 'list_format.dart';
 
-ListFormatter getListFormatter4X(Intl intl, ListFormatOptions options) =>
-    ListFormat4X(intl, options);
+ListFormat getListFormatter4X(String locale) => ListFormat4X(locale);
 
-class ListFormat4X extends ListFormatter {
-  ListFormat4X(super.intl, super.numberFormatterData);
+class ListFormat4X extends ListFormat {
+  ListFormat4X(super.locale);
+
+  // @override
+  // List<String> supportedLocalesOf(List<String> locales) {
+  //   return intl.icu4xDataKeys.entries
+  //       .where((element) => element.value.contains('NumberFormat'))
+  //       .map((e) => e.key)
+  //       .toList();
+  // }
 
   @override
-  String formatImpl(List<String> list) {
+  String formatImpl(
+    List<String> list, {
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    Type type = Type.conjunction,
+    ListStyle style = ListStyle.long,
+  }) {
     throw UnimplementedError('Insert diplomat bindings here');
-  }
-
-  @override
-  List<String> supportedLocalesOf(List<String> locales) {
-    return intl.icu4xDataKeys.entries
-        .where((element) => element.value.contains('NumberFormat'))
-        .map((e) => e.key)
-        .toList();
   }
 }

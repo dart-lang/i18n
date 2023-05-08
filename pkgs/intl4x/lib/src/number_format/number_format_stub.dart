@@ -2,9 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
+import 'number_format.dart';
 
-import 'number_formatter.dart';
-
-NumberFormatter getNumberFormatter(Intl intl, NumberFormatOptions options) =>
+NumberFormat getNumberFormatter(String locale) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

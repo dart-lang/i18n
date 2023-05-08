@@ -2,26 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
+import '../options.dart';
+import 'number_format.dart';
+import 'number_format_options.dart';
 
-import 'number_formatter.dart';
+NumberFormat getNumberFormatter4X(String locale) => NumberFormat4X(locale);
 
-NumberFormatter getNumberFormatter4X(Intl intl, NumberFormatOptions options) =>
-    NumberFormat4X(intl, options);
+class NumberFormat4X extends NumberFormat {
+  NumberFormat4X(super.locale);
 
-class NumberFormat4X extends NumberFormatter {
-  NumberFormat4X(super.intl, super.numberFormatterData);
+  // @override
+  // List<String> supportedLocalesOf(List<String> locales) {
+  //   return intl.icu4xDataKeys.entries
+  //       .where((element) => element.value.contains('NumberFormat'))
+  //       .map((e) => e.key)
+  //       .toList();
+  // }
 
   @override
-  String formatImpl(Object number) {
+  String formatImpl(Object number,
+      {Style style = const DecimalStyle(),
+      String? currency,
+      CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
+      Unit? unit,
+      UnitDisplay unitDisplay = UnitDisplay.short,
+      LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+      SignDisplay signDisplay = SignDisplay.auto,
+      Notation notation = const StandardNotation(),
+      Grouping useGrouping = Grouping.auto,
+      String? numberingSystem,
+      RoundingMode roundingMode = RoundingMode.halfExpand,
+      TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+      int minimumIntegerDigits = 1,
+      Digits? digits}) {
     throw UnimplementedError('Insert diplomat bindings here');
-  }
-
-  @override
-  List<String> supportedLocalesOf(List<String> locales) {
-    return intl.icu4xDataKeys.entries
-        .where((element) => element.value.contains('NumberFormat'))
-        .map((e) => e.key)
-        .toList();
   }
 }

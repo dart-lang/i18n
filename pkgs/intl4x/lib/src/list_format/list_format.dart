@@ -2,17 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
-
+import '../intl4x_test_checker.dart';
 import '../options.dart';
-import 'list_format_4x.dart';
-import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
-import 'list_formatter.dart';
+import 'list_format_options.dart';
 
-class ListFormat {
-  final Intl _intl;
+abstract class ListFormat {
+  final String locale;
 
-  const ListFormat(this._intl);
+  const ListFormat(this.locale);
 
   String format(
     List<String> list, {
@@ -20,17 +17,22 @@ class ListFormat {
     Type type = Type.conjunction,
     ListStyle style = ListStyle.long,
   }) {
-    var options = ListFormatOptions(
-      localeMatcher: localeMatcher,
-      type: type,
-      style: style,
-    );
-    ListFormatter listFormatter;
-    if (_intl.useEcma) {
-      listFormatter = getListFormatter(_intl, options);
+    if (isInTest) {
+      return '${list.join(', ')}-$locale';
     } else {
-      listFormatter = getListFormatter4X(_intl, options);
+      return formatImpl(
+        list,
+        localeMatcher: localeMatcher,
+        type: type,
+        style: style,
+      );
     }
-    return listFormatter.format(list);
   }
+
+  String formatImpl(
+    List<String> list, {
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    Type type = Type.conjunction,
+    ListStyle style = ListStyle.long,
+  });
 }

@@ -2,18 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
-
+import '../intl4x_test_checker.dart';
 import '../options.dart';
-import 'number_format_4x.dart';
-import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
-import 'number_formatter.dart';
+import 'number_format_options.dart';
 
 /// Number formatting functionality of the browser.
-class NumberFormat {
-  final Intl _intl;
+abstract class NumberFormat {
+  final String locale;
 
-  const NumberFormat(this._intl);
+  const NumberFormat(this.locale);
 
   String percent(
     Object number, {
@@ -28,7 +25,7 @@ class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return _custom(
+    return formatImpl(
       number,
       style: const PercentStyle(),
       localeMatcher: localeMatcher,
@@ -57,7 +54,7 @@ class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return _custom(
+    return formatImpl(
       number,
       unit: unit,
       unitDisplay: unitDisplay,
@@ -90,7 +87,7 @@ class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return _custom(
+    return formatImpl(
       number,
       currency: currency,
       currencyDisplay: currencyDisplay,
@@ -121,7 +118,7 @@ class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return _custom(
+    return formatImpl(
       number,
       style: style,
       localeMatcher: localeMatcher,
@@ -150,24 +147,30 @@ class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return _custom(
-      number,
-      unitDisplay: UnitDisplay.short,
-      style: style,
-      currencyDisplay: CurrencyDisplay.symbol,
-      localeMatcher: localeMatcher,
-      signDisplay: signDisplay,
-      notation: notation,
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-      digits: digits,
-    );
+    if (isInTest) {
+      return '$number//$locale';
+    } else {
+      return formatImpl(
+        number,
+        unitDisplay: UnitDisplay.short,
+        style: style,
+        currencyDisplay: CurrencyDisplay.symbol,
+        localeMatcher: localeMatcher,
+        signDisplay: signDisplay,
+        notation: notation,
+        useGrouping: useGrouping,
+        numberingSystem: numberingSystem,
+        roundingMode: roundingMode,
+        trailingZeroDisplay: trailingZeroDisplay,
+        minimumIntegerDigits: minimumIntegerDigits,
+        digits: digits,
+      );
+    }
   }
 
-  String _custom(
+  // TODO: make this not part of the API somehow, maybe by encapsulating in
+  // another class?
+  String formatImpl(
     Object number, {
     Style style = const DecimalStyle(),
     String? currency,
@@ -184,29 +187,5 @@ class NumberFormat {
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    var options = NumberFormatOptions(
-      unit: unit,
-      unitDisplay: unitDisplay,
-      style: style,
-      currency: currency,
-      currencyDisplay: currencyDisplay,
-      localeMatcher: localeMatcher,
-      signDisplay: signDisplay,
-      notation: notation,
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-      digits: digits,
-    );
-    final NumberFormatter nf;
-    if (_intl.useEcma) {
-      nf = getNumberFormatter(_intl, options);
-    } else {
-      nf = getNumberFormatter4X(_intl, options);
-    }
-    return nf.format(number);
-  }
+  });
 }

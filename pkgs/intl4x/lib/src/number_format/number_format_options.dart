@@ -2,53 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
-
-class NumberFormatOptions {
-  // Specific Options
-  final Style style;
-  final String? currency;
-  final CurrencyDisplay currencyDisplay;
-  final Unit? unit;
-  final UnitDisplay unitDisplay;
-  // General options
-  final LocaleMatcher localeMatcher;
-  final SignDisplay signDisplay;
-  final Notation notation;
-  final Grouping useGrouping;
-  final String? numberingSystem;
-  final RoundingMode roundingMode;
-  final TrailingZeroDisplay trailingZeroDisplay;
-  final int minimumIntegerDigits;
-  final Digits? digits;
-
-  const NumberFormatOptions({
-    this.unit,
-    required this.unitDisplay,
-    required this.style,
-    this.currency,
-    required this.currencyDisplay,
-    required this.localeMatcher,
-    required this.notation,
-    this.numberingSystem,
-    required this.signDisplay,
-    required this.useGrouping,
-    required this.roundingMode,
-    required this.trailingZeroDisplay,
-    required this.minimumIntegerDigits,
-    this.digits,
-  });
-
-  RoundingPriority? get roundingPriority => digits?.roundingPriority;
-
-  (int? minimum, int? maximum)? get fractionDigits => digits?.fractionDigits;
-
-  (int? minimum, int? maximum)? get significantDigits =>
-      digits?.significantDigits;
-
-  int? get roundingIncrement => digits?.roundingIncrement;
-}
-
 final class FractionDigits {
   final int? minimum;
   final int? maximum;
