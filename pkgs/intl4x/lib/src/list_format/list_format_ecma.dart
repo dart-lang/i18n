@@ -12,7 +12,7 @@ import '../options.dart';
 import '../utils.dart';
 import 'list_format.dart';
 
-ListFormat? getListFormatter(
+ListFormat? getListFormatterECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>

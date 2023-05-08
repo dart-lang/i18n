@@ -6,6 +6,6 @@ import '../locale.dart';
 import '../options.dart';
 import 'datetime_format.dart';
 
-DatetimeFormat? getDatetimeFormatter(
+DatetimeFormat? getDatetimeFormatterECMA(
         List<Locale> locale, LocaleMatcher localeMatcher) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

@@ -12,7 +12,7 @@ import '../options.dart';
 import '../utils.dart';
 import 'number_format.dart';
 
-NumberFormat? getNumberFormatter(
+NumberFormat? getNumberFormatterECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>

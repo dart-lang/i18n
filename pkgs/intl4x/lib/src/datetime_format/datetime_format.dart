@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../intl4x.dart';
-import '../test_checker.dart';
 import '../options.dart';
+import '../test_checker.dart';
 
 abstract class DatetimeFormat {
   final String locale;

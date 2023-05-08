@@ -6,7 +6,7 @@ import '../locale.dart';
 import '../options.dart';
 import 'collator.dart';
 
-Collator? getCollator(
+Collator? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>

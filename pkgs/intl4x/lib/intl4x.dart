@@ -112,13 +112,14 @@ class Intl {
 
   void setFormatters(List<Locale> locale) {
     if (useEcma) {
-      numberFormat = getNumberFormatter(locale, localeMatcher) ??
+      numberFormat = getNumberFormatterECMA(locale, localeMatcher) ??
           getNumberFormatter4X(locale);
-      datetimeFormat = getDatetimeFormatter(locale, localeMatcher) ??
+      datetimeFormat = getDatetimeFormatterECMA(locale, localeMatcher) ??
           getDatetimeFormatter4X(locale);
-      listFormat =
-          getListFormatter(locale, localeMatcher) ?? getListFormatter4X(locale);
-      collation = getCollator(locale, localeMatcher) ?? getCollator4X(locale);
+      listFormat = getListFormatterECMA(locale, localeMatcher) ??
+          getListFormatter4X(locale);
+      collation =
+          getCollatorECMA(locale, localeMatcher) ?? getCollator4X(locale);
     } else {
       numberFormat = getNumberFormatter4X(locale);
       datetimeFormat = getDatetimeFormatter4X(locale);

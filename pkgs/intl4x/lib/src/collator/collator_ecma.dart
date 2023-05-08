@@ -12,7 +12,7 @@ import '../utils.dart';
 import 'collator.dart';
 import 'collator_options.dart';
 
-Collator? getCollator(
+Collator? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>
