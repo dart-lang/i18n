@@ -11,13 +11,13 @@ import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_4x.dart';
 import 'src/datetime_format/datetime_format_stub.dart'
     if (dart.library.js) 'src/datetime_format/datetime_format_ecma.dart';
-import 'src/ecma/ecma_stub.dart'
-    if (dart.library.js) 'src/ecma_defaults/ecma_web.dart';
 import 'src/ecma/ecma_policy.dart';
+import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_4x.dart';
 import 'src/list_format/list_format_stub.dart'
     if (dart.library.js) 'src/list_format/list_format_ecma.dart';
+import 'src/locales.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_4x.dart';
 import 'src/number_format/number_format_stub.dart'
@@ -29,6 +29,7 @@ export 'src/list_format/list_format_options.dart';
 export 'src/number_format/number_format_options.dart';
 
 typedef Icu4xKey = String;
+typedef Locale = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
@@ -53,23 +54,57 @@ class Intl {
   // ignore: unused_field, prefer_final_fields
   String _datalocation = 'data.blob'; //What about additional data?
 
-  late final NumberFormat numberFormat;
-  late final DatetimeFormat datetimeFormat;
-  late final ListFormat listFormat;
-  late final Collator collation;
+  final List<Locale> locales;
+
+  late NumberFormat numberFormat;
+  late DatetimeFormat datetimeFormat;
+  late ListFormat listFormat;
+  late Collator collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
   /// provided functions.
-  Intl({
-    this.locale = 'en',
+  Intl._({
+    String locale = 'en',
     this.ecmaPolicy = defaultPolicy,
-  }) {
-    setFormatters();
+    this.locales = allLocales,
+  }) : _locale = locale {
+    setFormatters(locale);
     icu4xDataKeys.addAll(getInitialICU4XDataKeys());
   }
 
-  void setFormatters() {
+  Intl.includeLocales({
+    String defaultLocale = 'en',
+    EcmaPolicy ecmaPolicy = defaultPolicy,
+    List<Locale> includedLocales = const [],
+  }) : this._(
+          locale: defaultLocale,
+          ecmaPolicy: ecmaPolicy,
+          locales: includedLocales,
+        );
+
+  Intl.excludeLocales({
+    String defaultLocale = 'en',
+    EcmaPolicy ecmaPolicy = defaultPolicy,
+    List<Locale> excludedLocales = const [],
+  }) : this._(
+          locale: defaultLocale,
+          ecmaPolicy: ecmaPolicy,
+          locales: allLocales
+              .where((locale) => !excludedLocales.contains(locale))
+              .toList(),
+        );
+
+  Intl({
+    String defaultLocale = 'en',
+    EcmaPolicy ecmaPolicy = defaultPolicy,
+  }) : this._(
+          locale: defaultLocale,
+          ecmaPolicy: ecmaPolicy,
+          locales: allLocales,
+        );
+
+  void setFormatters(String locale) {
     if (useEcma) {
       numberFormat = getNumberFormatter(locale);
       datetimeFormat = getDatetimeFormatter(locale);
@@ -83,7 +118,14 @@ class Intl {
     }
   }
 
-  String locale;
+  String _locale;
+
+  String get locale => _locale;
+
+  set locale(String value) {
+    _locale = value;
+    setFormatters(locale);
+  }
 
   /// The set of available locales, either through
   Set<String> get availableLocales => {

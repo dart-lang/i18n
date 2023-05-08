@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main() {
-  var intl = Intl(ecmaPolicy: const AlwaysEcma(), locale: 'en_US');
+  var intl = Intl(defaultLocale: 'en_US');
 
   testWithFormatting('fractionDigits', () {
     var formatted = intl.datetimeFormat.format(DateTime(2020, 4, 1, 15));

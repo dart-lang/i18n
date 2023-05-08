@@ -12,10 +12,7 @@ import '../utils.dart';
 
 void main() {
   group('NumberFormat options', () {
-    var intl = Intl(
-      ecmaPolicy: const AlwaysEcma(),
-      locale: 'en_US',
-    );
+    var intl = Intl(defaultLocale: 'en_US');
     testWithFormatting('significantDigits', () {
       String formatter(Object number) => intl.numberFormat.format(
             number,
