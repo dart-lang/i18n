@@ -11,8 +11,11 @@ import '../options.dart';
 import '../utils.dart';
 import 'datetime_format.dart';
 
-DatetimeFormat getDatetimeFormatter(String locale) =>
-    DatetimeFormatECMA(locale);
+DatetimeFormat? getDatetimeFormatter(
+  List<Locale> locales,
+  LocaleMatcher localeMatcher,
+) =>
+    _DatetimeFormatECMA.tryToBuild(locales, localeMatcher);
 
 @JS('Date')
 class DateJS {
@@ -26,20 +29,30 @@ class DatetimeFormatJS {
 }
 
 @JS('Intl.DateTimeFormat.supportedLocalesOf')
-external List<String> supportedLocalesOfJS(
-  List<String> listOfLocales, [
+external List<Locale> supportedLocalesOfJS(
+  List<Locale> listOfLocales, [
   Object options,
 ]);
 
-class DatetimeFormatECMA extends DatetimeFormat {
-  DatetimeFormatECMA(super.locale);
+class _DatetimeFormatECMA extends DatetimeFormat {
+  _DatetimeFormatECMA(super.locale);
 
-  // @override
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   var o = newObject<Object>();
-  //   setProperty(o, 'localeMatcher', localeMatcher.jsName);
-  //   return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
-  // }
+  static _DatetimeFormatECMA? tryToBuild(
+      List<Locale> locales, LocaleMatcher localeMatcher) {
+    var supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    return supportedLocales.isNotEmpty
+        ? _DatetimeFormatECMA(supportedLocales.first)
+        : null;
+  }
+
+  static List<String> supportedLocalesOf(
+    LocaleMatcher localeMatcher,
+    List<Locale> locales,
+  ) {
+    var o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  }
 
   @override
   String formatImpl(DateTime datetime,

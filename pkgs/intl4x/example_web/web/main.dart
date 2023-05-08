@@ -9,7 +9,7 @@ import 'package:intl4x/intl4x.dart';
 void main() {
   num number = 300000;
   var intl = Intl(
-    defaultLocale: 'en',
+    defaultLocale: ['en'],
     ecmaPolicy: AlwaysEcma(),
   );
   String nf(num number) => intl.numberFormat.format(

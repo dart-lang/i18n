@@ -6,7 +6,8 @@ import '../../intl4x.dart';
 import '../options.dart';
 import 'list_format.dart';
 
-ListFormat getListFormatter4X(String locale) => ListFormat4X(locale);
+ListFormat getListFormatter4X(List<Locale> locale) =>
+    ListFormat4X(locale.first);
 
 class ListFormat4X extends ListFormat {
   ListFormat4X(super.locale);

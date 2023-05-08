@@ -2,7 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../intl4x.dart';
+import '../options.dart';
 import 'collator.dart';
 
-Collator getCollator(String locale) =>
+Collator? getCollator(
+  List<Locale> locales,
+  LocaleMatcher localeMatcher,
+) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

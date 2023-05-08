@@ -6,8 +6,8 @@ import '../../intl4x.dart';
 import '../options.dart';
 import 'datetime_format.dart';
 
-DatetimeFormat getDatetimeFormatter4X(String locale) =>
-    DatetimeFormat4X(locale);
+DatetimeFormat getDatetimeFormatter4X(List<Locale> locales) =>
+    DatetimeFormat4X(locales.first);
 
 class DatetimeFormat4X extends DatetimeFormat {
   DatetimeFormat4X(super.locale);

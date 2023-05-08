@@ -2,11 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../intl4x.dart';
 import '../options.dart';
 import 'collator.dart';
 import 'collator_options.dart';
 
-Collator getCollator4X(String locale) => Collator4X(locale);
+Collator getCollator4X(List<Locale> locales) => Collator4X(locales.first);
 
 class Collator4X extends Collator {
   Collator4X(super.locale);

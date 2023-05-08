@@ -5,13 +5,17 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
+import '../../intl4x.dart';
 import '../options.dart';
 @JS()
 import '../utils.dart';
 import 'number_format.dart';
-import 'number_format_options.dart';
 
-NumberFormat getNumberFormatter(String locale) => _NumberFormatECMA(locale);
+NumberFormat? getNumberFormatter(
+  List<Locale> locales,
+  LocaleMatcher localeMatcher,
+) =>
+    _NumberFormatECMA.tryToBuild(locales, localeMatcher);
 
 @JS('Intl.NumberFormat')
 class _NumberFormatJS {
@@ -27,6 +31,23 @@ external List<String> _supportedLocalesOfJS(
 
 class _NumberFormatECMA extends NumberFormat {
   _NumberFormatECMA(super.locale);
+
+  static _NumberFormatECMA? tryToBuild(
+      List<Locale> locales, LocaleMatcher localeMatcher) {
+    var supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    return supportedLocales.isNotEmpty
+        ? _NumberFormatECMA(supportedLocales.first)
+        : null;
+  }
+
+  static List<String> supportedLocalesOf(
+    LocaleMatcher localeMatcher,
+    List<String> locales,
+  ) {
+    var o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  }
 
   @override
   String formatImpl(Object number,
@@ -91,10 +112,4 @@ class _NumberFormatECMA extends NumberFormat {
     setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
     return _NumberFormatJS(localeToJs(locale), o).format(number);
   }
-
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   var o = newObject<Object>();
-  //   setProperty(o, 'localeMatcher', localeMatcher.jsName);
-  //   return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
-  // }
 }

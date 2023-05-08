@@ -6,18 +6,11 @@ import '../options.dart';
 import 'number_format.dart';
 import 'number_format_options.dart';
 
-NumberFormat getNumberFormatter4X(String locale) => NumberFormat4X(locale);
+NumberFormat getNumberFormatter4X(List<String> locale) =>
+    NumberFormat4X(locale.first);
 
 class NumberFormat4X extends NumberFormat {
   NumberFormat4X(super.locale);
-
-  // @override
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   return intl.icu4xDataKeys.entries
-  //       .where((element) => element.value.contains('NumberFormat'))
-  //       .map((e) => e.key)
-  //       .toList();
-  // }
 
   @override
   String formatImpl(Object number,

@@ -5,13 +5,18 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
+import '../../intl4x.dart';
 import '../options.dart';
 @JS()
 import '../utils.dart';
 import 'collator.dart';
 import 'collator_options.dart';
 
-Collator getCollator(String locale) => CollatorECMA(locale);
+Collator? getCollator(
+  List<Locale> locales,
+  LocaleMatcher localeMatcher,
+) =>
+    CollatorECMA.tryToBuild(locales, localeMatcher);
 
 @JS('Intl.Collator')
 class CollatorJS {
@@ -28,12 +33,22 @@ external List<String> supportedLocalesOfJS(
 class CollatorECMA extends Collator {
   CollatorECMA(super.locale);
 
-  // @override
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   var o = newObject<Object>();
-  //   setProperty(o, 'localeMatcher', localeMatcher.jsName);
-  //   return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
-  // }
+  static CollatorECMA? tryToBuild(
+      List<Locale> locales, LocaleMatcher localeMatcher) {
+    var supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    return supportedLocales.isNotEmpty
+        ? CollatorECMA(supportedLocales.first)
+        : null;
+  }
+
+  static List<String> supportedLocalesOf(
+    LocaleMatcher localeMatcher,
+    List<Locale> locales,
+  ) {
+    var o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+  }
 
   @override
   int compareImpl(
