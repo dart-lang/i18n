@@ -11,6 +11,8 @@ import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_4x.dart';
 import 'src/datetime_format/datetime_format_stub.dart'
     if (dart.library.js) 'src/datetime_format/datetime_format_ecma.dart';
+import 'src/ecma_defaults/ecma_stub.dart'
+    if (dart.library.js) 'src/ecma_defaults/ecma_web.dart';
 import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_4x.dart';
@@ -61,8 +63,13 @@ class Intl {
   /// provided functions.
   Intl({
     this.locale = 'en',
-    this.ecmaPolicy = const AlwaysEcma(),
+    this.ecmaPolicy = defaultPolicy,
   }) {
+    setFormatters();
+    icu4xDataKeys.addAll(getInitialICU4XDataKeys());
+  }
+
+  void setFormatters() {
     if (useEcma) {
       numberFormat = getNumberFormatter(locale);
       datetimeFormat = getDatetimeFormatter(locale);
@@ -74,7 +81,6 @@ class Intl {
       listFormat = getListFormatter4X(locale);
       collation = getCollator4X(locale);
     }
-    icu4xDataKeys.addAll(getInitialICU4XDataKeys());
   }
 
   String locale;
