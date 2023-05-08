@@ -30,16 +30,19 @@ external List<String> _supportedLocalesOfJS(
   Object options,
 ]);
 
-class _NumberFormatECMA extends NumberFormat {
+class _NumberFormatECMA extends NumberFormatImpl {
   _NumberFormatECMA(super.locale);
 
-  static _NumberFormatECMA? tryToBuild(
+  static NumberFormat? tryToBuild(
     List<Locale> locales,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
-        ? _NumberFormatECMA(supportedLocales.first)
+        ? NumberFormat(
+            supportedLocales,
+            _NumberFormatECMA(supportedLocales.first),
+          )
         : null; //TODO: Add support to force return an instance instead of null.
   }
 

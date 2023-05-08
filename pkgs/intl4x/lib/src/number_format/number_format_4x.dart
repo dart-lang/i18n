@@ -6,10 +6,12 @@ import '../options.dart';
 import 'number_format.dart';
 import 'number_format_options.dart';
 
-NumberFormat getNumberFormatter4X(List<String> locale) =>
-    NumberFormat4X(locale.first);
+NumberFormat getNumberFormatter4X(List<String> locale) => NumberFormat(
+      locale,
+      NumberFormat4X(locale.first),
+    );
 
-class NumberFormat4X extends NumberFormat {
+class NumberFormat4X extends NumberFormatImpl {
   NumberFormat4X(super.locale);
 
   @override

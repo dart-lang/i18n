@@ -2,26 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'src/collator/collator.dart';
-import 'src/collator/collator_4x.dart';
-import 'src/collator/collator_stub.dart'
-    if (dart.library.js) 'src/collator/collator_ecma.dart';
+import 'src/collator/collator.dart' as collator;
 import 'src/data.dart';
-import 'src/datetime_format/datetime_format.dart';
-import 'src/datetime_format/datetime_format_4x.dart';
-import 'src/datetime_format/datetime_format_stub.dart'
-    if (dart.library.js) 'src/datetime_format/datetime_format_ecma.dart';
+import 'src/datetime_format/datetime_format.dart' as datetime_format;
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
-import 'src/list_format/list_format.dart';
-import 'src/list_format/list_format_4x.dart';
-import 'src/list_format/list_format_stub.dart'
-    if (dart.library.js) 'src/list_format/list_format_ecma.dart';
+import 'src/list_format/list_format.dart' as list_format;
 import 'src/locale.dart';
-import 'src/number_format/number_format.dart';
-import 'src/number_format/number_format_4x.dart';
-import 'src/number_format/number_format_stub.dart'
-    if (dart.library.js) 'src/number_format/number_format_ecma.dart';
+import 'src/number_format/number_format.dart' as number_format;
 import 'src/options.dart';
 
 export 'src/datetime_format/datetime_format_options.dart';
@@ -57,10 +45,10 @@ class Intl {
   final List<Locale> locales;
   final LocaleMatcher localeMatcher;
 
-  late NumberFormat numberFormat;
-  late DatetimeFormat datetimeFormat;
-  late ListFormat listFormat;
-  late Collator collation;
+  late number_format.NumberFormat numberFormat;
+  late datetime_format.DatetimeFormat datetimeFormat;
+  late list_format.ListFormat listFormat;
+  late collator.Collator collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
@@ -111,21 +99,26 @@ class Intl {
         );
 
   void setFormatters(List<Locale> locale) {
-    if (useEcma) {
-      numberFormat = getNumberFormatterECMA(locale, localeMatcher) ??
-          getNumberFormatter4X(locale);
-      datetimeFormat = getDatetimeFormatterECMA(locale, localeMatcher) ??
-          getDatetimeFormatter4X(locale);
-      listFormat = getListFormatterECMA(locale, localeMatcher) ??
-          getListFormatter4X(locale);
-      collation =
-          getCollatorECMA(locale, localeMatcher) ?? getCollator4X(locale);
-    } else {
-      numberFormat = getNumberFormatter4X(locale);
-      datetimeFormat = getDatetimeFormatter4X(locale);
-      listFormat = getListFormatter4X(locale);
-      collation = getCollator4X(locale);
-    }
+    numberFormat = number_format.getFormatter(
+      locale,
+      localeMatcher,
+      ecmaPolicy,
+    );
+    datetimeFormat = datetime_format.getFormatter(
+      locale,
+      localeMatcher,
+      ecmaPolicy,
+    );
+    listFormat = list_format.getFormatter(
+      locale,
+      localeMatcher,
+      ecmaPolicy,
+    );
+    collation = collator.getFormatter(
+      locale,
+      localeMatcher,
+      ecmaPolicy,
+    );
   }
 
   List<Locale> _locale;

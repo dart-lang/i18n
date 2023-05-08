@@ -2,15 +2,34 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../ecma/ecma_policy.dart';
+import '../locale.dart';
 import '../options.dart';
 import '../test_checker.dart';
+import '../utils.dart';
+import 'number_format_4x.dart';
 import 'number_format_options.dart';
+import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
+
+NumberFormat getFormatter(
+  List<Locale> locales,
+  LocaleMatcher localeMatcher,
+  EcmaPolicy ecmaPolicy,
+) =>
+    buildFormatter(
+      locales,
+      localeMatcher,
+      ecmaPolicy,
+      getNumberFormatterECMA,
+      getNumberFormatter4X,
+    );
 
 /// Number formatting functionality of the browser.
-abstract class NumberFormat {
-  final String locale;
+class NumberFormat {
+  final NumberFormatImpl _numberFormat;
+  final List<Locale> locale;
 
-  const NumberFormat(this.locale);
+  const NumberFormat(this.locale, this._numberFormat);
 
   String percent(
     Object number, {
@@ -25,7 +44,7 @@ abstract class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return formatImpl(
+    return _numberFormat.formatImpl(
       number,
       style: const PercentStyle(),
       localeMatcher: localeMatcher,
@@ -54,7 +73,7 @@ abstract class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return formatImpl(
+    return _numberFormat.formatImpl(
       number,
       unit: unit,
       unitDisplay: unitDisplay,
@@ -87,7 +106,7 @@ abstract class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return formatImpl(
+    return _numberFormat.formatImpl(
       number,
       currency: currency,
       currencyDisplay: currencyDisplay,
@@ -118,7 +137,7 @@ abstract class NumberFormat {
     int minimumIntegerDigits = 1,
     Digits? digits,
   }) {
-    return formatImpl(
+    return _numberFormat.formatImpl(
       number,
       style: style,
       localeMatcher: localeMatcher,
@@ -150,7 +169,7 @@ abstract class NumberFormat {
     if (isInTest) {
       return '$number//$locale';
     } else {
-      return formatImpl(
+      return _numberFormat.formatImpl(
         number,
         unitDisplay: UnitDisplay.short,
         style: style,
@@ -167,7 +186,12 @@ abstract class NumberFormat {
       );
     }
   }
+}
 
+abstract class NumberFormatImpl {
+  final Locale locale;
+
+  NumberFormatImpl(this.locale);
   // TODO: make this not part of the API somehow, maybe by encapsulating in
   // another class?
   String formatImpl(
