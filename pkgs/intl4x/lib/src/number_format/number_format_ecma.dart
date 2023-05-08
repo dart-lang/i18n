@@ -34,11 +34,13 @@ class _NumberFormatECMA extends NumberFormat {
   _NumberFormatECMA(super.locale);
 
   static _NumberFormatECMA? tryToBuild(
-      List<Locale> locales, LocaleMatcher localeMatcher) {
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+  ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
         ? _NumberFormatECMA(supportedLocales.first)
-        : null;
+        : null; //TODO: Add support to force return an instance instead of null.
   }
 
   static List<String> supportedLocalesOf(
