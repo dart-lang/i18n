@@ -34,7 +34,7 @@ class _ListFormatECMA extends ListFormat {
 
   static ListFormat? tryToBuild(
       List<Locale> locales, LocaleMatcher localeMatcher) {
-    var supportedLocales = supportedLocalesOf(locales, localeMatcher);
+    final supportedLocales = supportedLocalesOf(locales, localeMatcher);
     return supportedLocales.isNotEmpty
         ? _ListFormatECMA(supportedLocales.first)
         : null;
@@ -44,7 +44,7 @@ class _ListFormatECMA extends ListFormat {
     List<String> locales,
     LocaleMatcher localeMatcher,
   ) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
@@ -56,7 +56,7 @@ class _ListFormatECMA extends ListFormat {
     Type type = Type.conjunction,
     ListStyle style = ListStyle.long,
   }) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'sign', localeMatcher.jsName);
     setProperty(o, 'type', type.name);
     setProperty(o, 'style', style.name);

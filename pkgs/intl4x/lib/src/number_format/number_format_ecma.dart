@@ -34,7 +34,7 @@ class _NumberFormatECMA extends NumberFormat {
 
   static _NumberFormatECMA? tryToBuild(
       List<Locale> locales, LocaleMatcher localeMatcher) {
-    var supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
         ? _NumberFormatECMA(supportedLocales.first)
         : null;
@@ -44,7 +44,7 @@ class _NumberFormatECMA extends NumberFormat {
     LocaleMatcher localeMatcher,
     List<String> locales,
   ) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
@@ -65,13 +65,13 @@ class _NumberFormatECMA extends NumberFormat {
       TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
       int minimumIntegerDigits = 1,
       Digits? digits}) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'sign', signDisplay.name);
     if (notation is CompactNotation) {
       setProperty(o, 'compactDisplay', notation.compactDisplay.name);
     }
     if (style is CurrencyStyle) {
-      var currencyStyle = style;
+      final currencyStyle = style;
       setProperty(o, 'currency', currencyStyle.currency);
       setProperty(o, 'currencyDisplay', currencyStyle.display.name);
       setProperty(o, 'currencySign', currencyStyle.sign.name);
@@ -84,7 +84,7 @@ class _NumberFormatECMA extends NumberFormat {
     setProperty(o, 'signDisplay', signDisplay.name);
     setProperty(o, 'style', style.name);
     if (style is UnitStyle) {
-      var unitStyle = style;
+      final unitStyle = style;
       setProperty(o, 'unit', unitStyle.unit.jsName);
       setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
     }

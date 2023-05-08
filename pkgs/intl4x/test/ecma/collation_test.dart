@@ -12,8 +12,8 @@ import '../utils.dart';
 
 void main() {
   group('List style options', () {
-    var list = ['A', 'B', 'C'];
-    var collatorChoice = Intl(defaultLocale: ['en_US']).collation;
+    final list = ['A', 'B', 'C'];
+    final collatorChoice = Intl(defaultLocale: ['en_US']).collation;
     testWithFormatting('long', () {
       expect(list..sort(collatorChoice.compare), orderedEquals(list));
     });

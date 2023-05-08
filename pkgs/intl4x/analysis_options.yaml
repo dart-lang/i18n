@@ -6,3 +6,4 @@ linter:
     prefer_const_constructors: True
     unnecessary_parenthesis: True
     conditional_uri_does_not_exist: True
+    prefer_final_locals: True

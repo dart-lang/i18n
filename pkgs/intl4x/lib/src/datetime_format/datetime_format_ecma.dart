@@ -39,7 +39,7 @@ class _DatetimeFormatECMA extends DatetimeFormat {
 
   static _DatetimeFormatECMA? tryToBuild(
       List<Locale> locales, LocaleMatcher localeMatcher) {
-    var supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
         ? _DatetimeFormatECMA(supportedLocales.first)
         : null;
@@ -49,7 +49,7 @@ class _DatetimeFormatECMA extends DatetimeFormat {
     LocaleMatcher localeMatcher,
     List<Locale> locales,
   ) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
   }
@@ -76,7 +76,7 @@ class _DatetimeFormatECMA extends DatetimeFormat {
       Second? second,
       int? fractionalSecondDigits,
       TimeZoneName? timeZoneName}) {
-    var o = newObject<Object>();
+    final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     if (dateStyle != null) {
       setProperty(o, 'dateStyle', dateStyle.name);

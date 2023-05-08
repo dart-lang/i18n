@@ -12,8 +12,8 @@ import '../utils.dart';
 
 void main() {
   group('List style options', () {
-    var list = ['A', 'B', 'C'];
-    var listFormat = Intl(defaultLocale: ['en_US']).listFormat;
+    final list = ['A', 'B', 'C'];
+    final listFormat = Intl(defaultLocale: ['en_US']).listFormat;
     testWithFormatting('long', () {
       expect(listFormat.format(list, style: ListStyle.long), 'A, B, and C');
     });
@@ -26,29 +26,29 @@ void main() {
   });
 
   group('List type options', () {
-    var list = ['A', 'B', 'C'];
-    var listFormat = Intl(defaultLocale: ['en_US']).listFormat;
+    final list = ['A', 'B', 'C'];
+    final listFormat = Intl(defaultLocale: ['en_US']).listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.format(list, type: Type.conjunction);
+      final formatter = listFormat.format(list, type: Type.conjunction);
       expect(formatter, 'A, B, and C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.format(list, type: Type.disjunction);
+      final formatter = listFormat.format(list, type: Type.disjunction);
       expect(formatter, 'A, B, or C');
     });
     testWithFormatting('narrow', () {
-      var formatter = listFormat.format(list, type: Type.unit);
+      final formatter = listFormat.format(list, type: Type.unit);
       expect(formatter, 'A, B, C');
     });
   });
 
   group('List style and type combinations', () {
-    var list = ['A', 'B', 'C'];
-    var listFormat =
+    final list = ['A', 'B', 'C'];
+    final listFormat =
         Intl(ecmaPolicy: const AlwaysEcma(), defaultLocale: ['en_US'])
             .listFormat;
     testWithFormatting('long', () {
-      var formatter = listFormat.format(
+      final formatter = listFormat.format(
         list,
         style: ListStyle.narrow,
         type: Type.conjunction,
@@ -56,7 +56,7 @@ void main() {
       expect(formatter, 'A, B, C');
     });
     testWithFormatting('short', () {
-      var formatter = listFormat.format(
+      final formatter = listFormat.format(
         list,
         style: ListStyle.short,
         type: Type.unit,

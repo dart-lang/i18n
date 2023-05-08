@@ -11,15 +11,15 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main() {
-  var intl = Intl(defaultLocale: ['en_US']);
+  final intl = Intl(defaultLocale: ['en_US']);
 
   testWithFormatting('fractionDigits', () {
-    var formatted = intl.datetimeFormat.format(DateTime(2020, 4, 1, 15));
+    final formatted = intl.datetimeFormat.format(DateTime(2020, 4, 1, 15));
     expect(formatted, '4/1/2020');
   });
 
   testWithFormatting('complex', () {
-    var formatted = intl.datetimeFormat.format(
+    final formatted = intl.datetimeFormat.format(
       DateTime.utc(2012, 12, 20, 3, 0, 0, 200),
       year: Year.numeric,
       month: Month.numeric,

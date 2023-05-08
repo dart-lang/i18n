@@ -153,7 +153,7 @@ class Intl {
 final Map<String, List<Icu4xKey>> additionalICU4XData = {};
 
 void addIcu4XData(Data data) {
-  var callbackFromICUTellingMeWhatLocalesTheDataContained =
+  final callbackFromICUTellingMeWhatLocalesTheDataContained =
       extractKeysFromData();
   additionalICU4XData
       .addAll(callbackFromICUTellingMeWhatLocalesTheDataContained);
