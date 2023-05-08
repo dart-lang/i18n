@@ -10,7 +10,7 @@ import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_4x.dart';
 import 'src/datetime_format/datetime_format_stub.dart'
-    if (dart.library.js) 'src/datetime_format/this_doesnt_exist.dart';
+    if (dart.library.js) 'src/datetime_format/datetime_format_ecma.dart';
 import 'src/ecma_policy.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_4x.dart';
