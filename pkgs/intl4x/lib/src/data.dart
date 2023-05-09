@@ -4,6 +4,7 @@
 
 import 'dart:typed_data';
 
+/// Placeholder for the data type of ICU4X - tbd!
 abstract final class Data {}
 
 final class JsonData extends Data {

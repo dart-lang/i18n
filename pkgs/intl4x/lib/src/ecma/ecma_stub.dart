@@ -4,4 +4,5 @@
 
 import 'ecma_policy.dart';
 
+/// On native, never use browser functions, as they are not available.
 const EcmaPolicy defaultPolicy = NeverEcma();
