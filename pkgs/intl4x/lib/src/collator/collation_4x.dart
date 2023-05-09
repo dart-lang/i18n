@@ -7,10 +7,13 @@ import '../options.dart';
 import 'collation.dart';
 import 'collation_options.dart';
 
-Collation getCollator4X(List<Locale> locales) => Collator4X(locales.first);
+Collation getCollator4X(List<Locale> locales) => Collation(Collation4X(
+      locales.first,
+      LocaleMatcher.bestfit,
+    ));
 
-class Collator4X extends Collation {
-  Collator4X(super.locale);
+class Collation4X extends CollationImpl {
+  Collation4X(super.locale, super.localeMatcher);
 
   // @override
   // List<String> supportedLocalesOf(List<String> locales) {
@@ -24,7 +27,6 @@ class Collator4X extends Collation {
   int compareImpl(
     String a,
     String b, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Usage usage = Usage.sort,
     Sensitivity? sensitivity,
     bool ignorePunctuation = false,

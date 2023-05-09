@@ -2,18 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../locale.dart';
 import '../options.dart';
 import '../test_checker.dart';
 import 'collation_options.dart';
 
-abstract class Collation {
-  final String locale;
-  const Collation(this.locale);
+class Collation {
+  final CollationImpl _collationImpl;
 
+  const Collation(this._collationImpl);
+
+  /// Compare two strings in a locale-dependant manner.
+  ///
+  /// Given
   int compare(
     String a,
     String b, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Usage usage = Usage.sort,
     Sensitivity? sensitivity,
     bool ignorePunctuation = false,
@@ -24,14 +28,28 @@ abstract class Collation {
     if (isInTest) {
       return a.compareTo(b);
     } else {
-      return compareImpl(a, b);
+      return _collationImpl.compareImpl(
+        a,
+        b,
+        usage: usage,
+        sensitivity: sensitivity,
+        ignorePunctuation: ignorePunctuation,
+        numeric: numeric,
+        caseFirst: caseFirst,
+        collation: collation,
+      );
     }
   }
+}
 
+abstract class CollationImpl {
+  final Locale locale;
+  final LocaleMatcher localeMatcher;
+
+  CollationImpl(this.locale, this.localeMatcher);
   int compareImpl(
     String a,
     String b, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Usage usage = Usage.sort,
     Sensitivity? sensitivity,
     bool ignorePunctuation = false,

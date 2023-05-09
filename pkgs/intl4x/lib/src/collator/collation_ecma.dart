@@ -16,7 +16,7 @@ Collation? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>
-    CollatorECMA.tryToBuild(locales, localeMatcher);
+    CollationECMA.tryToBuild(locales, localeMatcher);
 
 @JS('Intl.Collator')
 class CollatorJS {
@@ -30,14 +30,16 @@ external List<String> supportedLocalesOfJS(
   Object options,
 ]);
 
-class CollatorECMA extends Collation {
-  CollatorECMA(super.locale);
+class CollationECMA extends CollationImpl {
+  CollationECMA(super.locale, super.localeMatcher);
 
-  static CollatorECMA? tryToBuild(
-      List<Locale> locales, LocaleMatcher localeMatcher) {
+  static Collation? tryToBuild(
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+  ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
-        ? CollatorECMA(supportedLocales.first)
+        ? Collation(CollationECMA(supportedLocales.first, localeMatcher))
         : null;
   }
 
@@ -54,7 +56,6 @@ class CollatorECMA extends Collation {
   int compareImpl(
     String a,
     String b, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     Usage usage = Usage.sort,
     Sensitivity? sensitivity,
     bool ignorePunctuation = false,
