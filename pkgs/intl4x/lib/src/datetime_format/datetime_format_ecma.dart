@@ -6,11 +6,11 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 @JS()
-import '../../intl4x.dart';
 import '../locale.dart';
 import '../options.dart';
 import '../utils.dart';
 import 'datetime_format.dart';
+import 'datetime_format_options.dart';
 
 DatetimeFormat? getDatetimeFormatterECMA(
   List<Locale> locales,

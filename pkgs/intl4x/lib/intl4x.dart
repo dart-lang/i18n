@@ -2,20 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'src/collator/collator.dart' as collator;
+import 'src/collator/collator.dart';
+import 'src/collator/collator_getter.dart' as collator;
 import 'src/data.dart';
-import 'src/datetime_format/datetime_format.dart' as datetime_format;
+import 'src/datetime_format/datetime_format.dart';
+import 'src/datetime_format/datetime_format_getter.dart' as datetime_format;
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
-import 'src/list_format/list_format.dart' as list_format;
+import 'src/list_format/list_format.dart';
+import 'src/list_format/list_format_getter.dart' as list_format;
 import 'src/locale.dart';
-import 'src/number_format/number_format.dart' as number_format;
+import 'src/number_format/number_format.dart';
+import 'src/number_format/number_format_getter.dart' as number_format;
 import 'src/options.dart';
-
-export 'src/datetime_format/datetime_format_options.dart';
-export 'src/ecma/ecma_policy.dart';
-export 'src/list_format/list_format_options.dart';
-export 'src/number_format/number_format_options.dart';
 
 typedef Icu4xKey = String;
 
@@ -45,10 +44,10 @@ class Intl {
   final List<Locale> locales;
   final LocaleMatcher localeMatcher;
 
-  late number_format.NumberFormat numberFormat;
-  late datetime_format.DatetimeFormat datetimeFormat;
-  late list_format.ListFormat listFormat;
-  late collator.Collator collation;
+  late NumberFormat numberFormat;
+  late DatetimeFormat datetimeFormat;
+  late ListFormat listFormat;
+  late Collator collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser

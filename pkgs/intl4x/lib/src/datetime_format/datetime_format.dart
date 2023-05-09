@@ -2,28 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
-import '../locale.dart';
 import '../options.dart';
 import '../test_checker.dart';
-
-import '../utils.dart';
-import 'datetime_format_4x.dart';
-import 'datetime_format_stub.dart'
-    if (dart.library.js) 'datetime_format_ecma.dart';
-
-DatetimeFormat getFormatter(
-  List<Locale> locales,
-  LocaleMatcher localeMatcher,
-  EcmaPolicy ecmaPolicy,
-) =>
-    buildFormatter(
-      locales,
-      localeMatcher,
-      ecmaPolicy,
-      getDatetimeFormatterECMA,
-      getDatetimeFormatter4X,
-    );
+import 'datetime_format_options.dart';
 
 abstract class DatetimeFormat {
   final String locale;

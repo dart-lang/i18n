@@ -5,6 +5,7 @@
 @TestOn('browser')
 library;
 
+import 'package:intl4x/datetime_format.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 

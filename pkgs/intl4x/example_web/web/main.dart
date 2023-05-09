@@ -4,7 +4,9 @@
 
 import 'dart:html';
 
+import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl4x.dart';
+import 'package:intl4x/number_format.dart';
 
 void main() {
   num number = 300000;

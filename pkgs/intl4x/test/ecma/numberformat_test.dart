@@ -6,6 +6,7 @@
 library;
 
 import 'package:intl4x/intl4x.dart';
+import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';

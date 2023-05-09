@@ -6,6 +6,7 @@
 library;
 
 import 'package:intl4x/intl4x.dart';
+import 'package:intl4x/src/ecma/ecma_policy.dart';
 import 'package:test/test.dart';
 
 void main() {
