@@ -7,7 +7,6 @@ library;
 
 import 'package:intl4x/collation.dart';
 import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/src/collator/collation.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
