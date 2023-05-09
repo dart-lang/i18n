@@ -2,19 +2,42 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../ecma/ecma_policy.dart';
 import '../locale.dart';
 import '../options.dart';
 import '../test_checker.dart';
+import '../utils.dart';
+import 'collation_4x.dart';
 import 'collation_options.dart';
+import 'collation_stub.dart' if (dart.library.js) 'collation_ecma.dart';
 
 class Collation {
   final CollationImpl _collationImpl;
 
   const Collation(this._collationImpl);
 
+  /// Factory to get the correct implementation, either calling on ICU4X or the
+  /// in-built browser implementation.
+  factory Collation.build(
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+    EcmaPolicy ecmaPolicy,
+  ) =>
+      buildFormatter(
+        locales,
+        localeMatcher,
+        ecmaPolicy,
+        getCollatorECMA,
+        getCollator4X,
+      );
+
   /// Compare two strings in a locale-dependant manner.
   ///
-  /// Given
+  /// The [usage] can specify whether to use this for searching for a string,
+  /// or sorting a list of strings. The [sensitivity] regulates how exact the
+  /// comparison should be. Setting [numeric] means that numbers are not sorted
+  /// alphbetically, but by their value. The [caseFirst] parameter sets if upper
+  /// or lowercase letters should take preference.
   int compare(
     String a,
     String b, {
@@ -42,11 +65,18 @@ class Collation {
   }
 }
 
+/// Separated into a class to not clutter the public API with implementation
+/// details.
 abstract class CollationImpl {
-  final Locale locale;
+  /// The current locale, selected by the localematcher
+  final List<Locale> locales;
+
+  /// The
   final LocaleMatcher localeMatcher;
 
-  CollationImpl(this.locale, this.localeMatcher);
+  CollationImpl(this.locales, this.localeMatcher);
+
+  /// Actual implementation of the [compare] method.
   int compareImpl(
     String a,
     String b, {

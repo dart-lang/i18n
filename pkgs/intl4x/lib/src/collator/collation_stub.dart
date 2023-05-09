@@ -6,6 +6,7 @@ import '../locale.dart';
 import '../options.dart';
 import 'collation.dart';
 
+/// Stub for the conditional import
 Collation? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,

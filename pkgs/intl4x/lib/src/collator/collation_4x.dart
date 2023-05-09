@@ -8,20 +8,12 @@ import 'collation.dart';
 import 'collation_options.dart';
 
 Collation getCollator4X(List<Locale> locales) => Collation(Collation4X(
-      locales.first,
+      locales,
       LocaleMatcher.bestfit,
     ));
 
 class Collation4X extends CollationImpl {
   Collation4X(super.locale, super.localeMatcher);
-
-  // @override
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   return intl.icu4xDataKeys.entries
-  //       .where((element) => element.value.contains('NumberFormat'))
-  //       .map((e) => e.key)
-  //       .toList();
-  // }
 
   @override
   int compareImpl(

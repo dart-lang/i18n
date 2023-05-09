@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'src/collator/collation.dart';
-import 'src/collator/collation_getter.dart' as collator;
 import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_getter.dart' as datetime_format;
@@ -113,11 +112,7 @@ class Intl {
       localeMatcher,
       ecmaPolicy,
     );
-    collation = collator.getFormatter(
-      locale,
-      localeMatcher,
-      ecmaPolicy,
-    );
+    collation = Collation.build(locale, localeMatcher, ecmaPolicy);
   }
 
   List<Locale> _locale;

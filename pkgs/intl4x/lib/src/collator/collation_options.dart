@@ -38,10 +38,11 @@ enum Sensitivity {
   const Sensitivity([this._jsName]);
 }
 
+/// How upper case or lower case letters should be sorted.
 enum CaseFirst {
   upper,
   lower,
-  no('false');
+  localeDependent('false');
 
   String get jsName => _jsName ?? name;
 
