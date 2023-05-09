@@ -57,7 +57,7 @@ class _ListFormatECMA extends ListFormatImpl {
     ListStyle style = ListStyle.long,
   }) {
     final o = newObject<Object>();
-    setProperty(o, 'sign', localeMatcher.jsName);
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
     setProperty(o, 'type', type.name);
     setProperty(o, 'style', style.name);
     return ListFormatJS(localeToJs(locale), o).format(list);
