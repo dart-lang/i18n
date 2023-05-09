@@ -41,9 +41,7 @@ class Intl {
     this.ecmaPolicy = defaultPolicy,
     this.locales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
-  })  : _locale = locale,
-        assert(ecmaPolicy is! SometimesEcma ||
-            locales.every(ecmaPolicy.ecmaLocales.contains)) {
+  }) : _locale = locale {
     setFormatters(locale);
   }
 

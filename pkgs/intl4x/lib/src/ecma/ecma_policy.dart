@@ -39,3 +39,14 @@ final class SometimesEcma extends EcmaPolicy {
   bool useFor(List<Locale> locales) =>
       ecmaLocales.any((locale) => locales.contains(locale));
 }
+
+/// Policy to use ICU4X functionality for a specified set of locales.
+final class SometimesICU4X extends EcmaPolicy {
+  final Set<String> icuLocales;
+
+  const SometimesICU4X(this.icuLocales);
+
+  @override
+  bool useFor(List<Locale> locales) =>
+      icuLocales.any((locale) => !locales.contains(locale));
+}
