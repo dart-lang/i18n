@@ -1,0 +1,18 @@
+name: example_web
+description: An example on how to use the intl4x package.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  intl4x: 
+    path: ../
+  js: ^0.6.7
+
+dev_dependencies:
+  build_runner: ^2.4.0
+  build_web_compilers: ^3.0.0
+  dart_flutter_team_lints: ^1.0.0
+  lints: ^2.0.0
