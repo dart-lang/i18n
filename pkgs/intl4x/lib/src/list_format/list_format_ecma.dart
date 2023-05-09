@@ -7,7 +7,6 @@ import 'package:js/js_util.dart';
 
 import '../locale.dart';
 import '../options.dart';
-@JS()
 import '../utils.dart';
 import 'list_format.dart';
 import 'list_format_options.dart';
