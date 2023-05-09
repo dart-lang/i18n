@@ -4,11 +4,11 @@
 
 import '../options.dart';
 import '../test_checker.dart';
-import 'collator_options.dart';
+import 'collation_options.dart';
 
-abstract class Collator {
+abstract class Collation {
   final String locale;
-  const Collator(this.locale);
+  const Collation(this.locale);
 
   int compare(
     String a,

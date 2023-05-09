@@ -4,12 +4,12 @@
 
 import '../locale.dart';
 import '../options.dart';
-import 'collator.dart';
-import 'collator_options.dart';
+import 'collation.dart';
+import 'collation_options.dart';
 
-Collator getCollator4X(List<Locale> locales) => Collator4X(locales.first);
+Collation getCollator4X(List<Locale> locales) => Collator4X(locales.first);
 
-class Collator4X extends Collator {
+class Collator4X extends Collation {
   Collator4X(super.locale);
 
   // @override

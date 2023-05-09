@@ -6,11 +6,11 @@ import '../ecma/ecma_policy.dart';
 import '../locale.dart';
 import '../options.dart';
 import '../utils.dart';
-import 'collator.dart';
-import 'collator_4x.dart';
-import 'collator_stub.dart' if (dart.library.js) 'collator_ecma.dart';
+import 'collation.dart';
+import 'collation_4x.dart';
+import 'collation_stub.dart' if (dart.library.js) 'collator_ecma.dart';
 
-Collator getFormatter(
+Collation getFormatter(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
   EcmaPolicy ecmaPolicy,

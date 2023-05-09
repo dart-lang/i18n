@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'src/collator/collator.dart';
-import 'src/collator/collator_getter.dart' as collator;
+import 'src/collator/collation.dart';
+import 'src/collator/collation_getter.dart' as collator;
 import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_getter.dart' as datetime_format;
@@ -23,7 +23,7 @@ typedef Icu4xKey = String;
 /// * [NumberFormat]
 /// * [DatetimeFormat]
 /// * [ListFormat]
-/// * [Collator].
+/// * [Collation].
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart
@@ -47,7 +47,7 @@ class Intl {
   late NumberFormat numberFormat;
   late DatetimeFormat datetimeFormat;
   late ListFormat listFormat;
-  late Collator collation;
+  late Collation collation;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser

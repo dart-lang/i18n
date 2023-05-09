@@ -4,9 +4,9 @@
 
 import '../locale.dart';
 import '../options.dart';
-import 'collator.dart';
+import 'collation.dart';
 
-Collator? getCollatorECMA(
+Collation? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>

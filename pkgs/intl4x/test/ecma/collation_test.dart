@@ -13,9 +13,13 @@ import '../utils.dart';
 void main() {
   group('List style options', () {
     final list = ['A', 'B', 'C'];
-    final collatorChoice = Intl(defaultLocale: ['en_US']).collation;
+    final collation = Intl(defaultLocale: ['en_US']).collation;
     testWithFormatting('long', () {
-      expect(list..sort(collatorChoice.compare), orderedEquals(list));
+      expect(list..sort(collation.compare), orderedEquals(list));
+    });
+
+    testWithFormatting('long', () {
+      expect(list..sort(collation.compare), orderedEquals(list));
     });
   });
 }

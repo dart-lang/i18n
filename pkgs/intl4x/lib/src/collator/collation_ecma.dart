@@ -9,10 +9,10 @@ import '../locale.dart';
 import '../options.dart';
 @JS()
 import '../utils.dart';
-import 'collator.dart';
-import 'collator_options.dart';
+import 'collation.dart';
+import 'collation_options.dart';
 
-Collator? getCollatorECMA(
+Collation? getCollatorECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>
@@ -30,7 +30,7 @@ external List<String> supportedLocalesOfJS(
   Object options,
 ]);
 
-class CollatorECMA extends Collator {
+class CollatorECMA extends Collation {
   CollatorECMA(super.locale);
 
   static CollatorECMA? tryToBuild(
