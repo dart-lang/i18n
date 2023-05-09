@@ -36,7 +36,7 @@ class ListFormat {
     ListStyle style = ListStyle.long,
   }) {
     if (isInTest) {
-      return '${list.join(', ')}-${_listFormatImpl.locale}';
+      return '${list.join(', ')}-${_listFormatImpl.locales}';
     } else {
       return _listFormatImpl.formatImpl(
         list,
@@ -49,9 +49,9 @@ class ListFormat {
 }
 
 abstract class ListFormatImpl {
-  final String locale;
+  final List<Locale> locales;
 
-  ListFormatImpl(this.locale);
+  ListFormatImpl(this.locales);
 
   String formatImpl(
     List<String> list, {

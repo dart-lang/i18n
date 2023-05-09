@@ -8,7 +8,7 @@ import 'datetime_format.dart';
 import 'datetime_format_options.dart';
 
 DatetimeFormat getDatetimeFormatter4X(List<Locale> locales) =>
-    DatetimeFormat4X(locales.first);
+    DatetimeFormat4X(locales);
 
 class DatetimeFormat4X extends DatetimeFormat {
   DatetimeFormat4X(super.locale);

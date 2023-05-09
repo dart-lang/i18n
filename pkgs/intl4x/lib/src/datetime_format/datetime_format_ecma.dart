@@ -25,7 +25,7 @@ class DateJS {
 
 @JS('Intl.DateTimeFormat')
 class DatetimeFormatJS {
-  external factory DatetimeFormatJS([String locale, Object options]);
+  external factory DatetimeFormatJS([List<String> locale, Object options]);
   external String format(DateJS datetime);
 }
 
@@ -39,10 +39,12 @@ class _DatetimeFormatECMA extends DatetimeFormat {
   _DatetimeFormatECMA(super.locale);
 
   static _DatetimeFormatECMA? tryToBuild(
-      List<Locale> locales, LocaleMatcher localeMatcher) {
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+  ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
-        ? _DatetimeFormatECMA(supportedLocales.first)
+        ? _DatetimeFormatECMA(supportedLocales)
         : null;
   }
 
@@ -52,7 +54,7 @@ class _DatetimeFormatECMA extends DatetimeFormat {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return List.from(supportedLocalesOfJS(localeToJs(locales), o));
   }
 
   @override

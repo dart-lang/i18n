@@ -48,7 +48,7 @@ class CollationECMA extends CollationImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return List.from(supportedLocalesOfJS(localeToJs(locales), o));
   }
 
   @override
@@ -76,6 +76,6 @@ class CollationECMA extends CollationImpl {
     if (collation != null) {
       setProperty(o, 'collation', collation);
     }
-    return CollatorJS(locales.map(localeToJs).toList(), o).compare(a, b);
+    return CollatorJS(localeToJs(locales), o).compare(a, b);
   }
 }

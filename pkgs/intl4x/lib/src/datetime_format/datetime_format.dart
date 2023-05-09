@@ -13,7 +13,7 @@ import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';
 
 abstract class DatetimeFormat {
-  final String locale;
+  final List<Locale> locale;
 
   const DatetimeFormat(this.locale);
 

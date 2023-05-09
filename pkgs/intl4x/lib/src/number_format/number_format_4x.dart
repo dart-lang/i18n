@@ -8,7 +8,7 @@ import 'number_format_options.dart';
 
 NumberFormat getNumberFormatter4X(List<String> locale) => NumberFormat(
       locale,
-      NumberFormat4X(locale.first),
+      NumberFormat4X(locale),
     );
 
 class NumberFormat4X extends NumberFormatImpl {

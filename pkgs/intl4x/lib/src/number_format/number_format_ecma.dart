@@ -20,7 +20,7 @@ NumberFormat? getNumberFormatterECMA(
 
 @JS('Intl.NumberFormat')
 class _NumberFormatJS {
-  external factory _NumberFormatJS([String locale, Object options]);
+  external factory _NumberFormatJS([List<String> locale, Object options]);
   external String format(Object num);
 }
 
@@ -41,7 +41,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
     return supportedLocales.isNotEmpty
         ? NumberFormat(
             supportedLocales,
-            _NumberFormatECMA(supportedLocales.first),
+            _NumberFormatECMA(supportedLocales),
           )
         : null; //TODO: Add support to force return an instance instead of null.
   }
@@ -52,7 +52,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return _supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return List.from(_supportedLocalesOfJS(localeToJs(locales), o));
   }
 
   @override

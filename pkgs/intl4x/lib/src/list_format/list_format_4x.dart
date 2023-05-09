@@ -8,7 +8,7 @@ import 'list_format.dart';
 import 'list_format_options.dart';
 
 ListFormat getListFormatter4X(List<Locale> locale) =>
-    ListFormat(ListFormat4X(locale.first));
+    ListFormat(ListFormat4X(locale));
 
 class ListFormat4X extends ListFormatImpl {
   ListFormat4X(super.locale);

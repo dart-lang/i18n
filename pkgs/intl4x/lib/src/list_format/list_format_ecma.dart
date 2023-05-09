@@ -19,7 +19,7 @@ ListFormat? getListFormatterECMA(
 
 @JS('Intl.ListFormat')
 class ListFormatJS {
-  external factory ListFormatJS([String locale, Object options]);
+  external factory ListFormatJS([List<String> locale, Object options]);
   external String format(List<String> list);
 }
 
@@ -30,13 +30,15 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class _ListFormatECMA extends ListFormatImpl {
-  _ListFormatECMA(super.locale);
+  _ListFormatECMA(super.locales);
 
   static ListFormat? tryToBuild(
-      List<Locale> locales, LocaleMatcher localeMatcher) {
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+  ) {
     final supportedLocales = supportedLocalesOf(locales, localeMatcher);
     return supportedLocales.isNotEmpty
-        ? ListFormat(_ListFormatECMA(supportedLocales.first))
+        ? ListFormat(_ListFormatECMA(supportedLocales))
         : null;
   }
 
@@ -46,7 +48,7 @@ class _ListFormatECMA extends ListFormatImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return supportedLocalesOfJS(locales.map(localeToJs).toList(), o);
+    return List.from(supportedLocalesOfJS(localeToJs(locales), o));
   }
 
   @override
@@ -60,6 +62,6 @@ class _ListFormatECMA extends ListFormatImpl {
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     setProperty(o, 'type', type.name);
     setProperty(o, 'style', style.name);
-    return ListFormatJS(localeToJs(locale), o).format(list);
+    return ListFormatJS(locales, o).format(list);
   }
 }

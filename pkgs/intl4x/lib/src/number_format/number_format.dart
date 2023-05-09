@@ -189,7 +189,7 @@ class NumberFormat {
 }
 
 abstract class NumberFormatImpl {
-  final Locale locale;
+  final List<Locale> locale;
 
   NumberFormatImpl(this.locale);
   // TODO: make this not part of the API somehow, maybe by encapsulating in
