@@ -2,10 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../ecma/ecma_policy.dart';
 import '../locale.dart';
 import '../options.dart';
 import '../test_checker.dart';
+import '../utils.dart';
+import 'number_format_4x.dart';
 import 'number_format_options.dart';
+import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 
 /// Number formatting functionality of the browser.
 class NumberFormat {
@@ -13,6 +17,19 @@ class NumberFormat {
   final List<Locale> locale;
 
   const NumberFormat(this.locale, this._numberFormat);
+
+  factory NumberFormat.build(
+    List<Locale> locales,
+    LocaleMatcher localeMatcher,
+    EcmaPolicy ecmaPolicy,
+  ) =>
+      buildFormatter(
+        locales,
+        localeMatcher,
+        ecmaPolicy,
+        getNumberFormatterECMA,
+        getNumberFormatter4X,
+      );
 
   String percent(
     Object number, {

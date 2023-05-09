@@ -5,14 +5,11 @@
 import 'src/collator/collation.dart';
 import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
-import 'src/datetime_format/datetime_format_getter.dart' as datetime_format;
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/list_format/list_format.dart';
-import 'src/list_format/list_format_getter.dart' as list_format;
 import 'src/locale.dart';
 import 'src/number_format/number_format.dart';
-import 'src/number_format/number_format_getter.dart' as number_format;
 import 'src/options.dart';
 
 typedef Icu4xKey = String;
@@ -97,21 +94,9 @@ class Intl {
         );
 
   void setFormatters(List<Locale> locale) {
-    numberFormat = number_format.getFormatter(
-      locale,
-      localeMatcher,
-      ecmaPolicy,
-    );
-    datetimeFormat = datetime_format.getFormatter(
-      locale,
-      localeMatcher,
-      ecmaPolicy,
-    );
-    listFormat = list_format.getFormatter(
-      locale,
-      localeMatcher,
-      ecmaPolicy,
-    );
+    numberFormat = NumberFormat.build(locale, localeMatcher, ecmaPolicy);
+    datetimeFormat = DatetimeFormat.build(locale, localeMatcher, ecmaPolicy);
+    listFormat = ListFormat.build(locale, localeMatcher, ecmaPolicy);
     collation = Collation.build(locale, localeMatcher, ecmaPolicy);
   }
 
