@@ -29,6 +29,10 @@ class ListFormat {
         getListFormatter4X,
       );
 
+  /// Locale-dependant concatenation of lists, for example in `en-US` locale
+  /// ```dart
+  /// format(['A', 'B', 'C']) == 'A, B, and C'
+  /// ```
   String format(
     List<String> list, {
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,

@@ -3,22 +3,26 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Indicates the type of grouping.
-/// * [conjunction] for "and"-based grouping of the list items: "A, B, and C"
-/// * [disjunction] for "or"-based grouping of the list items: "A, B, or C"
-/// * [unit] for grouping the list items as a unit: "A, B, C"
 enum Type {
+  /// For "and"-based grouping of the list items: "A, B, and C"
   conjunction,
+
+  /// For "or"-based grouping of the list items: "A, B, or C"
   disjunction,
+
+  /// Grouping the list items as a unit: "A, B, C"
   unit;
 }
 
 /// Indicates the grouping style (for example, whether list separators and
 /// conjunctions are included).
-/// * [long] "A, B, and C"
-/// * [short] "A, B, C"
-/// * [narrow] "A B C"
 enum ListStyle {
+  /// Example: "A, B, and C"
   long,
+
+  /// Example: "A, B, C"
   short,
+
+  /// Example: "A B C"
   narrow;
 }
