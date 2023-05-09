@@ -8,10 +8,6 @@ import 'dart:async';
 /// symbol defined in the zone in which a Dart test runs. The
 /// `#test.allowFormatting` symbol can be used to override this.
 bool get isInTest {
-  if (Zone.current[#test.declarer] != null &&
-      !(Zone.current[#test.allowFormatting] as bool)) {
-    return true;
-  } else {
-    return false;
-  }
+  return Zone.current[#test.declarer] != null &&
+      !(Zone.current[#test.allowFormatting] as bool);
 }
