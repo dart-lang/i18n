@@ -8,18 +8,10 @@ import 'list_format.dart';
 import 'list_format_options.dart';
 
 ListFormat getListFormatter4X(List<Locale> locale) =>
-    ListFormat4X(locale.first);
+    ListFormat(ListFormat4X(locale.first));
 
-class ListFormat4X extends ListFormat {
+class ListFormat4X extends ListFormatImpl {
   ListFormat4X(super.locale);
-
-  // @override
-  // List<String> supportedLocalesOf(List<String> locales) {
-  //   return intl.icu4xDataKeys.entries
-  //       .where((element) => element.value.contains('NumberFormat'))
-  //       .map((e) => e.key)
-  //       .toList();
-  // }
 
   @override
   String formatImpl(

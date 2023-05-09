@@ -11,10 +11,10 @@ import 'list_format_4x.dart';
 import 'list_format_options.dart';
 import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
 
-abstract class ListFormat {
-  final String locale;
+class ListFormat {
+  final ListFormatImpl _listFormatImpl;
 
-  const ListFormat(this.locale);
+  const ListFormat(this._listFormatImpl);
 
   factory ListFormat.build(
     List<Locale> locales,
@@ -36,9 +36,9 @@ abstract class ListFormat {
     ListStyle style = ListStyle.long,
   }) {
     if (isInTest) {
-      return '${list.join(', ')}-$locale';
+      return '${list.join(', ')}-${_listFormatImpl.locale}';
     } else {
-      return formatImpl(
+      return _listFormatImpl.formatImpl(
         list,
         localeMatcher: localeMatcher,
         type: type,
@@ -46,6 +46,12 @@ abstract class ListFormat {
       );
     }
   }
+}
+
+abstract class ListFormatImpl {
+  final String locale;
+
+  ListFormatImpl(this.locale);
 
   String formatImpl(
     List<String> list, {

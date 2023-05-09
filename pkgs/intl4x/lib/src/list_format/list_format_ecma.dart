@@ -30,14 +30,14 @@ external List<String> supportedLocalesOfJS(
   Object options,
 ]);
 
-class _ListFormatECMA extends ListFormat {
+class _ListFormatECMA extends ListFormatImpl {
   _ListFormatECMA(super.locale);
 
   static ListFormat? tryToBuild(
       List<Locale> locales, LocaleMatcher localeMatcher) {
     final supportedLocales = supportedLocalesOf(locales, localeMatcher);
     return supportedLocales.isNotEmpty
-        ? _ListFormatECMA(supportedLocales.first)
+        ? ListFormat(_ListFormatECMA(supportedLocales.first))
         : null;
   }
 
