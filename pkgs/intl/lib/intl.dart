@@ -74,7 +74,7 @@ class Intl {
   /// can also be set explicitly, and will then apply to any new instances where
   /// the locale isn't specified. Note that a locale parameter to
   /// [Intl.withLocale]
-  /// will supercede this value while that operation is active. Using
+  /// will supersede this value while that operation is active. Using
   /// [Intl.withLocale] may be preferable if you are using different locales
   /// in the same application.
   static String? get defaultLocale => global_state.defaultLocale;

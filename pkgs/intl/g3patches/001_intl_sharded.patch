@@ -1,0 +1,17 @@
+--- a/pkgs/intl/lib/intl.dart
++++ b/pkgs/intl/lib/intl.dart
+@@ -13,14 +13,6 @@
+
+ import 'dart:async';
+
+-// BEGIN-INTERNAL
+-// Export acx_sharded_intl.dart so that it can be referenced by acx transform.
+-// ignore: unused_import
+-export 'src/acx_sharded_intl_default.dart' // Stub implementation
+-    // Browser implementation
+-    if (dart.library.html) 'src/acx_sharded_intl_browser.dart';
+-// END-INTERNAL
+-
+ import 'src/global_state.dart' as global_state;
+ import 'src/intl/date_format.dart' show DateFormat;
+ import 'src/intl_helpers.dart' as helpers;
