@@ -4,8 +4,8 @@
 
 library find_locale_test;
 
-import 'package:intl/intl.dart';
 import 'package:intl/find_locale.dart';
+import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 
 void main() {
