@@ -4,8 +4,14 @@
 
 import '../locale.dart';
 
-/// The policy on whether to use the browsers built-in `Intl` functionality, or
-/// rather use ICU4X,
+/// A strategy to decide ICU4X for i18n functionality or delegate to the
+/// built-in browser support. See also
+/// * [AlwaysEcma] Always use the browser (default for web)
+/// * [NeverEcma] Never use the browser (default for native)
+/// * [SometimesEcma] Use the browser only for the specified locales, otherwise
+/// use ICU4X
+/// * [SometimesICU4X] Use ICU4X only for the specified locales, otherwise use
+/// the browser
 sealed class EcmaPolicy {
   const EcmaPolicy();
 
