@@ -1,0 +1,268 @@
+// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+/// Control how many fraction digits to use in number formatting.
+final class FractionDigits {
+  final int? minimum;
+  final int? maximum;
+
+  //TODO: add checks dependent on style
+  const FractionDigits({this.minimum, this.maximum})
+      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true),
+        assert(minimum != null && maximum != null ? minimum <= maximum : true);
+}
+
+final class SignificantDigits {
+  final int minimum;
+  final int maximum;
+
+  SignificantDigits({this.minimum = 1, this.maximum = 21})
+      : assert(1 <= minimum && minimum <= 21),
+        assert(1 <= maximum && maximum <= 21),
+        assert(minimum <= maximum);
+}
+
+enum TrailingZeroDisplay {
+  auto,
+  stripIfInteger;
+}
+
+enum RoundingPriority {
+  auto,
+  morePrecision,
+  lessPrecision;
+}
+
+final class Digits {
+  final (int?, int?)? fractionDigits;
+  final (int?, int?)? significantDigits;
+  final RoundingPriority? roundingPriority;
+  final int? roundingIncrement;
+
+  Digits.withIncrement(
+    this.roundingIncrement, [
+    int? fractionDigit,
+  ])  : fractionDigits =
+            fractionDigit != null ? (fractionDigit, fractionDigit) : null,
+        significantDigits = null,
+        roundingPriority = null;
+
+  Digits.withFractionDigits({int minimum = 0, int maximum = 20})
+      : fractionDigits = (minimum, maximum),
+        significantDigits = null,
+        roundingPriority = null,
+        roundingIncrement = null;
+
+  Digits.withSignificantDigits({
+    int minimum = 1,
+    int maximum = 21,
+    this.roundingIncrement,
+  })  : significantDigits = (minimum, maximum),
+        fractionDigits = null,
+        roundingPriority = null;
+
+  Digits.withSignificantAndFractionDigits({
+    int minimumSignificantDigits = 1,
+    int maximumSignificantDigits = 21,
+    int minimumFractionDigits = 0,
+    int maximumFractionDigits = 20,
+    this.roundingPriority = RoundingPriority.auto,
+  })  : fractionDigits = (minimumFractionDigits, maximumFractionDigits),
+        significantDigits =
+            (minimumSignificantDigits, maximumSignificantDigits),
+        roundingIncrement = null;
+
+  Digits.all({
+    required this.roundingIncrement,
+    int minimumSignificantDigits = 1,
+    int maximumSignificantDigits = 21,
+    int? fractionDigit,
+    this.roundingPriority = RoundingPriority.auto,
+  })  : significantDigits =
+            (minimumSignificantDigits, maximumSignificantDigits),
+        fractionDigits =
+            fractionDigit != null ? (fractionDigit, fractionDigit) : null;
+}
+
+enum RoundingMode {
+  ceil,
+  floor,
+  expand,
+  trunc,
+  halfCeil,
+  halfFloor,
+  halfExpand,
+  halfTrunc,
+  halfEven;
+}
+
+enum Grouping {
+  always,
+  auto,
+  never('false'),
+  min2;
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const Grouping([this._jsName]);
+}
+
+enum CompactDisplay {
+  short,
+  long;
+}
+
+enum CurrencyDisplay {
+  symbol,
+  narrowSymbol,
+  code,
+  name;
+}
+
+enum CurrencySign {
+  standard,
+  accounting;
+}
+
+enum UnitDisplay {
+  long,
+  short,
+  narrow;
+}
+
+enum SignDisplay {
+  auto,
+  always,
+  exceptZero,
+  negative,
+  never;
+}
+
+enum Unit {
+  acre,
+  bit,
+  byte,
+  celsius,
+  centimeter,
+  day,
+  degree,
+  fahrenheit,
+  fluidounce('fluid-ounce'),
+  foot,
+  gallon,
+  gigabit,
+  gigabyte,
+  gram,
+  hectare,
+  hour,
+  inch,
+  kilobit,
+  kilobyte,
+  kilogram,
+  kilometer,
+  liter,
+  megabit,
+  megabyte,
+  meter,
+  mile,
+  milescandinavian('mile-scandinavian'),
+  milliliter,
+  millimeter,
+  millisecond,
+  minute,
+  month,
+  ounce,
+  percent,
+  petabyte,
+  pound,
+  second,
+  stone,
+  terabit,
+  terabyte,
+  week,
+  yard,
+  year;
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const Unit([this._jsName]);
+}
+
+sealed class Notation {
+  const Notation();
+  String get name;
+}
+
+final class CompactNotation extends Notation {
+  final CompactDisplay compactDisplay;
+
+  CompactNotation({this.compactDisplay = CompactDisplay.short});
+  @override
+  String get name => 'compact';
+}
+
+final class StandardNotation extends Notation {
+  const StandardNotation();
+  @override
+  String get name => 'standard';
+}
+
+final class ScientificNotation extends Notation {
+  @override
+  String get name => 'scientific';
+}
+
+final class EngineeringNotation extends Notation {
+  @override
+  String get name => 'engineering';
+}
+
+sealed class Style {
+  String get name;
+
+  const Style();
+}
+
+final class DecimalStyle extends Style {
+  const DecimalStyle();
+
+  @override
+  String get name => 'decimal';
+}
+
+final class CurrencyStyle extends Style {
+  final String currency;
+  final CurrencySign sign;
+  final CurrencyDisplay display;
+
+  CurrencyStyle({
+    required this.currency,
+    this.sign = CurrencySign.standard,
+    this.display = CurrencyDisplay.symbol,
+  });
+  @override
+  String get name => 'currency';
+}
+
+final class PercentStyle extends Style {
+  const PercentStyle();
+  @override
+  String get name => 'percent';
+}
+
+final class UnitStyle extends Style {
+  final Unit unit;
+  final UnitDisplay unitDisplay;
+
+  const UnitStyle({
+    required this.unit,
+    this.unitDisplay = UnitDisplay.short,
+  });
+  @override
+  String get name => 'unit';
+}

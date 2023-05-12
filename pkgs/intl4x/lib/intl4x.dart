@@ -6,13 +6,14 @@ import 'src/data.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/locale.dart';
+import 'src/number_format/number_format.dart';
 import 'src/options.dart';
 
 typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
-/// * [ListFormat]
+/// * [NumberFormat]
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart
@@ -32,6 +33,8 @@ class Intl {
 
   final List<Locale> locales;
   final LocaleMatcher localeMatcher;
+
+  late NumberFormat numberFormat;
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
@@ -80,6 +83,7 @@ class Intl {
         );
 
   void setFormatters(List<Locale> locale) {
+    numberFormat = NumberFormat.build(locale, localeMatcher, ecmaPolicy);
     //TODO: Add formatters
   }
 
