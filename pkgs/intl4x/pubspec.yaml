@@ -1,5 +1,6 @@
 name: intl4x
-description: A lightweight modular library for internationalization (i18n) functionality.
+description: >-
+  A lightweight modular library for internationalization (i18n) functionality.
 version: 0.0.1-dev
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 
