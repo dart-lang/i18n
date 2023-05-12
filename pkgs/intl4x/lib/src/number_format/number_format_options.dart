@@ -35,8 +35,8 @@ enum RoundingPriority {
 }
 
 final class Digits {
-  final (int?, int?)? fractionDigits;
-  final (int?, int?)? significantDigits;
+  final (int? min, int? max)? fractionDigits;
+  final (int? min, int? max)? significantDigits;
   final RoundingPriority? roundingPriority;
   final int? roundingIncrement;
 
