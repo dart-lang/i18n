@@ -5,5 +5,5 @@
 import 'locale.dart';
 
 /// In js, locales are not written using an underscore but using a dash.
-List<String> localeToJs(List<Locale> locale) =>
+List<String> localesToJsFormat(List<Locale> locale) =>
     locale.map((e) => e.replaceAll('_', '-')).toList();

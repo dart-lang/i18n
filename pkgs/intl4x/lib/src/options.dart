@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// How to pick the best match between a user's desired locales and an
+/// Used to find the best match between a user's desired locales and an
 /// application's supported locales.
 ///
 /// When receiving a list of locales for which there is no perfect match in the

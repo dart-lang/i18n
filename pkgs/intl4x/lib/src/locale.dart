@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-typedef Locale = String;
+typedef Locale = String; //TODO: Either replace this with a real class, or
+// remove the typedef
+
 // TODO: add all locales which are supported by ICU4X / Browsers
 const List<Locale> allLocales = [
   'de_DE',
