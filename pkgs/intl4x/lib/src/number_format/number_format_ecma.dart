@@ -71,6 +71,32 @@ class _NumberFormatECMA extends NumberFormatImpl {
       TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
       int minimumIntegerDigits = 1,
       Digits? digits}) {
+    final o = _setFormatOptions(
+      signDisplay,
+      notation,
+      style,
+      localeMatcher,
+      numberingSystem,
+      useGrouping,
+      roundingMode,
+      digits,
+      minimumIntegerDigits,
+      trailingZeroDisplay,
+    );
+    return _NumberFormatJS(localesToJsFormat(locale), o).format(number);
+  }
+
+  Object _setFormatOptions(
+      SignDisplay signDisplay,
+      Notation notation,
+      Style style,
+      LocaleMatcher localeMatcher,
+      String? numberingSystem,
+      Grouping useGrouping,
+      RoundingMode roundingMode,
+      Digits? digits,
+      int minimumIntegerDigits,
+      TrailingZeroDisplay trailingZeroDisplay) {
     final o = newObject<Object>();
     setProperty(o, 'sign', signDisplay.name);
     if (notation is CompactNotation) {
@@ -116,6 +142,6 @@ class _NumberFormatECMA extends NumberFormatImpl {
       setProperty(o, 'maximumSignificantDigits', digits?.significantDigits!.$2);
     }
     setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
-    return _NumberFormatJS(localesToJsFormat(locale), o).format(number);
+    return o;
   }
 }
