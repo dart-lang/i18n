@@ -1,4 +1,4 @@
-## Overview
+[![package:intl4x](https://github.com/dart-lang/i18n/actions/workflows/intl4x.yml/badge.svg)](https://github.com/dart-lang/i18n/actions/workflows/intl4x.yml)
 
 A lightweight modular library for internationalization (i18n) functionality.
 
