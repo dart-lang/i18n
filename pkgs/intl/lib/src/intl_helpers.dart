@@ -189,6 +189,7 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
   for (var each in [
     helpers.canonicalizedLocale(newLocale),
     helpers.shortLocale(newLocale),
+    helpers.deprecatedLocale(newLocale),
     'fallback'
   ]) {
     if (localeExists(each)) {
@@ -202,6 +203,31 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
 /// an exception indicating the locale isn't correct.
 String _throwLocaleError(String localeName) {
   throw ArgumentError('Invalid locale "$localeName"');
+}
+
+/// Return the other code for a current-deprecated locale pair. This helps in
+/// situations where, for example, the user has a `he.arb` file, but gets passed
+/// the `iw` locale code.
+String deprecatedLocale(String aLocale) {
+  switch (aLocale) {
+    case 'iw':
+      return 'he';
+    case 'he':
+      return 'iw';
+    case 'fil':
+      return 'tl';
+    case 'tl':
+      return 'fil';
+    case 'id':
+      return 'in';
+    case 'in':
+      return 'id';
+    case 'no':
+      return 'nb';
+    case 'nb':
+      return 'no';
+  }
+  return aLocale;
 }
 
 /// Return the short version of a locale name, e.g. 'en_US' => 'en'
