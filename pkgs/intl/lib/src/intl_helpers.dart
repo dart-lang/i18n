@@ -8,7 +8,6 @@
 library intl_helpers;
 
 import 'global_state.dart' as global_state;
-import 'intl_helpers.dart' as helpers;
 
 /// Type for the callback action when a message translation is not found.
 typedef MessageIfAbsent = String? Function(
@@ -186,14 +185,18 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
   if (localeExists(newLocale)) {
     return newLocale;
   }
-  for (var each in [
-    helpers.canonicalizedLocale(newLocale),
-    helpers.shortLocale(newLocale),
-    helpers.deprecatedLocale(newLocale),
-    'fallback'
-  ]) {
-    if (localeExists(each)) {
-      return each;
+  final fallbackOptions = [
+    canonicalizedLocale,
+    shortLocale,
+    deprecatedLocale,
+    (locale) => deprecatedLocale(shortLocale(locale)),
+    (locale) => deprecatedLocale(canonicalizedLocale(locale)),
+    (_) => 'fallback'
+  ];
+  for (var option in fallbackOptions) {
+    var localeFallback = option(newLocale);
+    if (localeExists(localeFallback)) {
+      return localeFallback;
     }
   }
   return (onFailure ?? _throwLocaleError)(newLocale);
