@@ -1,7 +1,7 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
 // This is a library that looks up messages for specific locales by
 // delegating to the appropriate library.
-
+// @dart=2.12
 // Ignore issues from commonly used lints in this file.
 // ignore_for_file:implementation_imports, file_names
 // ignore_for_file:unnecessary_brace_in_string_interps, directives_ordering
@@ -16,6 +16,7 @@ import 'package:intl/src/intl_helpers.dart';
 import 'messages_de_CH.dart' deferred as messages_de_ch;
 import 'messages_de.dart' deferred as messages_de;
 import 'messages_en.dart' deferred as messages_en;
+import 'messages_iw.dart' deferred as messages_iw;
 import 'messages_es.dart' deferred as messages_es;
 
 typedef Future<dynamic> LibraryLoader();
@@ -23,6 +24,7 @@ Map<String, LibraryLoader> _deferredLibraries = {
   'de_CH': messages_de_ch.loadLibrary,
   'de': messages_de.loadLibrary,
   'en': messages_en.loadLibrary,
+  'iw': messages_iw.loadLibrary,
   'es': messages_es.loadLibrary,
 };
 
@@ -34,6 +36,8 @@ MessageLookupByLibrary? _findExact(String localeName) {
       return messages_de.messages;
     case 'en':
       return messages_en.messages;
+    case 'iw':
+      return messages_iw.messages;
     case 'es':
       return messages_es.messages;
     default:

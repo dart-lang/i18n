@@ -8,7 +8,6 @@
 library intl_helpers;
 
 import 'global_state.dart' as global_state;
-import 'intl_helpers.dart' as helpers;
 
 /// Type for the callback action when a message translation is not found.
 typedef MessageIfAbsent = String? Function(
@@ -186,13 +185,18 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
   if (localeExists(newLocale)) {
     return newLocale;
   }
-  for (var each in [
-    helpers.canonicalizedLocale(newLocale),
-    helpers.shortLocale(newLocale),
-    'fallback'
-  ]) {
-    if (localeExists(each)) {
-      return each;
+  final fallbackOptions = [
+    canonicalizedLocale,
+    shortLocale,
+    deprecatedLocale,
+    (locale) => deprecatedLocale(shortLocale(locale)),
+    (locale) => deprecatedLocale(canonicalizedLocale(locale)),
+    (_) => 'fallback'
+  ];
+  for (var option in fallbackOptions) {
+    var localeFallback = option(newLocale);
+    if (localeExists(localeFallback)) {
+      return localeFallback;
     }
   }
   return (onFailure ?? _throwLocaleError)(newLocale);
@@ -202,6 +206,31 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
 /// an exception indicating the locale isn't correct.
 String _throwLocaleError(String localeName) {
   throw ArgumentError('Invalid locale "$localeName"');
+}
+
+/// Return the other code for a current-deprecated locale pair. This helps in
+/// situations where, for example, the user has a `he.arb` file, but gets passed
+/// the `iw` locale code.
+String deprecatedLocale(String aLocale) {
+  switch (aLocale) {
+    case 'iw':
+      return 'he';
+    case 'he':
+      return 'iw';
+    case 'fil':
+      return 'tl';
+    case 'tl':
+      return 'fil';
+    case 'id':
+      return 'in';
+    case 'in':
+      return 'id';
+    case 'no':
+      return 'nb';
+    case 'nb':
+      return 'no';
+  }
+  return aLocale;
 }
 
 /// Return the short version of a locale name, e.g. 'en_US' => 'en'

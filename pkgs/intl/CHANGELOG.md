@@ -2,6 +2,7 @@
 
  * Add `tryParse` to NumberFormat.
  * Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat.
+ * Add fallback for deprecated locales, such as `he` <-> `iw`.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.

@@ -4,6 +4,7 @@ MESSAGE_ARBS=\
 	lib/messages/material_de_CH.arb \
 	lib/messages/material_de.arb \
 	lib/messages/material_en.arb \
+	lib/messages/material_iw.arb \
 	lib/messages/material_es.arb	
 
 # --json \

@@ -1,5 +1,6 @@
 ## 0.19.0-dev
   * Always generate null safe code, remove `null-safe` flag.
+  * Add example for `he` locale.
 
 ## 0.18.1
   * Update analyzer dependency to `5.2.0`.
