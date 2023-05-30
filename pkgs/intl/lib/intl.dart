@@ -444,7 +444,7 @@ class Intl {
   /// can't actually identify if something is an enum or not.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String select(Object choice, Map<Object, String> cases,
+  static String select(Object? choice, Map<Object, String> cases,
       {String? desc,
       Map<String, Object>? examples,
       String? locale,
@@ -457,7 +457,7 @@ class Intl {
   }
 
   @pragma('dart2js:noInline')
-  static String _select(Object choice, Map<Object, String> cases,
+  static String _select(Object? choice, Map<Object, String> cases,
       {String? locale, String? name, List<Object>? args, String? meaning}) {
     if (choice is! String && args != null) {
       var stringChoice = '$choice'.split('.').last;
@@ -474,7 +474,7 @@ class Intl {
 
   /// Internal: Implements the logic for select - use [select] for
   /// normal messages.
-  static T selectLogic<T>(Object choice, Map<Object, T> cases) {
+  static T selectLogic<T>(Object? choice, Map<Object, T> cases) {
     // This will work if choice is a string, or if it's e.g. an
     // enum and the map uses the enum values as choices.
     var exact = cases[choice];
