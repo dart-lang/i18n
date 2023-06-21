@@ -4,6 +4,7 @@
  * Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat.
  * Add fallback for deprecated locales, such as `he` <-> `iw`.
  * Update to CLDR v43.
+ * Switch QAR currency name to Riyal.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
