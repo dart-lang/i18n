@@ -1,8 +1,8 @@
 ---
-name: Bug report
+name: Bug report for pkg:intl_translation
 about: Report a bug in intl_translation
 title: ''
-labels: bug
+labels: 'type-bug'
 assignees: ''
 
 ---

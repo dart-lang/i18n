@@ -542,9 +542,9 @@ class Intl {
 /// many locales, and we have the option to extend this to handle more cases
 /// without changing the API for clients. It also hard-codes the case of
 /// dotted i in Turkish and Azeri.
-String? toBeginningOfSentenceCase(String? input, [String? locale]) {
+T toBeginningOfSentenceCase<T extends String?>(T input, [String? locale]) {
   if (input == null || input.isEmpty) return input;
-  return '${_upperCaseLetter(input[0], locale)}${input.substring(1)}';
+  return '${_upperCaseLetter(input[0], locale)}${input.substring(1)}' as T;
 }
 
 /// Convert the input single-letter string to upper case. A trivial

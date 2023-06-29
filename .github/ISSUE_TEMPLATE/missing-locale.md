@@ -2,7 +2,7 @@
 name: Missing Locale
 about: My favorite locale is missing
 title: ''
-labels: missing-locale-data
+labels: ['type-enhancement', 'missing-locale-data']
 assignees: ''
 
 ---

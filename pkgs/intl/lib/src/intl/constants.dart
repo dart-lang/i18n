@@ -126,7 +126,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'ZAR': 'R',
   'BRL': r'R$',
   'OMR': 'Rial',
-  'QAR': 'Rial',
+  'QAR': 'Riyal',
   'YER': 'Rial',
   'IRR': 'Rial',
   'KHR': 'Riel',
