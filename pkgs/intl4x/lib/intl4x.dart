@@ -2,18 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'number_format.dart';
 import 'src/data.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/locale.dart';
 import 'src/number_format/number_format.dart';
+import 'src/number_format/number_format_impl.dart';
 import 'src/options.dart';
 
 typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
-/// * [NumberFormat]
+/// * [NumberFormatBuilder]
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart
@@ -34,19 +36,20 @@ class Intl {
   final List<Locale> locales;
   final LocaleMatcher localeMatcher;
 
-  late NumberFormat numberFormat;
+  NumberFormat numberFormat(NumberFormatOptions options) => NumberFormat(
+        options,
+        NumberFormatImpl.build(locale, localeMatcher, ecmaPolicy),
+      );
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
   /// provided functions.
   Intl._({
-    required List<Locale> locale,
+    required this.locale,
     this.ecmaPolicy = defaultPolicy,
     this.locales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
-  }) : _locale = locale {
-    setFormatters(locale);
-  }
+  });
 
   Intl.includeLocales({
     List<Locale> initialLocales = const ['en'],
@@ -82,19 +85,7 @@ class Intl {
           locales: allLocales,
         );
 
-  void setFormatters(List<Locale> locale) {
-    numberFormat = NumberFormat.build(locale, localeMatcher, ecmaPolicy);
-    //TODO: Add formatters
-  }
-
-  List<Locale> _locale;
-
-  List<Locale> get locale => _locale;
-
-  set locale(List<Locale> value) {
-    _locale = value;
-    setFormatters(locale);
-  }
+  List<Locale> locale;
 
   /// Whether to use the browser with the current settings
   bool get useEcma {

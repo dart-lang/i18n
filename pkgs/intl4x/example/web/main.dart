@@ -14,12 +14,13 @@ void main() {
     defaultLocale: ['en'],
     ecmaPolicy: AlwaysEcma(),
   );
-  String nf(num number) => intl.numberFormat.format(
-        number,
+  String nf(num number) => intl
+      .numberFormat(NumberFormatOptions.custom(
         style: CurrencyStyle(currency: 'USD'),
         digits: Digits.withFractionDigits(minimum: 0, maximum: 2),
         roundingMode: RoundingMode.halfCeil,
-      );
+      ))
+      .format(number);
   querySelector('#output')?.text = 'Format $number: ${nf(number)}';
   print(nf(11.21)); // "$11.20"
   print(nf(11.22)); // "$11.20"

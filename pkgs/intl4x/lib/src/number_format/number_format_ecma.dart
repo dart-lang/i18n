@@ -9,10 +9,10 @@ import '../locale.dart';
 import '../options.dart';
 @JS()
 import '../utils.dart';
-import 'number_format.dart';
+import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
-NumberFormat? getNumberFormatterECMA(
+NumberFormatImpl? getNumberFormatterECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>
@@ -31,18 +31,15 @@ external List<String> _supportedLocalesOfJS(
 ]);
 
 class _NumberFormatECMA extends NumberFormatImpl {
-  _NumberFormatECMA(super.locale);
+  _NumberFormatECMA(super.locales);
 
-  static NumberFormat? tryToBuild(
+  static NumberFormatImpl? tryToBuild(
     List<Locale> locales,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locales);
     return supportedLocales.isNotEmpty
-        ? NumberFormat(
-            supportedLocales,
-            _NumberFormatECMA(supportedLocales),
-          )
+        ? _NumberFormatECMA(supportedLocales)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
@@ -56,34 +53,20 @@ class _NumberFormatECMA extends NumberFormatImpl {
   }
 
   @override
-  String formatImpl(Object number,
-      {Style style = const DecimalStyle(),
-      String? currency,
-      CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
-      Unit? unit,
-      UnitDisplay unitDisplay = UnitDisplay.short,
-      LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
-      SignDisplay signDisplay = SignDisplay.auto,
-      Notation notation = const StandardNotation(),
-      Grouping useGrouping = Grouping.auto,
-      String? numberingSystem,
-      RoundingMode roundingMode = RoundingMode.halfExpand,
-      TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
-      int minimumIntegerDigits = 1,
-      Digits? digits}) {
+  String formatImpl(Object number, NumberFormatOptions options) {
     final o = _setFormatOptions(
-      signDisplay,
-      notation,
-      style,
-      localeMatcher,
-      numberingSystem,
-      useGrouping,
-      roundingMode,
-      digits,
-      minimumIntegerDigits,
-      trailingZeroDisplay,
+      options.signDisplay,
+      options.notation,
+      options.style,
+      options.localeMatcher,
+      options.numberingSystem,
+      options.useGrouping,
+      options.roundingMode,
+      options.digits,
+      options.minimumIntegerDigits,
+      options.trailingZeroDisplay,
     );
-    return _NumberFormatJS(localesToJsFormat(locale), o).format(number);
+    return _NumberFormatJS(localesToJsFormat(locales), o).format(number);
   }
 
   Object _setFormatOptions(

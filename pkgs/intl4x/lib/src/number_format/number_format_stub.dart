@@ -4,9 +4,9 @@
 
 import '../locale.dart';
 import '../options.dart';
-import 'number_format.dart';
+import 'number_format_impl.dart';
 
-NumberFormat? getNumberFormatterECMA(
+NumberFormatImpl? getNumberFormatterECMA(
   List<Locale> locales,
   LocaleMatcher localeMatcher,
 ) =>

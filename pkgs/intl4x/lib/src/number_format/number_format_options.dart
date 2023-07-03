@@ -2,6 +2,157 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../options.dart';
+
+/// Number formatting functionality of the browser.
+class NumberFormatOptions {
+  final Style style;
+  final String? currency;
+  final CurrencyDisplay? currencyDisplay;
+  final Unit? unit;
+  final UnitDisplay? unitDisplay;
+  //General options
+  final LocaleMatcher localeMatcher;
+  final SignDisplay signDisplay;
+  final Notation notation;
+  final Grouping useGrouping;
+  final String? numberingSystem;
+  final RoundingMode roundingMode;
+  final TrailingZeroDisplay trailingZeroDisplay;
+  final int minimumIntegerDigits;
+  final Digits? digits;
+
+  NumberFormatOptions.custom(
+      //General options
+      {this.style = const DecimalStyle(),
+      this.currency,
+      this.currencyDisplay,
+      this.unit,
+      this.unitDisplay,
+      this.localeMatcher = LocaleMatcher.bestfit,
+      this.signDisplay = SignDisplay.auto,
+      this.notation = const StandardNotation(),
+      this.useGrouping = Grouping.auto,
+      this.numberingSystem,
+      this.roundingMode = RoundingMode.halfExpand,
+      this.trailingZeroDisplay = TrailingZeroDisplay.auto,
+      this.minimumIntegerDigits = 1,
+      this.digits});
+
+  factory NumberFormatOptions.percent({
+    //General options
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    SignDisplay signDisplay = SignDisplay.auto,
+    Notation notation = const StandardNotation(),
+    Grouping useGrouping = Grouping.auto,
+    String? numberingSystem,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+    int minimumIntegerDigits = 1,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      style: const PercentStyle(),
+      localeMatcher: localeMatcher,
+      signDisplay: signDisplay,
+      notation: notation,
+      useGrouping: useGrouping,
+      numberingSystem: numberingSystem,
+      roundingMode: roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits,
+    );
+  }
+
+  factory NumberFormatOptions.unit({
+    required Unit unit,
+    UnitDisplay unitDisplay = UnitDisplay.short,
+    //General options
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    SignDisplay signDisplay = SignDisplay.auto,
+    Notation notation = const StandardNotation(),
+    Grouping useGrouping = Grouping.auto,
+    String? numberingSystem,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+    int minimumIntegerDigits = 1,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      unit: unit,
+      unitDisplay: unitDisplay,
+      style: UnitStyle(unit: unit),
+      localeMatcher: localeMatcher,
+      signDisplay: signDisplay,
+      notation: notation,
+      useGrouping: useGrouping,
+      numberingSystem: numberingSystem,
+      roundingMode: roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits,
+      digits: digits,
+    );
+  }
+
+  factory NumberFormatOptions.currency({
+    required String currency,
+    CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
+    CurrencySign currencySign = CurrencySign.standard,
+    //General options
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    SignDisplay signDisplay = SignDisplay.auto,
+    Notation notation = const StandardNotation(),
+    Grouping useGrouping = Grouping.auto,
+    String? numberingSystem,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+    int minimumIntegerDigits = 1,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      currency: currency,
+      currencyDisplay: currencyDisplay,
+      style: CurrencyStyle(currency: currency),
+      localeMatcher: localeMatcher,
+      signDisplay: signDisplay,
+      notation: notation,
+      useGrouping: useGrouping,
+      numberingSystem: numberingSystem,
+      roundingMode: roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits,
+      digits: digits,
+    );
+  }
+
+  factory NumberFormatOptions.compact({
+    CompactDisplay compactDisplay = CompactDisplay.short,
+    //General options
+    Style style = const DecimalStyle(),
+    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
+    SignDisplay signDisplay = SignDisplay.auto,
+    Grouping useGrouping = Grouping.auto,
+    String? numberingSystem,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+    int minimumIntegerDigits = 1,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      style: style,
+      localeMatcher: localeMatcher,
+      signDisplay: signDisplay,
+      notation: CompactNotation(compactDisplay: compactDisplay),
+      useGrouping: useGrouping,
+      numberingSystem: numberingSystem,
+      roundingMode: roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits,
+      digits: digits,
+    );
+  }
+}
+
 /// Control how many fraction digits to use in number formatting.
 final class FractionDigits {
   final int? minimum;

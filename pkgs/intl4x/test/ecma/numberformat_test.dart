@@ -14,32 +14,36 @@ import '../utils.dart';
 void main() {
   group('NumberFormat options', () {
     final intl = Intl(defaultLocale: ['en_US']);
+
     testWithFormatting('significantDigits', () {
-      String formatter(Object number) => intl.numberFormat.format(
-            number,
-            digits: Digits.withSignificantDigits(minimum: 1, maximum: 3),
-          );
-      expect(formatter(3), '3');
-      expect(formatter(3.1), '3.1');
-      expect(formatter(3.12), '3.12');
-      expect(formatter(3.123), '3.12');
+      final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
+        digits: Digits.withSignificantDigits(minimum: 1, maximum: 3),
+      ));
+
+      expect(numberFormatOptions.format(3), '3');
+      expect(numberFormatOptions.format(3.1), '3.1');
+      expect(numberFormatOptions.format(3.12), '3.12');
+      expect(numberFormatOptions.format(3.123), '3.12');
     });
 
     testWithFormatting('fractionDigits', () {
-      String formatter(Object number) => intl.numberFormat.format(
-            number,
+      String formatter(Object number) => intl
+          .numberFormat(NumberFormatOptions.custom(
             minimumIntegerDigits: 3,
             digits: Digits.withFractionDigits(minimum: 4),
-          );
+          ))
+          .format(number);
       expect(formatter(4.33), '004.3300');
     });
 
     testWithFormatting('percent', () {
-      expect(intl.numberFormat.percent(4.33), '433%');
+      expect(intl.numberFormat(NumberFormatOptions.percent()).format(4.33),
+          '433%');
     });
 
     testWithFormatting('compact', () {
-      expect(intl.numberFormat.compact(4.33), '4.3');
+      expect(
+          intl.numberFormat(NumberFormatOptions.compact()).format(4.33), '4.3');
     });
   });
 
