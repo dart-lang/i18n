@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math';
+
 import '../options.dart';
 
 /// Number formatting functionality of the browser.
@@ -37,7 +39,8 @@ class NumberFormatOptions {
       this.roundingMode = RoundingMode.halfExpand,
       this.trailingZeroDisplay = TrailingZeroDisplay.auto,
       this.minimumIntegerDigits = 1,
-      this.digits});
+      Digits? digits})
+      : digits = getDigits(style, digits);
 
   factory NumberFormatOptions.percent({
     //General options
@@ -151,6 +154,43 @@ class NumberFormatOptions {
       digits: digits,
     );
   }
+
+  static Digits? getDigits(Style style, Digits? digits) {
+    final fractionDigits = digits?.fractionDigits;
+    if (fractionDigits != null) {
+      final int newMin;
+      if (fractionDigits.$1 == null) {
+        newMin = switch (style) {
+          DecimalStyle() => 0,
+          // TODO(mosum): get by ISO 4217 currency code list instead
+          CurrencyStyle() => 2,
+          PercentStyle() => 0,
+          UnitStyle() => 0,
+        };
+      } else {
+        newMin = fractionDigits.$1!;
+      }
+      final int newMax;
+      if (fractionDigits.$2 == null) {
+        newMax = switch (style) {
+          DecimalStyle() => max(newMin, 3),
+          // TODO(mosum): get by ISO 4217 currency code list instead
+          CurrencyStyle() => max(newMin, 2),
+          PercentStyle() => max(newMin, 0),
+          UnitStyle() => max(newMin, 3),
+        };
+      } else {
+        newMax = fractionDigits.$2!;
+      }
+      return Digits._(
+        roundingIncrement: digits!.roundingIncrement,
+        fractionDigits: (newMin, newMax),
+        roundingPriority: digits.roundingPriority,
+        significantDigits: digits.significantDigits,
+      );
+    }
+    return digits;
+  }
 }
 
 /// Control how many fraction digits to use in number formatting.
@@ -191,6 +231,12 @@ final class Digits {
   final RoundingPriority? roundingPriority;
   final int? roundingIncrement;
 
+  Digits._(
+      {this.fractionDigits,
+      this.significantDigits,
+      this.roundingPriority,
+      this.roundingIncrement});
+
   Digits.withIncrement(
     this.roundingIncrement, [
     int? fractionDigit,
@@ -199,7 +245,7 @@ final class Digits {
         significantDigits = null,
         roundingPriority = null;
 
-  Digits.withFractionDigits({int minimum = 0, int maximum = 20})
+  Digits.withFractionDigits({int? minimum, int? maximum})
       : fractionDigits = (minimum, maximum),
         significantDigits = null,
         roundingPriority = null,
@@ -216,8 +262,8 @@ final class Digits {
   Digits.withSignificantAndFractionDigits({
     int minimumSignificantDigits = 1,
     int maximumSignificantDigits = 21,
-    int minimumFractionDigits = 0,
-    int maximumFractionDigits = 20,
+    int? minimumFractionDigits,
+    int? maximumFractionDigits,
     this.roundingPriority = RoundingPriority.auto,
   })  : fractionDigits = (minimumFractionDigits, maximumFractionDigits),
         significantDigits =
