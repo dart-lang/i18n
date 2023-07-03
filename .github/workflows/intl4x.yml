@@ -43,5 +43,5 @@ jobs:
       - run: dart test
         if: ${{matrix.run-tests}}
 
-      - run: dart test -p 
+      - run: dart test -p chrome
         if: ${{matrix.run-tests}}
