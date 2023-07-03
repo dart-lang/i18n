@@ -17,7 +17,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest, chrome]
     defaults:
       run:
         working-directory: pkgs/intl4x
@@ -41,4 +41,7 @@ jobs:
         if: ${{matrix.run-tests}}
 
       - run: dart test
+        if: ${{matrix.run-tests}}
+
+      - run: dart test -p chrome
         if: ${{matrix.run-tests}}
