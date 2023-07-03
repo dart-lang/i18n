@@ -54,39 +54,24 @@ class _NumberFormatECMA extends NumberFormatImpl {
 
   @override
   String formatImpl(Object number, NumberFormatOptions options) {
-    final o = _setFormatOptions(
-      options.signDisplay,
-      options.notation,
-      options.style,
-      options.localeMatcher,
-      options.numberingSystem,
-      options.useGrouping,
-      options.roundingMode,
-      options.digits,
-      options.minimumIntegerDigits,
-      options.trailingZeroDisplay,
+    final numberFormatJS = _NumberFormatJS(
+      localesToJsFormat(locales),
+      options.toJsOptions(),
     );
-    return _NumberFormatJS(localesToJsFormat(locales), o).format(number);
+    return numberFormatJS.format(number);
   }
+}
 
-  Object _setFormatOptions(
-      SignDisplay signDisplay,
-      Notation notation,
-      Style style,
-      LocaleMatcher localeMatcher,
-      String? numberingSystem,
-      Grouping useGrouping,
-      RoundingMode roundingMode,
-      Digits? digits,
-      int minimumIntegerDigits,
-      TrailingZeroDisplay trailingZeroDisplay) {
+extension on NumberFormatOptions {
+  Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'sign', signDisplay.name);
     if (notation is CompactNotation) {
-      setProperty(o, 'compactDisplay', notation.compactDisplay.name);
+      setProperty(o, 'compactDisplay',
+          (notation as CompactNotation).compactDisplay.name);
     }
     if (style is CurrencyStyle) {
-      final currencyStyle = style;
+      final currencyStyle = style as CurrencyStyle;
       setProperty(o, 'currency', currencyStyle.currency);
       setProperty(o, 'currencyDisplay', currencyStyle.display.name);
       setProperty(o, 'currencySign', currencyStyle.sign.name);
@@ -99,7 +84,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
     setProperty(o, 'signDisplay', signDisplay.name);
     setProperty(o, 'style', style.name);
     if (style is UnitStyle) {
-      final unitStyle = style;
+      final unitStyle = style as UnitStyle;
       setProperty(o, 'unit', unitStyle.unit.jsName);
       setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
     }
