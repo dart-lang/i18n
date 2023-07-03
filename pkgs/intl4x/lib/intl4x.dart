@@ -33,63 +33,63 @@ class Intl {
   // ignore: unused_field, prefer_final_fields
   String _datalocation = 'data.blob'; //What about additional data?
 
-  final List<Locale> locales;
+  final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
   NumberFormat numberFormat(NumberFormatOptions options) => NumberFormat(
         options,
-        NumberFormatImpl.build(locale, localeMatcher, ecmaPolicy),
+        NumberFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
-  /// Construct an [Intl] instance providing the current [locale] and the
+  /// Construct an [Intl] instance providing the current [currentLocale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
   /// provided functions.
   Intl._({
-    required this.locale,
+    required this.currentLocale,
     this.ecmaPolicy = defaultPolicy,
-    this.locales = allLocales,
+    this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
   });
 
   Intl.includeLocales({
-    List<Locale> initialLocales = const ['en'],
+    Locale defaultLocale = 'en',
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> includedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          locale: initialLocales,
+          currentLocale: defaultLocale,
           ecmaPolicy: ecmaPolicy,
-          locales: includedLocales,
+          supportedLocales: includedLocales,
         );
 
   Intl.excludeLocales({
-    List<Locale> defaultLocale = const ['en'],
+    Locale defaultLocale = 'en',
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> excludedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          locale: defaultLocale,
+          currentLocale: defaultLocale,
           ecmaPolicy: ecmaPolicy,
-          locales: allLocales
+          supportedLocales: allLocales
               .where((locale) => !excludedLocales.contains(locale))
               .toList(),
         );
 
   Intl({
-    List<Locale> defaultLocale = const ['en'],
+    Locale defaultLocale = 'en',
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          locale: defaultLocale,
+          currentLocale: defaultLocale,
           ecmaPolicy: ecmaPolicy,
-          locales: allLocales,
+          supportedLocales: allLocales,
         );
 
-  List<Locale> locale;
+  Locale currentLocale;
 
   /// Whether to use the browser with the current settings
   bool get useEcma {
-    final shouldUse = ecmaPolicy.useFor(locale);
+    final shouldUse = ecmaPolicy.useBrowser(currentLocale);
     final canUse = true;
     return shouldUse && canUse;
   }

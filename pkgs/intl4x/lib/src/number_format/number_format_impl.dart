@@ -13,19 +13,19 @@ import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 /// This is an intermediate to defer to the actual implementations of
 /// Number formatting.
 abstract class NumberFormatImpl {
-  final List<String> locales;
+  final String locale;
 
-  NumberFormatImpl(this.locales);
+  NumberFormatImpl(this.locale);
 
   String formatImpl(Object number, NumberFormatOptions options);
 
   factory NumberFormatImpl.build(
-    List<Locale> locales,
+    Locale locale,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
-        locales,
+        locale,
         localeMatcher,
         ecmaPolicy,
         getNumberFormatterECMA,

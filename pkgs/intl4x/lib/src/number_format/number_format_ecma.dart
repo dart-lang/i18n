@@ -13,10 +13,10 @@ import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
 NumberFormatImpl? getNumberFormatterECMA(
-  List<Locale> locales,
+  Locale locale,
   LocaleMatcher localeMatcher,
 ) =>
-    _NumberFormatECMA.tryToBuild(locales, localeMatcher);
+    _NumberFormatECMA.tryToBuild(locale, localeMatcher);
 
 @JS('Intl.NumberFormat')
 class _NumberFormatJS {
@@ -34,28 +34,28 @@ class _NumberFormatECMA extends NumberFormatImpl {
   _NumberFormatECMA(super.locales);
 
   static NumberFormatImpl? tryToBuild(
-    List<Locale> locales,
+    Locale locale,
     LocaleMatcher localeMatcher,
   ) {
-    final supportedLocales = supportedLocalesOf(localeMatcher, locales);
+    final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? _NumberFormatECMA(supportedLocales)
+        ? _NumberFormatECMA(supportedLocales.first)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
   static List<String> supportedLocalesOf(
     LocaleMatcher localeMatcher,
-    List<String> locales,
+    Locale locale,
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(_supportedLocalesOfJS(localesToJsFormat(locales), o));
+    return List.from(_supportedLocalesOfJS([localeToJsFormat(locale)], o));
   }
 
   @override
   String formatImpl(Object number, NumberFormatOptions options) {
     final numberFormatJS = _NumberFormatJS(
-      localesToJsFormat(locales),
+      [localeToJsFormat(locale)],
       options.toJsOptions(),
     );
     return numberFormatJS.format(number);

@@ -11,7 +11,7 @@ import 'package:intl4x/number_format.dart';
 void main() {
   num number = 300000;
   var intl = Intl(
-    defaultLocale: ['en'],
+    defaultLocale: 'en',
     ecmaPolicy: AlwaysEcma(),
   );
   String nf(num number) => intl

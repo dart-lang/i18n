@@ -7,7 +7,7 @@ import '../options.dart';
 import 'number_format_impl.dart';
 
 NumberFormatImpl? getNumberFormatterECMA(
-  List<Locale> locales,
+  Locale locales,
   LocaleMatcher localeMatcher,
 ) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

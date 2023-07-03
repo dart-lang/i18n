@@ -13,7 +13,7 @@ import '../utils.dart';
 
 void main() {
   group('NumberFormat options', () {
-    final intl = Intl(defaultLocale: ['en_US']);
+    final intl = Intl(defaultLocale: 'en_US');
 
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(

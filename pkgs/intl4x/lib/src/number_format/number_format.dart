@@ -14,7 +14,7 @@ class NumberFormat {
 
   String format(Object number) {
     if (isInTest) {
-      return '$number//${impl.locales}';
+      return '$number//${impl.locale}';
     } else {
       return impl.formatImpl(number, _options);
     }
