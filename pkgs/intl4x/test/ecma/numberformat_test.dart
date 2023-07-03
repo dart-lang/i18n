@@ -108,7 +108,7 @@ void main() {
     }
 
     for (final (number, locale, (desc, options, object))
-        in selectIndicesFrom(100)) {
+        in selectIndicesFrom(1000)) {
       final jsFormat = _NumberFormatJS([locale], object).format(number);
       final dartFormat =
           Intl(defaultLocale: locale).numberFormat(options).format(number);
