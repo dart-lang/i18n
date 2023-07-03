@@ -9,4 +9,4 @@ import 'dart:async';
 /// `#test.allowFormatting` symbol can be used to override this.
 bool get isInTest =>
     Zone.current[#test.declarer] != null &&
-    !(Zone.current[#test.allowFormatting] as bool);
+    !(Zone.current[#test.allowFormatting] as bool? ?? false);
