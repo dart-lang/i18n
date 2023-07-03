@@ -5,14 +5,32 @@
 @TestOn('browser')
 library;
 
+import 'dart:math';
+
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
+import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
 
+@JS('Intl.NumberFormat')
+class _NumberFormatJS {
+  external factory _NumberFormatJS([List<String> locale, Object options]);
+  external String format(Object num);
+}
+
+Object generateProperties(Map<String, Object> properties) {
+  final object = Object();
+  for (final entry in properties.entries) {
+    setProperty(object, entry.key, entry.value);
+  }
+  return object;
+}
+
 void main() {
-  group('NumberFormat options', () {
+  group('Some manual tests', () {
     final intl = Intl(defaultLocale: 'en_US');
 
     testWithFormatting('significantDigits', () {
@@ -47,5 +65,55 @@ void main() {
     });
   });
 
-  //TODO: Add more tests
+  testWithFormatting('Some fuzzy testing', () {
+    final seed = Random().nextInt(1 << 31);
+    print('Seed: $seed');
+    final random = Random(seed);
+
+    final numbers = [3.14, 5, 20000, 3, 4.2214, 3.99999, 20000.0001];
+    final locales = ['en-US', 'de-DE', 'zh-TW'];
+    final options = <(Object, NumberFormatOptions, Object)>[
+      (
+        {'minimumFractionDigits': 2},
+        NumberFormatOptions.custom(
+            digits: Digits.withFractionDigits(minimum: 2)),
+        generateProperties({'minimumFractionDigits': 2}),
+      ),
+      (
+        'useGrouping',
+        NumberFormatOptions.custom(useGrouping: Grouping.always),
+        generateProperties({'useGrouping': true}),
+      ),
+      (
+        'USD',
+        NumberFormatOptions.currency(currency: 'USD'),
+        generateProperties({'style': 'currency', 'currency': 'USD'}),
+      ),
+      (
+        'percent',
+        NumberFormatOptions.percent(),
+        generateProperties({'style': 'percent'}),
+      ),
+    ];
+
+    List<(num, String, (Object, NumberFormatOptions, Object))>
+        selectIndicesFrom(int length) {
+      return List.generate(
+          length,
+          (index) => (
+                numbers[random.nextInt(numbers.length)],
+                locales[random.nextInt(locales.length)],
+                options[random.nextInt(options.length)]
+              )).toSet().toList();
+    }
+
+    for (final (number, locale, (desc, options, object))
+        in selectIndicesFrom(100)) {
+      final jsFormat = _NumberFormatJS([locale], object).format(number);
+      final dartFormat =
+          Intl(defaultLocale: locale).numberFormat(options).format(number);
+      expect(dartFormat, jsFormat,
+          reason: 'With number $number, locale $locale, options $desc');
+    }
+  });
 }
