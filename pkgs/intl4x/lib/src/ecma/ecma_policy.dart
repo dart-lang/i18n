@@ -15,7 +15,7 @@ import '../locale.dart';
 sealed class EcmaPolicy {
   const EcmaPolicy();
 
-  bool useFor(List<Locale> locales);
+  bool useBrowser(Locale locale);
 }
 
 /// Policy to always use the browsers built-in `Intl` functionality.
@@ -23,7 +23,7 @@ final class AlwaysEcma extends EcmaPolicy {
   const AlwaysEcma();
 
   @override
-  bool useFor(List<Locale> locales) => true;
+  bool useBrowser(Locale locale) => true;
 }
 
 /// Policy to never use the browsers built-in `Intl` functionality.
@@ -31,7 +31,7 @@ final class NeverEcma extends EcmaPolicy {
   const NeverEcma();
 
   @override
-  bool useFor(List<Locale> locales) => false;
+  bool useBrowser(Locale locale) => false;
 }
 
 /// Policy to use the browsers built-in `Intl` functionality for a specified set
@@ -42,8 +42,7 @@ final class SometimesEcma extends EcmaPolicy {
   const SometimesEcma(this.ecmaLocales);
 
   @override
-  bool useFor(List<Locale> locales) =>
-      ecmaLocales.any((locale) => locales.contains(locale));
+  bool useBrowser(Locale locale) => ecmaLocales.contains(locale);
 }
 
 /// Policy to use ICU4X functionality for a specified set of locales.
@@ -53,6 +52,5 @@ final class SometimesICU4X extends EcmaPolicy {
   const SometimesICU4X(this.icuLocales);
 
   @override
-  bool useFor(List<Locale> locales) =>
-      icuLocales.any((locale) => !locales.contains(locale));
+  bool useBrowser(Locale locale) => !icuLocales.contains(locale);
 }
