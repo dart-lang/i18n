@@ -935,7 +935,7 @@ Map<String, Map<String, String>> dateTimePatternMap() => {
         'E': 'ccc', // ABBR_WEEKDAY
         'EEEE': 'cccc', // WEEKDAY
         'LLL': 'MMM', // ABBR_STANDALONE_MONTH
-        'LLLL': 'MMMM', // STANDALONE_MONTH
+        'LLLL': 'LLLL', // STANDALONE_MONTH
         'M': 'L', // NUM_MONTH
         'Md': 'd/M', // NUM_MONTH_DAY
         'MEd': 'EEE d/M', // NUM_MONTH_WEEKDAY_DAY

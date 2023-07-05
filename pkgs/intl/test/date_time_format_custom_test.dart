@@ -7,6 +7,9 @@
 import 'package:intl/date_symbol_data_custom.dart';
 import 'package:intl/date_symbol_data_local.dart' as local_symbols;
 import 'package:intl/date_time_patterns.dart' as local_patterns;
+import 'package:intl/intl.dart';
+
+import 'package:test/test.dart';
 
 import 'date_time_format_test_stub.dart';
 
@@ -23,6 +26,13 @@ void main() {
         locale: locale, symbols: symbols[locale], patterns: patterns[locale]);
   }
   runWith(() => locales, null, nullInitialization);
+
+  test('stand alone month is correct', () {
+    final dateFormat = DateFormat.LLLL('el_GR');
+    final date = DateTime.now().copyWith(month: 7);
+    final formattedDate = dateFormat.format(date);
+    expect(formattedDate, equals('Ιούλιος'));
+  });
 }
 
 Future<void> nullInitialization(String a, String b) => Future.value();
