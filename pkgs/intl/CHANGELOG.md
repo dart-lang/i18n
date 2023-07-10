@@ -5,6 +5,7 @@
  * Add fallback for deprecated locales, such as `he` <-> `iw`.
  * Update to CLDR v43.
  * Switch QAR currency name to Riyal.
+ * Add license headers to some files.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
