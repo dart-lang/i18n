@@ -5,4 +5,4 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
 jobs:
   health:
-    uses: dart-lang/ecosystem/.github/workflows/health.yaml@edc9abae60eb8a2f54f213f0ae6c16cd527ffda8
+    uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
