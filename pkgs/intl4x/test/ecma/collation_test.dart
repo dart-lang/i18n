@@ -12,11 +12,24 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main() {
-  testWithFormatting('Simple', () {
+  test('Does not compare in tests', () {
+    final unsorted = ['Z', 'a', 'z', 'ä'];
+    final collationGerman = Intl(defaultLocale: 'de_DE').collation();
+    expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
+  });
+
+  testWithFormatting('Simple EN', () {
     final list = ['A', 'B', 'C'];
     final intl = Intl(defaultLocale: 'en_US');
     final collation = intl.collation();
     expect(list..sort(collation.compare), orderedEquals(list));
+  });
+
+  testWithFormatting('Simple DE', () {
+    final list = ['Z', 'a', 'z', 'ä'];
+    final expected = ['a', 'ä', 'z', 'Z'];
+    final collationGerman = Intl(defaultLocale: 'de_DE').collation();
+    expect(list..sort(collationGerman.compare), orderedEquals(expected));
   });
 
   testWithFormatting('Search vs. Sort', () {
