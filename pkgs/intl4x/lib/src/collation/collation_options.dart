@@ -35,22 +35,24 @@ enum Usage {
 }
 
 /// Which differences in the strings should lead to non-zero result values.
-/// * [base] Only strings that differ in base letters compare as unequal.
-/// Examples: a ≠ b, a = á, a = A.
-/// * [accent] Only strings that differ in base letters or accents and other
-/// diacritic marks compare as unequal. Examples: a ≠ b, a ≠ á, a = A.
-/// * [case] Only strings that differ in base letters or case compare as
-/// unequal. Examples: a ≠ b, a = á, a ≠ A.
-/// * [variant] Strings that differ in base letters, accents and other diacritic
-/// marks, or case compare as unequal. Other differences may also be taken into
-/// consideration. Examples: a ≠ b, a ≠ á, a ≠ A.
-///
-/// The default is [variant] for usage [Usage.sort]; it's locale dependent for
-/// [Usage.search].
+/// The default is [Sensitivity.variant] for usage [Usage.sort]; it's locale
+/// dependent for [Usage.search].
 enum Sensitivity {
+  /// Only strings that differ in base letters compare as unequal.
+  /// Examples: a ≠ b, a = á, a = A.
   base,
+
+  /// Only strings that differ in base letters or accents and other
+  /// diacritic marks compare as unequal. Examples: a ≠ b, a ≠ á, a = A.
   accent,
+
+  /// Only strings that differ in base letters or case compare as
+  /// unequal. Examples: a ≠ b, a = á, a ≠ A.
   caseSensitivity('case'),
+
+  /// Strings that differ in base letters, accents and other diacritic
+  /// marks, or case compare as unequal. Other differences may also be taken into
+  /// consideration. Examples: a ≠ b, a ≠ á, a ≠ A.
   variant;
 
   String get jsName => _jsName ?? name;

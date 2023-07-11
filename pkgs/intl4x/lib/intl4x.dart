@@ -4,7 +4,6 @@
 
 import 'collation.dart';
 import 'number_format.dart';
-import 'src/collation/collation.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
 import 'src/ecma/ecma_policy.dart';

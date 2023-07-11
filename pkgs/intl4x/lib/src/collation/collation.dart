@@ -14,11 +14,13 @@ class Collation {
 
   /// Compare two strings in a locale-dependant manner.
   ///
-  /// The [usage] can specify whether to use this for searching for a string,
-  /// or sorting a list of strings. The [sensitivity] regulates how exact the
-  /// comparison should be. Setting [numeric] means that numbers are not sorted
-  /// alphbetically, but by their value. The [caseFirst] parameter sets if upper
-  /// or lowercase letters should take preference.
+  /// The [CollationOptions.usage] can specify whether to use this for searching
+  /// for a string, or sorting a list of strings. The
+  /// [CollationOptions.sensitivity] regulates how exact the comparison should
+  /// be. Setting [CollationOptions.numeric] means that numbers are not sorted
+  /// alphbetically, but by their value. The
+  /// [CollationOptions.caseFirst] parameter sets if upper or lowercase letters
+  /// should take preference.
   int compare(String a, String b) {
     if (isInTest) {
       return a.compareTo(b);
