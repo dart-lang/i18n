@@ -29,7 +29,7 @@ void main() {
 
   test('stand alone month is correct', () {
     final dateFormat = DateFormat.LLLL('el_GR');
-    final date = DateTime.now().copyWith(month: 7);
+    final date = DateTime.parse('2022-07-27 13:27:00');
     final formattedDate = dateFormat.format(date);
     expect(formattedDate, equals('Ιούλιος'));
   });

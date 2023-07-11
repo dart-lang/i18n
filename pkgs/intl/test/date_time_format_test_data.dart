@@ -291,7 +291,7 @@ const greek = {
   'ABBR_WEEKDAY': 'Παρ',
   'WEEKDAY': 'Παρασκευή',
   'ABBR_STANDALONE_MONTH': 'Ιαν',
-  'STANDALONE_MONTH': 'Ιανουαρίου',
+  'STANDALONE_MONTH': 'Ιανουάριος',
   'NUM_MONTH': '1',
   'NUM_MONTH_DAY': '27/1',
   'NUM_MONTH_WEEKDAY_DAY': 'Παρ 27/1',
