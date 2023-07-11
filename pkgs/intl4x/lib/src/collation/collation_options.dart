@@ -51,8 +51,8 @@ enum Sensitivity {
   caseSensitivity('case'),
 
   /// Strings that differ in base letters, accents and other diacritic
-  /// marks, or case compare as unequal. Other differences may also be taken into
-  /// consideration. Examples: a ≠ b, a ≠ á, a ≠ A.
+  /// marks, or case compare as unequal. Other differences may also be taken
+  /// into consideration. Examples: a ≠ b, a ≠ á, a ≠ A.
   variant;
 
   String get jsName => _jsName ?? name;
