@@ -6,6 +6,7 @@
  * Update to CLDR v43.
  * Switch QAR currency name to Riyal.
  * Fix standalone month pattern mapping for `el` locale 
+ * Add license headers to some files.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.

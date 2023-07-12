@@ -11,6 +11,7 @@
 **/OWNERS
 **/README.google.md
 **/copy.bara.sky
+**/coverage
 
 # Specific files
 pkgs/intl/test/number_format_compact_google3_icu_test.dart
