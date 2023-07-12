@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'collation.dart';
 import 'number_format.dart';
+import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
@@ -36,8 +38,14 @@ class Intl {
   final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
-  NumberFormat numberFormat(NumberFormatOptions options) => NumberFormat(
+  Collation collation([CollationOptions options = const CollationOptions()]) =>
+      Collation(
         options,
+        CollationImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+      );
+
+  NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
+        options ?? NumberFormatOptions.custom(),
         NumberFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
