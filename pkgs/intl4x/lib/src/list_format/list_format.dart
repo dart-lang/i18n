@@ -24,7 +24,7 @@ class ListFormat {
     ListStyle style = ListStyle.long,
   }) {
     if (isInTest) {
-      return '${list.join(', ')}-${_listFormatImpl.locale}';
+      return '${list.join(', ')}//${_listFormatImpl.locale}';
     } else {
       return _listFormatImpl.formatImpl(list, _options);
     }
