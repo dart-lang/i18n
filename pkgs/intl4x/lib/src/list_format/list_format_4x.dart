@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale.dart';
-import '../options.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
@@ -13,12 +12,7 @@ class ListFormat4X extends ListFormatImpl {
   ListFormat4X(super.locale);
 
   @override
-  String formatImpl(
-    List<String> list, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
-    Type type = Type.conjunction,
-    ListStyle style = ListStyle.long,
-  }) {
+  String formatImpl(List<String> list, ListFormatOptions options) {
     throw UnimplementedError('Insert diplomat bindings here');
   }
 }

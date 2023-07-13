@@ -2,6 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../options.dart';
+
+class ListFormatOptions {
+  final Type type;
+  final ListStyle style;
+  final LocaleMatcher localeMatcher;
+
+  const ListFormatOptions({
+    this.type = Type.conjunction,
+    this.style = ListStyle.long,
+    this.localeMatcher = LocaleMatcher.bestfit,
+  });
+}
+
 /// Indicates the type of grouping.
 enum Type {
   /// For "and"-based grouping of the list items: "A, B, and C"

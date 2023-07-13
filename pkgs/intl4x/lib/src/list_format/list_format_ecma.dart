@@ -52,16 +52,18 @@ class _ListFormatECMA extends ListFormatImpl {
   }
 
   @override
-  String formatImpl(
-    List<String> list, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
-    Type type = Type.conjunction,
-    ListStyle style = ListStyle.long,
-  }) {
+  String formatImpl(List<String> list, ListFormatOptions options) {
+    return ListFormatJS([localeToJsFormat(locale)], options.toJsOptions())
+        .format(list);
+  }
+}
+
+extension on ListFormatOptions {
+  Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     setProperty(o, 'type', type.name);
     setProperty(o, 'style', style.name);
-    return ListFormatJS([localeToJsFormat(locale)], o).format(list);
+    return o;
   }
 }

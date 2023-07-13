@@ -12,12 +12,7 @@ abstract class ListFormatImpl {
 
   ListFormatImpl(this.locale);
 
-  String formatImpl(
-    List<String> list, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
-    Type type = Type.conjunction,
-    ListStyle style = ListStyle.long,
-  });
+  String formatImpl(List<String> list, ListFormatOptions options);
 
   factory ListFormatImpl.build(
     Locale locales,

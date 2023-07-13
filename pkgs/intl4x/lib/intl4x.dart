@@ -8,6 +8,9 @@ import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
+import 'src/list_format/list_format.dart';
+import 'src/list_format/list_format_impl.dart';
+import 'src/list_format/list_format_options.dart';
 import 'src/locale.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_impl.dart';
@@ -47,6 +50,11 @@ class Intl {
   NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
         options ?? NumberFormatOptions.custom(),
         NumberFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+      );
+
+  ListFormat listFormat([ListFormatOptions? options]) => ListFormat(
+        options ?? const ListFormatOptions(),
+        ListFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
   /// Construct an [Intl] instance providing the current [currentLocale] and the
