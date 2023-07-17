@@ -53,4 +53,25 @@ void main() {
     expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
     expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
   });
+
+  testWithFormatting('currency', () {
+    expect(
+      Intl(defaultLocale: 'pt').displayNames().ofCurrency('USD'),
+      'Dólar americano',
+    );
+  });
+
+  testWithFormatting('script', () {
+    expect(
+      Intl(defaultLocale: 'fr').displayNames().ofScript('Egyp'),
+      'hiéroglyphes égyptiens',
+    );
+  });
+
+  testWithFormatting('region', () {
+    expect(
+      Intl(defaultLocale: 'es-419').displayNames().ofRegion('DE'),
+      'Alemania',
+    );
+  });
 }
