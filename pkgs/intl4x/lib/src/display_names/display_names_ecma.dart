@@ -52,14 +52,37 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
     return List.from(_supportedLocalesOfJS([localeToJsFormat(locale)], o));
   }
 
-  @override
-  String ofImpl(String object, DisplayNamesOptions options, DisplayType type) {
+  String of(DisplayNamesOptions options, DisplayType type, String jsName) {
     final displayNamesJS = _DisplayNamesJS(
       [localeToJsFormat(locale)],
       options.toJsOptions(type),
     );
-    return displayNamesJS.of(object);
+    return displayNamesJS.of(jsName);
   }
+
+  @override
+  String ofCalendar(Calendar calendar, DisplayNamesOptions options) =>
+      of(options, DisplayType.calendar, calendar.jsName);
+
+  @override
+  String ofCurrency(String currencyCode, DisplayNamesOptions options) =>
+      of(options, DisplayType.currency, currencyCode);
+
+  @override
+  String ofDateTime(DateTimeField field, DisplayNamesOptions options) =>
+      of(options, DisplayType.dateTimeField, field.name);
+
+  @override
+  String ofLanguage(Locale locale, DisplayNamesOptions options) =>
+      of(options, DisplayType.language, locale);
+
+  @override
+  String ofRegion(String regionCode, DisplayNamesOptions options) =>
+      of(options, DisplayType.region, regionCode);
+
+  @override
+  String ofScript(String scriptCode, DisplayNamesOptions options) =>
+      of(options, DisplayType.script, scriptCode);
 }
 
 extension on DisplayNamesOptions {

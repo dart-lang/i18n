@@ -9,30 +9,30 @@ import 'display_names_impl.dart';
 
 class DisplayNames {
   final DisplayNamesOptions _options;
-  final DisplayNamesImpl impl;
+  final DisplayNamesImpl _impl;
 
-  DisplayNames(this._options, this.impl);
+  DisplayNames(this._options, this._impl);
 
-  String _of(String object, DisplayType type) {
+  String ofDateTime(DateTimeField field) => _of(field, _impl.ofDateTime);
+
+  String ofLanguage(Locale locale) => _of(locale, _impl.ofLanguage);
+
+  String ofRegion(String regionCode) => _of(regionCode, _impl.ofRegion);
+
+  String ofScript(String scriptCode) => _of(scriptCode, _impl.ofScript);
+
+  String ofCurrency(String currencyCode) => _of(currencyCode, _impl.ofCurrency);
+
+  String ofCalendar(Calendar calendar) => _of(calendar, _impl.ofCalendar);
+
+  String _of<T>(
+    T object,
+    String Function(T field, DisplayNamesOptions options) implementation,
+  ) {
     if (isInTest) {
-      return '$object//${impl.locale}';
+      return '$object//${_impl.locale}';
     } else {
-      return impl.ofImpl(object, _options, type);
+      return implementation(object, _options);
     }
   }
-
-  String ofDateTime(DateTimeField field) =>
-      _of(field.name, DisplayType.dateTimeField);
-
-  String ofLanguage(Locale locale) => _of(locale, DisplayType.language);
-
-  String ofRegion(String regionCode) => _of(regionCode, DisplayType.region);
-
-  String ofScript(String scriptCode) => _of(scriptCode, DisplayType.script);
-
-  String ofCurrency(String currencyCode) =>
-      _of(currencyCode, DisplayType.currency);
-
-  String ofCalendar(Calendar calendar) =>
-      _of(calendar.jsName, DisplayType.calendar);
 }

@@ -12,7 +12,32 @@ class DisplayNames4X extends DisplayNamesImpl {
   DisplayNames4X(super.locale);
 
   @override
-  String ofImpl(String object, DisplayNamesOptions options, DisplayType type) {
+  String ofCalendar(Calendar calendar, DisplayNamesOptions options) {
+    throw UnimplementedError('Insert diplomat bindings here');
+  }
+
+  @override
+  String ofCurrency(String currencyCode, DisplayNamesOptions options) {
+    throw UnimplementedError('Insert diplomat bindings here');
+  }
+
+  @override
+  String ofDateTime(DateTimeField field, DisplayNamesOptions options) {
+    throw UnimplementedError('Insert diplomat bindings here');
+  }
+
+  @override
+  String ofLanguage(Locale locale, DisplayNamesOptions options) {
+    throw UnimplementedError('Insert diplomat bindings here');
+  }
+
+  @override
+  String ofRegion(String regionCode, DisplayNamesOptions options) {
+    throw UnimplementedError('Insert diplomat bindings here');
+  }
+
+  @override
+  String ofScript(String scriptCode, DisplayNamesOptions options) {
     throw UnimplementedError('Insert diplomat bindings here');
   }
 }

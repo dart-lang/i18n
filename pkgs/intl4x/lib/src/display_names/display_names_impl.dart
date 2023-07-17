@@ -17,7 +17,17 @@ abstract class DisplayNamesImpl {
 
   DisplayNamesImpl(this.locale);
 
-  String ofImpl(String object, DisplayNamesOptions options, DisplayType type);
+  String ofDateTime(DateTimeField field, DisplayNamesOptions options);
+
+  String ofLanguage(Locale locale, DisplayNamesOptions options);
+
+  String ofRegion(String regionCode, DisplayNamesOptions options);
+
+  String ofScript(String scriptCode, DisplayNamesOptions options);
+
+  String ofCurrency(String currencyCode, DisplayNamesOptions options);
+
+  String ofCalendar(Calendar calendar, DisplayNamesOptions options);
 
   factory DisplayNamesImpl.build(
     Locale locale,
