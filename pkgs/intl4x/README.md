@@ -14,7 +14,7 @@ A lightweight modular library for internationalization (i18n) functionality.
 ## Status
 |   | Number format  | List format  | Date format  | Collation  | Display names |
 |---|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: |   |   | :heavy_check_mark: |   |
+| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: |   | :heavy_check_mark: |   |
 | **ICU4X (web/native)**  |   |   |   |   |   | 
 
 
