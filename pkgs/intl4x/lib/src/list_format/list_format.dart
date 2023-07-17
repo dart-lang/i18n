@@ -13,7 +13,7 @@ class ListFormat {
 
   const ListFormat(this._options, this._listFormatImpl);
 
-  /// Locale-dependant concatenation of lists, for example in `en-US` locale
+  /// Locale-dependant concatenation of lists, for example in `en-US` locale:
   /// ```dart
   /// format(['A', 'B', 'C']) == 'A, B, and C'
   /// ```

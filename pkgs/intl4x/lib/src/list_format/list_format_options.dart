@@ -18,25 +18,25 @@ class ListFormatOptions {
 
 /// Indicates the type of grouping.
 enum Type {
-  /// For "and"-based grouping of the list items: "A, B, and C"
+  /// For "and"-based grouping of the list items: "A, B, and C".
   conjunction,
 
-  /// For "or"-based grouping of the list items: "A, B, or C"
+  /// For "or"-based grouping of the list items: "A, B, or C".
   disjunction,
 
-  /// Grouping the list items as a unit: "A, B, C"
+  /// Grouping the list items as a unit: "A, B, C".
   unit;
 }
 
 /// Indicates the grouping style (for example, whether list separators and
 /// conjunctions are included).
 enum ListStyle {
-  /// Example: "A, B, and C"
+  /// Example: "A, B, and C".
   long,
 
-  /// Example: "A, B, C"
+  /// Example: "A, B, C".
   short,
 
-  /// Example: "A B C"
+  /// Example: "A B C".
   narrow;
 }
