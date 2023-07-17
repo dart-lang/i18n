@@ -12,7 +12,7 @@ class DisplayNames4X extends DisplayNamesImpl {
   DisplayNames4X(super.locale);
 
   @override
-  String ofImpl(Object number, DisplayNamesOptions options) {
+  String ofImpl(String object, DisplayNamesOptions options, DisplayType type) {
     throw UnimplementedError('Insert diplomat bindings here');
   }
 }

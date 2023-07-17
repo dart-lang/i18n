@@ -11,13 +11,13 @@ import 'display_names_options.dart';
 import 'display_names_stub.dart' if (dart.library.js) 'display_names_ecma.dart';
 
 /// This is an intermediate to defer to the actual implementations of
-/// Number formatting.
+/// Display naming.
 abstract class DisplayNamesImpl {
   final String locale;
 
   DisplayNamesImpl(this.locale);
 
-  String ofImpl(Object number, DisplayNamesOptions options);
+  String ofImpl(String object, DisplayNamesOptions options, DisplayType type);
 
   factory DisplayNamesImpl.build(
     Locale locale,

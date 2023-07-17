@@ -6,14 +6,12 @@ import '../options.dart';
 
 /// Display names options for the browser.
 class DisplayNamesOptions {
-  final DisplayType type;
   final Style style;
   final LanguageDisplay languageDisplay;
   final Fallback fallback;
   final LocaleMatcher localeMatcher;
 
-  DisplayNamesOptions({
-    required this.type,
+  const DisplayNamesOptions({
     this.style = Style.long,
     this.languageDisplay = LanguageDisplay.dialect,
     this.fallback = Fallback.code,
@@ -44,4 +42,45 @@ enum LanguageDisplay {
 enum Fallback {
   code,
   none,
+}
+
+enum DateTimeField {
+  era,
+  year,
+  month,
+  quarter,
+  weekOfYear,
+  weekday,
+  dayPeriod,
+  day,
+  hour,
+  minute,
+  second,
+}
+
+enum Calendar {
+  buddhist,
+  chinese,
+  coptic,
+  dangi,
+  ethioaa,
+  ethiopic,
+  gregory,
+  hebrew,
+  indian,
+  islamic,
+  islamicUmalqura('islamic-umalqura'),
+  islamicTbla('islamic-tbla'),
+  islamicCivil('islamic-civil'),
+  islamicRgsa('islamic-rgsa'),
+  iso8601,
+  japanese,
+  persian,
+  roc;
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const Calendar([this._jsName]);
 }

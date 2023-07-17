@@ -21,7 +21,7 @@ DisplayNamesImpl? getDisplayNamesECMA(
 @JS('Intl.DisplayNames')
 class _DisplayNamesJS {
   external factory _DisplayNamesJS([List<String> locale, Object options]);
-  external String format(Object num);
+  external String of(String object);
 }
 
 @JS('Intl.DisplayNames.supportedLocalesOf')
@@ -53,17 +53,17 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
   }
 
   @override
-  String ofImpl(Object number, DisplayNamesOptions options) {
-    final numberFormatJS = _DisplayNamesJS(
+  String ofImpl(String object, DisplayNamesOptions options, DisplayType type) {
+    final displayNamesJS = _DisplayNamesJS(
       [localeToJsFormat(locale)],
-      options.toJsOptions(),
+      options.toJsOptions(type),
     );
-    return numberFormatJS.format(number);
+    return displayNamesJS.of(object);
   }
 }
 
 extension on DisplayNamesOptions {
-  Object toJsOptions() {
+  Object toJsOptions(DisplayType type) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
     setProperty(o, 'style', style.name);
