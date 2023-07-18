@@ -12,7 +12,6 @@ import 'package:test/test.dart';
 import '../utils.dart';
 
 void main() {
-  final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
   testWithFormatting('Basic', () {
     expect(
         Intl(defaultLocale: 'en_US')
@@ -22,6 +21,7 @@ void main() {
   });
 
   testWithFormatting('timezone', () {
+    final date = DateTime.utc(2021, 12, 17, 3, 0, 42);
     final intl = Intl(defaultLocale: 'en_US');
     final timeZone = 'America/Los_Angeles';
     expect(
@@ -81,6 +81,7 @@ void main() {
   });
 
   testWithFormatting('day period', () {
+    final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
     expect(
         Intl(defaultLocale: 'en_GB')
             .datetimeFormat(const DateTimeFormatOptions(
@@ -116,17 +117,20 @@ void main() {
   });
 
   testWithFormatting('style', () {
+    final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
     expect(
         Intl(defaultLocale: 'en')
             .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.short,
+              timeZone: 'UTC',
             ))
             .format(date),
-        '5:00 AM');
+        '4:00 AM');
     expect(
         Intl(defaultLocale: 'en')
             .datetimeFormat(const DateTimeFormatOptions(
               dateStyle: DateStyle.short,
+              timeZone: 'UTC',
             ))
             .format(date),
         '12/17/21');
@@ -135,8 +139,9 @@ void main() {
             .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.medium,
               dateStyle: DateStyle.short,
+              timeZone: 'UTC',
             ))
             .format(date),
-        '12/17/21, 5:00:42 AM');
+        '12/17/21, 4:00:42 AM');
   });
 }
