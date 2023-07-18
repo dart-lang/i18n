@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Add datetime formatting.
+
 ## 0.3.0
 
 - Add display names.
