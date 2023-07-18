@@ -2,6 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/display_names/display_names.dart';
-export 'src/display_names/display_names_options.dart';
+export 'src/datetime_format/datetime_format.dart';
+export 'src/datetime_format/datetime_format_options.dart';
 export 'src/options.dart';

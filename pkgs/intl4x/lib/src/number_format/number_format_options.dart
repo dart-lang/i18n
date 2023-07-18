@@ -6,9 +6,11 @@ import 'dart:math';
 
 import '../options.dart';
 
+typedef UnitDisplay = Style;
+
 /// Number formatting functionality of the browser.
 class NumberFormatOptions {
-  final Style style;
+  final FormatStyle style;
   final String? currency;
   final CurrencyDisplay? currencyDisplay;
   final Unit? unit;
@@ -131,7 +133,7 @@ class NumberFormatOptions {
   factory NumberFormatOptions.compact({
     CompactDisplay compactDisplay = CompactDisplay.short,
     //General options
-    Style style = const DecimalStyle(),
+    FormatStyle style = const DecimalStyle(),
     LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
     Grouping useGrouping = Grouping.auto,
@@ -155,7 +157,7 @@ class NumberFormatOptions {
     );
   }
 
-  static Digits? getDigits(Style style, Digits? digits) {
+  static Digits? getDigits(FormatStyle style, Digits? digits) {
     final fractionDigits = digits?.fractionDigits;
     if (fractionDigits != null) {
       final int newMin;
@@ -324,12 +326,6 @@ enum CurrencySign {
   accounting;
 }
 
-enum UnitDisplay {
-  long,
-  short,
-  narrow;
-}
-
 enum SignDisplay {
   auto,
   always,
@@ -419,20 +415,20 @@ final class EngineeringNotation extends Notation {
   String get name => 'engineering';
 }
 
-sealed class Style {
+sealed class FormatStyle {
   String get name;
 
-  const Style();
+  const FormatStyle();
 }
 
-final class DecimalStyle extends Style {
+final class DecimalStyle extends FormatStyle {
   const DecimalStyle();
 
   @override
   String get name => 'decimal';
 }
 
-final class CurrencyStyle extends Style {
+final class CurrencyStyle extends FormatStyle {
   final String currency;
   final CurrencySign sign;
   final CurrencyDisplay display;
@@ -446,13 +442,13 @@ final class CurrencyStyle extends Style {
   String get name => 'currency';
 }
 
-final class PercentStyle extends Style {
+final class PercentStyle extends FormatStyle {
   const PercentStyle();
   @override
   String get name => 'percent';
 }
 
-final class UnitStyle extends Style {
+final class UnitStyle extends FormatStyle {
   final Unit unit;
   final UnitDisplay unitDisplay;
 

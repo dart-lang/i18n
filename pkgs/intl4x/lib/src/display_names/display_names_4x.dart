@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale.dart';
+import '../options.dart';
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 

@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
 import '../test_checker.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
@@ -17,12 +16,7 @@ class ListFormat {
   /// ```dart
   /// format(['A', 'B', 'C']) == 'A, B, and C'
   /// ```
-  String format(
-    List<String> list, {
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
-    Type type = Type.conjunction,
-    ListStyle style = ListStyle.long,
-  }) {
+  String format(List<String> list) {
     if (isInTest) {
       return '${list.join(', ')}//${_listFormatImpl.locale}';
     } else {
