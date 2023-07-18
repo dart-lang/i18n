@@ -6,11 +6,11 @@ import '../test_checker.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
-class DatetimeFormat {
-  final DatetimeFormatOptions _options;
-  final DatetimeFormatImpl impl;
+class DateTimeFormat {
+  final DateTimeFormatOptions _options;
+  final DateTimeFormatImpl impl;
 
-  DatetimeFormat(this._options, this.impl);
+  DateTimeFormat(this._options, this.impl);
 
   String format(DateTime datetime) {
     if (isInTest) {

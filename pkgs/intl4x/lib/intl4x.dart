@@ -65,10 +65,10 @@ class Intl {
         DisplayNamesImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
-  DatetimeFormat datetimeFormat([DatetimeFormatOptions? options]) =>
-      DatetimeFormat(
-        options ?? const DatetimeFormatOptions(),
-        DatetimeFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+  DateTimeFormat datetimeFormat([DateTimeFormatOptions? options]) =>
+      DateTimeFormat(
+        options ?? const DateTimeFormatOptions(),
+        DateTimeFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
   /// Construct an [Intl] instance providing the current [currentLocale] and the

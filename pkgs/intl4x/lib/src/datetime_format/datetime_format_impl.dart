@@ -13,14 +13,14 @@ import 'datetime_format_stub.dart'
 
 /// This is an intermediate to defer to the actual implementations of
 /// datetime formatting.
-abstract class DatetimeFormatImpl {
+abstract class DateTimeFormatImpl {
   final String locale;
 
-  DatetimeFormatImpl(this.locale);
+  DateTimeFormatImpl(this.locale);
 
-  String formatImpl(DateTime datetime, DatetimeFormatOptions options);
+  String formatImpl(DateTime datetime, DateTimeFormatOptions options);
 
-  factory DatetimeFormatImpl.build(
+  factory DateTimeFormatImpl.build(
     Locale locale,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
@@ -29,7 +29,7 @@ abstract class DatetimeFormatImpl {
         locale,
         localeMatcher,
         ecmaPolicy,
-        getDatetimeFormatterECMA,
-        getDatetimeFormatter4X,
+        getDateTimeFormatterECMA,
+        getDateTimeFormatter4X,
       );
 }

@@ -26,7 +26,7 @@ void main() {
     final timeZone = 'America/Los_Angeles';
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.short,
           ))
@@ -35,7 +35,7 @@ void main() {
     );
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.long,
           ))
@@ -44,7 +44,7 @@ void main() {
     );
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.shortOffset,
           ))
@@ -53,7 +53,7 @@ void main() {
     );
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.longOffset,
           ))
@@ -62,7 +62,7 @@ void main() {
     );
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.shortGeneric,
           ))
@@ -71,7 +71,7 @@ void main() {
     );
     expect(
       intl
-          .datetimeFormat(DatetimeFormatOptions(
+          .datetimeFormat(DateTimeFormatOptions(
             timeZone: timeZone,
             timeZoneName: TimeZoneName.longGeneric,
           ))
@@ -83,7 +83,7 @@ void main() {
   testWithFormatting('day period', () {
     expect(
         Intl(defaultLocale: 'en_GB')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
               dayPeriod: DayPeriod.short,
@@ -94,7 +94,7 @@ void main() {
 
     expect(
         Intl(defaultLocale: 'fr')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
               dayPeriod: DayPeriod.narrow,
@@ -105,7 +105,7 @@ void main() {
 
     expect(
         Intl(defaultLocale: 'fr')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
               dayPeriod: DayPeriod.long,
@@ -118,21 +118,21 @@ void main() {
   testWithFormatting('style', () {
     expect(
         Intl(defaultLocale: 'en')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.short,
             ))
             .format(date),
         '5:00 AM');
     expect(
         Intl(defaultLocale: 'en')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               dateStyle: DateStyle.short,
             ))
             .format(date),
         '12/17/21');
     expect(
         Intl(defaultLocale: 'en')
-            .datetimeFormat(const DatetimeFormatOptions(
+            .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.medium,
               dateStyle: DateStyle.short,
             ))

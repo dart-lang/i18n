@@ -9,8 +9,8 @@ typedef DayPeriod = Style;
 typedef EraRepresentation = Style;
 typedef DateStyle = TimeStyle;
 
-/// datetime formatting functionality of the browser.
-class DatetimeFormatOptions {
+/// DateTime formatting functionality of the browser.
+class DateTimeFormatOptions {
   final DateStyle? dateStyle;
   final TimeStyle? timeStyle;
   final Calendar? calendar;
@@ -32,7 +32,7 @@ class DatetimeFormatOptions {
   final FormatMatcher formatMatcher;
   final LocaleMatcher localeMatcher;
 
-  const DatetimeFormatOptions({
+  const DateTimeFormatOptions({
     this.dateStyle,
     this.timeStyle,
     this.calendar,

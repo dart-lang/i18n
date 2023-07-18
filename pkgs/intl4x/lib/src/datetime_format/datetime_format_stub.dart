@@ -6,7 +6,7 @@ import '../locale.dart';
 import '../options.dart';
 import 'datetime_format_impl.dart';
 
-DatetimeFormatImpl? getDatetimeFormatterECMA(
+DateTimeFormatImpl? getDateTimeFormatterECMA(
   Locale locales,
   LocaleMatcher localeMatcher,
 ) =>

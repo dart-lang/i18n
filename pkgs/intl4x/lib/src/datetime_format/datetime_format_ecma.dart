@@ -11,15 +11,15 @@ import '../utils.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
-DatetimeFormatImpl? getDatetimeFormatterECMA(
+DateTimeFormatImpl? getDateTimeFormatterECMA(
   Locale locale,
   LocaleMatcher localeMatcher,
 ) =>
-    _DatetimeFormatECMA.tryToBuild(locale, localeMatcher);
+    _DateTimeFormatECMA.tryToBuild(locale, localeMatcher);
 
 @JS('Intl.DateTimeFormat')
-class _DatetimeFormatJS {
-  external factory _DatetimeFormatJS([List<String> locale, Object options]);
+class _DateTimeFormatJS {
+  external factory _DateTimeFormatJS([List<String> locale, Object options]);
   external String format(Object num);
 }
 
@@ -56,16 +56,16 @@ external int UTC(
   int milliseconds,
 );
 
-class _DatetimeFormatECMA extends DatetimeFormatImpl {
-  _DatetimeFormatECMA(super.locales);
+class _DateTimeFormatECMA extends DateTimeFormatImpl {
+  _DateTimeFormatECMA(super.locales);
 
-  static DatetimeFormatImpl? tryToBuild(
+  static DateTimeFormatImpl? tryToBuild(
     Locale locale,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? _DatetimeFormatECMA(supportedLocales.first)
+        ? _DateTimeFormatECMA(supportedLocales.first)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
@@ -79,8 +79,8 @@ class _DatetimeFormatECMA extends DatetimeFormatImpl {
   }
 
   @override
-  String formatImpl(DateTime datetime, DatetimeFormatOptions options) {
-    final datetimeFormatJS = _DatetimeFormatJS(
+  String formatImpl(DateTime datetime, DateTimeFormatOptions options) {
+    final datetimeFormatJS = _DateTimeFormatJS(
       [localeToJsFormat(locale)],
       options.toJsOptions(),
     );
@@ -99,7 +99,7 @@ extension on DateTime {
   }
 }
 
-extension on DatetimeFormatOptions {
+extension on DateTimeFormatOptions {
   Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);

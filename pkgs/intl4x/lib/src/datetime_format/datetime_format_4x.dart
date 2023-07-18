@@ -6,14 +6,14 @@ import '../locale.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
-DatetimeFormatImpl getDatetimeFormatter4X(Locale locale) =>
-    DatetimeFormat4X(locale);
+DateTimeFormatImpl getDateTimeFormatter4X(Locale locale) =>
+    DateTimeFormat4X(locale);
 
-class DatetimeFormat4X extends DatetimeFormatImpl {
-  DatetimeFormat4X(super.locale);
+class DateTimeFormat4X extends DateTimeFormatImpl {
+  DateTimeFormat4X(super.locale);
 
   @override
-  String formatImpl(DateTime datetime, DatetimeFormatOptions options) {
+  String formatImpl(DateTime datetime, DateTimeFormatOptions options) {
     throw UnimplementedError('Insert diplomat bindings here');
   }
 }
