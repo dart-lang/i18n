@@ -1,3 +1,7 @@
+## 0.3.1-wip
+
+- Update the readme to add standard markdown badges.
+
 ## 0.3.0
 
 - Add display names.
