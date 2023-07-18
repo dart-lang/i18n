@@ -19,7 +19,7 @@ class ListFormatOptions {
 
   const ListFormatOptions({
     this.type = Type.conjunction,
-    this.style = Style.long,
+    this.style = ListStyle.long,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
 }
