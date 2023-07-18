@@ -3,12 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'collation.dart';
+import 'display_names.dart';
 import 'number_format.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_impl.dart';
 import 'src/datetime_format/datetime_format_options.dart';
+import 'src/display_names/display_names_impl.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/list_format/list_format.dart';
@@ -57,6 +59,11 @@ class Intl {
   ListFormat listFormat([ListFormatOptions? options]) => ListFormat(
         options ?? const ListFormatOptions(),
         ListFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+      );
+
+  DisplayNames displayNames([DisplayNamesOptions? options]) => DisplayNames(
+        options ?? const DisplayNamesOptions(),
+        DisplayNamesImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
   DatetimeFormat datetimeFormat([DatetimeFormatOptions? options]) =>
