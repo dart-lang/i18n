@@ -6,6 +6,9 @@ import 'collation.dart';
 import 'number_format.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
+import 'src/datetime_format/datetime_format.dart';
+import 'src/datetime_format/datetime_format_impl.dart';
+import 'src/datetime_format/datetime_format_options.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
 import 'src/list_format/list_format.dart';
@@ -54,6 +57,12 @@ class Intl {
   ListFormat listFormat([ListFormatOptions? options]) => ListFormat(
         options ?? const ListFormatOptions(),
         ListFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+      );
+
+  DatetimeFormat datetimeFormat([DatetimeFormatOptions? options]) =>
+      DatetimeFormat(
+        options ?? const DatetimeFormatOptions(),
+        DatetimeFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
       );
 
   /// Construct an [Intl] instance providing the current [currentLocale] and the
