@@ -6,9 +6,6 @@ import 'dart:io';
 
 import 'locale.dart';
 
-/// Find the system locale, accessed via the appropriate system APIs, and
-/// set it as the default for internationalization operations in
-/// the [Intl.systemLocale] variable.
 Locale findSystemLocale() {
   try {
     return Locale.parse(Platform.localeName);
