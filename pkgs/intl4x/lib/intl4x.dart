@@ -4,6 +4,7 @@
 
 import 'collation.dart';
 import 'display_names.dart';
+import 'find_locale.dart';
 import 'number_format.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/data.dart';
@@ -67,14 +68,14 @@ class Intl {
   /// [ecmaPolicy] defining which locales should fall back to the browser
   /// provided functions.
   Intl._({
-    required this.currentLocale,
+    Locale? currentLocale,
     this.ecmaPolicy = defaultPolicy,
     this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
-  });
+  }) : currentLocale = currentLocale ?? findSystemLocale();
 
   Intl.includeLocales({
-    Locale defaultLocale = 'en',
+    Locale? defaultLocale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> includedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
@@ -85,7 +86,7 @@ class Intl {
         );
 
   Intl.excludeLocales({
-    Locale defaultLocale = 'en',
+    Locale? defaultLocale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> excludedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
@@ -98,7 +99,7 @@ class Intl {
         );
 
   Intl({
-    Locale defaultLocale = 'en',
+    Locale? defaultLocale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
