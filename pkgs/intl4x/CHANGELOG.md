@@ -1,3 +1,6 @@
+## 0.4.0
+
+- Add locale class.
 ## 0.3.1-wip
 
 - Update the readme to add standard markdown badges.
