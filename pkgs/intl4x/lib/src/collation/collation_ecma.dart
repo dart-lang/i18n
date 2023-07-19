@@ -7,7 +7,6 @@ import 'package:js/js_util.dart';
 
 import '../locale.dart';
 import '../options.dart';
-import '../utils.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
@@ -42,19 +41,22 @@ class CollationECMA extends CollationImpl {
         : null;
   }
 
-  static List<String> supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(supportedLocalesOfJS([localeToJsFormat(locale)], o));
+    return List.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
+        .whereType<String>()
+        .map(Locale.parse)
+        .toList();
   }
 
   @override
   int compareImpl(String a, String b, CollationOptions options) {
     final collatorJS = CollatorJS(
-      [localeToJsFormat(locale)],
+      [locale.toLanguageTag()],
       options.toJsOptions(),
     );
     return collatorJS.compare(a, b);

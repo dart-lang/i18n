@@ -7,7 +7,6 @@ import 'package:js/js_util.dart';
 
 import '../locale.dart';
 import '../options.dart';
-import '../utils.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
@@ -42,18 +41,21 @@ class _ListFormatECMA extends ListFormatImpl {
         : null;
   }
 
-  static List<String> supportedLocalesOf(
-    String locale,
+  static List<Locale> supportedLocalesOf(
+    Locale locale,
     LocaleMatcher localeMatcher,
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(supportedLocalesOfJS([localeToJsFormat(locale)], o));
+    return List.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
+        .whereType<String>()
+        .map(Locale.parse)
+        .toList();
   }
 
   @override
   String formatImpl(List<String> list, ListFormatOptions options) {
-    return ListFormatJS([localeToJsFormat(locale)], options.toJsOptions())
+    return ListFormatJS([locale.toLanguageTag()], options.toJsOptions())
         .format(list);
   }
 }

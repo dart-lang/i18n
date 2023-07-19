@@ -11,7 +11,9 @@ library intl_browser;
 
 import 'dart:html';
 
+import 'locale.dart';
+
 /// Find the system locale, accessed as window.navigator.language, and
 /// set it as the default for internationalization operations in the
 /// [Intl.systemLocale] variable.
-String findSystemLocale() => window.navigator.language;
+Locale findSystemLocale() => Locale.parse(window.navigator.language);

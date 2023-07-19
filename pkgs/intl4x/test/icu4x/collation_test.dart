@@ -13,13 +13,16 @@ import '../utils.dart';
 void main() {
   test('Does not compare in tests', () {
     final unsorted = ['Z', 'a', 'z', 'ä'];
-    final collationGerman = Intl(defaultLocale: 'de_DE').collation();
+    final collationGerman =
+        Intl(defaultLocale: const Locale(language: 'de', region: 'DE'))
+            .collation();
     expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
   });
 
   testWithFormatting('Simple EN', () {
     final list = ['A', 'B', 'C'];
-    final intl = Intl(defaultLocale: 'en_US');
+    final intl =
+        Intl(defaultLocale: const Locale(language: 'en', region: 'US'));
     final collation = intl.collation();
     expect(() => list..sort(collation.compare),
         throwsA(isA<UnimplementedError>()));

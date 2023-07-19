@@ -13,13 +13,18 @@ import '../utils.dart';
 
 void main() {
   testWithFormatting('basic', () {
-    expect(Intl(defaultLocale: 'en_US').displayNames().ofLanguage('de-DE'),
+    expect(
+        Intl(defaultLocale: const Locale(language: 'en', region: 'US'))
+            .displayNames()
+            .ofLanguage(const Locale(language: 'de', region: 'DE')),
         'German (Germany)');
   });
 
   testWithFormatting('languageDisplay', () {
     String of(DisplayNamesOptions options) =>
-        Intl(defaultLocale: 'en').displayNames(options).ofLanguage('en-GB');
+        Intl(defaultLocale: const Locale(language: 'en'))
+            .displayNames(options)
+            .ofLanguage(const Locale(language: 'en', region: 'GB'));
 
     expect(
       of(const DisplayNamesOptions(languageDisplay: LanguageDisplay.dialect)),
@@ -32,7 +37,8 @@ void main() {
   });
 
   testWithFormatting('calendar', () {
-    final displayNames = Intl(defaultLocale: 'en').displayNames();
+    final displayNames =
+        Intl(defaultLocale: const Locale(language: 'en')).displayNames();
 
     expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
     expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
@@ -40,7 +46,8 @@ void main() {
   });
 
   testWithFormatting('dateTimeField', () {
-    final displayNames = Intl(defaultLocale: 'pt').displayNames();
+    final displayNames =
+        Intl(defaultLocale: const Locale(language: 'pt')).displayNames();
     expect(displayNames.ofDateTime(DateTimeField.era), 'era');
     expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
     expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
@@ -56,21 +63,27 @@ void main() {
 
   testWithFormatting('currency', () {
     expect(
-      Intl(defaultLocale: 'pt').displayNames().ofCurrency('USD'),
+      Intl(defaultLocale: const Locale(language: 'pt'))
+          .displayNames()
+          .ofCurrency('USD'),
       'Dólar americano',
     );
   });
 
   testWithFormatting('script', () {
     expect(
-      Intl(defaultLocale: 'fr').displayNames().ofScript('Egyp'),
+      Intl(defaultLocale: const Locale(language: 'fr'))
+          .displayNames()
+          .ofScript('Egyp'),
       'hiéroglyphes égyptiens',
     );
   });
 
   testWithFormatting('region', () {
     expect(
-      Intl(defaultLocale: 'es-419').displayNames().ofRegion('DE'),
+      Intl(defaultLocale: const Locale(language: 'es', region: '419'))
+          .displayNames()
+          .ofRegion('DE'),
       'Alemania',
     );
   });

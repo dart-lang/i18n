@@ -13,7 +13,7 @@ import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 /// This is an intermediate to defer to the actual implementations of
 /// Number formatting.
 abstract class NumberFormatImpl {
-  final String locale;
+  final Locale locale;
 
   NumberFormatImpl(this.locale);
 

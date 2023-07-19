@@ -4,13 +4,15 @@
 
 import 'dart:io';
 
+import 'locale.dart';
+
 /// Find the system locale, accessed via the appropriate system APIs, and
 /// set it as the default for internationalization operations in
 /// the [Intl.systemLocale] variable.
-String findSystemLocale() {
+Locale findSystemLocale() {
   try {
-    return Platform.localeName;
+    return Locale.parse(Platform.localeName);
   } catch (e) {
-    return 'en-US';
+    return const Locale(language: 'en', region: 'US');
   }
 }

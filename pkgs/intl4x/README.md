@@ -38,7 +38,7 @@ import 'package:intl4x/number_format.dart';
 
 final numberFormat = Intl(
   ecmaPolicy: const AlwaysEcma(),
-  defaultLocale: 'en_US',
+  defaultLocale: Locale(language: 'en', country: 'US'),
 ).numberFormat(NumberFormatOptions.percent());
 
 print(numberFormat.format(0.5)); // prints 50%

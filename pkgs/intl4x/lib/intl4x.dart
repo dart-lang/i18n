@@ -18,6 +18,8 @@ import 'src/locale.dart';
 import 'src/number_format/number_format_impl.dart';
 import 'src/options.dart';
 
+export 'src/locale.dart';
+
 typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
@@ -28,7 +30,7 @@ typedef Icu4xKey = String;
 /// ```dart
 /// final numberFormat = Intl(
 ///   ecmaPolicy: const AlwaysEcma(),
-///   locale: 'en_US',
+///   locale: Locale(language: 'en', country: 'US'),
 /// ).numberFormat;
 /// print(numberFormat.percent().format(0.5)); //prints 50%
 /// ```
