@@ -1,6 +1,7 @@
 ## 0.4.0
 
 - Add datetime formatting.
+- Update the readme to add standard markdown badges.
 
 ## 0.3.0
 
