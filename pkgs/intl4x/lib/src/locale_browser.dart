@@ -7,15 +7,15 @@ import 'package:js/js.dart';
 import 'locale.dart';
 
 @JS('Intl.Locale')
-class ListFormatJS {
-  external factory ListFormatJS(String s);
+class LocaleJS {
+  external factory LocaleJS(String s);
   external String? get script;
   external String get language;
   external String? get region;
 }
 
 Locale parseLocale(String s) {
-  final parsed = ListFormatJS(s);
+  final parsed = LocaleJS(s);
   return Locale(
     language: parsed.language,
     region: parsed.region ?? '',
