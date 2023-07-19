@@ -14,7 +14,7 @@ import '../utils.dart';
 void main() {
   testWithFormatting('basic', () {
     expect(
-        Intl(defaultLocale: const Locale(language: 'en', region: 'US'))
+        Intl(locale: const Locale(language: 'en', region: 'US'))
             .displayNames()
             .ofLanguage(const Locale(language: 'de', region: 'DE')),
         'German (Germany)');
@@ -22,7 +22,7 @@ void main() {
 
   testWithFormatting('languageDisplay', () {
     String of(DisplayNamesOptions options) =>
-        Intl(defaultLocale: const Locale(language: 'en'))
+        Intl(locale: const Locale(language: 'en'))
             .displayNames(options)
             .ofLanguage(const Locale(language: 'en', region: 'GB'));
 
@@ -38,7 +38,7 @@ void main() {
 
   testWithFormatting('calendar', () {
     final displayNames =
-        Intl(defaultLocale: const Locale(language: 'en')).displayNames();
+        Intl(locale: const Locale(language: 'en')).displayNames();
 
     expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
     expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
@@ -47,7 +47,7 @@ void main() {
 
   testWithFormatting('dateTimeField', () {
     final displayNames =
-        Intl(defaultLocale: const Locale(language: 'pt')).displayNames();
+        Intl(locale: const Locale(language: 'pt')).displayNames();
     expect(displayNames.ofDateTime(DateTimeField.era), 'era');
     expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
     expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
@@ -63,7 +63,7 @@ void main() {
 
   testWithFormatting('currency', () {
     expect(
-      Intl(defaultLocale: const Locale(language: 'pt'))
+      Intl(locale: const Locale(language: 'pt'))
           .displayNames()
           .ofCurrency('USD'),
       'Dólar americano',
@@ -72,7 +72,7 @@ void main() {
 
   testWithFormatting('script', () {
     expect(
-      Intl(defaultLocale: const Locale(language: 'fr'))
+      Intl(locale: const Locale(language: 'fr'))
           .displayNames()
           .ofScript('Egyp'),
       'hiéroglyphes égyptiens',
@@ -81,7 +81,7 @@ void main() {
 
   testWithFormatting('region', () {
     expect(
-      Intl(defaultLocale: const Locale(language: 'es', region: '419'))
+      Intl(locale: const Locale(language: 'es', region: '419'))
           .displayNames()
           .ofRegion('DE'),
       'Alemania',

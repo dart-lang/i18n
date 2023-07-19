@@ -15,14 +15,13 @@ void main() {
   final list = ['A', 'B', 'C'];
   test('Does not compare in tests', () {
     final locale = const Locale(language: 'de', region: 'DE');
-    final listFormatGerman = Intl(defaultLocale: locale)
+    final listFormatGerman = Intl(locale: locale)
         .listFormat(const ListFormatOptions(style: ListStyle.long));
     expect(listFormatGerman.format(list), '${list.join(', ')}//$locale');
   });
 
   testWithFormatting('long', () {
-    final intl =
-        Intl(defaultLocale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     final listFormat =
         intl.listFormat(const ListFormatOptions(style: ListStyle.long));
     expect(() => listFormat.format(list), throwsA(isA<UnimplementedError>()));

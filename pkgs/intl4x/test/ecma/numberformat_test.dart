@@ -31,8 +31,7 @@ Object generateProperties(Map<String, Object> properties) {
 
 void main() {
   group('Some manual tests', () {
-    final intl =
-        Intl(defaultLocale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
 
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
@@ -117,7 +116,7 @@ void main() {
       final jsFormat =
           _NumberFormatJS([locale.toLanguageTag()], object).format(number);
       final dartFormat =
-          Intl(defaultLocale: locale).numberFormat(options).format(number);
+          Intl(locale: locale).numberFormat(options).format(number);
       expect(dartFormat, jsFormat,
           reason: 'With number $number, locale $locale, options $desc');
     }

@@ -2,4 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/intl_standalone.dart' if (dart.library.js) 'src/intl_browser.dart';
+export 'intl_standalone.dart' if (dart.library.js) 'intl_browser.dart';

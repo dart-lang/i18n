@@ -3,6 +3,6 @@ import 'package:test/test.dart';
 
 void main() {
   test('Default locale is set', () {
-    expect(Intl().currentLocale.language, isNotEmpty);
+    expect(Intl().locale.language, isNotEmpty);
   });
 }
