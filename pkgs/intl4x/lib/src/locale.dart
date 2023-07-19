@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
@@ -24,6 +25,18 @@ class Locale {
   }
 
   static Locale parse(String s) => parseLocale(s);
+
+  @override
+  bool operator ==(covariant Locale other) {
+    if (identical(this, other)) return true;
+
+    return other.language == language &&
+        other.variant == variant &&
+        other.region == region;
+  }
+
+  @override
+  int get hashCode => language.hashCode ^ variant.hashCode ^ region.hashCode;
 }
 
 // TODO: add all locales which are supported by ICU4X / Browsers
