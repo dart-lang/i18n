@@ -31,7 +31,7 @@ Object generateProperties(Map<String, Object> properties) {
 
 void main() {
   group('Some manual tests', () {
-    final intl = Intl(defaultLocale: 'en_US');
+    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
 
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
@@ -71,7 +71,11 @@ void main() {
     final random = Random(seed);
 
     final numbers = [3.14, 5, 20000, 3, 4.2214, 3.99999, 20000.0001];
-    final locales = ['en-US', 'de-DE', 'zh-TW'];
+    final locales = [
+      const Locale(language: 'en', region: 'US'),
+      const Locale(language: 'de', region: 'DE'),
+      const Locale(language: 'zh', region: 'TW')
+    ];
     final options = <(Object, NumberFormatOptions, Object)>[
       (
         {'minimumFractionDigits': 2},
@@ -96,7 +100,7 @@ void main() {
       ),
     ];
 
-    List<(num, String, (Object, NumberFormatOptions, Object))>
+    List<(num, Locale, (Object, NumberFormatOptions, Object))>
         selectIndicesFrom(int length) {
       return List.generate(
           length,
@@ -109,9 +113,10 @@ void main() {
 
     for (final (number, locale, (desc, options, object))
         in selectIndicesFrom(1000)) {
-      final jsFormat = _NumberFormatJS([locale], object).format(number);
+      final jsFormat =
+          _NumberFormatJS([locale.toLanguageTag()], object).format(number);
       final dartFormat =
-          Intl(defaultLocale: locale).numberFormat(options).format(number);
+          Intl(locale: locale).numberFormat(options).format(number);
       expect(dartFormat, jsFormat,
           reason: 'With number $number, locale $locale, options $desc');
     }

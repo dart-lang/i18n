@@ -13,7 +13,7 @@ import 'display_names_stub.dart' if (dart.library.js) 'display_names_ecma.dart';
 /// This is an intermediate to defer to the actual implementations of
 /// Display naming.
 abstract class DisplayNamesImpl {
-  final String locale;
+  final Locale locale;
 
   DisplayNamesImpl(this.locale);
 

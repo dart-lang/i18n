@@ -7,8 +7,6 @@ import 'package:js/js_util.dart';
 
 import '../locale.dart';
 import '../options.dart';
-@JS()
-import '../utils.dart';
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 
@@ -31,7 +29,7 @@ external List<String> _supportedLocalesOfJS(
 ]);
 
 class _DisplayNamesECMA extends DisplayNamesImpl {
-  _DisplayNamesECMA(super.locales);
+  _DisplayNamesECMA(super.locale);
 
   static DisplayNamesImpl? tryToBuild(
     Locale locale,
@@ -43,18 +41,21 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
-  static List<String> supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(_supportedLocalesOfJS([localeToJsFormat(locale)], o));
+    return List.from(_supportedLocalesOfJS([locale.toLanguageTag()], o))
+        .whereType<String>()
+        .map(Locale.parse)
+        .toList();
   }
 
   String of(DisplayNamesOptions options, DisplayType type, String jsName) {
     final displayNamesJS = _DisplayNamesJS(
-      [localeToJsFormat(locale)],
+      [locale.toLanguageTag()],
       options.toJsOptions(type),
     );
     return displayNamesJS.of(jsName);
@@ -74,7 +75,7 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
 
   @override
   String ofLanguage(Locale locale, DisplayNamesOptions options) =>
-      of(options, DisplayType.language, locale);
+      of(options, DisplayType.language, locale.toLanguageTag());
 
   @override
   String ofRegion(String regionCode, DisplayNamesOptions options) =>

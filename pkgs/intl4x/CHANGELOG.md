@@ -1,6 +1,10 @@
+## 0.5.0
+
+- Add `DateTime` formatting.
+
 ## 0.4.0
 
-- Add datetime formatting.
+- Add a `Locale` class.
 - Update the readme to add standard markdown badges.
 
 ## 0.3.0

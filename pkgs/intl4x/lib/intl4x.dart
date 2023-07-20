@@ -13,11 +13,14 @@ import 'src/datetime_format/datetime_format_options.dart';
 import 'src/display_names/display_names_impl.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
+import 'src/find_locale.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_impl.dart';
 import 'src/list_format/list_format_options.dart';
 import 'src/locale.dart';
 import 'src/number_format/number_format_impl.dart';
+
+export 'src/locale.dart';
 
 typedef Icu4xKey = String;
 
@@ -29,7 +32,7 @@ typedef Icu4xKey = String;
 /// ```dart
 /// final numberFormat = Intl(
 ///   ecmaPolicy: const AlwaysEcma(),
-///   locale: 'en_US',
+///   locale: Locale(language: 'en', country: 'US'),
 /// ).numberFormat;
 /// print(numberFormat.percent().format(0.5)); //prints 50%
 /// ```
@@ -47,58 +50,58 @@ class Intl {
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       Collation(
         options,
-        CollationImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+        CollationImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
   NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
         options ?? NumberFormatOptions.custom(),
-        NumberFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+        NumberFormatImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
   ListFormat listFormat([ListFormatOptions? options]) => ListFormat(
         options ?? const ListFormatOptions(),
-        ListFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+        ListFormatImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
   DisplayNames displayNames([DisplayNamesOptions? options]) => DisplayNames(
         options ?? const DisplayNamesOptions(),
-        DisplayNamesImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+        DisplayNamesImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
   DateTimeFormat datetimeFormat([DateTimeFormatOptions? options]) =>
       DateTimeFormat(
         options ?? const DateTimeFormatOptions(),
-        DateTimeFormatImpl.build(currentLocale, localeMatcher, ecmaPolicy),
+        DateTimeFormatImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
-  /// Construct an [Intl] instance providing the current [currentLocale] and the
+  /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
   /// provided functions.
   Intl._({
-    required this.currentLocale,
+    Locale? locale,
     this.ecmaPolicy = defaultPolicy,
     this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
-  });
+  }) : locale = locale ?? findSystemLocale();
 
   Intl.includeLocales({
-    Locale defaultLocale = 'en',
+    Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> includedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          currentLocale: defaultLocale,
+          locale: locale,
           ecmaPolicy: ecmaPolicy,
           supportedLocales: includedLocales,
         );
 
   Intl.excludeLocales({
-    Locale defaultLocale = 'en',
+    Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> excludedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          currentLocale: defaultLocale,
+          locale: locale,
           ecmaPolicy: ecmaPolicy,
           supportedLocales: allLocales
               .where((locale) => !excludedLocales.contains(locale))
@@ -106,20 +109,20 @@ class Intl {
         );
 
   Intl({
-    Locale defaultLocale = 'en',
+    Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          currentLocale: defaultLocale,
+          locale: locale,
           ecmaPolicy: ecmaPolicy,
           supportedLocales: allLocales,
         );
 
-  Locale currentLocale;
+  Locale locale;
 
   /// Whether to use the browser with the current settings
   bool get useEcma {
-    final shouldUse = ecmaPolicy.useBrowser(currentLocale);
+    final shouldUse = ecmaPolicy.useBrowser(locale);
     final canUse = true;
     return shouldUse && canUse;
   }

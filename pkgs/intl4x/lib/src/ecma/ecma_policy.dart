@@ -37,7 +37,7 @@ final class NeverEcma extends EcmaPolicy {
 /// Policy to use the browsers built-in `Intl` functionality for a specified set
 /// of locales.
 final class SometimesEcma extends EcmaPolicy {
-  final Set<String> ecmaLocales;
+  final Set<Locale> ecmaLocales;
 
   const SometimesEcma(this.ecmaLocales);
 
@@ -47,7 +47,7 @@ final class SometimesEcma extends EcmaPolicy {
 
 /// Policy to use ICU4X functionality for a specified set of locales.
 final class SometimesICU4X extends EcmaPolicy {
-  final Set<String> icuLocales;
+  final Set<Locale> icuLocales;
 
   const SometimesICU4X(this.icuLocales);
 
