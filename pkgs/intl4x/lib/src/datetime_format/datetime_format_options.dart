@@ -4,43 +4,54 @@
 
 import '../options.dart';
 
-typedef WeekDayRepresentation = Style;
+typedef WeekDayStyle = Style;
 typedef DayPeriod = Style;
-typedef EraRepresentation = Style;
-typedef DateStyle = TimeStyle;
+typedef EraStyle = Style;
+typedef DateFormatStyle = TimeFormatStyle;
 
 /// DateTime formatting functionality of the browser.
 class DateTimeFormatOptions {
-  final DateStyle? dateStyle;
-  final TimeStyle? timeStyle;
+  /// The date formatting style.
+  final DateFormatStyle? dateFormatStyle;
+
+  /// The time formatting style.
+  final TimeFormatStyle? timeFormatStyle;
+
   final Calendar? calendar;
+
+  /// The formatting style used for day periods - only used when the [clockstyle]
+  /// parameter is true.
   final DayPeriod? dayPeriod;
   final NumberingSystem? numberingSystem;
   final String? timeZone;
-  final bool? hour12;
-  final HourCycle? hourCycle;
-  final WeekDayRepresentation? weekday;
-  final EraRepresentation? era;
-  final TimeRepresentation? year;
-  final MonthRepresentation? month;
-  final TimeRepresentation? day;
-  final TimeRepresentation? hour;
-  final TimeRepresentation? minute;
-  final TimeRepresentation? second;
+
+  /// Whether to use a 12- or 24-hour style clock.
+  final ClockStyle? clockstyle;
+  final WeekDayStyle? weekday;
+  final EraStyle? era;
+  final TimeStyle? year;
+  final MonthStyle? month;
+  final TimeStyle? day;
+  final TimeStyle? hour;
+  final TimeStyle? minute;
+  final TimeStyle? second;
+
+  /// The number of digits used to represent fractions of a second.
   final int? fractionalSecondDigits;
+
+  /// The localized representation of the time zone name.
   final TimeZoneName? timeZoneName;
   final FormatMatcher formatMatcher;
   final LocaleMatcher localeMatcher;
 
   const DateTimeFormatOptions({
-    this.dateStyle,
-    this.timeStyle,
+    this.dateFormatStyle,
+    this.timeFormatStyle,
     this.calendar,
     this.dayPeriod,
     this.numberingSystem,
     this.timeZone,
-    this.hour12,
-    this.hourCycle,
+    this.clockstyle,
     this.weekday,
     this.era,
     this.year,
@@ -56,7 +67,14 @@ class DateTimeFormatOptions {
   });
 }
 
-enum TimeStyle {
+class ClockStyle {
+  final bool is12Hour;
+  final bool? startAtZero;
+
+  const ClockStyle({required this.is12Hour, this.startAtZero});
+}
+
+enum TimeFormatStyle {
   full,
   long,
   medium,
@@ -106,7 +124,7 @@ enum FormatMatcher {
   const FormatMatcher([this._jsName]);
 }
 
-enum MonthRepresentation {
+enum MonthStyle {
   numeric,
   twodigit('2-digit'),
   long,
@@ -117,10 +135,10 @@ enum MonthRepresentation {
 
   final String? _jsName;
 
-  const MonthRepresentation([this._jsName]);
+  const MonthStyle([this._jsName]);
 }
 
-enum TimeRepresentation {
+enum TimeStyle {
   numeric,
   twodigit('2-digit');
 
@@ -128,14 +146,25 @@ enum TimeRepresentation {
 
   final String? _jsName;
 
-  const TimeRepresentation([this._jsName]);
+  const TimeStyle([this._jsName]);
 }
 
 enum TimeZoneName {
+  /// Example: `Pacific Standard Time`
   long,
+
+  /// Example: `PST`
   short,
+
+  /// Example: `GMT-8`
   shortOffset,
+
+  /// Example: `GMT-0800`
   longOffset,
+
+  /// Example: `PT`
   shortGeneric,
+
+  /// Example: `Pacific Time`
   longGeneric;
 }

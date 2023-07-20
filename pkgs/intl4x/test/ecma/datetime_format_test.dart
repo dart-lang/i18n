@@ -85,8 +85,11 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'en', region: 'GB'))
             .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeRepresentation.numeric,
-              hourCycle: HourCycle.h12,
+              hour: TimeStyle.numeric,
+              clockstyle: ClockStyle(
+                is12Hour: true,
+                startAtZero: false,
+              ),
               dayPeriod: DayPeriod.short,
               timeZone: 'UTC',
             ))
@@ -96,8 +99,11 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeRepresentation.numeric,
-              hourCycle: HourCycle.h12,
+              hour: TimeStyle.numeric,
+              clockstyle: ClockStyle(
+                is12Hour: true,
+                startAtZero: false,
+              ),
               dayPeriod: DayPeriod.narrow,
               timeZone: 'UTC',
             ))
@@ -107,8 +113,11 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeRepresentation.numeric,
-              hourCycle: HourCycle.h12,
+              hour: TimeStyle.numeric,
+              clockstyle: ClockStyle(
+                is12Hour: true,
+                startAtZero: false,
+              ),
               dayPeriod: DayPeriod.long,
               timeZone: 'UTC',
             ))
@@ -121,7 +130,7 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
-              timeStyle: TimeStyle.short,
+              timeFormatStyle: TimeFormatStyle.short,
               timeZone: 'UTC',
             ))
             .format(date),
@@ -129,7 +138,7 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
-              dateStyle: DateStyle.short,
+              dateFormatStyle: DateFormatStyle.short,
               timeZone: 'UTC',
             ))
             .format(date),
@@ -137,8 +146,8 @@ void main() {
     expect(
         Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
-              timeStyle: TimeStyle.medium,
-              dateStyle: DateStyle.short,
+              timeFormatStyle: TimeFormatStyle.medium,
+              dateFormatStyle: DateFormatStyle.short,
               timeZone: 'UTC',
             ))
             .format(date),

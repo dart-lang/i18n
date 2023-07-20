@@ -105,16 +105,22 @@ extension on DateTimeFormatOptions {
   Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    if (dateStyle != null) setProperty(o, 'dateStyle', dateStyle!.name);
-    if (timeStyle != null) setProperty(o, 'timeStyle', timeStyle!.name);
+    if (dateFormatStyle != null)
+      setProperty(o, 'dateStyle', dateFormatStyle!.name);
+    if (timeFormatStyle != null)
+      setProperty(o, 'timeStyle', timeFormatStyle!.name);
     if (calendar != null) setProperty(o, 'calendar', calendar!.jsName);
     if (dayPeriod != null) setProperty(o, 'dayPeriod', dayPeriod!.name);
     if (numberingSystem != null) {
       setProperty(o, 'numberingSystem', numberingSystem!.name);
     }
     if (timeZone != null) setProperty(o, 'timeZone', timeZone!);
-    if (hour12 ?? false) setProperty(o, 'hour12', true);
-    if (hourCycle != null) setProperty(o, 'hourCycle', hourCycle!.name);
+    if (clockstyle != null) {
+      setProperty(o, 'hour12', clockstyle!.is12Hour);
+      if (clockstyle!.startAtZero != null) {
+        setProperty(o, 'hourCycle', clockstyle!.hourStyleJsString());
+      }
+    }
     if (weekday != null) setProperty(o, 'weekday', weekday!.name);
     if (era != null) setProperty(o, 'era', era!.name);
     if (year != null) setProperty(o, 'year', year!.jsName);
@@ -131,5 +137,22 @@ extension on DateTimeFormatOptions {
     }
     setProperty(o, 'formatMatcher', formatMatcher.jsName);
     return o;
+  }
+}
+
+extension on ClockStyle {
+  String hourStyleJsString() {
+    // The four possible values are h11, h12, h23, h24.
+    final firstDigit = is12Hour ? 1 : 2;
+
+    final subtrahend = startAtZero! ? 1 : 0;
+    final secondDigit = firstDigit * 2 - subtrahend;
+
+    /// The cases are
+    /// * firstDigit == 1 && subtrahend == 1  --> h11
+    /// * firstDigit == 1 && subtrahend == 0  --> h12
+    /// * firstDigit == 2 && subtrahend == 1  --> h23
+    /// * firstDigit == 2 && subtrahend == 0  --> h24
+    return 'h$firstDigit$secondDigit';
   }
 }
