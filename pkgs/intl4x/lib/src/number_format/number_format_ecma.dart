@@ -7,8 +7,6 @@ import 'package:js/js_util.dart';
 
 import '../locale.dart';
 import '../options.dart';
-@JS()
-import '../utils.dart';
 import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
@@ -43,19 +41,22 @@ class _NumberFormatECMA extends NumberFormatImpl {
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
-  static List<String> supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(_supportedLocalesOfJS([localeToJsFormat(locale)], o));
+    return List.from(_supportedLocalesOfJS([locale.toLanguageTag()], o))
+        .whereType<String>()
+        .map(Locale.parse)
+        .toList();
   }
 
   @override
   String formatImpl(Object number, NumberFormatOptions options) {
     final numberFormatJS = _NumberFormatJS(
-      [localeToJsFormat(locale)],
+      [locale.toLanguageTag()],
       options.toJsOptions(),
     );
     return numberFormatJS.format(number);

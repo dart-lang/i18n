@@ -10,10 +10,7 @@ import 'package:intl4x/number_format.dart';
 
 void main() {
   num number = 300000;
-  var intl = Intl(
-    defaultLocale: 'en',
-    ecmaPolicy: AlwaysEcma(),
-  );
+  var intl = Intl(ecmaPolicy: AlwaysEcma());
   String nf(num number) => intl
       .numberFormat(NumberFormatOptions.custom(
         style: CurrencyStyle(currency: 'USD'),
