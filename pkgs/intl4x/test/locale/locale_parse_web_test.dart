@@ -13,8 +13,8 @@ void main() {
     expect(Locale.parse('de'), const Locale(language: 'de'));
     expect(Locale.parse('de-DE'), const Locale(language: 'de', region: 'DE'));
     expect(Locale.parse('zh-Hant-TW'),
-        const Locale(language: 'zh', region: 'TW', variant: 'Hant'));
+        const Locale(language: 'zh', region: 'TW', script: 'Hant'));
     expect(
-        Locale.parse('zh-Hant'), const Locale(language: 'zh', variant: 'Hant'));
+        Locale.parse('zh-Hant'), const Locale(language: 'zh', script: 'Hant'));
   });
 }

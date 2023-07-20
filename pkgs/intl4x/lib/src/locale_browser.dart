@@ -19,6 +19,6 @@ Locale parseLocale(String s) {
   return Locale(
     language: parsed.language,
     region: parsed.region ?? '',
-    variant: parsed.script ?? '',
+    script: parsed.script ?? '',
   );
 }

@@ -9,7 +9,7 @@ Locale parseLocaleWithSeparatorPlaceholder(String s, [String separator = '-']) {
   return Locale(
     language: parsed[0],
     region: parsed.length > 1 ? parsed[1] : '',
-    variant: parsed.length > 1 ? parsed.last : '',
+    script: parsed.length > 1 ? parsed.last : '',
   );
 }
 
