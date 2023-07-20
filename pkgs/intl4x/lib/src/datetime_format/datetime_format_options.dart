@@ -19,8 +19,8 @@ class DateTimeFormatOptions {
 
   final Calendar? calendar;
 
-  /// The formatting style used for day periods - only used when the [clockstyle]
-  /// parameter is true.
+  /// The formatting style used for day periods - only used when the
+  /// [clockstyle] parameter is true.
   final DayPeriod? dayPeriod;
   final NumberingSystem? numberingSystem;
   final String? timeZone;

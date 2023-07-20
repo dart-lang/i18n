@@ -105,10 +105,12 @@ extension on DateTimeFormatOptions {
   Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    if (dateFormatStyle != null)
+    if (dateFormatStyle != null) {
       setProperty(o, 'dateStyle', dateFormatStyle!.name);
-    if (timeFormatStyle != null)
+    }
+    if (timeFormatStyle != null) {
       setProperty(o, 'timeStyle', timeFormatStyle!.name);
+    }
     if (calendar != null) setProperty(o, 'calendar', calendar!.jsName);
     if (dayPeriod != null) setProperty(o, 'dayPeriod', dayPeriod!.name);
     if (numberingSystem != null) {
