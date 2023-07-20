@@ -4,3 +4,4 @@
 
 export 'src/number_format/number_format.dart';
 export 'src/number_format/number_format_options.dart';
+export 'src/options.dart';

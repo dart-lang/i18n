@@ -4,3 +4,4 @@
 
 export 'src/list_format/list_format.dart';
 export 'src/list_format/list_format_options.dart';
+export 'src/options.dart';
