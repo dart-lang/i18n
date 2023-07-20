@@ -14,7 +14,7 @@ import '../utils.dart';
 void main() {
   testWithFormatting('Basic', () {
     expect(
-        Intl(defaultLocale: 'en_US')
+        Intl(locale: const Locale(language: 'en', region: 'US'))
             .datetimeFormat()
             .format(DateTime.utc(2012, 12, 20, 3, 0, 0)),
         '12/20/2012');
@@ -22,7 +22,7 @@ void main() {
 
   testWithFormatting('timezone', () {
     final date = DateTime.utc(2021, 12, 17, 3, 0, 42);
-    final intl = Intl(defaultLocale: 'en_US');
+    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     final timeZone = 'America/Los_Angeles';
     expect(
       intl
@@ -83,7 +83,7 @@ void main() {
   testWithFormatting('day period', () {
     final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
     expect(
-        Intl(defaultLocale: 'en_GB')
+        Intl(locale: const Locale(language: 'en', region: 'GB'))
             .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
@@ -94,7 +94,7 @@ void main() {
         '4 at night');
 
     expect(
-        Intl(defaultLocale: 'fr')
+        Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
@@ -105,7 +105,7 @@ void main() {
         '4 mat.');
 
     expect(
-        Intl(defaultLocale: 'fr')
+        Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(const DateTimeFormatOptions(
               hour: TimeRepresentation.numeric,
               hourCycle: HourCycle.h12,
@@ -119,7 +119,7 @@ void main() {
   testWithFormatting('style', () {
     final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
     expect(
-        Intl(defaultLocale: 'en')
+        Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.short,
               timeZone: 'UTC',
@@ -127,7 +127,7 @@ void main() {
             .format(date),
         '4:00 AM');
     expect(
-        Intl(defaultLocale: 'en')
+        Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
               dateStyle: DateStyle.short,
               timeZone: 'UTC',
@@ -135,7 +135,7 @@ void main() {
             .format(date),
         '12/17/21');
     expect(
-        Intl(defaultLocale: 'en')
+        Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
               timeStyle: TimeStyle.medium,
               dateStyle: DateStyle.short,

@@ -14,7 +14,7 @@ import 'datetime_format_stub.dart'
 /// This is an intermediate to defer to the actual implementations of
 /// datetime formatting.
 abstract class DateTimeFormatImpl {
-  final String locale;
+  final Locale locale;
 
   DateTimeFormatImpl(this.locale);
 
