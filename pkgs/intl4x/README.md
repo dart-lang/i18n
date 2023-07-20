@@ -36,10 +36,12 @@ import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 
-final numberFormat = Intl(
-  ecmaPolicy: const AlwaysEcma(),
-  defaultLocale: Locale(language: 'en', country: 'US'),
-).numberFormat(NumberFormatOptions.percent());
+void main() {
+  final numberFormat = Intl(
+    ecmaPolicy: const AlwaysEcma(),
+    locale: const Locale(language: 'en', region: 'US'),
+  ).numberFormat(NumberFormatOptions.percent());
 
-print(numberFormat.format(0.5)); // prints 50%
+  print(numberFormat.format(0.5)); // prints 50%
+}
 ```
