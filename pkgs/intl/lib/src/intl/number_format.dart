@@ -4,6 +4,7 @@
 
 import 'dart:math';
 
+import 'package:intl/intl.dart';
 import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
@@ -495,7 +496,13 @@ class NumberFormat {
 
   /// Parse the number represented by the string. If it's not
   /// parseable, throws a [FormatException].
-  num parse(String text) => NumberParser(this, text).value!;
+  // TODO: use constructor tear-off syntax when dart sdk version >= 2.15
+  num parse(String text) => parseWith(text, (f, t) => NumberParser(f, t));
+
+  /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
+  /// parseable, throws a [FormatException].
+  R parseWith<R, P extends NumberParserBase<R>>(String text, P Function(NumberFormat, String) parserGenerator) =>
+      parserGenerator(this, text).value!;
 
   /// Parse the number represented by the string. If it's not
   /// parsable, returns `null`.
