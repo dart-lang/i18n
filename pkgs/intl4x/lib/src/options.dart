@@ -26,3 +26,36 @@ enum LocaleMatcher {
 
   const LocaleMatcher([this._jsName]);
 }
+
+enum Calendar {
+  buddhist,
+  chinese,
+  coptic,
+  dangi,
+  ethioaa,
+  ethiopic,
+  gregory,
+  hebrew,
+  indian,
+  islamic,
+  islamicUmalqura('islamic-umalqura'),
+  islamicTbla('islamic-tbla'),
+  islamicCivil('islamic-civil'),
+  islamicRgsa('islamic-rgsa'),
+  iso8601,
+  japanese,
+  persian,
+  roc;
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const Calendar([this._jsName]);
+}
+
+enum Style {
+  narrow,
+  short,
+  long,
+}

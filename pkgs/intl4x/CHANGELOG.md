@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Add `DateTime` formatting.
+
 ## 0.4.0
 
 - Add a `Locale` class.

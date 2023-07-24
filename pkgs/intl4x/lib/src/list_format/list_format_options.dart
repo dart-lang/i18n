@@ -4,8 +4,16 @@
 
 import '../options.dart';
 
+typedef ListStyle = Style;
+
 class ListFormatOptions {
   final Type type;
+
+  /// Indicates the grouping style (for example, whether list separators and
+  /// conjunctions are included).
+  /// * long: "A, B, and C".
+  /// * short: "A, B, C".
+  /// * narrow: "A B C".
   final ListStyle style;
   final LocaleMatcher localeMatcher;
 
@@ -26,17 +34,4 @@ enum Type {
 
   /// Grouping the list items as a unit: "A, B, C".
   unit;
-}
-
-/// Indicates the grouping style (for example, whether list separators and
-/// conjunctions are included).
-enum ListStyle {
-  /// Example: "A, B, and C".
-  long,
-
-  /// Example: "A, B, C".
-  short,
-
-  /// Example: "A B C".
-  narrow;
 }

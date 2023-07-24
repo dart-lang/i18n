@@ -4,3 +4,4 @@
 
 export 'src/collation/collation.dart';
 export 'src/collation/collation_options.dart';
+export 'src/options.dart';

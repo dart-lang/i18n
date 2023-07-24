@@ -17,7 +17,7 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
 |   | Number format  | List format  | Date format  | Collation  | Display names |
 |---|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |  | :heavy_check_mark: |
+| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | **ICU4X (web/native)**  |   |   |   |   |   | 
 
 ## Implementation and Goals
@@ -36,10 +36,12 @@ import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 
-final numberFormat = Intl(
-  ecmaPolicy: const AlwaysEcma(),
-  defaultLocale: Locale(language: 'en', country: 'US'),
-).numberFormat(NumberFormatOptions.percent());
+void main() {
+  final numberFormat = Intl(
+    ecmaPolicy: const AlwaysEcma(),
+    locale: const Locale(language: 'en', region: 'US'),
+  ).numberFormat(NumberFormatOptions.percent());
 
-print(numberFormat.format(0.5)); // prints 50%
+  print(numberFormat.format(0.5)); // prints 50%
+}
 ```
