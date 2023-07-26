@@ -11,4 +11,3 @@ on:
 jobs:
   upload:
     uses: dart-lang/ecosystem/.github/workflows/post_summaries.yaml@main
-    
