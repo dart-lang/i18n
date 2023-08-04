@@ -8,3 +8,5 @@ jobs:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
     with:
       coverage_web: true
+    permissions:
+      pull-requests: write
