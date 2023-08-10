@@ -6,6 +6,7 @@
  * Update to CLDR v43.
  * Switch QAR currency name to Riyal.
  * Add license headers to some files.
+ * Fix issue [#483](https://github.com/dart-lang/i18n/issues/483) about date parsing with a `yy` skeleton.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
