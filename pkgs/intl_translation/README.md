@@ -24,11 +24,13 @@ dart run intl_translation:extract_to_arb --output-dir=target/directory
       lib/**/*.dart
 ```
 
-This supports flutter `lib/` folder. For example, to automatically all files in your `lib/` folder, you can use
+
+This supports flutter `lib/` folder. For example, to automatically extract all files in your `lib/` folder, you can use
  `--lib-dir` to provide path to `lib` directory. E.g run in project root folder
 ```dart
 dart run intl_translation:extract_to_arb --output-dir=target/directory --lib-dir=./lib
 ```
+
 
 This will produce a file `intl_messages.arb` with the messages from all of these
 programs. This is an [ARB][arb] format file which can be used for input to
