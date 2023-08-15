@@ -18,19 +18,20 @@ dart run intl_translation:extract_to_arb --output-dir=target/directory \
     my_program.dart more_of_my_program.dart
 ```
 
-This supports wildcards. For example, to extract messages from a series of files in path `lib/**/*.dart`, you can run
-```dart
-dart run intl_translation:extract_to_arb --output-dir=target/directory
-      lib/**/*.dart
-```
-
-
-This supports flutter `lib/` folder. For example, to automatically extract all files in your `lib/` folder, you can use
+This support passing a folder directory to it that contains `.dart` files. The code will automatically extract all `.dart` files
+in the folder AND its subfolders as well. This means it can be used for flutter `lib/` folder as well.
+For example, to automatically extract all files in your `lib/` folder, you can use
  `--lib-dir` to provide path to `lib` directory. E.g run in project root folder
 ```dart
 dart run intl_translation:extract_to_arb --output-dir=target/directory --lib-dir=./lib
 ```
 
+
+This supports wildcards. For example, to extract messages from a series of files in path `lib/**/*.dart`, you can run
+```dart
+dart run intl_translation:extract_to_arb --output-dir=target/directory
+      lib/**/*.dart
+```
 
 This will produce a file `intl_messages.arb` with the messages from all of these
 programs. This is an [ARB][arb] format file which can be used for input to
