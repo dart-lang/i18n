@@ -17,10 +17,13 @@ import 'package:intl_translation/src/arb_generation.dart';
 import 'package:intl_translation/src/directory_utils.dart';
 import 'package:path/path.dart' as path;
 
-void main(List<String> args) {
+void main(List<String> args) async {
   var targetDir = '.';
   var outputFilename = 'intl_messages.arb';
   String? sourcesListFile;
+  String? libDir;
+  // ignore: omit_local_variable_types
+  List<String> filesInFlutterLib = [];
   var transformer = false;
   var parser = ArgParser();
   var extract = MessageExtraction();
@@ -99,6 +102,11 @@ void main(List<String> args) {
     help: "Fail for messages that don't have a description.",
     callback: (val) => extract.descriptionRequired = val,
   );
+  parser.addOption(
+    'lib-dir',
+    callback: (value) => libDir = value,
+    help: 'Directory to lib/* folder so that all files are parsed',
+  );
 
   var argResults = parser.parse(args);
   var showHelp = (argResults['help'] as bool?) ?? false;
@@ -119,9 +127,14 @@ void main(List<String> args) {
     allMessages['@@last_modified'] = DateTime.now().toIso8601String();
   }
 
+  if (libDir != null) {
+    filesInFlutterLib = await getDartFilesInFolder(libDir!);
+  }
+
   var dartFiles = <String>[
     ...args.where((x) => x.endsWith('.dart')),
-    ...linesFromFile(sourcesListFile)
+    ...linesFromFile(sourcesListFile),
+    ...filesInFlutterLib
   ];
   dartFiles
       .map((dartFile) => extract.parseFile(File(dartFile), transformer))

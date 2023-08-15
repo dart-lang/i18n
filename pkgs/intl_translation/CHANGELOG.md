@@ -1,3 +1,6 @@
+## 0.19.1-dev
+  * Added support for Flutter `lib/` folder.
+
 ## 0.19.0-dev
   * Always generate null safe code, remove `null-safe` flag.
   * Add example for `he` locale.

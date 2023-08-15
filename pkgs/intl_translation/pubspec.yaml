@@ -1,5 +1,5 @@
 name: intl_translation
-version: 0.19.0-dev
+version: 0.19.1-dev
 description: >-
   Contains code to deal with internationalized/localized messages,
   date and number formatting and parsing, bi-directional text, and
