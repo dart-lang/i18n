@@ -193,6 +193,40 @@ class NumberFormatOptions {
     }
     return digits;
   }
+
+  NumberFormatOptions copyWith({
+    FormatStyle? style,
+    String? currency,
+    CurrencyDisplay? currencyDisplay,
+    Unit? unit,
+    UnitDisplay? unitDisplay,
+    LocaleMatcher? localeMatcher,
+    SignDisplay? signDisplay,
+    Notation? notation,
+    Grouping? useGrouping,
+    String? numberingSystem,
+    RoundingMode? roundingMode,
+    TrailingZeroDisplay? trailingZeroDisplay,
+    int? minimumIntegerDigits,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      style: style ?? this.style,
+      currency: currency ?? this.currency,
+      currencyDisplay: currencyDisplay ?? this.currencyDisplay,
+      unit: unit ?? this.unit,
+      unitDisplay: unitDisplay ?? this.unitDisplay,
+      localeMatcher: localeMatcher ?? this.localeMatcher,
+      signDisplay: signDisplay ?? this.signDisplay,
+      notation: notation ?? this.notation,
+      useGrouping: useGrouping ?? this.useGrouping,
+      numberingSystem: numberingSystem ?? this.numberingSystem,
+      roundingMode: roundingMode ?? this.roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
+      digits: digits ?? this.digits,
+    );
+  }
 }
 
 /// Control how many fraction digits to use in number formatting.
