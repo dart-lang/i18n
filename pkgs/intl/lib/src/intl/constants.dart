@@ -53,7 +53,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'XCD': r'$',
   'VND': '\u20ab',
   'AMD': 'Dram',
-  'CVE': 'CVE',
+  'CVE': r'$',
   'EUR': '\u20ac',
   'AWG': 'Afl.',
   'HUF': 'Ft',
