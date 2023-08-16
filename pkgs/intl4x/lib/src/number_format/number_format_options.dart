@@ -250,21 +250,15 @@ final class SignificantDigits {
         assert(minimum <= maximum);
 }
 
-enum TrailingZeroDisplay with HasName {
+enum TrailingZeroDisplay {
   auto,
   stripIfInteger;
-
-  @override
-  String get customName => name;
 }
 
-enum RoundingPriority with HasName {
+enum RoundingPriority {
   auto,
   morePrecision,
   lessPrecision;
-
-  @override
-  String get customName => name;
 }
 
 final class Digits {
@@ -324,7 +318,7 @@ final class Digits {
             fractionDigit != null ? (fractionDigit, fractionDigit) : null;
 }
 
-enum RoundingMode with HasName {
+enum RoundingMode {
   ceil,
   floor,
   expand,
@@ -334,12 +328,9 @@ enum RoundingMode with HasName {
   halfExpand,
   halfTrunc,
   halfEven;
-
-  @override
-  String get customName => name;
 }
 
-enum Grouping with HasName {
+enum Grouping {
   always,
   auto,
   never('false'),
@@ -350,49 +341,34 @@ enum Grouping with HasName {
   final String? _jsName;
 
   const Grouping([this._jsName]);
-
-  @override
-  String get customName => name;
 }
 
-enum CompactDisplay with HasName {
+enum CompactDisplay {
   short,
   long;
-
-  @override
-  String get customName => name;
 }
 
-enum CurrencyDisplay with HasName {
+enum CurrencyDisplay {
   symbol,
   narrowSymbol,
   code,
   name;
-
-  @override
-  String get customName => this.name;
 }
 
-enum CurrencySign with HasName {
+enum CurrencySign {
   standard,
   accounting;
-
-  @override
-  String get customName => name;
 }
 
-enum SignDisplay with HasName {
+enum SignDisplay {
   auto,
   always,
   exceptZero,
   negative,
   never;
-
-  @override
-  String get customName => name;
 }
 
-enum Unit with HasJsName {
+enum Unit {
   acre,
   bit,
   byte,
@@ -437,7 +413,6 @@ enum Unit with HasJsName {
   yard,
   year;
 
-  @override
   String get jsName => _jsName ?? name;
 
   final String? _jsName;
@@ -449,7 +424,7 @@ sealed class Notation with HasName {
   const Notation();
 
   @override
-  String get customName;
+  String get name;
 }
 
 final class CompactNotation extends Notation {
@@ -457,28 +432,28 @@ final class CompactNotation extends Notation {
 
   CompactNotation({this.compactDisplay = CompactDisplay.short});
   @override
-  String get customName => 'compact';
+  String get name => 'compact';
 }
 
 final class StandardNotation extends Notation {
   const StandardNotation();
   @override
-  String get customName => 'standard';
+  String get name => 'standard';
 }
 
 final class ScientificNotation extends Notation {
   @override
-  String get customName => 'scientific';
+  String get name => 'scientific';
 }
 
 final class EngineeringNotation extends Notation {
   @override
-  String get customName => 'engineering';
+  String get name => 'engineering';
 }
 
 sealed class FormatStyle with HasName {
   @override
-  String get customName;
+  String get name;
 
   const FormatStyle();
 }
@@ -487,7 +462,7 @@ final class DecimalStyle extends FormatStyle {
   const DecimalStyle();
 
   @override
-  String get customName => 'decimal';
+  String get name => 'decimal';
 }
 
 final class CurrencyStyle extends FormatStyle {
@@ -501,13 +476,13 @@ final class CurrencyStyle extends FormatStyle {
     this.display = CurrencyDisplay.symbol,
   });
   @override
-  String get customName => 'currency';
+  String get name => 'currency';
 }
 
 final class PercentStyle extends FormatStyle {
   const PercentStyle();
   @override
-  String get customName => 'percent';
+  String get name => 'percent';
 }
 
 final class UnitStyle extends FormatStyle {
@@ -519,5 +494,5 @@ final class UnitStyle extends FormatStyle {
     this.unitDisplay = UnitDisplay.short,
   });
   @override
-  String get customName => 'unit';
+  String get name => 'unit';
 }

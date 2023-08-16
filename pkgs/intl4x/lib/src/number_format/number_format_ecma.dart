@@ -78,12 +78,12 @@ extension on NumberFormatOptions {
       setProperty(o, 'currencySign', currencyStyle.sign.name);
     }
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    setProperty(o, 'notation', notation.customName);
+    setProperty(o, 'notation', notation.name);
     if (numberingSystem != null) {
       setProperty(o, 'numberingSystem', numberingSystem);
     }
     setProperty(o, 'signDisplay', signDisplay.name);
-    setProperty(o, 'style', style.customName);
+    setProperty(o, 'style', style.name);
     if (style is UnitStyle) {
       final unitStyle = style as UnitStyle;
       setProperty(o, 'unit', unitStyle.unit.jsName);
