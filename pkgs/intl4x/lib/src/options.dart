@@ -27,10 +27,6 @@ enum LocaleMatcher {
   const LocaleMatcher([this._jsName]);
 }
 
-mixin HasName {
-  String get name;
-}
-
 enum Calendar {
   buddhist,
   chinese,
