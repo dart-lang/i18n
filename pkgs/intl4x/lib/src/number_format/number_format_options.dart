@@ -420,8 +420,10 @@ enum Unit {
   const Unit([this._jsName]);
 }
 
-sealed class Notation {
+sealed class Notation with HasName {
   const Notation();
+
+  @override
   String get name;
 }
 
@@ -449,7 +451,8 @@ final class EngineeringNotation extends Notation {
   String get name => 'engineering';
 }
 
-sealed class FormatStyle {
+sealed class FormatStyle with HasName {
+  @override
   String get name;
 
   const FormatStyle();
