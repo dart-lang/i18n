@@ -11,7 +11,7 @@
 /// Instead, the application "falls back" until it finds a matching language tag
 /// associated with a suitable piece of content to insert. The exact fallback
 /// algorithm is determined by this enum.
-enum LocaleMatcher {
+enum LocaleMatcher with HasJsName {
   /// See the algorithm in
   /// https://datatracker.ietf.org/doc/html/rfc4647#section-3.4.
   lookup,
@@ -22,16 +22,20 @@ enum LocaleMatcher {
 
   final String? _jsName;
 
-  String? get jsName => _jsName ?? name;
+  @override
+  String get jsName => _jsName ?? name;
 
   const LocaleMatcher([this._jsName]);
 }
 
 mixin HasName {
-  String get name;
+  String get customName;
+}
+mixin HasJsName {
+  String get jsName;
 }
 
-enum Calendar {
+enum Calendar with HasJsName {
   buddhist,
   chinese,
   coptic,
@@ -51,6 +55,7 @@ enum Calendar {
   persian,
   roc;
 
+  @override
   String get jsName => _jsName ?? name;
 
   final String? _jsName;
@@ -58,8 +63,11 @@ enum Calendar {
   const Calendar([this._jsName]);
 }
 
-enum Style {
+enum Style with HasName {
   narrow,
   short,
-  long,
+  long;
+
+  @override
+  String get customName => name;
 }
