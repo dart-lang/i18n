@@ -1,3 +1,7 @@
+## 0.5.1
+
+- Add `copyWith` constructors.
+
 ## 0.5.0
 
 - Add `DateTime` formatting.
