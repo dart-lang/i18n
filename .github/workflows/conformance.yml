@@ -34,7 +34,7 @@ jobs:
           with:
             name: referenceExecSummary
 
-        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart conformance/TEMP_DATA/testReports/exec_summary.json referenceExecSummary
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart conformance/TEMP_DATA/testReports/exec_summary.json referenceExecSummary >> $GITHUB_STEP_SUMMARY
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
