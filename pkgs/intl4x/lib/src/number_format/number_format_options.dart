@@ -12,9 +12,6 @@ typedef UnitDisplay = Style;
 class NumberFormatOptions {
   final FormatStyle style;
   final String? currency;
-  final CurrencyDisplay? currencyDisplay;
-  final Unit? unit;
-  final UnitDisplay? unitDisplay;
   //General options
   final LocaleMatcher localeMatcher;
   final SignDisplay signDisplay;
@@ -30,9 +27,6 @@ class NumberFormatOptions {
       //General options
       {this.style = const DecimalStyle(),
       this.currency,
-      this.currencyDisplay,
-      this.unit,
-      this.unitDisplay,
       this.localeMatcher = LocaleMatcher.bestfit,
       this.signDisplay = SignDisplay.auto,
       this.notation = const StandardNotation(),
@@ -84,9 +78,10 @@ class NumberFormatOptions {
     Digits? digits,
   }) {
     return NumberFormatOptions.custom(
-      unit: unit,
-      unitDisplay: unitDisplay,
-      style: UnitStyle(unit: unit),
+      style: UnitStyle(
+        unit: unit,
+        unitDisplay: unitDisplay,
+      ),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
@@ -116,8 +111,11 @@ class NumberFormatOptions {
   }) {
     return NumberFormatOptions.custom(
       currency: currency,
-      currencyDisplay: currencyDisplay,
-      style: CurrencyStyle(currency: currency),
+      style: CurrencyStyle(
+        currency: currency,
+        display: currencyDisplay,
+        sign: currencySign,
+      ),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
@@ -213,9 +211,6 @@ class NumberFormatOptions {
     return NumberFormatOptions.custom(
       style: style ?? this.style,
       currency: currency ?? this.currency,
-      currencyDisplay: currencyDisplay ?? this.currencyDisplay,
-      unit: unit ?? this.unit,
-      unitDisplay: unitDisplay ?? this.unitDisplay,
       localeMatcher: localeMatcher ?? this.localeMatcher,
       signDisplay: signDisplay ?? this.signDisplay,
       notation: notation ?? this.notation,
