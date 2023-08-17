@@ -195,9 +195,6 @@ class NumberFormatOptions {
   NumberFormatOptions copyWith({
     FormatStyle? style,
     String? currency,
-    CurrencyDisplay? currencyDisplay,
-    Unit? unit,
-    UnitDisplay? unitDisplay,
     LocaleMatcher? localeMatcher,
     SignDisplay? signDisplay,
     Notation? notation,
