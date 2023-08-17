@@ -30,13 +30,9 @@ bool compare(Map<String, Info> infos, Map<String, Info> referenceInfos) {
   for (final entry in infos.entries) {
     final info = entry.value;
     final referenceInfo = referenceInfos[entry.key] ?? Info();
-    if (info.error > referenceInfo.error) {
-      return false;
-    }
-    if (info.failing > referenceInfo.failing) {
-      return false;
-    }
-    if (info.unsupported > referenceInfo.unsupported) {
+    if (info.error > referenceInfo.error ||
+        info.failing > referenceInfo.failing ||
+        info.unsupported > referenceInfo.unsupported) {
       return false;
     }
   }
