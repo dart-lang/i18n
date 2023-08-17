@@ -309,14 +309,14 @@ enum RoundingMode {
 }
 
 enum Grouping {
-  always,
+  always(true),
   auto,
-  never('false'),
+  never(false),
   min2;
 
-  String get jsName => _jsName ?? name;
+  Object get jsName => _jsName ?? name;
 
-  final String? _jsName;
+  final bool? _jsName;
 
   const Grouping([this._jsName]);
 }
