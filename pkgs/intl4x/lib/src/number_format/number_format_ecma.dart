@@ -89,7 +89,7 @@ extension on NumberFormatOptions {
       setProperty(o, 'unit', unitStyle.unit.jsName);
       setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
     }
-    setProperty(o, 'useGrouping', useGrouping.name);
+    setProperty(o, 'useGrouping', useGrouping.jsName);
     setProperty(o, 'roundingMode', roundingMode.name);
     if (digits?.roundingPriority != null) {
       setProperty(o, 'roundingPriority', digits?.roundingPriority!.name);
