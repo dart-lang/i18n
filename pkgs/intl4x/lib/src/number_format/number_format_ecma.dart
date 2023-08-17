@@ -98,17 +98,17 @@ extension on NumberFormatOptions {
       setProperty(o, 'roundingIncrement', digits?.roundingIncrement!);
     }
     setProperty(o, 'minimumIntegerDigits', minimumIntegerDigits);
-    if (digits?.fractionDigits != null) {
-      if (digits?.fractionDigits!.$1 != null) {
-        setProperty(o, 'minimumFractionDigits', digits?.fractionDigits!.$1);
-      }
-      if (digits?.fractionDigits!.$2 != null) {
-        setProperty(o, 'maximumFractionDigits', digits?.fractionDigits!.$2);
-      }
+    if (digits?.fractionDigits.$1 != null) {
+      setProperty(o, 'minimumFractionDigits', digits?.fractionDigits.$1);
     }
-    if (digits?.significantDigits != null) {
-      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits!.$1);
-      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits!.$2);
+    if (digits?.fractionDigits.$2 != null) {
+      setProperty(o, 'maximumFractionDigits', digits?.fractionDigits.$2);
+    }
+    if (digits?.significantDigits.$1 != null) {
+      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits.$1);
+    }
+    if (digits?.significantDigits.$2 != null) {
+      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits.$2);
     }
     setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
     return o;
