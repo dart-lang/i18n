@@ -16,8 +16,8 @@ class LocaleJS {
   external factory LocaleJS.constructor(String language, Object options);
   external LocaleJS minimize();
   external LocaleJS maximize();
-  external String? get script;
   external String get language;
+  external String? get script;
   external String? get region;
   external String? get calendar;
   external String? get caseFirst;
@@ -50,8 +50,23 @@ Locale toLocale(LocaleJS parsed) {
 }
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) {
-  final localeJS = fromLocale(l);
-  return localeJS.toString();
+  // return fromLocale(l).toString(); Uncomment as soon as https://github.com/dart-lang/sdk/issues/53106 is resolved
+
+  final subtags = <String>[
+    if (l.calendar != null) ...['ca', l.calendar!.jsName],
+    if (l.caseFirst != null) l.caseFirst!.jsName,
+    if (l.collation != null) l.collation!,
+    if (l.hourCycle != null) ...['hc', l.hourCycle!.name],
+    if (l.numberingSystem != null) l.numberingSystem!,
+    if (l.numeric != null) l.numeric!.toString(),
+  ];
+  return <String>[
+    l.language,
+    if (l.script != null) l.script!,
+    if (l.region != null) l.region!,
+    if (subtags.isNotEmpty) 'u',
+    ...subtags,
+  ].join(separator);
 }
 
 LocaleJS fromLocale(Locale l) {
