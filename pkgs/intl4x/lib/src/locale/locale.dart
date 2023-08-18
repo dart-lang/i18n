@@ -82,11 +82,6 @@ class Locale {
         numberingSystem.hashCode ^
         numeric.hashCode;
   }
-
-  @override
-  String toString() {
-    return 'Locale(language: $language, script: $script, region: $region, calendar: $calendar, caseFirst: $caseFirst, collation: $collation, hourCycle: $hourCycle, numberingSystem: $numberingSystem, numeric: $numeric)';
-  }
 }
 
 // TODO: add all locales which are supported by ICU4X / Browsers
