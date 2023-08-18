@@ -50,7 +50,7 @@ Locale toLocale(LocaleJS parsed) {
 }
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) {
-  LocaleJS localeJS = fromLocale(l);
+  final localeJS = fromLocale(l);
   return localeJS.toString();
 }
 
