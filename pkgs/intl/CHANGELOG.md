@@ -5,6 +5,8 @@
  * Add fallback for deprecated locales, such as `he` <-> `iw`.
  * Update to CLDR v43.
  * Switch QAR currency name to Riyal.
+ * Add `EEEEE` skeleton for `DateFormat`, closing [#176](https://github.com/dart-lang/i18n/issues/176).
+ * Switch to `3.0.0` SDK.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
