@@ -47,18 +47,18 @@ Locale parseLocale(String s, [String separator = '-']) {
 }
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) {
-  final subtags = [
-    if (l.calendar != null) ...['ca', l.calendar],
-    if (l.caseFirst != null) l.caseFirst,
-    if (l.collation != null) l.collation,
-    if (l.hourCycle != null) ...['hc', l.hourCycle],
-    if (l.numberingSystem != null) l.numberingSystem,
-    if (l.numeric != null) l.numeric,
+  final subtags = <String>[
+    if (l.calendar != null) ...['ca', l.calendar!.jsName],
+    if (l.caseFirst != null) l.caseFirst!.jsName,
+    if (l.collation != null) l.collation!,
+    if (l.hourCycle != null) ...['hc', l.hourCycle!.name],
+    if (l.numberingSystem != null) l.numberingSystem!,
+    if (l.numeric != null) l.numeric!.toString(),
   ];
-  return [
+  return <String>[
     l.language,
-    if (l.script != null) l.script,
-    if (l.region != null) l.region,
+    if (l.script != null) l.script!,
+    if (l.region != null) l.region!,
     if (subtags.isNotEmpty) 'u',
     ...subtags,
   ].join(separator);

@@ -58,12 +58,12 @@ LocaleJS fromLocale(Locale l) {
   final options = newObject<Object>();
   if (l.region != null) setProperty(options, 'region', l.region);
   if (l.script != null) setProperty(options, 'script', l.script);
-  if (l.calendar != null) setProperty(options, 'calendar', l.calendar?.jsName);
+  if (l.calendar != null) setProperty(options, 'calendar', l.calendar!.jsName);
   if (l.caseFirst != null) {
     setProperty(options, 'caseFirst', l.caseFirst?.jsName);
   }
   if (l.collation != null) setProperty(options, 'collation', l.collation);
-  if (l.hourCycle != null) setProperty(options, 'hourCycle', l.hourCycle?.name);
+  if (l.hourCycle != null) setProperty(options, 'hourCycle', l.hourCycle!.name);
   if (l.numberingSystem != null) {
     setProperty(options, 'numberingSystem', l.numberingSystem);
   }

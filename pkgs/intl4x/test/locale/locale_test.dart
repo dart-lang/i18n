@@ -49,9 +49,11 @@ void main() {
 
   test('Minimize', () {
     expect(Locale.parse('en-Latn-US').minimize(), const Locale(language: 'en'));
-  });
+  }, testOn: 'browser' //Wait for ICU4X implementation for native
+      );
 
   test('Maximize', () {
     expect(const Locale(language: 'en').maximize(), Locale.parse('en-Latn-US'));
-  });
+  }, testOn: 'browser' //Wait for ICU4X implementation for native
+      );
 }
