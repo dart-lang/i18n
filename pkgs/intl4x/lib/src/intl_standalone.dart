@@ -4,7 +4,7 @@
 
 import 'dart:io';
 
-import 'locale.dart';
+import 'locale/locale.dart';
 
 Locale findSystemLocale() {
   try {

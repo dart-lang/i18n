@@ -4,6 +4,6 @@
 
 import 'dart:html';
 
-import 'locale.dart';
+import 'locale/locale.dart';
 
 Locale findSystemLocale() => Locale.parse(window.navigator.language);

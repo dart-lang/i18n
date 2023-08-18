@@ -1,3 +1,6 @@
+## 0.6.0
+
+- Add full ECMA locale.
 ## 0.5.0
 
 - Add `DateTime` formatting.
