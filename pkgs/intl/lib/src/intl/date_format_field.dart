@@ -668,7 +668,8 @@ class _DateFormatPatternField extends _DateFormatField {
       == 5 => symbols.NARROWWEEKDAYS,
 
       ///TODO(mosum): Introduce "Short" - `Tu` for en-US
-      >= 6 => throw UnsupportedError('"Short" weekdays are currently not supported.'),
+      >= 6 =>
+        throw UnsupportedError('"Short" weekdays are currently not supported.'),
       int() => throw AssertionError('unreachable'),
     }[(date.weekday) % 7];
   }
