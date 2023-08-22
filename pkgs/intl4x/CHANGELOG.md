@@ -1,6 +1,6 @@
 ## 0.5.1
 
-- Add `copyWith` constructors.
+- Add `copyWith` methods.
 
 ## 0.5.0
 
