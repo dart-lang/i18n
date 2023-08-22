@@ -1,3 +1,7 @@
+## 0.5.1
+
+- Add `copyWith` methods.
+
 ## 0.5.0
 
 - Add `DateTime` formatting.

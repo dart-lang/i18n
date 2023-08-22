@@ -12,9 +12,6 @@ typedef UnitDisplay = Style;
 class NumberFormatOptions {
   final FormatStyle style;
   final String? currency;
-  final CurrencyDisplay? currencyDisplay;
-  final Unit? unit;
-  final UnitDisplay? unitDisplay;
   //General options
   final LocaleMatcher localeMatcher;
   final SignDisplay signDisplay;
@@ -30,9 +27,6 @@ class NumberFormatOptions {
       //General options
       {this.style = const DecimalStyle(),
       this.currency,
-      this.currencyDisplay,
-      this.unit,
-      this.unitDisplay,
       this.localeMatcher = LocaleMatcher.bestfit,
       this.signDisplay = SignDisplay.auto,
       this.notation = const StandardNotation(),
@@ -84,9 +78,10 @@ class NumberFormatOptions {
     Digits? digits,
   }) {
     return NumberFormatOptions.custom(
-      unit: unit,
-      unitDisplay: unitDisplay,
-      style: UnitStyle(unit: unit),
+      style: UnitStyle(
+        unit: unit,
+        unitDisplay: unitDisplay,
+      ),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
@@ -116,8 +111,11 @@ class NumberFormatOptions {
   }) {
     return NumberFormatOptions.custom(
       currency: currency,
-      currencyDisplay: currencyDisplay,
-      style: CurrencyStyle(currency: currency),
+      style: CurrencyStyle(
+        currency: currency,
+        display: currencyDisplay,
+        sign: currencySign,
+      ),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
@@ -193,6 +191,34 @@ class NumberFormatOptions {
     }
     return digits;
   }
+
+  NumberFormatOptions copyWith({
+    FormatStyle? style,
+    String? currency,
+    LocaleMatcher? localeMatcher,
+    SignDisplay? signDisplay,
+    Notation? notation,
+    Grouping? useGrouping,
+    String? numberingSystem,
+    RoundingMode? roundingMode,
+    TrailingZeroDisplay? trailingZeroDisplay,
+    int? minimumIntegerDigits,
+    Digits? digits,
+  }) {
+    return NumberFormatOptions.custom(
+      style: style ?? this.style,
+      currency: currency ?? this.currency,
+      localeMatcher: localeMatcher ?? this.localeMatcher,
+      signDisplay: signDisplay ?? this.signDisplay,
+      notation: notation ?? this.notation,
+      useGrouping: useGrouping ?? this.useGrouping,
+      numberingSystem: numberingSystem ?? this.numberingSystem,
+      roundingMode: roundingMode ?? this.roundingMode,
+      trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
+      minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
+      digits: digits ?? this.digits,
+    );
+  }
 }
 
 /// Control how many fraction digits to use in number formatting.
@@ -228,42 +254,39 @@ enum RoundingPriority {
 }
 
 final class Digits {
-  final (int? min, int? max)? fractionDigits;
-  final (int? min, int? max)? significantDigits;
+  final (int? min, int? max) fractionDigits;
+  final (int? min, int? max) significantDigits;
   final RoundingPriority? roundingPriority;
   final int? roundingIncrement;
 
-  Digits._(
-      {this.fractionDigits,
-      this.significantDigits,
-      this.roundingPriority,
-      this.roundingIncrement});
+  const Digits._({
+    required this.fractionDigits,
+    required this.significantDigits,
+    required this.roundingPriority,
+    required this.roundingIncrement,
+  });
 
-  Digits.withIncrement(
-    this.roundingIncrement, [
-    int? fractionDigit,
-  ])  : fractionDigits =
-            fractionDigit != null ? (fractionDigit, fractionDigit) : null,
-        significantDigits = null,
-        roundingPriority = null;
+  const Digits.withFractionDigits({
+    int? minimum,
+    int? maximum,
+    this.roundingIncrement,
+  })  : fractionDigits = (minimum, maximum),
+        significantDigits = (null, null),
+        roundingPriority = null,
+        assert(roundingIncrement == null ||
+            ((minimum != null || maximum != null) || minimum == maximum));
 
-  Digits.withFractionDigits({int? minimum, int? maximum})
-      : fractionDigits = (minimum, maximum),
-        significantDigits = null,
+  const Digits.withSignificantDigits({
+    int? minimum = 1,
+    int? maximum = 21,
+  })  : fractionDigits = (null, null),
+        significantDigits = (minimum, maximum),
         roundingPriority = null,
         roundingIncrement = null;
 
-  Digits.withSignificantDigits({
-    int minimum = 1,
-    int maximum = 21,
-    this.roundingIncrement,
-  })  : significantDigits = (minimum, maximum),
-        fractionDigits = null,
-        roundingPriority = null;
-
-  Digits.withSignificantAndFractionDigits({
-    int minimumSignificantDigits = 1,
-    int maximumSignificantDigits = 21,
+  const Digits.withSignificantAndFractionDigits({
+    int? minimumSignificantDigits = 1,
+    int? maximumSignificantDigits = 21,
     int? minimumFractionDigits,
     int? maximumFractionDigits,
     this.roundingPriority = RoundingPriority.auto,
@@ -271,17 +294,6 @@ final class Digits {
         significantDigits =
             (minimumSignificantDigits, maximumSignificantDigits),
         roundingIncrement = null;
-
-  Digits.all({
-    required this.roundingIncrement,
-    int minimumSignificantDigits = 1,
-    int maximumSignificantDigits = 21,
-    int? fractionDigit,
-    this.roundingPriority = RoundingPriority.auto,
-  })  : significantDigits =
-            (minimumSignificantDigits, maximumSignificantDigits),
-        fractionDigits =
-            fractionDigit != null ? (fractionDigit, fractionDigit) : null;
 }
 
 enum RoundingMode {
@@ -297,14 +309,14 @@ enum RoundingMode {
 }
 
 enum Grouping {
-  always,
+  always(true),
   auto,
-  never('false'),
+  never(false),
   min2;
 
-  String get jsName => _jsName ?? name;
+  Object get jsName => _jsName ?? name;
 
-  final String? _jsName;
+  final bool? _jsName;
 
   const Grouping([this._jsName]);
 }
