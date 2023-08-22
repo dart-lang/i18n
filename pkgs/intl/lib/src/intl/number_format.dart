@@ -500,7 +500,8 @@ class NumberFormat {
 
   /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
   /// parseable, throws a [FormatException].
-  R parseWith<R, P extends NumberParserBase<R>>(P Function(NumberFormat, String) parserGenerator, String text) =>
+  R parseWith<R, P extends NumberParserBase<R>>(
+          P Function(NumberFormat, String) parserGenerator, String text) =>
       parserGenerator(this, text).value!;
 
   /// Parse the number represented by the string. If it's not
@@ -515,7 +516,8 @@ class NumberFormat {
 
   /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
   /// parsable, returns `null`.
-  R? tryParseWith<R, P extends NumberParserBase<R>>(P Function(NumberFormat, String) parserGenerator, String text) {
+  R? tryParseWith<R, P extends NumberParserBase<R>>(
+      P Function(NumberFormat, String) parserGenerator, String text) {
     try {
       return parseWith(parserGenerator, text);
     } on FormatException {

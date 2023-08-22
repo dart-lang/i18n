@@ -10,9 +10,9 @@ import 'number_format.dart';
 /// means an instance can only parse one string. This is implemented by
 /// transforming from a locale-specific format to one that the system can parse,
 /// then calls the system parsing methods on it.
-class NumberParser extends NumberParserBase<num>{
+class NumberParser extends NumberParserBase<num> {
   ///  Create a new [_NumberParser] on which we can call parse().
-  NumberParser( NumberFormat format, String text) : super(format, text);
+  NumberParser(NumberFormat format, String text) : super(format, text);
 
   @override
   num fromNormalized(String normalizedText) =>
