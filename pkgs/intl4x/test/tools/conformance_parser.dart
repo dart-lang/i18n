@@ -59,7 +59,9 @@ Map<String, Info> getInfos(Map<String, dynamic> current) {
 }
 
 Map<String, dynamic> getJson(String pathToCurrent, String exec) {
-  final currentStr = File(pathToCurrent).readAsStringSync();
+  final file = File(pathToCurrent);
+  if (!file.existsSync()) return <String, dynamic>{};
+  final currentStr = file.readAsStringSync();
   final decoded = jsonDecode(currentStr) as Map<String, dynamic>;
 
   return decoded.map((key, value) {
