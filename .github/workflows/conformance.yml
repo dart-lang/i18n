@@ -1,0 +1,43 @@
+name: Unicode Conformance Testing
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - '.github/workflows/conformance.yml'
+      - 'pkgs/intl4x/**'
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/conformance.yml'
+      - 'pkgs/intl4x/**'
+    
+jobs:
+    run_all:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+          with:
+            sdk: stable
+
+        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+                
+        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+          with:
+            name: unicode-org/conformance
+            path: 'conformance'
+
+        - run: bash conformance/generateDataAndRun.sh
+
+        - name: Download Reference Exec Summary
+          uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
+          with:
+            name: referenceExecSummary
+
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart conformance/TEMP_DATA/testReports/exec_summary.json referenceExecSummary >> $GITHUB_STEP_SUMMARY
+
+        - name: Upload Reference Summary iff on main branch
+          if: github.ref == 'refs/heads/main'
+          uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c
+          with:
+            path: TEMP_DATA/testReports/
