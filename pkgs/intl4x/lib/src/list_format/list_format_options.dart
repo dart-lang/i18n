@@ -22,6 +22,18 @@ class ListFormatOptions {
     this.style = ListStyle.long,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
+
+  ListFormatOptions copyWith({
+    Type? type,
+    ListStyle? style,
+    LocaleMatcher? localeMatcher,
+  }) {
+    return ListFormatOptions(
+      type: type ?? this.type,
+      style: style ?? this.style,
+      localeMatcher: localeMatcher ?? this.localeMatcher,
+    );
+  }
 }
 
 /// Indicates the type of grouping.
