@@ -496,12 +496,11 @@ class NumberFormat {
 
   /// Parse the number represented by the string. If it's not
   /// parseable, throws a [FormatException].
-  // TODO: use constructor tear-off syntax when dart sdk version >= 2.15
-  num parse(String text) => parseWith(text, (f, t) => NumberParser(f, t));
+  num parse(String text) => parseWith((f, t) => NumberParser(f, t), text);
 
   /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
   /// parseable, throws a [FormatException].
-  R parseWith<R, P extends NumberParserBase<R>>(String text, P Function(NumberFormat, String) parserGenerator) =>
+  R parseWith<R, P extends NumberParserBase<R>>(P Function(NumberFormat, String) parserGenerator, String text) =>
       parserGenerator(this, text).value!;
 
   /// Parse the number represented by the string. If it's not
@@ -509,6 +508,16 @@ class NumberFormat {
   num? tryParse(String text) {
     try {
       return parse(text);
+    } on FormatException {
+      return null;
+    }
+  }
+
+  /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
+  /// parsable, returns `null`.
+  R? tryParseWith<R, P extends NumberParserBase<R>>(P Function(NumberFormat, String) parserGenerator, String text) {
+    try {
+      return parseWith(parserGenerator, text);
     } on FormatException {
       return null;
     }

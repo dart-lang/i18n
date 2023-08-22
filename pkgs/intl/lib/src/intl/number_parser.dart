@@ -6,7 +6,7 @@ import 'package:intl/src/intl/number_parser_base.dart';
 
 import 'number_format.dart';
 
-///  A one-time object for parsing a particular numeric string. One-time here
+/// A one-time object for parsing a particular numeric string. One-time here
 /// means an instance can only parse one string. This is implemented by
 /// transforming from a locale-specific format to one that the system can parse,
 /// then calls the system parsing methods on it.
