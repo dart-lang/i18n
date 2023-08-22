@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../locale.dart';
+import '../locale/locale.dart';
 
 /// A strategy to decide ICU4X for i18n functionality or delegate to the
 /// built-in browser support. See also

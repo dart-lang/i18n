@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'ecma/ecma_policy.dart';
-import 'locale.dart';
+import 'locale/locale.dart';
 import 'options.dart';
 
 T buildFormatter<T>(

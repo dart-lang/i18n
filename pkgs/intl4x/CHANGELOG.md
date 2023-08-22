@@ -1,6 +1,14 @@
+## 0.6.1-wip
+
+- Add conformance testing workflow.
+
+## 0.6.0
+
+- Add full ECMA locale.
+
 ## 0.5.1
 
-- Add `copyWith` constructors.
+- Add `copyWith` methods.
 
 ## 0.5.0
 
