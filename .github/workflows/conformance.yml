@@ -27,7 +27,7 @@ jobs:
             repository: unicode-org/conformance
             path: 'conformance'
 
-        - run: bash conformance/generateDataAndRun.sh
+        - run: (cd conformance; bash generateDataAndRun.sh)
 
         - name: Download Reference Exec Summary
           uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
