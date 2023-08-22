@@ -24,7 +24,7 @@ jobs:
                 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
           with:
-            name: unicode-org/conformance
+            repository: unicode-org/conformance
             path: 'conformance'
 
         - run: bash conformance/generateDataAndRun.sh
