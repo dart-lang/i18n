@@ -65,6 +65,51 @@ class DateTimeFormatOptions {
     this.formatMatcher = FormatMatcher.bestfit,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
+
+  DateTimeFormatOptions copyWith({
+    DateFormatStyle? dateFormatStyle,
+    TimeFormatStyle? timeFormatStyle,
+    Calendar? calendar,
+    DayPeriod? dayPeriod,
+    NumberingSystem? numberingSystem,
+    String? timeZone,
+    ClockStyle? clockstyle,
+    WeekDayStyle? weekday,
+    EraStyle? era,
+    TimeStyle? year,
+    MonthStyle? month,
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+    int? fractionalSecondDigits,
+    TimeZoneName? timeZoneName,
+    FormatMatcher? formatMatcher,
+    LocaleMatcher? localeMatcher,
+  }) {
+    return DateTimeFormatOptions(
+      dateFormatStyle: dateFormatStyle ?? this.dateFormatStyle,
+      timeFormatStyle: timeFormatStyle ?? this.timeFormatStyle,
+      calendar: calendar ?? this.calendar,
+      dayPeriod: dayPeriod ?? this.dayPeriod,
+      numberingSystem: numberingSystem ?? this.numberingSystem,
+      timeZone: timeZone ?? this.timeZone,
+      clockstyle: clockstyle ?? this.clockstyle,
+      weekday: weekday ?? this.weekday,
+      era: era ?? this.era,
+      year: year ?? this.year,
+      month: month ?? this.month,
+      day: day ?? this.day,
+      hour: hour ?? this.hour,
+      minute: minute ?? this.minute,
+      second: second ?? this.second,
+      fractionalSecondDigits:
+          fractionalSecondDigits ?? this.fractionalSecondDigits,
+      timeZoneName: timeZoneName ?? this.timeZoneName,
+      formatMatcher: formatMatcher ?? this.formatMatcher,
+      localeMatcher: localeMatcher ?? this.localeMatcher,
+    );
+  }
 }
 
 class ClockStyle {

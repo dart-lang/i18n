@@ -17,6 +17,20 @@ class DisplayNamesOptions {
     this.fallback = Fallback.code,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
+
+  DisplayNamesOptions copyWith({
+    Style? style,
+    LanguageDisplay? languageDisplay,
+    Fallback? fallback,
+    LocaleMatcher? localeMatcher,
+  }) {
+    return DisplayNamesOptions(
+      style: style ?? this.style,
+      languageDisplay: languageDisplay ?? this.languageDisplay,
+      fallback: fallback ?? this.fallback,
+      localeMatcher: localeMatcher ?? this.localeMatcher,
+    );
+  }
 }
 
 enum DisplayType {
