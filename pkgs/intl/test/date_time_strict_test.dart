@@ -162,9 +162,4 @@ void main() {
       expect(format.tryParseStrict('14:0:59'), DateTime(1970, 1, 1, 14, 0, 59));
     });
   });
-
-  test('Year in yy format', () {
-    expect(DateFormat('yy').parseStrict('23'), DateTime(2023));
-    expect(DateFormat('yyyy').parseStrict('2023'), DateTime(2023));
-  });
 }
