@@ -1,3 +1,7 @@
+// Copyright (c) 2019, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 /// Tests for ICU compact format numbers (e.g. 1.2M instead of 1200000).
 ///
 /// These tests check that the test cases match what ICU produces. They are not
@@ -239,10 +243,10 @@ typedef NativeUErrorNameOp = Pointer<Utf8> Function(Int32 code);
 typedef UErrorNameOp = Pointer<Utf8> Function(int code);
 
 /// [UNumberFormatter](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a7c1238b2dd08f32f1ea245ece41e71bd)
-class UNumberFormatter extends Opaque {}
+final class UNumberFormatter extends Opaque {}
 
 /// [UFormattedNumber](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a9d4030bdc4dd1ec4de828bf1bcf4b1b6)
-class UFormattedNumber extends Opaque {}
+final class UFormattedNumber extends Opaque {}
 
 /// C signature for
 /// [unumf_openForSkeletonAndLocale()](http://icu-project.org/apiref/icu4c/unumberformatter_8h.html#a29339e144833880bda36fb7c17032698)
