@@ -7,6 +7,8 @@
  * Switch QAR currency name to Riyal.
  * Add license headers to some files.
  * Update CVE currency symbol.
+ * Add `EEEEE` skeleton for `DateFormat`, closing [#176](https://github.com/dart-lang/i18n/issues/176).
+ * Switch to `3.0.0` SDK.
  * Fix issue [#483](https://github.com/dart-lang/i18n/issues/483) about date parsing with a `yy` skeleton.
 
 ## 0.18.1

@@ -35,7 +35,7 @@ void main() {
 
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
-        digits: Digits.withSignificantDigits(minimum: 1, maximum: 3),
+        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
       ));
 
       expect(numberFormatOptions.format(3), '3');
@@ -48,7 +48,7 @@ void main() {
       String formatter(Object number) => intl
           .numberFormat(NumberFormatOptions.custom(
             minimumIntegerDigits: 3,
-            digits: Digits.withFractionDigits(minimum: 4),
+            digits: const Digits.withFractionDigits(minimum: 4),
           ))
           .format(number);
       expect(formatter(4.33), '004.3300');
@@ -80,7 +80,8 @@ void main() {
       (
         {'minimumFractionDigits': 2},
         NumberFormatOptions.custom(
-            digits: Digits.withFractionDigits(minimum: 2)),
+          digits: const Digits.withFractionDigits(minimum: 2),
+        ),
         generateProperties({'minimumFractionDigits': 2}),
       ),
       (

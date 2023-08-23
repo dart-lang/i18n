@@ -5,7 +5,7 @@
 import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
-import '../locale.dart';
+import '../locale/locale.dart';
 import '../options.dart';
 import 'number_format_impl.dart';
 import 'number_format_options.dart';
@@ -38,7 +38,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
         ? _NumberFormatECMA(supportedLocales.first)
-        : null; //TODO: Add support to force return an instance instead of null.
+        : _NumberFormatECMA(const Locale(language: 'en'));
   }
 
   static List<Locale> supportedLocalesOf(
@@ -89,7 +89,7 @@ extension on NumberFormatOptions {
       setProperty(o, 'unit', unitStyle.unit.jsName);
       setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
     }
-    setProperty(o, 'useGrouping', useGrouping.name);
+    setProperty(o, 'useGrouping', useGrouping.jsName);
     setProperty(o, 'roundingMode', roundingMode.name);
     if (digits?.roundingPriority != null) {
       setProperty(o, 'roundingPriority', digits?.roundingPriority!.name);
@@ -98,17 +98,17 @@ extension on NumberFormatOptions {
       setProperty(o, 'roundingIncrement', digits?.roundingIncrement!);
     }
     setProperty(o, 'minimumIntegerDigits', minimumIntegerDigits);
-    if (digits?.fractionDigits != null) {
-      if (digits?.fractionDigits!.$1 != null) {
-        setProperty(o, 'minimumFractionDigits', digits?.fractionDigits!.$1);
-      }
-      if (digits?.fractionDigits!.$2 != null) {
-        setProperty(o, 'maximumFractionDigits', digits?.fractionDigits!.$2);
-      }
+    if (digits?.fractionDigits.$1 != null) {
+      setProperty(o, 'minimumFractionDigits', digits?.fractionDigits.$1);
     }
-    if (digits?.significantDigits != null) {
-      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits!.$1);
-      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits!.$2);
+    if (digits?.fractionDigits.$2 != null) {
+      setProperty(o, 'maximumFractionDigits', digits?.fractionDigits.$2);
+    }
+    if (digits?.significantDigits.$1 != null) {
+      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits.$1);
+    }
+    if (digits?.significantDigits.$2 != null) {
+      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits.$2);
     }
     setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
     return o;

@@ -91,7 +91,7 @@ class MessageGeneration {
     File(filename).writeAsStringSync(content);
   }
 
-  /// Generate a string that containts the dart code
+  /// Generate a string that contains the dart code
   /// with the [translations] in [locale].
   String contentForLocale(
     String basicLocale,
@@ -485,13 +485,12 @@ Future<bool> initializeMessages(String? localeName) async {
 
   localeName = Intl.canonicalizedLocale(localeName);
 
-  final localeParts = localeName.split('_');
   initializeInternalMessageLookup(() => CompositeMessageLookup());
   var message = await SystemChannels.localization
       .invokeMethod('Localization.getStringResource', {
     'key': 'flutter_localization_string',
     'locale': localeName,
-  });
+  }) as String?;
 
   if (message == null) {
     try {
