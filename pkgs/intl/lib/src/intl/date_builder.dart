@@ -27,7 +27,7 @@ class DateBuilder {
   /// Ignored if `year < 0` or `year >= 100`.
   bool _hasAmbiguousCentury = false;
 
-  bool get hasCentury => !_hasAmbiguousCentury || year < 0 || year >= 100;
+  bool get _hasCentury => !_hasAmbiguousCentury || year < 0 || year >= 100;
 
   /// The locale, kept for logging purposes when there's an error.
   final String _locale;
@@ -70,9 +70,8 @@ class DateBuilder {
 
   /// Sets whether [year] should be treated as ambiguous because it lacks a
   /// century.
-  void setHasAmbiguousCentury(bool isAmbiguous) {
-    _hasAmbiguousCentury = isAmbiguous;
-  }
+  set hasAmbiguousCentury(bool isAmbiguous) =>
+      _hasAmbiguousCentury = isAmbiguous;
 
   void setMonth(int x) {
     month = x;
@@ -142,7 +141,7 @@ class DateBuilder {
       // We have the day of the month, compare directly.
       _verify(day, date.day, date.day, 'day', s, date);
     }
-    _verify(getEstimatedYear(), date.year, date.year, 'year', s, date);
+    _verify(_estimatedYear, date.year, date.year, 'year', s, date);
   }
 
   void _verify(int value, int min, int max, String desc, String originalInput,
@@ -183,10 +182,17 @@ class DateBuilder {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
     if (_date != null) return _date!;
-    int estimatedYear = getEstimatedYear();
-    DateTime preliminaryResult = _dateTimeConstructor(estimatedYear, month,
-        dayOrDayOfYear, hour24, minute, second, fractionalSecond, utc);
-    if (utc && hasCentury) {
+    DateTime preliminaryResult = _dateTimeConstructor(
+      _estimatedYear,
+      month,
+      dayOrDayOfYear,
+      hour24,
+      minute,
+      second,
+      fractionalSecond,
+      utc,
+    );
+    if (utc && _hasCentury) {
       _date = preliminaryResult;
     } else {
       _date = _correctForErrors(preliminaryResult, retries);
@@ -194,7 +200,7 @@ class DateBuilder {
     return _date!;
   }
 
-  int getEstimatedYear() {
+  int get _estimatedYear {
     DateTime preliminaryResult(int year) => _dateTimeConstructor(
           year,
           month,
@@ -206,7 +212,7 @@ class DateBuilder {
           utc,
         );
     int estimatedYear;
-    if (hasCentury) {
+    if (_hasCentury) {
       estimatedYear = year;
     } else {
       var now = clock.now();
