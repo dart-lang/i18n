@@ -19,25 +19,37 @@ void main(List<String> args) {
   }
   print(markdown);
 
-  if (compare(infos, referenceInfos)) {
+  final errorMessage = compare(infos, referenceInfos);
+  if (errorMessage == null) {
     exit(0);
   } else {
     exit(1);
   }
 }
 
-bool compare(Map<String, Info> infos, Map<String, Info> referenceInfos) {
+String? compare(Map<String, Info> infos, Map<String, Info> referenceInfos) {
   for (final entry in infos.entries) {
     final info = entry.value;
-    final referenceInfo = referenceInfos[entry.key] ?? Info();
-    if (info.error > referenceInfo.error ||
-        info.failing > referenceInfo.failing ||
-        info.unsupported > referenceInfo.unsupported) {
-      print('Failing as $info vs. $referenceInfo');
-      return false;
+    final referenceInfo = referenceInfos[entry.key];
+    if (referenceInfo != null) {
+      final failureMessage = shouldFail(info, referenceInfo);
+      if (failureMessage != null) {
+        return failureMessage;
+      }
     }
   }
-  return true;
+  return null;
+}
+
+String? shouldFail(Info info, Info referenceInfo) {
+  final moreErrors =
+      info.error > referenceInfo.error ? 'Too many new errors' : null;
+  final moreFailing =
+      info.failing > referenceInfo.failing ? 'Too many new failing' : null;
+  final moreUnsupported = info.unsupported > referenceInfo.unsupported
+      ? 'Too many new unsupported'
+      : null;
+  return moreErrors ?? moreFailing ?? moreUnsupported;
 }
 
 Map<String, Info> getInfos(Map<String, dynamic> current) {
