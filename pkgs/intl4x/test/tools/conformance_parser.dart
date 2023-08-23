@@ -33,6 +33,7 @@ bool compare(Map<String, Info> infos, Map<String, Info> referenceInfos) {
     if (info.error > referenceInfo.error ||
         info.failing > referenceInfo.failing ||
         info.unsupported > referenceInfo.unsupported) {
+      print('Failing as $info vs. $referenceInfo');
       return false;
     }
   }
@@ -98,11 +99,16 @@ class Info {
     return '| ${columnItems.join(' | ')} |';
   }
 
-  String _getString(int passing2, int passing3) {
-    var change = (passing3 - passing2) / passing2;
+  String _getString(int current, int reference) {
+    var change = (reference - current) / current;
     change *= 100;
     change = max(min(change, 100), -100);
-    final s = '$passing2 ${change.toStringAsFixed(2)} %';
+    final s = '$current ${change.toStringAsFixed(2)} %';
     return s;
+  }
+
+  @override
+  String toString() {
+    return 'Info(total: $total, passing: $passing, failing: $failing, error: $error, unsupported: $unsupported)';
   }
 }
