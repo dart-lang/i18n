@@ -27,6 +27,8 @@ class DateBuilder {
   /// Ignored if `year < 0` or `year >= 100`.
   bool _hasAmbiguousCentury = false;
 
+  bool get _hasCentury => !_hasAmbiguousCentury || year < 0 || year >= 100;
+
   /// The locale, kept for logging purposes when there's an error.
   final String _locale;
 
@@ -68,9 +70,8 @@ class DateBuilder {
 
   /// Sets whether [year] should be treated as ambiguous because it lacks a
   /// century.
-  void setHasAmbiguousCentury(bool isAmbiguous) {
-    _hasAmbiguousCentury = isAmbiguous;
-  }
+  set hasAmbiguousCentury(bool isAmbiguous) =>
+      _hasAmbiguousCentury = isAmbiguous;
 
   void setMonth(int x) {
     month = x;
@@ -140,7 +141,7 @@ class DateBuilder {
       // We have the day of the month, compare directly.
       _verify(day, date.day, date.day, 'day', s, date);
     }
-    _verify(year, date.year, date.year, 'year', s, date);
+    _verify(_estimatedYear, date.year, date.year, 'year', s, date);
   }
 
   void _verify(int value, int min, int max, String desc, String originalInput,
@@ -181,12 +182,38 @@ class DateBuilder {
     // TODO(alanknight): Validate the date, especially for things which
     // can crash the VM, e.g. large month values.
     if (_date != null) return _date!;
+    DateTime preliminaryResult = _dateTimeConstructor(
+      _estimatedYear,
+      month,
+      dayOrDayOfYear,
+      hour24,
+      minute,
+      second,
+      fractionalSecond,
+      utc,
+    );
+    if (utc && _hasCentury) {
+      _date = preliminaryResult;
+    } else {
+      _date = _correctForErrors(preliminaryResult, retries);
+    }
+    return _date!;
+  }
 
-    DateTime preliminaryResult;
-    final hasCentury = !_hasAmbiguousCentury || year < 0 || year >= 100;
-    if (hasCentury) {
-      preliminaryResult = _dateTimeConstructor(year, month, dayOrDayOfYear,
-          hour24, minute, second, fractionalSecond, utc);
+  int get _estimatedYear {
+    DateTime preliminaryResult(int year) => _dateTimeConstructor(
+          year,
+          month,
+          dayOrDayOfYear,
+          hour24,
+          minute,
+          second,
+          fractionalSecond,
+          utc,
+        );
+    int estimatedYear;
+    if (_hasCentury) {
+      estimatedYear = year;
     } else {
       var now = clock.now();
       if (utc) {
@@ -198,8 +225,7 @@ class DateBuilder {
       var upperDate = _offsetYear(now, 100 - lookBehindYears);
       var lowerCentury = (lowerDate.year ~/ 100) * 100;
       var upperCentury = (upperDate.year ~/ 100) * 100;
-      preliminaryResult = _dateTimeConstructor(upperCentury + year, month,
-          dayOrDayOfYear, hour24, minute, second, fractionalSecond, utc);
+      estimatedYear = upperCentury + year;
 
       // Our interval must be half-open since there otherwise could be ambiguity
       // for a date that is exactly 20 years in the future or exactly 80 years
@@ -211,21 +237,14 @@ class DateBuilder {
       //   the upper-bound date.
       //
       // We don't actually need to check both bounds.
-      if (preliminaryResult.compareTo(upperDate) <= 0) {
+      if (preliminaryResult(upperCentury + year).compareTo(upperDate) <= 0) {
         // Within range.
-        assert(preliminaryResult.compareTo(lowerDate) > 0);
+        assert(preliminaryResult(upperCentury + year).compareTo(lowerDate) > 0);
       } else {
-        preliminaryResult = _dateTimeConstructor(lowerCentury + year, month,
-            dayOrDayOfYear, hour24, minute, second, fractionalSecond, utc);
+        estimatedYear = lowerCentury + year;
       }
     }
-
-    if (utc && hasCentury) {
-      _date = preliminaryResult;
-    } else {
-      _date = _correctForErrors(preliminaryResult, retries);
-    }
-    return _date!;
+    return estimatedYear;
   }
 
   /// Given a local DateTime, check for errors and try to compensate for them if
