@@ -116,7 +116,7 @@ class Info {
   }
 
   String _getString(int current, int reference) {
-    final change = (reference - current) / current;
+    final change = (current - reference) / current;
     String changeStr;
     if (!change.isNaN) {
       final changePercent = change * 100;
