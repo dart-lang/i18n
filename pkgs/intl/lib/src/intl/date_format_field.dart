@@ -654,11 +654,24 @@ class _DateFormatPatternField extends _DateFormatField {
       date_computation.dayOfYear(
           date.month, date.day, date_computation.isLeapYear(date)));
 
+  /// See also http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
   String formatDayOfWeek(DateTime date) {
     // Note that Dart's weekday returns 1 for Monday and 7 for Sunday.
-    return (width >= 4
-        ? symbols.WEEKDAYS
-        : symbols.SHORTWEEKDAYS)[(date.weekday) % 7];
+    return switch (width) {
+      /// "Abbreviated" - `Tue` for en-US
+      <= 3 => symbols.SHORTWEEKDAYS,
+
+      /// "Wide" - `Tuesday` for en-US
+      == 4 => symbols.WEEKDAYS,
+
+      /// "Narrow" - `T` for en-US
+      == 5 => symbols.NARROWWEEKDAYS,
+
+      ///TODO(mosum): Introduce "Short" - `Tu` for en-US
+      >= 6 =>
+        throw UnsupportedError('"Short" weekdays are currently not supported.'),
+      int() => throw AssertionError('unreachable'),
+    }[(date.weekday) % 7];
   }
 
   void parseDayOfWeek(StringStack input) {

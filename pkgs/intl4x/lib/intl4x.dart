@@ -17,10 +17,10 @@ import 'src/find_locale.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_impl.dart';
 import 'src/list_format/list_format_options.dart';
-import 'src/locale.dart';
+import 'src/locale/locale.dart';
 import 'src/number_format/number_format_impl.dart';
 
-export 'src/locale.dart';
+export 'src/locale/locale.dart';
 
 typedef Icu4xKey = String;
 

@@ -526,6 +526,7 @@ class DateFormat {
   DateFormat.d([locale]) : this('d', locale);
   DateFormat.E([locale]) : this('E', locale);
   DateFormat.EEEE([locale]) : this('EEEE', locale);
+  DateFormat.EEEEE([locale]) : this('EEEEE', locale);
   DateFormat.LLL([locale]) : this('LLL', locale);
   DateFormat.LLLL([locale]) : this('LLLL', locale);
   DateFormat.M([locale]) : this('M', locale);
