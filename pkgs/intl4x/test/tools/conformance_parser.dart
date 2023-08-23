@@ -116,10 +116,24 @@ class Info {
   }
 
   String _getString(int current, int reference) {
-    var change = (reference - current) / current;
-    change *= 100;
-    change = max(min(change, 100), -100);
-    final s = '$current ${change.toStringAsFixed(2)} %';
+    final change = (reference - current) / current;
+    String changeStr;
+    if (!change.isNaN) {
+      final changePercent = change * 100;
+      final changeClamped = max(min(changePercent, 100), -100);
+      String prefix;
+      if (changeClamped > 0) {
+        prefix = ':arrow_upper_right:';
+      } else if (changeClamped < 0) {
+        prefix = ':arrow_lower_right:';
+      } else {
+        prefix = ':arrow_right:';
+      }
+      changeStr = '$prefix ${changeClamped.toStringAsFixed(2)} %';
+    } else {
+      changeStr = '';
+    }
+    final s = '$current $changeStr';
     return s;
   }
 }
