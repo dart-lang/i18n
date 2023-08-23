@@ -1,3 +1,7 @@
+// Copyright (c) 2019, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 /// Tests for ICU compact format numbers (e.g. 1.2M instead of 1200000).
 ///
 /// These tests check that the test cases match what ICU produces. They are not
