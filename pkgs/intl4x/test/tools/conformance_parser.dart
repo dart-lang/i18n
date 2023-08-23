@@ -1,3 +1,7 @@
+// Copyright (c) 2023, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -117,10 +121,5 @@ class Info {
     change = max(min(change, 100), -100);
     final s = '$current ${change.toStringAsFixed(2)} %';
     return s;
-  }
-
-  @override
-  String toString() {
-    return 'Info(total: $total, passing: $passing, failing: $failing, error: $error, unsupported: $unsupported)';
   }
 }

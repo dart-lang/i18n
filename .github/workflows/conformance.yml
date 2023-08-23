@@ -24,10 +24,13 @@ jobs:
                 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
           with:
-            repository: unicode-org/conformance
+            repository: mosuem/conformance
             path: 'conformance'
+            ref: makeScriptConfigurable
+        
+        - run: echo '\[\{\"prereq\":\{\"name\":\"nvm\"\,\"version\":\"20.1.0\"\,\"command\":\"nvm\ install\ 20.1.0\;nvm\ use\ 20.1.0\"\}\,\"run\":\{\"icu_version\":\"icu73\"\,\"exec\":\"dart_web\"\,\"test_type\":\[\"coll_shift_short\"\]\,\"per_execution\":10000\}\}\]' >> conformance/dart_only.json
 
-        - run: (cd conformance; bash generateDataAndRun.sh)
+        - run: (cd conformance; bash generateDataAndRun.sh dart_only.json)
 
         - name: Download Reference Exec Summary
           continue-on-error: true
