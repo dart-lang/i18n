@@ -6,9 +6,24 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:args/args.dart';
+
 void main(List<String> args) {
-  final pathToCurrent = args.first;
-  final pathToReference = args.last;
+  final argParser = ArgParser();
+  final referencePathOption = 'reference-path';
+  final currentPathOption = 'current-path';
+  argParser.addOption(
+    referencePathOption,
+    mandatory: true,
+  );
+  argParser.addOption(
+    currentPathOption,
+    mandatory: true,
+  );
+  final parse = argParser.parse(args);
+  final pathToReference = parse[referencePathOption] as String;
+  final pathToCurrent = parse[currentPathOption] as String;
+
   final infos = getInfos(getJson(pathToCurrent, 'dart_web'));
   final referenceInfos = getInfos(getJson(pathToReference, 'dart_web'));
 
@@ -23,7 +38,7 @@ void main(List<String> args) {
   }
   print(markdown);
 
-  final errorMessage = compare(infos, referenceInfos);
+  final errorMessage = compareToReference(infos, referenceInfos);
   if (errorMessage == null) {
     exit(0);
   } else {
@@ -31,7 +46,10 @@ void main(List<String> args) {
   }
 }
 
-String? compare(Map<String, Info> infos, Map<String, Info> referenceInfos) {
+String? compareToReference(
+  Map<String, Info> infos,
+  Map<String, Info> referenceInfos,
+) {
   for (final entry in infos.entries) {
     final info = entry.value;
     final referenceInfo = referenceInfos[entry.key];

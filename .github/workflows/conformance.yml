@@ -2,7 +2,6 @@ name: Unicode Conformance Testing
 on:
   pull_request:
     branches: [ main ]
-    types: [opened, synchronize, reopened, labeled, unlabeled]
     paths:
       - '.github/workflows/conformance.yml'
       - 'pkgs/intl4x/**'
@@ -38,10 +37,11 @@ jobs:
           with:
             name: referenceExecSummary
 
-        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart conformance/TEMP_DATA/testReports/exec_summary.json referenceExecSummary >> $GITHUB_STEP_SUMMARY
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --reference-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path referenceExecSummary >> $GITHUB_STEP_SUMMARY
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-pages-artifact@a753861a5debcf57bf8b404356158c8e1e33150c
+          uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
           with:
+            name: referenceExecSummary
             path: TEMP_DATA/testReports/
