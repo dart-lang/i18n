@@ -39,7 +39,7 @@ jobs:
             path: reference
 
         - run: (cd pkgs/intl4x; dart pub get)
-        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --reference-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path reference/TEMP_DATA/testReports/exec_summary.json >> $GITHUB_STEP_SUMMARY
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --current-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path reference/TEMP_DATA/testReports/exec_summary.json >> $GITHUB_STEP_SUMMARY
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
