@@ -23,9 +23,8 @@ jobs:
                 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
           with:
-            repository: mosuem/conformance
+            repository: unicode/conformance
             path: 'conformance'
-            ref: makeScriptConfigurable
         
         - run: mv pkgs/intl4x/test/tools/conformance_config.json conformance/conformance_config.json
 
