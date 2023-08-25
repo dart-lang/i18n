@@ -25,6 +25,7 @@ jobs:
           with:
             repository: unicode/conformance
             path: 'conformance'
+            ref: main
         
         - run: mv pkgs/intl4x/test/tools/conformance_config.json conformance/conformance_config.json
 
