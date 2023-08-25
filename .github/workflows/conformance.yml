@@ -23,9 +23,8 @@ jobs:
                 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
           with:
-            repository: unicode/conformance
+            repository: unicode-org/conformance
             path: 'conformance'
-            ref: main
         
         - run: mv pkgs/intl4x/test/tools/conformance_config.json conformance/conformance_config.json
 
