@@ -1,3 +1,7 @@
+## 0.6.1-wip
+
+- Add conformance testing workflow.
+
 ## 0.6.0
 
 - Add full ECMA locale.

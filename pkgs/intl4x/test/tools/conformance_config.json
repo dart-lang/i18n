@@ -1,0 +1,18 @@
+[
+    {
+        "prereq": {
+            "name": "nvm",
+            "version": "20.1.0",
+            "command": "nvm install 20.1.0;nvm use 20.1.0"
+        },
+        "run": {
+            "icu_version": "icu73",
+            "exec": "dart_web",
+            "test_type": [
+                "coll_shift_short",
+                "number_fmt"
+            ],
+            "per_execution": 10000
+        }
+    }
+]

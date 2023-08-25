@@ -1,0 +1,48 @@
+name: Unicode Conformance Testing
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/conformance.yml'
+      - 'pkgs/intl4x/**'
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/conformance.yml'
+      - 'pkgs/intl4x/**'
+    
+jobs:
+    run_all:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: dart-lang/setup-dart@d6a63dab3335f427404425de0fbfed4686d93c4f
+          with:
+            sdk: stable
+
+        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+                
+        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+          with:
+            repository: unicode-org/conformance
+            path: 'conformance'
+        
+        - run: mv pkgs/intl4x/test/tools/conformance_config.json conformance/conformance_config.json
+
+        - run: (cd conformance; bash generateDataAndRun.sh conformance_config.json)
+
+        - name: Download Reference Exec Summary
+          continue-on-error: true
+          uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
+          with:
+            name: referenceExecSummary
+            path: reference
+
+        - run: (cd pkgs/intl4x; dart pub get)
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --current-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path reference/TEMP_DATA/testReports/exec_summary.json >> $GITHUB_STEP_SUMMARY
+
+        - name: Upload Reference Summary iff on main branch
+          if: github.ref == 'refs/heads/main'
+          uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
+          with:
+            name: referenceExecSummary
+            path: TEMP_DATA/testReports/
