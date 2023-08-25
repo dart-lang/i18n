@@ -34,15 +34,17 @@ jobs:
           continue-on-error: true
           uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
           with:
-            name: referenceExecSummary
-            path: reference
+            name: reference_exec_summary
 
         - run: (cd pkgs/intl4x; dart pub get)
-        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --current-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path reference/TEMP_DATA/testReports/exec_summary.json >> $GITHUB_STEP_SUMMARY
+          if: github.ref != 'refs/heads/main'
+
+        - run: dart run pkgs/intl4x/test/tools/conformance_parser.dart --current-path conformance/TEMP_DATA/testReports/exec_summary.json --reference-path reference_exec_summary >> $GITHUB_STEP_SUMMARY
+          if: github.ref != 'refs/heads/main'
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
           uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
           with:
-            name: referenceExecSummary
-            path: TEMP_DATA/testReports/
+            name: reference_exec_summary
+            path: conformance/TEMP_DATA/testReports/exec_summary.json
