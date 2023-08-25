@@ -31,6 +31,7 @@ jobs:
         - run: (cd conformance; bash generateDataAndRun.sh conformance_config.json)
 
         - name: Download Reference Exec Summary
+          if: github.ref != 'refs/heads/main'
           continue-on-error: true
           uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
           with:
