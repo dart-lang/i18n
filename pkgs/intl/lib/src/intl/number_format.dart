@@ -496,7 +496,7 @@ class NumberFormat {
 
   /// Parse the number represented by the string. If it's not
   /// parseable, throws a [FormatException].
-  num parse(String text) => parseWith((f, t) => NumberParser(f, t), text);
+  num parse(String text) => parseWith(NumberParser.new, text);
 
   /// Parse the number represented by the string using the parser created by the supplied parser generator. If it's not
   /// parseable, throws a [FormatException].
