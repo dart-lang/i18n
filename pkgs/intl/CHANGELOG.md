@@ -10,6 +10,7 @@
  * Add `EEEEE` skeleton for `DateFormat`, closing [#176](https://github.com/dart-lang/i18n/issues/176).
  * Switch to `3.0.0` SDK.
  * Fix issue [#483](https://github.com/dart-lang/i18n/issues/483) about date parsing with a `yy` skeleton.
+ * Extract `NumberParserBase` abstract class
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
