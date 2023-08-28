@@ -18,7 +18,8 @@ class MethodChannel {
 
   Future<String?> invokeMethod(String method, [dynamic arguments]) async {
     var locale = arguments['locale'];
-    if (locale == null) {
+    var key = arguments['key'];
+    if (locale == null || key != 'flutter_localization_string0') {
       return null;
     }
 
