@@ -33,6 +33,7 @@ void main(List<String> args) async {
 }
 
 Future<File> compileAsset(Target target, String fileName) async {
+  //TODO: add https://rust-lang.github.io/rustup/cross-compilation.html
   final file = File(fileName);
   await file.create();
   const icuDatagen = IcuDatagen(
