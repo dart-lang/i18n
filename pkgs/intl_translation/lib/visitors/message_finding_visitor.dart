@@ -235,6 +235,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   // IntlMessageExtractionException instead of returning strings and centralize
   // the reporting.
   void _validateMessage(MainMessage message) {
+    print('hiiiiiii $message');
     message.validate();
     if (extraction.descriptionRequired) {
       message.validateDescription();
