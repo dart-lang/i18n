@@ -33,9 +33,7 @@ void main(List<String> args) async {
 }
 
 Future<File> compileAsset(Target target, String fileName) async {
-  //TODO: add https://rust-lang.github.io/rustup/cross-compilation.html
-  final file = File(fileName);
-  await file.create();
+  /// Generate the data as a rust module
   const icuDatagen = IcuDatagen(
     keys: [
       'datetime/japanese/datesymbols@1',
@@ -45,23 +43,19 @@ Future<File> compileAsset(Target target, String fileName) async {
     ],
     locales: ['ja'],
   );
-  final dataGenerationProcess = await icuDatagen.runDataGeneration();
+  await icuDatagen.runDataGeneration();
 
-  throwOnError(dataGenerationProcess, 'icu4x-datagen', [icuDatagen.toString()]);
+  /// Compile the data and the library to a binary file
+  //TODO: Set output file name to `fileName`
+  //TODO: Add https://rust-lang.github.io/rustup/cross-compilation.html
+  await runProcess('cargo', ['build', '--release']);
 
-  final processResult = await Process.run('cargo', [
-    'build',
-    '--release',
-  ]);
-  throwOnError(processResult, 'cargo', ['build', '--release']);
-
-  return file;
+  return File(fileName);
 }
 
-void throwOnError(ProcessResult dataGenerationProcess, String executable,
-    List<String> arguments) {
-  if (dataGenerationProcess.exitCode != 0) {
-    throw ProcessException(executable, arguments, 'Error running $executable');
+void throwOnError(ProcessResult process, String executable, List<String> args) {
+  if (process.exitCode != 0) {
+    throw ProcessException(executable, args, 'Error running $executable');
   }
 }
 
@@ -90,12 +84,9 @@ class IcuDatagen {
   });
 
   Future<ProcessResult> runDataGeneration() async {
-    final processResult =
-        await Process.run('cargo', ['install', 'icu_datagen']);
+    await runProcess('cargo', ['install', 'icu_datagen']);
 
-    throwOnError(processResult, 'cargo', ['install', 'icu_datagen']);
-
-    return Process.run('icu4x-datagen', [
+    return await runProcess('icu4x-datagen', [
       '--keys',
       ...keys,
       '--locales',
@@ -117,4 +108,13 @@ enum Format {
   dir,
   blob,
   mod,
+}
+
+Future<ProcessResult> runProcess(
+  String executable,
+  List<String> arguments,
+) async {
+  final processResult = await Process.run(executable, arguments);
+  throwOnError(processResult, executable, arguments);
+  return processResult;
 }
