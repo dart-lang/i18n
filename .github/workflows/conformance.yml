@@ -44,6 +44,7 @@ jobs:
           if: github.ref != 'refs/heads/main'
 
         - name: Upload Reference Summary iff on main branch
+          if: github.ref == 'refs/heads/main'
           uses: actions/upload-artifact@65d862660abb392b8c4a3d1195a2108db131dd05
           with:
             name: reference_exec_summary
