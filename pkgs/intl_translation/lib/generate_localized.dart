@@ -486,12 +486,41 @@ Future<bool> initializeMessages(String? localeName) async {
   localeName = Intl.canonicalizedLocale(localeName);
 
   initializeInternalMessageLookup(() => CompositeMessageLookup());
-  var message = await SystemChannels.localization
-      .invokeMethod('Localization.getStringResource', {
-    'key': 'flutter_localization_string',
-    'locale': localeName,
-  }) as String?;
 
+  String? message;
+
+  // First, try to read the message from Android resource. Messages are split
+  // into chunks, so read until we reach an empty chunk.
+  var index = 0;
+  final chunks = <String>[];
+
+  while (true) {
+    final chunk = await SystemChannels.localization
+        .invokeMethod('Localization.getStringResource', {
+      'key': 'flutter_localization_string\${index++}',
+      'locale': localeName,
+    }) as String?;
+
+    // if the chunk is empty, we are reaching the end. Break out of the loop.
+    if (chunk == null || chunk.isEmpty) {
+      break;
+    }
+
+    // If the string in the Android resource is more than 32KB in size, it
+    // will return "STRING_TOO_LARGE". Make sure to fail in this case.
+    if (chunk == 'STRING_TOO_LARGE') {
+      throw Exception('STRING_TOO_LARGE in flutter_localization_string\${index-1}');
+    }
+
+    chunks.add(chunk);
+  }
+
+  if (chunks.isNotEmpty) {
+    message = chunks.join();
+  }
+
+  // If the translation does not exist in Android string resource, it is
+  // stored in the assets.
   if (message == null) {
     try {
       // Normalize the locale name
