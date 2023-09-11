@@ -47,23 +47,26 @@ GenderMessage genderMessage = GenderMessage(
 
 void main() {
   test('First serialize, then deserialize again', () {
-    for (var writeIds in [true, false]) {
-      for (var messages in [
-        [stringMessage],
-        [
-          stringMessage,
-          combinedMessage,
-          pluralMessage,
-          selectMessage,
-          genderMessage
-        ]
-      ]) {
-        serializeThenDeserialize<String>(
-          messages,
-          () => JsonSerializer(writeIds),
-          (data) => JsonDeserializer(_extractJsonFromClass(data)),
-        );
-      }
+    final messageTypes = [
+      [stringMessage],
+      [
+        stringMessage,
+        combinedMessage,
+        pluralMessage,
+        selectMessage,
+        genderMessage
+      ]
+    ];
+    final params = [
+      for (var writeId in [true, false])
+        for (var messages in messageTypes) (writeId, messages)
+    ];
+    for (final (writeId, messages) in params) {
+      serializeThenDeserialize<String>(
+        messages,
+        () => JsonSerializer(writeId),
+        (data) => JsonDeserializer(_extractJsonFromClass(data)),
+      );
     }
   });
 }
@@ -89,12 +92,9 @@ void compareMessages(
   List<Message> deserializedMessages,
   List<Message> originalMessages,
 ) {
-  for (var i = 0;
-      i < max(deserializedMessages.length, originalMessages.length);
-      i++) {
-    final deserialized = deserializedMessages[i];
-    final original = originalMessages[i];
-    compareMessage(original, deserialized);
+  final maxLength = max(deserializedMessages.length, originalMessages.length);
+  for (var i = 0; i < maxLength; i++) {
+    compareMessage(originalMessages[i], deserializedMessages[i]);
   }
 }
 
