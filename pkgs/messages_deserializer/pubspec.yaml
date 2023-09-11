@@ -1,0 +1,20 @@
+name: messages_deserializer
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+publish_to: none
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_deserializer
+
+environment:
+  sdk: ^3.0.0
+
+# Add regular dependencies here.
+dependencies:
+  messages:
+    path: ../messages
+  code_builder: ^4.3.0
+  dart_style: ^2.2.4
+  js: ^0.6.5
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0

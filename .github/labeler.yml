@@ -11,3 +11,6 @@
 
 'package:intl4x':
   - 'pkgs/intl4x/**'
+
+'package:messages':
+  - 'pkgs/messages/**'
