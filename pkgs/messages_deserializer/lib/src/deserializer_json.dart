@@ -13,7 +13,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   final List<int> messageOffsets = [];
   final List<Message> _messages = [];
 
-  JsonDeserializer(String data) : _parsed = jsonDecode(data);
+  JsonDeserializer(String data) : _parsed = jsonDecode(data) as List;
 
   @override
   MessageListJson deserialize(IntlObject intl) {
@@ -27,20 +27,20 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     return MessageListJson(hash, locale, hasId, _messages, intl);
   }
 
-  String get locale => _parsed[1];
+  String get locale => _parsed[1] as String;
 
-  String get hash => _parsed[2];
+  String get hash => _parsed[2] as String;
 
   bool get hasId => _parsed[3] == 1;
 
-  Message getMessage(Object message, [bool isTopLevel = false]) {
+  Message getMessage(dynamic message, [bool isTopLevel = false]) {
     if (message is List) {
-      var type = message[0];
+      final type = message[0];
       int start;
       String? id;
       if (isTopLevel && hasId) {
         start = 2;
-        id = message[1];
+        id = message[1] as String;
       } else {
         start = 1;
       }
@@ -62,20 +62,20 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   }
 
   StringMessage _forString(List<dynamic> message, int start, String? id) {
-    var value = message[start] as String;
-    var argPositions = <({int stringIndex, int argIndex})>[];
+    final value = message[start] as String;
+    final argPositions = <({int stringIndex, int argIndex})>[];
     for (var i = start + 1; i < message.length; i++) {
-      var pair = message[i];
-      final stringIndex = int.parse(pair[0], radix: 36);
-      final argIndex = int.parse(pair[1], radix: 36);
+      final pair = message[i] as List;
+      final stringIndex = int.parse(pair[0] as String, radix: 36);
+      final argIndex = int.parse(pair[1] as String, radix: 36);
       argPositions.add((stringIndex: stringIndex, argIndex: argIndex));
     }
     return StringMessage(value, argPositions: argPositions, id: id);
   }
 
   PluralMessage _forPlural(List<dynamic> message, int start, String? id) {
-    var argIndex = message[start];
-    var otherMessage = getMessage(message[start + 1]);
+    final argIndex = message[start] as int;
+    final otherMessage = getMessage(message[start + 1]);
     Message? zeroWordMessage;
     Message? zeroNumberMessage;
     Message? oneWordMessage;
@@ -84,9 +84,9 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     Message? twoNumberMessage;
     Message? fewMessage;
     Message? manyMessage;
-    List<Object> submessages = List.castFrom(message[start + 2]);
+    final submessages = List.castFrom(message[start + 2] as List);
     for (var i = 0; i < submessages.length - 1; i += 2) {
-      var msg = getMessage(submessages[i + 1]);
+      final msg = getMessage(submessages[i + 1]);
       switch (submessages[i]) {
         case Plural.zeroWord:
           zeroWordMessage = msg;
@@ -130,29 +130,31 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   }
 
   SelectMessage _forSelect(List<dynamic> message, int start, String? id) {
-    var argIndex = message[start];
-    var otherCase = getMessage(message[start + 1]);
-    Map<String, Object> submessages = Map.castFrom(message[start + 2]);
-    var cases = submessages.map(
-        (caseName, caseMessage) => MapEntry(caseName, getMessage(caseMessage)));
+    final argIndex = message[start] as int;
+    final otherCase = getMessage(message[start + 1]);
+    final submessages = Map.castFrom(message[start + 2] as Map);
+    final cases = submessages.map((caseName, caseMessage) => MapEntry(
+          caseName as String,
+          getMessage(caseMessage),
+        ));
     return SelectMessage(otherCase, cases, argIndex, id);
   }
 
   CombinedMessage _forCombined(List<dynamic> message, int start, String? id) {
     return CombinedMessage(
       id,
-      message.skip(start).map((message) => getMessage(message)).toList(),
+      message.skip(start).map(getMessage).toList(),
     );
   }
 
   GenderMessage _forGender(List<dynamic> message, int start, String? id) {
-    var argIndex = message[start];
-    var otherMessage = getMessage(message[start + 1]);
-    var submessages = message[start + 2];
+    final argIndex = message[start] as int;
+    final otherMessage = getMessage(message[start + 1]);
+    final submessages = message[start + 2] as List;
     Message? femaleMessage;
     Message? maleMessage;
     for (var i = 0; i < submessages.length - 1; i += 2) {
-      var msg = getMessage(submessages[i + 1]);
+      final msg = getMessage(submessages[i + 1]);
       switch (submessages[i]) {
         case Gender.female:
           femaleMessage = msg;

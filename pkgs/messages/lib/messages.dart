@@ -3,6 +3,5 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/intl_object.dart' show IntlObject;
-export 'src/message_format.dart';
-
 export 'src/intl_style_lookup.dart' show Intl;
+export 'src/message_format.dart';

@@ -23,7 +23,7 @@ class JsonSerializer extends Serializer<String> {
   ) {
     result.clear();
 
-    var preamble = [
+    final preamble = [
       VERSION,
       locale,
       hash,
@@ -36,9 +36,9 @@ class JsonSerializer extends Serializer<String> {
       encodeMessage(message, isVisible: true);
     }
 
-    var jsonString = jsonEncode(result);
+    final jsonString = jsonEncode(result);
 
-    var lib = Library(
+    final lib = Library(
       (lb) => lb
         ..body.add(Class(
           (cb) => cb
@@ -48,15 +48,15 @@ class JsonSerializer extends Serializer<String> {
                 ..static = true
                 ..modifier = FieldModifier.final$
                 ..name = 'jsonData'
-                ..type = Reference('String')
+                ..type = const Reference('String')
                 ..assignment = Code('r\'$jsonString\''),
             )),
         )),
     );
 
     final emitter = DartEmitter(orderDirectives: true);
-    var code = '${lib.accept(emitter)}';
-    var formattedCode = DartFormatter().format(code);
+    final code = '${lib.accept(emitter)}';
+    final formattedCode = DartFormatter().format(code);
     return Serialization(formattedCode);
   }
 
@@ -93,15 +93,15 @@ class JsonSerializer extends Serializer<String> {
   /// * if there are placeholders: List\<List\> | the position pairs:
   ///   * List\<int\> | a pair of position in the string - number of the placeholder
   Object encodeString(StringMessage message, bool isVisible) {
-    var containsArgs = message.argPositions.isNotEmpty;
+    final containsArgs = message.argPositions.isNotEmpty;
     if ((message.id == null || isVisible == false) && !containsArgs) {
       return message.value;
     }
-    var m = [];
+    final m = [];
     addId(message, m, isVisible);
     m.add(message.value);
     if (containsArgs) {
-      var positions = message.argPositions
+      final positions = message.argPositions
         ..sort((a, b) => a.stringIndex.compareTo(b.stringIndex));
       for (var i = 0; i < positions.length; i++) {
         m.add([
@@ -121,12 +121,12 @@ class JsonSerializer extends Serializer<String> {
   /// * Map\<String, int\> | the cases:
   ///   * MapEntry\<String, int\> | a case mapped to the message it represents
   List encodeSelect(SelectMessage message, bool isVisible) {
-    var m = [];
+    final m = [];
     m.add(SelectMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
-    var caseIndices = <String, Object>{};
+    final caseIndices = <String, Object>{};
     for (var entry in message.cases.entries) {
       caseIndices[entry.key] = encodeMessage(entry.value);
     }
@@ -144,12 +144,12 @@ class JsonSerializer extends Serializer<String> {
   ///   * int | the case index as encoded by the constants in `Plural`
   ///   * int | the message index of the case
   List encodePlural(PluralMessage message, bool isVisible) {
-    var m = [];
+    final m = [];
     m.add(PluralMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
-    var caseIndices = [];
+    final caseIndices = [];
     if (message.few != null) {
       caseIndices.add(Plural.few);
       caseIndices.add(encodeMessage(message.few!));
@@ -193,7 +193,7 @@ class JsonSerializer extends Serializer<String> {
   /// * List\<int\> | the submessage IDs
   ///   * int | the index of the submessage
   List encodeCombined(CombinedMessage message, bool isVisible) {
-    var m = [];
+    final m = [];
     m.add(CombinedMessage.type);
     addId(message, m, isVisible);
     for (var submessage in message.messages) {
@@ -212,12 +212,12 @@ class JsonSerializer extends Serializer<String> {
   ///   * int | the case index as encoded by the constants in `Gender`
   ///   * int | the message index of the case
   List encodeGender(GenderMessage message, bool isVisible) {
-    var m = [];
+    final m = [];
     m.add(GenderMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
-    var caseIndices = [];
+    final caseIndices = [];
     if (message.female != null) {
       caseIndices.add(Gender.female);
       caseIndices.add(encodeMessage(message.female!));

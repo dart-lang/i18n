@@ -14,11 +14,11 @@ class VarInt {
     var value = 0;
     var length = 0;
     for (var i = start; i < n.length; i++) {
-      var mask = (i - start) == 3 ? 255 : 127;
-      var shift = (i - start) * 7;
+      final mask = (i - start) == 3 ? 255 : 127;
+      final shift = (i - start) * 7;
       value += (n[i] & mask) << shift;
       if (n[i] & 128 == 0) {
-        length = (i - start);
+        length = i - start;
         break;
       }
     }
@@ -33,7 +33,7 @@ class VarInt {
     if (n > 1 << 28) {
       throw ArgumentError();
     }
-    var r = Uint8List(l);
+    final r = Uint8List(l);
     r[0] = n & 127;
     if (l > 1) {
       r[0] += 128;

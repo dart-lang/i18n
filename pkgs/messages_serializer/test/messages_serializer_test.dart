@@ -10,14 +10,14 @@ import 'package:messages_deserializer/messages_deserializer_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
-var stringMessage = StringMessage('Hello World', id: 'hello_world');
+StringMessage stringMessage = StringMessage('Hello World', id: 'hello_world');
 
-var combinedMessage = CombinedMessage('combined', [
+CombinedMessage combinedMessage = CombinedMessage('combined', [
   StringMessage('First '),
   StringMessage('Second'),
 ]);
 
-var pluralMessage = PluralMessage(
+PluralMessage pluralMessage = PluralMessage(
   id: 'pluralMes',
   few: StringMessage('few case'),
   many: StringMessage('many case'),
@@ -27,7 +27,7 @@ var pluralMessage = PluralMessage(
   argIndex: 0,
 );
 
-var selectMessage = SelectMessage(
+SelectMessage selectMessage = SelectMessage(
   StringMessage('Other'),
   {
     'case1': StringMessage('Case1'),
@@ -37,7 +37,7 @@ var selectMessage = SelectMessage(
   'selectMes',
 );
 
-var genderMessage = GenderMessage(
+GenderMessage genderMessage = GenderMessage(
   female: StringMessage('Female'),
   male: StringMessage('Male'),
   argIndex: 0,
@@ -70,13 +70,13 @@ void main() {
 
 void serializeThenDeserialize<T>(
   List<Message> messages,
-  Serializer Function() serializer,
+  Serializer<T> Function() serializer,
   Deserializer Function(T data) deserializer,
 ) {
-  var hash = 'testhash';
-  var locale = 'de_DE';
-  var serialized = serializer().serialize(hash, locale, messages);
-  var deserialized = deserializer(serialized.data).deserialize(OldIntlObject());
+  final hash = 'testhash';
+  final locale = 'de_DE';
+  final serialized = serializer().serialize(hash, locale, messages);
+  final deserialized = deserializer(serialized.data).deserialize(OldIntlObject());
   expect(deserialized.hash, hash);
   expect(deserialized.locale, locale);
   if (deserialized is MessageListJson) {
@@ -91,8 +91,8 @@ void compareMessages(
   for (var i = 0;
       i < max(deserializedMessages.length, originalMessages.length);
       i++) {
-    var deserialized = deserializedMessages[i];
-    var original = originalMessages[i];
+    final deserialized = deserializedMessages[i];
+    final original = originalMessages[i];
     compareMessage(original, deserialized);
   }
 }
@@ -122,7 +122,7 @@ void compareMessage(Message? original, Message? deserialized) {
 }
 
 String _extractJsonFromClass(String buffer) {
-  var jsonStart = buffer.indexOf('r\'');
-  var jsonEnd = buffer.lastIndexOf('\';');
+  final jsonStart = buffer.indexOf('r\'');
+  final jsonEnd = buffer.lastIndexOf('\';');
   return buffer.substring(jsonStart + 2, jsonEnd);
 }

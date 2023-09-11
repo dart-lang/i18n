@@ -55,17 +55,17 @@ final class StringMessage extends Message {
   static const int type = 1;
 
   @override
-  generateString(
+  String generateString(
     List allArgs, {
     required IntlObject intl,
     String Function(String p1)? cleaner,
     String? locale,
   }) {
-    var s = cleaner?.call(value) ?? value;
+    final s = cleaner?.call(value) ?? value;
     if (argPositions.isNotEmpty) {
-      var sb = StringBuffer(value.substring(0, argPositions[0].stringIndex));
+      final sb = StringBuffer(value.substring(0, argPositions[0].stringIndex));
       for (var i = 0; i < argPositions.length; i++) {
-        var position = argPositions[i];
+        final position = argPositions[i];
         sb.write(allArgs[position.argIndex]);
         sb.write(value.substring(
           position.stringIndex,
@@ -106,7 +106,7 @@ final class GenderMessage extends Message {
   }) {
     return intl
         .gender(
-          allArgs[argIndex],
+          allArgs[argIndex] as Gender,
           female,
           male,
           other,
@@ -163,7 +163,7 @@ final class PluralMessage extends Message {
   }) {
     return intl
         .plural(
-          allArgs[argIndex],
+          allArgs[argIndex] as num,
           few: few,
           many: many,
           zero: zeroNumber ?? zeroWord,
@@ -196,7 +196,8 @@ final class SelectMessage extends Message {
     String Function(String p1)? cleaner,
     String? locale,
   }) {
-    final selected = intl.select(allArgs[argIndex], {...cases, 'other': other});
+    final selected =
+        intl.select(allArgs[argIndex] as Object, {...cases, 'other': other});
     return selected.generateString(
       intl: intl,
       allArgs,
