@@ -14,3 +14,9 @@
 
 'package:messages':
   - 'pkgs/messages/**'
+
+'package:messages_serializer':
+  - 'pkgs/messages_serializer/**'
+
+'package:messages_deserializer':
+  - 'pkgs/messages_deserializer/**'
