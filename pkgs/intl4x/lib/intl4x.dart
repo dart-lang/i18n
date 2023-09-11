@@ -19,9 +19,6 @@ import 'src/list_format/list_format_impl.dart';
 import 'src/list_format/list_format_options.dart';
 import 'src/locale/locale.dart';
 import 'src/number_format/number_format_impl.dart';
-import 'src/plural_rules/plural_rules.dart';
-import 'src/plural_rules/plural_rules_impl.dart';
-import 'src/plural_rules/plural_rules_options.dart';
 
 export 'src/locale/locale.dart';
 
@@ -75,11 +72,6 @@ class Intl {
       DateTimeFormat(
         options ?? const DateTimeFormatOptions(),
         DateTimeFormatImpl.build(locale, localeMatcher, ecmaPolicy),
-      );
-
-  PluralRules plural([PluralRulesOptions? options]) => PluralRules(
-        options ?? PluralRulesOptions(),
-        PluralRulesImpl.build(locale, localeMatcher, ecmaPolicy),
       );
 
   /// Construct an [Intl] instance providing the current [locale] and the
