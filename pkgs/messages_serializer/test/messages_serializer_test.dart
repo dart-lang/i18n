@@ -76,7 +76,8 @@ void serializeThenDeserialize<T>(
   final hash = 'testhash';
   final locale = 'de_DE';
   final serialized = serializer().serialize(hash, locale, messages);
-  final deserialized = deserializer(serialized.data).deserialize(OldIntlObject());
+  final deserialized =
+      deserializer(serialized.data).deserialize(OldIntlObject());
   expect(deserialized.hash, hash);
   expect(deserialized.locale, locale);
   if (deserialized is MessageListJson) {
