@@ -1,6 +1,6 @@
 import 'intl_object.dart';
 
-abstract class Message {
+sealed class Message {
   final String? id;
 
   Message(this.id);
@@ -13,7 +13,7 @@ abstract class Message {
   });
 }
 
-class CombinedMessage extends Message {
+final class CombinedMessage extends Message {
   final List<Message> messages;
 
   CombinedMessage(super.id, this.messages);
@@ -36,7 +36,7 @@ class CombinedMessage extends Message {
   static const int type = 6;
 }
 
-class StringMessage extends Message {
+final class StringMessage extends Message {
   final String value;
 
   /// Maps argument indices to their position in the string, where they are to
@@ -77,7 +77,7 @@ class StringMessage extends Message {
   }
 }
 
-class GenderMessage extends Message {
+final class GenderMessage extends Message {
   final Message? male;
   final Message? female;
   final Message other;
@@ -122,7 +122,7 @@ enum Gender {
   other;
 }
 
-class PluralMessage extends Message {
+final class PluralMessage extends Message {
   final Message? zeroWord;
   final Message? zeroNumber;
   final Message? oneWord;
@@ -172,7 +172,7 @@ class PluralMessage extends Message {
   }
 }
 
-class SelectMessage extends Message {
+final class SelectMessage extends Message {
   final Message other;
   final Map<String, Message> cases;
   final int argIndex;
