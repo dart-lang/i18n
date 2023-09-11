@@ -7,7 +7,7 @@ import 'package:messages/package_intl_object.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('test name', () {
+  test('JSON MessageList', () {
     MessageList messageList = MessageListJson(
       'hash',
       'en_US',
