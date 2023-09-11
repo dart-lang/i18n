@@ -65,7 +65,7 @@ void main() {
       serializeThenDeserialize<String>(
         messages,
         () => JsonSerializer(writeId),
-        (data) => JsonDeserializer(_extractJsonFromClass(data)),
+        JsonDeserializer.new,
       );
     }
   });
@@ -120,10 +120,4 @@ void compareMessage(Message? original, Message? deserialized) {
     }
     expect(deserialized.argIndex, original.argIndex);
   }
-}
-
-String _extractJsonFromClass(String buffer) {
-  final jsonStart = buffer.indexOf('r\'');
-  final jsonEnd = buffer.lastIndexOf('\';');
-  return buffer.substring(jsonStart + 2, jsonEnd);
 }

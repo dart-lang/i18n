@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:code_builder/code_builder.dart';
-import 'package:dart_style/dart_style.dart';
 import 'package:messages/messages.dart';
 
 import 'serializer.dart';
@@ -36,28 +34,7 @@ class JsonSerializer extends Serializer<String> {
       encodeMessage(message, isVisible: true);
     }
 
-    final jsonString = jsonEncode(result);
-
-    final lib = Library(
-      (lb) => lb
-        ..body.add(Class(
-          (cb) => cb
-            ..name = 'JsonData'
-            ..fields.add(Field(
-              (fb) => fb
-                ..static = true
-                ..modifier = FieldModifier.final$
-                ..name = 'jsonData'
-                ..type = const Reference('String')
-                ..assignment = Code('r\'$jsonString\''),
-            )),
-        )),
-    );
-
-    final emitter = DartEmitter(orderDirectives: true);
-    final code = '${lib.accept(emitter)}';
-    final formattedCode = DartFormatter().format(code);
-    return Serialization(formattedCode);
+    return Serialization(jsonEncode(result));
   }
 
   Object encodeMessage(Message message, {bool isVisible = false}) {

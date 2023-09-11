@@ -9,8 +9,6 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  code_builder: ^4.3.0
-  dart_style: ^2.2.4
   messages:
     path: ../messages
 
