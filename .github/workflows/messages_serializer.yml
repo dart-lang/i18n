@@ -1,4 +1,4 @@
-name: package:messages
+name: package:messages_serializer
 permissions: read-all
 
 on:
