@@ -15,10 +15,10 @@ A lightweight modular library for internationalization (i18n) functionality.
 We're actively iterating on the API for this package (please provide feedback
 via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
-|   | Number format  | List format  | Date format  | Collation  | Display names |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **ICU4X (web/native)**  |   |   |   |   |   | 
+|   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **ICU4X (web/native)**  |   |   |   |   |   |   |
 
 ## Implementation and Goals
 
