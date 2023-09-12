@@ -77,9 +77,8 @@ void main() {
     OldIntlObject(),
   );
   aboutPageMessages.loadLocale('fr');
-  final message = aboutPageMessages.aboutMessage(website: 'mywebsite.com');
-  print(message); // 'À propos de mywebsite.com'
+  print(aboutPageMessages.aboutMessage(website: 'mywebsite.com')); // 'À propos de mywebsite.com'
   aboutPageMessages.loadLocale('en');
-  print(message); // 'About mywebsite.com'
+  print(aboutPageMessages.aboutMessage(website: 'mywebsite.com')); // 'About mywebsite.com'
 }
 ```
