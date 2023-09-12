@@ -32,7 +32,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
 
   Message getMessage(dynamic message, [bool isTopLevel = false]) {
     if (message is List) {
-      final type = message[0];
+      final typeOrId = message[0];
       int start;
       String? id;
       if (isTopLevel && preamble.hasIds) {
@@ -41,16 +41,16 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       } else {
         start = 1;
       }
-      if (type == PluralMessage.type) {
+      if (typeOrId == PluralMessage.type) {
         return _forPlural(message, start, id);
-      } else if (type == SelectMessage.type) {
+      } else if (typeOrId == SelectMessage.type) {
         return _forSelect(message, start, id);
-      } else if (type == GenderMessage.type) {
+      } else if (typeOrId == GenderMessage.type) {
         return _forGender(message, start, id);
-      } else if (type == CombinedMessage.type) {
+      } else if (typeOrId == CombinedMessage.type) {
         return _forCombined(message, start, id);
-      } else {
-        return _forString(message, start - 1, id);
+      } else if (typeOrId is String) {
+        return _forString(message, start - 1, typeOrId);
       }
     } else if (message is String) {
       return StringMessage(message);
