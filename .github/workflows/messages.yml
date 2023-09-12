@@ -33,7 +33,9 @@ jobs:
         with:
           sdk: ${{matrix.sdk}}
 
-      - run: dart pub get --example
+      - run: dart pub get
+
+      - run: (cd example_json; dart pub get)
 
       - run: dart analyze --fatal-infos
 
