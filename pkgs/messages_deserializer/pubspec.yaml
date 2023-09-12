@@ -1,5 +1,5 @@
 name: messages_deserializer
-description: A starting point for Dart libraries or applications.
+description: Deserialization of messages for package:messages.
 version: 1.0.0
 publish_to: none
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_deserializer
