@@ -15,7 +15,7 @@ void main() {
     final message = StringMessage('Hello World');
     final message1 = MessageWithMetadata(message, [], 'helloWorld');
     final messageList = <MessageWithMetadata>[message1];
-    var buffer = JsonSerializer()
+    final buffer = JsonSerializer()
         .serialize('', '', messageList.map((e) => e.message).toList())
         .data;
     final messages =
@@ -29,7 +29,7 @@ void main() {
       'helloWorld': 'Hello World'
     };
     final parsed = ArbParser().parseMessageFile(arb);
-    var buffer = JsonSerializer()
+    final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
@@ -42,7 +42,7 @@ void main() {
       'helloWorld': 'Hello {name}'
     };
     final parsed = ArbParser().parseMessageFile(arb);
-    var buffer = JsonSerializer()
+    final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
@@ -59,7 +59,7 @@ void main() {
       'helloWorld': '{greeting}{space}{name}'
     };
     final parsed = ArbParser().parseMessageFile(arb);
-    var buffer = JsonSerializer()
+    final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
@@ -78,7 +78,7 @@ void main() {
   test('generateMessageFile from complex arb JSON', () {
     final arb = jsonDecode(arbFile) as Map<String, dynamic>;
     final parsed = ArbParser().parseMessageFile(arb);
-    var buffer = JsonSerializer()
+    final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
