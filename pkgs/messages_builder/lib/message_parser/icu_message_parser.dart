@@ -9,6 +9,8 @@
 // The whole design for the lexing and parsing step can be found in this design doc.
 // See https://flutter.dev/go/icu-message-parser.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 // Symbol Types
 class L10nException implements Exception {
   L10nException(this.message);

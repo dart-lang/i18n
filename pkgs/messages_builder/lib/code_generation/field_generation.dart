@@ -46,18 +46,26 @@ class FieldGeneration extends Generation<Field> {
         ..assignment = const Code('{}'),
     );
     final carbs = Field(
-      (fb) => fb
-        ..name = '_carbs'
-        ..modifier = FieldModifier.final$
-        ..assignment = Code(
-            '{${localeCarbPaths.entries.map((e) => "'${e.key}' : '${e.value}'").join(',')}}'),
+      (fb) {
+        final paths = localeCarbPaths.entries
+            .map((e) => "'${e.key}' : '${e.value}'")
+            .join(',');
+        fb
+          ..name = '_carbs'
+          ..modifier = FieldModifier.final$
+          ..assignment = Code('{$paths}');
+      },
     );
     final hashes = Field(
-      (p0) => p0
-        ..name = '_messageListHashes'
-        ..modifier = FieldModifier.final$
-        ..assignment = Code(
-            '{${resourceToHash.entries.map((e) => "'${e.key}' : '${e.value}'").join(',')}}'),
+      (p0) {
+        final hashList = resourceToHash.entries
+            .map((e) => "'${e.key}' : '${e.value}'")
+            .join(',');
+        p0
+          ..name = '_messageListHashes'
+          ..modifier = FieldModifier.final$
+          ..assignment = Code('{$hashList}');
+      },
     );
     final intlObject = Field(
       (fb) => fb

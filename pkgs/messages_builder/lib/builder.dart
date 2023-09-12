@@ -184,8 +184,10 @@ class BuildStepGenerator {
     if (context != null) {
       contextMessage = 'For the messages in $context, the';
     }
+    final fileList =
+        localeToResource.entries.map((e) => '\t${e.value}').join('\n');
     print(
-        '$contextMessage following files need to be declared in your assets:\n${localeToResource.entries.map((e) => '\t${e.value}').join('\n')}');
+        '''$contextMessage following files need to be declared in your assets:\n$fileList''');
   }
 }
 
