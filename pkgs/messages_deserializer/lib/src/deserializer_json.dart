@@ -17,9 +17,9 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
 
   @override
   MessageListJson deserialize(IntlObject intl) {
-    if (_parsed[0] != VERSION) {
+    if (_parsed[0] != version) {
       throw ArgumentError(
-          '''This message has version ${_parsed[0]}, while the deserializer has version $VERSION''');
+          '''This message has version ${_parsed[0]}, while the deserializer has version $version''');
     }
     for (var i = jsonPreambleLength; i < _parsed.length; i++) {
       _messages.add(getMessage(_parsed[i], true));

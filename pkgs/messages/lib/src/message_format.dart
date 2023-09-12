@@ -7,7 +7,7 @@ import 'intl_object.dart';
 
 export 'message.dart';
 
-int VERSION = 0;
+const int version = 0;
 
 final jsonPreambleLength = 4;
 

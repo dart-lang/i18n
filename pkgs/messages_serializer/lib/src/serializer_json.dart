@@ -22,7 +22,7 @@ class JsonSerializer extends Serializer<String> {
     result.clear();
 
     final preamble = [
-      VERSION,
+      version,
       locale,
       hash,
       writeIds ? 1 : 0,
