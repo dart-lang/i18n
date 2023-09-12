@@ -7,14 +7,26 @@ import 'intl_object.dart';
 
 export 'message.dart';
 
-const int version = 0;
+/// The version of the serializer/deserializer, to make sure there is no
+/// mismatch when trying to deserialize messages. To be updated whenever there
+/// is a breaking change.
+const int serializationVersion = 0;
 
-final jsonPreambleLength = 4;
+/// Metadata about the MessageList
+abstract class Preamble {
+  int get version;
+
+  String get locale;
+
+  String get hash;
+
+  bool get hasIds;
+
+  static int length = 4;
+}
 
 abstract class MessageList {
-  String get locale;
-  String get hash;
-  bool get hasIds;
+  Preamble get preamble;
   IntlObject get intl;
 
   String generateStringAtIndex(int index, List args);

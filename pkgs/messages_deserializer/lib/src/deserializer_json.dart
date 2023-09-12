@@ -12,33 +12,30 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   final List _parsed;
   final List<int> messageOffsets = [];
   final List<Message> _messages = [];
+  late final JsonPreamble preamble;
 
-  JsonDeserializer(String data) : _parsed = jsonDecode(data) as List;
+  JsonDeserializer(String data) : _parsed = jsonDecode(data) as List {
+    preamble = JsonPreamble.parse(_parsed);
+  }
 
   @override
   MessageListJson deserialize(IntlObject intl) {
-    if (_parsed[0] != version) {
+    if (preamble.version != serializationVersion) {
       throw ArgumentError(
-          '''This message has version ${_parsed[0]}, while the deserializer has version $version''');
+          '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
     }
-    for (var i = jsonPreambleLength; i < _parsed.length; i++) {
+    for (var i = Preamble.length; i < _parsed.length; i++) {
       _messages.add(getMessage(_parsed[i], true));
     }
-    return MessageListJson(hash, locale, hasId, _messages, intl);
+    return MessageListJson(preamble, _messages, intl);
   }
-
-  String get locale => _parsed[1] as String;
-
-  String get hash => _parsed[2] as String;
-
-  bool get hasId => _parsed[3] == 1;
 
   Message getMessage(dynamic message, [bool isTopLevel = false]) {
     if (message is List) {
       final type = message[0];
       int start;
       String? id;
-      if (isTopLevel && hasId) {
+      if (isTopLevel && preamble.hasIds) {
         start = 2;
         id = message[1] as String;
       } else {

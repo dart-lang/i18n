@@ -9,9 +9,12 @@ import 'package:test/test.dart';
 void main() {
   test('JSON MessageList', () {
     final MessageList messageList = MessageListJson(
-      'hash',
-      'en_US',
-      false,
+      JsonPreamble.build(
+        serializationVersion: serializationVersion,
+        locale: 'en_US',
+        hash: 'hash',
+        hasIds: false,
+      ),
       [
         StringMessage('Hello World'),
         SelectMessage(
@@ -37,8 +40,8 @@ void main() {
       OldIntlObject(),
     );
 
-    expect(messageList.hasIds, false);
-    expect(messageList.locale, 'en_US');
+    expect(messageList.preamble.hasIds, false);
+    expect(messageList.preamble.locale, 'en_US');
     expect(messageList.generateStringAtIndex(0, []), 'Hello World');
     expect(messageList.generateStringAtIndex(1, ['case1']), 'Case case1');
     expect(messageList.generateStringAtIndex(1, ['case2']), 'Case 2');

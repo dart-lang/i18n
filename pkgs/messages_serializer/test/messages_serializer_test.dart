@@ -64,7 +64,7 @@ void main() {
     for (final (writeId, messages) in params) {
       serializeThenDeserialize<String>(
         messages,
-        () => JsonSerializer(writeId),
+        JsonSerializer(writeId),
         JsonDeserializer.new,
       );
     }
@@ -73,16 +73,18 @@ void main() {
 
 void serializeThenDeserialize<T>(
   List<Message> messages,
-  Serializer<T> Function() serializer,
-  Deserializer Function(T data) deserializer,
+  Serializer<T> serializer,
+  Deserializer Function(T data) deserializerBuilder,
 ) {
   final hash = 'testhash';
   final locale = 'de_DE';
-  final serialized = serializer().serialize(hash, locale, messages);
-  final deserialized =
-      deserializer(serialized.data).deserialize(OldIntlObject());
-  expect(deserialized.hash, hash);
-  expect(deserialized.locale, locale);
+  final serialized = serializer.serialize(hash, locale, messages);
+
+  final deserializer = deserializerBuilder(serialized.data);
+  final deserialized = deserializer.deserialize(OldIntlObject());
+
+  expect(deserialized.preamble.hash, hash);
+  expect(deserialized.preamble.locale, locale);
   if (deserialized is MessageListJson) {
     compareMessages(deserialized.messages, messages);
   }

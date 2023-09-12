@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:messages/messages.dart';
+import 'package:messages/messages_json.dart';
 
 import 'serializer.dart';
 
@@ -21,14 +21,14 @@ class JsonSerializer extends Serializer<String> {
   ) {
     result.clear();
 
-    final preamble = [
-      version,
-      locale,
-      hash,
-      writeIds ? 1 : 0,
-    ];
+    final preamble = JsonPreamble.build(
+      serializationVersion: serializationVersion,
+      locale: locale,
+      hash: hash,
+      hasIds: writeIds,
+    );
 
-    result.addAll(preamble);
+    result.addAll(preamble.toJson());
 
     for (var message in messages) {
       encodeMessage(message, isVisible: true);
