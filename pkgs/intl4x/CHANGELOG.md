@@ -1,6 +1,7 @@
-## 0.6.1-wip
+## 0.7.0
 
 - Add conformance testing workflow.
+- Add ECMA `PluralRules`.
 
 ## 0.6.0
 
