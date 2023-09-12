@@ -1,9 +1,9 @@
 --- a/pkgs/intl/lib/intl.dart
 +++ b/pkgs/intl/lib/intl.dart
-@@ -13,14 +13,6 @@
-
- import 'dart:async';
-
+@@ -18,14 +18,6 @@ import 'src/intl/date_format.dart' show DateFormat;
+ import 'src/intl_helpers.dart' as helpers;
+ import 'src/plural_rules.dart' as plural_rules;
+ 
 -// BEGIN-INTERNAL
 -// Export acx_sharded_intl.dart so that it can be referenced by acx transform.
 -// ignore: unused_import
@@ -12,6 +12,22 @@
 -    if (dart.library.html) 'src/acx_sharded_intl_browser.dart';
 -// END-INTERNAL
 -
- import 'src/global_state.dart' as global_state;
- import 'src/intl/date_format.dart' show DateFormat;
- import 'src/intl_helpers.dart' as helpers;
+ export 'src/intl/bidi.dart' show Bidi;
+ export 'src/intl/bidi_formatter.dart' show BidiFormatter;
+ export 'src/intl/date_format.dart' show DateFormat;
+@@ -160,7 +152,6 @@ class Intl {
+   /// the extracted message output. This can be useful to set up placeholder
+   /// messages during development whose text aren't finalized yet without having
+   /// the placeholder automatically translated.
+-  // LINT.IfChange
+   @pragma('dart2js:tryInline')
+   @pragma('vm:prefer-inline')
+   // We want to try to inline these messages, but not inline the internal
+@@ -175,7 +166,6 @@ class Intl {
+           String? meaning,
+           bool? skip}) =>
+       _message(messageText, locale, name, args, meaning);
+-  // LINT.ThenChange(//depot/google3/dart/tools/intl_sharded/transform/lib/transform.dart)
+ 
+   /// Omit the compile-time only parameters so dart2js can see to drop them.
+   @pragma('dart2js:noInline')
