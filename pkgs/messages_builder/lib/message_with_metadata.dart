@@ -10,8 +10,7 @@ class MessageWithMetadata {
   List<Placeholder> placeholders;
 
   MessageWithMetadata(this.message, List<String> arguments, this.name)
-      : placeholders =
-            arguments.map(Placeholder.new).toList();
+      : placeholders = arguments.map(Placeholder.new).toList();
 }
 
 class MessageListWithMetadata {
