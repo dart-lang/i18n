@@ -42,11 +42,6 @@ typedef Icu4xKey = String;
 class Intl {
   final EcmaPolicy ecmaPolicy;
 
-  // ignore: unused_field, prefer_final_fields
-  String _dyliblocation = 'path.dll'; //What about path.wasm? How to load this?
-  // ignore: unused_field, prefer_final_fields
-  String _datalocation = 'data.blob'; //What about additional data?
-
   final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 

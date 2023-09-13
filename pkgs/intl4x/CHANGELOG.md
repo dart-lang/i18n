@@ -1,3 +1,7 @@
+## 0.8.0
+
+- Remove a field.
+
 ## 0.7.0
 
 - Add conformance testing workflow.
