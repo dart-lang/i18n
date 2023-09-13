@@ -41,7 +41,6 @@ typedef Icu4xKey = String;
 /// ```
 class Intl {
   final EcmaPolicy ecmaPolicy;
-
   final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
