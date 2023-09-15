@@ -1,0 +1,20 @@
+name: messages_serializer
+description: Serialization of messages for package:messages.
+version: 0.1.0
+publish_to: none
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_serializer
+
+environment:
+  sdk: ^3.0.0
+
+# Add regular dependencies here.
+dependencies:
+  messages:
+    path: ../messages
+
+dev_dependencies:
+  dart_flutter_team_lints: ^1.0.0
+  lints: ^2.0.0
+  messages_deserializer:
+    path: ../messages_deserializer
+  test: ^1.21.0
