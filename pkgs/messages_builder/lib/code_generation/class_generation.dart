@@ -37,7 +37,7 @@ class ClassGeneration extends Generation<Spec> {
           ..methods.addAll(methods),
       ),
     ];
-    if (options.findByIndex) {
+    if (options.findByType == IndexType.integer) {
       classes.add(Class((cb) => cb
         ..name = indicesName(messageList.context)
         ..fields.addAll(List.generate(
@@ -51,7 +51,7 @@ class ClassGeneration extends Generation<Spec> {
                     ..modifier = FieldModifier.constant,
                 )))));
     }
-    if (options.findByEnum) {
+    if (options.findByType == IndexType.enumerate || options.messageCalls) {
       classes.add(Enum((cb) => cb
         ..name = enumName(messageList.context)
         ..values.addAll(List.generate(

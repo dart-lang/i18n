@@ -23,9 +23,7 @@ dev_dependencies:
 
 messages:
   generateMethods: true
-  generateFindById: true
-  generateFindByEnum: false
-  generateFindByIndex: true
+  generateFindById: false
+  generateFindBy: none
   useCleaner: false
-  async: false
-  inline: false
+  async: true

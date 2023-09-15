@@ -6,7 +6,7 @@ class HomePageMessages {
     this.intlObject,
   );
 
-  final String Function(String id) _fileLoader;
+  final Future<String> Function(String id) _fileLoader;
 
   String _currentLocale = 'en';
 
@@ -23,33 +23,14 @@ class HomePageMessages {
 
   String get currentLocale => _currentLocale;
   MessageList get _currentMessages => _messages[currentLocale]!;
-  set currentLocale(String locale) {
-    if (_currentLocale != locale) {
-      loadLocale(locale);
-    }
-  }
-
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
-    return _currentMessages.generateStringAtId(id, args);
-  }
-
-  @pragma('dart2js:noInline')
-  String getByIndex(
-    int index, [
-    List<dynamic> args = const [],
-  ]) =>
-      _currentMessages.generateStringAtIndex(index, args);
   Iterable<String> get knownLocales => _carbs.keys;
-  void loadLocale(String locale) {
+  Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
       final carb = _carbs[locale];
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = _fileLoader(carb);
+      final data = await _fileLoader(carb);
       final messageList = MessageListJson.fromString(data, intlObject);
       if (messageList.preamble.hash != _messageListHashes[carb]) {
         throw ArgumentError('''
@@ -60,9 +41,9 @@ class HomePageMessages {
     _currentLocale = locale;
   }
 
-  void loadAllLocales() {
+  Future<void> loadAllLocales() async {
     for (var locale in knownLocales) {
-      loadLocale(locale);
+      await loadLocale(locale);
     }
   }
 
@@ -71,29 +52,27 @@ class HomePageMessages {
     required String lastName,
   }) =>
       _currentMessages.generateStringAtIndex(
-          HomePageMessagesIndex.helloAndWelcome, [firstName, lastName]);
-  String newMessages({required int newMessages}) => _currentMessages
-      .generateStringAtIndex(HomePageMessagesIndex.newMessages, [newMessages]);
+          HomePageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
+  String newMessages({required int newMessages}) =>
+      _currentMessages.generateStringAtIndex(
+          HomePageMessagesEnum.newMessages.index, [newMessages]);
   String newMessages2({
     required String gender,
     required int newVar,
   }) =>
       _currentMessages.generateStringAtIndex(
-          HomePageMessagesIndex.newMessages2, [gender, newVar]);
+          HomePageMessagesEnum.newMessages2.index, [gender, newVar]);
   String helloAndWelcome2({
     required String firstName,
     required String lastName,
   }) =>
       _currentMessages.generateStringAtIndex(
-          HomePageMessagesIndex.helloAndWelcome2, [firstName, lastName]);
+          HomePageMessagesEnum.helloAndWelcome2.index, [firstName, lastName]);
 }
 
-class HomePageMessagesIndex {
-  static const int helloAndWelcome = 0;
-
-  static const int newMessages = 1;
-
-  static const int newMessages2 = 2;
-
-  static const int helloAndWelcome2 = 3;
+enum HomePageMessagesEnum {
+  helloAndWelcome,
+  newMessages,
+  newMessages2,
+  helloAndWelcome2
 }

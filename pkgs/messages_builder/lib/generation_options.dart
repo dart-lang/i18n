@@ -9,8 +9,7 @@ import 'package:yaml/yaml.dart';
 class GenerationOptions {
   final bool messageCalls;
   final bool findById;
-  final bool findByEnum;
-  final bool findByIndex;
+  final IndexType findByType;
   final bool useCleaner;
   final SerializationType serialization;
   final DeserializationType deserialization;
@@ -22,8 +21,7 @@ class GenerationOptions {
     required this.deserialization,
     required this.messageCalls,
     required this.findById,
-    required this.findByEnum,
-    required this.findByIndex,
+    required this.findByType,
     required this.useCleaner,
     required this.makeAsync,
     required this.isInline,
@@ -39,8 +37,11 @@ class GenerationOptions {
       deserialization: DeserializationType.web,
       messageCalls: (messagesOptions['generateMethods'] as bool?) ?? true,
       findById: (messagesOptions['generateFindById'] as bool?) ?? false,
-      findByEnum: (messagesOptions['generateFindByEnum'] as bool?) ?? false,
-      findByIndex: (messagesOptions['generateFindByIndex'] as bool?) ?? false,
+      findByType: IndexType.values
+              .where((type) =>
+                  type.name == messagesOptions['generateFindBy'] as String?)
+              .firstOrNull ??
+          IndexType.none,
       useCleaner: (messagesOptions['useCleaner'] as bool?) ?? false,
       makeAsync: (messagesOptions['async'] as bool?) ?? false,
       isInline: (messagesOptions['inline'] as bool?) ?? false,
@@ -55,4 +56,10 @@ enum SerializationType {
 
 enum DeserializationType {
   web;
+}
+
+enum IndexType {
+  none,
+  integer,
+  enumerate;
 }

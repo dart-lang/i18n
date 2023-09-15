@@ -26,8 +26,9 @@ class MethodGeneration extends Generation<Method> {
   Method generateMessageCall(int index, MessageWithMetadata message) {
     final arguments =
         message.placeholders.map((placeholder) => placeholder.name).join(', ');
-    final body =
-        '''_currentMessages.generateStringAtIndex(${indicesName(messageList.context)}.${message.name}, [$arguments])''';
+
+    final index = '${enumName(messageList.context)}.${message.name}.index';
+    final body = '_currentMessages.generateStringAtIndex($index, [$arguments])';
     return Method(
       (mb) => mb
         ..name = message.name
@@ -243,8 +244,8 @@ class MethodGeneration extends Generation<Method> {
       getCurrentMessages,
       if (!options.makeAsync) setCurrentLocale,
       if (options.findById) getMessagebyId,
-      if (options.findByEnum) findByEnum,
-      if (options.findByIndex) findByIndex,
+      if (options.findByType == IndexType.enumerate) findByEnum,
+      if (options.findByType == IndexType.integer) findByIndex,
       getKnownLocales,
       loadLocale,
       loadAllLocales,

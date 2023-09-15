@@ -6,9 +6,7 @@ The options can be configured by setting configuring the following in the `pubsp
 messages:
   generateMethods: true
   generateFindById: true
-  generateFindByEnum: false
-  generateFindByIndex: true
+  generateFindBy: [enumerate | integer | none]
   useCleaner: false
   async: false
-  inline: false
 ```
