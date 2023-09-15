@@ -46,7 +46,7 @@ void main(List<String> args) async {
   client.registerBuildTarget(DefaultBuildTarget((b) => b
     ..target = 'lib'
     ..blackListPatterns.replace([RegExp(r'.*(?<!\.arb|\.yaml)$')])));
-  print('Registered example web target...');
+  print('Registered target...');
 
   // Handle events coming from the daemon.
   client.buildResults.listen((status) => print('BUILD STATUS: $status'));
