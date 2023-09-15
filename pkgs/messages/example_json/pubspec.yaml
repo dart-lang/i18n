@@ -25,5 +25,3 @@ messages:
   generateMethods: true
   generateFindById: false
   generateFindBy: none
-  useCleaner: false
-  async: true

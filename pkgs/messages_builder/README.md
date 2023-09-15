@@ -7,6 +7,4 @@ messages:
   generateMethods: true
   generateFindById: true
   generateFindBy: [enumerate | integer | none]
-  useCleaner: false
-  async: false
 ```
