@@ -1,8 +1,7 @@
 name: messages_builder
 description: Build the messages for consumption by package:messages
-version: 0.1.0-prerelease.0
+version: 0.1.0
 publish_to: none
-# repository: https://github.com/my_org/my_repo
 
 environment:
   sdk: ^3.0.0
