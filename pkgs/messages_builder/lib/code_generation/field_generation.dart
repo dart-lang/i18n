@@ -25,7 +25,7 @@ class FieldGeneration extends Generation<Field> {
   List<Field> generate() {
     final loadingStrategy = Field(
       (fb) {
-        final returnType = getAsyncReference('String', options).symbol;
+        final returnType = const Reference('String').symbol;
         fb
           ..name = '_fileLoader'
           ..modifier = FieldModifier.final$

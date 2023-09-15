@@ -93,12 +93,11 @@ class MethodGeneration extends Generation<Method> {
     } else {
       messageCalls = [];
     }
-    final awaitModifier = options.makeAsync ? 'await' : '';
     final loadLocale = Method(
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = $awaitModifier _fileLoader(carb);
+          final data = _fileLoader(carb);
           final messageList = MessageListJson.fromString(data, intlObject);''',
         };
         mb
@@ -123,26 +122,19 @@ class MethodGeneration extends Generation<Method> {
           }
           _currentLocale = locale;
       ''')
-          ..returns = getAsyncReference('void', options);
-
-        if (options.makeAsync) {
-          mb.modifier = MethodModifier.async;
-        }
+          ..returns = const Reference('void');
       },
     );
     final loadAllLocales = Method(
       (mb) {
         mb
           ..name = 'loadAllLocales'
-          ..returns = getAsyncReference('void', options)
-          ..body = Code('''
+          ..returns = const Reference('void')
+          ..body = const Code('''
           for (var locale in knownLocales) {
-            $awaitModifier loadLocale(locale);
+             loadLocale(locale);
           }
       ''');
-        if (options.makeAsync) {
-          mb.modifier = MethodModifier.async;
-        }
       },
     );
     final getKnownLocales = Method(
@@ -168,20 +160,6 @@ class MethodGeneration extends Generation<Method> {
         ..lambda = true
         ..body = const Code('_currentLocale')
         ..returns = const Reference('String'),
-    );
-    final setCurrentLocale = Method(
-      (p0) => p0
-        ..name = 'currentLocale'
-        ..type = MethodType.setter
-        ..requiredParameters.add(Parameter(
-          (p0) => p0
-            ..name = 'locale'
-            ..type = const Reference('String'),
-        ))
-        ..body = const Code('''
-    if (_currentLocale != locale) {
-      loadLocale(locale);
-    }'''),
     );
     final getMessagebyId = Method((mb) => mb
       ..name = 'getById'
@@ -242,7 +220,6 @@ class MethodGeneration extends Generation<Method> {
     return [
       getCurrentLocale,
       getCurrentMessages,
-      if (!options.makeAsync) setCurrentLocale,
       if (options.findById) getMessagebyId,
       if (options.findByType == IndexType.enumerate) findByEnum,
       if (options.findByType == IndexType.integer) findByIndex,

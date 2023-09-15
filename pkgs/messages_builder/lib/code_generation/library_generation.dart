@@ -13,14 +13,6 @@ import 'generation.dart';
 import 'import_generation.dart';
 import 'method_generation.dart';
 
-String enumName(String? context) => '${context ?? ''}MessagesEnum';
-String indicesName(String? context) => '${context ?? ''}MessagesIndex';
-
-Reference getAsyncReference(String s, GenerationOptions options) =>
-    Reference(options.makeAsync ? 'Future<$s>' : s);
-
-String getDataFileName(String e) => e.split('.').first;
-
 class LibraryGeneration extends Generation<Library> {
   final GenerationOptions options;
   final String? context;

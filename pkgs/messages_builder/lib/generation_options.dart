@@ -12,7 +12,6 @@ class GenerationOptions {
   final IndexType findByType;
   final SerializationType serialization;
   final DeserializationType deserialization;
-  final bool makeAsync;
 
   GenerationOptions({
     required this.serialization,
@@ -20,7 +19,6 @@ class GenerationOptions {
     required this.messageCalls,
     required this.findById,
     required this.findByType,
-    required this.makeAsync,
   });
 
   static Future<GenerationOptions> fromPubspec(BuildStep buildStep) async {
@@ -38,7 +36,6 @@ class GenerationOptions {
                   type.name == messagesOptions['generateFindBy'] as String?)
               .firstOrNull ??
           IndexType.none,
-      makeAsync: (messagesOptions['async'] as bool?) ?? false,
     );
     return generationOptions;
   }
