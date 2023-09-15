@@ -13,7 +13,6 @@ class GenerationOptions {
   final SerializationType serialization;
   final DeserializationType deserialization;
   final bool makeAsync;
-  final bool isInline;
 
   GenerationOptions({
     required this.serialization,
@@ -22,7 +21,6 @@ class GenerationOptions {
     required this.findById,
     required this.findByType,
     required this.makeAsync,
-    required this.isInline,
   });
 
   static Future<GenerationOptions> fromPubspec(BuildStep buildStep) async {
@@ -41,7 +39,6 @@ class GenerationOptions {
               .firstOrNull ??
           IndexType.none,
       makeAsync: (messagesOptions['async'] as bool?) ?? false,
-      isInline: (messagesOptions['inline'] as bool?) ?? false,
     );
     return generationOptions;
   }
