@@ -10,7 +10,6 @@ class GenerationOptions {
   final bool messageCalls;
   final bool findById;
   final IndexType findByType;
-  final bool useCleaner;
   final SerializationType serialization;
   final DeserializationType deserialization;
   final bool makeAsync;
@@ -22,7 +21,6 @@ class GenerationOptions {
     required this.messageCalls,
     required this.findById,
     required this.findByType,
-    required this.useCleaner,
     required this.makeAsync,
     required this.isInline,
   });
@@ -42,7 +40,6 @@ class GenerationOptions {
                   type.name == messagesOptions['generateFindBy'] as String?)
               .firstOrNull ??
           IndexType.none,
-      useCleaner: (messagesOptions['useCleaner'] as bool?) ?? false,
       makeAsync: (messagesOptions['async'] as bool?) ?? false,
       isInline: (messagesOptions['inline'] as bool?) ?? false,
     );

@@ -72,11 +72,6 @@ class FieldGeneration extends Generation<Field> {
         ..name = 'intlObject'
         ..type = const Reference('IntlObject'),
     );
-    final cleaner = Field(
-      (fb) => fb
-        ..name = 'cleaner'
-        ..type = const Reference('String Function(String)?'),
-    );
     final fields = [
       loadingStrategy,
       currentLocale,
@@ -84,7 +79,6 @@ class FieldGeneration extends Generation<Field> {
       carbs,
       hashes,
       intlObject,
-      if (options.useCleaner) cleaner
     ];
     return fields;
   }

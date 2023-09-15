@@ -198,8 +198,8 @@ class MethodGeneration extends Generation<Method> {
           ..type = const Reference('List<dynamic>')
           ..defaultTo = const Code('const []'),
       ))
-      ..body = Code(
-          '''return _currentMessages.generateStringAtId(id, ${options.useCleaner ? 'args, cleaner' : 'args'});''')
+      ..body =
+          const Code('return _currentMessages.generateStringAtId(id, args);')
       ..returns = const Reference('String'));
     final findByIndex = Method((mb) => mb
       ..name = 'getByIndex'

@@ -24,15 +24,6 @@ class ConstructorGeneration extends Generation<Constructor> {
         Parameter((pb) => pb
           ..name = 'intlObject'
           ..toThis = true),
-      ])
-      ..optionalParameters.addAll([
-        if (options.useCleaner)
-          Parameter(
-            (pb) => pb
-              ..name = 'cleaner'
-              ..toThis = true
-              ..named = true,
-          ),
       ]));
     return [nativeConstructor];
   }
