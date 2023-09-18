@@ -11,18 +11,18 @@ import 'package:messages/package_intl_object.dart';
 
 Future<void> main(List<String> arguments) async {
   final messages = AboutPageMessages(
-    (String id) => File('lib/$id').readAsString(),
+    (String id) => File('lib/$id').readAsStringSync(),
     OldIntlObject(),
   );
   // final index = AboutPageMessagesEnum.aboutMessage;
 
-  await messages.loadLocale('en');
+  messages.loadLocale('en');
   print('AboutMessage en:');
   print('\t${messages.aboutMessage(websitename: 'typesafe.en')}');
   // print('\t${messages.getById('aboutMessage', ['get-by-id.en'])}');
   // print('\t${messages.getByEnum(index, ['get-by-index.en'])}');
 
-  await messages.loadLocale('fr');
+  messages.loadLocale('fr');
   print('AboutMessage fr:');
   print('\t${messages.aboutMessage(websitename: 'typesafe.fr')}');
   // print('\t${messages.getById('aboutMessage', ['get-by-id.fr'])}');

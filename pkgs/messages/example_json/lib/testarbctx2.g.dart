@@ -6,7 +6,7 @@ class AboutPageMessages {
     this.intlObject,
   );
 
-  final Future<String> Function(String id) _fileLoader;
+  final String Function(String id) _fileLoader;
 
   String _currentLocale = 'en';
 
@@ -24,13 +24,13 @@ class AboutPageMessages {
   String get currentLocale => _currentLocale;
   MessageList get _currentMessages => _messages[currentLocale]!;
   Iterable<String> get knownLocales => _carbs.keys;
-  Future<void> loadLocale(String locale) async {
+  void loadLocale(String locale) {
     if (!_messages.containsKey(locale)) {
       final carb = _carbs[locale];
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = await _fileLoader(carb);
+      final data = _fileLoader(carb);
       final messageList = MessageListJson.fromString(data, intlObject);
       if (messageList.preamble.hash != _messageListHashes[carb]) {
         throw ArgumentError('''
@@ -41,9 +41,9 @@ class AboutPageMessages {
     _currentLocale = locale;
   }
 
-  Future<void> loadAllLocales() async {
+  void loadAllLocales() {
     for (var locale in knownLocales) {
-      await loadLocale(locale);
+      loadLocale(locale);
     }
   }
 
