@@ -18,8 +18,8 @@ class MessageShrinker {
     if (dataFile.endsWith('.json')) {
       final buffer = file.readAsStringSync();
       final newBuffer = shrinkJson(buffer, constInstances);
-      final newFile = File(outputFile);
-      newFile.writeAsString(newBuffer);
+      final newFile = File(outputFile)..createSync(recursive: true);
+      newFile.writeAsStringSync(newBuffer);
     } else {
       throw ArgumentError('Not a valid Message file');
     }

@@ -32,7 +32,7 @@ void main() {
   });
 
   test('Shrink a json with const from file', () {
-    final outputFile = '/tmp/shrunkFile';
+    final outputFile = '/tmp/shrunkFile.json';
     MessageShrinker().shrink(
       dataFile,
       'test/const_files.json',
@@ -40,7 +40,7 @@ void main() {
     );
 
     final dataFileContentsShrunk = File(outputFile).readAsStringSync();
-
+    expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
     final deserialize =
         JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
     final args = [2];
