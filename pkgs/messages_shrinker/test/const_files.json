@@ -1,0 +1,9 @@
+{
+    "constantInstances": [
+        {
+            "index": 1,
+            "_name": "aboutMessage"
+        }
+    ],
+    "nonConstantLocations": []
+}

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:messages/package_intl_object.dart';
@@ -5,18 +6,23 @@ import 'package:messages_deserializer/messages_deserializer_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 
 class MessageShrinker {
-  String shrink(String fileName, List<int> messagesToKeep) {
-    final newFileName = '$fileName.shrnk';
-    final file = File(fileName);
-    final newFile = File(newFileName);
-    if (fileName.endsWith('.json')) {
+  void shrink(
+    String dataFile,
+    String constInstancesFile,
+    String outputFile,
+  ) {
+    final constInstances =
+        parseConstInstances(File(constInstancesFile).readAsStringSync());
+
+    final file = File(dataFile);
+    if (dataFile.endsWith('.json')) {
       final buffer = file.readAsStringSync();
-      final newBuffer = shrinkJson(buffer, messagesToKeep);
+      final newBuffer = shrinkJson(buffer, constInstances);
+      final newFile = File(outputFile);
       newFile.writeAsString(newBuffer);
     } else {
       throw ArgumentError('Not a valid Message file');
     }
-    return file.path;
   }
 
   String shrinkJson(String buffer, List<int> messagesToKeep) {
@@ -29,6 +35,15 @@ class MessageShrinker {
           messagesToKeep,
         )
         .data;
+  }
+
+  List<int> parseConstInstances(String fileContents) {
+    final decoded = jsonDecode(fileContents) as Map<String, dynamic>;
+    final instances = decoded['constantInstances'] as List;
+    return instances
+        .map((e) => e as Map<String, dynamic>)
+        .map((e) => e['index'] as int)
+        .toList();
   }
 }
 

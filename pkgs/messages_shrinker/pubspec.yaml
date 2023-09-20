@@ -9,16 +9,17 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  analyzer: ^6.2.0
   messages:
     path: ../messages
   messages_builder:
     path: ../messages_builder
-  messages_serializer:
-    path: ../messages_serializer
   messages_deserializer:
     path: ../messages_deserializer
-  analyzer: ^6.2.0
+  messages_serializer:
+    path: ../messages_serializer
 
 dev_dependencies:
+  dart_flutter_team_lints: ^1.0.0
   lints: ^2.0.0
   test: ^1.21.0
