@@ -18,6 +18,7 @@ abstract class Serializer<T> {
   Serialization<T> serialize(
     String hash,
     String locale,
-    List<Message> messages,
-  );
+    List<Message> messages, [
+    List<int>? keepOnly,
+  ]);
 }

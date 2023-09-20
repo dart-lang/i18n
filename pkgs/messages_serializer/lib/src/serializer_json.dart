@@ -17,8 +17,9 @@ class JsonSerializer extends Serializer<String> {
   Serialization<String> serialize(
     String hash,
     String locale,
-    List<Message> messages,
-  ) {
+    List<Message> messages, [
+    List<int>? keepOnly,
+  ]) {
     result.clear();
 
     final preamble = JsonPreamble.build(
@@ -30,9 +31,17 @@ class JsonSerializer extends Serializer<String> {
 
     result.addAll(preamble.toJson());
 
-    for (var message in messages) {
-      encodeMessage(message, isVisible: true);
+    final messageMapping = <String, String>{};
+    var messageCounter = 0;
+    for (var i = 0; i < messages.length; i++) {
+      if (keepOnly?.contains(i) ?? true) {
+        encodeMessage(messages[i], isVisible: true);
+        messageMapping[i.toRadixString(36)] = messageCounter.toRadixString(36);
+        messageCounter++;
+      }
     }
+
+    result.insert(Preamble.length, keepOnly != null ? messageMapping : null);
 
     return Serialization(jsonEncode(result));
   }

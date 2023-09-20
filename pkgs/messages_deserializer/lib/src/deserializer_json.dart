@@ -24,10 +24,19 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       throw ArgumentError(
           '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
     }
-    for (var i = Preamble.length; i < _parsed.length; i++) {
+    final mapping = _parsed[Preamble.length] as Map<String, dynamic>?;
+    for (var i = Preamble.length + 1; i < _parsed.length; i++) {
       _messages.add(getMessage(_parsed[i], true));
     }
-    return MessageListJson(preamble, _messages, intl);
+    return MessageListJson(
+      preamble,
+      _messages,
+      intl,
+      mapping?.map((key, value) => MapEntry(
+            int.parse(key, radix: 36),
+            int.parse(value as String, radix: 36),
+          )),
+    );
   }
 
   Message getMessage(dynamic message, [bool isTopLevel = false]) {
