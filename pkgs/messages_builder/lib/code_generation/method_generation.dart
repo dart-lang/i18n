@@ -3,8 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
-import 'package:messages/messages.dart';
-import 'package:messages/package_intl_object.dart';
 
 import '../generation_options.dart';
 import '../message_with_metadata.dart';
@@ -41,42 +39,6 @@ class MethodGeneration extends Generation<Method> {
                     ..name = placeholder.name
                     ..named = true
                     ..required = true,
-                )))
-        ..body = Code(body),
-    );
-  }
-
-  Method generateInlinedMessageCall(int index, MessageWithMetadata message) {
-    final placeholders =
-        message.placeholders.map((placeholder) => placeholder.name);
-    final arguments = placeholders.join(', ');
-
-    final msg = message.message;
-    String body;
-    if (msg is StringMessage) {
-      body = msg.generateString(
-        placeholders.map((e) => '\$$e').toList(),
-        intl: OldIntlObject(),
-      );
-    } else if (msg is CombinedMessage) {
-    } else if (msg is PluralMessage) {
-    } else if (msg is SelectMessage) {
-    } else if (msg is GenderMessage) {
-    } else {
-      throw ArgumentError();
-    }
-    body =
-        '''_currentMessages.generateStringAtIndex(${indicesName(messageList.context)}.${message.name}, [$arguments])''';
-    return Method(
-      (mb) => mb
-        ..name = message.name
-        ..lambda = true
-        ..returns = const Reference('String')
-        ..requiredParameters
-            .addAll(message.placeholders.map((placeholder) => Parameter(
-                  (pb) => pb
-                    ..type = Reference(placeholder.type)
-                    ..name = placeholder.name,
                 )))
         ..body = Code(body),
     );
