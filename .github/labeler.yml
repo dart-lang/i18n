@@ -20,3 +20,6 @@
 
 'package:messages_deserializer':
   - 'pkgs/messages_deserializer/**'
+
+'package:messages_builder':
+  - 'pkgs/messages_builder/**'
