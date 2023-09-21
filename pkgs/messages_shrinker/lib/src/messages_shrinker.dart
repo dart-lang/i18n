@@ -26,8 +26,9 @@ class MessageShrinker {
   }
 
   String shrinkJson(String buffer, List<int> messagesToKeep) {
+    final sizeBefore = buffer.length;
     final json = JsonDeserializer(buffer).deserialize(OldIntlObject());
-    return JsonSerializer(json.preamble.hasIds)
+    final data = JsonSerializer(json.preamble.hasIds)
         .serialize(
           json.preamble.hash,
           json.preamble.locale,
@@ -35,6 +36,11 @@ class MessageShrinker {
           messagesToKeep,
         )
         .data;
+    final sizeAfter = data.length;
+    final change = (sizeBefore - sizeAfter) / sizeBefore;
+    final changeInPercent = (change * 100).toStringAsFixed(2);
+    print('Reduced size from $sizeBefore to $sizeAfter by $changeInPercent %');
+    return data;
   }
 
   List<int> parseConstInstances(String fileContents) {
