@@ -23,3 +23,6 @@
 
 'package:messages_builder':
   - 'pkgs/messages_builder/**'
+
+'package:messages_shrinker':
+  - 'pkgs/messages_shrinker/**'
