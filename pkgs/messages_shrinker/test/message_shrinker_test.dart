@@ -18,9 +18,11 @@ void main() {
     dataFile = 'test/testarb.json';
     File(dataFile).writeAsStringSync(dataFileContents);
   });
+
   String getMessage(int i, List<int> args) => JsonDeserializer(dataFileContents)
       .deserialize(intl)
       .generateStringAtIndex(i, args);
+
   test('Shrink a json', () {
     final messageIndex = 1;
     final output =

@@ -12,7 +12,7 @@ class MessageShrinker {
     String outputFile,
   ) {
     final constInstances =
-        parseConstInstances(File(constInstancesFile).readAsStringSync());
+        _parseConstInstances(File(constInstancesFile).readAsStringSync());
 
     final file = File(dataFile);
     if (dataFile.endsWith('.json')) {
@@ -25,6 +25,8 @@ class MessageShrinker {
     }
   }
 
+  /// Shrink a json message file by de- and reserializing, keeping only the
+  /// message indices in [messagesToKeep].
   String shrinkJson(String buffer, List<int> messagesToKeep) {
     final sizeBefore = buffer.length;
     final json = JsonDeserializer(buffer).deserialize(OldIntlObject());
@@ -43,7 +45,25 @@ class MessageShrinker {
     return data;
   }
 
-  List<int> parseConstInstances(String fileContents) {
+  /// Receive a file emitted by const_finder from the SDK, which has the
+  /// structure:
+  /// ```json
+  /// {
+  ///   "constantInstances": [
+  ///     {
+  ///       "index": 1,
+  ///       "_name": "constantNameOne"
+  ///     },
+  ///     {
+  ///       "index": 2,
+  ///       "_name": "constantNameTwo"
+  ///     },
+  ///     ...
+  ///   ],
+  ///   "nonConstantLocations": []
+  /// }
+  /// ```
+  List<int> _parseConstInstances(String fileContents) {
     final decoded = jsonDecode(fileContents) as Map<String, dynamic>;
     final instances = decoded['constantInstances'] as List;
     return instances
@@ -51,12 +71,4 @@ class MessageShrinker {
         .map((e) => e['index'] as int)
         .toList();
   }
-}
-
-class JsonExtraction {
-  final String before;
-  final String json;
-  final String after;
-
-  JsonExtraction(this.before, this.json, this.after);
 }
