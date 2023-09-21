@@ -41,6 +41,7 @@ class JsonSerializer extends Serializer<String> {
       }
     }
 
+    /// Insert `null` instead of the full messageMapping to save space.
     result.insert(Preamble.length, keepOnly != null ? messageMapping : null);
 
     return Serialization(jsonEncode(result));
