@@ -36,7 +36,8 @@ class JsonSerializer extends Serializer<String> {
     for (var i = 0; i < messages.length; i++) {
       if (keepOnly?.contains(i) ?? true) {
         encodeMessage(messages[i], isVisible: true);
-        messageMapping[i.toRadixString(36)] = messageCounter.toRadixString(36);
+        messageMapping[i.toRadixString(serializationRadix)] =
+            messageCounter.toRadixString(serializationRadix);
         messageCounter++;
       }
     }
@@ -92,8 +93,8 @@ class JsonSerializer extends Serializer<String> {
         ..sort((a, b) => a.stringIndex.compareTo(b.stringIndex));
       for (var i = 0; i < positions.length; i++) {
         m.add([
-          positions[i].stringIndex.toRadixString(36),
-          positions[i].argIndex.toRadixString(36),
+          positions[i].stringIndex.toRadixString(serializationRadix),
+          positions[i].argIndex.toRadixString(serializationRadix),
         ]);
       }
     }

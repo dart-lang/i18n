@@ -33,8 +33,8 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       _messages,
       intl,
       mapping?.map((key, value) => MapEntry(
-            int.parse(key, radix: 36),
-            int.parse(value as String, radix: 36),
+            int.parse(key, radix: serializationRadix),
+            int.parse(value as String, radix: serializationRadix),
           )),
     );
   }
@@ -71,9 +71,9 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     final value = message[start] as String;
     final argPositions = <({int stringIndex, int argIndex})>[];
     for (var i = start + 1; i < message.length; i++) {
-      final pair = message[i] as List;
-      final stringIndex = int.parse(pair[0] as String, radix: 36);
-      final argIndex = int.parse(pair[1] as String, radix: 36);
+      final pair = message[i] as List<String>;
+      final stringIndex = int.parse(pair[0], radix: serializationRadix);
+      final argIndex = int.parse(pair[1], radix: serializationRadix);
       argPositions.add((stringIndex: stringIndex, argIndex: argIndex));
     }
     return StringMessage(value, argPositions: argPositions, id: id);
