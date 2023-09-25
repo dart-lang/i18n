@@ -12,6 +12,9 @@ export 'message.dart';
 /// is a breaking change.
 const int serializationVersion = 0;
 
+/// Which radix to serialize messages with.
+const int serializationRadix = 36;
+
 /// Metadata about the MessageList
 abstract class Preamble {
   int get version;

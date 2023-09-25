@@ -24,8 +24,11 @@ class HomePageMessages {
   IntlObject intlObject;
 
   String get currentLocale => _currentLocale;
+
   MessageList get _currentMessages => _messages[currentLocale]!;
+
   Iterable<String> get knownLocales => _carbs.keys;
+
   void loadLocale(String locale) {
     if (!_messages.containsKey(locale)) {
       final carb = _carbs[locale];
@@ -55,15 +58,18 @@ class HomePageMessages {
   }) =>
       _currentMessages.generateStringAtIndex(
           HomePageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
+
   String newMessages({required int newMessages}) =>
       _currentMessages.generateStringAtIndex(
           HomePageMessagesEnum.newMessages.index, [newMessages]);
+
   String newMessages2({
     required String gender,
     required int newVar,
   }) =>
       _currentMessages.generateStringAtIndex(
           HomePageMessagesEnum.newMessages2.index, [gender, newVar]);
+
   String helloAndWelcome2({
     required String firstName,
     required String lastName,

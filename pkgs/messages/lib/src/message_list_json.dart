@@ -43,6 +43,7 @@ class MessageListJson extends MessageList {
   final List<Message> messages;
   final IntlObject _intl;
   final JsonPreamble _preamble;
+  final Map<int, int>? messageIndices;
 
   @override
   IntlObject get intl => _intl;
@@ -54,6 +55,7 @@ class MessageListJson extends MessageList {
     this._preamble,
     this.messages,
     this._intl,
+    this.messageIndices,
   );
 
   factory MessageListJson.fromString(String string, IntlObject intl) =>
@@ -67,5 +69,7 @@ class MessageListJson extends MessageList {
 
   @override
   String generateStringAtIndex(int index, List args) =>
-      messages[index].generateString(args, intl: _intl);
+      messages[getIndex(index)].generateString(args, intl: _intl);
+
+  int getIndex(int index) => messageIndices?[index] ?? index;
 }

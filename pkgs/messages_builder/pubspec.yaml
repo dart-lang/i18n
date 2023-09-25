@@ -2,6 +2,7 @@ name: messages_builder
 description: Build the messages for consumption by package:messages
 version: 0.1.0
 publish_to: none
+repository: https://github.com/dart-lang/i18n/pkgs/messages_builder
 
 environment:
   sdk: ^3.0.0

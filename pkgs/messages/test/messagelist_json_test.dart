@@ -38,6 +38,7 @@ void main() {
         )
       ],
       OldIntlObject(),
+      null,
     );
 
     expect(messageList.preamble.hasIds, false);

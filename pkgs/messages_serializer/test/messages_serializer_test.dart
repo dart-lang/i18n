@@ -64,6 +64,24 @@ void main() {
     );
   });
 
+  test('Serialize partially', () {
+    final messages = [
+      stringMessage,
+      combinedMessage,
+      pluralMessage,
+      selectMessage,
+      genderMessage
+    ];
+    final serialized =
+        JsonSerializer(true).serialize('hash', 'locale', messages, [1, 4]);
+    final deserialize =
+        JsonDeserializer(serialized.data).deserialize(OldIntlObject());
+    expect(
+      deserialize.messages.map((e) => e.id),
+      orderedEquals([messages[1], messages[4]].map((e) => e.id)),
+    );
+  });
+
   test('First serialize, then deserialize again', () {
     final messageTypes = [
       [stringMessage],

@@ -24,10 +24,19 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       throw ArgumentError(
           '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
     }
-    for (var i = Preamble.length; i < _parsed.length; i++) {
+    final mapping = _parsed[Preamble.length] as Map<String, dynamic>?;
+    for (var i = Preamble.length + 1; i < _parsed.length; i++) {
       _messages.add(getMessage(_parsed[i], true));
     }
-    return MessageListJson(preamble, _messages, intl);
+    return MessageListJson(
+      preamble,
+      _messages,
+      intl,
+      mapping?.map((key, value) => MapEntry(
+            int.parse(key, radix: serializationRadix),
+            int.parse(value as String, radix: serializationRadix),
+          )),
+    );
   }
 
   Message getMessage(dynamic message, [bool isTopLevel = false]) {
@@ -63,8 +72,14 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     final argPositions = <({int stringIndex, int argIndex})>[];
     for (var i = start + 1; i < message.length; i++) {
       final pair = message[i] as List;
-      final stringIndex = int.parse(pair[0] as String, radix: 36);
-      final argIndex = int.parse(pair[1] as String, radix: 36);
+      final stringIndex = int.parse(
+        pair[0] as String,
+        radix: serializationRadix,
+      );
+      final argIndex = int.parse(
+        pair[1] as String,
+        radix: serializationRadix,
+      );
       argPositions.add((stringIndex: stringIndex, argIndex: argIndex));
     }
     return StringMessage(value, argPositions: argPositions, id: id);
