@@ -10,6 +10,8 @@ on:
     paths:
       - '.github/workflows/conformance.yml'
       - 'pkgs/intl4x/**'
+  schedule:
+    - cron: '0 0 * * *' # daily
     
 jobs:
     run_all:

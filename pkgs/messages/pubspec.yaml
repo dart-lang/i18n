@@ -1,0 +1,19 @@
+name: messages
+description: A lightweight modular library for localization (l10n) functionality.
+version: 0.1.0
+publish_to: none
+repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  collection: ^1.17.1
+  intl: ^0.18.0
+  messages_deserializer:
+    path: ../messages_deserializer
+
+dev_dependencies:
+  dart_flutter_team_lints: ^1.0.0
+  lints: ^2.0.0
+  test: ^1.16.0

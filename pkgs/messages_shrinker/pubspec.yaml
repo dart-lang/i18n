@@ -1,0 +1,26 @@
+name: messages_shrinker
+description: A starting point for Dart libraries or applications.
+version: 0.1.0
+publish_to: none
+repository: https://github.com/dart-lang/i18n/pkgs/messages_shrinker
+
+environment:
+  sdk: ^3.0.0
+
+# Add regular dependencies here.
+dependencies:
+  analyzer: ^6.2.0
+  args: ^2.4.2
+  messages:
+    path: ../messages
+  messages_builder:
+    path: ../messages_builder
+  messages_deserializer:
+    path: ../messages_deserializer
+  messages_serializer:
+    path: ../messages_serializer
+
+dev_dependencies:
+  dart_flutter_team_lints: ^2.0.0
+  lints: ^2.0.0
+  test: ^1.21.0
