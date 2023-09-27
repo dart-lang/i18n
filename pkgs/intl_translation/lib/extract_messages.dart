@@ -24,6 +24,7 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
+import 'package:analyzer/src/error/codes.dart';
 
 import 'src/messages/main_message.dart';
 import 'visitors/message_finding_visitor.dart';
@@ -129,8 +130,12 @@ class MessageExtraction {
     );
 
     if (result.errors.isNotEmpty) {
-      print('Error in parsing $origin, no messages extracted.');
-      throw ArgumentError('Parsing errors in $origin');
+      // google3 specific mod8ification: ignore DOC_DIRECTIVE_UNKNOWN.
+      // See b/301549069.
+      if (!result.errors.every(
+          (error) => error.errorCode == WarningCode.DOC_DIRECTIVE_UNKNOWN)) {
+        throw ArgumentError('Parsing errors in $origin: ${result.errors}');
+      }
     }
 
     return result.unit;
