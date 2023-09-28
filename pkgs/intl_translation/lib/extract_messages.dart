@@ -24,7 +24,6 @@ import 'dart:io';
 import 'package:analyzer/dart/analysis/features.dart';
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:analyzer/dart/ast/ast.dart';
-import 'package:analyzer/src/error/codes.dart';
 
 import 'src/messages/main_message.dart';
 import 'visitors/message_finding_visitor.dart';
@@ -46,10 +45,14 @@ class MessageExtraction {
     this.examplesRequired = false,
     this.descriptionRequired = false,
     this.warningsAreErrors = false,
+    this.ignoredErrorCodes = const <String>{},
   }) : warnings = [];
 
   /// If this is true, then treat all warnings as errors.
   bool warningsAreErrors;
+
+  /// Error codes that should be ignored.
+  Set<String> ignoredErrorCodes;
 
   /// What to do when a message is encountered, defaults to [print].
   OnMessage onMessage;
@@ -130,9 +133,8 @@ class MessageExtraction {
     );
 
     final errors = List.of(result.errors)
-      // google3 specific modification: ignore DOC_DIRECTIVE_UNKNOWN.
-      // See b/301549069.
-      ..removeWhere((e) => e.errorCode == WarningCode.DOC_DIRECTIVE_UNKNOWN);
+      ..removeWhere(
+          (e) => ignoredErrorCodes.contains(e.errorCode.name.toLowerCase()));
     if (errors.isNotEmpty) {
       print('Error in parsing $origin, no messages extracted.');
       throw ArgumentError('Parsing errors in $origin');
