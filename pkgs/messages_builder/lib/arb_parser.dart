@@ -12,12 +12,17 @@ class ArbParser {
   MessageListWithMetadata parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
-    final isReference = (arb['@@x-reference'] as bool?) ?? false;
+    final templatePath = arb['@@x-template'] as String?;
     final messages = arb.keys
         .where((key) => !key.startsWith('@'))
         .map((key) => parseMessage(arb, key, '${context}_$locale'))
         .toList();
-    return MessageListWithMetadata(messages, locale, context, isReference);
+    return MessageListWithMetadata(
+      messages,
+      locale,
+      context,
+      templatePath == null,
+    );
   }
 
   MessageWithMetadata parseMessage(
@@ -35,6 +40,7 @@ class ArbParser {
     final messageMetadata = arb['@$messageKey'];
     if (messageMetadata != null) {
       final metadata = messageMetadata as Map<String, dynamic>;
+      final description = metadata['description'] as String?;
       final placeholdersMap = metadata['placeholders'] as Map<String, dynamic>?;
       final placeholders = placeholdersMap ?? <String, dynamic>{};
       final placeholdersWithMetadata = parsePlaceholderMetadata(placeholders);
@@ -45,6 +51,7 @@ class ArbParser {
                 orElse: () => placeholder,
               ))
           .toList();
+      message.description = description;
     }
     return message;
   }
@@ -57,7 +64,12 @@ class ArbParser {
       final placeholderName = entry.key;
       final placeholderData = entry.value as Map<String, dynamic>;
       final type = (placeholderData['type'] as String?) ?? 'String';
-      placeholderTypes.add(Placeholder(placeholderName, type));
+      final example = placeholderData['example'] as String?;
+      placeholderTypes.add(Placeholder(
+        name: placeholderName,
+        type: type,
+        example: example,
+      ));
     }
     return placeholderTypes;
   }

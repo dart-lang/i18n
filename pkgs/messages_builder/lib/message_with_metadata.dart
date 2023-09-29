@@ -8,30 +8,33 @@ class MessageWithMetadata {
   final Message message;
   final String? name;
   List<Placeholder> placeholders;
+  String? description;
 
   MessageWithMetadata(this.message, List<String> arguments, this.name)
-      : placeholders = arguments.map(Placeholder.new).toList();
+      : placeholders =
+            arguments.map((argument) => Placeholder(name: argument)).toList();
 }
 
 class MessageListWithMetadata {
   final List<MessageWithMetadata> messages;
   final String? locale;
   final String? context;
-  final bool isReference;
+  final bool isTemplate;
 
   MessageListWithMetadata(
     this.messages,
     this.locale,
     this.context,
-    this.isReference,
+    this.isTemplate,
   );
 }
 
 class Placeholder {
   final String name;
   final String type;
+  final String? example;
 
-  Placeholder(this.name, [this.type = 'String']);
+  Placeholder({required this.name, this.type = 'String', this.example});
 
   @override
   String toString() {

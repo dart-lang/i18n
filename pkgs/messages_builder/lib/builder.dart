@@ -117,15 +117,15 @@ class BuildStepGenerator {
     for (var context in contexts) {
       final filesWithContext = arbFiles.where((arb) => arb.context == context);
       if (filesWithContext
-              .where((element) => element.isReferenceForContext)
+              .where((element) => element.isTemplateResource)
               .length >
           1) {
-        throw ArgumentError('Multiple arb files are marked as reference');
+        throw ArgumentError('Multiple arb files are marked as templates.');
       }
       final localesInContext = filesWithContext.map((e) => e.locale).toList();
       if (localesInContext.length != localesInContext.toSet().length) {
         throw ArgumentError(
-            'Multiple arb files for the same context have the same locale');
+            'Multiple arb files for the same context have the same locale.');
       }
     }
   }
@@ -151,7 +151,7 @@ class BuildStepGenerator {
             .length ==
         1;
     final shouldGenerateDartLib =
-        arb.isReferenceForContext || isOnlyResourceForContext;
+        arb.isTemplateResource || isOnlyResourceForContext;
     return shouldGenerateDartLib;
   }
 
@@ -199,7 +199,7 @@ class MessageFileResource {
   MessageFileResource(this.assetId, this.messageList, this.hash);
 
   String get locale => messageList.locale!;
-  bool get isReferenceForContext => messageList.isReference;
+  bool get isTemplateResource => messageList.isTemplate;
   List<MessageWithMetadata> get messages => messageList.messages;
   String? get context => messageList.context;
 }
