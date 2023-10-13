@@ -43,7 +43,6 @@ class MessageListJson extends MessageList {
   final List<Message> messages;
   final IntlObject _intl;
   final JsonPreamble _preamble;
-  final Map<int, int>? messageIndices;
 
   @override
   IntlObject get intl => _intl;
@@ -55,7 +54,6 @@ class MessageListJson extends MessageList {
     this._preamble,
     this.messages,
     this._intl,
-    this.messageIndices,
   );
 
   factory MessageListJson.fromString(String string, IntlObject intl) =>
@@ -67,9 +65,20 @@ class MessageListJson extends MessageList {
       .first
       .generateString(args, intl: _intl);
 
-  @override
-  String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args, intl: _intl);
+  @pragma('resource-identifier')
+  @pragma('dart2js:resource-identifier')
+  @pragma('dart2js:never-inline')
+  static String generateStringAtIndex(
+    List<Message> messages,
+    int index,
+    List<dynamic> args,
+    IntlObject intl,
+  ) =>
+      messages[index].generateString(args, intl: intl);
+}
 
-  int getIndex(int index) => messageIndices?[index] ?? index;
+const ResourceIdentifier resourceIdentifier = ResourceIdentifier();
+
+class ResourceIdentifier {
+  const ResourceIdentifier();
 }

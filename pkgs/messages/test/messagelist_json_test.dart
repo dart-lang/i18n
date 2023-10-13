@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('JSON MessageList', () {
-    final MessageList messageList = MessageListJson(
+    final messageList = MessageListJson(
       JsonPreamble.build(
         serializationVersion: serializationVersion,
         locale: 'en_US',
@@ -38,15 +38,30 @@ void main() {
         )
       ],
       OldIntlObject(),
-      null,
     );
 
     expect(messageList.preamble.hasIds, false);
     expect(messageList.preamble.locale, 'en_US');
-    expect(messageList.generateStringAtIndex(0, []), 'Hello World');
-    expect(messageList.generateStringAtIndex(1, ['case1']), 'Case case1');
-    expect(messageList.generateStringAtIndex(1, ['case2']), 'Case 2');
-    expect(messageList.generateStringAtIndex(1, ['case3', 2]), 'case3: 2');
-    expect(messageList.generateStringAtIndex(1, ['case4']), 'Some case');
+    expect(
+      MessageListJson.generateStringAtIndex(
+          messageList.messages, 0, [], OldIntlObject()),
+      'Hello World',
+    );
+    expect(
+        MessageListJson.generateStringAtIndex(
+            messageList.messages, 1, ['case1'], OldIntlObject()),
+        'Case case1');
+    expect(
+        MessageListJson.generateStringAtIndex(
+            messageList.messages, 1, ['case2'], OldIntlObject()),
+        'Case 2');
+    expect(
+        MessageListJson.generateStringAtIndex(
+            messageList.messages, 1, ['case3', 2], OldIntlObject()),
+        'case3: 2');
+    expect(
+        MessageListJson.generateStringAtIndex(
+            messageList.messages, 1, ['case4'], OldIntlObject()),
+        'Some case');
   });
 }

@@ -25,7 +25,8 @@ class AboutPageMessages {
 
   String get currentLocale => _currentLocale;
 
-  MessageList get _currentMessages => _messages[currentLocale]!;
+  MessageListJson get _currentMessages =>
+      _messages[currentLocale]! as MessageListJson;
 
   Iterable<String> get knownLocales => _carbs.keys;
 
@@ -52,27 +53,14 @@ class AboutPageMessages {
     }
   }
 
-  String helloAndWelcome({
-    required String firstName,
-    required String lastName,
-  }) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
-
+  @pragma('dart2js:tryInline')
   String aboutMessage({required String websitename}) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.aboutMessage.index, [websitename]);
-
-  String newMessages({required int newMessages}) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.newMessages.index, [newMessages]);
-
-  String newMessages2({
-    required String gender,
-    required int newVar,
-  }) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.newMessages2.index, [gender, newVar]);
+      MessageListJson.generateStringAtIndex(
+        _currentMessages.messages,
+        42,
+        [websitename],
+        intlObject,
+      );
 }
 
 enum AboutPageMessagesEnum {

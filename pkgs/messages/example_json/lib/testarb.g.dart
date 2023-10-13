@@ -25,7 +25,8 @@ class HomePageMessages {
 
   String get currentLocale => _currentLocale;
 
-  MessageList get _currentMessages => _messages[currentLocale]!;
+  MessageListJson get _currentMessages =>
+      _messages[currentLocale]! as MessageListJson;
 
   Iterable<String> get knownLocales => _carbs.keys;
 
@@ -56,26 +57,35 @@ class HomePageMessages {
     required String firstName,
     required String lastName,
   }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
+      MessageListJson.generateStringAtIndex(
+          _currentMessages.messages,
+          HomePageMessagesEnum.helloAndWelcome.index,
+          [firstName, lastName],
+          intlObject);
 
   String newMessages({required int newMessages}) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.newMessages.index, [newMessages]);
+      MessageListJson.generateStringAtIndex(_currentMessages.messages,
+          HomePageMessagesEnum.newMessages.index, [newMessages], intlObject);
 
   String newMessages2({
     required String gender,
     required int newVar,
   }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.newMessages2.index, [gender, newVar]);
+      MessageListJson.generateStringAtIndex(
+          _currentMessages.messages,
+          HomePageMessagesEnum.newMessages2.index,
+          [gender, newVar],
+          intlObject);
 
   String helloAndWelcome2({
     required String firstName,
     required String lastName,
   }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.helloAndWelcome2.index, [firstName, lastName]);
+      MessageListJson.generateStringAtIndex(
+          _currentMessages.messages,
+          HomePageMessagesEnum.helloAndWelcome2.index,
+          [firstName, lastName],
+          intlObject);
 }
 
 enum HomePageMessagesEnum {

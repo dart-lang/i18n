@@ -5,6 +5,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
 import 'package:messages_builder/arb_parser.dart';
 import 'package:messages_deserializer/messages_deserializer_json.dart';
@@ -23,17 +24,28 @@ void main() {
     File(dataFile).writeAsStringSync(dataFileContents);
   });
 
-  String getMessage(int i, List<int> args) => JsonDeserializer(dataFileContents)
-      .deserialize(intl)
-      .generateStringAtIndex(i, args);
+  String getMessage(int i, List<int> args) {
+    final messageList = JsonDeserializer(dataFileContents).deserialize(intl);
+    return MessageListJson.generateStringAtIndex(
+      messageList.messages,
+      i,
+      args,
+      intl,
+    );
+  }
 
   test('Shrink a json', () {
     final messageIndex = 1;
     final output =
         MessageShrinker().shrinkJson(dataFileContents, [messageIndex]);
-    final deserialize = JsonDeserializer(output).deserialize(intl);
+    final messageList = JsonDeserializer(output).deserialize(intl);
     final args = [2];
-    final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
+    final generateStringAtIndex = MessageListJson.generateStringAtIndex(
+      messageList.messages,
+      1,
+      args,
+      intl,
+    );
     expect(generateStringAtIndex, getMessage(messageIndex, args));
   });
 
@@ -47,10 +59,15 @@ void main() {
 
     final dataFileContentsShrunk = File(outputFile).readAsStringSync();
     expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
-    final deserialize =
+    final messageList =
         JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
     final args = [2];
-    final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
+    final generateStringAtIndex = MessageListJson.generateStringAtIndex(
+      messageList.messages,
+      1,
+      args,
+      intl,
+    );
     expect(generateStringAtIndex, getMessage(1, args));
   });
 }
