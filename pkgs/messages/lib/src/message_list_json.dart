@@ -69,12 +69,12 @@ class MessageListJson extends MessageList {
   @pragma('dart2js:resource-identifier')
   @pragma('dart2js:never-inline')
   static String generateStringAtIndex(
-    List<Message> messages,
+    Message message,
     int index,
     List<dynamic> args,
     IntlObject intl,
   ) =>
-      messages[index].generateString(args, intl: intl);
+      message.generateString(args, intl: intl);
 }
 
 const ResourceIdentifier resourceIdentifier = ResourceIdentifier();

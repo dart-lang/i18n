@@ -44,24 +44,24 @@ void main() {
     expect(messageList.preamble.locale, 'en_US');
     expect(
       MessageListJson.generateStringAtIndex(
-          messageList.messages, 0, [], OldIntlObject()),
+          messageList.messages[0], 0, [], OldIntlObject()),
       'Hello World',
     );
     expect(
         MessageListJson.generateStringAtIndex(
-            messageList.messages, 1, ['case1'], OldIntlObject()),
+            messageList.messages[1], 1, ['case1'], OldIntlObject()),
         'Case case1');
     expect(
         MessageListJson.generateStringAtIndex(
-            messageList.messages, 1, ['case2'], OldIntlObject()),
+            messageList.messages[1], 1, ['case2'], OldIntlObject()),
         'Case 2');
     expect(
         MessageListJson.generateStringAtIndex(
-            messageList.messages, 1, ['case3', 2], OldIntlObject()),
+            messageList.messages[1], 1, ['case3', 2], OldIntlObject()),
         'case3: 2');
     expect(
         MessageListJson.generateStringAtIndex(
-            messageList.messages, 1, ['case4'], OldIntlObject()),
+            messageList.messages[1], 1, ['case4'], OldIntlObject()),
         'Some case');
   });
 }

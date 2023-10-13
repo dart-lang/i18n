@@ -8,6 +8,8 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
+  asset_bundle:
+    path: ../asset_bundle
   collection: ^1.17.1
   intl: ^0.18.0
   messages_deserializer:
@@ -16,4 +18,6 @@ dependencies:
 dev_dependencies:
   dart_flutter_team_lints: ^1.0.0
   lints: ^2.0.0
+  messages_shrinker:
+    path: ../messages_shrinker
   test: ^1.16.0

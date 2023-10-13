@@ -27,7 +27,7 @@ void main() {
   String getMessage(int i, List<int> args) {
     final messageList = JsonDeserializer(dataFileContents).deserialize(intl);
     return MessageListJson.generateStringAtIndex(
-      messageList.messages,
+      messageList.messages[1],
       i,
       args,
       intl,
@@ -41,7 +41,7 @@ void main() {
     final messageList = JsonDeserializer(output).deserialize(intl);
     final args = [2];
     final generateStringAtIndex = MessageListJson.generateStringAtIndex(
-      messageList.messages,
+      messageList.messages[1],
       1,
       args,
       intl,
@@ -63,7 +63,7 @@ void main() {
         JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
     final args = [2];
     final generateStringAtIndex = MessageListJson.generateStringAtIndex(
-      messageList.messages,
+      messageList.messages[1],
       1,
       args,
       intl,
