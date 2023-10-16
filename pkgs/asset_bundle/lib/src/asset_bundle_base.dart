@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 abstract class ResourcesAssets<T> extends Assets {
   final Map<T, int> assetToPart;
@@ -24,13 +25,18 @@ class NetworkAssetBundle extends CachedAssetBundle {
   final client = HttpClient();
 
   @override
-  Future<T> load<T>(String key) async {
+  Future<Uint8List> load(String key) async {
     //TODO: deserialize the asset here?
     if (!assets.containsKey(key)) {
-      var fileContent = await client.get('host', 72, 'path/to/assets/$key');
-      assets[key] = fileContent;
+      var request = await client.get('host', 72, 'assets/$key');
+      var response = await request.done;
+      var b = BytesBuilder();
+      response.forEach((element) {
+        b.add(element);
+      });
+      assets[key] = b.toBytes();
     }
-    return assets[key] as T;
+    return assets[key]!;
   }
 
   // Mock, to be called after kernel compilation, after linking.
@@ -46,16 +52,16 @@ class CachedAssetBundle extends AssetBundle {
 
   CachedAssetBundle();
 
-  final Map<String, Object> assets = {};
+  final Map<String, Uint8List> assets = {};
 
   @override
-  Future<T> load<T>(String key) async {
+  Future<Uint8List> load(String key) async {
     //TODO: deserialize the asset here?
     if (!assets.containsKey(key)) {
-      var fileContent = await File('path/to/assets/$key').readAsString();
+      var fileContent = await File('assets/$key').readAsBytes();
       assets[key] = fileContent;
     }
-    return assets[key] as T;
+    return assets[key]!;
   }
 
   // Mock, to be called after kernel compilation, after linking.
@@ -66,7 +72,7 @@ class CachedAssetBundle extends AssetBundle {
 }
 
 abstract class AssetBundle {
-  Future<T> load<T>(String key);
+  Future<Uint8List> load(String key);
 
   // Mock, to be called after kernel compilation, after linking.
   void registerAsset<T extends Object>(String key, T asset) {}

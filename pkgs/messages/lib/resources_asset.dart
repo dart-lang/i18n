@@ -25,43 +25,43 @@ typedef Key = String;
 class MessagesAssetBundle {
   final AssetBundle assetBundle;
   final String name;
-  final MessagesResourcesAssets resourcesAssets;
-  final Map<Key, SingleMessageAssetBundle> loadedParts = {};
+  final IntlObject intl;
+  final Map<Key, MessageListJson> loadedParts = {};
 
   MessagesAssetBundle({
     required this.assetBundle,
     required this.name,
-    required this.resourcesAssets,
+    required this.intl,
   });
 
   Future<Message> getMessageByIndex(
       {required String locale, required int index}) async {
-    final partIndex = resourcesAssets.messageIndexToPart[index]!;
+    final resourcesAssets = MessagesResourcesAssets.fromJsonString(
+      utf8.decode(await assetBundle.load('messages_resources')),
+    );
+    final partIndex = resourcesAssets.messageIndexToPart[index];
     final key = generateKey(partIndex, locale);
     var loadedPart = loadedParts[key];
     if (loadedPart == null) {
       loadedPart = await loadMessage(key);
       loadedParts[key] = loadedPart;
     }
-    return loadedPart.messages.messages[index];
+    return loadedPart.messages[index];
   }
 
-  Future<SingleMessageAssetBundle> loadMessage(String key) =>
-      assetBundle.load<SingleMessageAssetBundle>('$name/$key');
-
-  String generateKey(int partIndex, String locale) {
-    return [partIndex.toString(), locale, name].join('/');
+  Future<MessageListJson> loadMessage(String key) async {
+    final resource = await assetBundle.load(key);
+    return MessageListJson.fromString(
+      utf8.decode(resource),
+      intl,
+    );
   }
-}
 
-class SingleMessageAssetBundle extends Assets {
-  final MessageListJson messages;
-
-  SingleMessageAssetBundle({required this.messages}) : super.fromJsonString();
-
-  @override
-  String serialize() {
-    // TODO: implement serialize
-    throw UnimplementedError();
+  String generateKey(int? partIndex, String locale) {
+    return [
+      name,
+      if (partIndex != null) partIndex.toString(),
+      locale,
+    ].join('_');
   }
 }

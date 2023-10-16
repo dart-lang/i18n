@@ -15,32 +15,29 @@ class AboutPageMessages {
 
   late final MessagesAssetBundle bundle;
 
-  Completer<void> loadedMessageBundle = Completer();
-
   AboutPageMessages(this.intlObject) {
     loadMessageBundle();
   }
 
   void loadMessageBundle() {
-    CachedAssetBundle()
-        .load<MessagesAssetBundle>('about_messages')
-        .then((loadedBundle) {
-      bundle = loadedBundle;
-      loadedMessageBundle.complete();
-    });
+    final assetBundle = CachedAssetBundle();
+    bundle = MessagesAssetBundle(
+      assetBundle: assetBundle,
+      name: 'about_messages',
+      intl: intlObject,
+    );
   }
 
   Iterable<String> get knownLocales => ['en', 'de'];
 
   @pragma('dart2js:tryInline')
   Future<String> aboutMessage({required String websitename}) async {
-    await loadedMessageBundle.future;
     return await generate(
       bundle,
       [websitename],
       currentLocale,
       intlObject,
-      AboutPageMessagesEnum.aboutMessage.index,
+      1,
     );
   }
 

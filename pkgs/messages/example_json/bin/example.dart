@@ -21,6 +21,7 @@ Future<void> main(List<String> arguments) async {
   // print('\t${messages.getByEnum(index, ['get-by-index.en'])}');
 
   print('AboutMessage fr:');
+  messages.currentLocale = 'fr';
   print('\t${await messages.aboutMessage(websitename: 'typesafe.fr')}');
 
   ///To enable this, add `generateFindById: true` to the pubspec section
