@@ -1,0 +1,32 @@
+{
+  "_comment": "Resources referenced by annotated resource identifers",
+  "AppTag": "TBD",
+  "environment": {
+    "dart.web.assertions_enabled": "false",
+    "dart.tool.dart2js": "true",
+    "dart.tool.dart2js.primitives:trust": "true",
+    "dart.tool.dart2js.types:trust": "true"
+  },
+  "identifiers": [
+    {
+      "name": "generate",
+      "uri": "file:///home/mosum/projects/i18n/pkgs/messages/example_json/lib/testarbctx2.g.dart",
+      "nonconstant": true,
+      "files": [
+        {
+          "filename": "out.js",
+          "references": [
+            {
+              "@": {
+                "uri": "lib/testarbctx2.g.dart",
+                "line": 35,
+                "column": 18
+              },
+              "5": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
