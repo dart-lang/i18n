@@ -5,6 +5,8 @@ import 'package:asset_bundle/asset_bundle.dart';
 import 'messages_json.dart';
 
 class MessagesResourcesAssets extends ResourcesAssets<int> {
+  MessagesResourcesAssets(super.assetToPart);
+
   MessagesResourcesAssets.fromJsonString(String resource)
       : super.fromJsonString(deserialize(resource));
 

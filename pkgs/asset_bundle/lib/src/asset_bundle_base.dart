@@ -4,6 +4,8 @@ import 'dart:typed_data';
 abstract class ResourcesAssets<T> extends Assets {
   final Map<T, int> assetToPart;
 
+  ResourcesAssets(this.assetToPart);
+
   ResourcesAssets.fromJsonString(this.assetToPart) : super.fromJsonString();
 
   @override
@@ -11,6 +13,8 @@ abstract class ResourcesAssets<T> extends Assets {
 }
 
 abstract class Assets<T> {
+  Assets();
+
   Assets.fromJsonString();
 
   String serialize();
