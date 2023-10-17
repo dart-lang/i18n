@@ -9,7 +9,7 @@ abstract class ResourcesAssets<T> extends Assets {
   ResourcesAssets.fromJsonString(this.assetToPart) : super.fromJsonString();
 
   @override
-  String serialize();
+  Map<String, dynamic> serialize();
 }
 
 abstract class Assets<T> {
@@ -17,7 +17,7 @@ abstract class Assets<T> {
 
   Assets.fromJsonString();
 
-  String serialize();
+  Map<String, dynamic> serialize();
 }
 
 class NetworkAssetBundle extends CachedAssetBundle {
@@ -29,18 +29,14 @@ class NetworkAssetBundle extends CachedAssetBundle {
   final client = HttpClient();
 
   @override
-  Future<Uint8List> load(String key) async {
-    //TODO: deserialize the asset here?
-    if (!assets.containsKey(key)) {
-      var request = await client.get('host', 72, 'assets/$key');
-      var response = await request.done;
-      var b = BytesBuilder();
-      response.forEach((element) {
-        b.add(element);
-      });
-      assets[key] = b.toBytes();
-    }
-    return assets[key]!;
+  Future<Uint8List> fetchAsset(String key) async {
+    var request = await client.get('host', 72, 'assets/$key');
+    var response = await request.done;
+    var b = BytesBuilder();
+    response.forEach((element) {
+      b.add(element);
+    });
+    return b.toBytes();
   }
 
   // Mock, to be called after kernel compilation, after linking.
@@ -60,12 +56,16 @@ class CachedAssetBundle extends AssetBundle {
 
   @override
   Future<Uint8List> load(String key) async {
-    //TODO: deserialize the asset here?
-    if (!assets.containsKey(key)) {
-      var fileContent = await File('assets/$key').readAsBytes();
+    var fileContent = assets[key];
+    if (fileContent == null) {
+      fileContent = await fetchAsset(key);
       assets[key] = fileContent;
     }
-    return assets[key]!;
+    return fileContent;
+  }
+
+  Future<Uint8List> fetchAsset(String key) async {
+    return await File('assets/$key').readAsBytes();
   }
 
   // Mock, to be called after kernel compilation, after linking.

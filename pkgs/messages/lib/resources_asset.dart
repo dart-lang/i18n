@@ -11,8 +11,8 @@ class MessagesResourcesAssets extends ResourcesAssets<int> {
       : super.fromJsonString(deserialize(resource));
 
   @override
-  String serialize() => jsonEncode(
-      messageIndexToPart.map((key, value) => MapEntry(key.toString(), value)));
+  Map<String, dynamic> serialize() =>
+      messageIndexToPart.map((key, value) => MapEntry(key.toString(), value));
 
   Map<int, int> get messageIndexToPart => assetToPart;
 
@@ -42,7 +42,7 @@ class MessagesAssetBundle {
       utf8.decode(await assetBundle.load('messages_resources')),
     );
     final partIndex = resourcesAssets.messageIndexToPart[index];
-    final key = generateKey(partIndex, locale);
+    final key = generateKey(name, partIndex, locale);
     var loadedPart = loadedParts[key];
     if (loadedPart == null) {
       loadedPart = await loadMessage(key);
@@ -59,7 +59,7 @@ class MessagesAssetBundle {
     );
   }
 
-  String generateKey(int? partIndex, String locale) {
+  static String generateKey(String name, int? partIndex, String locale) {
     return [
       name,
       if (partIndex != null) partIndex.toString(),

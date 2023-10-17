@@ -20,6 +20,8 @@ dev_dependencies:
   lints: ^2.0.0
   messages_builder:
     path: ../../messages_builder
+  messages_shrinker:
+    path: ../../messages_shrinker
   path: ^1.8.3
   test: ^1.16.0
 
