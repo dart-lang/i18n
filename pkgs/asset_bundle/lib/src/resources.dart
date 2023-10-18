@@ -17,25 +17,18 @@ class Resources {
 
 class Identifier {
   final String name;
+  final String id;
   final String uri;
   final bool nonConstant;
   final List<ResourceFile> files;
 
   Identifier({
     required this.name,
+    required this.id,
     required this.uri,
     required this.nonConstant,
     required this.files,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'uri': uri,
-      'nonConstant': nonConstant,
-      'files': files.map((x) => x.toJson()).toList(),
-    };
-  }
 
   @override
   String toString() {
@@ -45,6 +38,7 @@ class Identifier {
   factory Identifier.fromJson(Map<String, dynamic> map) {
     return Identifier(
       name: map['name'] ?? '',
+      id: map['id'] ?? '',
       uri: map['uri'] ?? '',
       nonConstant: map['nonConstant'] ?? false,
       files: List<ResourceFile>.from(

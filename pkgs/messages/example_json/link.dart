@@ -13,7 +13,8 @@ void main(List<String> args) {
 
   final resources = Resources.fromString(input);
   final ourIdentifiers = resources.identifiers
-      .where((identifier) => identifier.name == 'generate');
+      .where((identifier) => identifier.name == 'generate')
+      .where((identifier) => identifier.id.startsWith('messages'));
   final entries = ourIdentifiers
       .expand((identifier) => identifier.files)
       .expand((file) => file.references.map((reference) {

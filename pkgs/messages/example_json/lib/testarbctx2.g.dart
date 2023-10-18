@@ -41,7 +41,7 @@ class AboutPageMessages {
     );
   }
 
-  @pragma('resource-identifier')
+  @Resource('messages')
   @pragma('dart2js:resource-identifier')
   @pragma('dart2js:never-inline')
   static Future<String> generate(MessagesAssetBundle bundle, List args,
