@@ -544,8 +544,14 @@ class Intl {
 /// without changing the API for clients. It also hard-codes the case of
 /// dotted i in Turkish and Azeri.
 T toBeginningOfSentenceCase<T extends String?>(T input, [String? locale]) {
+  print('[Logit] intl.dart:557 - toBeginningOfSentenceCase');
+  print('[Logit] intl.dart:556 - toBeginningOfSentenceCase | input: ${input}');
+  print(
+      '[Logit] intl.dart:556 - toBeginningOfSentenceCase | locale: ${locale}');
   if (input == null || input.isEmpty) return input;
-  return '${_upperCaseLetter(input[0], locale)}${input.substring(1)}' as T;
+  T value = '${_upperCaseLetter(input[0], locale)}${input.substring(1)}' as T;
+  print('[Logit] intl.dart:560 - toBeginningOfSentenceCase | value: ${value}');
+  return value;
 }
 
 /// Convert the input single-letter string to upper case. A trivial
