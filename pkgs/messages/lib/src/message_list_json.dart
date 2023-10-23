@@ -76,9 +76,3 @@ class MessageListJson extends MessageList {
   ) =>
       message.generateString(args, intl: intl);
 }
-
-const ResourceIdentifier resourceIdentifier = ResourceIdentifier();
-
-class ResourceIdentifier {
-  const ResourceIdentifier();
-}

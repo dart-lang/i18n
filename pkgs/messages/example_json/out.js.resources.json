@@ -12,6 +12,7 @@
       "name": "generate",
       "uri": "file:///home/mosum/projects/i18n/pkgs/messages/example_json/lib/testarbctx2.g.dart",
       "nonconstant": true,
+      "id": "AboutPage",
       "files": [
         {
           "filename": "out.js",

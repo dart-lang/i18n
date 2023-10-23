@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:messages/build_files.dart';
+import 'package:native_assets_cli/build_files_code.dart';
+import 'package:data_assets_cli/build_files_data.dart';
 import 'package:path/path.dart' as path;
 
 Future<void> main(List<String> args) async {
@@ -17,5 +18,9 @@ Future<void> main(List<String> args) async {
         .toList(),
   };
 
-  print(BuildOutput(filesPerPackage: filesPerPackage).toJson());
+  final buildOutput = [
+    CodeBuildOutput(filesPerPackage: filesPerPackage).toJson(),
+    DataBuildOutput(filesPerPackage: filesPerPackage).toJson(),
+  ];
+  print(buildOutput);
 }

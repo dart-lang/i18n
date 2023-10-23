@@ -32,16 +32,10 @@ class AboutPageMessages {
 
   @pragma('dart2js:tryInline')
   Future<String> aboutMessage({required String websitename}) async {
-    return await generate(
-      bundle,
-      [websitename],
-      currentLocale,
-      intlObject,
-      1,
-    );
+    return await generate(bundle, [websitename], currentLocale, intlObject, 1);
   }
 
-  @Resource('messages')
+  @ResourceIdentifier('package:messages')
   @pragma('dart2js:resource-identifier')
   @pragma('dart2js:never-inline')
   static Future<String> generate(MessagesAssetBundle bundle, List args,
