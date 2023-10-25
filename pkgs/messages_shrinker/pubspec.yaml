@@ -11,15 +11,23 @@ environment:
 dependencies:
   analyzer: ^6.2.0
   args: ^2.4.2
-  messages:
-    path: ../messages
-  messages_builder:
-    path: ../messages_builder
-  messages_deserializer:
-    path: ../messages_deserializer
-  messages_serializer:
-    path: ../messages_serializer
   build: ^2.4.1
+  messages:
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages
+  messages_builder:
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages_builder
+  messages_deserializer:
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages_deserializer
+  messages_serializer:
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages_serializer
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.0.0

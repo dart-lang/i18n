@@ -10,11 +10,15 @@ environment:
 # Add regular dependencies here.
 dependencies:
   messages:
-    path: ../messages
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages
 
 dev_dependencies:
   dart_flutter_team_lints: ^1.0.0
   lints: ^2.0.0
   messages_deserializer:
-    path: ../messages_deserializer
+    git:
+      url: git@github.com:dart-lang/i18n.git
+      path: pkgs/messages_deserializer
   test: ^1.21.0
