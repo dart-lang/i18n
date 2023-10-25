@@ -19,6 +19,7 @@ dependencies:
     path: ../messages_deserializer
   messages_serializer:
     path: ../messages_serializer
+  build: ^2.4.1
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.0.0

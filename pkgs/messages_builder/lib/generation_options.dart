@@ -25,15 +25,15 @@ class GenerationOptions {
     final pubspecId = await buildStep.findAssets(Glob('pubspec.yaml')).first;
     final pubspecData = await buildStep.readAsString(pubspecId);
     final pubspec = loadYaml(pubspecData) as YamlMap;
-    final messagesOptions = pubspec['messages'] as YamlMap;
+    final messagesOptions = pubspec['messages'] as YamlMap?;
     final generationOptions = GenerationOptions(
       serialization: SerializationType.json,
       deserialization: DeserializationType.web,
-      messageCalls: (messagesOptions['generateMethods'] as bool?) ?? true,
-      findById: (messagesOptions['generateFindById'] as bool?) ?? false,
+      messageCalls: (messagesOptions?['generateMethods'] as bool?) ?? true,
+      findById: (messagesOptions?['generateFindById'] as bool?) ?? false,
       findByType: IndexType.values
               .where((type) =>
-                  type.name == messagesOptions['generateFindBy'] as String?)
+                  type.name == messagesOptions?['generateFindBy'] as String?)
               .firstOrNull ??
           IndexType.none,
     );

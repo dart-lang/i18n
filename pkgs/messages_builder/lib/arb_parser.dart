@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:build/build.dart';
+
 import 'message_parser/message_parser.dart';
 import 'message_with_metadata.dart';
 
@@ -9,15 +11,29 @@ class ArbParser {
   final bool addName;
   ArbParser([this.addName = false]);
 
-  MessageListWithMetadata parseMessageFile(Map<String, dynamic> arb) {
+  MessagesWithMetadata parseMessageFile(
+    Map<String, dynamic> arb,
+    AssetId assetId, [
+    String inferredLocale = 'en_US',
+  ]) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
-    final isReference = (arb['@@x-reference'] as bool?) ?? false;
-    final messages = arb.keys
+    final referencePath = arb['@@x-reference'] as String?;
+    final messagesWithKeys = arb.keys
         .where((key) => !key.startsWith('@'))
-        .map((key) => parseMessage(arb, key, '${context}_$locale'))
+        .map((key) => (key, parseMessage(arb, key, '${context}_$locale')))
         .toList();
-    return MessageListWithMetadata(messages, locale, context, isReference);
+    messagesWithKeys.sort((a, b) => a.$1.compareTo(b.$1));
+    final messages = messagesWithKeys.map((e) => e.$2).toList();
+    return MessagesWithMetadata(
+      messages,
+      locale ?? inferredLocale,
+      context,
+      referencePath,
+      arb.hashCode.toRadixString(32),
+      arb.keys.any((key) => key.startsWith('@') && !key.startsWith('@@')),
+      assetId,
+    );
   }
 
   MessageWithMetadata parseMessage(

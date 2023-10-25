@@ -5,6 +5,8 @@
 import 'message.dart';
 
 abstract class IntlObject {
+  const IntlObject();
+
   Message gender(
     Gender gender,
     Message? female,

@@ -12,21 +12,26 @@ import 'library_generation.dart';
 class CodeGenerator {
   final GenerationOptions options;
   final String? context;
+  final String locale;
   final Map<String, String> localeCarbPaths;
-  final MessageListWithMetadata messageList;
+  final List<MessageWithMetadata> messages;
   final Map<String, String> resourceToHash;
 
   CodeGenerator(
     this.options,
-    this.messageList,
+    MessagesWithMetadata messageListWithMetadata,
     this.localeCarbPaths,
     this.resourceToHash,
-  ) : context = messageList.context;
+  )   : context = messageListWithMetadata.context,
+        locale = messageListWithMetadata.locale,
+        messages = messageListWithMetadata.messages;
 
   String generate() {
     final libs = LibraryGeneration(
       options,
-      messageList,
+      context,
+      locale,
+      messages,
       localeCarbPaths,
       resourceToHash,
     ).generate();

@@ -92,10 +92,7 @@ class JsonSerializer extends Serializer<String> {
       final positions = message.argPositions
         ..sort((a, b) => a.stringIndex.compareTo(b.stringIndex));
       for (var i = 0; i < positions.length; i++) {
-        m.add([
-          positions[i].stringIndex.toRadixString(serializationRadix),
-          positions[i].argIndex.toRadixString(serializationRadix),
-        ]);
+        m.add(<int>[positions[i].stringIndex, positions[i].argIndex]);
       }
     }
     return m;

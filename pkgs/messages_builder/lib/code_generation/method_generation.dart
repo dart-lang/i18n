@@ -11,47 +11,53 @@ import 'generation.dart';
 class MethodGeneration extends Generation<Method> {
   final GenerationOptions options;
   final String? context;
-  final MessageListWithMetadata messageList;
+  final List<MessageWithMetadata> messages;
   final Map<String, String> resourceToHash;
 
   MethodGeneration(
     this.options,
     this.context,
-    this.messageList,
+    this.messages,
     this.resourceToHash,
   );
 
-  Method generateMessageCall(int index, MessageWithMetadata message) {
+  Method? generateMessageCall(int index, MessageWithMetadata message) {
+    if (!message.nameIsDartConform) {
+      return null;
+    }
     final arguments =
         message.placeholders.map((placeholder) => placeholder.name).join(', ');
 
-    final index = '${enumName(messageList.context)}.${message.name}.index';
+    final index = '${enumName(context)}.${message.name}.index';
     final body = '_currentMessages.generateStringAtIndex($index, [$arguments])';
+    final methodType = message.placeholders.isEmpty ? MethodType.getter : null;
     return Method(
       (mb) => mb
+        ..type = methodType
         ..name = message.name
         ..lambda = true
         ..returns = const Reference('String')
-        ..optionalParameters
-            .addAll(message.placeholders.map((placeholder) => Parameter(
-                  (pb) => pb
-                    ..type = Reference(placeholder.type)
-                    ..name = placeholder.name
-                    ..named = true
-                    ..required = true,
-                )))
+        ..requiredParameters.addAll(
+          message.placeholders.map(
+            (placeholder) => Parameter(
+              (pb) => pb
+                ..type = Reference(placeholder.type)
+                ..name = placeholder.name,
+            ),
+          ),
+        )
         ..body = Code(body),
     );
   }
 
   @override
   List<Method> generate() {
-    final messages = messageList.messages;
-    List<Method> messageCalls;
+    Iterable<Method> messageCalls;
     if (options.messageCalls) {
-      messageCalls = List.generate(messages.length, (i) {
-        return generateMessageCall(i, messages[i]);
-      });
+      messageCalls = List.generate(
+        messages.length,
+        (i) => generateMessageCall(i, messages[i]),
+      ).whereType<Method>();
     } else {
       messageCalls = [];
     }
@@ -59,7 +65,7 @@ class MethodGeneration extends Generation<Method> {
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = _fileLoader(carb);
+          final data = await _fileLoader(carb);
           final messageList = MessageListJson.fromString(data, intlObject);''',
         };
         mb
@@ -69,9 +75,10 @@ class MethodGeneration extends Generation<Method> {
               ..name = 'locale'
               ..type = const Reference('String'),
           ))
+          ..modifier = MethodModifier.async
           ..body = Code('''
           if (!_messages.containsKey(locale)) {
-            final carb = _carbs[locale];
+            final carb = carbs[locale];
             if (carb == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
@@ -84,7 +91,7 @@ class MethodGeneration extends Generation<Method> {
           }
           _currentLocale = locale;
       ''')
-          ..returns = const Reference('void');
+          ..returns = const Reference('Future<void>');
       },
     );
     final loadAllLocales = Method(
@@ -104,7 +111,8 @@ class MethodGeneration extends Generation<Method> {
         ..name = 'knownLocales'
         ..type = MethodType.getter
         ..lambda = true
-        ..body = const Code('_carbs.keys')
+        ..static = true
+        ..body = const Code('carbs.keys')
         ..returns = const Reference('Iterable<String>'),
     );
     final getCurrentMessages = Method(

@@ -5,19 +5,18 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
 import 'generation.dart';
 
 class FieldGeneration extends Generation<Field> {
   final GenerationOptions options;
   final Map<String, String> localeCarbPaths;
-  final MessageListWithMetadata messageList;
+  final String locale;
   final Map<String, String> resourceToHash;
 
   FieldGeneration(
     this.options,
     this.localeCarbPaths,
-    this.messageList,
+    this.locale,
     this.resourceToHash,
   );
 
@@ -25,7 +24,7 @@ class FieldGeneration extends Generation<Field> {
   List<Field> generate() {
     final loadingStrategy = Field(
       (fb) {
-        final returnType = const Reference('String').symbol;
+        final returnType = const Reference('Future<String>').symbol;
         fb
           ..name = '_fileLoader'
           ..modifier = FieldModifier.final$
@@ -36,7 +35,7 @@ class FieldGeneration extends Generation<Field> {
       (fb) => fb
         ..type = const Reference('String')
         ..name = '_currentLocale'
-        ..assignment = Code("'${messageList.locale}'"),
+        ..assignment = Code("'$locale'"),
     );
     final messages = Field(
       (fb) => fb
@@ -51,8 +50,9 @@ class FieldGeneration extends Generation<Field> {
             .map((e) => "'${e.key}' : '${e.value}'")
             .join(',');
         fb
-          ..name = '_carbs'
-          ..modifier = FieldModifier.final$
+          ..name = 'carbs'
+          ..modifier = FieldModifier.constant
+          ..static = true
           ..assignment = Code('{$paths}');
       },
     );
