@@ -24,4 +24,4 @@ dev_dependencies:
 messages:
   generateMethods: true
   generateFindById: false
-  generateFindBy: none
+  generateFindBy: integer

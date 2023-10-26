@@ -18,35 +18,31 @@ class LibraryGeneration extends Generation<Library> {
   final String? context;
   final String locale;
   final List<MessageWithMetadata> messages;
-  final Map<String, String> localeCarbPaths;
-  final Map<String, String> resourceToHash;
+  final Map<String, ({String path, String hasch})> localeToResourceInfo;
 
   LibraryGeneration(
     this.options,
     this.context,
     this.locale,
     this.messages,
-    this.localeCarbPaths,
-    this.resourceToHash,
+    this.localeToResourceInfo,
   );
 
   @override
   List<Library> generate() {
-    final imports = ImportGeneration(options, resourceToHash).generate();
+    final imports = ImportGeneration(options).generate();
     final constructors = ConstructorGeneration(options).generate();
 
     final fields = FieldGeneration(
       options,
-      localeCarbPaths,
+      localeToResourceInfo,
       locale,
-      resourceToHash,
     ).generate();
 
     final methods = MethodGeneration(
       options,
       context,
       messages,
-      resourceToHash,
     ).generate();
 
     final classes = ClassGeneration(

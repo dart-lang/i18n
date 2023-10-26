@@ -7,6 +7,5 @@ abstract class Generation<T> {
 }
 
 String enumName(String? context) => '${context ?? ''}MessagesEnum';
-String indicesName(String? context) => '${context ?? ''}MessagesIndex';
 
 String getDataFileName(String e) => e.split('.').first;

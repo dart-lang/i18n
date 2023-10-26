@@ -9,15 +9,13 @@ import 'generation.dart';
 
 class FieldGeneration extends Generation<Field> {
   final GenerationOptions options;
-  final Map<String, String> localeCarbPaths;
+  final Map<String, ({String path, String hasch})> localeToResourceInfo;
   final String locale;
-  final Map<String, String> resourceToHash;
 
   FieldGeneration(
     this.options,
-    this.localeCarbPaths,
+    this.localeToResourceInfo,
     this.locale,
-    this.resourceToHash,
   );
 
   @override
@@ -46,25 +44,14 @@ class FieldGeneration extends Generation<Field> {
     );
     final carbs = Field(
       (fb) {
-        final paths = localeCarbPaths.entries
-            .map((e) => "'${e.key}' : '${e.value}'")
+        final paths = localeToResourceInfo.entries
+            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
             .join(',');
         fb
           ..name = 'carbs'
           ..modifier = FieldModifier.constant
           ..static = true
           ..assignment = Code('{$paths}');
-      },
-    );
-    final hashes = Field(
-      (p0) {
-        final hashList = resourceToHash.entries
-            .map((e) => "'${e.key}' : '${e.value}'")
-            .join(',');
-        p0
-          ..name = '_messageListHashes'
-          ..modifier = FieldModifier.final$
-          ..assignment = Code('{$hashList}');
       },
     );
     final intlObject = Field(
@@ -77,7 +64,6 @@ class FieldGeneration extends Generation<Field> {
       currentLocale,
       messages,
       carbs,
-      hashes,
       intlObject,
     ];
     return fields;

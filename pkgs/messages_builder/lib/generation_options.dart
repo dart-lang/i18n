@@ -9,7 +9,7 @@ import 'package:yaml/yaml.dart';
 class GenerationOptions {
   final bool messageCalls;
   final bool findById;
-  final IndexType findByType;
+  final IndexType indexType;
   final SerializationType serialization;
   final DeserializationType deserialization;
 
@@ -18,7 +18,7 @@ class GenerationOptions {
     required this.deserialization,
     required this.messageCalls,
     required this.findById,
-    required this.findByType,
+    required this.indexType,
   });
 
   static Future<GenerationOptions> fromPubspec(BuildStep buildStep) async {
@@ -31,11 +31,11 @@ class GenerationOptions {
       deserialization: DeserializationType.web,
       messageCalls: (messagesOptions?['generateMethods'] as bool?) ?? true,
       findById: (messagesOptions?['generateFindById'] as bool?) ?? false,
-      findByType: IndexType.values
+      indexType: IndexType.values
               .where((type) =>
                   type.name == messagesOptions?['generateFindBy'] as String?)
               .firstOrNull ??
-          IndexType.none,
+          IndexType.integer,
     );
     return generationOptions;
   }

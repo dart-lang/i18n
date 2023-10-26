@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:build/build.dart';
+import 'package:crypto/crypto.dart';
 
 import 'message_parser/message_parser.dart';
 import 'message_with_metadata.dart';
@@ -30,10 +33,15 @@ class ArbParser {
       locale ?? inferredLocale,
       context,
       referencePath,
-      arb.hashCode.toRadixString(32),
+      getHash(arb),
       arb.keys.any((key) => key.startsWith('@') && !key.startsWith('@@')),
       assetId,
     );
+  }
+
+  String getHash(Map<String, dynamic> arb) {
+    final digest = sha1.convert(arb.toString().codeUnits);
+    return base64Encode(digest.bytes).substring(0, 8);
   }
 
   MessageWithMetadata parseMessage(

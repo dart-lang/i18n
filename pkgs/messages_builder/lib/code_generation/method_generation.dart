@@ -12,14 +12,8 @@ class MethodGeneration extends Generation<Method> {
   final GenerationOptions options;
   final String? context;
   final List<MessageWithMetadata> messages;
-  final Map<String, String> resourceToHash;
 
-  MethodGeneration(
-    this.options,
-    this.context,
-    this.messages,
-    this.resourceToHash,
-  );
+  MethodGeneration(this.options, this.context, this.messages);
 
   Method? generateMessageCall(int index, MessageWithMetadata message) {
     if (!message.nameIsDartConform) {
@@ -28,8 +22,11 @@ class MethodGeneration extends Generation<Method> {
     final arguments =
         message.placeholders.map((placeholder) => placeholder.name).join(', ');
 
-    final index = '${enumName(context)}.${message.name}.index';
-    final body = '_currentMessages.generateStringAtIndex($index, [$arguments])';
+    final indexStr = options.indexType == IndexType.enumerate
+        ? '${enumName(context)}.${message.name}.index'
+        : index.toString();
+    final body =
+        '_currentMessages.generateStringAtIndex($indexStr, [$arguments])';
     final methodType = message.placeholders.isEmpty ? MethodType.getter : null;
     return Method(
       (mb) => mb
@@ -78,14 +75,15 @@ class MethodGeneration extends Generation<Method> {
           ..modifier = MethodModifier.async
           ..body = Code('''
           if (!_messages.containsKey(locale)) {
-            final carb = carbs[locale];
+            final info = carbs[locale];
+            final carb = info?.\$1;
             if (carb == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
             $loading
-            if (messageList.preamble.hash != _messageListHashes[carb]) {
+            if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
-              Messages file has different hash "\${messageList.preamble.hash}" than generated code "\${_messageListHashes[carb]}".\'\'\');
+              Messages file for locale \$locale has different hash "\${messageList.preamble.hash}" than generated code "\${info?.\$2}".\'\'\');
             }
             _messages[locale] = messageList;
           }
@@ -149,24 +147,6 @@ class MethodGeneration extends Generation<Method> {
       ..body =
           const Code('return _currentMessages.generateStringAtId(id, args);')
       ..returns = const Reference('String'));
-    final findByIndex = Method((mb) => mb
-      ..name = 'getByIndex'
-      ..annotations
-          .add(const CodeExpression(Code("pragma('dart2js:noInline')")))
-      ..requiredParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'index'
-          ..type = const Reference('int'),
-      ))
-      ..optionalParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'args'
-          ..type = const Reference('List<dynamic>')
-          ..defaultTo = const Code('const []'),
-      ))
-      ..body = const Code('_currentMessages.generateStringAtIndex(index, args)')
-      ..lambda = true
-      ..returns = const Reference('String'));
     final findByEnum = Method((mb) => mb
       ..name = 'getByEnum'
       ..annotations
@@ -191,8 +171,7 @@ class MethodGeneration extends Generation<Method> {
       getCurrentLocale,
       getCurrentMessages,
       if (options.findById) getMessagebyId,
-      if (options.findByType == IndexType.enumerate) findByEnum,
-      if (options.findByType == IndexType.integer) findByIndex,
+      if (options.indexType == IndexType.enumerate) findByEnum,
       getKnownLocales,
       loadLocale,
       loadAllLocales,

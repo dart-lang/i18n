@@ -15,13 +15,8 @@ class AboutPageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const carbs = {
-    'fr': 'lib/testarbctx2_fr.json',
-    'en': 'lib/testarbctx2.json'
-  };
-
-  final _messageListHashes = {
-    'lib/testarbctx2_fr.json': 'tjk424',
-    'lib/testarbctx2.json': 't7o6rv'
+    'fr': ('lib/testarbctx2_fr.json', 'EyPjEJJU'),
+    'en': ('lib/testarbctx2.json', 'QrwRSsOy')
   };
 
   IntlObject intlObject;
@@ -34,15 +29,16 @@ class AboutPageMessages {
 
   Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
-      final carb = carbs[locale];
+      final info = carbs[locale];
+      final carb = info?.$1;
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
       final data = await _fileLoader(carb);
       final messageList = MessageListJson.fromString(data, intlObject);
-      if (messageList.preamble.hash != _messageListHashes[carb]) {
+      if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError('''
-              Messages file has different hash "${messageList.preamble.hash}" than generated code "${_messageListHashes[carb]}".''');
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
       }
       _messages[locale] = messageList;
     }
@@ -56,34 +52,22 @@ class AboutPageMessages {
   }
 
   String aboutMessage(String websitename) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.aboutMessage.index, [websitename]);
+      _currentMessages.generateStringAtIndex(0, [websitename]);
 
   String helloAndWelcome(
     String firstName,
     int lastName,
   ) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
+      _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
 
-  String newMessages(int newMessages) => _currentMessages.generateStringAtIndex(
-      AboutPageMessagesEnum.newMessages.index, [newMessages]);
+  String newMessages(int newMessages) =>
+      _currentMessages.generateStringAtIndex(2, [newMessages]);
 
   String newMessages2(
     String gender,
     int newVar,
   ) =>
-      _currentMessages.generateStringAtIndex(
-          AboutPageMessagesEnum.newMessages2.index, [gender, newVar]);
+      _currentMessages.generateStringAtIndex(3, [gender, newVar]);
 
-  String get otherMsg => _currentMessages
-      .generateStringAtIndex(AboutPageMessagesEnum.otherMsg.index, []);
-}
-
-enum AboutPageMessagesEnum {
-  aboutMessage,
-  helloAndWelcome,
-  newMessages,
-  newMessages2,
-  otherMsg
+  String get otherMsg => _currentMessages.generateStringAtIndex(4, []);
 }

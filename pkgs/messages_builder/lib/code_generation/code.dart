@@ -13,15 +13,13 @@ class CodeGenerator {
   final GenerationOptions options;
   final String? context;
   final String locale;
-  final Map<String, String> localeCarbPaths;
   final List<MessageWithMetadata> messages;
-  final Map<String, String> resourceToHash;
+  final Map<String, ({String path, String hasch})> localeToResourceInfo;
 
   CodeGenerator(
     this.options,
     MessagesWithMetadata messageListWithMetadata,
-    this.localeCarbPaths,
-    this.resourceToHash,
+    this.localeToResourceInfo,
   )   : context = messageListWithMetadata.context,
         locale = messageListWithMetadata.locale,
         messages = messageListWithMetadata.messages;
@@ -32,8 +30,7 @@ class CodeGenerator {
       context,
       locale,
       messages,
-      localeCarbPaths,
-      resourceToHash,
+      localeToResourceInfo,
     ).generate();
 
     assert(libs.isNotEmpty);

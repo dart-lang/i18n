@@ -39,25 +39,7 @@ class ClassGeneration extends Generation<Spec> {
           ..methods.addAll(methods),
       ),
     ];
-    if (options.findByType == IndexType.integer) {
-      classes.add(Class((cb) => cb
-        ..name = indicesName(context)
-        ..fields.addAll(
-          List.generate(
-              messages.length,
-              (index) => messages[index].nameIsDartConform
-                  ? Field(
-                      (evb) => evb
-                        ..name = messages[index].name
-                        ..type = const Reference('int')
-                        ..assignment = Code('$index')
-                        ..static = true
-                        ..modifier = FieldModifier.constant,
-                    )
-                  : null).whereType<Field>(),
-        )));
-    }
-    if (options.findByType == IndexType.enumerate || options.messageCalls) {
+    if (options.indexType == IndexType.enumerate) {
       classes.add(Enum((cb) => cb
         ..name = enumName(context)
         ..values.addAll(List.generate(

@@ -51,7 +51,6 @@ class BuildStepGenerator {
     final allMessageFiles = await getParsedMessageFiles();
     final inputMessageFile = allMessageFiles
         .singleWhere((messageFile) => messageFile.assetId == inputId);
-
     final parentFile = getParentFile(allMessageFiles, inputMessageFile);
 
     final reducedMessageFile = reduce(parentFile, inputMessageFile);
@@ -88,25 +87,20 @@ class BuildStepGenerator {
     final resourcesInContext =
         assetList.where((resource) => resource.context == messageList.context);
 
-    final localeToResource =
+    final localeToResourceInfo =
         Map.fromEntries(resourcesInContext.map((resource) => MapEntry(
               resource.locale,
-              resource.assetId.changeExtension('.json').path,
+              (
+                path: resource.assetId.changeExtension('.json').path,
+                hasch: resource.hash,
+              ),
             )));
 
-    final resourceToHash = Map.fromEntries(
-      resourcesInContext.map((resource) => MapEntry(
-            localeToResource[resource.locale]!,
-            resource.hash,
-          )),
-    );
-
-    printIncludeFilesNotification(messageList.context, localeToResource);
+    printIncludeFilesNotification(messageList.context, localeToResourceInfo);
     final libraryCode = CodeGenerator(
       options,
       messageList,
-      localeToResource,
-      resourceToHash,
+      localeToResourceInfo,
     ).generate();
 
     await buildStep.writeAsString(
@@ -199,13 +193,15 @@ class BuildStepGenerator {
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
   void printIncludeFilesNotification(
-      String? context, Map<String, String> localeToResource) {
+    String? context,
+    Map<String, ({String hasch, String path})> localeToResource,
+  ) {
     var contextMessage = 'The';
     if (context != null) {
       contextMessage = 'For the messages in $context, the';
     }
     final fileList =
-        localeToResource.entries.map((e) => '\t${e.value}').join('\n');
+        localeToResource.entries.map((e) => '\t${e.value.path}').join('\n');
     print(
         '''$contextMessage following files need to be declared in your assets:\n$fileList''');
   }
