@@ -1,4 +1,4 @@
-dependencies:
+dependency_overrides:
   messages:
     path: ../messages
   messages_serializer:
