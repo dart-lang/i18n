@@ -32,8 +32,6 @@ abstract class MessageList {
   Preamble get preamble;
   IntlObject get intl;
 
-  String generateStringAtIndex(int index, List args);
-
   String generateStringAtId(String id, List args);
 }
 

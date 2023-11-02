@@ -31,43 +31,38 @@ class JsonSerializer extends Serializer<String> {
 
     result.addAll(preamble.toJson());
 
-    final messageMapping = <String, String>{};
-    var messageCounter = 0;
+    final messageList = <String, dynamic>{};
     for (var i = 0; i < messages.length; i++) {
+      Object? encoded;
       if (keepOnly?.contains(i) ?? true) {
-        encodeMessage(messages[i], isVisible: true);
-        messageMapping[i.toRadixString(serializationRadix)] =
-            messageCounter.toRadixString(serializationRadix);
-        messageCounter++;
+        encoded = encodeMessage(messages[i], writeId: writeIds);
+      } else {
+        encoded = null;
       }
+      messageList[i.toRadixString(serializationRadix)] = encoded;
     }
-
-    /// Insert `null` instead of the full messageMapping to save space.
-    result.insert(Preamble.length, keepOnly != null ? messageMapping : null);
+    result.add(messageList);
 
     return Serialization(jsonEncode(result));
   }
 
-  Object encodeMessage(Message message, {bool isVisible = false}) {
+  Object encodeMessage(Message message, {bool writeId = false}) {
     // print('Encode message $message');
-    Object messageIndex;
+    Object encodedMessage;
     if (message is StringMessage) {
-      messageIndex = encodeString(message, isVisible);
+      encodedMessage = encodeString(message, writeId);
     } else if (message is SelectMessage) {
-      messageIndex = encodeSelect(message, isVisible);
+      encodedMessage = encodeSelect(message, writeId);
     } else if (message is PluralMessage) {
-      messageIndex = encodePlural(message, isVisible);
+      encodedMessage = encodePlural(message, writeId);
     } else if (message is CombinedMessage) {
-      messageIndex = encodeCombined(message, isVisible);
+      encodedMessage = encodeCombined(message, writeId);
     } else if (message is GenderMessage) {
-      messageIndex = encodeGender(message, isVisible);
+      encodedMessage = encodeGender(message, writeId);
     } else {
       throw ArgumentError('Unknown message type');
     }
-    if (isVisible == true) {
-      addMessage(messageIndex);
-    }
-    return messageIndex;
+    return encodedMessage;
   }
 
   /// Encodes a string message as follows:
