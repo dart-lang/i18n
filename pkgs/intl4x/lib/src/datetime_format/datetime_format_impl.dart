@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -15,18 +16,23 @@ import 'datetime_format_stub.dart'
 /// datetime formatting.
 abstract class DateTimeFormatImpl {
   final Locale locale;
+  final DateTimeFormatOptions options;
 
-  DateTimeFormatImpl(this.locale);
+  DateTimeFormatImpl(this.locale, this.options);
 
-  String formatImpl(DateTime datetime, DateTimeFormatOptions options);
+  String formatImpl(DateTime datetime);
 
   factory DateTimeFormatImpl.build(
     Locale locale,
+    Data data,
+    DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
         locale,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getDateTimeFormatterECMA,

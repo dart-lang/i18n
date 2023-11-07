@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../collation.dart';
 import '../locale/locale.dart';
-import '../options.dart';
 import 'collation_impl.dart';
 
 /// Stub for the conditional import
-CollationImpl? getCollatorECMA(Locale locale, LocaleMatcher localeMatcher) =>
+CollationImpl? getCollatorECMA(
+        Locale locale, CollationOptions options, LocaleMatcher localeMatcher) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

@@ -1,20 +1,15 @@
-// Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
-import 'dart:typed_data';
-
-/// Placeholder for the data type of ICU4X - tbd!
-abstract final class Data {}
-
-final class JsonData extends Data {
-  final String value;
-
-  JsonData(this.value);
+sealed class Data {
+  const Data();
 }
 
-final class BlobData extends Data {
-  final Uint8List value;
+final class AssetData extends Data {
+  final String key;
 
-  BlobData(this.value);
+  const AssetData(this.key);
+}
+
+final class BundleData extends Data {}
+
+final class NoData extends Data {
+  const NoData();
 }

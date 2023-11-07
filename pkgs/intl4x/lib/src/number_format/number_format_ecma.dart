@@ -12,9 +12,10 @@ import 'number_format_options.dart';
 
 NumberFormatImpl? getNumberFormatterECMA(
   Locale locale,
+  NumberFormatOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    _NumberFormatECMA.tryToBuild(locale, localeMatcher);
+    _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.NumberFormat')
 class _NumberFormatJS {
@@ -29,16 +30,17 @@ external List<String> _supportedLocalesOfJS(
 ]);
 
 class _NumberFormatECMA extends NumberFormatImpl {
-  _NumberFormatECMA(super.locales);
+  _NumberFormatECMA(super.locale, super.options);
 
   static NumberFormatImpl? tryToBuild(
     Locale locale,
+    NumberFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? _NumberFormatECMA(supportedLocales.first)
-        : _NumberFormatECMA(const Locale(language: 'en'));
+        ? _NumberFormatECMA(supportedLocales.first, options)
+        : _NumberFormatECMA(const Locale(language: 'en'), options);
   }
 
   static List<Locale> supportedLocalesOf(
@@ -54,7 +56,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
   }
 
   @override
-  String formatImpl(Object number, NumberFormatOptions options) {
+  String formatImpl(Object number) {
     final numberFormatJS = _NumberFormatJS(
       [locale.toLanguageTag()],
       options.toJsOptions(),

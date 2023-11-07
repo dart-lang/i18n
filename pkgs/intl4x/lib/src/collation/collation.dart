@@ -7,10 +7,9 @@ import 'collation_impl.dart';
 import 'collation_options.dart';
 
 class Collation {
-  final CollationOptions _options;
   final CollationImpl _collationImpl;
 
-  const Collation(this._options, this._collationImpl);
+  const Collation(this._collationImpl);
 
   /// Compare two strings in a locale-dependant manner.
   ///
@@ -25,7 +24,7 @@ class Collation {
     if (isInTest) {
       return a.compareTo(b);
     } else {
-      return _collationImpl.compareImpl(a, b, _options);
+      return _collationImpl.compareImpl(a, b);
     }
   }
 }

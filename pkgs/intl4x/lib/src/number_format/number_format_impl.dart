@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -14,18 +15,23 @@ import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
 /// Number formatting.
 abstract class NumberFormatImpl {
   final Locale locale;
+  final NumberFormatOptions options;
 
-  NumberFormatImpl(this.locale);
+  NumberFormatImpl(this.locale, this.options);
 
-  String formatImpl(Object number, NumberFormatOptions options);
+  String formatImpl(Object number);
 
   factory NumberFormatImpl.build(
     Locale locale,
+    Data data,
+    NumberFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
         locale,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getNumberFormatterECMA,

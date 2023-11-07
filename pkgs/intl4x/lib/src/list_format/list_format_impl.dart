@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ecma_policy.dart';
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -13,18 +14,23 @@ import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
 
 abstract class ListFormatImpl {
   final Locale locale;
+  final ListFormatOptions options;
 
-  ListFormatImpl(this.locale);
+  ListFormatImpl(this.locale, this.options);
 
-  String formatImpl(List<String> list, ListFormatOptions options);
+  String formatImpl(List<String> list);
 
   factory ListFormatImpl.build(
     Locale locales,
+    Data data,
+    ListFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
         locales,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getListFormatterECMA,

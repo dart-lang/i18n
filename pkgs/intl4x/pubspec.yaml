@@ -11,6 +11,11 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  icu:
+    git:
+      url: https://github.com/robertbastian/icu4x.git
+      ref: dart
+      path: ffi/capi/dart/package
   js: ^0.6.5
   
 dev_dependencies:

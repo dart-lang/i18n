@@ -12,9 +12,10 @@ import 'list_format_options.dart';
 
 ListFormatImpl? getListFormatterECMA(
   Locale locale,
+  ListFormatOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    _ListFormatECMA.tryToBuild(locale, localeMatcher);
+    _ListFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.ListFormat')
 class ListFormatJS {
@@ -29,15 +30,16 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class _ListFormatECMA extends ListFormatImpl {
-  _ListFormatECMA(super.locales);
+  _ListFormatECMA(super.locale, super.options);
 
   static ListFormatImpl? tryToBuild(
     Locale locale,
+    ListFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(locale, localeMatcher);
     return supportedLocales.isNotEmpty
-        ? _ListFormatECMA(supportedLocales.first)
+        ? _ListFormatECMA(supportedLocales.first, options)
         : null;
   }
 
@@ -54,7 +56,7 @@ class _ListFormatECMA extends ListFormatImpl {
   }
 
   @override
-  String formatImpl(List<String> list, ListFormatOptions options) {
+  String formatImpl(List<String> list) {
     return ListFormatJS([locale.toLanguageTag()], options.toJsOptions())
         .format(list);
   }

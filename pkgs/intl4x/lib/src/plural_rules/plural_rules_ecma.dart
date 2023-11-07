@@ -13,9 +13,10 @@ import 'plural_rules_options.dart';
 
 PluralRulesImpl? getPluralSelectECMA(
   Locale locale,
+  PluralRulesOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    _PluralRulesECMA.tryToBuild(locale, localeMatcher);
+    _PluralRulesECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.PluralRules')
 class PluralRulesJS {
@@ -30,15 +31,16 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class _PluralRulesECMA extends PluralRulesImpl {
-  _PluralRulesECMA(super.locales);
+  _PluralRulesECMA(super.locale, super.options);
 
   static PluralRulesImpl? tryToBuild(
     Locale locale,
+    PluralRulesOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(locale, localeMatcher);
     return supportedLocales.isNotEmpty
-        ? _PluralRulesECMA(supportedLocales.first)
+        ? _PluralRulesECMA(supportedLocales.first, options)
         : null;
   }
 
@@ -55,7 +57,7 @@ class _PluralRulesECMA extends PluralRulesImpl {
   }
 
   @override
-  PluralCategory selectImpl(num number, PluralRulesOptions options) {
+  PluralCategory selectImpl(num number) {
     final categoryString =
         PluralRulesJS([locale.toLanguageTag()], options.toJsOptions())
             .select(number);

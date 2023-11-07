@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ecma_policy.dart';
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -14,18 +15,23 @@ import 'plural_rules_stub.dart' if (dart.library.js) 'plural_rules_ecma.dart';
 
 abstract class PluralRulesImpl {
   final Locale locale;
+  final PluralRulesOptions options;
 
-  PluralRulesImpl(this.locale);
+  PluralRulesImpl(this.locale, this.options);
 
-  PluralCategory selectImpl(num number, PluralRulesOptions options);
+  PluralCategory selectImpl(num number);
 
   factory PluralRulesImpl.build(
     Locale locales,
+    Data data,
+    PluralRulesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
         locales,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getPluralSelectECMA,

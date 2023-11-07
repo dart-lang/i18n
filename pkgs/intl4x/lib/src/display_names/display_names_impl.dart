@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -14,28 +15,33 @@ import 'display_names_stub.dart' if (dart.library.js) 'display_names_ecma.dart';
 /// Display naming.
 abstract class DisplayNamesImpl {
   final Locale locale;
+  final DisplayNamesOptions options;
 
-  DisplayNamesImpl(this.locale);
+  DisplayNamesImpl(this.locale, this.options);
 
-  String ofDateTime(DateTimeField field, DisplayNamesOptions options);
+  String ofDateTime(DateTimeField field);
 
-  String ofLanguage(Locale locale, DisplayNamesOptions options);
+  String ofLanguage(Locale locale);
 
-  String ofRegion(String regionCode, DisplayNamesOptions options);
+  String ofRegion(String regionCode);
 
-  String ofScript(String scriptCode, DisplayNamesOptions options);
+  String ofScript(String scriptCode);
 
-  String ofCurrency(String currencyCode, DisplayNamesOptions options);
+  String ofCurrency(String currencyCode);
 
-  String ofCalendar(Calendar calendar, DisplayNamesOptions options);
+  String ofCalendar(Calendar calendar);
 
   factory DisplayNamesImpl.build(
     Locale locale,
+    Data data,
+    DisplayNamesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
         locale,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getDisplayNamesECMA,

@@ -5,24 +5,34 @@
 @TestOn('vm')
 library;
 
+import 'package:icu/icu.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
 
 void main() {
-  test('Does not compare in tests', () {
-    final unsorted = ['Z', 'a', 'z', 'ä'];
-    final collationGerman =
-        Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
-    expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
-  });
+  //TODO: call init()
+  test(
+    'Does not compare in tests',
+    () {
+      final unsorted = ['Z', 'a', 'z', 'ä'];
+      final collationGerman =
+          Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
+      expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
+    },
+    skip: 'Need to build icu first',
+  );
 
-  testWithFormatting('Simple EN', () {
-    final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
-    final collation = intl.collation();
-    expect(() => list..sort(collation.compare),
-        throwsA(isA<UnimplementedError>()));
-  });
+  testWithFormatting(
+    'Simple EN',
+    () {
+      final list = ['A', 'B', 'C'];
+      final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+      final collation = intl.collation();
+      expect(() => list..sort(collation.compare),
+          throwsA(isA<UnimplementedError>()));
+    },
+    skip: 'Need to build icu first',
+  );
 }

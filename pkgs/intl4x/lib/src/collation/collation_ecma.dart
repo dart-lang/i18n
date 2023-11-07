@@ -12,9 +12,10 @@ import 'collation_options.dart';
 
 CollationImpl? getCollatorECMA(
   Locale locale,
+  CollationOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    CollationECMA.tryToBuild(locale, localeMatcher);
+    CollationECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.Collator')
 class CollatorJS {
@@ -29,15 +30,16 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class CollationECMA extends CollationImpl {
-  CollationECMA(super.locale);
+  CollationECMA(super.locale, super.options);
 
   static CollationImpl? tryToBuild(
     Locale locale,
+    CollationOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? CollationECMA(supportedLocales.first)
+        ? CollationECMA(supportedLocales.first, options)
         : null;
   }
 
@@ -54,7 +56,7 @@ class CollationECMA extends CollationImpl {
   }
 
   @override
-  int compareImpl(String a, String b, CollationOptions options) {
+  int compareImpl(String a, String b) {
     final collatorJS = CollatorJS(
       [locale.toLanguageTag()],
       options.toJsOptions(),

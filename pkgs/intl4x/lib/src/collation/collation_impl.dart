@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -15,18 +16,23 @@ import 'collation_stub.dart' if (dart.library.js) 'collation_ecma.dart';
 abstract class CollationImpl {
   /// The current locale, selected by the localematcher
   final Locale locale;
+  final CollationOptions options;
 
-  CollationImpl(this.locale);
+  CollationImpl(this.locale, this.options);
 
   /// Factory to get the correct implementation, either calling on ICU4X or the
   /// in-built browser implementation.
   factory CollationImpl.build(
-    Locale locales,
+    Locale locale,
+    Data data,
+    CollationOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) =>
       buildFormatter(
-        locales,
+        locale,
+        data,
+        options,
         localeMatcher,
         ecmaPolicy,
         getCollatorECMA,
@@ -34,5 +40,5 @@ abstract class CollationImpl {
       );
 
   /// Actual implementation of the [compare] method.
-  int compareImpl(String a, String b, CollationOptions options);
+  int compareImpl(String a, String b);
 }

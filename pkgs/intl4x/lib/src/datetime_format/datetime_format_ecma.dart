@@ -12,9 +12,10 @@ import 'datetime_format_options.dart';
 
 DateTimeFormatImpl? getDateTimeFormatterECMA(
   Locale locale,
+  DateTimeFormatOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    _DateTimeFormatECMA.tryToBuild(locale, localeMatcher);
+    _DateTimeFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.DateTimeFormat')
 class _DateTimeFormatJS {
@@ -56,15 +57,16 @@ external int UTC(
 );
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
-  _DateTimeFormatECMA(super.locale);
+  _DateTimeFormatECMA(super.locale, super.options);
 
   static DateTimeFormatImpl? tryToBuild(
     Locale locale,
+    DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? _DateTimeFormatECMA(supportedLocales.first)
+        ? _DateTimeFormatECMA(supportedLocales.first, options)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
@@ -81,7 +83,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }
 
   @override
-  String formatImpl(DateTime datetime, DateTimeFormatOptions options) {
+  String formatImpl(DateTime datetime) {
     final datetimeFormatJS = _DateTimeFormatJS(
       [locale.toLanguageTag()],
       options.toJsOptions(),

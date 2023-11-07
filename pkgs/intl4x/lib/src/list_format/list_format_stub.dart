@@ -2,12 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../list_format.dart';
 import '../locale/locale.dart';
-import '../options.dart';
 import 'list_format_impl.dart';
 
 ListFormatImpl? getListFormatterECMA(
   Locale locale,
+  ListFormatOptions options,
   LocaleMatcher localeMatcher,
 ) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');
