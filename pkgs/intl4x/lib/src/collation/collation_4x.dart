@@ -16,10 +16,10 @@ CollationImpl getCollator4X(
     Collation4X(locale, data, options);
 
 class Collation4X extends CollationImpl {
-  final icu.ICU4XCollator _collator;
+  final icu.Collator _collator;
 
   Collation4X(Locale locale, Data data, CollationOptions options)
-      : _collator = icu.ICU4XCollator.v1(
+      : _collator = icu.Collator.v1(
           data.to4X(),
           locale.to4X(),
           options.toDartOptions(),
@@ -31,8 +31,8 @@ class Collation4X extends CollationImpl {
 }
 
 extension on CollationOptions {
-  icu.ICU4XCollatorOptionsV1 toDartOptions() {
-    final icu4xOptions = icu.ICU4XCollatorOptionsV1();
+  icu.CollatorOptionsV1 toDartOptions() {
+    final icu4xOptions = icu.CollatorOptionsV1();
 
     //Usage usage;
     //TODO: find matching
@@ -46,13 +46,13 @@ extension on CollationOptions {
     //bool numeric;
     //TODO: what about auto?
     icu4xOptions.numeric =
-        numeric ? icu.ICU4XCollatorNumeric.on : icu.ICU4XCollatorNumeric.off;
+        numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
 
     //CaseFirst? caseFirst;
     //TODO: what about localeDependent? What about icu.off and icu.auto?
     final caseFirst4X = switch (caseFirst) {
-      CaseFirst.upper => icu.ICU4XCollatorCaseFirst.upperFirst,
-      CaseFirst.lower => icu.ICU4XCollatorCaseFirst.lowerFirst,
+      CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
+      CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
       CaseFirst.localeDependent => throw UnsupportedError(''),
       null => null,
     };
