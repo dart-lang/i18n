@@ -1,6 +1,5 @@
 name: example_json
 description: An example on how to use `package:messages`.
-version: 1.0.0
 publish_to: none
 
 environment:

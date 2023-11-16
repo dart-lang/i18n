@@ -54,7 +54,7 @@ class ArbParser {
       debugString,
       messageContent,
       messageKey,
-      addName,
+      addId: addName,
     );
     final messageMetadata = arb['@$messageKey'];
     if (messageMetadata != null) {

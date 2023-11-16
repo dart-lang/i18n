@@ -13,9 +13,9 @@ class MessageParser {
   static MessageWithMetadata parse(
     String debugString,
     String fileContents,
-    String name, [
+    String name, {
     bool addId = false,
-  ]) {
+  }) {
     final node = Parser(name, debugString, fileContents).parse();
     final arguments = <String>[];
     final message =
