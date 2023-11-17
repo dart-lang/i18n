@@ -48,7 +48,8 @@ class GenerationOptions {
     final pubspecId = await buildStep.findAssets(Glob('pubspec.yaml')).first;
     final pubspecData = await buildStep.readAsString(pubspecId);
     final pubspec = loadYaml(pubspecData) as YamlMap;
-    final messagesOptions = pubspec['messages_builder'] as YamlMap?;
+    final packageOptions = pubspec['package_options'] as YamlMap?;
+    final messagesOptions = packageOptions?['messages_builder'] as YamlMap?;
     final generationOptions = GenerationOptions(
       serialization: SerializationType.json,
       deserialization: DeserializationType.web,
