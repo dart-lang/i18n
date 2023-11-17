@@ -12,11 +12,11 @@ import 'select_parser.dart';
 class MessageParser {
   static MessageWithMetadata parse(
     String debugString,
-    String fileContents, [
-    String? name,
+    String fileContents,
+    String name, {
     bool addId = false,
-  ]) {
-    final node = Parser(name ?? 'id', debugString, fileContents).parse();
+  }) {
+    final node = Parser(name, debugString, fileContents).parse();
     final arguments = <String>[];
     final message =
         parseNode(node, arguments, name, addId) ?? StringMessage('');

@@ -9,13 +9,10 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
-  code_builder: ^4.3.0
-  dart_style: ^2.2.4
   js: ^0.6.5
-  messages:
-    path: ../messages
+  messages: ^0.1.0
 
 dev_dependencies:
-  dart_flutter_team_lints: ^1.0.0
+  dart_flutter_team_lints: ^2.0.0
   lints: ^2.0.0
   test: ^1.21.0

@@ -1,14 +1,8 @@
 {
-    "@@locale":"de",
+    "@@locale": "de",
     "@@context": "HomePage",
     "helloAndWelcome": "Willkommen {firstName} von {lastName}",
+    "helloAndWelcome2": "Willkommen {firstName} von {lastName} 2",
     "newMessages": "testde {newMessages, plural, =0 {No new messages} =1 {One new message} two{Two new Messages} other {test {newMessages} new messages}}",
-    "@newMessages": {
-        "placeholders": {
-            "newMessages" : {
-                "type":"int"
-            }
-        }
-    },
     "newMessages2": "testdse is just a simple message"
 }

@@ -8,17 +8,15 @@ class HomePageMessages {
     this.intlObject,
   );
 
-  final String Function(String id) _fileLoader;
+  final Future<String> Function(String id) _fileLoader;
 
   String _currentLocale = 'en';
 
   final Map<String, MessageList> _messages = {};
 
-  final _carbs = {'de': 'testarb_de.json', 'en': 'testarb.json'};
-
-  final _messageListHashes = {
-    'testarb_de.json': '8qk919',
-    'testarb.json': 's69t31'
+  static const carbs = {
+    'de': ('lib/testarb_de.json', 'hbDN1MhX'),
+    'en': ('lib/testarb.json', 'dr9Md951')
   };
 
   IntlObject intlObject;
@@ -27,19 +25,20 @@ class HomePageMessages {
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  Iterable<String> get knownLocales => _carbs.keys;
+  static Iterable<String> get knownLocales => carbs.keys;
 
-  void loadLocale(String locale) {
+  Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
-      final carb = _carbs[locale];
+      final info = carbs[locale];
+      final carb = info?.$1;
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = _fileLoader(carb);
+      final data = await _fileLoader(carb);
       final messageList = MessageListJson.fromString(data, intlObject);
-      if (messageList.preamble.hash != _messageListHashes[carb]) {
+      if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError('''
-              Messages file has different hash "${messageList.preamble.hash}" than generated code "${_messageListHashes[carb]}".''');
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
       }
       _messages[locale] = messageList;
     }
@@ -52,35 +51,24 @@ class HomePageMessages {
     }
   }
 
-  String helloAndWelcome({
-    required String firstName,
-    required String lastName,
-  }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.helloAndWelcome.index, [firstName, lastName]);
+  String helloAndWelcome(
+    String firstName,
+    String lastName,
+  ) =>
+      _currentMessages.generateStringAtIndex(0, [firstName, lastName]);
 
-  String newMessages({required int newMessages}) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.newMessages.index, [newMessages]);
+  String helloAndWelcome2(
+    String firstName,
+    String lastName,
+  ) =>
+      _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
 
-  String newMessages2({
-    required String gender,
-    required int newVar,
-  }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.newMessages2.index, [gender, newVar]);
+  String newMessages(int newMessages) =>
+      _currentMessages.generateStringAtIndex(2, [newMessages]);
 
-  String helloAndWelcome2({
-    required String firstName,
-    required String lastName,
-  }) =>
-      _currentMessages.generateStringAtIndex(
-          HomePageMessagesEnum.helloAndWelcome2.index, [firstName, lastName]);
-}
-
-enum HomePageMessagesEnum {
-  helloAndWelcome,
-  newMessages,
-  newMessages2,
-  helloAndWelcome2
+  String newMessages2(
+    String gender,
+    int newVar,
+  ) =>
+      _currentMessages.generateStringAtIndex(3, [gender, newVar]);
 }

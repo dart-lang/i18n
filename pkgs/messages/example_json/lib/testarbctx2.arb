@@ -1,13 +1,15 @@
 {
     "@@locale": "en",
-    "@@x-reference": true,
     "@@context": "AboutPage",
     "helloAndWelcome": "Welcome {firstName} von {lastName} <",
     "@helloAndWelcome": {
         "description": "Initial welcome message",
         "placeholders": {
             "firstName": {},
-            "lastName": {}
+            "lastName": {
+                "example": "Meyer",
+                "type": "int"
+            }
         }
     },
     "aboutMessage": "About {websitename}",
@@ -17,6 +19,8 @@
             "websitename": {}
         }
     },
+    "otherMsg": "other",
+    "@otherMsg": {},
     "newMessages": "test {newMessages, plural, =0 {No new messages} =1 {One new message} two{Two new Messages} other {test {newMessages} new messages}}",
     "@newMessages": {
         "type": "text",

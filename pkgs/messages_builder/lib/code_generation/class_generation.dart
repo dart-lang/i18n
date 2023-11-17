@@ -10,7 +10,8 @@ import 'generation.dart';
 
 class ClassGeneration extends Generation<Spec> {
   final GenerationOptions options;
-  final MessageListWithMetadata messageList;
+  final List<MessageWithMetadata> messages;
+  final String? context;
 
   final List<Constructor> constructors;
   final List<Field> fields;
@@ -18,7 +19,8 @@ class ClassGeneration extends Generation<Spec> {
 
   ClassGeneration(
     this.options,
-    this.messageList,
+    this.messages,
+    this.context,
     this.constructors,
     this.fields,
     this.methods,
@@ -31,34 +33,22 @@ class ClassGeneration extends Generation<Spec> {
     final classes = <Spec>[
       Class(
         (cb) => cb
-          ..name = getClassName(messageList.context)
+          ..name = getClassName(context)
           ..constructors.addAll(constructors)
           ..fields.addAll(fields)
           ..methods.addAll(methods),
       ),
     ];
-    if (options.findByType == IndexType.integer) {
-      classes.add(Class((cb) => cb
-        ..name = indicesName(messageList.context)
-        ..fields.addAll(List.generate(
-            messageList.messages.length,
-            (index) => Field(
-                  (evb) => evb
-                    ..name = messageList.messages[index].name!
-                    ..type = const Reference('int')
-                    ..assignment = Code('$index')
-                    ..static = true
-                    ..modifier = FieldModifier.constant,
-                )))));
-    }
-    if (options.findByType == IndexType.enumerate || options.messageCalls) {
+    if (options.indexType == IndexType.enumerate) {
       classes.add(Enum((cb) => cb
-        ..name = enumName(messageList.context)
+        ..name = enumName(context)
         ..values.addAll(List.generate(
-            messageList.messages.length,
-            (index) => EnumValue(
-                  (evb) => evb..name = messageList.messages[index].name,
-                )))));
+            messages.length,
+            (index) => messages[index].nameIsDartConform
+                ? EnumValue(
+                    (evb) => evb..name = messages[index].name,
+                  )
+                : null).whereType<EnumValue>())));
     }
     return classes;
   }

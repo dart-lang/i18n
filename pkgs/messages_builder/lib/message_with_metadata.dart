@@ -2,29 +2,59 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:build/build.dart';
 import 'package:messages/messages.dart';
 
 class MessageWithMetadata {
   final Message message;
-  final String? name;
+  final String name;
   List<Placeholder> placeholders;
+
+  static final RegExp _dartName = RegExp(r'^[a-zA-Z][a-zA-Z_0-9]*$');
+  bool get nameIsDartConform => _dartName.hasMatch(name);
 
   MessageWithMetadata(this.message, List<String> arguments, this.name)
       : placeholders = arguments.map(Placeholder.new).toList();
 }
 
-class MessageListWithMetadata {
+class MessagesWithMetadata {
   final List<MessageWithMetadata> messages;
-  final String? locale;
+  final String locale;
   final String? context;
-  final bool isReference;
+  final String? referencePath;
+  final String hash;
+  final bool hasMetadata;
+  final AssetId assetId;
 
-  MessageListWithMetadata(
+  MessagesWithMetadata(
     this.messages,
     this.locale,
     this.context,
-    this.isReference,
+    this.referencePath,
+    this.hash,
+    this.hasMetadata,
+    this.assetId,
   );
+
+  MessagesWithMetadata copyWith({
+    List<MessageWithMetadata>? messages,
+    String? locale,
+    String? context,
+    String? referencePath,
+    String? hash,
+    bool? hasMetadata,
+    AssetId? assetId,
+  }) {
+    return MessagesWithMetadata(
+      messages ?? this.messages,
+      locale ?? this.locale,
+      context ?? this.context,
+      referencePath ?? this.referencePath,
+      hash ?? this.hash,
+      hasMetadata ?? this.hasMetadata,
+      assetId ?? this.assetId,
+    );
+  }
 }
 
 class Placeholder {
