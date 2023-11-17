@@ -90,7 +90,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     Message? twoNumberMessage;
     Message? fewMessage;
     Message? manyMessage;
-    final submessages = List.castFrom(message[start + 2] as List);
+    final submessages = message[start + 2] as List;
     for (var i = 0; i < submessages.length - 1; i += 2) {
       final msg = getMessage(submessages[i + 1]);
       switch (submessages[i]) {
@@ -138,7 +138,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   SelectMessage _forSelect(List<dynamic> message, int start, String? id) {
     final argIndex = message[start] as int;
     final otherCase = getMessage(message[start + 1]);
-    final submessages = Map.castFrom(message[start + 2] as Map);
+    final submessages = message[start + 2] as Map;
     final cases = submessages.map((caseName, caseMessage) => MapEntry(
           caseName as String,
           getMessage(caseMessage),
