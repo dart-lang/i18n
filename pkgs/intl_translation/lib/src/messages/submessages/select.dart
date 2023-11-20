@@ -17,8 +17,7 @@ class Select extends SubMessage {
   /// clauses. Each clause is expected to be a list whose first element is a
   /// variable name and whose second element is either a String or
   /// a list of strings and [Message]s or [VariableSubstitution]s.
-  Select.from(super.mainArgument, super.clauses, [Message? super.parent])
-      : super.from();
+  Select.from(super.mainArgument, super.clauses, [super.parent]) : super.from();
 
   Map<String, Message> cases = <String, Message>{};
 

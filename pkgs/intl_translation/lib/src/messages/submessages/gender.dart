@@ -15,8 +15,7 @@ class Gender extends SubMessage {
   /// clauses. Each clause is expected to be a list whose first element is a
   /// variable name and whose second element is either a [String] or
   /// a list of strings and [Message] or [VariableSubstitution].
-  Gender.from(super.mainArgument, super.clauses, [Message? super.parent])
-      : super.from();
+  Gender.from(super.mainArgument, super.clauses, [super.parent]) : super.from();
 
   Message? female;
   Message? male;

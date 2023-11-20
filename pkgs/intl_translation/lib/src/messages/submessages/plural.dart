@@ -7,8 +7,7 @@ import 'submessage.dart';
 
 class Plural extends SubMessage {
   Plural() : super.from('', [], null);
-  Plural.from(super.mainArgument, super.clauses, [Message? super.parent])
-      : super.from();
+  Plural.from(super.mainArgument, super.clauses, [super.parent]) : super.from();
 
   Message? zero;
   Message? one;
