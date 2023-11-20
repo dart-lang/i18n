@@ -4,12 +4,8 @@
 
 /// Test for parsing the examples argument from an Intl.message call. Very
 /// minimal so far.
-library;
-
-
-
 @Timeout(Duration(seconds: 180))
-
+library;
 
 import 'dart:io';
 

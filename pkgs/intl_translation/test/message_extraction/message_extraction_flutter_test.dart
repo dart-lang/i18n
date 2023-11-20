@@ -4,12 +4,8 @@
 
 /// A test for message extraction and code generation using generated
 /// JSON rather than functions
-library;
-
-
-
 @Timeout(Duration(seconds: 180))
-
+library;
 
 import 'package:test/test.dart';
 
