@@ -9,9 +9,7 @@ import 'message.dart';
 class CompositeMessage extends Message {
   List<Message> pieces;
 
-  CompositeMessage.withParent(parent)
-      : pieces = const [],
-        super(parent);
+  CompositeMessage.withParent(super.parent) : pieces = const [];
   CompositeMessage(this.pieces, [super.parent]) {
     for (var x in pieces) {
       x.parent = this;

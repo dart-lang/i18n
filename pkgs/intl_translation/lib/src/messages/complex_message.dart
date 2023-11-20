@@ -7,7 +7,7 @@ import 'message.dart';
 /// Abstract class for messages with internal structure, representing the
 /// main Intl.message call, plurals, and genders.
 abstract class ComplexMessage extends Message {
-  ComplexMessage(parent) : super(parent);
+  ComplexMessage(super.parent);
 
   /// When we create these from strings or from AST nodes, we want to look up
   /// and set their attributes by string names, so we override the indexing
