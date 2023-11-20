@@ -4,6 +4,8 @@
 
 /// Code to rewrite Intl.message calls adding the name and args parameters
 /// automatically, primarily used by the transformer.
+library;
+
 import 'package:analyzer/dart/analysis/utilities.dart';
 
 import '../extract_messages.dart';

@@ -4,6 +4,8 @@
 
 /// A component which should have its own separate messages, with their own
 /// translations.
+library;
+
 import 'package:intl/intl.dart';
 
 import 'component_messages_all.dart';
