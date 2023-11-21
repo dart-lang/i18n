@@ -46,7 +46,7 @@ final class StringMessage extends Message {
   /// Maps argument indices to their position in the string, where they are to
   /// be inserted.
   ///
-  /// This list is expected to be sorted by [stringIndex]
+  /// This list is expected to be sorted by `argPositions.stringIndex`
   final List<({int stringIndex, int argIndex})> argPositions;
 
   StringMessage(this.value, {this.argPositions = const [], String? id})
