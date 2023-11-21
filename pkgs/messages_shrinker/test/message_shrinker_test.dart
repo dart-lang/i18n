@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:build/build.dart';
 import 'package:messages/package_intl_object.dart';
 import 'package:messages_builder/arb_parser.dart';
-import 'package:messages_deserializer/messages_deserializer_json.dart';
+import 'package:messages_deserializer/messages_deserializer.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:messages_shrinker/messages_shrinker.dart';
 import 'package:test/test.dart';
