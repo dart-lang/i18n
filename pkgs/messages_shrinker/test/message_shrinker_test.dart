@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('vm')
+library;
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -37,23 +40,25 @@ void main() {
     final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
     expect(generateStringAtIndex, getMessage(messageIndex, args));
   });
+  test(
+    'Shrink a json with const from file',
+    () {
+      final outputFile = '/tmp/shrunkFile.json';
+      MessageShrinker().shrink(
+        dataFile,
+        'test/const_files.json',
+        outputFile,
+      );
 
-  test('Shrink a json with const from file', () {
-    final outputFile = '/tmp/shrunkFile.json';
-    MessageShrinker().shrink(
-      dataFile,
-      'test/const_files.json',
-      outputFile,
-    );
-
-    final dataFileContentsShrunk = File(outputFile).readAsStringSync();
-    expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
-    final deserialize =
-        JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
-    final args = [2];
-    final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
-    expect(generateStringAtIndex, getMessage(1, args));
-  });
+      final dataFileContentsShrunk = File(outputFile).readAsStringSync();
+      expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
+      final deserialize =
+          JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
+      final args = [2];
+      final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
+      expect(generateStringAtIndex, getMessage(1, args));
+    },
+  );
 }
 
 String readArbFileToDataFile() {
