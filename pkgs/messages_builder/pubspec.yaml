@@ -1,7 +1,6 @@
 name: messages_builder
 description: Build the messages for consumption by package:messages
 version: 0.1.0
-publish_to: none
 repository: https://github.com/dart-lang/i18n/pkgs/messages_builder
 
 environment:
@@ -23,7 +22,6 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.0.0
   build_web_compilers: ^4.0.5
-  dart_flutter_team_lints: ^1.0.0
-  lints: ^2.0.0
+  dart_flutter_team_lints: ^2.1.1
   messages_deserializer: ^0.1.0
   test: ^1.16.0

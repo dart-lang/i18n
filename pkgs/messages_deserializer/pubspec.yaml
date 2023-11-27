@@ -1,7 +1,6 @@
 name: messages_deserializer
 description: Deserialization of messages for package:messages.
 version: 0.1.0
-publish_to: none
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_deserializer
 
 environment:
@@ -14,5 +13,4 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^2.0.0
-  lints: ^2.0.0
   test: ^1.21.0

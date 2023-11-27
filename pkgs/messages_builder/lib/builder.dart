@@ -175,7 +175,7 @@ class BuildStepGenerator {
   /// unpacked at runtime so that the messages can be read from it.
   ///
   /// Returns the list of indices of the messages which are visible to the user.
-  Future<void> writeDataFile<T>(MessagesWithMetadata messages) async {
+  Future<void> writeDataFile(MessagesWithMetadata messages) async {
     final serialization = serializer.serialize(
       messages.hash,
       messages.locale,

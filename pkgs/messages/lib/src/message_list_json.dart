@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:messages_deserializer/messages_deserializer_json.dart';
+import 'package:messages_deserializer/messages_deserializer.dart';
 
 import 'intl_object.dart';
 import 'message_format.dart';

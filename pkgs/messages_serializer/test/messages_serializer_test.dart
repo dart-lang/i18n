@@ -6,7 +6,7 @@ import 'dart:math';
 
 import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
-import 'package:messages_deserializer/messages_deserializer_json.dart';
+import 'package:messages_deserializer/messages_deserializer.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
