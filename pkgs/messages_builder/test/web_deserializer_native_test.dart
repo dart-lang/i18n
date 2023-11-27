@@ -5,11 +5,10 @@
 import 'dart:convert';
 
 import 'package:build/src/asset/id.dart';
-import 'package:messages/messages.dart';
+import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
 import 'package:messages_builder/arb_parser.dart';
 import 'package:messages_builder/message_with_metadata.dart';
-import 'package:messages_deserializer/messages_deserializer.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 

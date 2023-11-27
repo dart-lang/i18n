@@ -8,7 +8,7 @@ abstract class IntlObject {
   const IntlObject();
 
   Message gender(
-    Gender gender,
+    GenderEnum gender,
     Message? female,
     Message? male,
     Message other,

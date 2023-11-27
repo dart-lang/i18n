@@ -106,7 +106,7 @@ final class GenderMessage extends Message {
   }) {
     return intl
         .gender(
-          allArgs[argIndex] as Gender,
+          allArgs[argIndex] as GenderEnum,
           female,
           male,
           other,
@@ -120,7 +120,7 @@ final class GenderMessage extends Message {
   }
 }
 
-enum Gender {
+enum GenderEnum {
   female,
   male,
   other;
