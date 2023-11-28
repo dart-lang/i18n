@@ -1,5 +1,3 @@
 dependency_overrides:
   messages_serializer:
     path: ../messages_serializer
-  messages_deserializer:
-    path: ../messages_deserializer

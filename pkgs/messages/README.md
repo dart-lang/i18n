@@ -26,9 +26,7 @@ To enable localization which supports
 The package is partitioned to allow a package to consume some parts of the library only as a `dev_dependency`, not including the message building and serialization packages in the dependencies for the application.
 
 ### `messages`
-Contains the interface for a `MessageList` and the different subtypes of `Message`s. Has a dependency on `messages_deserializer` to parse a data file into a `MessageList`.
-### `messages_deserializer`
-The logic for deserializing the data files into `MessageList`s.
+Contains the interface for a `MessageList` and the different subtypes of `Message`s as well as the functionality to parse a data file into a `MessageList`.
 ### `messages_builder`
 The `builder` to generate the named methods and data files from the input `arb` translation files. Has a dependency on `messages_serializer` and `messages`.
 

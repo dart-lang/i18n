@@ -4,8 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:messages/messages_json.dart';
-
+import '../intl_object.dart';
+import '../message_format.dart';
+import '../message_list_json.dart';
 import 'deserializer.dart';
 
 class JsonDeserializer extends Deserializer<MessageListJson> {

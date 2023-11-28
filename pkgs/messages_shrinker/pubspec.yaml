@@ -13,7 +13,6 @@ dependencies:
   build: ^2.4.1
   messages: ^0.1.0
   messages_builder: ^0.1.0
-  messages_deserializer: ^0.1.0
   messages_serializer: ^0.1.0
 
 dev_dependencies:
