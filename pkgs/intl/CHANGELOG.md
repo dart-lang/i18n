@@ -1,5 +1,4 @@
-## 0.19.0-dev
-
+## 0.19.0
  * Add `tryParse` to NumberFormat.
  * Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat.
  * Add fallback for deprecated locales, such as `he` <-> `iw`.
