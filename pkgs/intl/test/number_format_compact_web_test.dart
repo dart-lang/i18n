@@ -89,13 +89,15 @@ var _unsupportedChromeLocales = [
 ];
 
 var _skipLocalesShort = [
-  'ja', // Expected: '1京', actual: '10000兆'.
-  'ca', // Expected: '4,3\u00A0k', actual: '4,3m'.
+  'it', // Expected: '7,7 Mio', actual: '7,7 Mln'
+  'it-CH', // Expected: '7.7 Mio', actual: '7.7 Mln'
+  'en-ZA', // Expected: '4.3K', actual: '4,3K'.
   ..._unsupportedChromeLocales
 ];
 
 var _skipLocalesLong = [
-  'ja', // Expected: '1京', actual: '10000兆'.
+  'en-ZA', // Expected: '4.3 thousand', actual: '4,3 thousand'.
+  'zh-HK', // Expected: '4.3K', actual: '4321'.
   ..._unsupportedChromeLocales
 ];
 

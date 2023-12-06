@@ -70,7 +70,7 @@ const english = {
 
 const german = {
   'DAY': '27',
-  'ABBR_WEEKDAY': 'Fr',
+  'ABBR_WEEKDAY': 'Fr.',
   'WEEKDAY': 'Freitag',
   'ABBR_STANDALONE_MONTH': 'Jan',
   'STANDALONE_MONTH': 'Januar',
@@ -86,7 +86,7 @@ const german = {
   'ABBR_QUARTER': 'Q1',
   'QUARTER': '1. Quartal',
   'YEAR': '2012',
-  'YEAR_NUM_MONTH': '01/2012',
+  'YEAR_NUM_MONTH': '1/2012',
   'YEAR_NUM_MONTH_DAY': '27.1.2012',
   'YEAR_NUM_MONTH_WEEKDAY_DAY': 'Fr., 27.1.2012',
   'YEAR_ABBR_MONTH': 'Jan. 2012',
@@ -125,7 +125,7 @@ const german = {
 
 const austrian = {
   'DAY': '27',
-  'ABBR_WEEKDAY': 'Fr',
+  'ABBR_WEEKDAY': 'Fr.',
   'WEEKDAY': 'Freitag',
   'ABBR_STANDALONE_MONTH': 'Jän',
   'STANDALONE_MONTH': 'Jänner',
@@ -141,7 +141,7 @@ const austrian = {
   'ABBR_QUARTER': 'Q1',
   'QUARTER': '1. Quartal',
   'YEAR': '2012',
-  'YEAR_NUM_MONTH': '01/2012',
+  'YEAR_NUM_MONTH': '1/2012',
   'YEAR_NUM_MONTH_DAY': '27.1.2012',
   'YEAR_NUM_MONTH_WEEKDAY_DAY': 'Fr., 27.1.2012',
   'YEAR_ABBR_MONTH': 'Jän. 2012',
@@ -318,9 +318,9 @@ const greek = {
   'HOUR24': '20',
   'HOUR24_MINUTE': '20:58',
   'HOUR24_MINUTE_SECOND': '20:58:59',
-  'HOUR': '8${space}μ.μ.',
-  'HOUR_MINUTE': '8:58${space}μ.μ.',
-  'HOUR_MINUTE_SECOND': '8:58:59${space}μ.μ.',
+  'HOUR': '8${space}PM',
+  'HOUR_MINUTE': '8:58${space}PM',
+  'HOUR_MINUTE_SECOND': '8:58:59${space}PM',
   'MINUTE': '58',
   'MINUTE_SECOND': '58:59',
   'SECOND': '59',
