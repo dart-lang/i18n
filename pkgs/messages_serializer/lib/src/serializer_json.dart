@@ -85,17 +85,14 @@ class JsonSerializer extends Serializer<String> {
     if ((message.id == null || isVisible == false) && !containsArgs) {
       return message.value;
     }
-    final m = [];
+    final m = <Object>[];
     addId(message, m, isVisible);
     m.add(message.value);
     if (containsArgs) {
       final positions = message.argPositions
         ..sort((a, b) => a.stringIndex.compareTo(b.stringIndex));
       for (var i = 0; i < positions.length; i++) {
-        m.add([
-          positions[i].stringIndex.toRadixString(serializationRadix),
-          positions[i].argIndex.toRadixString(serializationRadix),
-        ]);
+        m.add(<int>[positions[i].stringIndex, positions[i].argIndex]);
       }
     }
     return m;
@@ -109,7 +106,7 @@ class JsonSerializer extends Serializer<String> {
   /// * Map\<String, int\> | the cases:
   ///   * MapEntry\<String, int\> | a case mapped to the message it represents
   List encodeSelect(SelectMessage message, bool isVisible) {
-    final m = [];
+    final m = <Object>[];
     m.add(SelectMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
@@ -132,12 +129,12 @@ class JsonSerializer extends Serializer<String> {
   ///   * int | the case index as encoded by the constants in `Plural`
   ///   * int | the message index of the case
   List encodePlural(PluralMessage message, bool isVisible) {
-    final m = [];
+    final m = <Object>[];
     m.add(PluralMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
-    final caseIndices = [];
+    final caseIndices = <Object>[];
     if (message.few != null) {
       caseIndices.add(Plural.few);
       caseIndices.add(encodeMessage(message.few!));
@@ -181,7 +178,7 @@ class JsonSerializer extends Serializer<String> {
   /// * List\<int\> | the submessage IDs
   ///   * int | the index of the submessage
   List encodeCombined(CombinedMessage message, bool isVisible) {
-    final m = [];
+    final m = <Object>[];
     m.add(CombinedMessage.type);
     addId(message, m, isVisible);
     for (var submessage in message.messages) {
@@ -200,12 +197,12 @@ class JsonSerializer extends Serializer<String> {
   ///   * int | the case index as encoded by the constants in `Gender`
   ///   * int | the message index of the case
   List encodeGender(GenderMessage message, bool isVisible) {
-    final m = [];
+    final m = <Object>[];
     m.add(GenderMessage.type);
     addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
-    final caseIndices = [];
+    final caseIndices = <Object>[];
     if (message.female != null) {
       caseIndices.add(Gender.female);
       caseIndices.add(encodeMessage(message.female!));

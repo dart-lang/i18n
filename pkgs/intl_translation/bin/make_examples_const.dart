@@ -4,6 +4,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Converts the examples parameter for Intl messages to be const.
+library;
+
 import 'dart:io';
 
 import 'package:args/args.dart';

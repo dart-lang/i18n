@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// An application using the code map messages.
+library;
+
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
 

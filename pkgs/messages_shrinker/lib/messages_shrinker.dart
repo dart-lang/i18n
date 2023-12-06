@@ -5,8 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
-import 'package:messages_deserializer/messages_deserializer_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 
 class MessageShrinker {
@@ -33,7 +33,7 @@ class MessageShrinker {
   /// message indices in [messagesToKeep].
   String shrinkJson(String buffer, List<int> messagesToKeep) {
     final sizeBefore = buffer.length;
-    final json = JsonDeserializer(buffer).deserialize(OldIntlObject());
+    final json = JsonDeserializer(buffer).deserialize(const OldIntlObject());
     final data = JsonSerializer(json.preamble.hasIds)
         .serialize(
           json.preamble.hash,

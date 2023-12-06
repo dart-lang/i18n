@@ -37,7 +37,7 @@ void main() {
           0,
         )
       ],
-      OldIntlObject(),
+      const OldIntlObject(),
       null,
     );
 

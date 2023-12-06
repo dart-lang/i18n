@@ -2,18 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@TestOn('vm')
+library;
+
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:build/build.dart';
+import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
 import 'package:messages_builder/arb_parser.dart';
-import 'package:messages_deserializer/messages_deserializer_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:messages_shrinker/messages_shrinker.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final intl = OldIntlObject();
+  final intl = const OldIntlObject();
   late String dataFileContents;
   late String dataFile;
 
@@ -36,29 +40,33 @@ void main() {
     final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
     expect(generateStringAtIndex, getMessage(messageIndex, args));
   });
+  test(
+    'Shrink a json with const from file',
+    () {
+      final outputFile = '/tmp/shrunkFile.json';
+      MessageShrinker().shrink(
+        dataFile,
+        'test/const_files.json',
+        outputFile,
+      );
 
-  test('Shrink a json with const from file', () {
-    final outputFile = '/tmp/shrunkFile.json';
-    MessageShrinker().shrink(
-      dataFile,
-      'test/const_files.json',
-      outputFile,
-    );
-
-    final dataFileContentsShrunk = File(outputFile).readAsStringSync();
-    expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
-    final deserialize =
-        JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
-    final args = [2];
-    final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
-    expect(generateStringAtIndex, getMessage(1, args));
-  });
+      final dataFileContentsShrunk = File(outputFile).readAsStringSync();
+      expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
+      final deserialize =
+          JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
+      final args = [2];
+      final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
+      expect(generateStringAtIndex, getMessage(1, args));
+    },
+  );
 }
 
 String readArbFileToDataFile() {
-  final arbFile = File('test/testarb.arb').readAsStringSync();
+  final path = 'test/testarb.arb';
+  final arbFile = File(path).readAsStringSync();
   final arb = jsonDecode(arbFile) as Map<String, dynamic>;
-  final parsed = ArbParser().parseMessageFile(arb);
+  final parsed =
+      ArbParser().parseMessageFile(arb, AssetId('messsages_shrinker', path));
   return JsonSerializer()
       .serialize('', '', parsed.messages.map((e) => e.message).toList())
       .data;

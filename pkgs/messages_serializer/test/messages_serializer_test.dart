@@ -6,7 +6,6 @@ import 'dart:math';
 
 import 'package:messages/messages_json.dart';
 import 'package:messages/package_intl_object.dart';
-import 'package:messages_deserializer/messages_deserializer_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
@@ -57,7 +56,7 @@ void main() {
     final serialized =
         JsonSerializer(true).serialize('hash', 'locale', messages);
     final deserialize =
-        JsonDeserializer(serialized.data).deserialize(OldIntlObject());
+        JsonDeserializer(serialized.data).deserialize(const OldIntlObject());
     expect(
       deserialize.messages.map((e) => e.id),
       orderedEquals(messages.map((e) => e.id)),
@@ -75,7 +74,7 @@ void main() {
     final serialized =
         JsonSerializer(true).serialize('hash', 'locale', messages, [1, 4]);
     final deserialize =
-        JsonDeserializer(serialized.data).deserialize(OldIntlObject());
+        JsonDeserializer(serialized.data).deserialize(const OldIntlObject());
     expect(
       deserialize.messages.map((e) => e.id),
       orderedEquals([messages[1], messages[4]].map((e) => e.id)),
@@ -117,7 +116,7 @@ void serializeThenDeserialize<T>(
   final serialized = serializer.serialize(hash, locale, messages);
 
   final deserializer = deserializerBuilder(serialized.data);
-  final deserialized = deserializer.deserialize(OldIntlObject());
+  final deserialized = deserializer.deserialize(const OldIntlObject());
 
   expect(deserialized.preamble.hash, hash);
   expect(deserialized.preamble.locale, locale);

@@ -1,6 +1,5 @@
 name: example_json
 description: An example on how to use `package:messages`.
-version: 1.0.0
 publish_to: none
 
 environment:
@@ -21,7 +20,8 @@ dev_dependencies:
   path: ^1.8.3
   test: ^1.16.0
 
-messages:
-  generateMethods: true
-  generateFindById: false
-  generateFindBy: none
+package_options:
+  messages_builder:
+    generateMethods: true
+    generateFindById: false
+    generateFindBy: integer

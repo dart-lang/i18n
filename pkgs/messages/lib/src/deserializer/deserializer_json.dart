@@ -4,8 +4,9 @@
 
 import 'dart:convert';
 
-import 'package:messages/messages_json.dart';
-
+import '../intl_object.dart';
+import '../message_format.dart';
+import '../message_list_json.dart';
 import 'deserializer.dart';
 
 class JsonDeserializer extends Deserializer<MessageListJson> {
@@ -72,14 +73,8 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     final argPositions = <({int stringIndex, int argIndex})>[];
     for (var i = start + 1; i < message.length; i++) {
       final pair = message[i] as List;
-      final stringIndex = int.parse(
-        pair[0] as String,
-        radix: serializationRadix,
-      );
-      final argIndex = int.parse(
-        pair[1] as String,
-        radix: serializationRadix,
-      );
+      final stringIndex = pair[0];
+      final argIndex = pair[1];
       argPositions.add((stringIndex: stringIndex, argIndex: argIndex));
     }
     return StringMessage(value, argPositions: argPositions, id: id);
@@ -96,7 +91,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     Message? twoNumberMessage;
     Message? fewMessage;
     Message? manyMessage;
-    final submessages = List.castFrom(message[start + 2] as List);
+    final submessages = message[start + 2] as List;
     for (var i = 0; i < submessages.length - 1; i += 2) {
       final msg = getMessage(submessages[i + 1]);
       switch (submessages[i]) {
@@ -144,7 +139,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   SelectMessage _forSelect(List<dynamic> message, int start, String? id) {
     final argIndex = message[start] as int;
     final otherCase = getMessage(message[start + 1]);
-    final submessages = Map.castFrom(message[start + 2] as Map);
+    final submessages = message[start + 2] as Map;
     final cases = submessages.map((caseName, caseMessage) => MapEntry(
           caseName as String,
           getMessage(caseMessage),

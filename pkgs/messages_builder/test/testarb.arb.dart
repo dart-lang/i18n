@@ -5,7 +5,6 @@
 String arbFile = '''
 {
     "@@locale": "en",
-    "@@x-reference": true,
     "helloAndWelcome": "Welcome {firstName} von {lastName} <",
     "@helloAndWelcome": {
         "description": "Initial welcome message",

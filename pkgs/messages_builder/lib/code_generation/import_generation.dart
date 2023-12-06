@@ -9,9 +9,8 @@ import 'generation.dart';
 
 class ImportGeneration extends Generation<Directive> {
   final GenerationOptions options;
-  final Map<String, String> resourceToHash;
 
-  ImportGeneration(this.options, this.resourceToHash);
+  ImportGeneration(this.options);
 
   @override
   List<Directive> generate() {

@@ -16,39 +16,39 @@ import 'method_generation.dart';
 class LibraryGeneration extends Generation<Library> {
   final GenerationOptions options;
   final String? context;
-  final Map<String, String> localeCarbPaths;
-  final MessageListWithMetadata messageList;
-  final Map<String, String> resourceToHash;
+  final String locale;
+  final List<MessageWithMetadata> messages;
+  final Map<String, ({String path, String hasch})> localeToResourceInfo;
 
   LibraryGeneration(
     this.options,
-    this.messageList,
-    this.localeCarbPaths,
-    this.resourceToHash,
-  ) : context = messageList.context;
+    this.context,
+    this.locale,
+    this.messages,
+    this.localeToResourceInfo,
+  );
 
   @override
   List<Library> generate() {
-    final imports = ImportGeneration(options, resourceToHash).generate();
+    final imports = ImportGeneration(options).generate();
     final constructors = ConstructorGeneration(options).generate();
 
     final fields = FieldGeneration(
       options,
-      localeCarbPaths,
-      messageList,
-      resourceToHash,
+      localeToResourceInfo,
+      locale,
     ).generate();
 
     final methods = MethodGeneration(
       options,
       context,
-      messageList,
-      resourceToHash,
+      messages,
     ).generate();
 
     final classes = ClassGeneration(
       options,
-      messageList,
+      messages,
+      context,
       constructors,
       fields,
       methods,

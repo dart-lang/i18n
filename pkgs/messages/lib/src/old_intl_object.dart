@@ -8,9 +8,10 @@ import 'intl_object.dart';
 import 'message.dart';
 
 class OldIntlObject extends IntlObject {
+  const OldIntlObject();
   @override
   Message gender(
-    Gender gender,
+    GenderEnum gender,
     Message? female,
     Message? male,
     Message other,

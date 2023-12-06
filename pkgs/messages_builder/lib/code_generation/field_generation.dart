@@ -5,27 +5,24 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
 import 'generation.dart';
 
 class FieldGeneration extends Generation<Field> {
   final GenerationOptions options;
-  final Map<String, String> localeCarbPaths;
-  final MessageListWithMetadata messageList;
-  final Map<String, String> resourceToHash;
+  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final String locale;
 
   FieldGeneration(
     this.options,
-    this.localeCarbPaths,
-    this.messageList,
-    this.resourceToHash,
+    this.localeToResourceInfo,
+    this.locale,
   );
 
   @override
   List<Field> generate() {
     final loadingStrategy = Field(
       (fb) {
-        final returnType = const Reference('String').symbol;
+        final returnType = const Reference('Future<String>').symbol;
         fb
           ..name = '_fileLoader'
           ..modifier = FieldModifier.final$
@@ -36,7 +33,7 @@ class FieldGeneration extends Generation<Field> {
       (fb) => fb
         ..type = const Reference('String')
         ..name = '_currentLocale'
-        ..assignment = Code("'${messageList.locale}'"),
+        ..assignment = Code("'$locale'"),
     );
     final messages = Field(
       (fb) => fb
@@ -47,24 +44,14 @@ class FieldGeneration extends Generation<Field> {
     );
     final carbs = Field(
       (fb) {
-        final paths = localeCarbPaths.entries
-            .map((e) => "'${e.key}' : '${e.value}'")
+        final paths = localeToResourceInfo.entries
+            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
             .join(',');
         fb
-          ..name = '_carbs'
-          ..modifier = FieldModifier.final$
+          ..name = 'carbs'
+          ..modifier = FieldModifier.constant
+          ..static = true
           ..assignment = Code('{$paths}');
-      },
-    );
-    final hashes = Field(
-      (p0) {
-        final hashList = resourceToHash.entries
-            .map((e) => "'${e.key}' : '${e.value}'")
-            .join(',');
-        p0
-          ..name = '_messageListHashes'
-          ..modifier = FieldModifier.final$
-          ..assignment = Code('{$hashList}');
       },
     );
     final intlObject = Field(
@@ -77,7 +64,6 @@ class FieldGeneration extends Generation<Field> {
       currentLocale,
       messages,
       carbs,
-      hashes,
       intlObject,
     ];
     return fields;
