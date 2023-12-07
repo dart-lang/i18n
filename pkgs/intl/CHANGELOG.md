@@ -1,8 +1,9 @@
 ## 0.19.0
+ * Update to CLDR v44.
+ * Update to CLDR v43.
  * Add `tryParse` to NumberFormat.
  * Add `tryParse` `tryParseStrict` `tryParseLoose` `tryParseUtc` to DateFormat.
  * Add fallback for deprecated locales, such as `he` <-> `iw`.
- * Update to CLDR v43.
  * Switch QAR currency name to Riyal.
  * Add license headers to some files.
  * Update CVE currency symbol.
@@ -10,7 +11,6 @@
  * Switch to `3.0.0` SDK.
  * Fix issue [#483](https://github.com/dart-lang/i18n/issues/483) about date parsing with a `yy` skeleton.
  * Extract `NumberParserBase` abstract class
- * Update to CLDR v44.
 
 ## 0.18.1
  * Update ruble sign and update corresponding test.
