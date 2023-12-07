@@ -324,7 +324,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3de kwartaal',
             '4de kwartaal'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['vm.', 'nm.'],
           DATEFORMATS: const [
             'EEEE dd MMMM y',
             'dd MMMM y',
@@ -454,7 +454,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['እ', 'ሰ', 'ማ', 'ረ', 'ሐ', 'ዓ', 'ቅ'],
           SHORTQUARTERS: const ['ሩብ1', 'ሩብ2', 'ሩብ3', 'ሩብ4'],
           QUARTERS: const ['1ኛው ሩብ', '2ኛው ሩብ', '3ኛው ሩብ', '4ኛው ሩብ'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ጥዋት', 'ከሰዓት'],
           DATEFORMATS: const [
             'y MMMM d, EEEE',
             'd MMMM y',
@@ -611,7 +611,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'الربع الثالث',
             'الربع الرابع'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ص', 'م'],
           DATEFORMATS: const [
             'EEEE، d MMMM y',
             'd MMMM y',
@@ -772,7 +772,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'الربع الثالث',
             'الربع الرابع'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ص', 'م'],
           DATEFORMATS: const [
             'EEEE، d MMMM y',
             'd MMMM y',
@@ -935,7 +935,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'الربع الثالث',
             'الربع الرابع'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ص', 'م'],
           DATEFORMATS: const [
             'EEEE، d MMMM y',
             'd MMMM y',
@@ -1092,7 +1092,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'তৃতীয় তিনিমাহ',
             'চতুৰ্থ তিনিমাহ'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['পূৰ্বাহ্ন', 'অপৰাহ্ন'],
           DATEFORMATS: const [
             'EEEE, d MMMM, y',
             'd MMMM, y',
@@ -1526,7 +1526,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. тримесечие',
             '4. тримесечие'
           ],
-          AMPMS: const ['пр.об.', 'сл.об.'],
+          AMPMS: const ['am', 'pm'],
           DATEFORMATS: const [
             'EEEE, d MMMM y \'г\'.',
             'd MMMM y \'г\'.',
@@ -2006,7 +2006,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3e trimiziad',
             '4e trimiziad'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['A.M.', 'G.M.'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -2162,7 +2162,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'Treći kvartal',
             'Četvrti kvartal'
           ],
-          AMPMS: const ['prijepodne', 'popodne'],
+          AMPMS: const ['AM', 'PM'],
           DATEFORMATS: const [
             'EEEE, d. MMMM y.',
             'd. MMMM y.',
@@ -2329,7 +2329,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3r trimestre',
             '4t trimestre'
           ],
-          AMPMS: const ['a. m.', 'p. m.'],
+          AMPMS: const ['a. m.', 'p. m.'],
           DATEFORMATS: const [
             'EEEE, d MMMM \'del\' y',
             'd MMMM \'del\' y',
@@ -2475,7 +2475,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['Ꮖ', 'Ꮙ', 'Ꮤ', 'Ꮶ', 'Ꮕ', 'Ꮷ', 'Ꭴ'],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['1st ᎩᏄᏙᏗ', '2nd ᎩᏄᏙᏗ', '3rd ᎩᏄᏙᏗ', '4th ᎩᏄᏙᏗ'],
-          AMPMS: const ['ᏌᎾᎴ', 'ᏒᎯᏱᎢᏗᏢ'],
+          AMPMS: const ['ᏌᎾᎴ', 'ᏒᎯᏱᎢ'],
           DATEFORMATS: const [
             'EEEE, MMMM d, y',
             'MMMM d, y',
@@ -2623,7 +2623,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. čtvrtletí',
             '4. čtvrtletí'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['dop.', 'odp.'],
           DATEFORMATS: const [
             'EEEE d. MMMM y',
             'd. MMMM y',
@@ -2769,7 +2769,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3ydd chwarter',
             '4ydd chwarter'
           ],
-          AMPMS: const ['yb', 'yh'],
+          AMPMS: const ['AM', 'PM'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -3540,7 +3540,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3ο τρίμηνο',
             '4ο τρίμηνο'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['π.μ.', 'μ.μ.'],
           DATEFORMATS: const ['EEEE d MMMM y', 'd MMMM y', 'd MMM y', 'd/M/yy'],
           TIMEFORMATS: const [
             'h:mm:ss a zzzz',
@@ -4310,7 +4310,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3rd quarter',
             '4th quarter'
           ],
-          AMPMS: const ['a.m.', 'p.m.'],
+          AMPMS: const ['am', 'pm'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -5403,7 +5403,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3.er trimestre',
             '4.º trimestre'
           ],
-          AMPMS: const ['a. m.', 'p. m.'],
+          AMPMS: const ['a. m.', 'p. m.'],
           DATEFORMATS: const [
             'EEEE, d \'de\' MMMM \'de\' y',
             'd \'de\' MMMM \'de\' y',
@@ -5711,7 +5711,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3.er trimestre',
             '4.º trimestre'
           ],
-          AMPMS: const ['a. m.', 'p. m.'],
+          AMPMS: const ['a. m.', 'p. m.'],
           DATEFORMATS: const [
             'EEEE, d \'de\' MMMM \'de\' y',
             'd \'de\' MMMM \'de\' y',
@@ -6466,7 +6466,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'سه‌ماههٔ سوم',
             'سه‌ماههٔ چهارم'
           ],
-          AMPMS: const ['قبل‌ازظهر', 'بعدازظهر'],
+          AMPMS: const ['ق.ظ.', 'ب.ظ.'],
           DATEFORMATS: const ['EEEE d MMMM y', 'd MMMM y', 'd MMM y', 'y/M/d'],
           TIMEFORMATS: const [
             'H:mm:ss (zzzz)',
@@ -6612,7 +6612,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. neljännes',
             '4. neljännes'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ap.', 'ip.'],
           DATEFORMATS: const ['cccc d. MMMM y', 'd. MMMM y', 'd.M.y', 'd.M.y'],
           TIMEFORMATS: const ['H.mm.ss zzzz', 'H.mm.ss z', 'H.mm.ss', 'H.mm'],
           DATETIMEFORMATS: const ['{1} {0}', '{1} {0}', '{1} {0}', '{1} {0}'],
@@ -7081,7 +7081,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3e trimestre',
             '4e trimestre'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -7393,7 +7393,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'Tierç trimestri',
             'Cuart trimestri'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.', 'p.'],
           DATEFORMATS: const [
             'EEEE d \'di\' MMMM \'dal\' y',
             'd \'di\' MMMM \'dal\' y',
@@ -7539,7 +7539,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['D', 'L', 'M', 'C', 'D', 'A', 'S'],
           SHORTQUARTERS: const ['R1', 'R2', 'R3', 'R4'],
           QUARTERS: const ['1ú ráithe', '2ú ráithe', '3ú ráithe', '4ú ráithe'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['r.n.', 'i.n.'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -7690,7 +7690,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3.º trimestre',
             '4.º trimestre'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE, d \'de\' MMMM \'de\' y',
             'd \'de\' MMMM \'de\' y',
@@ -7846,7 +7846,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. Quartal',
             '4. Quartal'
           ],
-          AMPMS: const ['am Vormittag', 'am Namittag'],
+          AMPMS: const ['vorm.', 'nam.'],
           DATEFORMATS: const [
             'EEEE, d. MMMM y',
             'd. MMMM y',
@@ -8297,7 +8297,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           ],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['רבעון 1', 'רבעון 2', 'רבעון 3', 'רבעון 4'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['לפנה״צ', 'אחה״צ'],
           DATEFORMATS: const [
             'EEEE, d בMMMM y',
             'd בMMMM y',
@@ -8456,7 +8456,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'तीसरी तिमाही',
             'चौथी तिमाही'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['am', 'pm'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -8763,7 +8763,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'III. negyedév',
             'IV. negyedév'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['de.', 'du.'],
           DATEFORMATS: const [
             'y. MMMM d., EEEE',
             'y. MMMM d.',
@@ -9372,7 +9372,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. fjórðungur',
             '4. fjórðungur'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['f.h.', 'e.h.'],
           DATEFORMATS: const [
             'EEEE, d. MMMM y',
             'd. MMMM y',
@@ -9833,7 +9833,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           ],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['רבעון 1', 'רבעון 2', 'רבעון 3', 'רבעון 4'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['לפנה״צ', 'אחה״צ'],
           DATEFORMATS: const [
             'EEEE, d בMMMM y',
             'd בMMMM y',
@@ -9955,7 +9955,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['日', '月', '火', '水', '木', '金', '土'],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['第1四半期', '第2四半期', '第3四半期', '第4四半期'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['午前', '午後'],
           DATEFORMATS: const ['y年M月d日EEEE', 'y年M月d日', 'y/MM/dd', 'y/MM/dd'],
           TIMEFORMATS: const ['H時mm分ss秒 zzzz', 'H:mm:ss z', 'H:mm:ss', 'H:mm'],
           DATETIMEFORMATS: const ['{1} {0}', '{1} {0}', '{1} {0}', '{1} {0}'],
@@ -10559,7 +10559,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3ನೇ ತ್ರೈಮಾಸಿಕ',
             '4ನೇ ತ್ರೈಮಾಸಿಕ'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ಪೂರ್ವಾಹ್ನ', 'ಅಪರಾಹ್ನ'],
           DATEFORMATS: const [
             'EEEE, MMMM d, y',
             'MMMM d, y',
@@ -10681,7 +10681,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['일', '월', '화', '수', '목', '금', '토'],
           SHORTQUARTERS: const ['1분기', '2분기', '3분기', '4분기'],
           QUARTERS: const ['제 1/4분기', '제 2/4분기', '제 3/4분기', '제 4/4분기'],
-          AMPMS: const ['오전', '오후'],
+          AMPMS: const ['AM', 'PM'],
           DATEFORMATS: const [
             'y년 MMMM d일 EEEE',
             'y년 MMMM d일',
@@ -10827,7 +10827,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['Ж', 'Д', 'Ш', 'Ш', 'Б', 'Ж', 'И'],
           SHORTQUARTERS: const ['1-чей.', '2-чей.', '3-чей.', '4-чей.'],
           QUARTERS: const ['1-чейрек', '2-чейрек', '3-чейрек', '4-чейрек'],
-          AMPMS: const ['таңкы', 'түштөн кийинки'],
+          AMPMS: const ['тң', 'тк'],
           DATEFORMATS: const [
             'y-\'ж\'., d-MMMM, EEEE',
             'y-\'ж\'., d-MMMM',
@@ -10978,7 +10978,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'sánzá mísáto ya mísáto',
             'sánzá mísáto ya mínei'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ntɔ́ngɔ́', 'mpókwa'],
           DATEFORMATS: const ['EEEE d MMMM y', 'd MMMM y', 'd MMM y', 'd/M/y'],
           TIMEFORMATS: const [
             'HH:mm:ss zzzz',
@@ -11127,7 +11127,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           ],
           SHORTQUARTERS: const ['ຕມ1', 'ຕມ2', 'ຕມ3', 'ຕມ4'],
           QUARTERS: const ['ໄຕຣມາດ 1', 'ໄຕຣມາດ 2', 'ໄຕຣມາດ 3', 'ໄຕຣມາດ 4'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ກ່ອນທ່ຽງ', 'ຫຼັງທ່ຽງ'],
           DATEFORMATS: const [
             'EEEE ທີ d MMMM G y',
             'd MMMM y',
@@ -11275,7 +11275,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'III ketvirtis',
             'IV ketvirtis'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['priešpiet', 'popiet'],
           DATEFORMATS: const [
             'y \'m\'. MMMM d \'d\'., EEEE',
             'y \'m\'. MMMM d \'d\'.',
@@ -11426,7 +11426,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. ceturksnis',
             '4. ceturksnis'
           ],
-          AMPMS: const ['priekšpusdienā', 'pēcpusdienā'],
+          AMPMS: const ['priekšp.', 'pēcp.'],
           DATEFORMATS: const [
             'EEEE, y. \'gada\' d. MMMM',
             'y. \'gada\' d. MMMM',
@@ -11733,7 +11733,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'трето тримесечје',
             'четврто тримесечје'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['претпл.', 'попл.'],
           DATEFORMATS: const ['EEEE, d MMMM y', 'd MMMM y', 'd.M.y', 'd.M.yy'],
           TIMEFORMATS: const [
             'HH:mm:ss zzzz',
@@ -12053,7 +12053,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3-р улирал',
             '4-р улирал'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ү.ө.', 'ү.х.'],
           DATEFORMATS: const [
             'y \'оны\' MMMM\'ын\' d, EEEE \'гараг\'',
             'y \'оны\' MMMM\'ын\' d',
@@ -12369,7 +12369,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'Suku Ke-3',
             'Suku Ke-4'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['PG', 'PTG'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -12680,7 +12680,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'တတိယ သုံးလပတ်',
             'စတုတ္ထ သုံးလပတ်'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['နံနက်', 'ညနေ'],
           DATEFORMATS: const [
             'y၊ MMMM d၊ EEEE',
             'y၊ MMMM d',
@@ -12826,7 +12826,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. kvartal',
             '4. kvartal'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE d. MMMM y',
             'd. MMMM y',
@@ -12996,7 +12996,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'तेस्रो त्रैमासिक',
             'चौथो त्रैमासिक'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['पूर्वाह्न', 'अपराह्न'],
           DATEFORMATS: const [
             'y MMMM d, EEEE',
             'y MMMM d',
@@ -13139,7 +13139,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3e kwartaal',
             '4e kwartaal'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -13295,7 +13295,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. kvartal',
             '4. kvartal'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE d. MMMM y',
             'd. MMMM y',
@@ -13452,7 +13452,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. kvartal',
             '4. kvartal'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE d. MMMM y',
             'd. MMMM y',
@@ -13931,7 +13931,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'ਤੀਜੀ ਤਿਮਾਹੀ',
             'ਚੌਥੀ ਤਿਮਾਹੀ'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ਪੂ.ਦੁ.', 'ਬਾ.ਦੁ.'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -14234,7 +14234,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '۴مه ربعه'
           ],
           QUARTERS: const ['لومړۍ ربعه', '۲مه ربعه', '۳مه ربعه', '۴مه ربعه'],
-          AMPMS: const ['غ.م.', 'غ.و.'],
+          AMPMS: const ['AM', 'PM'],
           DATEFORMATS: const [
             'EEEE د y د MMMM d',
             'y MMMM d',
@@ -14688,7 +14688,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3.º trimestre',
             '4.º trimestre'
           ],
-          AMPMS: const ['da manhã', 'da tarde'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE, d \'de\' MMMM \'de\' y',
             'd \'de\' MMMM \'de\' y',
@@ -14844,7 +14844,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'trimestrul al III-lea',
             'trimestrul al IV-lea'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['a.m.', 'p.m.'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -15156,7 +15156,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3 වන කාර්තුව',
             '4 වන කාර්තුව'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['පෙ.ව.', 'ප.ව.'],
           DATEFORMATS: const [
             'y MMMM d, EEEE',
             'y MMMM d',
@@ -15450,7 +15450,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3. četrtletje',
             '4. četrtletje'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['dop.', 'pop.'],
           DATEFORMATS: const [
             'EEEE, d. MMMM y',
             'd. MMMM y',
@@ -15606,7 +15606,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             'tremujori i tretë',
             'tremujori i katërt'
           ],
-          AMPMS: const ['e paradites', 'e pasdites'],
+          AMPMS: const ['p.d.', 'm.d.'],
           DATEFORMATS: const [
             'EEEE, d MMMM y',
             'd MMMM y',
@@ -16064,7 +16064,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3:e kvartalet',
             '4:e kvartalet'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['fm', 'em'],
           DATEFORMATS: const [
             'EEEE d MMMM y',
             'd MMMM y',
@@ -16676,7 +16676,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
           SHORTQUARTERS: const ['ไตรมาส 1', 'ไตรมาส 2', 'ไตรมาส 3', 'ไตรมาส 4'],
           QUARTERS: const ['ไตรมาส 1', 'ไตรมาส 2', 'ไตรมาส 3', 'ไตรมาส 4'],
-          AMPMS: const ['ก่อนเที่ยง', 'หลังเที่ยง'],
+          AMPMS: const ['AM', 'PM'],
           DATEFORMATS: const [
             'EEEEที่ d MMMM G y',
             'd MMMM G y',
@@ -16994,7 +16994,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['P', 'P', 'S', 'Ç', 'P', 'C', 'C'],
           SHORTQUARTERS: const ['Ç1', 'Ç2', 'Ç3', 'Ç4'],
           QUARTERS: const ['1. çeyrek', '2. çeyrek', '3. çeyrek', '4. çeyrek'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['ÖÖ', 'ÖS'],
           DATEFORMATS: const ['d MMMM y EEEE', 'd MMMM y', 'd MMM y', 'd.MM.y'],
           TIMEFORMATS: const [
             'HH:mm:ss zzzz',
@@ -17132,7 +17132,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
             '3-й квартал',
             '4-й квартал'
           ],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['дп', 'пп'],
           DATEFORMATS: const [
             'EEEE, d MMMM y \'р\'.',
             'd MMMM y \'р\'.',
@@ -17439,7 +17439,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['Y', 'D', 'S', 'C', 'P', 'J', 'S'],
           SHORTQUARTERS: const ['1-ch', '2-ch', '3-ch', '4-ch'],
           QUARTERS: const ['1-chorak', '2-chorak', '3-chorak', '4-chorak'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['TO', 'TK'],
           DATEFORMATS: const [
             'EEEE, d-MMMM, y',
             'd-MMMM, y',
@@ -17598,7 +17598,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           ],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['SA', 'CH'],
           DATEFORMATS: const [
             'EEEE, d MMMM, y',
             'd MMMM, y',
@@ -17728,7 +17728,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['日', '一', '二', '三', '四', '五', '六'],
           SHORTQUARTERS: const ['1季度', '2季度', '3季度', '4季度'],
           QUARTERS: const ['第一季度', '第二季度', '第三季度', '第四季度'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['上午', '下午'],
           DATEFORMATS: const ['y年M月d日EEEE', 'y年M月d日', 'y年M月d日', 'y/M/d'],
           TIMEFORMATS: const [
             'zzzz HH:mm:ss',
@@ -17854,7 +17854,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['日', '一', '二', '三', '四', '五', '六'],
           SHORTQUARTERS: const ['1季度', '2季度', '3季度', '4季度'],
           QUARTERS: const ['第一季度', '第二季度', '第三季度', '第四季度'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['上午', '下午'],
           DATEFORMATS: const ['y年M月d日EEEE', 'y年M月d日', 'y年M月d日', 'y/M/d'],
           TIMEFORMATS: const [
             'zzzz HH:mm:ss',
@@ -17979,7 +17979,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['日', '一', '二', '三', '四', '五', '六'],
           SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
           QUARTERS: const ['第1季', '第2季', '第3季', '第4季'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['上午', '下午'],
           DATEFORMATS: const ['y年M月d日EEEE', 'y年M月d日', 'y年M月d日', 'd/M/y'],
           TIMEFORMATS: const [
             'ah:mm:ss [zzzz]',
@@ -18104,7 +18104,7 @@ Map<dynamic, dynamic> dateTimeSymbolMap() => {
           STANDALONENARROWWEEKDAYS: const ['日', '一', '二', '三', '四', '五', '六'],
           SHORTQUARTERS: const ['1季度', '2季度', '3季度', '4季度'],
           QUARTERS: const ['第1季', '第2季', '第3季', '第4季'],
-          AMPMS: const ['AM', 'PM'],
+          AMPMS: const ['上午', '下午'],
           DATEFORMATS: const ['y年M月d日 EEEE', 'y年M月d日', 'y年M月d日', 'y/M/d'],
           TIMEFORMATS: const [
             'Bh:mm:ss [zzzz]',
