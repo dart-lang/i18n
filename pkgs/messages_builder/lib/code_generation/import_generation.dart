@@ -19,6 +19,13 @@ class ImportGeneration extends Generation<Directive> {
           Directive.import('package:messages/messages_json.dart')
         ],
     };
-    return serializationImports;
+    final pluralImports = switch (options.pluralSelector) {
+      PluralSelectorType.intl => [Directive.import('package:intl/intl.dart')],
+      PluralSelectorType.intl4x => [
+          Directive.import('package:intl4x/intl4x.dart')
+        ],
+      PluralSelectorType.custom => <Directive>[],
+    };
+    return [...serializationImports, ...pluralImports];
   }
 }

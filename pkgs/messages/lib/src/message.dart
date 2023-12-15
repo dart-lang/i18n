@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'intl_object.dart';
+import 'plural_selector.dart';
 
 sealed class Message {
   final String? id;
@@ -11,7 +11,7 @@ sealed class Message {
 
   String generateString(
     List allArgs, {
-    required IntlObject intl,
+    required PluralSelector pluralSelector,
     String? locale,
     String Function(String p1)? cleaner,
   });
@@ -25,14 +25,14 @@ final class CombinedMessage extends Message {
   @override
   String generateString(
     List allArgs, {
-    required IntlObject intl,
+    required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
   }) =>
       messages
           .map((e) => e.generateString(
                 allArgs,
-                intl: intl,
+                pluralSelector: pluralSelector,
                 cleaner: cleaner,
                 locale: locale,
               ))
@@ -57,7 +57,7 @@ final class StringMessage extends Message {
   @override
   String generateString(
     List allArgs, {
-    required IntlObject intl,
+    required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
   }) {
@@ -81,73 +81,20 @@ final class StringMessage extends Message {
   }
 }
 
-final class GenderMessage extends Message {
-  final Message? male;
-  final Message? female;
-  final Message other;
-  final int argIndex;
-
-  GenderMessage({
-    this.male,
-    this.female,
-    required this.other,
-    required this.argIndex,
-    String? id,
-  }) : super(id);
-
-  static const int type = 5;
-
-  @override
-  String generateString(
-    List allArgs, {
-    required IntlObject intl,
-    String Function(String p1)? cleaner,
-    String? locale,
-  }) {
-    return intl
-        .gender(
-          allArgs[argIndex] as GenderEnum,
-          female,
-          male,
-          other,
-        )
-        .generateString(
-          allArgs,
-          intl: intl,
-          cleaner: cleaner,
-          locale: locale,
-        );
-  }
-}
-
-enum GenderEnum {
-  female,
-  male,
-  other;
-}
-
 final class PluralMessage extends Message {
-  final Message? zeroWord;
-  final Message? zeroNumber;
-  final Message? oneWord;
-  final Message? oneNumber;
-  final Message? twoWord;
-  final Message? twoNumber;
+  final Map<int, Message> numberCases;
+  final Map<int, Message> wordCases;
   final Message? few;
   final Message? many;
   final Message other;
   final int argIndex;
 
   PluralMessage({
+    this.numberCases = const {},
+    this.wordCases = const {},
     this.few,
     this.many,
     required this.other,
-    this.zeroWord,
-    this.zeroNumber,
-    this.oneWord,
-    this.oneNumber,
-    this.twoWord,
-    this.twoNumber,
     required this.argIndex,
     String? id,
   }) : super(id);
@@ -157,22 +104,19 @@ final class PluralMessage extends Message {
   @override
   String generateString(
     List allArgs, {
-    required IntlObject intl,
+    required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
   }) {
-    return intl
-        .plural(
-          allArgs[argIndex] as num,
-          few: few,
-          many: many,
-          zero: zeroNumber ?? zeroWord,
-          one: oneNumber ?? oneWord,
-          two: twoNumber ?? twoWord,
-          other: other,
-          locale: locale,
-        )
-        .generateString(allArgs, intl: intl, cleaner: cleaner, locale: locale);
+    return pluralSelector(
+      allArgs[argIndex] as num,
+      numberCases: numberCases,
+      wordCases: wordCases,
+      few: few,
+      many: many,
+      other: other,
+    ).generateString(allArgs,
+        pluralSelector: pluralSelector, cleaner: cleaner, locale: locale);
   }
 }
 
@@ -192,14 +136,13 @@ final class SelectMessage extends Message {
   @override
   String generateString(
     List allArgs, {
-    required IntlObject intl,
+    required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
   }) {
-    final selected =
-        intl.select(allArgs[argIndex] as Object, {...cases, 'other': other});
+    final selected = cases[allArgs[argIndex]!] ?? other;
     return selected.generateString(
-      intl: intl,
+      pluralSelector: pluralSelector,
       allArgs,
       cleaner: cleaner,
       locale: locale,

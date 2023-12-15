@@ -54,17 +54,18 @@ class FieldGeneration extends Generation<Field> {
           ..assignment = Code('{$paths}');
       },
     );
-    final intlObject = Field(
+    final pluralSelector = Field(
       (fb) => fb
-        ..name = 'intlObject'
-        ..type = const Reference('IntlObject'),
+        ..name = 'pluralSelector'
+        ..type = const Reference(
+            '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})'''),
     );
     final fields = [
       loadingStrategy,
       currentLocale,
       messages,
       carbs,
-      intlObject,
+      if (options.pluralSelector == PluralSelectorType.custom) pluralSelector,
     ];
     return fields;
   }

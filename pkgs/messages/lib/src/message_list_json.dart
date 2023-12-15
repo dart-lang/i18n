@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'deserializer/deserializer_json.dart';
-import 'intl_object.dart';
 import 'message_format.dart';
+import 'plural_selector.dart';
 
 class JsonPreamble extends Preamble {
   final List _data;
@@ -40,12 +40,12 @@ class JsonPreamble extends Preamble {
 
 class MessageListJson extends MessageList {
   final List<Message> messages;
-  final IntlObject _intl;
+  final PluralSelector _intl;
   final JsonPreamble _preamble;
   final Map<int, int>? messageIndices;
 
   @override
-  IntlObject get intl => _intl;
+  PluralSelector get intl => _intl;
 
   @override
   Preamble get preamble => _preamble;
@@ -57,18 +57,18 @@ class MessageListJson extends MessageList {
     this.messageIndices,
   );
 
-  factory MessageListJson.fromString(String string, IntlObject intl) =>
+  factory MessageListJson.fromString(String string, PluralSelector intl) =>
       JsonDeserializer(string).deserialize(intl);
 
   @override
   String generateStringAtId(String id, List args) => messages
       .where((element) => element.id == id)
       .first
-      .generateString(args, intl: _intl);
+      .generateString(args, pluralSelector: _intl);
 
   @override
   String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args, intl: _intl);
+      messages[getIndex(index)].generateString(args, pluralSelector: _intl);
 
   int getIndex(int index) => messageIndices?[index] ?? index;
 }

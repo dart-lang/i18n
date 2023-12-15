@@ -7,13 +7,10 @@
 import 'dart:io';
 
 import 'package:example_json/testarbctx2.g.dart';
-import 'package:messages/package_intl_object.dart';
 
 Future<void> main(List<String> arguments) async {
-  final messages = AboutPageMessages(
-    (String id) async => File(id).readAsString(),
-    const OldIntlObject(),
-  );
+  final messages =
+      AboutPageMessages((String id) async => File(id).readAsString());
   // final index = AboutPageMessagesEnum.aboutMessage;
 
   await messages.loadLocale('en');

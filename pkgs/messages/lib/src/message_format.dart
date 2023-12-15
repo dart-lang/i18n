@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // ignore_for_file: non_constant_identifier_names
-import 'intl_object.dart';
+import 'plural_selector.dart';
 
 export 'message.dart';
 
@@ -30,7 +30,7 @@ abstract class Preamble {
 
 abstract class MessageList {
   Preamble get preamble;
-  IntlObject get intl;
+  PluralSelector get intl;
 
   String generateStringAtIndex(int index, List args);
 
@@ -49,14 +49,9 @@ enum PluralEnum {
 }
 
 class Plural {
-  static const int zeroWord = 1;
-  static const int zeroNumber = 2;
-  static const int oneWord = 3;
-  static const int oneNumber = 4;
-  static const int twoWord = 5;
-  static const int twoNumber = 6;
-  static const int few = 7;
-  static const int many = 8;
+  static const String wordCase = 'w';
+  static const String few = 'f';
+  static const String many = 'm';
 }
 
 class Gender {
