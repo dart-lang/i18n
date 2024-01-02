@@ -166,7 +166,13 @@ class MethodGeneration extends Generation<Method> {
           const Code('_currentMessages.generateStringAtIndex(val.index, args)')
       ..lambda = true
       ..returns = const Reference('String'));
-//Message Function(num, {Message? few, String? locale, Message? many, Map<int, Message>? numberCases, required Message other, Map<int, Message>? wordCases}) intl
+    // Message Function(num,
+    //     {Message? few,
+    //     String? locale,
+    //     Message? many,
+    //     Map<int, Message>? numberCases,
+    //     required Message other,
+    //     Map<int, Message>? wordCases}) intl;
     Method pluralSelector() => Method(
           (mb) => mb
             ..name = 'pluralSelector'
