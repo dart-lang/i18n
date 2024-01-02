@@ -35,7 +35,7 @@ jobs:
         - name: Download Reference Exec Summary
           if: github.ref != 'refs/heads/main'
           continue-on-error: true
-          uses: actions/download-artifact@e9ef242655d12993efdcda9058dee2db83a2cb9b
+          uses: actions/download-artifact@f44cd7b40bfd40b6aa1cc1b9b5b7bf03d3c67110
           with:
             name: reference_exec_summary
 
@@ -47,7 +47,7 @@ jobs:
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
+          uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392
           with:
             name: reference_exec_summary
             path: conformance/TEMP_DATA/testReports/exec_summary.json
