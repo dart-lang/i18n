@@ -12,7 +12,7 @@ class AboutPageMessages {
 
   final Map<String, MessageList> _messages = {};
 
-  static const carbs = {
+  static const _dataFiles = {
     'fr': ('lib/testarbctx2_fr.json', 'EyPjEJJU'),
     'en': ('lib/testarbctx2.json', 'QrwRSsOy')
   };
@@ -21,11 +21,11 @@ class AboutPageMessages {
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  static Iterable<String> get knownLocales => carbs.keys;
+  static Iterable<String> get knownLocales => _dataFiles.keys;
 
   Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
-      final info = carbs[locale];
+      final info = _dataFiles[locale];
       final carb = info?.$1;
       if (carb == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
