@@ -75,7 +75,7 @@ class MethodGeneration extends Generation<Method> {
           ..modifier = MethodModifier.async
           ..body = Code('''
           if (!_messages.containsKey(locale)) {
-            final info = carbs[locale];
+            final info = _dataFiles[locale];
             final carb = info?.\$1;
             if (carb == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
@@ -110,7 +110,7 @@ class MethodGeneration extends Generation<Method> {
         ..type = MethodType.getter
         ..lambda = true
         ..static = true
-        ..body = const Code('carbs.keys')
+        ..body = const Code('_dataFiles.keys')
         ..returns = const Reference('Iterable<String>'),
     );
     final getCurrentMessages = Method(

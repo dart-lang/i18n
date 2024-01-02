@@ -42,13 +42,13 @@ class FieldGeneration extends Generation<Field> {
         ..name = '_messages'
         ..assignment = const Code('{}'),
     );
-    final carbs = Field(
+    final dataFiles = Field(
       (fb) {
         final paths = localeToResourceInfo.entries
             .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
             .join(',');
         fb
-          ..name = 'carbs'
+          ..name = '_dataFiles'
           ..modifier = FieldModifier.constant
           ..static = true
           ..assignment = Code('{$paths}');
@@ -64,7 +64,7 @@ class FieldGeneration extends Generation<Field> {
       loadingStrategy,
       currentLocale,
       messages,
-      carbs,
+      dataFiles,
       if (options.pluralSelector == PluralSelectorType.custom) pluralSelector,
     ];
     return fields;
