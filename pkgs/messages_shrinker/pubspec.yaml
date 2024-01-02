@@ -1,6 +1,6 @@
 name: messages_shrinker
 description: A starting point for Dart libraries or applications.
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/dart-lang/i18n/pkgs/messages_shrinker
 
 environment:
