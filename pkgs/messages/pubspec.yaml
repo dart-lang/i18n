@@ -1,6 +1,6 @@
 name: messages
 description: A lightweight modular library for localization (l10n) functionality.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages
 
 environment:
