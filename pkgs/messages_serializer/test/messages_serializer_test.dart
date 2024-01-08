@@ -4,10 +4,31 @@
 
 import 'dart:math';
 
+import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
-import 'package:messages/package_intl_object.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
+
+Message intlPluralSelector(
+  num howMany, {
+  Map<int, Message>? numberCases,
+  Map<int, Message>? wordCases,
+  Message? few,
+  Message? many,
+  required Message other,
+  String? locale,
+}) {
+  return old_intl.Intl.pluralLogic(
+    howMany,
+    few: few,
+    many: many,
+    zero: numberCases?[0] ?? wordCases?[0],
+    one: numberCases?[1] ?? wordCases?[1],
+    two: numberCases?[2] ?? wordCases?[2],
+    other: other,
+    locale: locale,
+  );
+}
 
 StringMessage stringMessage = StringMessage('Hello World', id: 'hello_world');
 
@@ -20,8 +41,8 @@ PluralMessage pluralMessage = PluralMessage(
   id: 'pluralMes',
   few: StringMessage('few case'),
   many: StringMessage('many case'),
-  oneNumber: StringMessage('oneNumber case'),
-  twoWord: StringMessage('twoWord case'),
+  numberCases: {1: StringMessage('oneNumber case')},
+  wordCases: {2: StringMessage('twoWord case')},
   other: StringMessage('Other case'),
   argIndex: 0,
 );
@@ -36,14 +57,6 @@ SelectMessage selectMessage = SelectMessage(
   'selectMes',
 );
 
-GenderMessage genderMessage = GenderMessage(
-  female: StringMessage('Female'),
-  male: StringMessage('Male'),
-  argIndex: 0,
-  other: StringMessage('other'),
-  id: 'genderMes',
-);
-
 void main() {
   test('Serialize with IDs', () {
     final messages = [
@@ -51,12 +64,11 @@ void main() {
       combinedMessage,
       pluralMessage,
       selectMessage,
-      genderMessage
     ];
     final serialized =
         JsonSerializer(true).serialize('hash', 'locale', messages);
     final deserialize =
-        JsonDeserializer(serialized.data).deserialize(const OldIntlObject());
+        JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
     expect(
       deserialize.messages.map((e) => e.id),
       orderedEquals(messages.map((e) => e.id)),
@@ -69,15 +81,14 @@ void main() {
       combinedMessage,
       pluralMessage,
       selectMessage,
-      genderMessage
     ];
     final serialized =
-        JsonSerializer(true).serialize('hash', 'locale', messages, [1, 4]);
+        JsonSerializer(true).serialize('hash', 'locale', messages, [1, 3]);
     final deserialize =
-        JsonDeserializer(serialized.data).deserialize(const OldIntlObject());
+        JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
     expect(
       deserialize.messages.map((e) => e.id),
-      orderedEquals([messages[1], messages[4]].map((e) => e.id)),
+      orderedEquals([messages[1], messages[3]].map((e) => e.id)),
     );
   });
 
@@ -89,7 +100,6 @@ void main() {
         combinedMessage,
         pluralMessage,
         selectMessage,
-        genderMessage
       ]
     ];
     final params = [
@@ -116,7 +126,7 @@ void serializeThenDeserialize<T>(
   final serialized = serializer.serialize(hash, locale, messages);
 
   final deserializer = deserializerBuilder(serialized.data);
-  final deserialized = deserializer.deserialize(const OldIntlObject());
+  final deserialized = deserializer.deserialize(intlPluralSelector);
 
   expect(deserialized.preamble.hash, hash);
   expect(deserialized.preamble.locale, locale);
@@ -139,12 +149,19 @@ void compareMessage(Message? original, Message? deserialized) {
   if (original is StringMessage) {
     expect((deserialized as StringMessage).value, original.value);
   } else if (original is PluralMessage) {
-    compareMessage((deserialized as PluralMessage).zeroWord, original.zeroWord);
-    compareMessage(deserialized.zeroNumber, original.zeroNumber);
-    compareMessage(deserialized.oneWord, original.oneWord);
-    compareMessage(deserialized.oneNumber, original.oneNumber);
-    compareMessage(deserialized.twoWord, original.twoWord);
-    compareMessage(deserialized.twoNumber, original.twoNumber);
+    final deserialized2 = deserialized as PluralMessage;
+    for (final key in original.wordCases.keys) {
+      compareMessage(
+        deserialized2.wordCases[key],
+        original.wordCases[key],
+      );
+    }
+    for (final key in original.numberCases.keys) {
+      compareMessage(
+        deserialized.numberCases[key],
+        original.numberCases[key],
+      );
+    }
     compareMessage(deserialized.few, original.few);
     compareMessage(deserialized.many, original.many);
     compareMessage(deserialized.other, original.other);

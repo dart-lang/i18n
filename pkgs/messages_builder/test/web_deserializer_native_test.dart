@@ -5,14 +5,35 @@
 import 'dart:convert';
 
 import 'package:build/src/asset/id.dart';
+import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
-import 'package:messages/package_intl_object.dart';
 import 'package:messages_builder/arb_parser.dart';
 import 'package:messages_builder/message_with_metadata.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
 import 'testarb.arb.dart';
+
+Message intlPluralSelector(
+  num howMany, {
+  Map<int, Message>? numberCases,
+  Map<int, Message>? wordCases,
+  Message? few,
+  Message? many,
+  required Message other,
+  String? locale,
+}) {
+  return old_intl.Intl.pluralLogic(
+    howMany,
+    few: few,
+    many: many,
+    zero: numberCases?[0] ?? wordCases?[0],
+    one: numberCases?[1] ?? wordCases?[1],
+    two: numberCases?[2] ?? wordCases?[2],
+    other: other,
+    locale: locale,
+  );
+}
 
 void main() {
   final uniqueKey = AssetId('package', 'path');
@@ -24,7 +45,7 @@ void main() {
         .serialize('', '', messageList.map((e) => e.message).toList())
         .data;
     final messages =
-        JsonDeserializer(buffer).deserialize(const OldIntlObject()).messages;
+        JsonDeserializer(buffer).deserialize(intlPluralSelector).messages;
     expect((messages[0] as StringMessage).value, message.value);
   });
 
@@ -38,7 +59,7 @@ void main() {
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
-        JsonDeserializer(buffer).deserialize(const OldIntlObject()).messages;
+        JsonDeserializer(buffer).deserialize(intlPluralSelector).messages;
     expect((messages[0] as StringMessage).value, 'Hello World');
   });
   test('generateMessageFile from simple arb JSON with placeholder', () {
@@ -51,7 +72,7 @@ void main() {
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
-        JsonDeserializer(buffer).deserialize(const OldIntlObject()).messages;
+        JsonDeserializer(buffer).deserialize(intlPluralSelector).messages;
     expect((messages[0] as StringMessage).value, 'Hello ');
     expect(
       (messages[0] as StringMessage).argPositions,
@@ -68,7 +89,7 @@ void main() {
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
-        JsonDeserializer(buffer).deserialize(const OldIntlObject()).messages;
+        JsonDeserializer(buffer).deserialize(intlPluralSelector).messages;
     expect((messages[0] as StringMessage).value, '');
     expect(
       (messages[0] as StringMessage).argPositions,
@@ -87,11 +108,11 @@ void main() {
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
     final messages =
-        JsonDeserializer(buffer).deserialize(const OldIntlObject()).messages;
+        JsonDeserializer(buffer).deserialize(intlPluralSelector).messages;
     expect(
         messages[2].generateString(
           ['female', 'b'],
-          intl: const OldIntlObject(),
+          pluralSelector: intlPluralSelector,
         ),
         'test One new message');
   });

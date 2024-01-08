@@ -59,8 +59,6 @@ class JsonSerializer extends Serializer<String> {
       messageIndex = encodePlural(message, isVisible);
     } else if (message is CombinedMessage) {
       messageIndex = encodeCombined(message, isVisible);
-    } else if (message is GenderMessage) {
-      messageIndex = encodeGender(message, isVisible);
     } else {
       throw ArgumentError('Unknown message type');
     }
@@ -136,36 +134,21 @@ class JsonSerializer extends Serializer<String> {
     m.add(encodeMessage(message.other));
     final caseIndices = <Object>[];
     if (message.few != null) {
-      caseIndices.add(Plural.few);
+      caseIndices.add(PluralMarker.few);
       caseIndices.add(encodeMessage(message.few!));
     }
     if (message.many != null) {
-      caseIndices.add(Plural.many);
+      caseIndices.add(PluralMarker.many);
       caseIndices.add(encodeMessage(message.many!));
     }
-    if (message.zeroNumber != null) {
-      caseIndices.add(Plural.zeroNumber);
-      caseIndices.add(encodeMessage(message.zeroNumber!));
+    for (final MapEntry(key: caseIndex, value: messageIndex)
+        in message.numberCases.entries) {
+      caseIndices.add(caseIndex);
+      caseIndices.add(encodeMessage(messageIndex));
     }
-    if (message.zeroWord != null) {
-      caseIndices.add(Plural.zeroWord);
-      caseIndices.add(encodeMessage(message.zeroWord!));
-    }
-    if (message.oneNumber != null) {
-      caseIndices.add(Plural.oneNumber);
-      caseIndices.add(encodeMessage(message.oneNumber!));
-    }
-    if (message.oneWord != null) {
-      caseIndices.add(Plural.oneWord);
-      caseIndices.add(encodeMessage(message.oneWord!));
-    }
-    if (message.twoNumber != null) {
-      caseIndices.add(Plural.twoNumber);
-      caseIndices.add(encodeMessage(message.twoNumber!));
-    }
-    if (message.twoWord != null) {
-      caseIndices.add(Plural.twoWord);
-      caseIndices.add(encodeMessage(message.twoWord!));
+    for (final entry in message.wordCases.entries) {
+      caseIndices.add(PluralMarker.wordCase + entry.key.toString());
+      caseIndices.add(encodeMessage(entry.value));
     }
     m.add(caseIndices);
     return m;
@@ -184,34 +167,6 @@ class JsonSerializer extends Serializer<String> {
     for (var submessage in message.messages) {
       m.add(encodeMessage(submessage));
     }
-    return m;
-  }
-
-  /// Encodes a gender message as follows:
-  ///
-  /// * int | the GenderMessage type
-  /// * if we write IDs: String | the message id
-  /// * int | the argument index on which the gender switches
-  /// * int | the index of the other case message, which must be present
-  /// * List\<int\> | the cases, which are added in pairs of two:
-  ///   * int | the case index as encoded by the constants in `Gender`
-  ///   * int | the message index of the case
-  List encodeGender(GenderMessage message, bool isVisible) {
-    final m = <Object>[];
-    m.add(GenderMessage.type);
-    addId(message, m, isVisible);
-    m.add(message.argIndex);
-    m.add(encodeMessage(message.other));
-    final caseIndices = <Object>[];
-    if (message.female != null) {
-      caseIndices.add(Gender.female);
-      caseIndices.add(encodeMessage(message.female!));
-    }
-    if (message.male != null) {
-      caseIndices.add(Gender.male);
-      caseIndices.add(encodeMessage(message.male!));
-    }
-    m.add(caseIndices);
     return m;
   }
 

@@ -24,6 +24,7 @@ import 'src/plural_rules/plural_rules_impl.dart';
 import 'src/plural_rules/plural_rules_options.dart';
 
 export 'src/locale/locale.dart';
+export 'src/plural_rules/plural_rules.dart';
 
 typedef Icu4xKey = String;
 

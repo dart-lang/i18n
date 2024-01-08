@@ -6,6 +6,7 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
+  intl4x: ^0.7.0
   messages:
     path: ../
 
@@ -25,3 +26,4 @@ package_options:
     generateMethods: true
     generateFindById: false
     generateFindBy: integer
+    pluralSelector: intl4x
