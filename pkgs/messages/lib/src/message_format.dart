@@ -30,31 +30,15 @@ abstract class Preamble {
 
 abstract class MessageList {
   Preamble get preamble;
-  PluralSelector get intl;
+  PluralSelector get pluralSelector;
 
   String generateStringAtIndex(int index, List args);
 
   String generateStringAtId(String id, List args);
 }
 
-enum PluralEnum {
-  zeroWord,
-  zeroNumber,
-  oneWord,
-  oneNumber,
-  twoWord,
-  twoNumber,
-  few,
-  many,
-}
-
-class Plural {
+sealed class PluralMarker {
   static const String wordCase = 'w';
   static const String few = 'f';
   static const String many = 'm';
-}
-
-class Gender {
-  static const int female = 1;
-  static const int male = 2;
 }

@@ -34,7 +34,8 @@ class MessageShrinker {
     final sizeBefore = buffer.length;
     final json = JsonDeserializer(buffer).deserialize(
       (howMany, {few, locale, many, numberCases, required other, wordCases}) {
-        throw UnimplementedError();
+        throw StateError('As the deserialized MessageList is not used, but '
+            'just immediately reserialized, this selector will not be called.');
       },
     );
     final data = JsonSerializer(json.preamble.hasIds)

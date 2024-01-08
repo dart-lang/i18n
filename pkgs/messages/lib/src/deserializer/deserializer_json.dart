@@ -20,7 +20,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   }
 
   @override
-  MessageListJson deserialize(PluralSelector intl) {
+  MessageListJson deserialize(PluralSelector selector) {
     if (preamble.version != serializationVersion) {
       throw ArgumentError(
           '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
@@ -32,7 +32,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     return MessageListJson(
       preamble,
       _messages,
-      intl,
+      selector,
       mapping?.map((key, value) => MapEntry(
             int.parse(key, radix: serializationRadix),
             int.parse(value as String, radix: serializationRadix),
@@ -89,15 +89,16 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     for (var i = 0; i < submessages.length - 1; i += 2) {
       final msg = getMessage(submessages[i + 1]);
       final messageMarker = submessages[i];
-      if (messageMarker case Plural.few) {
+      if (messageMarker case PluralMarker.few) {
         fewMessage = msg;
-      } else if (messageMarker case Plural.many) {
+      } else if (messageMarker case PluralMarker.many) {
         manyMessage = msg;
-      } else if (messageMarker case final int d) {
-        numberCases[d] = msg;
+      } else if (messageMarker case final int digit) {
+        numberCases[digit] = msg;
       } else if (messageMarker is String &&
-          messageMarker.startsWith(Plural.wordCase)) {
-        wordCases[int.parse(messageMarker.substring(1))] = msg;
+          messageMarker.startsWith(PluralMarker.wordCase)) {
+        final digit = int.parse(messageMarker.substring(1));
+        wordCases[digit] = msg;
       }
     }
     return PluralMessage(

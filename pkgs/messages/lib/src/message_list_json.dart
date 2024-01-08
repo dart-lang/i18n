@@ -40,12 +40,12 @@ class JsonPreamble extends Preamble {
 
 class MessageListJson extends MessageList {
   final List<Message> messages;
-  final PluralSelector _intl;
+  final PluralSelector _selector;
   final JsonPreamble _preamble;
   final Map<int, int>? messageIndices;
 
   @override
-  PluralSelector get intl => _intl;
+  PluralSelector get pluralSelector => _selector;
 
   @override
   Preamble get preamble => _preamble;
@@ -53,7 +53,7 @@ class MessageListJson extends MessageList {
   MessageListJson(
     this._preamble,
     this.messages,
-    this._intl,
+    this._selector,
     this.messageIndices,
   );
 
@@ -64,11 +64,11 @@ class MessageListJson extends MessageList {
   String generateStringAtId(String id, List args) => messages
       .where((element) => element.id == id)
       .first
-      .generateString(args, pluralSelector: _intl);
+      .generateString(args, pluralSelector: _selector);
 
   @override
   String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args, pluralSelector: _intl);
+      messages[getIndex(index)].generateString(args, pluralSelector: _selector);
 
   int getIndex(int index) => messageIndices?[index] ?? index;
 }

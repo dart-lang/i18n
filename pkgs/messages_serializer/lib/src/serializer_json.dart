@@ -134,19 +134,20 @@ class JsonSerializer extends Serializer<String> {
     m.add(encodeMessage(message.other));
     final caseIndices = <Object>[];
     if (message.few != null) {
-      caseIndices.add(Plural.few);
+      caseIndices.add(PluralMarker.few);
       caseIndices.add(encodeMessage(message.few!));
     }
     if (message.many != null) {
-      caseIndices.add(Plural.many);
+      caseIndices.add(PluralMarker.many);
       caseIndices.add(encodeMessage(message.many!));
     }
-    for (final entry in message.numberCases.entries) {
-      caseIndices.add(entry.key);
-      caseIndices.add(encodeMessage(entry.value));
+    for (final MapEntry(key: caseIndex, value: messageIndex)
+        in message.numberCases.entries) {
+      caseIndices.add(caseIndex);
+      caseIndices.add(encodeMessage(messageIndex));
     }
     for (final entry in message.wordCases.entries) {
-      caseIndices.add(Plural.wordCase + entry.key.toString());
+      caseIndices.add(PluralMarker.wordCase + entry.key.toString());
       caseIndices.add(encodeMessage(entry.value));
     }
     m.add(caseIndices);

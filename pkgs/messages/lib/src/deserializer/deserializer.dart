@@ -6,5 +6,5 @@ import '../message_format.dart';
 import '../plural_selector.dart';
 
 abstract class Deserializer<T extends MessageList> {
-  T deserialize(PluralSelector intl);
+  T deserialize(PluralSelector selector);
 }
