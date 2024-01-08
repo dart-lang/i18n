@@ -3,5 +3,7 @@ dependency_overrides:
     path: ../
   messages_serializer:
     path: ../../messages_serializer
+  messages_builder:
+    path: ../../messages_builder
   intl4x:
     path: ../../intl4x

@@ -45,7 +45,6 @@ jobs:
       - run: dart pub get
 
       - run: (cd example_json; dart pub get)
-        if: ${{ matrix.dependencies == 'path' }}
 
       - run: dart analyze --fatal-infos
 
