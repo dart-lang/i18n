@@ -27,11 +27,16 @@ jobs:
         include:
           - sdk: stable
             run-tests: true
+            dependencies: [path, published]
+
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
         with:
           sdk: ${{matrix.sdk}}
+
+      - run: dart run ../../tools/delete_pubspec_overrides.dart
+        if: ${{ matrix.dependencies == 'published' }}
 
       - run: dart pub get
 
