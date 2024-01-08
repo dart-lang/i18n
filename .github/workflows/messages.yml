@@ -24,10 +24,14 @@ jobs:
     strategy:
       matrix:
         sdk: [stable, dev] # {pkgs.versions}
+        dependencies: [path, published]
         include:
+          - sdk: dev
+            run-tests: false
+            dependencies: path
           - sdk: stable
             run-tests: true
-        dependencies: [path, published]
+            dependencies: published
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
@@ -41,6 +45,7 @@ jobs:
       - run: dart pub get
 
       - run: (cd example_json; dart pub get)
+        if: ${{ matrix.dependencies == 'path' }}
 
       - run: dart analyze --fatal-infos
 
