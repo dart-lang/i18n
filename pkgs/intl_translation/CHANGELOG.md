@@ -1,9 +1,10 @@
-## 0.19.0-wip
+## 0.19.0
   * Always generate null safe code, remove `null-safe` flag.
   * Add example for `he` locale.
   * MessageExtraction: add set of error codes to be ignored in analysis.
   * Upgrade dependencies on `analyzer` and `lints`.
   * Fix pubspec `repository` url.
+  * Fix error in `toString` of `Message`s.
 
 ## 0.18.1
   * Update analyzer dependency to `5.2.0`.
