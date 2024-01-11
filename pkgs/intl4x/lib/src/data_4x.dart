@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:icu/icu.dart' as icu;
+import 'bindings/dart/lib.g.dart' as icu;
 import 'data.dart';
 
 extension DataProvider on Data {

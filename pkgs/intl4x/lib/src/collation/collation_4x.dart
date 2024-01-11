@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:icu/icu.dart' as icu;
-
+import '../bindings/dart/lib.g.dart' as icu;
 import '../data.dart';
 import '../data_4x.dart';
 import '../locale/locale.dart';

@@ -1,4 +1,4 @@
-import 'package:icu/icu.dart' as icu;
+import '../bindings/dart/lib.g.dart' as icu;
 
 import 'locale.dart';
 

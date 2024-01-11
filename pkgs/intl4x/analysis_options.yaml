@@ -7,3 +7,8 @@ linter:
     - prefer_final_locals
     - prefer_relative_imports
     - unnecessary_parenthesis
+
+analyzer:
+  exclude:
+    - "submodules/*"
+    - "lib/src/bindings/*"
