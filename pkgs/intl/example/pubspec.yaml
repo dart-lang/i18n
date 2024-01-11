@@ -1,5 +1,4 @@
 name: example
-description: A sample command-line application.
 
 environment:
   sdk: ^3.0.0
