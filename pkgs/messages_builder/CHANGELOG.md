@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Bump dependencies.
+
 ## 0.2.0
 
 - Remove `IntlObject` interface.

@@ -24,9 +24,11 @@ jobs:
     strategy:
       matrix:
         sdk: [stable, dev] # {pkgs.versions}
+        dependencies: [path, published]
         include:
           - sdk: stable
             run-tests: true
+
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
