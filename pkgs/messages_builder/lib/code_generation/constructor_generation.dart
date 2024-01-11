@@ -21,9 +21,10 @@ class ConstructorGeneration extends Generation<Constructor> {
             ..name = '_fileLoader'
             ..toThis = true,
         ),
-        Parameter((pb) => pb
-          ..name = 'intlObject'
-          ..toThis = true),
+        if (options.pluralSelector == PluralSelectorType.custom)
+          Parameter((pb) => pb
+            ..name = 'pluralSelector'
+            ..toThis = true),
       ]));
     return [nativeConstructor];
   }

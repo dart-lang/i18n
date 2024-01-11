@@ -47,7 +47,7 @@ import 'variable_substitution_message.dart';
 const jsonEncoder = JsonCodec();
 
 /// A default function for the [Message.expanded] method.
-String nullTransform(dynamic msg, dynamic chunk) => chunk as String;
+String nullTransform(dynamic msg, dynamic chunk) => chunk.toString();
 
 /// An abstract superclass for Intl.message/plural/gender calls in the
 /// program's source text. We

@@ -2,9 +2,30 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
-import 'package:messages/package_intl_object.dart';
 import 'package:test/test.dart';
+
+Message intlPluralSelector(
+  num howMany, {
+  Map<int, Message>? numberCases,
+  Map<int, Message>? wordCases,
+  Message? few,
+  Message? many,
+  required Message other,
+  String? locale,
+}) {
+  return old_intl.Intl.pluralLogic(
+    howMany,
+    few: few,
+    many: many,
+    zero: numberCases?[0] ?? wordCases?[0],
+    one: numberCases?[1] ?? wordCases?[1],
+    two: numberCases?[2] ?? wordCases?[2],
+    other: other,
+    locale: locale,
+  );
+}
 
 void main() {
   test('JSON MessageList', () {
@@ -27,17 +48,19 @@ void main() {
             'case2': StringMessage('Case 2'),
             'case3': PluralMessage(
               other: StringMessage('other nested'),
-              twoNumber: StringMessage(': ', argPositions: [
-                (stringIndex: 0, argIndex: 0),
-                (stringIndex: 2, argIndex: 1),
-              ]),
+              numberCases: {
+                2: StringMessage(': ', argPositions: [
+                  (stringIndex: 0, argIndex: 0),
+                  (stringIndex: 2, argIndex: 1),
+                ])
+              },
               argIndex: 1,
             ),
           },
           0,
         )
       ],
-      const OldIntlObject(),
+      intlPluralSelector,
       null,
     );
 

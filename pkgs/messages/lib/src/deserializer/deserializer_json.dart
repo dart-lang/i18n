@@ -4,9 +4,9 @@
 
 import 'dart:convert';
 
-import '../intl_object.dart';
 import '../message_format.dart';
 import '../message_list_json.dart';
+import '../plural_selector.dart';
 import 'deserializer.dart';
 
 class JsonDeserializer extends Deserializer<MessageListJson> {
@@ -20,7 +20,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   }
 
   @override
-  MessageListJson deserialize(IntlObject intl) {
+  MessageListJson deserialize(PluralSelector selector) {
     if (preamble.version != serializationVersion) {
       throw ArgumentError(
           '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
@@ -32,7 +32,7 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     return MessageListJson(
       preamble,
       _messages,
-      intl,
+      selector,
       mapping?.map((key, value) => MapEntry(
             int.parse(key, radix: serializationRadix),
             int.parse(value as String, radix: serializationRadix),
@@ -55,8 +55,6 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
         return _forPlural(message, start, id);
       } else if (typeOrId == SelectMessage.type) {
         return _forSelect(message, start, id);
-      } else if (typeOrId == GenderMessage.type) {
-        return _forGender(message, start, id);
       } else if (typeOrId == CombinedMessage.type) {
         return _forCombined(message, start, id);
       } else if (typeOrId is String) {
@@ -83,51 +81,29 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   PluralMessage _forPlural(List<dynamic> message, int start, String? id) {
     final argIndex = message[start] as int;
     final otherMessage = getMessage(message[start + 1]);
-    Message? zeroWordMessage;
-    Message? zeroNumberMessage;
-    Message? oneWordMessage;
-    Message? oneNumberMessage;
-    Message? twoWordMessage;
-    Message? twoNumberMessage;
     Message? fewMessage;
     Message? manyMessage;
+    final numberCases = <int, Message>{};
+    final wordCases = <int, Message>{};
     final submessages = message[start + 2] as List;
     for (var i = 0; i < submessages.length - 1; i += 2) {
       final msg = getMessage(submessages[i + 1]);
-      switch (submessages[i]) {
-        case Plural.zeroWord:
-          zeroWordMessage = msg;
-          break;
-        case Plural.zeroNumber:
-          zeroNumberMessage = msg;
-          break;
-        case Plural.oneWord:
-          oneWordMessage = msg;
-          break;
-        case Plural.oneNumber:
-          oneNumberMessage = msg;
-          break;
-        case Plural.twoWord:
-          twoWordMessage = msg;
-          break;
-        case Plural.twoNumber:
-          twoNumberMessage = msg;
-          break;
-        case Plural.few:
-          fewMessage = msg;
-          break;
-        case Plural.many:
-          manyMessage = msg;
-          break;
+      final messageMarker = submessages[i];
+      if (messageMarker case PluralMarker.few) {
+        fewMessage = msg;
+      } else if (messageMarker case PluralMarker.many) {
+        manyMessage = msg;
+      } else if (messageMarker case final int digit) {
+        numberCases[digit] = msg;
+      } else if (messageMarker is String &&
+          messageMarker.startsWith(PluralMarker.wordCase)) {
+        final digit = int.parse(messageMarker.substring(1));
+        wordCases[digit] = msg;
       }
     }
     return PluralMessage(
-      zeroNumber: zeroNumberMessage,
-      zeroWord: zeroWordMessage,
-      oneNumber: oneNumberMessage,
-      oneWord: oneWordMessage,
-      twoNumber: twoNumberMessage,
-      twoWord: twoWordMessage,
+      numberCases: numberCases,
+      wordCases: wordCases,
       few: fewMessage,
       many: manyMessage,
       argIndex: argIndex,
@@ -151,32 +127,6 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     return CombinedMessage(
       id,
       message.skip(start).map(getMessage).toList(),
-    );
-  }
-
-  GenderMessage _forGender(List<dynamic> message, int start, String? id) {
-    final argIndex = message[start] as int;
-    final otherMessage = getMessage(message[start + 1]);
-    final submessages = message[start + 2] as List;
-    Message? femaleMessage;
-    Message? maleMessage;
-    for (var i = 0; i < submessages.length - 1; i += 2) {
-      final msg = getMessage(submessages[i + 1]);
-      switch (submessages[i]) {
-        case Gender.female:
-          femaleMessage = msg;
-          break;
-        case Gender.male:
-          maleMessage = msg;
-          break;
-      }
-    }
-    return GenderMessage(
-      female: femaleMessage,
-      male: maleMessage,
-      other: otherMessage,
-      argIndex: argIndex,
-      id: id,
     );
   }
 }

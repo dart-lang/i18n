@@ -1,3 +1,7 @@
+## 0.7.1
+
+- Export plural rules.
+
 ## 0.7.0
 
 - Add conformance testing workflow.

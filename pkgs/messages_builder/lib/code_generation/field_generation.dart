@@ -42,29 +42,30 @@ class FieldGeneration extends Generation<Field> {
         ..name = '_messages'
         ..assignment = const Code('{}'),
     );
-    final carbs = Field(
+    final dataFiles = Field(
       (fb) {
         final paths = localeToResourceInfo.entries
             .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
             .join(',');
         fb
-          ..name = 'carbs'
+          ..name = '_dataFiles'
           ..modifier = FieldModifier.constant
           ..static = true
           ..assignment = Code('{$paths}');
       },
     );
-    final intlObject = Field(
+    final pluralSelector = Field(
       (fb) => fb
-        ..name = 'intlObject'
-        ..type = const Reference('IntlObject'),
+        ..name = 'pluralSelector'
+        ..type = const Reference(
+            '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})'''),
     );
     final fields = [
       loadingStrategy,
       currentLocale,
       messages,
-      carbs,
-      intlObject,
+      dataFiles,
+      if (options.pluralSelector == PluralSelectorType.custom) pluralSelector,
     ];
     return fields;
   }

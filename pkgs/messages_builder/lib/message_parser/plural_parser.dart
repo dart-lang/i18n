@@ -56,12 +56,8 @@ class PluralParser {
     final numberCases = getNumberCases(parts, arguments);
     final wordCases = getWordCases(parts, arguments);
     return PluralMessage(
-      zeroNumber: numberCases[0],
-      zeroWord: wordCases[0],
-      oneNumber: numberCases[1],
-      oneWord: wordCases[1],
-      twoNumber: numberCases[2],
-      twoWord: wordCases[2],
+      numberCases: numberCases,
+      wordCases: wordCases,
       few: getNamed(parts, 'few', arguments),
       many: getNamed(parts, 'many', arguments),
       other: getOther(parts, arguments)!,
