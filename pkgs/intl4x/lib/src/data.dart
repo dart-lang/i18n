@@ -8,7 +8,9 @@ final class AssetData extends Data {
   const AssetData(this.key);
 }
 
-final class BundleData extends Data {}
+final class BundleData extends Data {
+  const BundleData();
+}
 
 final class NoData extends Data {
   const NoData();

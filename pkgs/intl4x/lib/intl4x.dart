@@ -120,12 +120,12 @@ class Intl {
     Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-    Data? data,
+    Data data = const BundleData(),
   }) : this._(
           locale: locale,
           ecmaPolicy: ecmaPolicy,
           supportedLocales: allLocales,
-          data: data ?? const NoData(),
+          data: data,
         );
 
   Locale locale;
