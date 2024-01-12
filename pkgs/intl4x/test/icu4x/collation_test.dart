@@ -33,8 +33,7 @@ void main() {
         data: BundleData(),
       );
       final collation = intl.collation();
-      expect(() => list..sort(collation.compare),
-          throwsA(isA<UnimplementedError>()));
+      expect(list..sort(collation.compare), list);
     },
   );
 }
