@@ -2,22 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@TestOn('browser')
-library;
-
+import 'package:intl4x/collation.dart';
 import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/src/collation/collation_options.dart';
 import 'package:test/test.dart';
 
-import '../utils.dart';
+import 'utils.dart';
 
 void main() {
-  test('Does not compare in tests', () {
-    final unsorted = ['Z', 'a', 'z', 'ä'];
-    final collationGerman =
-        Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
-    expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
-  });
+  test(
+    'Does not compare in tests',
+    () {
+      final unsorted = ['Z', 'a', 'z', 'ä'];
+      final collationGerman =
+          Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
+      expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
+    },
+  );
 
   testWithFormatting('Simple EN', () {
     final list = ['A', 'B', 'C'];
