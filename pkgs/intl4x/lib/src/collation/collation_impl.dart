@@ -7,9 +7,9 @@ import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
-import 'collation_4x.dart';
 import 'collation_options.dart';
 import 'collation_stub.dart' if (dart.library.js) 'collation_ecma.dart';
+import 'collation_stub_4x.dart' if (dart.library.io) 'collation_4x.dart';
 
 /// Separated into a class to not clutter the public API with implementation
 /// details.
