@@ -1,0 +1,1 @@
+../../../../../submodules/icu4x/ffi/capi/bindings/dart/lib.g.dart

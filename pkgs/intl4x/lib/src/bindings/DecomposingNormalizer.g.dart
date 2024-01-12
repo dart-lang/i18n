@@ -1,0 +1,1 @@
+../../../../../submodules/icu4x/ffi/capi/bindings/dart/DecomposingNormalizer.g.dart
