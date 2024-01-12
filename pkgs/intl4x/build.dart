@@ -14,45 +14,28 @@ const assetId = 'package:intl4x/src/bindings/lib.g.dart';
 
 void main(List<String> args) async {
   final config = await BuildConfig.fromArgs(args);
-  final runMode = Platform.environment['MODE']!;
 
-  final libPath = path.joinAll([
-    config.outDir.path,
-    folder,
+  final libFolder = path.join(config.outDir.path, folder);
+  final libPath = path.join(
+    libFolder,
     'lib${crateName.replaceAll("-", "_")}.$dynamicLibraryExtension',
-  ]);
-  if (runMode == 'fetch') {
-    final request = await HttpClient().getUrl(Uri.parse(
-        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
-    final response = await request.close();
+  );
 
-    final zippedDynamicLibrary =
-        File(path.join(Directory.systemTemp.path, 'tmp.zip'));
-    zippedDynamicLibrary.createSync();
-    await response.pipe(zippedDynamicLibrary.openWrite());
+  final buildMode = switch (Platform.environment['ICU4X_BUILD_MODE']) {
+    'fetch' => FetchMode(libPath),
+    'local' => LocalMode(libPath),
+    'checkout' => CheckoutMode(config.outDir.path),
+    String() => throw ArgumentError('Unknown build mode for icu4x'),
+    null => throw ArgumentError('Missing build mode for icu4x'),
+  };
 
-    final dynamicLibrary = File(libPath);
-    dynamicLibrary.createSync(recursive: true);
-    unzipFirstFile(input: zippedDynamicLibrary, output: dynamicLibrary);
-  } else {
-    await Process.run(
-      'cargo',
-      [
-        'rustc',
-        '-p',
-        crateName,
-        '--crate-type=cdylib',
-        if (release) '--release',
-      ],
-      environment: {'CARGO_TARGET_DIR': config.outDir.path},
-    );
-  }
+  await buildMode.build();
 
   await BuildOutput(
     assets: [
       Asset(
         id: assetId,
-        linkMode: LinkMode.static,
+        linkMode: LinkMode.dynamic,
         target: Target.current,
         path: AssetAbsolutePath(Uri.file(libPath)),
       )
@@ -92,5 +75,73 @@ void unzipFirstFile({required File input, required File output}) {
     final outputStream = OutputFileStream(output.path);
     file!.writeContent(outputStream);
     outputStream.close();
+  }
+}
+
+sealed class BuildMode {
+  Future<void> build();
+}
+
+final class FetchMode implements BuildMode {
+  final String libPath;
+
+  FetchMode(this.libPath);
+
+  @override
+  Future<void> build() async {
+    final request = await HttpClient().getUrl(Uri.parse(
+        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
+    final response = await request.close();
+
+    final zippedDynamicLibrary =
+        File(path.join(Directory.systemTemp.path, 'tmp.zip'));
+    zippedDynamicLibrary.createSync();
+    await response.pipe(zippedDynamicLibrary.openWrite());
+
+    final dynamicLibrary = File(libPath);
+    dynamicLibrary.createSync(recursive: true);
+    unzipFirstFile(input: zippedDynamicLibrary, output: dynamicLibrary);
+  }
+}
+
+final class LocalMode implements BuildMode {
+  final String libPath;
+
+  LocalMode(this.libPath);
+
+  String get _localBinaryPath => Platform.environment['LOCAL_ICU4X_BINARY']!;
+
+  @override
+  Future<void> build() async {
+    await File(_localBinaryPath).copy(libPath);
+  }
+}
+
+final class CheckoutMode implements BuildMode {
+  final String outDirPath;
+  CheckoutMode(this.outDirPath);
+
+  @override
+  Future<void> build() async {
+    final arguments = [
+      'rustc',
+      '-p',
+      crateName,
+      '--crate-type=cdylib',
+      if (release) '--release',
+      ...['--target-dir', outDirPath],
+    ];
+    final processResult = await Process.run(
+      'cargo',
+      arguments,
+      workingDirectory: Platform.environment['LOCAL_ICU4X_CHECKOUT']!,
+    );
+    if (processResult.exitCode != 0) {
+      throw ProcessException(
+        'cargo',
+        arguments,
+        processResult.stderr.toString(),
+      );
+    }
   }
 }
