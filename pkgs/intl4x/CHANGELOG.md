@@ -1,3 +1,7 @@
+## 0.8.0
+
+- Add ICU4X support for collation.
+
 ## 0.7.1
 
 - Export plural rules.
