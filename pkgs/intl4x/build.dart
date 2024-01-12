@@ -16,8 +16,11 @@ void main(List<String> args) async {
   final config = await BuildConfig.fromArgs(args);
   final runMode = Platform.environment['MODE']!;
 
-  final libPath =
-      '${config.outDir.path}/$folder/lib${crateName.replaceAll("-", "_")}.$dynamicLibraryExtension';
+  final libPath = path.joinAll([
+    config.outDir.path,
+    folder,
+    'lib${crateName.replaceAll("-", "_")}.$dynamicLibraryExtension',
+  ]);
   if (runMode == 'fetch') {
     final request = await HttpClient().getUrl(Uri.parse(
         'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
