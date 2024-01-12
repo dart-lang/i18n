@@ -66,7 +66,7 @@ export 'src/intl/text_direction.dart' show TextDirection;
 /// Intl.defaultLocale = 'pt_BR';
 /// ```
 
-class Intl {
+class Initial {
   /// String indicating the locale code with which the message is to be
   /// formatted (such as en-CA).
   final String _locale;
