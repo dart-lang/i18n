@@ -365,7 +365,7 @@ class NumberFormat {
       bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false}) {
     locale = helpers.verifiedLocale(locale, localeExists, null)!;
-    var symbols = numberFormatSymbols[locale] as NumberSymbols;
+    var symbols = numberFormatSymbols[locale]!;
     var localeZero = symbols.ZERO_DIGIT.codeUnitAt(0);
     var zeroOffset = localeZero - constants.asciiZeroCodeUnit;
     name ??= symbols.DEF_CURRENCY_CODE;
