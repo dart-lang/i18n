@@ -97,6 +97,7 @@ final class FetchMode implements BuildMode {
 
   @override
   Future<void> build() async {
+    // TODO: Get a nicer CDN than a generated link to a privately owned repo.
     final request = await HttpClient().getUrl(Uri.parse(
         'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
     final response = await request.close();
