@@ -1,3 +1,6 @@
+## 0.20.0-dev
+ * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
+
 ## 0.19.0
  * Update to CLDR v44.
  * Update to CLDR v43.
