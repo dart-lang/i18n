@@ -9,5 +9,6 @@ jobs:
     with:
       coverage_web: true
       checkout_submodules: true
+      experiments: native-assets
     permissions:
       pull-requests: write
