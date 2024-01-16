@@ -3,6 +3,10 @@ on:
   pull_request:
     branches: [ main ]
     types: [opened, synchronize, reopened, labeled, unlabeled]
+
+env:
+  ICU4X_BUILD_MODE: fetch
+
 jobs:
   health:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
