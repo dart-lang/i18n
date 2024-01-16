@@ -22,14 +22,13 @@ void main(List<String> args) async {
   );
 
   final buildMode = switch (Platform.environment['ICU4X_BUILD_MODE']) {
-    'fetch' => FetchMode(libPath),
     'local' => LocalMode(libPath),
     'checkout' => CheckoutMode(config.outDir.path),
-    String() => throw ArgumentError('Unknown build mode for icu4x'),
-    null => throw ArgumentError('''
+    'fetch' || null => FetchMode(libPath),
+    String() => throw ArgumentError('''
 
 
-Missing build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable with either `fetch`, `local`, or `checkout`.
+Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable with either `fetch`, `local`, or `checkout`.
 * fetch: Fetch the precompiled binary from a CDN.
 * local: Use a locally existing binary at the environment variable `LOCAL_ICU4X_BINARY`.
 * checkout: Build a fresh library from a local git checkout of the icu4x repository at the environment variable `LOCAL_ICU4X_CHECKOUT`.
