@@ -21,7 +21,7 @@ class Collation4X extends CollationImpl {
       : _collator = icu.Collator.v1(
           data.to4X(),
           locale.to4X(),
-          options.toDartOptions(),
+          options.to4xOptions(),
         ),
         super(locale, options);
 
@@ -30,37 +30,22 @@ class Collation4X extends CollationImpl {
 }
 
 extension on CollationOptions {
-  icu.CollatorOptionsV1 toDartOptions() {
+  icu.CollatorOptionsV1 to4xOptions() {
     final icu4xOptions = icu.CollatorOptionsV1();
 
-    //Usage usage;
-    //TODO: find matching
-
-    //Sensitivity? sensitivity;
-    //TODO: find matching
-
-    //bool ignorePunctuation;
-    //TODO: find matching
-
-    //bool numeric;
-    //TODO: what about auto?
     icu4xOptions.numeric =
         numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
 
-    //CaseFirst? caseFirst;
-    //TODO: what about localeDependent? What about icu.off and icu.auto?
     final caseFirst4X = switch (caseFirst) {
       CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
       CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
-      CaseFirst.localeDependent => throw UnsupportedError(''),
+      CaseFirst.localeDependent => throw UnsupportedError(
+          'The locale dependent key is not supported by ICU4X'),
       null => null,
     };
     if (caseFirst4X != null) {
       icu4xOptions.caseFirst = caseFirst4X;
     }
-
-    //String? collation;
-    //TODO: find matching
 
     return icu4xOptions;
   }
