@@ -36,16 +36,11 @@ extension on CollationOptions {
     icu4xOptions.numeric =
         numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
 
-    final caseFirst4X = switch (caseFirst) {
+    icu4xOptions.caseFirst = switch (caseFirst) {
       CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
       CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
-      CaseFirst.localeDependent => throw UnsupportedError(
-          'The locale dependent key is not supported by ICU4X'),
-      null => null,
+      CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
     };
-    if (caseFirst4X != null) {
-      icu4xOptions.caseFirst = caseFirst4X;
-    }
 
     return icu4xOptions;
   }

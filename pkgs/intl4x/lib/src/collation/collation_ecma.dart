@@ -75,9 +75,7 @@ extension on CollationOptions {
     }
     setProperty(o, 'ignorePunctuation', ignorePunctuation);
     setProperty(o, 'numeric', numeric);
-    if (caseFirst != null) {
-      setProperty(o, 'caseFirst', caseFirst!.jsName);
-    }
+    setProperty(o, 'caseFirst', caseFirst.jsName);
     if (collation != null) {
       setProperty(o, 'collation', collation);
     }
