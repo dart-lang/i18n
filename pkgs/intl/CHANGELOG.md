@@ -1,5 +1,6 @@
-## 0.20.0-dev
+## 0.20.0-wip
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
+ * Add example for pub.dev.
 
 ## 0.19.0
  * Update to CLDR v44.
