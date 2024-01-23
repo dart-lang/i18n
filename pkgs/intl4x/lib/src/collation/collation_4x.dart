@@ -42,6 +42,18 @@ extension on CollationOptions {
       CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
     };
 
+    icu4xOptions.strength = switch (sensitivity) {
+      Sensitivity.base => icu.CollatorStrength.primary,
+      Sensitivity.accent => icu.CollatorStrength.secondary,
+      Sensitivity.caseSensitivity => icu.CollatorStrength.primary,
+      Sensitivity.variant => icu.CollatorStrength.tertiary,
+      null => icu.CollatorStrength.tertiary,
+    };
+
+    if (sensitivity == Sensitivity.caseSensitivity) {
+      icu4xOptions.caseLevel = icu.CollatorCaseLevel.on;
+    }
+
     return icu4xOptions;
   }
 }
