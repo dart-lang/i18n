@@ -1,5 +1,6 @@
 ## 0.20.0-dev
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
+ * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
 
 ## 0.19.0
  * Update to CLDR v44.
