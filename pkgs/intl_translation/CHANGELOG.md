@@ -1,3 +1,6 @@
+## 0.20.0-wip
+  * Throw if the `Intl.select` `arg` is not in the list of `args`.
+
 ## 0.19.0
   * Always generate null safe code, remove `null-safe` flag.
   * Add example for `he` locale.
