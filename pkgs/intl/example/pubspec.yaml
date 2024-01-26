@@ -1,0 +1,12 @@
+name: example
+
+environment:
+  sdk: ^3.0.0
+
+# Add regular dependencies here.
+dependencies:
+  intl:
+    path: ../
+
+dev_dependencies:
+  lints: ^3.0.0
