@@ -76,7 +76,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(_supportedLocalesOfJS([locale.toLanguageTag()], o))
+    return List<dynamic>.from(
+            _supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();

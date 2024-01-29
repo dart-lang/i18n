@@ -30,7 +30,7 @@ typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
-/// * [NumberFormatBuilder]
+/// * [numberFormat]
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart

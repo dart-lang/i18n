@@ -7,6 +7,7 @@ import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
+import 'collation.dart';
 import 'collation_options.dart';
 import 'collation_stub.dart' if (dart.library.js) 'collation_ecma.dart';
 import 'collation_stub_4x.dart' if (dart.library.io) 'collation_4x.dart';
@@ -39,6 +40,6 @@ abstract class CollationImpl {
         getCollator4X,
       );
 
-  /// Actual implementation of the [compare] method.
+  /// Actual implementation of the [Collation.compare] method.
   int compareImpl(String a, String b);
 }
