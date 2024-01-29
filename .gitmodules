@@ -1,3 +1,0 @@
-[submodule "submodules/icu4x"]
-	path = submodules/icu4x
-	url = git@github.com:unicode-org/icu4x.git
