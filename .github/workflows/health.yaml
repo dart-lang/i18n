@@ -12,5 +12,8 @@ jobs:
       checkout_submodules: true
       experiments: native-assets
       sdk: dev
+      ignore_license: "**.g.dart"
+      ignore_coverage: "**.g.dart"
+      ignore_packages: "submodules/"
     permissions:
       pull-requests: write
