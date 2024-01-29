@@ -1,3 +1,7 @@
+## 0.2.2-wip
+
+- Add license header.
+
 ## 0.2.1
 
 - Bump dependencies.

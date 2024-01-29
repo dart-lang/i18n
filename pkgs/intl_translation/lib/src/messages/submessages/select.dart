@@ -108,7 +108,12 @@ class Select extends SubMessage {
   List toJson() {
     var json = [];
     json.add(dartMessageName);
-    json.add(arguments.indexOf(mainArgument));
+    var indexOfArgument = arguments.indexOf(mainArgument);
+    if (indexOfArgument == -1) {
+      throw ArgumentError(
+          'The select message $dartMessageName is being passed the argument $mainArgument, which does not occur in the list of arguments $arguments.');
+    }
+    json.add(indexOfArgument);
     var attributes = {};
     for (var arg in codeAttributeNames) {
       attributes[arg] = this[arg]!.toJson();

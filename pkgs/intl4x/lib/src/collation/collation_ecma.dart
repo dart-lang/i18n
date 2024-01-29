@@ -49,7 +49,7 @@ class CollationECMA extends CollationImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
+    return List<dynamic>.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
