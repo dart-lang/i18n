@@ -14,6 +14,6 @@ jobs:
       sdk: dev
       ignore_license: "**.g.dart"
       ignore_coverage: "**.g.dart"
-      ignore_packages: "current_repo/submodules/"
+      ignore_packages: "submodules"
     permissions:
       pull-requests: write
