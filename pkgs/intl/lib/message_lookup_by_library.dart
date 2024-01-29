@@ -75,8 +75,8 @@ class CompositeMessageLookup implements MessageLookup {
     if (newLocale != null) {
       availableMessages[localeName] = newLocale;
       availableMessages[canonical] = newLocale;
-      // If there was already a failed lookup for [newLocale], null the cache.
-      if (_lastLocale == newLocale) {
+      // If there was already a failed lookup for [localeName], null the cache.
+      if (_lastLocale == localeName) {
         _lastLocale = null;
         _lastLookup = null;
       }
