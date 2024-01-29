@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:build/src/asset/id.dart';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
@@ -36,7 +35,7 @@ Message intlPluralSelector(
 }
 
 void main() {
-  final uniqueKey = AssetId('package', 'path');
+  final uniqueKey = 'path';
   test('generateMessageFile from Object json', () {
     final message = StringMessage('Hello World');
     final message1 = MessageWithMetadata(message, [], 'helloWorld');

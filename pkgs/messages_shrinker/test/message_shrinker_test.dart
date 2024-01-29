@@ -8,7 +8,6 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:build/build.dart';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
@@ -86,8 +85,7 @@ String readArbFileToDataFile() {
   final path = 'test/testarb.arb';
   final arbFile = File(path).readAsStringSync();
   final arb = jsonDecode(arbFile) as Map<String, dynamic>;
-  final parsed =
-      ArbParser().parseMessageFile(arb, AssetId('messsages_shrinker', path));
+  final parsed = ArbParser().parseMessageFile(arb, path);
   return JsonSerializer()
       .serialize('', '', parsed.messages.map((e) => e.message).toList())
       .data;

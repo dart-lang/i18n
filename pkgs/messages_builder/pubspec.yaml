@@ -16,6 +16,7 @@ dependencies:
   intl: ^0.18.0
   messages: ^0.2.0
   messages_serializer: ^0.2.0
+  native_assets_cli: ^0.3.2
   path: ^1.8.2
   yaml: ^3.1.1
 

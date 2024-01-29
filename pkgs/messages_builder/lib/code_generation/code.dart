@@ -14,7 +14,7 @@ class CodeGenerator {
   final String? context;
   final String locale;
   final List<MessageWithMetadata> messages;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Map<String, ({String path, String hash})> localeToResourceInfo;
 
   CodeGenerator(
     this.options,

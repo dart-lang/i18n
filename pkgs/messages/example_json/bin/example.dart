@@ -9,6 +9,8 @@ import 'dart:io';
 import 'package:example_json/testarbctx2.g.dart';
 
 Future<void> main(List<String> arguments) async {
+  //TODO: Here, we should not have to pass a `fileLoader`, but instead have
+  //the generated code know about data assets and read them from file
   final messages =
       AboutPageMessages((String id) async => File(id).readAsString());
   // final index = AboutPageMessagesEnum.aboutMessage;
