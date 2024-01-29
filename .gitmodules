@@ -1,4 +1,4 @@
 [submodule "submodules/icu4x"]
 	path = submodules/icu4x
 	url = https://github.com/unicode-org/icu4x
-    branch = dart
+    branch = main
