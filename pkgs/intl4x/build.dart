@@ -18,7 +18,7 @@ void main(List<String> args) async {
   Directory(libFolder).createSync();
   final libPath = path.join(
     libFolder,
-    config.targetOs.dylibFileName('lib${crateName.replaceAll("-", "_")}'),
+    config.targetOs.dylibFileName(crateName.replaceAll('-', '_')),
   );
 
   final buildMode = switch (Platform.environment['ICU4X_BUILD_MODE']) {
@@ -51,16 +51,6 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
   ).writeToFile(outDir: config.outDir);
 }
 
-String get platformName {
-  if (Platform.isMacOS) {
-    return 'macos';
-  } else if (Platform.isWindows) {
-    return 'windows';
-  } else {
-    return 'ubuntu';
-  }
-}
-
 void unzipFirstFile({required File input, required File output}) {
   final inputStream = InputFileStream(input.path);
   final archive = ZipDecoder().decodeBuffer(inputStream);
@@ -86,7 +76,7 @@ final class FetchMode implements BuildMode {
   Future<void> build() async {
     // TODO: Get a nicer CDN than a generated link to a privately owned repo.
     final request = await HttpClient().getUrl(Uri.parse(
-        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
+        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-${Platform.operatingSystem}-latest.zip'));
     final response = await request.close();
 
     final zippedDynamicLibrary =
@@ -126,9 +116,7 @@ final class CheckoutMode implements BuildMode {
           'with the LOCAL_ICU4X_CHECKOUT variable');
     }
     final lib = await buildLib(
-      config.target,
-      config.linkModePreference.preferredLinkMode,
-      config.outDir.toFilePath(),
+      config,
       workingDirectory,
     );
     await File(lib).copy(libPath);
@@ -136,13 +124,12 @@ final class CheckoutMode implements BuildMode {
 }
 
 Future<String> buildLib(
-  Target target,
-  LinkMode linkMode,
-  String outDir,
+  BuildConfig config,
   String workingDirectory,
 ) async {
-  final rustTarget = target.asRustTarget;
-  final isNoStd = target.isNoStdTarget;
+  final rustTarget =
+      config.target.asRustTarget(config.targetIOSSdk == IOSSdk.iPhoneSimulator);
+  final isNoStd = config.target.isNoStdTarget;
 
   if (!isNoStd) {
     final rustArguments = ['target', 'add', rustTarget];
@@ -177,11 +164,15 @@ Future<String> buildLib(
     'panic-handler'
   ];
   final tempDir = Directory.systemTemp.createTempSync();
+  final linkModeType =
+      config.linkModePreference.preferredLinkMode == LinkMode.static
+          ? 'staticlib'
+          : 'cdylib';
   final arguments = [
     if (isNoStd) '+nightly',
     'rustc',
     '-p=icu_capi',
-    '--crate-type=${linkMode == LinkMode.static ? 'staticlib' : 'cdylib'}',
+    '--crate-type=$linkModeType',
     '--release',
     '--config=profile.release.panic="abort"',
     '--config=profile.release.codegen-units=1',
@@ -212,7 +203,7 @@ Future<String> buildLib(
     tempDir.path,
     rustTarget,
     'release',
-    target.os.dylibFileName('icu_capi'),
+    config.target.os.dylibFileName('icu_capi'),
   );
   if (!File(dylibFilePath).existsSync()) {
     throw FileSystemException('Building the dylib failed', dylibFilePath);
@@ -221,7 +212,10 @@ Future<String> buildLib(
 }
 
 extension on Target {
-  String get asRustTarget {
+  String asRustTarget(bool isSimulator) {
+    if (this == Target.iOSArm64 && isSimulator) {
+      return 'aarch64-apple-ios-sim';
+    }
     return switch (this) {
       Target.androidArm => 'armv7-linux-androideabi',
       Target.androidArm64 => 'aarch64-linux-android',
@@ -230,7 +224,6 @@ extension on Target {
       Target.androidX64 => 'x86_64-linux-android',
       Target.fuchsiaArm64 => 'aarch64-unknown-fuchsia',
       Target.fuchsiaX64 => 'x86_64-unknown-fuchsia',
-      Target.iOSArm => 'aarch64-apple-ios-sim',
       Target.iOSArm64 => 'aarch64-apple-ios',
       Target.iOSX64 => 'x86_64-apple-ios',
       Target.linuxArm => 'armv7-unknown-linux-gnueabihf',
