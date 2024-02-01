@@ -203,7 +203,7 @@ Future<String> buildLib(
     tempDir.path,
     rustTarget,
     'release',
-    config.target.os.dylibFileName('icu_capi'),
+    config.target.os.dylibFileName(crateName.replaceAll('-', '_')),
   );
   if (!File(dylibFilePath).existsSync()) {
     throw FileSystemException('Building the dylib failed', dylibFilePath);
