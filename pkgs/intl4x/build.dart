@@ -171,7 +171,7 @@ Future<String> buildLib(
   final arguments = [
     if (isNoStd) '+nightly',
     'rustc',
-    '-p=icu_capi',
+    '-p={crateName}',
     '--crate-type=$linkModeType',
     '--release',
     '--config=profile.release.panic="abort"',
