@@ -76,7 +76,7 @@ final class FetchMode implements BuildMode {
   Future<void> build() async {
     // TODO: Get a nicer CDN than a generated link to a privately owned repo.
     final request = await HttpClient().getUrl(Uri.parse(
-        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-${Platform.operatingSystem}-latest.zip'));
+        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
     final response = await request.close();
 
     final zippedDynamicLibrary =
@@ -87,6 +87,16 @@ final class FetchMode implements BuildMode {
     final dynamicLibrary = File(libPath);
     dynamicLibrary.createSync(recursive: true);
     unzipFirstFile(input: zippedDynamicLibrary, output: dynamicLibrary);
+  }
+
+  String get platformName {
+    if (Platform.isMacOS) {
+      return 'macos';
+    } else if (Platform.isWindows) {
+      return 'windows';
+    } else {
+      return 'ubuntu';
+    }
   }
 }
 
