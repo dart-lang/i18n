@@ -1,4 +1,4 @@
-## 0.8.0
+## 0.8.1
 
 - Add ICU4X support for collation.
 
