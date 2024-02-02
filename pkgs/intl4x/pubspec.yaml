@@ -1,22 +1,25 @@
 name: intl4x
 description: >-
   A lightweight modular library for internationalization (i18n) functionality.
-version: 0.7.1
+version: 0.8.0
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 platforms: ## TODO: Add native platforms once ICU4X is integrated.
   web:
 
-
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  ffi: ^2.1.0
   js: ^0.6.5
-  
+
 dev_dependencies:
+  archive: ^3.4.10
   args: ^2.4.2
   build_runner: ^2.1.4
   build_web_compilers: ^3.2.1
   dart_flutter_team_lints: ^1.0.0
   lints: ^2.0.0
+  native_assets_cli: ^0.3.2
+  path: ^1.9.0
   test: ^1.22.1

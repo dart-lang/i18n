@@ -12,9 +12,10 @@ import 'display_names_options.dart';
 
 DisplayNamesImpl? getDisplayNamesECMA(
   Locale locale,
+  DisplayNamesOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    _DisplayNamesECMA.tryToBuild(locale, localeMatcher);
+    _DisplayNamesECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.DisplayNames')
 class _DisplayNamesJS {
@@ -29,15 +30,16 @@ external List<String> _supportedLocalesOfJS(
 ]);
 
 class _DisplayNamesECMA extends DisplayNamesImpl {
-  _DisplayNamesECMA(super.locale);
+  _DisplayNamesECMA(super.locale, super.options);
 
   static DisplayNamesImpl? tryToBuild(
     Locale locale,
+    DisplayNamesOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? _DisplayNamesECMA(supportedLocales.first)
+        ? _DisplayNamesECMA(supportedLocales.first, options)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
@@ -47,7 +49,8 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(_supportedLocalesOfJS([locale.toLanguageTag()], o))
+    return List<dynamic>.from(
+            _supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
@@ -62,27 +65,27 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
   }
 
   @override
-  String ofCalendar(Calendar calendar, DisplayNamesOptions options) =>
+  String ofCalendar(Calendar calendar) =>
       of(options, DisplayType.calendar, calendar.jsName);
 
   @override
-  String ofCurrency(String currencyCode, DisplayNamesOptions options) =>
+  String ofCurrency(String currencyCode) =>
       of(options, DisplayType.currency, currencyCode);
 
   @override
-  String ofDateTime(DateTimeField field, DisplayNamesOptions options) =>
+  String ofDateTime(DateTimeField field) =>
       of(options, DisplayType.dateTimeField, field.name);
 
   @override
-  String ofLanguage(Locale locale, DisplayNamesOptions options) =>
+  String ofLanguage(Locale locale) =>
       of(options, DisplayType.language, locale.toLanguageTag());
 
   @override
-  String ofRegion(String regionCode, DisplayNamesOptions options) =>
+  String ofRegion(String regionCode) =>
       of(options, DisplayType.region, regionCode);
 
   @override
-  String ofScript(String scriptCode, DisplayNamesOptions options) =>
+  String ofScript(String scriptCode) =>
       of(options, DisplayType.script, scriptCode);
 }
 

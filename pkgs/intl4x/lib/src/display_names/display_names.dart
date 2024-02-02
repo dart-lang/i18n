@@ -8,10 +8,9 @@ import '../test_checker.dart';
 import 'display_names_impl.dart';
 
 class DisplayNames {
-  final DisplayNamesOptions _options;
   final DisplayNamesImpl _impl;
 
-  DisplayNames(this._options, this._impl);
+  DisplayNames(this._impl);
 
   String ofDateTime(DateTimeField field) => _of(field, _impl.ofDateTime);
 
@@ -27,12 +26,12 @@ class DisplayNames {
 
   String _of<T>(
     T object,
-    String Function(T field, DisplayNamesOptions options) implementation,
+    String Function(T field) implementation,
   ) {
     if (isInTest) {
       return '$object//${_impl.locale}';
     } else {
-      return implementation(object, _options);
+      return implementation(object);
     }
   }
 }

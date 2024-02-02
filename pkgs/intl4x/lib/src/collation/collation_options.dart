@@ -9,7 +9,7 @@ class CollationOptions {
   final Sensitivity? sensitivity;
   final bool ignorePunctuation;
   final bool numeric;
-  final CaseFirst? caseFirst;
+  final CaseFirst caseFirst;
   final String? collation;
   final LocaleMatcher localeMatcher;
 
@@ -19,7 +19,7 @@ class CollationOptions {
     this.sensitivity,
     this.ignorePunctuation = false,
     this.numeric = false,
-    this.caseFirst,
+    this.caseFirst = CaseFirst.localeDependent,
     this.collation,
   });
 

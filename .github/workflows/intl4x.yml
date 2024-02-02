@@ -18,6 +18,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      ICU4X_BUILD_MODE: fetch
+    
     defaults:
       run:
         working-directory: pkgs/intl4x
@@ -25,23 +29,26 @@ jobs:
       matrix:
         sdk: [stable, dev] # {pkgs.versions}
         include:
-          - sdk: stable
+          - sdk: dev
             run-tests: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
         with:
           sdk: ${{matrix.sdk}}
 
-      - run: dart pub get
+      - run: dart --enable-experiment=native-assets pub get
 
-      - run: dart analyze --fatal-infos
+      - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
-      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
 
-      - run: dart test
+      - run: dart --enable-experiment=native-assets test
         if: ${{matrix.run-tests}}
 
-      - run: dart test -p chrome
+      - run: dart --enable-experiment=native-assets test -p chrome
         if: ${{matrix.run-tests}}

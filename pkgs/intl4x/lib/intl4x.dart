@@ -30,7 +30,7 @@ typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
-/// * [NumberFormatBuilder]
+/// * [numberFormat]
 ///
 /// The functionalities are called through getters on an `Intl` instance, i.e.
 /// ```dart
@@ -42,45 +42,43 @@ typedef Icu4xKey = String;
 /// ```
 class Intl {
   final EcmaPolicy ecmaPolicy;
-
-  // ignore: unused_field, prefer_final_fields
-  String _dyliblocation = 'path.dll'; //What about path.wasm? How to load this?
-  // ignore: unused_field, prefer_final_fields
-  String _datalocation = 'data.blob'; //What about additional data?
-
+  final Data data;
   final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       Collation(
-        options,
-        CollationImpl.build(locale, localeMatcher, ecmaPolicy),
+        CollationImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
       );
 
   NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
-        options ?? NumberFormatOptions.custom(),
-        NumberFormatImpl.build(locale, localeMatcher, ecmaPolicy),
+        NumberFormatImpl.build(locale, data,
+            options ?? NumberFormatOptions.custom(), localeMatcher, ecmaPolicy),
       );
 
-  ListFormat listFormat([ListFormatOptions? options]) => ListFormat(
-        options ?? const ListFormatOptions(),
-        ListFormatImpl.build(locale, localeMatcher, ecmaPolicy),
+  ListFormat listFormat(
+          [ListFormatOptions options = const ListFormatOptions()]) =>
+      ListFormat(
+        ListFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
       );
 
-  DisplayNames displayNames([DisplayNamesOptions? options]) => DisplayNames(
-        options ?? const DisplayNamesOptions(),
-        DisplayNamesImpl.build(locale, localeMatcher, ecmaPolicy),
+  DisplayNames displayNames(
+          [DisplayNamesOptions options = const DisplayNamesOptions()]) =>
+      DisplayNames(
+        DisplayNamesImpl.build(
+            locale, data, options, localeMatcher, ecmaPolicy),
       );
 
-  DateTimeFormat datetimeFormat([DateTimeFormatOptions? options]) =>
+  DateTimeFormat datetimeFormat(
+          [DateTimeFormatOptions options = const DateTimeFormatOptions()]) =>
       DateTimeFormat(
-        options ?? const DateTimeFormatOptions(),
-        DateTimeFormatImpl.build(locale, localeMatcher, ecmaPolicy),
+        DateTimeFormatImpl.build(
+            locale, data, options, localeMatcher, ecmaPolicy),
       );
 
   PluralRules plural([PluralRulesOptions? options]) => PluralRules(
-        options ?? PluralRulesOptions(),
-        PluralRulesImpl.build(locale, localeMatcher, ecmaPolicy),
+        PluralRulesImpl.build(locale, data, options ?? PluralRulesOptions(),
+            localeMatcher, ecmaPolicy),
       );
 
   /// Construct an [Intl] instance providing the current [locale] and the
@@ -91,6 +89,7 @@ class Intl {
     this.ecmaPolicy = defaultPolicy,
     this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
+    this.data = const NoData(),
   }) : locale = locale ?? findSystemLocale();
 
   Intl.includeLocales({
@@ -121,10 +120,12 @@ class Intl {
     Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
+    Data data = const BundleData(),
   }) : this._(
           locale: locale,
           ecmaPolicy: ecmaPolicy,
           supportedLocales: allLocales,
+          data: data,
         );
 
   Locale locale;
@@ -135,24 +136,4 @@ class Intl {
     final canUse = true;
     return shouldUse && canUse;
   }
-}
-
-/// ICU4X will be compiled into the application, so there is no need to
-/// specify any data here. Users may want to add additional data at runtime,
-/// which could be supported through this API.
-///
-/// TODO: Wire this through to the ICU4X formatters.
-final Map<String, List<Icu4xKey>> additionalICU4XData = {};
-
-void addIcu4XData(Data data) {
-  final callbackFromICUTellingMeWhatLocalesTheDataContained =
-      extractKeysFromData();
-  additionalICU4XData
-      .addAll(callbackFromICUTellingMeWhatLocalesTheDataContained);
-  throw UnimplementedError('Call to ICU4X here');
-}
-
-Map<String, List<Icu4xKey>> extractKeysFromData() {
-  //TODO: Add implementation
-  return {};
 }

@@ -1,0 +1,1 @@
+../../../../../submodules/icu4x/ffi/capi/bindings/dart/SentenceBreakIteratorUtf16.g.dart

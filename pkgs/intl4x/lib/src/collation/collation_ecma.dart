@@ -12,9 +12,10 @@ import 'collation_options.dart';
 
 CollationImpl? getCollatorECMA(
   Locale locale,
+  CollationOptions options,
   LocaleMatcher localeMatcher,
 ) =>
-    CollationECMA.tryToBuild(locale, localeMatcher);
+    CollationECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.Collator')
 class CollatorJS {
@@ -29,15 +30,16 @@ external List<String> supportedLocalesOfJS(
 ]);
 
 class CollationECMA extends CollationImpl {
-  CollationECMA(super.locale);
+  CollationECMA(super.locale, super.options);
 
   static CollationImpl? tryToBuild(
     Locale locale,
+    CollationOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
-        ? CollationECMA(supportedLocales.first)
+        ? CollationECMA(supportedLocales.first, options)
         : null;
   }
 
@@ -47,14 +49,14 @@ class CollationECMA extends CollationImpl {
   ) {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
+    return List<dynamic>.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
   }
 
   @override
-  int compareImpl(String a, String b, CollationOptions options) {
+  int compareImpl(String a, String b) {
     final collatorJS = CollatorJS(
       [locale.toLanguageTag()],
       options.toJsOptions(),
@@ -73,9 +75,7 @@ extension on CollationOptions {
     }
     setProperty(o, 'ignorePunctuation', ignorePunctuation);
     setProperty(o, 'numeric', numeric);
-    if (caseFirst != null) {
-      setProperty(o, 'caseFirst', caseFirst!.jsName);
-    }
+    setProperty(o, 'caseFirst', caseFirst.jsName);
     if (collation != null) {
       setProperty(o, 'collation', collation);
     }

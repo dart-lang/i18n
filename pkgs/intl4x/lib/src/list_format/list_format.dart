@@ -4,13 +4,11 @@
 
 import '../test_checker.dart';
 import 'list_format_impl.dart';
-import 'list_format_options.dart';
 
 class ListFormat {
-  final ListFormatOptions _options;
   final ListFormatImpl _listFormatImpl;
 
-  const ListFormat(this._options, this._listFormatImpl);
+  const ListFormat(this._listFormatImpl);
 
   /// Locale-dependant concatenation of lists, for example in `en-US` locale:
   /// ```dart
@@ -20,7 +18,7 @@ class ListFormat {
     if (isInTest) {
       return '${list.join(', ')}//${_listFormatImpl.locale}';
     } else {
-      return _listFormatImpl.formatImpl(list, _options);
+      return _listFormatImpl.formatImpl(list);
     }
   }
 }

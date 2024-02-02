@@ -4,7 +4,6 @@
 
 import '../test_checker.dart';
 import 'datetime_format_impl.dart';
-import 'datetime_format_options.dart';
 
 /// `DateTime` formatting, for example:
 ///
@@ -20,16 +19,15 @@ import 'datetime_format_options.dart';
 ///     .format(date); // Output: '4 mat.'
 /// ```
 class DateTimeFormat {
-  final DateTimeFormatOptions _options;
   final DateTimeFormatImpl impl;
 
-  DateTimeFormat(this._options, this.impl);
+  DateTimeFormat(this.impl);
 
   String format(DateTime datetime) {
     if (isInTest) {
       return '$datetime//${impl.locale}';
     } else {
-      return impl.formatImpl(datetime, _options);
+      return impl.formatImpl(datetime);
     }
   }
 }
