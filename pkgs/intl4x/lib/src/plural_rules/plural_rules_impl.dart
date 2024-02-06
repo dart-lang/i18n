@@ -9,9 +9,9 @@ import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
 import 'plural_rules.dart';
-import 'plural_rules_4x.dart';
 import 'plural_rules_options.dart';
 import 'plural_rules_stub.dart' if (dart.library.js) 'plural_rules_ecma.dart';
+import 'plural_rules_stub_4x.dart' if (dart.library.io) 'plural_rules_4x.dart';
 
 abstract class PluralRulesImpl {
   final Locale locale;

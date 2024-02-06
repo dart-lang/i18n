@@ -2,12 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../collation.dart';
+import '../../plural_rules.dart';
 import '../data.dart';
 import '../locale/locale.dart';
-import 'collation_impl.dart';
+import 'plural_rules_impl.dart';
 
-/// Stub for the conditional import
-CollationImpl getCollator4X(
-        Locale locale, Data data, CollationOptions options) =>
+PluralRulesImpl getPluralSelect4X(
+  Locale locale,
+  Data data,
+  PluralRulesOptions options,
+) =>
     throw UnimplementedError('Cannot use ICU4X in web environments.');

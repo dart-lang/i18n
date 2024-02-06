@@ -75,7 +75,13 @@ class NumberFormat4X extends NumberFormatImpl {
       fixedDecimal.padEnd(-minFractionDigits);
     }
     if (maxFractionDigits != null && !(useSignificant ?? false)) {
-      _roundDecimal(fixedDecimal, maxFractionPosition);
+      final int position;
+      if (minFractionDigits != null) {
+        position = min(maxFractionPosition, -minFractionDigits);
+      } else {
+        position = maxFractionPosition;
+      }
+      _roundDecimal(fixedDecimal, position);
     }
     if (minSignificantDigits != null &&
         fixedDecimal.length < minSignificantDigits) {

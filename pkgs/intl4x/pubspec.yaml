@@ -18,6 +18,7 @@ dev_dependencies:
   args: ^2.4.2
   build_runner: ^2.1.4
   build_web_compilers: ^3.2.1
+  collection: ^1.18.0
   dart_flutter_team_lints: ^1.0.0
   lints: ^2.0.0
   native_assets_cli: ^0.3.2
