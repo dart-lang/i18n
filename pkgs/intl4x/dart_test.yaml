@@ -1,0 +1,4 @@
+tags:
+  icu4xUnimplemented:
+      skip: "Not implemented in ICU4X yet. Use -P force to force tests."
+      presets: {force: {skip: false}}

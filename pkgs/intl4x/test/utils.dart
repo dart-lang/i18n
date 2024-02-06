@@ -4,8 +4,10 @@
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
+@isTest
 void testWithFormatting<T>(
   dynamic description,
   T Function() body, {

@@ -9,118 +9,130 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  testWithFormatting('Basic', () {
-    expect(
-        Intl(locale: const Locale(language: 'en', region: 'US'))
-            .datetimeFormat()
-            .format(DateTime.utc(2012, 12, 20, 3, 0, 0)),
-        '12/20/2012');
-  });
+  testWithFormatting(
+    'Basic',
+    () {
+      expect(
+          Intl(locale: const Locale(language: 'en', region: 'US'))
+              .datetimeFormat()
+              .format(DateTime.utc(2012, 12, 20, 3, 0, 0)),
+          '12/20/2012');
+    },
+    // tags: ['icu4xUnimplemented'],
+  );
 
-  testWithFormatting('timezone', () {
-    final date = DateTime.utc(2021, 12, 17, 3, 0, 42);
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
-    final timeZone = 'America/Los_Angeles';
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.short,
-          ))
-          .format(date),
-      '12/16/2021, PST',
-    );
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.long,
-          ))
-          .format(date),
-      '12/16/2021, Pacific Standard Time',
-    );
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.shortOffset,
-          ))
-          .format(date),
-      '12/16/2021, GMT-8',
-    );
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.longOffset,
-          ))
-          .format(date),
-      '12/16/2021, GMT-08:00',
-    );
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.shortGeneric,
-          ))
-          .format(date),
-      '12/16/2021, PT',
-    );
-    expect(
-      intl
-          .datetimeFormat(DateTimeFormatOptions(
-            timeZone: timeZone,
-            timeZoneName: TimeZoneName.longGeneric,
-          ))
-          .format(date),
-      '12/16/2021, Pacific Time',
-    );
-  });
-
-  testWithFormatting('day period', () {
-    final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
-    expect(
-        Intl(locale: const Locale(language: 'en', region: 'GB'))
-            .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeStyle.numeric,
-              clockstyle: ClockStyle(
-                is12Hour: true,
-                startAtZero: false,
-              ),
-              dayPeriod: DayPeriod.short,
-              timeZone: 'UTC',
+  testWithFormatting(
+    'timezone',
+    () {
+      final date = DateTime.utc(2021, 12, 17, 3, 0, 42);
+      final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+      final timeZone = 'America/Los_Angeles';
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.short,
             ))
             .format(date),
-        '4 at night');
-
-    expect(
-        Intl(locale: const Locale(language: 'fr'))
-            .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeStyle.numeric,
-              clockstyle: ClockStyle(
-                is12Hour: true,
-                startAtZero: false,
-              ),
-              dayPeriod: DayPeriod.narrow,
-              timeZone: 'UTC',
+        '12/16/2021, PST',
+      );
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.long,
             ))
             .format(date),
-        '4 mat.');
-
-    expect(
-        Intl(locale: const Locale(language: 'fr'))
-            .datetimeFormat(const DateTimeFormatOptions(
-              hour: TimeStyle.numeric,
-              clockstyle: ClockStyle(
-                is12Hour: true,
-                startAtZero: false,
-              ),
-              dayPeriod: DayPeriod.long,
-              timeZone: 'UTC',
+        '12/16/2021, Pacific Standard Time',
+      );
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.shortOffset,
             ))
             .format(date),
-        '4 du matin');
-  });
+        '12/16/2021, GMT-8',
+      );
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.longOffset,
+            ))
+            .format(date),
+        '12/16/2021, GMT-08:00',
+      );
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.shortGeneric,
+            ))
+            .format(date),
+        '12/16/2021, PT',
+      );
+      expect(
+        intl
+            .datetimeFormat(DateTimeFormatOptions(
+              timeZone: timeZone,
+              timeZoneName: TimeZoneName.longGeneric,
+            ))
+            .format(date),
+        '12/16/2021, Pacific Time',
+      );
+    },
+    // tags: ['icu4xUnimplemented'],
+  );
+
+  testWithFormatting(
+    'day period',
+    () {
+      final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+      expect(
+          Intl(locale: const Locale(language: 'en', region: 'GB'))
+              .datetimeFormat(const DateTimeFormatOptions(
+                hour: TimeStyle.numeric,
+                clockstyle: ClockStyle(
+                  is12Hour: true,
+                  startAtZero: false,
+                ),
+                dayPeriod: DayPeriod.short,
+                timeZone: 'UTC',
+              ))
+              .format(date),
+          '4 at night');
+
+      expect(
+          Intl(locale: const Locale(language: 'fr'))
+              .datetimeFormat(const DateTimeFormatOptions(
+                hour: TimeStyle.numeric,
+                clockstyle: ClockStyle(
+                  is12Hour: true,
+                  startAtZero: false,
+                ),
+                dayPeriod: DayPeriod.narrow,
+                timeZone: 'UTC',
+              ))
+              .format(date),
+          '4 mat.');
+
+      expect(
+          Intl(locale: const Locale(language: 'fr'))
+              .datetimeFormat(const DateTimeFormatOptions(
+                hour: TimeStyle.numeric,
+                clockstyle: ClockStyle(
+                  is12Hour: true,
+                  startAtZero: false,
+                ),
+                dayPeriod: DayPeriod.long,
+                timeZone: 'UTC',
+              ))
+              .format(date),
+          '4 du matin');
+    },
+    // tags: ['icu4xUnimplemented'],
+  );
 
   testWithFormatting('style', () {
     final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
@@ -131,7 +143,7 @@ void main() {
               timeZone: 'UTC',
             ))
             .format(date),
-        '4:00 AM');
+        '4:00\u202fAM');
     expect(
         Intl(locale: const Locale(language: 'en'))
             .datetimeFormat(const DateTimeFormatOptions(
@@ -148,6 +160,6 @@ void main() {
               timeZone: 'UTC',
             ))
             .format(date),
-        '12/17/21, 4:00:42 AM');
+        '12/17/21, 4:00:42\u202fAM');
   });
 }
