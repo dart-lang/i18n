@@ -29,6 +29,8 @@ class Locale {
   final String? numberingSystem;
   final bool? numeric;
 
+  //TODO(mosum): Add ResourceIdentifier here, as soon as it is supported on
+  //const constructors
   const Locale({
     required this.language,
     this.region,
