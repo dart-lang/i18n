@@ -12,3 +12,6 @@ analyzer:
   exclude:
     - "submodules/*"
     - "lib/src/bindings/*"
+
+  enable-experiment:
+    - native-assets

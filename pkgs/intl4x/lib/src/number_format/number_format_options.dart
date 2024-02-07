@@ -274,7 +274,8 @@ final class Digits {
         significantDigits = (null, null),
         roundingPriority = null,
         assert(roundingIncrement == null ||
-            ((minimum != null || maximum != null) || minimum == maximum));
+            ((minimum != null || maximum != null) || minimum == maximum)),
+        assert((minimum == null || maximum == null) || minimum < maximum);
 
   const Digits.withSignificantDigits({
     int? minimum = 1,
