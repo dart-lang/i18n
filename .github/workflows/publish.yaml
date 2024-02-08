@@ -15,3 +15,4 @@ jobs:
     with:
       write-comments: false
       checkout_submodules: true
+      ignore-packages: "submodules"
