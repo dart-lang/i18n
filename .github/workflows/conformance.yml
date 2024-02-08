@@ -17,7 +17,7 @@ jobs:
     run_all:
       runs-on: ubuntu-latest
       steps:
-        - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+        - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
           with:
             sdk: stable
 
@@ -35,7 +35,7 @@ jobs:
         - name: Download Reference Exec Summary
           if: github.ref != 'refs/heads/main'
           continue-on-error: true
-          uses: actions/download-artifact@f44cd7b40bfd40b6aa1cc1b9b5b7bf03d3c67110
+          uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935
           with:
             name: reference_exec_summary
 
@@ -47,7 +47,7 @@ jobs:
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@c7d193f32edcb7bfad88892161225aeda64e9392
+          uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8
           with:
             name: reference_exec_summary
             path: conformance/TEMP_DATA/testReports/exec_summary.json
