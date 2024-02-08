@@ -70,7 +70,7 @@ const english = {
 
 const german = {
   'DAY': '27',
-  'ABBR_WEEKDAY': 'Fr.',
+  'ABBR_WEEKDAY': 'Fr',
   'WEEKDAY': 'Freitag',
   'ABBR_STANDALONE_MONTH': 'Jan',
   'STANDALONE_MONTH': 'Januar',
@@ -125,7 +125,7 @@ const german = {
 
 const austrian = {
   'DAY': '27',
-  'ABBR_WEEKDAY': 'Fr.',
+  'ABBR_WEEKDAY': 'Fr',
   'WEEKDAY': 'Freitag',
   'ABBR_STANDALONE_MONTH': 'Jän',
   'STANDALONE_MONTH': 'Jänner',
