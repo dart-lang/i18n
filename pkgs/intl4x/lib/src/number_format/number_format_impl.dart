@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show ResourceIdentifier;
+
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
@@ -22,7 +24,8 @@ abstract class NumberFormatImpl {
 
   String formatImpl(Object number);
 
-  factory NumberFormatImpl.build(
+  @ResourceIdentifier('NumberFormat')
+  static NumberFormatImpl build(
     Locale locale,
     Data data,
     NumberFormatOptions options,
