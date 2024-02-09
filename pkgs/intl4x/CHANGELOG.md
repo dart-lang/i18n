@@ -1,6 +1,7 @@
 ## 0.8.2-wip
 
 - Add ICU4X support for number formatting.
+- Add resource identifier annotations.
 - Add ICU4X support for plural rules.
 
 ## 0.8.1

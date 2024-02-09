@@ -12,6 +12,7 @@ environment:
 dependencies:
   ffi: ^2.1.0
   js: ^0.6.5
+  meta: ^1.12.0
 
 dev_dependencies:
   archive: ^3.4.10

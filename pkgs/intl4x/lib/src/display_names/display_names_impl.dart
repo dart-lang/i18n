@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart' show ResourceIdentifier;
+
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
@@ -31,7 +33,8 @@ abstract class DisplayNamesImpl {
 
   String ofCalendar(Calendar calendar);
 
-  factory DisplayNamesImpl.build(
+  @ResourceIdentifier('DisplayNames')
+  static DisplayNamesImpl build(
     Locale locale,
     Data data,
     DisplayNamesOptions options,
