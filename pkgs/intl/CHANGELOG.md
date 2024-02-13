@@ -3,6 +3,8 @@
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
  * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
  * Add example for pub.dev.
+ * Fix issues with AM/PM markers.
+ * Update to CLDR v44.1.
 
 ## 0.19.0
  * Update to CLDR v44.
