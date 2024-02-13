@@ -2,6 +2,7 @@
 
 - Add ICU4X support for number formatting.
 - Add resource identifier annotations.
+- Add ICU4X support for datetime formatting.
 
 ## 0.8.1
 
