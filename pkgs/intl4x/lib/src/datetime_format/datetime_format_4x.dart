@@ -125,7 +125,7 @@ extension on Calendar {
         Calendar.gregory => icu.AnyCalendarKind.gregorian,
         Calendar.hebrew => icu.AnyCalendarKind.hebrew,
         Calendar.indian => icu.AnyCalendarKind.indian,
-        Calendar.islamic => icu.AnyCalendarKind.islamicCivil,
+        Calendar.islamic => icu.AnyCalendarKind.islamicObservational,
         Calendar.islamicUmalqura => icu.AnyCalendarKind.islamicUmmAlQura,
         Calendar.islamicTbla => icu.AnyCalendarKind.islamicTabular,
         Calendar.islamicCivil => icu.AnyCalendarKind.islamicCivil,
