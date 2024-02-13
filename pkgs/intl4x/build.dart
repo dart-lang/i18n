@@ -47,7 +47,10 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
         path: AssetAbsolutePath(Uri.file(libPath)),
       )
     ],
-    dependencies: Dependencies([Uri.file('build.dart')]),
+    dependencies: Dependencies([
+      ...buildMode.dependencies,
+      Uri.file('build.dart'),
+    ]),
   ).writeToFile(outDir: config.outDir);
 }
 
@@ -64,6 +67,8 @@ void unzipFirstFile({required File input, required File output}) {
 }
 
 sealed class BuildMode {
+  List<Uri> get dependencies;
+
   Future<void> build();
 }
 
@@ -98,6 +103,9 @@ final class FetchMode implements BuildMode {
       return 'ubuntu';
     }
   }
+
+  @override
+  List<Uri> get dependencies => [];
 }
 
 final class LocalMode implements BuildMode {
@@ -111,6 +119,9 @@ final class LocalMode implements BuildMode {
   Future<void> build() async {
     await File(_localBinaryPath).copy(libPath);
   }
+
+  @override
+  List<Uri> get dependencies => [Uri.file(_localBinaryPath)];
 }
 
 final class CheckoutMode implements BuildMode {
@@ -118,19 +129,27 @@ final class CheckoutMode implements BuildMode {
   final String libPath;
   CheckoutMode(this.config, this.libPath);
 
+  String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
+
   @override
   Future<void> build() async {
-    final workingDirectory = Platform.environment['LOCAL_ICU4X_CHECKOUT'];
     if (workingDirectory == null) {
       throw ArgumentError('Specify the ICU4X checkout folder'
           'with the LOCAL_ICU4X_CHECKOUT variable');
     }
     final lib = await buildLib(
       config,
-      workingDirectory,
+      workingDirectory!,
     );
     await File(lib).copy(libPath);
   }
+
+  @override
+  List<Uri> get dependencies => Directory(workingDirectory!)
+      .listSync()
+      .whereType<File>()
+      .map((e) => Uri.file(e.path))
+      .toList();
 }
 
 Future<String> buildLib(
@@ -165,13 +184,15 @@ Future<String> buildLib(
     'buffer_provider',
     'logging',
     'simple_logger',
+    'experimental_components',
   ];
   final noStdFeatures = [
     'default_components',
     'compiled_data',
     'buffer_provider',
     'libc-alloc',
-    'panic-handler'
+    'panic-handler',
+    'experimental_components',
   ];
   final tempDir = Directory.systemTemp.createTempSync();
   final linkModeType =
@@ -181,7 +202,7 @@ Future<String> buildLib(
   final arguments = [
     if (isNoStd) '+nightly',
     'rustc',
-    '-p={crateName}',
+    '-p=$crateName',
     '--crate-type=$linkModeType',
     '--release',
     '--config=profile.release.panic="abort"',
