@@ -21,7 +21,7 @@ jobs:
 
     env:
       ICU4X_BUILD_MODE: checkout
-      LOCAL_ICU4X_CHECKOUT: submodules/icu4x
+      LOCAL_ICU4X_CHECKOUT:  ${{ github.workspace }}/submodules/icu4x
     
     defaults:
       run:
