@@ -17,71 +17,112 @@ void main() {
         'German (Germany)');
   });
 
-  testWithFormatting('languageDisplay', () {
-    String of(DisplayNamesOptions options) =>
+  testWithFormatting('language', () {
+    String languageOf(Locale locale, String language) =>
+        Intl(locale: locale).displayNames().ofLanguage(Locale.parse(language));
+
+    final en = const Locale(language: 'en');
+    expect(languageOf(en, 'fr'), 'French');
+    expect(languageOf(en, 'de'), 'German');
+    expect(languageOf(en, 'fr-CA'), 'Canadian French');
+    expect(languageOf(en, 'zh-Hant'), 'Traditional Chinese');
+    expect(languageOf(en, 'en-US'), 'American English');
+    expect(languageOf(en, 'zh-TW'), 'Chinese (Taiwan)');
+
+    final zh = const Locale(language: 'zh', script: 'Hant');
+    expect(languageOf(zh, 'fr'), '法文');
+    expect(languageOf(zh, 'zh'), '中文');
+    expect(languageOf(zh, 'de'), '德文');
+  });
+
+  testWithFormatting('language with languageDisplay', () {
+    String languageWith(LanguageDisplay display) =>
         Intl(locale: const Locale(language: 'en'))
-            .displayNames(options)
+            .displayNames(DisplayNamesOptions(languageDisplay: display))
             .ofLanguage(const Locale(language: 'en', region: 'GB'));
 
-    expect(
-      of(const DisplayNamesOptions(languageDisplay: LanguageDisplay.dialect)),
-      'British English',
-    );
-    expect(
-      of(const DisplayNamesOptions(languageDisplay: LanguageDisplay.standard)),
-      'English (United Kingdom)',
-    );
+    expect(languageWith(LanguageDisplay.dialect), 'British English');
+    expect(languageWith(LanguageDisplay.standard), 'English (United Kingdom)');
   });
 
-  testWithFormatting('calendar', () {
-    final displayNames =
-        Intl(locale: const Locale(language: 'en')).displayNames();
+  testWithFormatting(
+    'calendar',
+    () {
+      final displayNames =
+          Intl(locale: const Locale(language: 'en')).displayNames();
 
-    expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
-    expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
-    expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
-  });
+      expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
+      expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
+      expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
+    },
+    tags: ['icu4xUnimplemented'],
+  );
 
-  testWithFormatting('dateTimeField', () {
-    final displayNames =
-        Intl(locale: const Locale(language: 'pt')).displayNames();
-    expect(displayNames.ofDateTime(DateTimeField.era), 'era');
-    expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
-    expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
-    expect(displayNames.ofDateTime(DateTimeField.quarter), 'trimestre');
-    expect(displayNames.ofDateTime(DateTimeField.weekOfYear), 'semana');
-    expect(displayNames.ofDateTime(DateTimeField.weekday), 'dia da semana');
-    expect(displayNames.ofDateTime(DateTimeField.dayPeriod), 'AM/PM');
-    expect(displayNames.ofDateTime(DateTimeField.day), 'dia');
-    expect(displayNames.ofDateTime(DateTimeField.hour), 'hora');
-    expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
-    expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
-  });
+  testWithFormatting(
+    'dateTimeField',
+    () {
+      final displayNames =
+          Intl(locale: const Locale(language: 'pt')).displayNames();
+      expect(displayNames.ofDateTime(DateTimeField.era), 'era');
+      expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
+      expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
+      expect(displayNames.ofDateTime(DateTimeField.quarter), 'trimestre');
+      expect(displayNames.ofDateTime(DateTimeField.weekOfYear), 'semana');
+      expect(displayNames.ofDateTime(DateTimeField.weekday), 'dia da semana');
+      expect(displayNames.ofDateTime(DateTimeField.dayPeriod), 'AM/PM');
+      expect(displayNames.ofDateTime(DateTimeField.day), 'dia');
+      expect(displayNames.ofDateTime(DateTimeField.hour), 'hora');
+      expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
+      expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
+    },
+    tags: ['icu4xUnimplemented'],
+  );
 
-  testWithFormatting('currency', () {
-    expect(
-      Intl(locale: const Locale(language: 'pt'))
-          .displayNames()
-          .ofCurrency('USD'),
-      'Dólar americano',
-    );
-  });
+  testWithFormatting(
+    'currency',
+    () {
+      expect(
+        Intl(locale: const Locale(language: 'pt'))
+            .displayNames()
+            .ofCurrency('USD'),
+        'Dólar americano',
+      );
+    },
+    tags: ['icu4xUnimplemented'],
+  );
 
-  testWithFormatting('script', () {
-    expect(
-      Intl(locale: const Locale(language: 'fr'))
-          .displayNames()
-          .ofScript('Egyp'),
-      'hiéroglyphes égyptiens',
-    );
-  });
+  testWithFormatting(
+    'script',
+    () {
+      expect(
+        Intl(locale: const Locale(language: 'fr'))
+            .displayNames()
+            .ofScript('Egyp'),
+        'hiéroglyphes égyptiens',
+      );
+    },
+    tags: ['icu4xUnimplemented'],
+  );
 
   testWithFormatting('region', () {
-    expect(
-      Intl(locale: const Locale(language: 'es', region: '419'))
-          .displayNames()
-          .ofRegion('DE'),
-      'Alemania',
-    );
+    String regionNames(Locale locale, String region) =>
+        Intl(locale: locale).displayNames().ofRegion(region);
+
+    final en = const Locale(language: 'en');
+    expect(regionNames(en, '419'), 'Latin America');
+    expect(regionNames(en, 'BZ'), 'Belize');
+    expect(regionNames(en, 'US'), 'United States');
+    expect(regionNames(en, 'BA'), 'Bosnia & Herzegovina');
+    expect(regionNames(en, 'MM'), 'Myanmar (Burma)');
+
+    final zh = const Locale(language: 'zh', script: 'Hant');
+    expect(regionNames(zh, '419'), '拉丁美洲');
+    expect(regionNames(zh, 'BZ'), '貝里斯');
+    expect(regionNames(zh, 'US'), '美國');
+    expect(regionNames(zh, 'BA'), '波士尼亞與赫塞哥維納');
+    expect(regionNames(zh, 'MM'), '緬甸');
+
+    final es = const Locale(language: 'es', region: '419');
+    expect(regionNames(es, 'DE'), 'Alemania');
   });
 }
