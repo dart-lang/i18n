@@ -18,21 +18,26 @@ void main() {
   });
 
   testWithFormatting('language', () {
-    String languageOf(Locale locale, String language) =>
-        Intl(locale: locale).displayNames().ofLanguage(Locale.parse(language));
+    String languageOf(Locale locale, Locale language) =>
+        Intl(locale: locale).displayNames().ofLanguage(language);
 
-    final en = const Locale(language: 'en');
-    expect(languageOf(en, 'fr'), 'French');
-    expect(languageOf(en, 'de'), 'German');
-    expect(languageOf(en, 'fr-CA'), 'Canadian French');
-    expect(languageOf(en, 'zh-Hant'), 'Traditional Chinese');
-    expect(languageOf(en, 'en-US'), 'American English');
-    expect(languageOf(en, 'zh-TW'), 'Chinese (Taiwan)');
+    const en = Locale(language: 'en');
+    const fr = Locale(language: 'fr');
+    const de = Locale(language: 'de');
+    const zh = Locale(language: 'zh', script: 'Hant');
+    expect(languageOf(en, fr), 'French');
+    expect(languageOf(en, de), 'German');
+    expect(languageOf(en, const Locale(language: 'fr', region: 'CA')),
+        'Canadian French');
+    expect(languageOf(en, zh), 'Traditional Chinese');
+    expect(languageOf(en, const Locale(language: 'en', region: 'US')),
+        'American English');
+    expect(languageOf(en, const Locale(language: 'zh', region: 'TW')),
+        'Chinese (Taiwan)');
 
-    final zh = const Locale(language: 'zh', script: 'Hant');
-    expect(languageOf(zh, 'fr'), '法文');
-    expect(languageOf(zh, 'zh'), '中文');
-    expect(languageOf(zh, 'de'), '德文');
+    expect(languageOf(zh, fr), '法文');
+    expect(languageOf(zh, zh), '中文');
+    expect(languageOf(zh, de), '德文');
   });
 
   testWithFormatting('language with languageDisplay', () {
@@ -108,21 +113,21 @@ void main() {
     String regionNames(Locale locale, String region) =>
         Intl(locale: locale).displayNames().ofRegion(region);
 
-    final en = const Locale(language: 'en');
+    const en = Locale(language: 'en');
     expect(regionNames(en, '419'), 'Latin America');
     expect(regionNames(en, 'BZ'), 'Belize');
     expect(regionNames(en, 'US'), 'United States');
     expect(regionNames(en, 'BA'), 'Bosnia & Herzegovina');
     expect(regionNames(en, 'MM'), 'Myanmar (Burma)');
 
-    final zh = const Locale(language: 'zh', script: 'Hant');
+    const zh = Locale(language: 'zh', script: 'Hant');
     expect(regionNames(zh, '419'), '拉丁美洲');
     expect(regionNames(zh, 'BZ'), '貝里斯');
     expect(regionNames(zh, 'US'), '美國');
     expect(regionNames(zh, 'BA'), '波士尼亞與赫塞哥維納');
     expect(regionNames(zh, 'MM'), '緬甸');
 
-    final es = const Locale(language: 'es', region: '419');
+    const es = Locale(language: 'es', region: '419');
     expect(regionNames(es, 'DE'), 'Alemania');
   });
 }
