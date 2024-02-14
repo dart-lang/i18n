@@ -12,6 +12,7 @@ class AboutPageMessages {
 
   final Map<String, MessageList> _messages = {};
 
+  //TODO: This should instead be a map matching locales to data asset ids and hashs
   static const _dataFiles = {
     'fr': ('lib/testarbctx2_fr.json', 'EyPjEJJU'),
     'en': ('lib/testarbctx2.json', 'QrwRSsOy')

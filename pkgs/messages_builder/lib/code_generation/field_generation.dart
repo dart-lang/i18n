@@ -9,7 +9,7 @@ import 'generation.dart';
 
 class FieldGeneration extends Generation<Field> {
   final GenerationOptions options;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Map<String, ({String path, String hash})> localeToResourceInfo;
   final String locale;
 
   FieldGeneration(
@@ -45,7 +45,7 @@ class FieldGeneration extends Generation<Field> {
     final dataFiles = Field(
       (fb) {
         final paths = localeToResourceInfo.entries
-            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
+            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hash}')")
             .join(',');
         fb
           ..name = '_dataFiles'
