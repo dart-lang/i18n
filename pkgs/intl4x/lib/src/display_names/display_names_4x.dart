@@ -34,17 +34,17 @@ class DisplayNames4X extends DisplayNamesImpl {
 
   @override
   String ofCalendar(Calendar calendar) {
-    throw UnsupportedError('Insert diplomat bindings here');
+    throw UnsupportedError('Not supported by ICU4X yet.');
   }
 
   @override
   String ofCurrency(String currencyCode) {
-    throw UnsupportedError('Insert diplomat bindings here');
+    throw UnsupportedError('Not supported by ICU4X yet.');
   }
 
   @override
   String ofDateTime(DateTimeField field) {
-    throw UnsupportedError('Insert diplomat bindings here');
+    throw UnsupportedError('Not supported by ICU4X yet.');
   }
 
   @override
@@ -55,7 +55,7 @@ class DisplayNames4X extends DisplayNamesImpl {
 
   @override
   String ofScript(String scriptCode) {
-    throw UnsupportedError('Insert diplomat bindings here');
+    throw UnsupportedError('Not supported by ICU4X yet.');
   }
 }
 
