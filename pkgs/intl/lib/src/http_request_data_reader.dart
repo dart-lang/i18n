@@ -29,17 +29,15 @@ class HttpRequestDataReader implements LocaleDataReader {
     );
   }
 
-  Future<String> _getString(String url, Client client) {
-    return client.get(Uri.parse(url)).then((response) {
-      if ((response.statusCode >= 200 && response.statusCode < 300) ||
-          response.statusCode == 0 ||
-          response.statusCode == 304) {
-        return response.body;
-      } else {
-        throw Exception('Failed to load $url');
-      }
-    }).catchError((e) {
+  Future<String> _getString(String url, Client client) async {
+    final response = await client.get(Uri.parse(url));
+
+    if ((response.statusCode >= 200 && response.statusCode < 300) ||
+        response.statusCode == 0 ||
+        response.statusCode == 304) {
+      return response.body;
+    } else {
       throw Exception('Failed to load $url');
-    });
+    }
   }
 }
