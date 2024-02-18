@@ -75,7 +75,7 @@ class FakeEcmaNumberFormat {
   bool? useGrouping;
 }
 
-extension type EcmaFormatNumbe(JSObject _) implements JSObject {
+extension type EcmaFormatNumber(JSObject _) implements JSObject {
   external String? notation;
   external String? compactDisplay;
   external String? style;
@@ -97,7 +97,8 @@ String _ecmaFormatNumber(String locale, JSNumber number,
     String? compactDisplay,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
-  var options = FakeEcmaNumberFormat();
+  var fakeOptions = FakeEcmaNumberFormat();
+  var options = createJSInteropWrapper<FakeEcmaNumberFormat>(fakeOptions) as EcmaFormatNumber;
   if (notation != null) options.notation = notation;
   if (compactDisplay != null) {
     options.compactDisplay = compactDisplay;
@@ -183,7 +184,8 @@ void _validateLong(String locale, List<List<String>> expected) {
 }
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
-  var options = FakeEcmaNumberFormat();
+  var fakeOptions = FakeEcmaNumberFormat();
+  var options = createJSInteropWrapper<FakeEcmaNumberFormat>(fakeOptions) as EcmaFormatNumber;
   options.notation = 'compact';
   if (t.maximumIntegerDigits != null) {
     options.maximumIntegerDigits = t.maximumIntegerDigits;
