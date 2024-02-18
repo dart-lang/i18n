@@ -9,8 +9,9 @@
 // consistency when the bug is fixed. Also fix documentation and perhaps
 // merge tests: these tests currently also touch non-compact currency
 // formatting.
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 import 'package:intl/intl.dart' as intl;
-import 'package:js/js_util.dart' as js;
 import 'package:test/test.dart';
 
 import 'compact_number_test_data.dart' as testdata;
@@ -25,7 +26,7 @@ void main() {
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200FILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
-    expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
+    expect(_ecmaFormatNumber('he', 1234.toJS, style: 'currency', currency: 'ILS'),
         '\u200F1,234.00\u00A0\u200F₪');
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
@@ -34,19 +35,19 @@ void main() {
     expect(compact.format(1234), '₪1.23K\u200F');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
-        _ecmaFormatNumber('he', 1234,
+        _ecmaFormatNumber('he', 1234.toJS,
             style: 'currency', currency: 'ILS', notation: 'compact'),
         '₪1.2K\u200F');
     // short/long compactDisplay doesn't change anything here:
     expect(
-        _ecmaFormatNumber('he', 1234,
+        _ecmaFormatNumber('he', 1234.toJS,
             style: 'currency',
             currency: 'ILS',
             notation: 'compact',
             compactDisplay: 'short'),
         '₪1.2K\u200F');
     expect(
-        _ecmaFormatNumber('he', 1234,
+        _ecmaFormatNumber('he', 1234.toJS,
             style: 'currency',
             currency: 'ILS',
             notation: 'compact',
@@ -58,26 +59,56 @@ void main() {
   });
 }
 
-String _ecmaFormatNumber(String locale, num number,
+@JSExport()
+class FakeEcmaNumberFormat {
+  String? notation;
+  String? compactDisplay;
+  String? style;
+  String? currency;
+  int? minimumIntegerDigits;
+  int? maximumIntegerDigits;
+  int? minimumSignificantDigits;
+  int? maximumSignificantDigits;
+  int? minimumFractionDigits;
+  int? maximumFractionDigits;
+  int? minimumExponentDigits;
+  bool? useGrouping;
+}
+
+extension type EcmaFormatNumbe(JSObject _) implements JSObject {
+  external String? notation;
+  external String? compactDisplay;
+  external String? style;
+  external String? currency;
+  external int? minimumIntegerDigits;
+  external int? maximumIntegerDigits;
+  external int? minimumSignificantDigits;
+  external int? maximumSignificantDigits;
+  external int? minimumFractionDigits;
+  external int? maximumFractionDigits;
+  external int? minimumExponentDigits;
+  external bool? useGrouping;
+}
+
+String _ecmaFormatNumber(String locale, JSNumber number,
     {String? style,
     String? currency,
     String? notation,
     String? compactDisplay,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
-  var options = js.newObject();
-  if (notation != null) js.setProperty(options, 'notation', notation);
+  var options = FakeEcmaNumberFormat();
+  if (notation != null) options.notation = notation;
   if (compactDisplay != null) {
-    js.setProperty(options, 'compactDisplay', compactDisplay);
+    options.compactDisplay = compactDisplay;
   }
-  if (style != null) js.setProperty(options, 'style', style);
-  if (currency != null) js.setProperty(options, 'currency', currency);
+  if (style != null) options.style = style;
+  if (currency != null) options.currency = currency;
   if (maximumSignificantDigits != null) {
-    js.setProperty(
-        options, 'maximumSignificantDigits', maximumSignificantDigits);
+    options.maximumSignificantDigits = maximumSignificantDigits;
   }
-  if (useGrouping != null) js.setProperty(options, 'useGrouping', useGrouping);
-  return js.callMethod(number, 'toLocaleString', [locale, options]);
+  if (useGrouping != null) options.useGrouping = useGrouping;
+  return number.callMethod('toLocaleString', [locale, options]);
 }
 
 var _unsupportedChromeLocales = [
@@ -121,7 +152,7 @@ void _validateShort(String locale, List<List<String>> expected) {
       expect(
           _ecmaFormatNumber(
             locale,
-            number,
+            number.toJS,
             notation: 'compact',
             useGrouping: false,
           ),
@@ -141,7 +172,7 @@ void _validateLong(String locale, List<List<String>> expected) {
       expect(
           _ecmaFormatNumber(
             locale,
-            number,
+            number.toJS,
             notation: 'compact',
             compactDisplay: 'long',
             useGrouping: false,
@@ -152,40 +183,40 @@ void _validateLong(String locale, List<List<String>> expected) {
 }
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
-  var options = js.newObject();
-  js.setProperty(options, 'notation', 'compact');
+  var options = FakeEcmaNumberFormat();
+  options.notation = 'compact';
   if (t.maximumIntegerDigits != null) {
-    js.setProperty(options, 'maximumIntegerDigits', t.maximumIntegerDigits);
+    options.maximumIntegerDigits = t.maximumIntegerDigits;
   }
 
   if (t.minimumIntegerDigits != null) {
-    js.setProperty(options, 'minimumIntegerDigits', t.minimumIntegerDigits);
+    options.minimumIntegerDigits = t.minimumIntegerDigits;
   }
 
   if (t.maximumFractionDigits != null) {
-    js.setProperty(options, 'maximumFractionDigits', t.maximumFractionDigits);
+    options.maximumFractionDigits = t.maximumFractionDigits;
   }
 
   if (t.minimumFractionDigits != null) {
-    js.setProperty(options, 'minimumFractionDigits', t.minimumFractionDigits);
+    options.minimumFractionDigits = t.minimumFractionDigits;
   }
 
   if (t.minimumExponentDigits != null) {
-    js.setProperty(options, 'minimumExponentDigits', t.minimumExponentDigits);
+    options.minimumExponentDigits = t.minimumExponentDigits;
   }
 
   if (t.maximumSignificantDigits != null) {
-    js.setProperty(
-        options, 'maximumSignificantDigits', t.maximumSignificantDigits);
+    options.maximumSignificantDigits = t.maximumSignificantDigits;
   }
 
   if (t.minimumSignificantDigits != null) {
-    js.setProperty(
-        options, 'minimumSignificantDigits', t.minimumSignificantDigits);
+    options.minimumSignificantDigits = t.minimumSignificantDigits;
   }
 
   test(t.toString(), () {
-    expect(js.callMethod(t.number, 'toLocaleString', ['en-US', options]),
-        t.expected);
+    expect(
+      t.number.callMethod('toLocaleString', ['en-US', options]),
+      t.expected,
+    );
   });
 }
