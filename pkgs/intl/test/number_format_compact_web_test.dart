@@ -17,6 +17,10 @@ import 'package:test/test.dart';
 import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
 
+extension on JSNumber {
+  external String toLocaleString(String locale, [JSObject? options]);
+}
+
 void main() {
   testdata.compactNumberTestData.forEach(_validate);
   more_testdata.cldr35CompactNumTests.forEach(_validateMore);
@@ -26,7 +30,8 @@ void main() {
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200FILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
-    expect(_ecmaFormatNumber('he', 1234.toJS, style: 'currency', currency: 'ILS'),
+    expect(
+        _ecmaFormatNumber('he', 1234.toJS, style: 'currency', currency: 'ILS'),
         '\u200F1,234.00\u00A0\u200F₪');
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
@@ -59,37 +64,6 @@ void main() {
   });
 }
 
-@JSExport()
-class FakeEcmaNumberFormat {
-  String? notation;
-  String? compactDisplay;
-  String? style;
-  String? currency;
-  int? minimumIntegerDigits;
-  int? maximumIntegerDigits;
-  int? minimumSignificantDigits;
-  int? maximumSignificantDigits;
-  int? minimumFractionDigits;
-  int? maximumFractionDigits;
-  int? minimumExponentDigits;
-  bool? useGrouping;
-}
-
-extension type EcmaFormatNumber(JSObject _) implements JSObject {
-  external String? notation;
-  external String? compactDisplay;
-  external String? style;
-  external String? currency;
-  external int? minimumIntegerDigits;
-  external int? maximumIntegerDigits;
-  external int? minimumSignificantDigits;
-  external int? maximumSignificantDigits;
-  external int? minimumFractionDigits;
-  external int? maximumFractionDigits;
-  external int? minimumExponentDigits;
-  external bool? useGrouping;
-}
-
 String _ecmaFormatNumber(String locale, JSNumber number,
     {String? style,
     String? currency,
@@ -97,19 +71,22 @@ String _ecmaFormatNumber(String locale, JSNumber number,
     String? compactDisplay,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
-  var fakeOptions = FakeEcmaNumberFormat();
-  var options = createJSInteropWrapper<FakeEcmaNumberFormat>(fakeOptions) as EcmaFormatNumber;
-  if (notation != null) options.notation = notation;
+  final options = JSObject();
+  if (notation != null) options.setProperty('notation'.toJS, notation.toJS);
   if (compactDisplay != null) {
-    options.compactDisplay = compactDisplay;
+    options.setProperty('compactDisplay'.toJS, compactDisplay.toJS);
   }
-  if (style != null) options.style = style;
-  if (currency != null) options.currency = currency;
+  if (style != null) options.setProperty('style'.toJS, style.toJS);
+  if (currency != null) options.setProperty('currency'.toJS, currency.toJS);
   if (maximumSignificantDigits != null) {
-    options.maximumSignificantDigits = maximumSignificantDigits;
+    options.setProperty(
+      'maximumSignificantDigits'.toJS,
+      maximumSignificantDigits.toJS,
+    );
   }
-  if (useGrouping != null) options.useGrouping = useGrouping;
-  return number.callMethod('toLocaleString', [locale, options]);
+  if (useGrouping != null)
+    options.setProperty('useGrouping'.toJS, useGrouping.toJS);
+  return number.toLocaleString(locale, options);
 }
 
 var _unsupportedChromeLocales = [
@@ -184,40 +161,60 @@ void _validateLong(String locale, List<List<String>> expected) {
 }
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
-  var fakeOptions = FakeEcmaNumberFormat();
-  var options = createJSInteropWrapper<FakeEcmaNumberFormat>(fakeOptions) as EcmaFormatNumber;
-  options.notation = 'compact';
+  final options = JSObject();
+  options.setProperty('notation'.toJS, 'compact'.toJS);
   if (t.maximumIntegerDigits != null) {
-    options.maximumIntegerDigits = t.maximumIntegerDigits;
+    options.setProperty(
+      'maximumIntegerDigits'.toJS,
+      t.maximumIntegerDigits!.toJS,
+    );
   }
 
   if (t.minimumIntegerDigits != null) {
-    options.minimumIntegerDigits = t.minimumIntegerDigits;
+    options.setProperty(
+      'minimumIntegerDigits'.toJS,
+      t.minimumIntegerDigits!.toJS,
+    );
   }
 
   if (t.maximumFractionDigits != null) {
-    options.maximumFractionDigits = t.maximumFractionDigits;
+    options.setProperty(
+      'maximumFractionDigits'.toJS,
+      t.maximumFractionDigits!.toJS,
+    );
   }
 
   if (t.minimumFractionDigits != null) {
-    options.minimumFractionDigits = t.minimumFractionDigits;
+    options.setProperty(
+      'minimumFractionDigits'.toJS,
+      t.minimumFractionDigits!.toJS,
+    );
   }
 
   if (t.minimumExponentDigits != null) {
-    options.minimumExponentDigits = t.minimumExponentDigits;
+    options.setProperty(
+      'minimumExponentDigits'.toJS,
+      t.minimumExponentDigits!.toJS,
+    );
   }
 
   if (t.maximumSignificantDigits != null) {
-    options.maximumSignificantDigits = t.maximumSignificantDigits;
+    options.setProperty(
+      'maximumSignificantDigits'.toJS,
+      t.maximumSignificantDigits!.toJS,
+    );
   }
 
   if (t.minimumSignificantDigits != null) {
-    options.minimumSignificantDigits = t.minimumSignificantDigits;
+    options.setProperty(
+      'minimumSignificantDigits'.toJS,
+      t.minimumSignificantDigits!.toJS,
+    );
   }
 
   test(t.toString(), () {
     expect(
-      t.number.callMethod('toLocaleString', ['en-US', options]),
+      t.number.toJS.toLocaleString('en-US', options),
       t.expected,
     );
   });
