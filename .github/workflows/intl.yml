@@ -30,7 +30,6 @@ jobs:
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - uses: dart-lang/setup-dart@fedb1266e91cf51be2fdb382869461a434b920a3
-        id: install
         with:
           sdk: ${{matrix.sdk}}
 
