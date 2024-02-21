@@ -30,8 +30,7 @@ void main() {
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200FILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
-    expect(
-        _ecmaFormatNumber('he', 1234.toJS, style: 'currency', currency: 'ILS'),
+    expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
         '\u200F1,234.00\u00A0\u200F₪');
 
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
@@ -40,19 +39,19 @@ void main() {
     expect(compact.format(1234), '₪1.23K\u200F');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
-        _ecmaFormatNumber('he', 1234.toJS,
+        _ecmaFormatNumber('he', 1234,
             style: 'currency', currency: 'ILS', notation: 'compact'),
         '₪1.2K\u200F');
     // short/long compactDisplay doesn't change anything here:
     expect(
-        _ecmaFormatNumber('he', 1234.toJS,
+        _ecmaFormatNumber('he', 1234,
             style: 'currency',
             currency: 'ILS',
             notation: 'compact',
             compactDisplay: 'short'),
         '₪1.2K\u200F');
     expect(
-        _ecmaFormatNumber('he', 1234.toJS,
+        _ecmaFormatNumber('he', 1234,
             style: 'currency',
             currency: 'ILS',
             notation: 'compact',
@@ -64,7 +63,7 @@ void main() {
   });
 }
 
-String _ecmaFormatNumber(String locale, JSNumber number,
+String _ecmaFormatNumber(String locale, num number,
     {String? style,
     String? currency,
     String? notation,
@@ -84,9 +83,10 @@ String _ecmaFormatNumber(String locale, JSNumber number,
       maximumSignificantDigits.toJS,
     );
   }
-  if (useGrouping != null)
+  if (useGrouping != null) {
     options.setProperty('useGrouping'.toJS, useGrouping.toJS);
-  return number.toLocaleString(locale, options);
+  }
+  return number.toJS.toLocaleString(locale, options);
 }
 
 var _unsupportedChromeLocales = [
@@ -130,7 +130,7 @@ void _validateShort(String locale, List<List<String>> expected) {
       expect(
           _ecmaFormatNumber(
             locale,
-            number.toJS,
+            number,
             notation: 'compact',
             useGrouping: false,
           ),
@@ -150,7 +150,7 @@ void _validateLong(String locale, List<List<String>> expected) {
       expect(
           _ecmaFormatNumber(
             locale,
-            number.toJS,
+            number,
             notation: 'compact',
             compactDisplay: 'long',
             useGrouping: false,
