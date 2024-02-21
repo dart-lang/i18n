@@ -46,4 +46,4 @@ jobs:
 
       - name: Run Chrome tests - wasm
         run: dart test --platform chrome --compiler dart2wasm
-        if: always() && steps.install.outcome == 'success' && matrix.sdk == 'dev'
+        if: always() && matrix.sdk == 'dev'
