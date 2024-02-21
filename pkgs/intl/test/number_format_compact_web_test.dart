@@ -71,20 +71,17 @@ String _ecmaFormatNumber(String locale, num number,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
   final options = JSObject();
-  if (notation != null) options.setProperty('notation'.toJS, notation.toJS);
+  if (notation != null) options['notation'] = notation.toJS;
   if (compactDisplay != null) {
-    options.setProperty('compactDisplay'.toJS, compactDisplay.toJS);
+    options['compactDisplay'] = compactDisplay.toJS;
   }
-  if (style != null) options.setProperty('style'.toJS, style.toJS);
-  if (currency != null) options.setProperty('currency'.toJS, currency.toJS);
+  if (style != null) options['style'] = style.toJS;
+  if (currency != null) options['currency'] = currency.toJS;
   if (maximumSignificantDigits != null) {
-    options.setProperty(
-      'maximumSignificantDigits'.toJS,
-      maximumSignificantDigits.toJS,
-    );
+    options['maximumSignificantDigits'] = maximumSignificantDigits.toJS;
   }
   if (useGrouping != null) {
-    options.setProperty('useGrouping'.toJS, useGrouping.toJS);
+    options['useGrouping'] = useGrouping.toJS;
   }
   return number.toJS.toLocaleString(locale, options);
 }
@@ -162,54 +159,33 @@ void _validateLong(String locale, List<List<String>> expected) {
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
   final options = JSObject();
-  options.setProperty('notation'.toJS, 'compact'.toJS);
+  options['notation'] = 'compact'.toJS;
   if (t.maximumIntegerDigits != null) {
-    options.setProperty(
-      'maximumIntegerDigits'.toJS,
-      t.maximumIntegerDigits!.toJS,
-    );
+    options['maximumIntegerDigits'] = t.maximumIntegerDigits!.toJS;
   }
 
   if (t.minimumIntegerDigits != null) {
-    options.setProperty(
-      'minimumIntegerDigits'.toJS,
-      t.minimumIntegerDigits!.toJS,
-    );
+    options['minimumIntegerDigits'] = t.minimumIntegerDigits!.toJS;
   }
 
   if (t.maximumFractionDigits != null) {
-    options.setProperty(
-      'maximumFractionDigits'.toJS,
-      t.maximumFractionDigits!.toJS,
-    );
+    options['maximumFractionDigits'] = t.maximumFractionDigits!.toJS;
   }
 
   if (t.minimumFractionDigits != null) {
-    options.setProperty(
-      'minimumFractionDigits'.toJS,
-      t.minimumFractionDigits!.toJS,
-    );
+    options['minimumFractionDigits'] = t.minimumFractionDigits!.toJS;
   }
 
   if (t.minimumExponentDigits != null) {
-    options.setProperty(
-      'minimumExponentDigits'.toJS,
-      t.minimumExponentDigits!.toJS,
-    );
+    options['minimumExponentDigits'] = t.minimumExponentDigits!.toJS;
   }
 
   if (t.maximumSignificantDigits != null) {
-    options.setProperty(
-      'maximumSignificantDigits'.toJS,
-      t.maximumSignificantDigits!.toJS,
-    );
+    options['maximumSignificantDigits'] = t.maximumSignificantDigits!.toJS;
   }
 
   if (t.minimumSignificantDigits != null) {
-    options.setProperty(
-      'minimumSignificantDigits'.toJS,
-      t.minimumSignificantDigits!.toJS,
-    );
+    options['minimumSignificantDigits'] = t.minimumSignificantDigits!.toJS;
   }
 
   test(t.toString(), () {
