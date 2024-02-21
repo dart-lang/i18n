@@ -70,7 +70,7 @@ class LocaleExtensions {
         'RegExp/${_otherExtensionsValidValuesRE.pattern}. '
         'Entries: ${otherExtensions.entries}.');
     assert(
-        _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions!),
+        _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions),
         '_xExtensions must match RegExp/${_validXExtensionsRE.pattern}/ '
         'but is "$_xExtensions".');
   }
