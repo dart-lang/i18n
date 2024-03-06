@@ -4,20 +4,11 @@
 
 import 'dart:html';
 
-import 'package:intl4x/ecma_policy.dart';
-import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/number_format.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   num number = 300000;
-  var intl = Intl(ecmaPolicy: const AlwaysEcma());
-  String nf(num number) => intl
-      .numberFormat(NumberFormatOptions.custom(
-        style: CurrencyStyle(currency: 'USD'),
-        digits: const Digits.withFractionDigits(minimum: 0, maximum: 2),
-        roundingMode: RoundingMode.halfCeil,
-      ))
-      .format(number);
+  var nf = NumberFormat.currency(name: 'USD', decimalDigits: 2).format;
   querySelector('#output')?.text = 'Format $number: ${nf(number)}';
   print(nf(11.21)); // "$11.20"
   print(nf(11.22)); // "$11.20"
