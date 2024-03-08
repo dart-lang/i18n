@@ -4,6 +4,7 @@
 - Add resource identifier annotations.
 - Add ICU4X support for plural rules.
 - Add ICU4X support for display names.
+- Add ICU4X support for list formatting.
 
 ## 0.8.1
 

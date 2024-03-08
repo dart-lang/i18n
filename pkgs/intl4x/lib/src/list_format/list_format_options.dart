@@ -18,7 +18,7 @@ class ListFormatOptions {
   final LocaleMatcher localeMatcher;
 
   const ListFormatOptions({
-    this.type = Type.conjunction,
+    this.type = Type.and,
     this.style = ListStyle.long,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
@@ -39,11 +39,17 @@ class ListFormatOptions {
 /// Indicates the type of grouping.
 enum Type {
   /// For "and"-based grouping of the list items: "A, B, and C".
-  conjunction,
+  and('conjunction'),
 
   /// For "or"-based grouping of the list items: "A, B, or C".
-  disjunction,
+  or('disjunction'),
 
   /// Grouping the list items as a unit: "A, B, C".
   unit;
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const Type([this._jsName]);
 }

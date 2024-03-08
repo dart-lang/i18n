@@ -66,7 +66,7 @@ extension on ListFormatOptions {
   Object toJsOptions() {
     final o = newObject<Object>();
     setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    setProperty(o, 'type', type.name);
+    setProperty(o, 'type', type.jsName);
     setProperty(o, 'style', style.name);
     return o;
   }

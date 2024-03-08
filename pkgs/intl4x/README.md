@@ -18,7 +18,7 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 |   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
 | **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **ICU4X (web/native)**  | :heavy_check_mark: |   |   | :heavy_check_mark: | :heavy_check_mark: |   |
+| **ICU4X (web/native)**  | :heavy_check_mark: | :heavy_check_mark: |   | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## Implementation and Goals
 
