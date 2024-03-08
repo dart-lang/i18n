@@ -54,16 +54,16 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   ) {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
-    if (dateFormatStyle != null && timeFormatStyle != null) {
-      return icu.DateTimeFormatter.withLengths(
-        data.to4X(),
-        locale.to4X(),
-        dateFormatStyle.dateTo4xOptions(),
-        timeFormatStyle.timeTo4xOptions(),
-      );
-    } else {
+    if (dateFormatStyle == null || timeFormatStyle == null) {
       return null;
     }
+
+    return icu.DateTimeFormatter.withLengths(
+      data.to4X(),
+      locale.to4X(),
+      dateFormatStyle.dateTo4xOptions(),
+      timeFormatStyle.timeTo4xOptions(),
+    );
   }
 
   static icu.DateFormatter? _setDateFormatter(
