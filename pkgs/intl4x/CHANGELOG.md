@@ -1,4 +1,4 @@
-## 0.8.2-wip
+## 0.8.2
 
 - Add ICU4X support for number formatting.
 - Add resource identifier annotations.
