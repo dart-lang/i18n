@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
+import '../data_4x.dart';
 import '../locale/locale.dart';
+import '../locale/locale_4x.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
@@ -12,10 +15,48 @@ ListFormatImpl getListFormatter4X(
     ListFormat4X(locale, data, options);
 
 class ListFormat4X extends ListFormatImpl {
-  ListFormat4X(super.locale, Data data, super.options);
+  final icu.ListFormatter _formatter;
+  ListFormat4X(super.locale, Data data, super.options)
+      : _formatter = _getFormatter(locale, data, options);
 
   @override
   String formatImpl(List<String> list) {
-    throw UnimplementedError('Insert diplomat bindings here');
+    return _formatter.format(list.to4X());
+  }
+
+  static icu.ListFormatter _getFormatter(
+    Locale locale,
+    Data data,
+    ListFormatOptions options,
+  ) {
+    final constructor = switch (options.type) {
+      Type.and => icu.ListFormatter.andWithLength,
+      Type.or => icu.ListFormatter.orWithLength,
+      Type.unit => icu.ListFormatter.unitWithLength,
+    };
+    return constructor(
+      data.to4X(),
+      locale.to4X(),
+      options.style.to4X(),
+    );
+  }
+}
+
+extension on ListStyle {
+  icu.ListLength to4X() => switch (this) {
+        ListStyle.narrow => icu.ListLength.narrow,
+        ListStyle.short => icu.ListLength.short,
+        ListStyle.long => icu.ListLength.wide,
+      };
+}
+
+//TODO: Remove after https://github.com/rust-diplomat/diplomat/issues/378
+extension on List<String> {
+  icu.List to4X() {
+    final list = icu.List.withCapacity(length);
+    for (final element in this) {
+      list.push(element);
+    }
+    return list;
   }
 }
