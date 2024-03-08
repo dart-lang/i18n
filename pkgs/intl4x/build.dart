@@ -146,7 +146,7 @@ final class CheckoutMode implements BuildMode {
 
   @override
   List<Uri> get dependencies => Directory(workingDirectory!)
-      .listSync()
+      .listSync(recursive: true)
       .whereType<File>()
       .map((e) => Uri.file(e.path))
       .toList();
