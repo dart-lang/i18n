@@ -26,17 +26,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
 
   DateTimeFormat4X(super.locale, Data data, super.options)
       : _data = data.to4X(),
-        _dateTimeFormatter =
-            options.dateFormatStyle != null && options.timeFormatStyle != null
-                ? icu.DateTimeFormatter.withLengths(
-                    data.to4X(),
-                    locale.to4X(),
-                    options.dateFormatStyle?.dateTo4xOptions() ??
-                        icu.DateLength.short, //TODO: Check defaults
-                    options.timeFormatStyle?.timeTo4xOptions() ??
-                        icu.TimeLength.short, //TODO: Check defaults
-                  )
-                : null,
+        _dateTimeFormatter = _setDateTimeFormatter(options, data, locale),
         _timeFormatter = options.timeFormatStyle != null
             ? icu.TimeFormatter.withLength(
                 data.to4X(),
@@ -45,16 +35,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
                     icu.TimeLength.short,
               )
             : null,
-        _dateFormatter = (options.dateFormatStyle == null &&
-                    options.timeFormatStyle == null) ||
-                options.dateFormatStyle != null
-            ? icu.DateFormatter.withLength(
-                data.to4X(),
-                locale.to4X(),
-                options.dateFormatStyle?.dateTo4xOptions() ??
-                    icu.DateLength.short,
-              )
-            : null,
+        _dateFormatter = _setDateFormatter(options, data, locale),
         _zonedDateTimeFormatter = options.timeZone != null
             ? icu.ZonedDateTimeFormatter.withLengths(
                 data.to4X(),
@@ -65,6 +46,43 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
                     icu.TimeLength.short, //TODO: Check defaults
               )
             : null;
+
+  static icu.DateTimeFormatter? _setDateTimeFormatter(
+    DateTimeFormatOptions options,
+    Data data,
+    Locale locale,
+  ) {
+    final dateFormatStyle = options.dateFormatStyle;
+    final timeFormatStyle = options.timeFormatStyle;
+    if (dateFormatStyle != null && timeFormatStyle != null) {
+      return icu.DateTimeFormatter.withLengths(
+        data.to4X(),
+        locale.to4X(),
+        dateFormatStyle.dateTo4xOptions(),
+        timeFormatStyle.timeTo4xOptions(),
+      );
+    } else {
+      return null;
+    }
+  }
+
+  static icu.DateFormatter? _setDateFormatter(
+    DateTimeFormatOptions options,
+    Data data,
+    Locale locale,
+  ) {
+    final dateFormatStyle = options.dateFormatStyle;
+    final timeFormatStyle = options.timeFormatStyle;
+    if (dateFormatStyle != null || timeFormatStyle == null) {
+      return icu.DateFormatter.withLength(
+        data.to4X(),
+        locale.to4X(),
+        dateFormatStyle?.dateTo4xOptions() ?? icu.DateLength.short,
+      );
+    } else {
+      return null;
+    }
+  }
 
   @override
   String formatImpl(DateTime datetime) {
@@ -83,14 +101,16 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       final ianaToBcp47Mapper = icu.IanaToBcp47Mapper(_data);
       final timeZone = icu.CustomTimeZone.empty()
         ..trySetIanaTimeZoneId(ianaToBcp47Mapper, options.timeZone!);
-      return _zonedDateTimeFormatter!
-          .formatDatetimeWithCustomTimeZone(isoDateTime, timeZone);
+      return _zonedDateTimeFormatter.formatDatetimeWithCustomTimeZone(
+        isoDateTime,
+        timeZone,
+      );
     } else if (_dateTimeFormatter != null) {
-      return _dateTimeFormatter!.formatDatetime(isoDateTime);
+      return _dateTimeFormatter.formatDatetime(isoDateTime);
     } else if (_dateFormatter != null) {
-      return _dateFormatter!.formatDatetime(isoDateTime);
+      return _dateFormatter.formatDatetime(isoDateTime);
     } else if (_timeFormatter != null) {
-      return _timeFormatter!.formatDatetime(isoDateTime);
+      return _timeFormatter.formatDatetime(isoDateTime);
     } else {
       throw UnimplementedError(
           'Custom skeletons are not yet supported in ICU4X. '
