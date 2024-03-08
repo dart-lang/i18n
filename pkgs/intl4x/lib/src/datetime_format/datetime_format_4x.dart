@@ -54,6 +54,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   ) {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
+
     if (dateFormatStyle == null || timeFormatStyle == null) {
       return null;
     }
@@ -73,15 +74,16 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   ) {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
-    if (dateFormatStyle != null || timeFormatStyle == null) {
-      return icu.DateFormatter.withLength(
-        data.to4X(),
-        locale.to4X(),
-        dateFormatStyle?.dateTo4xOptions() ?? icu.DateLength.short,
-      );
-    } else {
+
+    if (dateFormatStyle == null && timeFormatStyle != null) {
       return null;
     }
+
+    return icu.DateFormatter.withLength(
+      data.to4X(),
+      locale.to4X(),
+      dateFormatStyle?.dateTo4xOptions() ?? icu.DateLength.short,
+    );
   }
 
   @override
