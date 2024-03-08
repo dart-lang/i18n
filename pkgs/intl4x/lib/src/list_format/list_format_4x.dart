@@ -50,11 +50,12 @@ extension on ListStyle {
       };
 }
 
+//TODO: Remove after https://github.com/rust-diplomat/diplomat/issues/378
 extension on List<String> {
   icu.List to4X() {
     final list = icu.List.withCapacity(length);
     for (final element in this) {
-      list.push(element); //TODO: this seems inefficient.
+      list.push(element);
     }
     return list;
   }
