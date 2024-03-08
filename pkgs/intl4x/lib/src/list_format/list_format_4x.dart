@@ -30,8 +30,8 @@ class ListFormat4X extends ListFormatImpl {
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {
-      Type.conjunction => icu.ListFormatter.andWithLength,
-      Type.disjunction => icu.ListFormatter.orWithLength,
+      Type.and => icu.ListFormatter.andWithLength,
+      Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
     return constructor(

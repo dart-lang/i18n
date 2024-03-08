@@ -34,12 +34,12 @@ void main() {
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
       final listFormat =
-          intl.listFormat(const ListFormatOptions(type: Type.conjunction));
+          intl.listFormat(const ListFormatOptions(type: Type.and));
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
       final listFormat =
-          intl.listFormat(const ListFormatOptions(type: Type.disjunction));
+          intl.listFormat(const ListFormatOptions(type: Type.or));
       expect(listFormat.format(list), 'A, B, or C');
     });
     testWithFormatting('narrow', () {
@@ -53,8 +53,8 @@ void main() {
     final list = ['A', 'B', 'C'];
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
-      final formatter = intl.listFormat(const ListFormatOptions(
-          style: ListStyle.narrow, type: Type.conjunction));
+      final formatter = intl.listFormat(
+          const ListFormatOptions(style: ListStyle.narrow, type: Type.and));
       expect(formatter.format(list), 'A, B, C');
     });
     testWithFormatting('short', () {
