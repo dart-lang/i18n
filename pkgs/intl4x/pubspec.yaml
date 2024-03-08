@@ -14,7 +14,7 @@ topics:
   - i18n
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   ffi: ^2.1.0
