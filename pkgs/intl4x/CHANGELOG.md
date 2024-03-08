@@ -1,10 +1,11 @@
-## 0.8.2-wip
+## 0.8.2
 
 - Add ICU4X support for number formatting.
 - Add resource identifier annotations.
 - Add ICU4X support for plural rules.
 - Add ICU4X support for display names.
 - Add ICU4X support for list formatting.
+- Add ICU4X support for datetime formatting.
 
 ## 0.8.1
 

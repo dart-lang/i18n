@@ -9,10 +9,11 @@ import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
-import 'datetime_format_4x.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';
+import 'datetime_format_stub_4x.dart'
+    if (dart.library.io) 'datetime_format_4x.dart';
 
 /// This is an intermediate to defer to the actual implementations of
 /// datetime formatting.
