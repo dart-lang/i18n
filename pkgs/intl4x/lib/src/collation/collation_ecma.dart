@@ -6,7 +6,6 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 

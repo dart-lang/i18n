@@ -6,7 +6,6 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';

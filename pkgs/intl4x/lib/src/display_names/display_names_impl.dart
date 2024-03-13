@@ -7,7 +7,6 @@ import 'package:meta/meta.dart' show ResourceIdentifier;
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'display_names_4x.dart'
     if (dart.library.js) 'display_names_stub_4x.dart';

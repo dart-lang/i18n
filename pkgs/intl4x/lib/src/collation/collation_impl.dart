@@ -7,7 +7,6 @@ import 'package:meta/meta.dart' show ResourceIdentifier;
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'collation.dart';
 import 'collation_options.dart';

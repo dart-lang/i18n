@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../collation.dart';
+import '../collation/collation_options.dart';
 import '../datetime_format/datetime_format_options.dart';
 import 'locale_native.dart' if (dart.library.js) 'locale_ecma.dart';
 

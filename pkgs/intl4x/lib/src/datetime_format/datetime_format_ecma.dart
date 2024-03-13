@@ -6,7 +6,6 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 

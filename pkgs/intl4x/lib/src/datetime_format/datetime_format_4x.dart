@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../datetime_format.dart';
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
 import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'datetime_format_impl.dart';
+import 'datetime_format_options.dart';
 
 DateTimeFormatImpl getDateTimeFormatter4X(
   Locale locale,

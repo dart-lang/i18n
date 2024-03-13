@@ -7,7 +7,6 @@ import 'package:meta/meta.dart' show ResourceIdentifier;
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'number_format_options.dart';
 import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';

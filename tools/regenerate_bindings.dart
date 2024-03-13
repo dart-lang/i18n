@@ -3,6 +3,10 @@ import 'package:path/path.dart' as p;
 
 void main(List<String> args) {
   print('Regenerating bindings.');
+
+  print('Update ICU4X submodule');
+  Process.runSync('git', arguments);
+
   final intl4xDirectory = 'pkgs/intl4x/lib/src/bindings/';
   print('Deleting old bindings.');
   Directory(intl4xDirectory)

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../options.dart';
+export '../options.dart';
 
 typedef WeekDayStyle = Style;
 typedef DayPeriod = Style;

@@ -5,6 +5,7 @@
 import 'dart:math';
 
 import '../options.dart';
+export '../options.dart';
 
 typedef UnitDisplay = Style;
 
