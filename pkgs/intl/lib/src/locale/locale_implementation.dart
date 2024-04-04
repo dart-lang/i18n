@@ -182,7 +182,7 @@ class LocaleImplementation extends Locale {
       if (scriptCode != null) out.add(scriptCode!);
       if (countryCode != null) out.add(countryCode!);
       out.addAll(variants);
-      if (_extensions != null) out.addAll(_extensions.subtags);
+      if (_extensions != null) out.addAll(_extensions!.subtags);
       _languageTag = out.join('-');
     }
     return _languageTag!;

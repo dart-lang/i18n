@@ -9,7 +9,7 @@
 
 library intl_browser;
 
-import 'package:web/web.dart';
+import 'dart:html';
 import 'intl.dart';
 
 // TODO(alanknight): The need to do this by forcing the user to specially
