@@ -8,36 +8,41 @@
 library http_request_data_reader;
 
 import 'dart:async';
-import 'package:http/http.dart';
+import 'dart:html';
 import 'intl_helpers.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
   /// The base url from which we read the data.
   String url;
-
   HttpRequestDataReader(this.url);
 
   @override
   Future<String> read(String locale) {
-    final Client client = Client();
-    return _getString('$url$locale.json', client).timeout(
-      Duration(seconds: 5),
-      onTimeout: () {
-        client.close();
-        throw TimeoutException('Timeout while reading $locale');
-      },
-    );
+    var request = HttpRequest();
+    request.timeout = 5000;
+    return _getString('$url$locale.json', request).then((r) => r.responseText!);
   }
 
-  Future<String> _getString(String url, Client client) async {
-    final response = await client.get(Uri.parse(url));
+  /// Read a string with the given request. This is a stripped down copy
+  /// of HttpRequest getString, but was the simplest way I could find to
+  /// issue a request with a timeout.
+  Future<HttpRequest> _getString(String url, HttpRequest xhr) {
+    var completer = Completer<HttpRequest>();
+    xhr.open('GET', url, async: true);
+    xhr.onLoad.listen((e) {
+      // Note: file:// URIs have status of 0.
+      if ((xhr.status! >= 200 && xhr.status! < 300) ||
+          xhr.status == 0 ||
+          xhr.status == 304) {
+        completer.complete(xhr);
+      } else {
+        completer.completeError(e);
+      }
+    });
 
-    if ((response.statusCode >= 200 && response.statusCode < 300) ||
-        response.statusCode == 0 ||
-        response.statusCode == 304) {
-      return response.body;
-    } else {
-      throw Exception('Failed to load $url');
-    }
+    xhr.onError.listen(completer.completeError);
+    xhr.send();
+
+    return completer.future;
   }
 }

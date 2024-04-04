@@ -9,17 +9,12 @@
 // consistency when the bug is fixed. Also fix documentation and perhaps
 // merge tests: these tests currently also touch non-compact currency
 // formatting.
-import 'dart:js_interop';
-import 'dart:js_interop_unsafe';
 import 'package:intl/intl.dart' as intl;
+import 'package:js/js_util.dart' as js;
 import 'package:test/test.dart';
 
 import 'compact_number_test_data.dart' as testdata;
 import 'more_compact_number_test_data.dart' as more_testdata;
-
-extension on JSNumber {
-  external String toLocaleString(String locale, [JSObject? options]);
-}
 
 void main() {
   testdata.compactNumberTestData.forEach(_validate);
@@ -70,20 +65,19 @@ String _ecmaFormatNumber(String locale, num number,
     String? compactDisplay,
     int? maximumSignificantDigits,
     bool? useGrouping}) {
-  final options = JSObject();
-  if (notation != null) options['notation'] = notation.toJS;
+  var options = js.newObject();
+  if (notation != null) js.setProperty(options, 'notation', notation);
   if (compactDisplay != null) {
-    options['compactDisplay'] = compactDisplay.toJS;
+    js.setProperty(options, 'compactDisplay', compactDisplay);
   }
-  if (style != null) options['style'] = style.toJS;
-  if (currency != null) options['currency'] = currency.toJS;
+  if (style != null) js.setProperty(options, 'style', style);
+  if (currency != null) js.setProperty(options, 'currency', currency);
   if (maximumSignificantDigits != null) {
-    options['maximumSignificantDigits'] = maximumSignificantDigits.toJS;
+    js.setProperty(
+        options, 'maximumSignificantDigits', maximumSignificantDigits);
   }
-  if (useGrouping != null) {
-    options['useGrouping'] = useGrouping.toJS;
-  }
-  return number.toJS.toLocaleString(locale, options);
+  if (useGrouping != null) js.setProperty(options, 'useGrouping', useGrouping);
+  return js.callMethod(number, 'toLocaleString', [locale, options]);
 }
 
 var _unsupportedChromeLocales = [
@@ -158,40 +152,40 @@ void _validateLong(String locale, List<List<String>> expected) {
 }
 
 void _validateMore(more_testdata.CompactRoundingTestCase t) {
-  final options = JSObject();
-  options['notation'] = 'compact'.toJS;
+  var options = js.newObject();
+  js.setProperty(options, 'notation', 'compact');
   if (t.maximumIntegerDigits != null) {
-    options['maximumIntegerDigits'] = t.maximumIntegerDigits!.toJS;
+    js.setProperty(options, 'maximumIntegerDigits', t.maximumIntegerDigits);
   }
 
   if (t.minimumIntegerDigits != null) {
-    options['minimumIntegerDigits'] = t.minimumIntegerDigits!.toJS;
+    js.setProperty(options, 'minimumIntegerDigits', t.minimumIntegerDigits);
   }
 
   if (t.maximumFractionDigits != null) {
-    options['maximumFractionDigits'] = t.maximumFractionDigits!.toJS;
+    js.setProperty(options, 'maximumFractionDigits', t.maximumFractionDigits);
   }
 
   if (t.minimumFractionDigits != null) {
-    options['minimumFractionDigits'] = t.minimumFractionDigits!.toJS;
+    js.setProperty(options, 'minimumFractionDigits', t.minimumFractionDigits);
   }
 
   if (t.minimumExponentDigits != null) {
-    options['minimumExponentDigits'] = t.minimumExponentDigits!.toJS;
+    js.setProperty(options, 'minimumExponentDigits', t.minimumExponentDigits);
   }
 
   if (t.maximumSignificantDigits != null) {
-    options['maximumSignificantDigits'] = t.maximumSignificantDigits!.toJS;
+    js.setProperty(
+        options, 'maximumSignificantDigits', t.maximumSignificantDigits);
   }
 
   if (t.minimumSignificantDigits != null) {
-    options['minimumSignificantDigits'] = t.minimumSignificantDigits!.toJS;
+    js.setProperty(
+        options, 'minimumSignificantDigits', t.minimumSignificantDigits);
   }
 
   test(t.toString(), () {
-    expect(
-      t.number.toJS.toLocaleString('en-US', options),
-      t.expected,
-    );
+    expect(js.callMethod(t.number, 'toLocaleString', ['en-US', options]),
+        t.expected);
   });
 }

@@ -42,7 +42,3 @@ jobs:
 
       - run: dart test
         if: ${{matrix.run-tests}}
-
-      - name: Run Chrome tests - wasm
-        run: dart test --platform chrome --compiler dart2wasm
-        if: always() && matrix.sdk == 'dev'

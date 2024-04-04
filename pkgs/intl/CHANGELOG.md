@@ -5,9 +5,6 @@
  * Add example for pub.dev.
  * Fix issues with AM/PM markers.
  * Update to CLDR v44.1.
- * Require Dart `^3.3`
- * Require `package:web` `^0.5.0`.
- * Support compiling to WASM
 
 ## 0.19.0
  * Update to CLDR v44.
