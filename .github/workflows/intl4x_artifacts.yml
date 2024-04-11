@@ -7,7 +7,6 @@ on:
   push:
     tags:
       - 'intl4x-v.*'
-  workflow_dispatch:
 
 env:
     cratename: icu_capi
@@ -81,4 +80,4 @@ jobs:
         with:
           files: '**'
           fail_on_unmatched_files: true
-          body: "Release for ICU4X ${{ env.icu_version }}"
+          body: "Build artifacts for `package:intl4x`, based on ICU4X at ref ${{ env.icu_version }}"
