@@ -11,7 +11,7 @@ on:
 
 env:
     cratename: icu_capi
-    icu_version: generateSomeBinariesOnly #set to icu@1.4.0 or a similar constraint at some point
+    icu_version: main #set to icu@1.4.0 or a similar constraint at some point
 
 jobs:
   dart-libs:
