@@ -11,7 +11,7 @@ on:
 
 env:
     cratename: icu_capi
-    icu_version: main #set to icu@1.4.0 or a similar constraint at some point
+    icu_version: 75cb5b6d114f116894ec4448fe7b7a8f62909876 #set to icu@1.4.0 or a similar constraint at some point
 
 jobs:
   dart-libs:
