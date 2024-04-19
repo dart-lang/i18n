@@ -12,7 +12,7 @@ on:
 
 env:
     cratename: icu_capi
-    icu_version: 4cfb8e53d895f09656553eeb03bc55a84a5a7a31 #set to icu@1.4.0 or a similar constraint at some point
+    icu_version: c5c33385299cbbdd5f7f110709d27e8e0613b22a #set to icu@1.4.0 or a similar constraint at some point
 
 jobs:
   dart-libs:
@@ -65,19 +65,14 @@ jobs:
       run: |
         mkdir bin
 
-        rustup target add armv7-linux-androideabi || true
-        rustup target add aarch64-linux-android || true
-        rustup target add i686-linux-android || true
-        rustup target add riscv64-linux-android || true
-        rustup target add x86_64-linux-android || true
-        rustup target add aarch64-unknown-fuchsia || true
-        rustup target add x86_64-unknown-fuchsia || true
-        rustup target add armv7-unknown-linux-gnueabihf || true
-        rustup target add aarch64-unknown-linux-gnu || true
-        rustup target add i686-unknown-linux-gnu || true
-        rustup target add riscv32gc-unknown-linux-gnu || true
-        rustup target add riscv64gc-unknown-linux-gnu || true
-        rustup target add x86_64-unknown-linux-gnu || true
+        rustup target add armv7-linux-androideabi
+        rustup target add aarch64-linux-android
+        rustup target add i686-linux-android
+        rustup target add x86_64-linux-android
+        rustup target add armv7-unknown-linux-gnueabihf
+        rustup target add aarch64-unknown-linux-gnu
+        rustup target add riscv64gc-unknown-linux-gnu
+        rustup target add x86_64-unknown-linux-gnu
 
         dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
         dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
