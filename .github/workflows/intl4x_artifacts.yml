@@ -64,28 +64,30 @@ jobs:
       run: |
         mkdir bin
 
-        rustup target add armv7-linux-androideabi
-        rustup target add aarch64-linux-android
-        rustup target add i686-linux-android
-        rustup target add riscv64-linux-android
-        rustup target add x86_64-linux-android
-        rustup target add aarch64-unknown-fuchsia
-        rustup target add x86_64-unknown-fuchsia
-        rustup target add armv7-unknown-linux-gnueabihf
-        rustup target add aarch64-unknown-linux-gnu
-        rustup target add i686-unknown-linux-gnu
-        rustup target add riscv32gc-unknown-linux-gnu
-        rustup target add riscv64gc-unknown-linux-gnu
-        rustup target add x86_64-unknown-linux-gnu
+        rustup target add armv7-linux-androideabi || true
+        rustup target add aarch64-linux-android || true
+        rustup target add i686-linux-android || true
+        rustup target add riscv64-linux-android || true
+        rustup target add x86_64-linux-android || true
+        rustup target add aarch64-unknown-fuchsia || true
+        rustup target add x86_64-unknown-fuchsia || true
+        rustup target add armv7-unknown-linux-gnueabihf || true
+        rustup target add aarch64-unknown-linux-gnu || true
+        rustup target add i686-unknown-linux-gnu || true
+        rustup target add riscv32gc-unknown-linux-gnu || true
+        rustup target add riscv64gc-unknown-linux-gnu || true
+        rustup target add x86_64-unknown-linux-gnu || true
 
-        # dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
-        # dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
-        # dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
-        # dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64
-        # dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
+        dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
+        dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm
         dart run ffi/dart/tool/build_libs.dart bin/linux_arm64 linux_arm64
         dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64
         dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64
+
+        cargo run -p icu_datagen -- --locales full --keys all --out bin/full.postcard
 
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-unknown-linux-gnu
         cp target/aarch64-unknown-linux-gnu/release/icu4x-datagen bin/linux_arm64-datagen
@@ -93,8 +95,6 @@ jobs:
         cp target/riscv64gc-unknown-linux-gnu/release/icu4x-datagen bin/linux_riscv64-datagen
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-unknown-linux-gnu
         cp target/x86_64-unknown-linux-gnu/release/icu4x-datagen bin/linux_x64-datagen
-
-        cargo run -p icu_datagen -- --locales full --keys all --out bin/full.postcard
   
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -107,9 +107,9 @@ jobs:
         rustup target add aarch64-apple-darwin
         rustup target add x86_64-apple-darwin
 
-        # dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
-        # dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
-        # dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
+        dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
         dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64
         dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64
 
@@ -128,7 +128,7 @@ jobs:
         rustup target add x86_64-pc-windows-msvc
 
         dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64
-        # dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
+        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64
 
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
