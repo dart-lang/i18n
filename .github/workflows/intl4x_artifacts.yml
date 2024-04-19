@@ -7,7 +7,6 @@ on:
   push:
     tags:
       - 'intl4x-v.*'
-  pull_request: # DO NOT SUBMIT
   workflow_dispatch:
 
 env:
