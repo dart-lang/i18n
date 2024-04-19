@@ -93,8 +93,8 @@ jobs:
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-unknown-linux-gnu
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target riscv64gc-unknown-linux-gnu
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-unknown-linux-gnu
-
         cd ../..
+
         cp target/aarch64-unknown-linux-gnu/release/icu4x-datagen bin/linux_arm64-datagen
         cp target/riscv64gc-unknown-linux-gnu/release/icu4x-datagen bin/linux_riscv64-datagen
         cp target/x86_64-unknown-linux-gnu/release/icu4x-datagen bin/linux_x64-datagen
@@ -119,8 +119,8 @@ jobs:
         cd provider/datagen # avoid global feature resolution
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-apple-darwin
-
         cd ../..
+
         cp target/aarch64-apple-darwin/release/icu4x-datagen bin/macos_arm64-datagen
         cp target/x86_64-apple-darwin/release/icu4x-datagen bin/macos_x64-datagen
   
@@ -140,8 +140,9 @@ jobs:
         cd provider/datagen # avoid global feature resolution
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-pc-windows-msvc
-
         cd ../..
+
+        find target
         cp target/aarch64-pc-windows-msvc/release/icu4x-datagen bin/windows_arm64-datagen
         cp target/x86_64-pc-windows-msvc/release/icu4x-datagen bin/windows_x64-datagen
     
