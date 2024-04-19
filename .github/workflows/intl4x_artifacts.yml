@@ -12,7 +12,7 @@ on:
 
 env:
     cratename: icu_capi
-    icu_version: 25840ec37fab49e1b123fabbb1f01a72bd7c3e34 # set to icu@1.4.0 or a similar constraint at some point
+    icu_version: 9b905e2f1e85453e39c0eb23e68145f7d4aa8553 # set to icu@1.4.0 or a similar constraint at some point
 
 jobs:
   dart-libs:
@@ -74,7 +74,7 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64
         dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64
 
-        cargo run -p icu_datagen -- --locales full --keys all --out bin/full.postcard
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-unknown-linux-gnu
