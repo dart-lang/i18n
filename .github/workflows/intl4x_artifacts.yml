@@ -7,6 +7,7 @@ on:
   push:
     tags:
       - 'intl4x-v.*'
+  pull_request: # DO NOT SUBMIT
 
 env:
     cratename: icu_capi
