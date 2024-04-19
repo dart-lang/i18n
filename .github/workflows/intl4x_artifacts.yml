@@ -138,7 +138,7 @@ jobs:
       uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
       with:
         name: dart-${{matrix.os}}-libs
-        path: bin
+        path: submodules/icu4x/bin
   
   release:
     needs: dart-libs
