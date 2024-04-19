@@ -143,9 +143,8 @@ jobs:
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-pc-windows-msvc
         cd ../..
 
-        find target
-        cp target/aarch64-pc-windows-msvc/release/icu4x-datagen bin/windows_arm64-datagen
-        cp target/x86_64-pc-windows-msvc/release/icu4x-datagen bin/windows_x64-datagen
+        cp target/aarch64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_arm64-datagen.exe
+        cp target/x86_64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_x64-datagen.exe
     
     - name: Upload artifacts
       uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
