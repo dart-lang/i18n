@@ -9,10 +9,6 @@ on:
       - 'intl4x-v.*'
   workflow_dispatch:
 
-env:
-    cratename: icu_capi
-    icu_version: 9b905e2f1e85453e39c0eb23e68145f7d4aa8553 # set to icu@1.4.0 or a similar constraint at some point
-
 jobs:
   dart-libs:
     name: "Build Dart binaries"
@@ -25,8 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       with:
-        repository: unicode-org/icu4x
-        ref: ${{ env.icu_version }}
+        submodules: 'true'
 
     - name: Install Rust toolchains
       run: |
@@ -53,17 +48,16 @@ jobs:
         echo "armv7-unknown-linux-gnueabihf.linker=\"arm-linux-gnueabihf-gcc\"" >> .cargo/config.toml
         echo "riscv64gc-unknown-linux-gnu.linker=\"riscv64-linux-gnu-gcc\"" >> .cargo/config.toml
         
-    - name: pub get
-      run: |
-        cd ffi/dart
-        dart --enable-experiment=native-assets pub get
-        cd ../..
-      
     - name: Build Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
+        cd submodules/icu4x
+
         mkdir bin
 
+        cd ffi/dart
+        dart pub get
+        cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
         dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
         dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
@@ -91,8 +85,13 @@ jobs:
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
+        cd submodules/icu4x
+
         mkdir bin
 
+        cd ffi/dart
+        dart pub get
+        cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
         dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
         dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
@@ -112,8 +111,13 @@ jobs:
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
+        cd submodules/icu4x
+      
         mkdir bin
 
+        cd ffi/dart
+        dart pub get
+        cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64
         dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64
