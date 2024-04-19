@@ -89,11 +89,14 @@ jobs:
 
         cargo run -p icu_datagen -- --locales full --keys all --out bin/full.postcard
 
+        cd provider/datagen # avoid global feature resolution
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-unknown-linux-gnu
-        cp target/aarch64-unknown-linux-gnu/release/icu4x-datagen bin/linux_arm64-datagen
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target riscv64gc-unknown-linux-gnu
-        cp target/riscv64gc-unknown-linux-gnu/release/icu4x-datagen bin/linux_riscv64-datagen
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-unknown-linux-gnu
+
+        cd ../..
+        cp target/aarch64-unknown-linux-gnu/release/icu4x-datagen bin/linux_arm64-datagen
+        cp target/riscv64gc-unknown-linux-gnu/release/icu4x-datagen bin/linux_riscv64-datagen
         cp target/x86_64-unknown-linux-gnu/release/icu4x-datagen bin/linux_x64-datagen
   
     - name: Build Mac
@@ -113,9 +116,12 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64
         dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64
 
+        cd provider/datagen # avoid global feature resolution
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
-        cp target/aarch64-apple-darwin/release/icu4x-datagen bin/macos_arm64-datagen
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-apple-darwin
+
+        cd ../..
+        cp target/aarch64-apple-darwin/release/icu4x-datagen bin/macos_arm64-datagen
         cp target/x86_64-apple-darwin/release/icu4x-datagen bin/macos_x64-datagen
   
     - name: Build Windows
@@ -131,9 +137,12 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64
 
+        cd provider/datagen # avoid global feature resolution
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
-        cp target/aarch64-pc-windows-msvc/release/icu4x-datagen bin/windows_arm64-datagen
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-pc-windows-msvc
+
+        cd ../..
+        cp target/aarch64-pc-windows-msvc/release/icu4x-datagen bin/windows_arm64-datagen
         cp target/x86_64-pc-windows-msvc/release/icu4x-datagen bin/windows_x64-datagen
     
     - name: Upload artifacts
