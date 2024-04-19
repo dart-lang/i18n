@@ -64,6 +64,20 @@ jobs:
       run: |
         mkdir bin
 
+        rustup target add armv7-linux-androideabi
+        rustup target add aarch64-linux-android
+        rustup target add i686-linux-android
+        rustup target add riscv64-linux-android
+        rustup target add x86_64-linux-android
+        rustup target add aarch64-unknown-fuchsia
+        rustup target add x86_64-unknown-fuchsia
+        rustup target add armv7-unknown-linux-gnueabihf
+        rustup target add aarch64-unknown-linux-gnu
+        rustup target add i686-unknown-linux-gnu
+        rustup target add riscv32gc-unknown-linux-gnu
+        rustup target add riscv64gc-unknown-linux-gnu
+        rustup target add x86_64-unknown-linux-gnu
+
         # dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
         # dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
         # dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
@@ -87,6 +101,12 @@ jobs:
       run: |
         mkdir bin
 
+        rustup target add aarch64-apple-ios-sim
+        rustup target add aarch64-apple-ios
+        rustup target add x86_64-apple-ios
+        rustup target add aarch64-apple-darwin
+        rustup target add x86_64-apple-darwin
+
         # dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
         # dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
         # dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
@@ -102,6 +122,10 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         mkdir bin
+
+        rustup target add aarch64-pc-windows-msvc
+        rustup target add i686-pc-windows-msvc
+        rustup target add x86_64-pc-windows-msvc
 
         dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64
         # dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
