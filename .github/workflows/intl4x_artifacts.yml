@@ -134,7 +134,7 @@ jobs:
         cp target/x86_64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_x64-datagen.exe
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@ef09cdac3e2d3e60d8ccadda691f4f1cec5035cb
+      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
       with:
         name: dart-${{matrix.os}}-libs
         path: submodules/icu4x/bin
