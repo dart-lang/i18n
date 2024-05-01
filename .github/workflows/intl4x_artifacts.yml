@@ -30,7 +30,7 @@ jobs:
     - name: Show the selected Rust toolchain
       run: rustup show
     
-    - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+    - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
       with:
         sdk: dev
 
