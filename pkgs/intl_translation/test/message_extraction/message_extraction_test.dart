@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library message_extraction_test;
+library;
 
 import 'dart:convert';
 import 'dart:io';

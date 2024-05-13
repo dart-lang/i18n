@@ -5,7 +5,7 @@
 /// This is a program with various [Intl.message] messages. It just prints
 /// all of them, and is used for testing of message extraction, translation,
 /// and code generation.
-library sample;
+library;
 
 import 'package:intl/intl.dart';
 

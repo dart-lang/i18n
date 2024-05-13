@@ -6,7 +6,7 @@
 
 /// A test for message extraction and code generation not using deferred
 /// loading for the generated code.
-library message_extraction_no_deferred_test;
+library;
 
 import 'package:test/test.dart';
 

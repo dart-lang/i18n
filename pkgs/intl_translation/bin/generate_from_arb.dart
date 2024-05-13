@@ -15,8 +15,7 @@
 /// "messages_<locale>.dart" containing messages for a particular locale
 /// and a main import file named "messages_all.dart" which has imports all of
 /// them and provides an initializeMessages function.
-
-library generate_from_arb;
+library;
 
 import 'dart:convert';
 import 'dart:io';

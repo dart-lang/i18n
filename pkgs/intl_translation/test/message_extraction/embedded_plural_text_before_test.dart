@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library embedded_plural_text_before_test;
+library;
 
 import 'package:test/test.dart';
 

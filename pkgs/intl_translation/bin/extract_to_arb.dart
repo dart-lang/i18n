@@ -6,7 +6,7 @@
 /// This script uses the extract_messages.dart library to find the Intl.message
 /// calls in the target dart files and produces ARB format output. See
 /// https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification
-library extract_to_arb;
+library;
 
 import 'dart:convert';
 import 'dart:io';

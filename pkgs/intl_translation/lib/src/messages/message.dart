@@ -29,8 +29,7 @@
 /// This representation isn't used at runtime. Rather, we read some format
 /// from a translation file, parse it into these objects, and they are then
 /// used to generate the code representation above.
-
-library intl_message;
+library;
 
 import 'dart:convert';
 

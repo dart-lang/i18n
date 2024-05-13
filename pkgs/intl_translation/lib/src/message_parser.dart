@@ -4,7 +4,7 @@
 
 /// Contains a parser for ICU format plural/gender/select format for localized
 /// messages. See extract_to_arb.dart and make_hardcoded_translation.dart.
-library message_parser;
+library;
 
 import 'messages/composite_message.dart';
 import 'messages/literal_string_message.dart';

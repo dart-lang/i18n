@@ -17,7 +17,7 @@
 /// Note that this does not understand how to follow part directives, so it
 /// has to explicitly be given all the files that it needs. A typical use case
 /// is to run it on all .dart files in a directory.
-library extract_messages;
+library;
 
 import 'dart:io';
 

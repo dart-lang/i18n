@@ -4,7 +4,7 @@
 
 /// A test library that should fail because there is a plural with text
 /// before the plural expression.
-library embedded_plural_text_before;
+library;
 
 import 'package:intl/intl.dart';
 

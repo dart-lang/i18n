@@ -9,7 +9,7 @@
 ///
 /// An example of usage can be found
 /// in test/message_extract/generate_from_json.dart
-library generate_localized;
+library;
 
 import 'dart:convert';
 import 'dart:io';
