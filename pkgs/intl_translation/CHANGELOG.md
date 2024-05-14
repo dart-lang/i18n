@@ -1,5 +1,7 @@
-## 0.20.0-wip
+## 0.20.0
   * Throw if the `Intl.select` `arg` is not in the list of `args`.
+  * Support `package:intl` `0.19.0`.
+  * Require Dart 3.0.
 
 ## 0.19.0
   * Always generate null safe code, remove `null-safe` flag.
