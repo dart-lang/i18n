@@ -1,4 +1,4 @@
-[![Dart](https://github.com/dart-lang/intl_translation/actions/workflows/build.yaml/badge.svg)](https://github.com/dart-lang/intl_translation/actions/workflows/build.yaml)
+[![package:intl_translation](https://github.com/dart-lang/i18n/actions/workflows/intl_translation.yml/badge.svg)](https://github.com/dart-lang/i18n/actions/workflows/intl_translation.yml)
 [![Pub](https://img.shields.io/pub/v/intl_translation.svg)](https://pub.dev/packages/intl_translation)
 
 Provides message extraction and code generation from translated messages for the
