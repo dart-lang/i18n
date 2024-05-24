@@ -21,6 +21,7 @@ abstract class CollationImpl {
   final Locale locale;
   final CollationOptions options;
 
+  @ResourceIdentifier()
   CollationImpl(this.locale, this.options);
 
   /// Factory to get the correct implementation, either calling on ICU4X or the
