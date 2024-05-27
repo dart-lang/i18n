@@ -21,7 +21,7 @@ class ListFormat4X extends ListFormatImpl {
 
   @override
   String formatImpl(List<String> list) {
-    return _formatter.format(list.to4X());
+    return _formatter.format(list);
   }
 
   static icu.ListFormatter _getFormatter(
@@ -48,15 +48,4 @@ extension on ListStyle {
         ListStyle.short => icu.ListLength.short,
         ListStyle.long => icu.ListLength.wide,
       };
-}
-
-//TODO: Remove after https://github.com/rust-diplomat/diplomat/issues/378
-extension on List<String> {
-  icu.List to4X() {
-    final list = icu.List.withCapacity(length);
-    for (final element in this) {
-      list.push(element);
-    }
-    return list;
-  }
 }
