@@ -6,15 +6,15 @@ import '../test_checker.dart';
 import 'number_format_impl.dart';
 
 class NumberFormat {
-  final NumberFormatImpl impl;
+  final NumberFormatImpl _impl;
 
-  NumberFormat(this.impl);
+  NumberFormat(this._impl);
 
   String format(Object number) {
     if (isInTest) {
-      return '$number//${impl.locale}';
+      return '$number//${_impl.locale}';
     } else {
-      return impl.formatImpl(number);
+      return _impl.formatImpl(number);
     }
   }
 }
