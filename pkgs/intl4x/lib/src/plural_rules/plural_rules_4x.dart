@@ -2,11 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../intl4x.dart';
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
 import '../data_4x.dart';
+import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
+import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
