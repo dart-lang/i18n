@@ -6,8 +6,6 @@ builders:
     build_extensions:
       {
         "l10n.messages": ["messages.g.dart"],
-        # "^pubspec.yaml": [],
-        # "{{}}.arb": ["assets/generated/{{}}.json"],
       }
     build_to: source
     auto_apply: root_package

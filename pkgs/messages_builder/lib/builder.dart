@@ -28,8 +28,6 @@ class MessagesBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
         'l10n.messages': ['messages.g.dart'],
-        // '^pubspec.yaml': [],
-        // '.arb': [],
       };
 
   @override
