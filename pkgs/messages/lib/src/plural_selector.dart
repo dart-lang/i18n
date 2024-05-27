@@ -5,7 +5,8 @@
 import 'message.dart';
 
 typedef PluralSelector = Message Function(
-  num howMany, {
+  num howMany,
+  String locale, {
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
   Message? few,

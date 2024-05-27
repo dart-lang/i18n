@@ -52,9 +52,7 @@ class GenerationOptions {
     required this.pluralSelector,
   });
 
-  static Future<GenerationOptions> fromPubspec(BuildStep buildStep) async {
-    final pubspecId = await buildStep.findAssets(Glob('pubspec.yaml')).first;
-    final pubspecData = await buildStep.readAsString(pubspecId);
+  static Future<GenerationOptions> fromPubspec(String pubspecData) async {
     final pubspec = loadYaml(pubspecData) as YamlMap;
     final packageOptions = pubspec['package_options'] as YamlMap?;
     final messagesOptions = packageOptions?['messages_builder'] as YamlMap?;
@@ -69,6 +67,12 @@ class GenerationOptions {
       pluralSelector: _pluralSelector(messagesOptions),
     );
     return generationOptions;
+  }
+
+  static Future<String> getPubspecFrom(BuildStep buildStep) async {
+    final pubspecId = await buildStep.findAssets(Glob('pubspec.yaml')).first;
+    final pubspecData = await buildStep.readAsString(pubspecId);
+    return pubspecData;
   }
 
   static IndexType _indexType(YamlMap? messagesOptions) {

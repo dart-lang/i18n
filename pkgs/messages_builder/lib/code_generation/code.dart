@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_builder/code_builder.dart';
-import 'package:dart_style/dart_style.dart';
 
 import '../generation_options.dart';
 import '../message_with_metadata.dart';
@@ -14,29 +13,24 @@ class CodeGenerator {
   final String? context;
   final String locale;
   final List<MessageWithMetadata> messages;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Map<String, ({String id, String hasch})> localeToResourceInfo;
 
   CodeGenerator(
     this.options,
     MessagesWithMetadata messageListWithMetadata,
     this.localeToResourceInfo,
-  )   : context = messageListWithMetadata.context,
-        locale = messageListWithMetadata.locale,
+  )   : assert(messageListWithMetadata.locale != null),
+        context = messageListWithMetadata.context,
+        locale = messageListWithMetadata.locale!,
         messages = messageListWithMetadata.messages;
 
-  String generate() {
-    final libs = LibraryGeneration(
+  Library generate() {
+    return LibraryGeneration(
       options,
       context,
       locale,
       messages,
       localeToResourceInfo,
     ).generate();
-
-    assert(libs.isNotEmpty);
-
-    final emitter = DartEmitter(orderDirectives: true);
-    final source = '${libs.first.accept(emitter)}';
-    return DartFormatter().format(source);
   }
 }

@@ -8,7 +8,7 @@ import '../generation_options.dart';
 import '../message_with_metadata.dart';
 import 'generation.dart';
 
-class ClassGeneration extends Generation<Spec> {
+class ClassGeneration {
   final GenerationOptions options;
   final List<MessageWithMetadata> messages;
   final String? context;
@@ -28,7 +28,6 @@ class ClassGeneration extends Generation<Spec> {
 
   String getClassName(String? context) => '${context ?? ''}Messages';
 
-  @override
   List<Spec> generate() {
     final classes = <Spec>[
       Class(

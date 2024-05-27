@@ -8,7 +8,7 @@ import '../generation_options.dart';
 import '../message_with_metadata.dart';
 import 'generation.dart';
 
-class MethodGeneration extends Generation<Method> {
+class MethodGeneration {
   final GenerationOptions options;
   final String? context;
   final List<MessageWithMetadata> messages;
@@ -47,7 +47,6 @@ class MethodGeneration extends Generation<Method> {
     );
   }
 
-  @override
   List<Method> generate() {
     Iterable<Method> messageCalls;
     if (options.messageCalls) {
@@ -62,8 +61,8 @@ class MethodGeneration extends Generation<Method> {
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = await _fileLoader(carb);
-          final messageList = MessageListJson.fromString(data, pluralSelector);''',
+          final data = await AssetBundle.loadString(carb);
+          final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
         mb
           ..name = 'loadLocale'
@@ -166,60 +165,6 @@ class MethodGeneration extends Generation<Method> {
           const Code('_currentMessages.generateStringAtIndex(val.index, args)')
       ..lambda = true
       ..returns = const Reference('String'));
-    // Message Function(num,
-    //     {Message? few,
-    //     String? locale,
-    //     Message? many,
-    //     Map<int, Message>? numberCases,
-    //     required Message other,
-    //     Map<int, Message>? wordCases}) intl;
-    Method pluralSelector() => Method(
-          (mb) => mb
-            ..name = 'pluralSelector'
-            ..returns = const Reference('Message')
-            ..requiredParameters.addAll([
-              Parameter(
-                (pb) => pb
-                  ..name = 'howMany'
-                  ..type = const Reference('num')
-                  ..named = false,
-              ),
-            ])
-            ..optionalParameters.addAll([
-              Parameter(
-                (pb) => pb
-                  ..name = 'other'
-                  ..type = const Reference('Message')
-                  ..required = true
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'few'
-                  ..type = const Reference('Message?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'many'
-                  ..type = const Reference('Message?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'numberCases'
-                  ..type = const Reference('Map<int, Message>?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'wordCases'
-                  ..type = const Reference('Map<int, Message>?')
-                  ..named = true,
-              ),
-            ])
-            ..body = pluralSelectorBody(),
-        );
 
     return [
       getCurrentLocale,
@@ -229,37 +174,7 @@ class MethodGeneration extends Generation<Method> {
       getKnownLocales,
       loadLocale,
       loadAllLocales,
-      if (options.pluralSelector != PluralSelectorType.custom) pluralSelector(),
       ...messageCalls,
     ];
-  }
-
-  Code pluralSelectorBody() {
-    return switch (options.pluralSelector) {
-      PluralSelectorType.intl => const Code('''
-return Intl.pluralLogic(
-    howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
-    other: other,
-    locale: currentLocale,
-  );
-  '''),
-      PluralSelectorType.intl4x => const Code('''
-Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
-    return switch (Intl(locale: Locale.parse(currentLocale)).plural().select(howMany)) {
-      PluralCategory.zero => getCase(0),
-      PluralCategory.one => getCase(1),
-      PluralCategory.two => getCase(2),
-      PluralCategory.few => few ?? other,
-      PluralCategory.many => many ?? other,
-      PluralCategory.other => other,
-    };
-    '''),
-      PluralSelectorType.custom => throw ArgumentError(),
-    };
   }
 }

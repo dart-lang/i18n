@@ -179,4 +179,7 @@ class JsonSerializer extends Serializer<String> {
     result.add(m);
     return result.length - 1;
   }
+
+  @override
+  String get extension => '.json';
 }

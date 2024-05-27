@@ -2,16 +2,31 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:messages/messages_build.dart';
+import 'dart:io';
+
+import 'package:messages_builder/generation_options.dart';
+import 'package:messages_builder/hook.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 void main(List<String> args) {
   build(args, (config, output) async {
-    final builder = MessageBuilder(
-      arbFiles: ['lib/testarb.arb', 'lib/testarbctx2.arb'],
-      locales: ['en', 'de', 'fr'],
+    final builder = MessagesDataBuilder(
+      arbFiles: [
+        'assets/l10n/testarb.arb',
+        'assets/l10n/testarb_de.arb',
+        'assets/l10n/testarbctx2.arb',
+        'assets/l10n/testarbctx2_fr.arb',
+      ],
+      generationOptions: await generationOptions(config),
     );
 
     await builder.run(config: config, output: output, logger: null);
   });
+}
+
+Future<GenerationOptions> generationOptions(BuildConfig config) async {
+  final packageRoot = config.packageRoot;
+  final pubspecUri = packageRoot.resolve('pubspec.yaml');
+  final file = File.fromUri(pubspecUri);
+  return GenerationOptions.fromPubspec(await file.readAsString());
 }
