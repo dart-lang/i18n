@@ -1,3 +1,7 @@
+## 0.8.3
+
+- Update for `icu4x` and `build.dart` changes.
+
 ## 0.8.2
 
 - Add ICU4X support for number formatting.
