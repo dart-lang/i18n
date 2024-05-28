@@ -54,13 +54,6 @@ class MessagesDataBuilder {
         generationOptions,
       );
 
-      /// This writes the file containing the messages, which can be either a binary
-      /// `.carb` file or a JSON file, depending on the serializer.
-      ///
-      /// This message data file must be shipped with the application, it is
-      /// unpacked at runtime so that the messages can be read from it.
-      ///
-      /// Returns the list of indices of the messages which are visible to the user.
       final serializer = _buildSerializer(generationOptions);
 
       final data = _arbToDataFile(
