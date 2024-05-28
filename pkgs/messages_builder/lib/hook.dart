@@ -10,25 +10,45 @@ import 'builder.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
 
+Future<GenerationOptions> _generationOptions(BuildConfig config) async {
+  final packageRoot = config.packageRoot;
+  final pubspecUri = packageRoot.resolve('pubspec.yaml');
+  final file = File.fromUri(pubspecUri);
+  return GenerationOptions.fromPubspec(await file.readAsString());
+}
+
 class MessagesDataBuilder {
-  final GenerationOptions generationOptions;
-  final List<String> arbFiles;
+  final Future<List<String>> Function(BuildConfig config) arbFiles;
 
-  MessagesDataBuilder(
-      {required this.generationOptions, required this.arbFiles});
+  //TODO allow arbs from other locations than package root subfolders
+  MessagesDataBuilder.fromFiles(List<String> relativePaths)
+      : arbFiles = ((config) async => relativePaths);
 
-  Serializer<String> get serializer =>
-      JsonSerializer(generationOptions.findById);
+  MessagesDataBuilder.fromFolder(String relativePath)
+      : arbFiles = ((config) =>
+            Directory(config.packageRoot.resolve(relativePath).path)
+                .list()
+                .where((file) => file is File)
+                .map((file) => file.path)
+                .where((path) => p.extension(path) == '.arb')
+                .map((path) => p.relative(path, from: config.packageRoot.path))
+                .toList());
 
   Future<void> run({
     required BuildConfig config,
     required BuildOutput output,
     required Logger? logger,
   }) async {
-    for (final arbFilePath in arbFiles) {
+    final files = await arbFiles(config);
+    for (final arbFilePath in files) {
+      if (p.isAbsolute(arbFilePath)) {
+        throw ArgumentError('Paths for .arb files must be relative to the'
+            ' package root ${config.packageRoot}, but $arbFilePath is'
+            ' absolute.');
+      }
       final arbFileUri = config.packageRoot.resolve(arbFilePath);
-      final arbFile = File.fromUri(arbFileUri);
-      final arbFileContents = await arbFile.readAsString();
+      final arbFileContents = await File.fromUri(arbFileUri).readAsString();
+      final generationOptions = await _generationOptions(config);
       final messageBundle = await parseMessageFile(
         arbFileContents,
         generationOptions,
@@ -41,51 +61,67 @@ class MessagesDataBuilder {
       /// unpacked at runtime so that the messages can be read from it.
       ///
       /// Returns the list of indices of the messages which are visible to the user.
-      final serialization = _serializeArb(messageBundle, arbFilePath);
+      final serializer = _buildSerializer(generationOptions);
 
-      final (fileName, file) = await _createDataFile(arbFilePath, config);
+      final data = _arbToDataFile(
+        messageBundle,
+        arbFilePath,
+        serializer,
+      );
 
-      await _writeDataToFile(serialization, file);
+      final assetName = _assetName(
+        p.relative(arbFileUri.path, from: config.packageRoot.path),
+        serializer.extension,
+      );
+      final file = await _createAssetFile(assetName, config);
+
+      await _writeDataToFile(data, file);
 
       output.addAsset(DataAsset(
         package: config.packageName,
-        name: fileName,
+        name: assetName,
         file: file.uri,
       ));
 
       output.addDependency(arbFileUri);
     }
+    output.addDependency(config.packageRoot.resolve('hook/build.dart'));
   }
 
-  Serialization<String> _serializeArb(
-          MessagesWithMetadata messageBundle, String arbFilePath) =>
-      serializer.serialize(
-        messageBundle.hash,
-        messageBundle.locale ?? inferLocale(arbFilePath) ?? 'en_US',
-        messageBundle.messages.map((e) => e.message).toList(),
-      );
+  String _arbToDataFile(MessagesWithMetadata messageBundle, String arbFilePath,
+          Serializer<String> serializer) =>
+      serializer
+          .serialize(
+            messageBundle.hash,
+            messageBundle.locale ?? inferLocale(arbFilePath) ?? 'en_US',
+            messageBundle.messages.map((e) => e.message).toList(),
+          )
+          .data;
+
+  String _assetName(String relativePath, String extension) {
+    final dataFile = p.setExtension(relativePath, extension);
+    return dataFile;
+  }
+
+  Serializer<String> _buildSerializer(GenerationOptions generationOptions) =>
+      JsonSerializer(generationOptions.findById);
+
+  Future<File> _createAssetFile(String dataFile, BuildConfig config) async {
+    final outputDirectory =
+        Directory.fromUri(config.outputDirectory.resolve(config.packageName));
+    final file = File.fromUri(outputDirectory.uri.resolve(dataFile));
+    await file.create(recursive: true);
+    return file;
+  }
 
   Future<void> _writeDataToFile<T>(
-    Serialization<T> serialization,
+    T data,
     File file,
   ) async {
-    final data = serialization.data;
     if (data is Uint8List) {
       await file.writeAsBytes(data);
     } else if (data is String) {
       await file.writeAsString(data);
     }
-  }
-
-  Future<(String, File)> _createDataFile(
-    String arbFilePath,
-    BuildConfig config,
-  ) async {
-    final dataFile = p.setExtension(arbFilePath, serializer.extension);
-    final directory =
-        Directory.fromUri(config.outputDirectory.resolve(config.packageName));
-    final file = File.fromUri(directory.uri.resolve(dataFile));
-    await file.create(recursive: true);
-    return (dataFile, file);
   }
 }
