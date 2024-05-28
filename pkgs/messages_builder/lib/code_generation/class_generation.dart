@@ -29,10 +29,11 @@ class ClassGeneration {
   String getClassName(String? context) => '${context ?? ''}Messages';
 
   List<Spec> generate() {
+    final className = getClassName(context);
     final classes = <Spec>[
       Class(
         (cb) => cb
-          ..name = getClassName(context)
+          ..name = className
           ..constructors.addAll(constructors)
           ..fields.addAll(fields)
           ..methods.addAll(methods),
@@ -49,6 +50,51 @@ class ClassGeneration {
                   )
                 : null).whereType<EnumValue>())));
     }
+    classes.add(Extension((b) => b
+      ..on = Reference(className)
+      ..methods.addAll([
+        if (options.findById)
+          Method(
+            (p0) => p0
+              ..name = 'generateStringAtId'
+              ..requiredParameters.addAll([
+                Parameter((p0) => p0
+                  ..name = 'id'
+                  ..type = const Reference('String')),
+                Parameter((p0) => p0
+                  ..name = 'args'
+                  ..type = const Reference('List'))
+              ])
+              ..annotations
+                  .add(CodeExpression(Code("ResourceIdentifier('$className')")))
+              ..lambda = true
+              ..body = const Code('''
+_currentMessages.generateStringAtId(id, args)
+''')
+              ..returns = const Reference('String'),
+          ),
+        //String generateStringAtIndex(int index, List args)
+        if (options.messageCalls || options.indexType == IndexType.enumerate)
+          Method(
+            (p0) => p0
+              ..name = 'generateStringAtIndex'
+              ..requiredParameters.addAll([
+                Parameter((p0) => p0
+                  ..name = 'index'
+                  ..type = const Reference('int')),
+                Parameter((p0) => p0
+                  ..name = 'args'
+                  ..type = const Reference('List'))
+              ])
+              ..annotations
+                  .add(CodeExpression(Code("ResourceIdentifier('$className')")))
+              ..lambda = true
+              ..body = const Code('''
+_currentMessages.generateStringAtIndex(index, args)
+''')
+              ..returns = const Reference('String'),
+          )
+      ])));
     return classes;
   }
 }
