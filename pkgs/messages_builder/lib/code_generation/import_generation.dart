@@ -27,6 +27,10 @@ class ImportGeneration {
     return [
       ...serializationImports,
       ...pluralImports,
+      if (options.findById ||
+          options.messageCalls ||
+          options.indexType == IndexType.enumerate)
+        Directive.import('package:meta/meta.dart'),
       Directive.import('dart:ffi'),
     ];
   }

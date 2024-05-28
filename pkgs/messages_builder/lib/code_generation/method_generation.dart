@@ -25,8 +25,7 @@ class MethodGeneration {
     final indexStr = options.indexType == IndexType.enumerate
         ? '${enumName(context)}.${message.name}.index'
         : index.toString();
-    final body =
-        '_currentMessages.generateStringAtIndex($indexStr, [$arguments])';
+    final body = 'generateStringAtIndex($indexStr, [$arguments])';
     final methodType = message.placeholders.isEmpty ? MethodType.getter : null;
     return Method(
       (mb) => mb
@@ -143,8 +142,7 @@ class MethodGeneration {
           ..type = const Reference('List<dynamic>')
           ..defaultTo = const Code('const []'),
       ))
-      ..body =
-          const Code('return _currentMessages.generateStringAtId(id, args);')
+      ..body = const Code('return generateStringAtId(id, args);')
       ..returns = const Reference('String'));
     final findByEnum = Method((mb) => mb
       ..name = 'getByEnum'
@@ -161,8 +159,7 @@ class MethodGeneration {
           ..type = const Reference('List<dynamic>')
           ..defaultTo = const Code('const []'),
       ))
-      ..body =
-          const Code('_currentMessages.generateStringAtIndex(val.index, args)')
+      ..body = const Code('generateStringAtIndex(val.index, args)')
       ..lambda = true
       ..returns = const Reference('String'));
 

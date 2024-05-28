@@ -4,6 +4,7 @@ import 'dart:ffi';
 
 import 'package:intl4x/intl4x.dart';
 import 'package:messages/messages_json.dart';
+import 'package:meta/meta.dart';
 
 class AboutPageMessages {
   AboutPageMessages();
@@ -48,24 +49,33 @@ class AboutPageMessages {
   }
 
   String aboutMessage(String websitename) =>
-      _currentMessages.generateStringAtIndex(0, [websitename]);
+      generateStringAtIndex(0, [websitename]);
 
   String helloAndWelcome(
     String firstName,
     int lastName,
   ) =>
-      _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
+      generateStringAtIndex(1, [firstName, lastName]);
 
   String newMessages(int newMessages) =>
-      _currentMessages.generateStringAtIndex(2, [newMessages]);
+      generateStringAtIndex(2, [newMessages]);
 
   String newMessages2(
     String gender,
     int newVar,
   ) =>
-      _currentMessages.generateStringAtIndex(3, [gender, newVar]);
+      generateStringAtIndex(3, [gender, newVar]);
 
-  String get otherMsg => _currentMessages.generateStringAtIndex(4, []);
+  String get otherMsg => generateStringAtIndex(4, []);
+}
+
+extension on AboutPageMessages {
+  @ResourceIdentifier('AboutPageMessages')
+  String generateStringAtIndex(
+    int index,
+    List args,
+  ) =>
+      _currentMessages.generateStringAtIndex(index, args);
 }
 
 class HomePageMessages {
@@ -114,22 +124,31 @@ class HomePageMessages {
     String firstName,
     String lastName,
   ) =>
-      _currentMessages.generateStringAtIndex(0, [firstName, lastName]);
+      generateStringAtIndex(0, [firstName, lastName]);
 
   String helloAndWelcome2(
     String firstName,
     String lastName,
   ) =>
-      _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
+      generateStringAtIndex(1, [firstName, lastName]);
 
   String newMessages(int newMessages) =>
-      _currentMessages.generateStringAtIndex(2, [newMessages]);
+      generateStringAtIndex(2, [newMessages]);
 
   String newMessages2(
     String gender,
     int newVar,
   ) =>
-      _currentMessages.generateStringAtIndex(3, [gender, newVar]);
+      generateStringAtIndex(3, [gender, newVar]);
+}
+
+extension on HomePageMessages {
+  @ResourceIdentifier('HomePageMessages')
+  String generateStringAtIndex(
+    int index,
+    List args,
+  ) =>
+      _currentMessages.generateStringAtIndex(index, args);
 }
 
 Message _pluralSelector(
