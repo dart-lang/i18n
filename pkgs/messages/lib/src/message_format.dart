@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 // ignore_for_file: non_constant_identifier_names
 import 'plural_selector.dart';
 
@@ -32,9 +34,19 @@ abstract class MessageList {
   Preamble get preamble;
   PluralSelector get pluralSelector;
 
-  String generateStringAtIndex(int index, List args);
+  String _generateStringAtIndex(int index, List args);
 
-  String generateStringAtId(String id, List args);
+  String _generateStringAtId(String id, List args);
+}
+
+extension MessageListStatic on MessageList {
+  @ResourceIdentifier()
+  String generateStringAtIndex(int index, List args) =>
+      _generateStringAtIndex(index, args);
+
+  @ResourceIdentifier()
+  String generateStringAtId(String id, List args) =>
+      _generateStringAtId(id, args);
 }
 
 sealed class PluralMarker {
