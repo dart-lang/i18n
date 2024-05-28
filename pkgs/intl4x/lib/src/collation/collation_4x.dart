@@ -25,7 +25,7 @@ class Collation4X extends CollationImpl {
         );
 
   @override
-  int compareImpl(String a, String b) => _collator.compare(a, b).index;
+  int compareImpl(String a, String b) => _collator.compare(a, b);
 }
 
 extension on CollationOptions {

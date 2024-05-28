@@ -19,15 +19,15 @@ import 'datetime_format_impl.dart';
 ///     .format(date); // Output: '4 mat.'
 /// ```
 class DateTimeFormat {
-  final DateTimeFormatImpl impl;
+  final DateTimeFormatImpl _impl;
 
-  DateTimeFormat(this.impl);
+  DateTimeFormat(this._impl);
 
   String format(DateTime datetime) {
     if (isInTest) {
-      return '$datetime//${impl.locale}';
+      return '$datetime//${_impl.locale}';
     } else {
-      return impl.formatImpl(datetime);
+      return _impl.formatImpl(datetime);
     }
   }
 }
