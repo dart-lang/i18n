@@ -1,6 +1,7 @@
-## 0.8.3
+## 0.9.0
 
 - Update for `icu4x` and `build.dart` changes.
+- Fix leaking API.
 
 ## 0.8.2
 
