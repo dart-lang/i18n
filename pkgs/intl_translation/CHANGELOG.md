@@ -1,3 +1,6 @@
+## 0.20.1 - wip
+  * Add topics to `pubspec.yaml`
+
 ## 0.20.0
   * Throw if the `Intl.select` `arg` is not in the list of `args`.
   * Support `package:intl` `0.19.0`.
