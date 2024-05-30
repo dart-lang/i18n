@@ -6,6 +6,10 @@ description: >-
   other internationalization issues.
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl_translation
 
+topics:
+- i18n
+- intl
+
 environment:
   sdk: ^3.0.0
 
