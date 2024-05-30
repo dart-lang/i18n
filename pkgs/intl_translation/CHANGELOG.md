@@ -1,4 +1,4 @@
-## 0.20.1 - wip
+## 0.20.1-wip
   * Add topics to `pubspec.yaml`
 
 ## 0.20.0
