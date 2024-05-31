@@ -5,7 +5,7 @@
 /// Tests for the strict option when parsing dates and times, which are
 /// relatively locale-independent, depending only on the being a valid date
 /// and consuming all the input data.
-library date_time_strict_test;
+library;
 
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';

@@ -4,6 +4,8 @@
 
 /// Test date formatting and parsing using custom locale data, which we get
 /// from the local copy.
+library;
+
 import 'package:intl/date_symbol_data_custom.dart';
 import 'package:intl/date_symbol_data_local.dart' as local_symbols;
 import 'package:intl/date_time_patterns.dart' as local_patterns;

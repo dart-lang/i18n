@@ -4,8 +4,7 @@
 
 /// This file should be imported, along with date_format.dart in order to read
 /// locale data from files in the file system.
-
-library date_symbol_data_file;
+library;
 
 import 'package:path/path.dart' as path;
 

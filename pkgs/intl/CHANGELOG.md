@@ -1,5 +1,5 @@
 ## 0.20.0-wip
- * Fix caching of messages in CompositeMessageLookup
+ * Fix caching of messages in `CompositeMessageLookup`.
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
  * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
  * Add example for pub.dev.
@@ -7,7 +7,8 @@
  * Update to CLDR v44.1.
  * Require Dart `^3.3`
  * Require `package:web` `^0.5.0`.
- * Support compiling to WASM
+ * Support compiling to WASM.
+ * Update to and account for `package:lints` `^4.0.0`.
 
 ## 0.19.0
  * Update to CLDR v44.

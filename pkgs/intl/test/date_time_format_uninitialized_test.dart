@@ -4,7 +4,7 @@
 
 /// Tests date formatting and parsing using locale data read from the
 /// local file system.
-library date_time_format_file_test;
+library;
 
 import 'date_time_format_test_core.dart';
 

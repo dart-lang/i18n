@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library find_locale_test;
-
 import 'package:intl/find_locale.dart';
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';

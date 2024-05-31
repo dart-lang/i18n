@@ -1,8 +1,10 @@
-/// Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
-/// for details. All rights reserved. Use of this source code is governed by a
-/// BSD-style license that can be found in the LICENSE file.
+// Copyright (c) 2016, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
 /// Tests for compact format numbers, e.g. 1.2M rather than 1,200,000
+library;
+
 import 'package:fixnum/fixnum.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/number_symbols_data.dart' as patterns;

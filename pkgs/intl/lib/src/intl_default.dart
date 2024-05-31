@@ -4,7 +4,8 @@
 
 /// Default implementation of findSystemLocale, which throws if called.
 /// Platforms with the 'io' and 'html' libraries should use
-/// 'intl_standalone.dart' and 'intl_browser.dart' respectively.
+/// `intl_standalone.dart` and `intl_browser.dart` respectively.
+library;
 
 /// Find the system locale, accessed via the appropriate system APIs, and
 /// set it as the default for internationalization operations in

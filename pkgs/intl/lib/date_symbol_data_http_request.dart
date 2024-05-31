@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// This file should be imported, along with date_format.dart in order to read
-/// locale data via http requests to a web server..
-library date_symbol_data_http_request;
+/// locale data via http requests to a web server.
+library;
 
 import 'date_symbols.dart';
 import 'intl.dart';

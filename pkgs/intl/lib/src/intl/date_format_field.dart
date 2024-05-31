@@ -92,8 +92,7 @@ abstract class _DateFormatField {
 /// change according to the date's data. As such, the implementation
 /// is extremely simple.
 class _DateFormatLiteralField extends _DateFormatField {
-  _DateFormatLiteralField(String pattern, DateFormat parent)
-      : super(pattern, parent);
+  _DateFormatLiteralField(super.pattern, super.parent);
 
   @override
   void parse(StringStack input, DateBuilder dateFields) {
@@ -144,7 +143,7 @@ class _DateFormatQuotedField extends _DateFormatField {
 /// conform to the pattern, e.g. the pattern calls for Sep we might accept
 /// sep, september, sEPTember. Doesn't affect numeric fields.
 class _LoosePatternField extends _DateFormatPatternField {
-  _LoosePatternField(String pattern, parent) : super(pattern, parent);
+  _LoosePatternField(super.pattern, super.parent);
 
   /// Parse from a list of possibilities, but case-insensitively.
   /// Assumes that input is lower case.
@@ -240,13 +239,11 @@ class _LoosePatternField extends _DateFormatPatternField {
   }
 }
 
-/*
- * Represents a field in the pattern that formats some aspect of the
- * date. Consists primarily of a switch on the particular pattern characters
- * to determine what to do.
- */
+/// Represents a field in the pattern that formats some aspect of the
+/// date. Consists primarily of a switch on the particular pattern characters
+/// to determine what to do.
 class _DateFormatPatternField extends _DateFormatField {
-  _DateFormatPatternField(pattern, parent) : super(pattern, parent);
+  _DateFormatPatternField(super.pattern, super.parent);
 
   /// Format date according to our specification and return the result.
   @override

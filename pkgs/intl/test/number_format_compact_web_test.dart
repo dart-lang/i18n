@@ -2,13 +2,15 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@TestOn('browser')
-// Tests for compact number formatting in pure Dart and in ECMAScript.
-//
 // TODO(b/36488375): run all these tests against both implementations to prove
 // consistency when the bug is fixed. Also fix documentation and perhaps
 // merge tests: these tests currently also touch non-compact currency
 // formatting.
+
+/// Tests for compact number formatting in pure Dart and in ECMAScript.
+@TestOn('browser')
+library;
+
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 import 'package:intl/intl.dart' as intl;

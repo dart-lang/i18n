@@ -8,6 +8,7 @@
 /// and left-to-right (LTR). It generally involves text containing different
 /// types of alphabets, but may also refer to boustrophedon, which is changing
 /// text directionality in each row.
+library;
 
 import '../global_state.dart' as global_state;
 import 'text_direction.dart';

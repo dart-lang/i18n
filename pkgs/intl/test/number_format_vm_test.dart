@@ -1,11 +1,11 @@
-/// Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
-/// for details. All rights reserved. Use of this source code is governed by a
-/// BSD-style license that can be found in the LICENSE file.
+// Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
 
-/// Number tests for the VM - includes numbers that can only be compiled for the
-/// VM.
+/// Number tests for the VM - includes numbers that can only
+/// be compiled for the VM.
 @TestOn('vm')
-library number_format_vm_test;
+library;
 
 import 'package:test/test.dart';
 import 'number_format_test_core.dart' as core;

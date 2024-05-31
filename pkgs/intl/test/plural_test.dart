@@ -6,8 +6,7 @@
 ///
 /// This exercises the plural selection rules. We aren't worried about the text,
 /// just that it picks the right phrase for the right number.
-
-library plural_test;
+library;
 
 import 'package:intl/intl.dart';
 import 'package:intl/src/data/dates/locale_list.dart' as locale_list;

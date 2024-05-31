@@ -4,15 +4,13 @@
 
 import 'package:intl/src/intl/number_parser_base.dart';
 
-import 'number_format.dart';
-
 /// A one-time object for parsing a particular numeric string. One-time here
 /// means an instance can only parse one string. This is implemented by
 /// transforming from a locale-specific format to one that the system can parse,
 /// then calls the system parsing methods on it.
 class NumberParser extends NumberParserBase<num> {
-  ///  Create a new [_NumberParser] on which we can call parse().
-  NumberParser(NumberFormat format, String text) : super(format, text);
+  /// Create a new [_NumberParser] on which we can call parse().
+  NumberParser(super.format, super.text);
 
   @override
   num fromNormalized(String normalizedText) =>

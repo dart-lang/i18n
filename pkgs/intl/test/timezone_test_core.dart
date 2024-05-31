@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// Test date formatting and parsing while the system time zone is set.
+library;
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:test/test.dart';

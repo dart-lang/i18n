@@ -4,8 +4,7 @@
 
 /// Test date formatting and parsing using locale data which is available
 /// directly in the program as a constant.
-
-library date_time_format_test;
+library;
 
 import 'package:intl/intl.dart';
 import 'package:test/test.dart';
