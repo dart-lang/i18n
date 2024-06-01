@@ -30,7 +30,7 @@ jobs:
     - name: Show the selected Rust toolchain
       run: rustup show
     
-    - uses: dart-lang/setup-dart@b64355ae6ca0b5d484f0106a033dd1388965d06d
+    - uses: dart-lang/setup-dart@f0ead981b4d9a35b37f30d36160575d60931ec30
       with:
         sdk: dev
 
@@ -151,7 +151,7 @@ jobs:
         run: ls -R
 
       - name: Release
-        uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564
+        uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87
         with:
           files: '**'
           fail_on_unmatched_files: true
