@@ -8,6 +8,7 @@
  * Require Dart `^3.3`
  * Require `package:web` `^0.5.0`.
  * Support compiling to WASM
+ * Add topics to `pubspec.yaml`
 
 ## 0.19.0
  * Update to CLDR v44.
