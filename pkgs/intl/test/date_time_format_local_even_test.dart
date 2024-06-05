@@ -6,8 +6,7 @@
 /// directly in the program as a constant. This tests one half the locales,
 /// since testing all of them takes long enough that it may cause timeouts in
 /// the test bots.
-
-library date_time_format_test_2;
+library;
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'date_time_format_test_stub.dart';

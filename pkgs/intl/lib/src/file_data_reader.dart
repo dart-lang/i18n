@@ -4,8 +4,7 @@
 
 /// This contains a reader that accesses data from local files, so it can't
 /// be run in the browser.
-
-library file_data_reader;
+library;
 
 import 'dart:io';
 

@@ -6,8 +6,7 @@
 /// when running standalone. You should import only one of this or
 /// intl_browser.dart. Right now the only thing provided here is finding
 /// the operating system locale.
-
-library intl_standalone;
+library;
 
 import 'dart:io';
 import 'intl.dart';

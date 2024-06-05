@@ -6,6 +6,7 @@
 ///
 /// This is a copy of date_time_format_local_even_test.dart which also
 /// verifies the time zone against an environment variable.
+library;
 
 import 'dart:io';
 

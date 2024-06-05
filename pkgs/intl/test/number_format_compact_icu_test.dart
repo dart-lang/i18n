@@ -10,6 +10,7 @@
 @TestOn('!browser')
 @Tags(['ffi'])
 @Skip('currently failing (see https://github.com/dart-lang/intl/issues/240)')
+library;
 
 // ignore_for_file: non_constant_identifier_names
 

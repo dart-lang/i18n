@@ -4,8 +4,7 @@
 
 /// A library for general helper code associated with the intl library
 /// rather than confined to specific parts of it.
-
-library intl_helpers;
+library;
 
 import 'global_state.dart' as global_state;
 

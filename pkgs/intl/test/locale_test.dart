@@ -9,6 +9,8 @@
 ///
 /// For production code, use of ICU would influence what needs and doesn't need
 /// to be tested.
+library;
+
 import 'package:intl/locale.dart';
 import 'package:test/test.dart';
 

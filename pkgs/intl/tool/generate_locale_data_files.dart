@@ -9,6 +9,8 @@
 /// The files are written under 'data/dates', in two subdirectories, 'symbols'
 /// and 'patterns'. In 'data/dates' it will also generate 'locale_list.dart',
 /// which is sourced by the date_symbol_data... files.
+library;
+
 import 'dart:convert';
 import 'dart:io';
 

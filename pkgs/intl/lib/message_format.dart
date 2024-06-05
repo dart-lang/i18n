@@ -3,12 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // `MessageFormat` is a "locale aware printf", with plural / gender support.
-///
 /// `MessageFormat` prepares strings for display to users, with optional
 /// arguments (variables/placeholders). The arguments can occur in any order,
 /// which is necessary for translation into languages with different grammars.
 /// It supports syntax to represent plurals and select options.
-library message_format;
+library;
 
 import 'dart:collection';
 import 'intl.dart';
@@ -807,12 +806,12 @@ class _TypeAndVal<T, V> {
 enum _ElementType { string, block }
 
 class _ElementTypeAndVal extends _TypeAndVal<_ElementType, String> {
-  _ElementTypeAndVal(_ElementType type, String value) : super(type, value);
+  _ElementTypeAndVal(super.type, super.value);
 }
 
 /// Block type.
 enum _BlockType { plural, ordinal, select, simple, string, unknown }
 
 class _BlockTypeAndVal extends _TypeAndVal<_BlockType, Object> {
-  _BlockTypeAndVal(_BlockType type, Object value) : super(type, value);
+  _BlockTypeAndVal(super.type, super.value);
 }

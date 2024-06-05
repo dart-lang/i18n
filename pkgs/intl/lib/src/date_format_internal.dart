@@ -9,8 +9,7 @@
 /// they are put in a separate library here. These are for internal use
 /// only. User code should import one of the `date_symbol_data...` libraries and
 /// call the `initializeDateFormatting` method exposed there.
-
-library date_format_internal;
+library;
 
 import '../date_symbols.dart';
 import 'intl_helpers.dart';

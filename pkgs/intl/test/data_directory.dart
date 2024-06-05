@@ -9,7 +9,7 @@
 ///    test/ or a sub-directory.
 ///   - running in root of this package, which is where the editor and bots will
 ///   run things by default
-library data_directory;
+library;
 
 import 'dart:io';
 import 'package:path/path.dart' as path;

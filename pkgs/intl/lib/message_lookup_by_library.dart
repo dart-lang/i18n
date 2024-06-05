@@ -10,7 +10,7 @@
 ///
 /// See Intl class comment or `tests/message_format_test.dart` for more
 /// examples.
-library message_lookup_by_library;
+library;
 
 import 'package:intl/intl.dart';
 import 'package:intl/src/intl_helpers.dart';

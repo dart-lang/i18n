@@ -365,20 +365,19 @@ class _CompactNumberFormat extends NumberFormat {
   }
 
   _CompactNumberFormat._(
-      String currencyName,
-      String currencySymbol,
-      bool isForCurrency,
-      String locale,
-      int localeZero,
-      String? pattern,
-      NumberSymbols symbols,
-      int zeroOffset,
-      NumberFormatParseResult result,
+      String super.currencyName,
+      super.currencySymbol,
+      super.isForCurrency,
+      super.locale,
+      super.localeZero,
+      super.pattern,
+      super.symbols,
+      super.zeroOffset,
+      super.result,
       // Fields introduced in this class.
       this._styles,
       this._explicitSign)
-      : super._(currencyName, currencySymbol, isForCurrency, locale, localeZero,
-            pattern, symbols, zeroOffset, result) {
+      : super._() {
     significantDigits = 3;
     turnOffGrouping();
   }

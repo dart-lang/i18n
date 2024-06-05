@@ -5,8 +5,7 @@
 /// This defines a class for loading locale data incrementally from
 /// an external source as JSON. The external sources expected are either
 /// local files or via HTTP request.
-
-library lazy_locale_data;
+library;
 
 import 'dart:convert';
 import 'intl_helpers.dart';

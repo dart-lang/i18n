@@ -5,6 +5,8 @@
 /// API to allow setting Date/Time formatting in a custom way.
 ///
 /// It does not actually provide any data - that's left to the user of the API.
+library;
+
 import 'date_symbols.dart';
 import 'src/date_format_internal.dart';
 

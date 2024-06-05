@@ -5,8 +5,7 @@
 /// Tests the DateFormat library in dart. This file contains core tests that are
 /// run regardless of where the locale data is found, so it doesn't expect to be
 /// run on its own, but rather to be imported and run from another test file.
-
-library date_time_format_tests;
+library;
 
 import 'package:clock/clock.dart';
 import 'package:intl/intl.dart';

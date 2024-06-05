@@ -9,7 +9,7 @@
 /// For things that require locale or other data, there are multiple different
 /// ways of making that data available, which may require importing different
 /// libraries. See the class comments for more details.
-library intl;
+library;
 
 import 'dart:async';
 

@@ -5,13 +5,10 @@
 /// Test data for one particular date formatted for a small number of locales.
 /// Provides at least a basic check on formatting, including formatting with
 /// non-ASCII characters and some different orderings.
-
 // TODO(alanknight): Test more locales and a wider variety of test data,
 // possibly by generating test data out of ICU.
-
 // ignore_for_file: unnecessary_brace_in_string_interps
-
-library date_time_format_test_data;
+library;
 
 const space = '\u202F';
 const english = {

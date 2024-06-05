@@ -4,8 +4,7 @@
 
 /// This contains a reader that accesses data using the HttpRequest
 /// facility, and thus works only in the web browser.
-
-library http_request_data_reader;
+library;
 
 import 'dart:async';
 import 'package:http/http.dart';

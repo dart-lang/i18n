@@ -7,7 +7,7 @@
 /// is only tested in basic US locale, it's hard to define for others.
 /// Inputs which should fail because they're missing data (currently only the
 /// year) are tested in more locales.
-library date_time_loose_test;
+library;
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';

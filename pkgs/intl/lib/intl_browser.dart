@@ -6,8 +6,7 @@
 /// when running in the web browser. You should import only one of this or
 /// intl_standalone.dart. Right now the only thing provided here is the
 /// ability to find the default locale from the browser.
-
-library intl_browser;
+library;
 
 import 'package:web/web.dart';
 import 'intl.dart';
