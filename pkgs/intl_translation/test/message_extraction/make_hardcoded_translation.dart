@@ -76,7 +76,14 @@ Map<String, String> french = {
   'literalDollar': 'Cinq sous est US\$0.05',
   r"'<>{}= +-_$()&^%$#@!~`'": r"interessant (fr): '<>{}= +-_$()&^%$#@!~`'",
   'extractable': 'Ce message devrait être extractible',
-  'skipMessageExistingTranslation': 'Ce message devrait ignorer la traduction'
+  'skipMessageExistingTranslation': 'Ce message devrait ignorer la traduction',
+  'noArgs': 'Ce message devrait ignorer la traduction',
+  'noName': 'Ce message devrait ignorer la traduction',
+  'badDescription': 'Ce message devrait ignorer la traduction',
+  'noName:a': 'Ce message devrait ignorer la traduction',
+  'thisNameIsAVariable': 'Ce message devrait ignorer la traduction',
+  'noExamples': 'Ce message devrait ignorer la traduction',
+  'badExamples': 'Ce message devrait ignorer la traduction',
 };
 
 // Used to test having translations in multiple files.
@@ -149,7 +156,14 @@ Map<String, String> german = {
   r"'<>{}= +-_$()&^%$#@!~`'": r"interessant (de): '<>{}= +-_$()&^%$#@!~`'",
   'extractable': 'Diese Nachricht sollte extrahierbar sein',
   'skipMessageExistingTranslation':
-      'Diese Nachricht sollte die Übersetzung überspringen'
+      'Diese Nachricht sollte die Übersetzung überspringen',
+  'noArgs': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'noName': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'badDescription': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'noName:a': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'thisNameIsAVariable': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'noExamples': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'badExamples': 'Diese Nachricht sollte die Übersetzung überspringen',
 };
 
 /// The output directory for translated files.

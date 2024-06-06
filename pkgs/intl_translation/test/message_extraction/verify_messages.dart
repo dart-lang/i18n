@@ -85,6 +85,12 @@ void verifyResult() {
   verify('Extraction skipped gender f');
   verify('Extraction skipped select specified Bob!');
   verify('This message should skip translation');
+  verify('No arg for parameter: a');
+  verify('noName: a');
+  verify('Non string literal name for message: a');
+  verify('Wrong name for message: a');
+  verify('Description must be a string literal: a');
+  verify('Examples must be const literal map: a');
   verify('-------------------------------------------');
 
   // French translations.
@@ -157,6 +163,12 @@ void verifyResult() {
   verify('Extraction skipped gender f');
   verify('Extraction skipped select specified Bob!');
   verify('This message should skip translation');
+  verify('No arg for parameter: a');
+  verify('noName: a');
+  verify('Non string literal name for message: a');
+  verify('Wrong name for message: a');
+  verify('Description must be a string literal: a');
+  verify('Examples must be const literal map: a');
   verify('-------------------------------------------');
 
   // German translations.
@@ -229,6 +241,12 @@ void verifyResult() {
   verify('Extraction skipped gender f');
   verify('Extraction skipped select specified Bob!');
   verify('This message should skip translation');
+  verify('No arg for parameter: a');
+  verify('noName: a');
+  verify('Non string literal name for message: a');
+  verify('Wrong name for message: a');
+  verify('Description must be a string literal: a');
+  verify('Examples must be const literal map: a');
 
   if (lineIterator.moveNext()) {
     throw 'more messages than expected';

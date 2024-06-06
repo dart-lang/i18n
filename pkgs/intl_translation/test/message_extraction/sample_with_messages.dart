@@ -205,6 +205,42 @@ String skipMessageExistingTranslation() =>
         skip: true,
         desc: 'Skip with existing translation');
 
+// These messages are malformed and shouldn't be extracted.
+String noArgs(String x) => Intl.message('No arg for parameter: $x',
+    name: 'noArgs', desc: 'No args supplied', examples: const {'x': 3});
+
+String noName(String x) => Intl.message('noName: $x',
+    args: [x], desc: 'No name supplied', examples: const {'x': 3});
+
+String badName = 'thisNameIsAVariable';
+String nonLiteralName(String x) => Intl.message(
+    'Non string literal name for '
+    'message: $x',
+    name: badName,
+    args: [x],
+    desc: 'Non string literal name supplied',
+    examples: const {'x': 3});
+
+String wrongName(String x) => Intl.message('Wrong name for message: $x',
+    name: 'someOtherName',
+    desc: 'wrong name supplied',
+    examples: const {'x': 3});
+
+String badDescriptionString = 'thisDescriptionIsAVariable';
+String badDescription(String x) =>
+    Intl.message('Description must be a string literal: $x',
+        name: 'badArgs',
+        desc: badDescriptionString,
+        args: [x],
+        examples: const {'x': 3});
+
+String badExamples(String x) =>
+    Intl.message('Examples must be const literal map: $x',
+        name: 'badExamples',
+        desc: 'Examples must be const literal map.',
+        args: [x],
+        examples: {'x': 3});
+
 void printStuff(Intl locale) {
   // Use a name that's not a literal so this will get skipped. Then we have
   // a name that's not in the original but we include it in the French
@@ -300,6 +336,12 @@ void printStuff(Intl locale) {
     printOut(skipGender('female'));
     printOut(skipSelect('Bob'));
     printOut(skipMessageExistingTranslation());
+    printOut(noArgs('a'));
+    printOut(noName('a'));
+    printOut(nonLiteralName('a'));
+    printOut(wrongName('a'));
+    printOut(badDescription('a'));
+    printOut(badExamples('a'));
   });
 }
 
