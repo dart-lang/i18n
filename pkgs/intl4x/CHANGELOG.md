@@ -1,4 +1,4 @@
-## 0.9.1-wip
+## 0.9.1
 
 - Small fixes in imports
 
