@@ -17,7 +17,7 @@ void main(List<String> args) async {
     final buildMode = switch (Platform.environment['ICU4X_BUILD_MODE']) {
       'local' => LocalMode(),
       'checkout' => CheckoutMode(config),
-      'fetch' || null => FetchMode(),
+      'fetch' || null => FetchMode(config),
       String() => throw ArgumentError('''
 
 
@@ -36,7 +36,7 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
       name: assetId,
       linkMode: DynamicLoadingBundled(),
       architecture: config.targetArchitecture,
-      os: OS.current,
+      os: config.targetOS,
       file: builtLibrary,
     ));
 
@@ -70,20 +70,27 @@ sealed class BuildMode {
 }
 
 final class FetchMode implements BuildMode {
+  final BuildConfig config;
+
+  FetchMode(this.config);
+
   @override
   Future<Uri> build() async {
     // TODO: Get a nicer CDN than a generated link to a privately owned repo.
-    final request = await HttpClient().getUrl(Uri.parse(
-        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip'));
+    final uri = Uri.parse(
+        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip');
+    final request = await HttpClient().getUrl(uri);
     final response = await request.close();
-
+    if (response.statusCode != 200) {
+      throw ArgumentError('The request to $uri failed');
+    }
     final zippedDynamicLibrary =
         File(path.join(Directory.systemTemp.path, 'tmp.zip'));
     zippedDynamicLibrary.createSync();
     await response.pipe(zippedDynamicLibrary.openWrite());
 
-    final directory = await Directory.systemTemp.createTemp();
-    final dynamicLibrary = File.fromUri(directory.uri.resolve('icu4xlib'));
+    final dynamicLibrary =
+        File.fromUri(config.outputDirectory.resolve('icu4xlib'));
     await dynamicLibrary.create();
     unzipFirstFile(input: zippedDynamicLibrary, output: dynamicLibrary);
     return dynamicLibrary.uri;
@@ -136,92 +143,101 @@ final class CheckoutMode implements BuildMode {
 }
 
 Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
-  final rustTarget = _asRustTarget(
-    config.targetOS,
-    config.targetArchitecture,
-    config.targetOS == OS.iOS && config.targetIOSSdk == IOSSdk.iPhoneSimulator,
-  );
-  final isNoStd = _isNoStdTarget((config.targetOS, config.targetArchitecture));
+  final dylibFileName =
+      config.targetOS.dylibFileName(crateName.replaceAll('-', '_'));
+  final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+  if (!config.dryRun) {
+    final rustTarget = _asRustTarget(
+      config.targetOS,
+      config.dryRun ? null : config.targetArchitecture!,
+      config.targetOS == OS.iOS &&
+          config.targetIOSSdk == IOSSdk.iPhoneSimulator,
+    );
+    final isNoStd =
+        _isNoStdTarget((config.targetOS, config.targetArchitecture));
 
-  if (!isNoStd) {
-    final rustArguments = ['target', 'add', rustTarget];
-    final rustup = await Process.run(
-      'rustup',
-      rustArguments,
+    if (!isNoStd) {
+      final rustArguments = ['target', 'add', rustTarget];
+      final rustup = await Process.run(
+        'rustup',
+        rustArguments,
+        workingDirectory: workingDirectory,
+      );
+
+      if (rustup.exitCode != 0) {
+        throw ProcessException(
+          'rustup',
+          rustArguments,
+          rustup.stderr.toString(),
+          rustup.exitCode,
+        );
+      }
+    }
+    final tempDir = await Directory.systemTemp.createTemp();
+
+    final stdFeatures = [
+      'default_components',
+      'compiled_data',
+      'buffer_provider',
+      'logging',
+      'simple_logger',
+      'experimental_components',
+    ];
+    final noStdFeatures = [
+      'default_components',
+      'compiled_data',
+      'buffer_provider',
+      'libc-alloc',
+      'panic-handler',
+      'experimental_components',
+    ];
+    final linkModeType = config.linkModePreference == LinkModePreference.static
+        ? 'staticlib'
+        : 'cdylib';
+    final arguments = [
+      if (isNoStd) '+nightly',
+      'rustc',
+      '-p=$crateName',
+      '--crate-type=$linkModeType',
+      '--release',
+      '--config=profile.release.panic="abort"',
+      '--config=profile.release.codegen-units=1',
+      '--no-default-features',
+      if (!isNoStd) '--features=${stdFeatures.join(',')}',
+      if (isNoStd) '--features=${noStdFeatures.join(',')}',
+      if (isNoStd) '-Zbuild-std=core,alloc',
+      if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
+      '--target=$rustTarget',
+      '--target-dir=${tempDir.path}'
+    ];
+    final cargo = await Process.run(
+      'cargo',
+      arguments,
       workingDirectory: workingDirectory,
     );
 
-    if (rustup.exitCode != 0) {
+    if (cargo.exitCode != 0) {
       throw ProcessException(
-        'rustup',
-        rustArguments,
-        rustup.stderr.toString(),
-        rustup.exitCode,
+        'cargo',
+        arguments,
+        cargo.stderr.toString(),
+        cargo.exitCode,
       );
     }
-  }
 
-  final stdFeatures = [
-    'default_components',
-    'compiled_data',
-    'buffer_provider',
-    'logging',
-    'simple_logger',
-    'experimental_components',
-  ];
-  final noStdFeatures = [
-    'default_components',
-    'compiled_data',
-    'buffer_provider',
-    'libc-alloc',
-    'panic-handler',
-    'experimental_components',
-  ];
-  final tempDir = Directory.systemTemp.createTempSync();
-  final linkModeType = config.linkModePreference == LinkModePreference.static
-      ? 'staticlib'
-      : 'cdylib';
-  final arguments = [
-    if (isNoStd) '+nightly',
-    'rustc',
-    '-p=$crateName',
-    '--crate-type=$linkModeType',
-    '--release',
-    '--config=profile.release.panic="abort"',
-    '--config=profile.release.codegen-units=1',
-    '--no-default-features',
-    if (!isNoStd) '--features=${stdFeatures.join(',')}',
-    if (isNoStd) '--features=${noStdFeatures.join(',')}',
-    if (isNoStd) '-Zbuild-std=core,alloc',
-    if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-    '--target=$rustTarget',
-    '--target-dir=${tempDir.path}'
-  ];
-  final cargo = await Process.run(
-    'cargo',
-    arguments,
-    workingDirectory: workingDirectory,
-  );
-
-  if (cargo.exitCode != 0) {
-    throw ProcessException(
-      'cargo',
-      arguments,
-      cargo.stderr.toString(),
-      cargo.exitCode,
+    final builtPath = path.join(
+      tempDir.path,
+      rustTarget,
+      'release',
+      dylibFileName,
     );
+    final file = File(builtPath);
+    if (!(await file.exists())) {
+      throw FileSystemException('Building the dylib failed', builtPath);
+    }
+    await file.copy(dylibFileUri.path);
   }
-
-  final dylibFilePath = path.join(
-    tempDir.path,
-    rustTarget,
-    'release',
-    config.targetOS.dylibFileName(crateName.replaceAll('-', '_')),
-  );
-  if (!File(dylibFilePath).existsSync()) {
-    throw FileSystemException('Building the dylib failed', dylibFilePath);
-  }
-  return Uri.file(dylibFilePath);
+  return dylibFileUri;
 }
 
 String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
@@ -249,7 +265,8 @@ String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
     (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
     (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
     (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
-    (_, _) => throw UnimplementedError('Target not available for rust'),
+    (_, _) => throw UnimplementedError(
+        'Target ${(os, architecture)} not available for rust'),
   };
 }
 

@@ -1,3 +1,7 @@
+## 0.9.1
+
+- Small fixes in imports
+
 ## 0.9.0
 
 - Update for `icu4x` and `build.dart` changes.
