@@ -5,7 +5,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library messages_serializer;
+library;
 
 export 'src/serializer.dart';
 export 'src/serializer_json.dart';

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
+library;
 
 import 'package:intl_translation/extract_messages.dart';
 import 'package:intl_translation/src/message_rewriter.dart';
