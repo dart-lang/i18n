@@ -241,6 +241,16 @@ String badExamples(String x) =>
         args: [x],
         examples: {'x': 3});
 
+List<String> messageList() => <String>[
+      Intl.message('This is a named list element',
+          name: 'listElement', desc: 'List element'),
+    ];
+
+Map<String, String> messageMap() => <String, String>{
+      'arbitraryKey': Intl.message('This is a named map element',
+          name: 'mapElement', desc: 'Map element')
+    };
+
 void printStuff(Intl locale) {
   // Use a name that's not a literal so this will get skipped. Then we have
   // a name that's not in the original but we include it in the French
@@ -342,6 +352,8 @@ void printStuff(Intl locale) {
     printOut(wrongName('a'));
     printOut(badDescription('a'));
     printOut(badExamples('a'));
+    printOut(messageList()[0]);
+    printOut(messageMap()['arbitraryKey']!);
   });
 }
 

@@ -84,6 +84,8 @@ Map<String, String> french = {
   'thisNameIsAVariable': 'Ce message devrait ignorer la traduction',
   'noExamples': 'Ce message devrait ignorer la traduction',
   'badExamples': 'Ce message devrait ignorer la traduction',
+  'listElement': 'Ceci est un élément de liste nommé',
+  'mapElement': 'Ceci est un élément de carte nommé',
 };
 
 // Used to test having translations in multiple files.
@@ -164,6 +166,8 @@ Map<String, String> german = {
   'thisNameIsAVariable': 'Diese Nachricht sollte die Übersetzung überspringen',
   'noExamples': 'Diese Nachricht sollte die Übersetzung überspringen',
   'badExamples': 'Diese Nachricht sollte die Übersetzung überspringen',
+  'listElement': 'Dies ist ein benanntes Listenelement',
+  'mapElement': 'Dies ist ein benanntes Kartenelement',
 };
 
 /// The output directory for translated files.

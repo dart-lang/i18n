@@ -91,6 +91,8 @@ void verifyResult() {
   verify('Wrong name for message: a');
   verify('Description must be a string literal: a');
   verify('Examples must be const literal map: a');
+  verify('This is a named list element');
+  verify('This is a named map element');
   verify('-------------------------------------------');
 
   // French translations.
@@ -169,6 +171,8 @@ void verifyResult() {
   verify('Wrong name for message: a');
   verify('Description must be a string literal: a');
   verify('Examples must be const literal map: a');
+  verify('Ceci est un élément de liste nommé');
+  verify('Ceci est un élément de carte nommé');
   verify('-------------------------------------------');
 
   // German translations.
@@ -247,6 +251,8 @@ void verifyResult() {
   verify('Wrong name for message: a');
   verify('Description must be a string literal: a');
   verify('Examples must be const literal map: a');
+  verify('Dies ist ein benanntes Listenelement');
+  verify('Dies ist ein benanntes Kartenelement');
 
   if (lineIterator.moveNext()) {
     throw 'more messages than expected';
