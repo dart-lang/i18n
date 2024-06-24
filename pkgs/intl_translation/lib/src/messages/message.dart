@@ -210,7 +210,11 @@ abstract class Message {
 
     var classPlusMethod = Message.classPlusMethodName(node, outerName);
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
-    if (!(hasOuterName && (simpleMatch || classMatch))) {
+    var mapOrListLiteralWithoutParameters =
+        (node.parent is ListLiteral || node.parent is MapLiteralEntry) &&
+            !hasParameters;
+    if (!(hasOuterName &&
+        (simpleMatch || classMatch || mapOrListLiteralWithoutParameters))) {
       throw MessageExtractionException(
           "The 'name' argument for Intl.message must match either "
           'the name of the containing function or <ClassName>_<methodName> ('
