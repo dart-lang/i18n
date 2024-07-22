@@ -21,7 +21,7 @@ library;
 import "number_symbols.dart";
 
 /// Map from locale to [NumberSymbols] used for that locale.
-Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
+final numberFormatSymbols = <String, NumberSymbols>{
   // Number formatting symbols for locale af.
   "af": new NumberSymbols(
       NAME: "af",
@@ -2173,7 +2173,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       DEF_CURRENCY_CODE: 'ZAR')
 };
 
-Map<String, CompactNumberSymbols> compactNumberSymbols = {
+final compactNumberSymbols = <String, CompactNumberSymbols>{
   // Compact number symbols for locale af.
   "af": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
     3: {'other': '0\u00A0k'},
@@ -5211,7 +5211,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
   })
 };
 
-final currencyFractionDigits = {
+final currencyFractionDigits = <String, int>{
   "ADP": 0,
   "AFN": 0,
   "ALL": 0,
