@@ -17,7 +17,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on:  ${{ matrix.os }}
 
     env:
       ICU4X_BUILD_MODE: checkout
@@ -29,6 +29,7 @@ jobs:
     strategy:
       matrix:
         sdk: [stable, dev] # {pkgs.versions}
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - sdk: dev
             run-tests: true
@@ -45,6 +46,11 @@ jobs:
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
+      - run: |
+          dart --enable-experiment=native-assets tool/generate_hashes.dart
+          git diff --name-only --exit-code
+        if: ${{matrix.sdk == 'dev' && matrix.os == 'ubuntu-latest'}}
+      
       - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
 
@@ -53,3 +59,30 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test -p chrome
         if: ${{matrix.run-tests}}
+
+  build_fetch:
+    runs-on:  ${{ matrix.os }}
+
+    env:
+      ICU4X_BUILD_MODE: fetch
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      
+    defaults:
+      run:
+        working-directory: pkgs/intl4x
+
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        with:
+          sdk: dev
+
+      - run: dart --enable-experiment=native-assets pub get
+
+      - run: dart --enable-experiment=native-assets test
