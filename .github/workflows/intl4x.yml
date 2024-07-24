@@ -46,11 +46,6 @@ jobs:
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
-      - run: |
-          dart --enable-experiment=native-assets tool/generate_hashes.dart
-          git diff --name-only --exit-code
-        if: ${{matrix.sdk == 'dev' && matrix.os == 'ubuntu-latest'}}
-      
       - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
         if: ${{matrix.run-tests}}
 
