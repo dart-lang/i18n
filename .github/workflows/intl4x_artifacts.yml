@@ -145,7 +145,7 @@ jobs:
         name: dart-${{matrix.os}}-libs
         path: submodules/icu4x/bin
 
-  check_hashes:
+  check_hashes_local:
     needs: dart-libs
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -164,7 +164,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         
-      - name: Check hashes against recomputed ones
+      - name: Check hashes of locally built artifacts
         run: |
           cd pkgs/intl4x
           dart pub get
@@ -207,6 +207,12 @@ jobs:
       - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
         with:
           sdk: dev
+
+      - name: Check hashes of released artifacts
+        run: |
+          dart --enable-experiment=native-assets tool/generate_hashes.dart
+          git diff --name-only --exit-code
+        if: ${{matrix.os == 'ubuntu-latest'}}
 
       - run: |
           cd pkgs/intl4x

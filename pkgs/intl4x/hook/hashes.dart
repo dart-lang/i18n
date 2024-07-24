@@ -37,9 +37,9 @@ const fileHashes = <(OS, Architecture), String>{
   (OS.macOS, Architecture.x64):
       '19b7f6614f5b5603629f4cedc7891f1d7ec6e27699f9ce7d6fedcd0204f5cc03',
   (OS.windows, Architecture.arm64):
-      '15502b3f71d4947ea9a91cb3ad6b123f915c75bf3c8f63c0befe7a10b24ccbd9',
+      'a270cfc9fa0ef40365c61f87f6b34a1a5ff1185c38dcc795a71e953ea8ca2a6a',
   (OS.windows, Architecture.ia32):
-      '8fec764279d157cec54fb2b40af9adcb19936e9d413ef5d608c00f42e51b1e53',
+      'c9a84f023227e19924bbf3c78cf4309b9e5ace6d34a1be55d669c27cbb4a4efc',
   (OS.windows, Architecture.x64):
-      'b223858026d6c893fff035df1382e6e2703c328e512b432aaf88b90a5b8b91b9'
+      '0b172c58ea610f7412de11d1257c14358c5b8c7694ff59a0d1536dd51ade1241'
 };
