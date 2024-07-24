@@ -4,14 +4,20 @@ permissions:
   contents: write
 
 on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - pkgs/intl4x/hook/hashes.dart
   push:
     tags:
-      - 'intl4x-v.*'
+      - 'intl4x-icu*'
+  schedule:
+    - cron: '0 0 * * 0' # weekly
   workflow_dispatch:
 
 jobs:
   dart-libs:
-    name: "Build Dart binaries"
+    name: Build Dart binaries
     strategy:
       fail-fast: false
       matrix:
@@ -21,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       with:
-        submodules: 'true'
+        submodules: true
 
     - name: Install Rust toolchains
       run: |
@@ -59,14 +65,14 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
-        dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64 linux_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64 linux_arm64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic default_components,experimental_components
 
         cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
@@ -93,11 +99,11 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64 dynamic default_components,experimental_components
 
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
@@ -119,9 +125,9 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64
+        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic default_components,experimental_components
 
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
@@ -138,7 +144,78 @@ jobs:
       with:
         name: dart-${{matrix.os}}-libs
         path: submodules/icu4x/bin
+
+  check_hashes:
+    needs: dart-libs
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+    
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        with:
+          sdk: dev
+      
+      - name: Download binaries
+        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+        with:
+          merge-multiple: true
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        
+      - name: Check hashes against recomputed ones
+        run: |
+          cd pkgs/intl4x
+          dart pub get
+          dart --enable-experiment=native-assets run tool/generate_hashes.dart local ../..
+          git diff --exit-code
   
+  build_local:
+    needs: dart-libs
+    runs-on:  ${{ matrix.os }}
+
+    env:
+      ICU4X_BUILD_MODE: local
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+        with:
+          merge-multiple: true
+
+      - run: echo "LOCAL_ICU4X_BINARY=$(realpath linux_x64)" >> $GITHUB_ENV
+        if: matrix.os == 'ubuntu-latest'
+
+      - run: echo "LOCAL_ICU4X_BINARY=$(realpath macos_x64)" >> $GITHUB_ENV
+        if: matrix.os == 'macos-latest'
+      
+      - run: echo "LOCAL_ICU4X_BINARY=$(realpath windows_x64)" >> $GITHUB_ENV
+        if: matrix.os == 'windows-latest'
+            
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        with:
+          sdk: dev
+
+      - run: |
+          cd pkgs/intl4x
+          dart pub get
+
+      - run: |
+          cd pkgs/intl4x
+          dart --enable-experiment=native-assets test
+
   release:
     needs: dart-libs
     runs-on: ubuntu-latest
@@ -155,4 +232,4 @@ jobs:
         with:
           files: '**'
           fail_on_unmatched_files: true
-          body: "Build artifacts for `package:intl4x`, based on ICU4X at ref ${{ env.icu_version }}"
+          body: "Build artifacts for `package:intl4x`, based on ICU4X at ref ${{ github.ref_name }}"
