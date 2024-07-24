@@ -1,3 +1,7 @@
+## 0.9.2-wip
+
+- Copy files instead of symlinking, for easier upgrading.
+
 ## 0.9.1
 
 - Small fixes in imports
