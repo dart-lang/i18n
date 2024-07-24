@@ -211,8 +211,9 @@ jobs:
       - name: Check hashes of released artifacts
         run: |
           cd pkgs/intl4x
+          dart pub get
           dart --enable-experiment=native-assets tool/generate_hashes.dart
-          git diff --name-only --exit-code
+          git diff --exit-code
         if: ${{matrix.os == 'ubuntu-latest'}}
 
       - run: |
