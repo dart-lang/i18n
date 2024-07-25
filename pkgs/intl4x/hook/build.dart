@@ -104,7 +104,16 @@ final class FetchMode implements BuildMode {
 }
 
 final class LocalMode implements BuildMode {
-  String get _localBinaryPath => Platform.environment['LOCAL_ICU4X_BINARY']!;
+  String get _localBinaryPath {
+    final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
+    if (localPath != null) {
+      return localPath;
+    }
+    throw ArgumentError('`LOCAL_ICU4X_BINARY` is empty. '
+        'If the `ICU4X_BUILD_MODE` is set to `local`, the '
+        '`LOCAL_ICU4X_BINARY` environment variable must contain the path to '
+        'the binary.');
+  }
 
   @override
   Future<Uri> build() async => Uri.file(_localBinaryPath);
