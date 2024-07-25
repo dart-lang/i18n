@@ -145,13 +145,13 @@ jobs:
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic default_components,experimental_components
 
-    - run: export LOCAL_ICU4X_BINARY=$(realpath bin/linux_x64)
+    - run: export LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)
       if: matrix.os == 'ubuntu-latest'
 
-    - run: export LOCAL_ICU4X_BINARY=$(realpath bin/macos_x64)
+    - run: export LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_x64)
       if: matrix.os == 'macos-latest'
     
-    - run: $env:LOCAL_ICU4X_BINARY = $(realpath bin/windows_x64)
+    - run: $env:LOCAL_ICU4X_BINARY = $(realpath submodules/icu4x/bin/windows_x64)
       if: matrix.os == 'windows-latest'
 
     - run: |
