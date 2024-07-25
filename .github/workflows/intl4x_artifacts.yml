@@ -149,6 +149,8 @@ jobs:
     needs: dart-libs
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
     
@@ -179,6 +181,7 @@ jobs:
       ICU4X_BUILD_MODE: local
     
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
       
