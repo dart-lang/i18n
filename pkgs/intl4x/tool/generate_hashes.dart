@@ -8,9 +8,6 @@ import '../hook/version.dart';
 final httpClient = HttpClient();
 
 Future<void> main(List<String> args) async {
-  final mode = args.firstOrNull;
-  String folder() => args[1];
-
   print('Checking hashes for $version');
   final fileHashes = <(OS, Architecture), String>{};
   final dynamicLibrary = File.fromUri(Directory.systemTemp.uri.resolve('lib'));
@@ -19,21 +16,14 @@ Future<void> main(List<String> args) async {
     for (final architecture in Architecture.values) {
       final target = '${os}_$architecture';
       print('Checking hash for $target');
-      final bool success;
-      if (mode == 'fetch' || mode == null) {
-        success = await _fetchLibrary(target, httpClient, dynamicLibrary);
-      } else if (mode == 'local') {
-        success = await _copyLibrary(target, folder(), dynamicLibrary);
-      } else {
-        throw UnsupportedError('Mode must be fetch or local');
-      }
+      final success = await _fetchLibrary(target, httpClient, dynamicLibrary);
       if (success) {
         final bytes = await dynamicLibrary.readAsBytes();
         final fileHash = sha256.convert(bytes).toString();
         fileHashes[(os, architecture)] = fileHash;
         print('Hash is $fileHash');
       } else {
-        print('Could not get library');
+        print('Could not fetch library');
       }
     }
   }
@@ -60,21 +50,6 @@ ${fileHashes.map((key, value) => MapEntry(
           ).join(',\n')}
 };
 ''');
-}
-
-Future<bool> _copyLibrary(
-  String target,
-  String folder,
-  File dynamicLibrary,
-) async {
-  final fileUri = Directory.current.uri.resolve(folder).resolve(target);
-  final file = File.fromUri(fileUri);
-  print('Copy file from ${fileUri.toFilePath()} to ${dynamicLibrary.path}');
-  if (await file.exists()) {
-    await file.copy(dynamicLibrary.path);
-    return true;
-  }
-  return false;
 }
 
 Future<bool> _fetchLibrary(

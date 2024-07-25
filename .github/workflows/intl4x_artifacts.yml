@@ -145,29 +145,14 @@ jobs:
         name: dart-${{matrix.os}}-libs
         path: submodules/icu4x/bin
 
-  build_local:
+  check_hashes:
     needs: dart-libs
-    runs-on:  ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     env:
       ICU4X_BUILD_MODE: local
-    
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
       
     steps:
-
-      - run: export LOCAL_ICU4X_BINARY=$(realpath linux_x64)
-        if: matrix.os == 'ubuntu-latest'
-
-      - run: export LOCAL_ICU4X_BINARY=$(realpath macos_x64)
-        if: matrix.os == 'macos-latest'
-      
-      - run: $env:LOCAL_ICU4X_BINARY = $(realpath windows_x64)
-        if: matrix.os == 'windows-latest'
-            
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
         with:
           submodules: true
@@ -190,15 +175,6 @@ jobs:
           dart pub get
           dart --enable-experiment=native-assets tool/generate_hashes.dart
           git diff --exit-code
-        if: ${{matrix.os == 'ubuntu-latest'}}
-
-      - run: |
-          cd pkgs/intl4x
-          dart pub get
-
-      - run: |
-          cd pkgs/intl4x
-          dart --enable-experiment=native-assets test
 
   release:
     needs: dart-libs
