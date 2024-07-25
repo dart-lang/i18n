@@ -131,7 +131,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64 dynamic default_components,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic default_components,experimental_components
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
