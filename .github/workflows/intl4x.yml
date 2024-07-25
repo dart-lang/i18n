@@ -145,14 +145,17 @@ jobs:
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic default_components,experimental_components
 
-    - run: export LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)
+    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
       if: matrix.os == 'ubuntu-latest'
 
-    - run: export LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_x64)
+    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_x64)" >> $GITHUB_ENV
       if: matrix.os == 'macos-latest'
     
-    - run: $env:LOCAL_ICU4X_BINARY = $(realpath submodules/icu4x/bin/windows_x64)
+    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/windows_x64)" >> $GITHUB_ENV
       if: matrix.os == 'windows-latest'
+          
+    - name: Display structure of downloaded files
+      run: ls -R
 
     - run: |
         cd pkgs/intl4x
