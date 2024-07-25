@@ -21,7 +21,7 @@ void main(List<String> args) async {
   await build(args, (config, output) async {
     final environmentBuildMode = Platform.environment[env];
     final buildMode = switch (environmentBuildMode) {
-      'local' => LocalMode(),
+      'local' => LocalMode(config),
       'checkout' => CheckoutMode(config),
       'fetch' || null => FetchMode(config),
       String() => throw ArgumentError('''
@@ -58,15 +58,17 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
 }
 
 sealed class BuildMode {
+  final BuildConfig config;
+
+  const BuildMode(this.config);
+
   List<Uri> get dependencies;
 
   Future<Uri> build();
 }
 
-final class FetchMode implements BuildMode {
-  final BuildConfig config;
-
-  FetchMode(this.config);
+final class FetchMode extends BuildMode {
+  FetchMode(super.config);
 
   @override
   Future<Uri> build() async {
@@ -103,7 +105,9 @@ final class FetchMode implements BuildMode {
   List<Uri> get dependencies => [];
 }
 
-final class LocalMode implements BuildMode {
+final class LocalMode extends BuildMode {
+  LocalMode(super.config);
+
   String get _localBinaryPath {
     final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
     if (localPath != null) {
@@ -116,16 +120,23 @@ final class LocalMode implements BuildMode {
   }
 
   @override
-  Future<Uri> build() async => Uri.file(_localBinaryPath);
+  Future<Uri> build() async {
+    final dylibFileName = config.targetOS.dylibFileName('icu4x');
+    final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+    final file = File(_localBinaryPath);
+    if (!(await file.exists())) {
+      throw FileSystemException('Could not find binary.', _localBinaryPath);
+    }
+    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
+    return dylibFileUri;
+  }
 
   @override
   List<Uri> get dependencies => [Uri.file(_localBinaryPath)];
 }
 
-final class CheckoutMode implements BuildMode {
-  final BuildConfig config;
-
-  CheckoutMode(this.config);
+final class CheckoutMode extends BuildMode {
+  CheckoutMode(super.config);
 
   String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
 
