@@ -150,7 +150,7 @@ jobs:
     - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
       if: matrix.os == 'macos-latest'
     
-    - run: echo ("LOCAL_ICU4X_BINARY=" + $(realpath submodules\icu4x\bin\windows_x64) -replace '/', '\') >> $env:GITHUB_ENV
+    - run: echo ("LOCAL_ICU4X_BINARY=" + (Get-Item submodules\icu4x\bin\windows_x64 | Resolve-Path -Relative) -replace '/', '\') >> $env:GITHUB_ENV
       if: matrix.os == 'windows-latest'
           
     - name: Display structure of downloaded files
