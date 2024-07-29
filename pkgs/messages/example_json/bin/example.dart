@@ -4,13 +4,10 @@
 
 // ignore_for_file: prefer_function_declarations_over_variables
 
-import 'dart:io';
-
-import 'package:example_json/testarbctx2.g.dart';
+import 'package:example_json/messages.g.dart';
 
 Future<void> main(List<String> arguments) async {
-  final messages =
-      AboutPageMessages((String id) async => File(id).readAsString());
+  final messages = AboutPageMessages();
   // final index = AboutPageMessagesEnum.aboutMessage;
 
   await messages.loadLocale('en');

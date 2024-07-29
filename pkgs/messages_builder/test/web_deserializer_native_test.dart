@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:build/src/asset/id.dart';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
@@ -15,13 +14,13 @@ import 'package:test/test.dart';
 import 'testarb.arb.dart';
 
 Message intlPluralSelector(
-  num howMany, {
+  num howMany,
+  String locale, {
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
   Message? few,
   Message? many,
   required Message other,
-  String? locale,
 }) {
   return old_intl.Intl.pluralLogic(
     howMany,
@@ -36,7 +35,6 @@ Message intlPluralSelector(
 }
 
 void main() {
-  final uniqueKey = AssetId('package', 'path');
   test('generateMessageFile from Object json', () {
     final message = StringMessage('Hello World');
     final message1 = MessageWithMetadata(message, [], 'helloWorld');
@@ -54,7 +52,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': 'Hello World'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -67,7 +65,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': 'Hello {name}'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -84,7 +82,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': '{greeting}{space}{name}'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -103,7 +101,7 @@ void main() {
 
   test('generateMessageFile from complex arb JSON', () {
     final arb = jsonDecode(arbFile) as Map<String, dynamic>;
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;

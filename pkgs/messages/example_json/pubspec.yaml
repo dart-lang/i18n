@@ -6,15 +6,19 @@ environment:
   sdk: ^3.0.0
 
 dependencies:
-  intl4x: ^0.7.0
+  intl4x:
+    path: ../../intl4x
   messages: ^0.2.0
+  native_assets_cli: ^0.6.0
 
 dev_dependencies:
   build_daemon: ^4.0.0
   build_runner: ^2.3.3
-  build_web_compilers: ^4.0.0
-  dart_flutter_team_lints: ^3.0.0
-  messages_builder: ^0.2.0
+  build_web_compilers: ^4.0.10
+  dart_flutter_team_lints: ^3.1.0
+  lints: ^4.0.0
+  messages_builder:
+    path: ../../messages_builder
   path: ^1.8.3
   test: ^1.16.0
 

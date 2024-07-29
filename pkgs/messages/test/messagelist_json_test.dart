@@ -7,13 +7,13 @@ import 'package:messages/messages_json.dart';
 import 'package:test/test.dart';
 
 Message intlPluralSelector(
-  num howMany, {
+  num howMany,
+  String locale, {
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
   Message? few,
   Message? many,
   required Message other,
-  String? locale,
 }) {
   return old_intl.Intl.pluralLogic(
     howMany,

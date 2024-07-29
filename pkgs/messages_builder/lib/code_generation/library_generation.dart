@@ -9,16 +9,14 @@ import '../message_with_metadata.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';
-import 'generation.dart';
-import 'import_generation.dart';
 import 'method_generation.dart';
 
-class LibraryGeneration extends Generation<Library> {
+class LibraryGeneration {
   final GenerationOptions options;
   final String? context;
   final String locale;
   final List<MessageWithMetadata> messages;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Map<String, ({String id, String hasch})> localeToResourceInfo;
 
   LibraryGeneration(
     this.options,
@@ -28,9 +26,7 @@ class LibraryGeneration extends Generation<Library> {
     this.localeToResourceInfo,
   );
 
-  @override
-  List<Library> generate() {
-    final imports = ImportGeneration(options).generate();
+  Library generate() {
     final constructors = ConstructorGeneration(options).generate();
 
     final fields = FieldGeneration(
@@ -54,11 +50,6 @@ class LibraryGeneration extends Generation<Library> {
       methods,
     ).generate();
 
-    return [
-      Library((b) => b
-        ..comments.add(options.header)
-        ..directives.addAll(imports)
-        ..body.addAll(classes))
-    ];
+    return Library((b) => b..body.addAll(classes));
   }
 }

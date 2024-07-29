@@ -5,14 +5,12 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import 'generation.dart';
 
-class ImportGeneration extends Generation<Directive> {
+class ImportGeneration {
   final GenerationOptions options;
 
   ImportGeneration(this.options);
 
-  @override
   List<Directive> generate() {
     final serializationImports = switch (options.deserialization) {
       DeserializationType.web => [
@@ -26,6 +24,10 @@ class ImportGeneration extends Generation<Directive> {
         ],
       PluralSelectorType.custom => <Directive>[],
     };
-    return [...serializationImports, ...pluralImports];
+    return [
+      ...serializationImports,
+      ...pluralImports,
+      Directive.import('dart:ffi'),
+    ];
   }
 }
