@@ -5,11 +5,10 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import 'generation.dart';
 
-class FieldGeneration extends Generation<Field> {
+class FieldGeneration {
   final GenerationOptions options;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Map<String, ({String id, String hasch})> localeToResourceInfo;
   final String locale;
 
   FieldGeneration(
@@ -18,17 +17,7 @@ class FieldGeneration extends Generation<Field> {
     this.locale,
   );
 
-  @override
   List<Field> generate() {
-    final loadingStrategy = Field(
-      (fb) {
-        final returnType = const Reference('Future<String>').symbol;
-        fb
-          ..name = '_fileLoader'
-          ..modifier = FieldModifier.final$
-          ..type = Reference('$returnType Function(String id)');
-      },
-    );
     final currentLocale = Field(
       (fb) => fb
         ..type = const Reference('String')
@@ -45,7 +34,7 @@ class FieldGeneration extends Generation<Field> {
     final dataFiles = Field(
       (fb) {
         final paths = localeToResourceInfo.entries
-            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
+            .map((e) => "'${e.key}' : ('${e.value.id}', '${e.value.hasch}')")
             .join(',');
         fb
           ..name = '_dataFiles'
@@ -61,7 +50,6 @@ class FieldGeneration extends Generation<Field> {
             '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})'''),
     );
     final fields = [
-      loadingStrategy,
       currentLocale,
       messages,
       dataFiles,

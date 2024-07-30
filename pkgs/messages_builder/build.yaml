@@ -3,6 +3,9 @@ builders:
   copyBuilder:
     import: "package:messages_builder/builder.dart"
     builder_factories: ["messagesBuilder"]
-    build_extensions: {'.arb': ['.g.dart', '.json'], '^pubspec.yaml': []}
+    build_extensions:
+      {
+        "l10n.messages": ["messages.g.dart"],
+      }
     build_to: source
     auto_apply: root_package

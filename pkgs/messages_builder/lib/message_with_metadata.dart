@@ -19,12 +19,11 @@ class MessageWithMetadata {
 
 class MessagesWithMetadata {
   final List<MessageWithMetadata> messages;
-  final String locale;
+  final String? locale;
   final String? context;
   final String? referencePath;
   final String hash;
   final bool hasMetadata;
-  final AssetId assetId;
 
   MessagesWithMetadata(
     this.messages,
@@ -33,7 +32,6 @@ class MessagesWithMetadata {
     this.referencePath,
     this.hash,
     this.hasMetadata,
-    this.assetId,
   );
 
   MessagesWithMetadata copyWith({
@@ -52,7 +50,6 @@ class MessagesWithMetadata {
       referencePath ?? this.referencePath,
       hash ?? this.hash,
       hasMetadata ?? this.hasMetadata,
-      assetId ?? this.assetId,
     );
   }
 }
