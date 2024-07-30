@@ -1,6 +1,6 @@
 name: messages_serializer
 description: Serialization of messages for package:messages.
-version: 0.2.1
+version: 0.3.0
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_serializer
 
 environment:
