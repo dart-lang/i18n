@@ -48,7 +48,7 @@ final class Bidi implements ffi.Finalizable {
     final textArena = _FinalizedArena();
     // This lifetime edge depends on lifetimes: 'text
     core.List<Object> textEdges = [textArena];
-    final result = _ICU4XBidi_for_text(
+    final result = _ICU4XBidi_for_text_valid_utf8(
         _ffi, textView.allocIn(textArena.arena), textView.length, defaultLevel);
     return BidiInfo._fromFfi(result, [], textEdges);
   }
@@ -121,15 +121,15 @@ external void _ICU4XBidi_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XBidi_create(ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XBidi_for_text')
+@meta.ResourceIdentifier('ICU4XBidi_for_text_valid_utf8')
 @ffi.Native<
     ffi.Pointer<ffi.Opaque> Function(
         ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Uint8>,
         ffi.Size,
-        ffi.Uint8)>(isLeaf: true, symbol: 'ICU4XBidi_for_text')
+        ffi.Uint8)>(isLeaf: true, symbol: 'ICU4XBidi_for_text_valid_utf8')
 // ignore: non_constant_identifier_names
-external ffi.Pointer<ffi.Opaque> _ICU4XBidi_for_text(
+external ffi.Pointer<ffi.Opaque> _ICU4XBidi_for_text_valid_utf8(
     ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Uint8> textData,
     int textLength,
