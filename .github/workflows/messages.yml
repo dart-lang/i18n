@@ -23,10 +23,9 @@ jobs:
         working-directory: pkgs/messages
     strategy:
       matrix:
-        sdk: [stable, dev] # {pkgs.versions}
-        dependencies: [path, published]
+        sdk: [dev]
         include:
-          - sdk: stable
+          - sdk: dev
             run-tests: true
 
     steps:
