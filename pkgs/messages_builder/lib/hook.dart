@@ -43,6 +43,7 @@ class MessagesDataBuilder {
     required BuildOutput output,
     required Logger? logger,
   }) async {
+    logger?.warning('Starting to add arb files');
     final files = await arbFiles(config);
     for (final arbFilePath in files) {
       if (p.isAbsolute(arbFilePath)) {

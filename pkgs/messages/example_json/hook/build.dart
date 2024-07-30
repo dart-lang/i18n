@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:logging/logging.dart';
 import 'package:messages_builder/hook.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 
@@ -17,6 +20,14 @@ void main(List<String> args) {
     // );
     final builder = MessagesDataBuilder.fromFolder('assets/l10n/');
 
-    await builder.run(config: config, output: output, logger: null);
+    await builder.run(
+      config: config,
+      output: output,
+      logger: Logger('')
+        ..onRecord.listen(
+          (event) => stderr.add(
+              (event.toString() + StackTrace.current.toString()).codeUnits),
+        ),
+    );
   });
 }
