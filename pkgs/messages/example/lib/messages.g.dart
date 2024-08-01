@@ -3,8 +3,29 @@
 import 'dart:asset';
 import 'dart:convert';
 
-import 'package:intl4x/intl4x.dart';
+import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
+
+Message _pluralSelector(
+  num howMany,
+  String locale, {
+  required Message other,
+  Message? few,
+  Message? many,
+  Map<int, Message>? numberCases,
+  Map<int, Message>? wordCases,
+}) {
+  return Intl.pluralLogic(
+    howMany,
+    few: few,
+    many: many,
+    zero: numberCases?[0] ?? wordCases?[0],
+    one: numberCases?[1] ?? wordCases?[1],
+    two: numberCases?[2] ?? wordCases?[2],
+    other: other,
+    locale: locale,
+  );
+}
 
 class AboutPageMessages {
   AboutPageMessages();
@@ -14,8 +35,8 @@ class AboutPageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'fr': ('package:example_json/assets/l10n/testarbctx2_fr.json', 'EyPjEJJU'),
-    'en': ('package:example_json/assets/l10n/testarbctx2.json', 'QrwRSsOy')
+    'fr': ('package:example/assets/l10n/testarbctx2_fr.json', 'EyPjEJJU'),
+    'en': ('package:example/assets/l10n/testarbctx2.json', 'QrwRSsOy')
   };
 
   String get currentLocale => _currentLocale;
@@ -43,9 +64,9 @@ class AboutPageMessages {
     _currentLocale = locale;
   }
 
-  void loadAllLocales() {
+  Future<void> loadAllLocales() async {
     for (final locale in knownLocales) {
-      loadLocale(locale);
+      await loadLocale(locale);
     }
   }
 
@@ -78,8 +99,8 @@ class HomePageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'de': ('package:example_json/assets/l10n/testarb_de.json', 'hbDN1MhX'),
-    'en': ('package:example_json/assets/l10n/testarb.json', 'dr9Md951')
+    'de': ('package:example/assets/l10n/testarb_de.json', 'hbDN1MhX'),
+    'en': ('package:example/assets/l10n/testarb.json', 'dr9Md951')
   };
 
   String get currentLocale => _currentLocale;
@@ -107,9 +128,9 @@ class HomePageMessages {
     _currentLocale = locale;
   }
 
-  void loadAllLocales() {
+  Future<void> loadAllLocales() async {
     for (final locale in knownLocales) {
-      loadLocale(locale);
+      await loadLocale(locale);
     }
   }
 
@@ -133,24 +154,4 @@ class HomePageMessages {
     int newVar,
   ) =>
       _currentMessages.generateStringAtIndex(3, [gender, newVar]);
-}
-
-Message _pluralSelector(
-  num howMany,
-  String locale, {
-  required Message other,
-  Message? few,
-  Message? many,
-  Map<int, Message>? numberCases,
-  Map<int, Message>? wordCases,
-}) {
-  Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
-  return switch (Intl(locale: Locale.parse(locale)).plural().select(howMany)) {
-    PluralCategory.zero => getCase(0),
-    PluralCategory.one => getCase(1),
-    PluralCategory.two => getCase(2),
-    PluralCategory.few => few ?? other,
-    PluralCategory.many => many ?? other,
-    PluralCategory.other => other,
-  };
 }

@@ -26,7 +26,8 @@ class ClassGeneration {
     this.methods,
   );
 
-  String getClassName(String? context) => '${context ?? ''}Messages';
+  String getClassName(String? context) =>
+      _toCamelCase('${context ?? ''}Messages');
 
   List<Spec> generate() {
     final classes = <Spec>[
@@ -52,3 +53,8 @@ class ClassGeneration {
     return classes;
   }
 }
+
+String _toCamelCase(String input) => input
+    .split('_')
+    .map((e) => e.substring(0, 1).toUpperCase() + e.substring(1))
+    .join();

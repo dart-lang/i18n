@@ -6,9 +6,11 @@ repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages_serializer
 environment:
   sdk: ^3.0.0
 
-# Add regular dependencies here.
+publish_to: none
+
 dependencies:
-  messages: ^0.2.0
+  messages:
+    path: ../messages
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.0.0

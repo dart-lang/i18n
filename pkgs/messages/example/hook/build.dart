@@ -24,10 +24,7 @@ void main(List<String> args) {
       config: config,
       output: output,
       logger: Logger('')
-        ..onRecord.listen(
-          (event) => stderr.add(
-              (event.toString() + StackTrace.current.toString()).codeUnits),
-        ),
+        ..onRecord.listen((event) => stdout.add(event.toString().codeUnits)),
     );
   });
 }

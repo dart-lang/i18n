@@ -96,10 +96,11 @@ class MethodGeneration {
       (mb) {
         mb
           ..name = 'loadAllLocales'
-          ..returns = const Reference('void')
+          ..returns = const Reference('Future<void>')
+          ..modifier = MethodModifier.async
           ..body = const Code('''
           for (final locale in knownLocales) {
-             loadLocale(locale);
+             await loadLocale(locale);
           }
       ''');
       },

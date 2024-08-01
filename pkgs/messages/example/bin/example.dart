@@ -4,7 +4,7 @@
 
 // ignore_for_file: prefer_function_declarations_over_variables
 
-import 'package:example_json/messages.g.dart';
+import 'package:example/messages.g.dart';
 
 Future<void> main(List<String> arguments) async {
   final messages = AboutPageMessages();

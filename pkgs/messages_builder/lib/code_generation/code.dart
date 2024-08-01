@@ -16,19 +16,26 @@ class CodeGenerator {
 
   String generate() {
     final imports = ImportGeneration(options).generate();
-
-    final lib = libraries.reduce((value, element) => Library(
+    final lib = libraries.fold(
+        Library(
           (p0) => p0
             ..comments.add(options.header)
             ..directives.addAll(imports)
             ..body.addAll([
-              ...value.body,
-              ...element.body,
               if (options.pluralSelector != PluralSelectorType.custom)
                 pluralSelector(),
             ]),
-        ));
-
+        ), (value, element) {
+      return Library(
+        (p0) => p0
+          ..comments.addAll({...value.comments, ...element.comments})
+          ..directives.addAll({...value.directives, ...element.directives})
+          ..body.addAll([
+            ...value.body,
+            ...element.body,
+          ]),
+      );
+    });
     final emitter = DartEmitter(orderDirectives: true);
     final source = '${lib.accept(emitter)}';
     final code = DartFormatter().format(source);
@@ -108,7 +115,7 @@ return Intl.pluralLogic(
     one: numberCases?[1] ?? wordCases?[1],
     two: numberCases?[2] ?? wordCases?[2],
     other: other,
-    locale: currentLocale,
+    locale: locale,
   );
   '''),
       PluralSelectorType.intl4x => const Code('''

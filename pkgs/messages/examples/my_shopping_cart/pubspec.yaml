@@ -1,0 +1,20 @@
+name: my_shopping_cart
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+
+environment:
+  sdk: ^3.6.0-78.0.dev
+
+publish_to: none
+
+dependencies:
+  messages:
+    path: ../../../messages
+  messages_builder:
+    path: ../../../messages_builder
+  logging: ^1.2.0
+  native_assets_cli: ^0.6.1
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.24.0

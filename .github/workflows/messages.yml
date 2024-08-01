@@ -36,7 +36,7 @@ jobs:
 
       - run: dart pub get
 
-      - run: (cd example_json; dart pub get)
+      - run: (cd example; dart pub get)
 
       - run: dart analyze --fatal-infos
 
