@@ -9,11 +9,10 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as path;
 
 import 'hashes.dart';
+import 'shared.dart';
 import 'version.dart';
 
 const crateName = 'icu_capi';
-const package = 'intl4x';
-const assetId = 'src/bindings/lib.g.dart';
 
 final env = 'ICU4X_BUILD_MODE';
 
@@ -37,16 +36,21 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
 
     final builtLibrary = await buildMode.build();
     // For debugging purposes
+    // ignore: deprecated_member_use
     output.addMetadatum(env, environmentBuildMode ?? 'fetch');
 
-    output.addAsset(NativeCodeAsset(
+    final nativeCodeAsset = NativeCodeAsset(
       package: package,
       name: assetId,
       linkMode: DynamicLoadingBundled(),
       architecture: config.targetArchitecture,
       os: config.targetOS,
       file: builtLibrary,
-    ));
+    );
+    output.addAsset(
+      nativeCodeAsset,
+      linkInPackage: config.linkingEnabled ? config.packageName : null,
+    );
 
     output.addDependencies(
       [
@@ -80,8 +84,8 @@ final class FetchMode extends BuildMode {
     if (response.statusCode != 200) {
       throw ArgumentError('The request to $uri failed');
     }
-    final dynamicLibrary = File.fromUri(
-        config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
+    final dynamicLibrary =
+        File.fromUri(config.outputDirectory.resolve(config.filename('icu4x')));
     await dynamicLibrary.create();
     await response.pipe(dynamicLibrary.openWrite());
 
@@ -121,14 +125,14 @@ final class LocalMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
-    final dylibFileName = config.targetOS.dylibFileName('icu4x');
-    final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+    final libFileName = config.filename('icu4x');
+    final libFileUri = config.outputDirectory.resolve(libFileName);
     final file = File(_localBinaryPath);
     if (!(await file.exists())) {
       throw FileSystemException('Could not find binary.', _localBinaryPath);
     }
-    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
-    return dylibFileUri;
+    await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
+    return libFileUri;
   }
 
   @override
@@ -156,9 +160,10 @@ final class CheckoutMode extends BuildMode {
 }
 
 Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
-  final dylibFileName =
-      config.targetOS.dylibFileName(crateName.replaceAll('-', '_'));
-  final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+  final crateNameFixed = crateName.replaceAll('-', '_');
+  final libFileName = config.filename(crateNameFixed);
+
+  final libFileUri = config.outputDirectory.resolve(libFileName);
   if (!config.dryRun) {
     final rustTarget = _asRustTarget(
       config.targetOS,
@@ -204,9 +209,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
       'panic-handler',
       'experimental_components',
     ];
-    final linkModeType = config.linkModePreference == LinkModePreference.static
-        ? 'staticlib'
-        : 'cdylib';
+    final linkModeType = config.buildStatic ? 'staticlib' : 'cdylib';
     final arguments = [
       if (isNoStd) '+nightly',
       'rustc',
@@ -242,15 +245,15 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
       tempDir.path,
       rustTarget,
       'release',
-      dylibFileName,
+      libFileName,
     );
     final file = File(builtPath);
     if (!(await file.exists())) {
       throw FileSystemException('Building the dylib failed', builtPath);
     }
-    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
+    await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
   }
-  return dylibFileUri;
+  return libFileUri;
 }
 
 String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
@@ -287,3 +290,10 @@ bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
       (OS.android, Architecture.riscv64),
       (OS.linux, Architecture.riscv64)
     ].contains(arg);
+
+extension on BuildConfig {
+  bool get buildStatic =>
+      linkModePreference == LinkModePreference.static || linkingEnabled;
+  String Function(String) get filename =>
+      buildStatic ? targetOS.staticlibFileName : targetOS.dylibFileName;
+}
