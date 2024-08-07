@@ -9,6 +9,7 @@
  * Require `package:web` `^0.5.0`.
  * Support compiling to WASM.
  * Update to and account for `package:lints` `^4.0.0`.
+ * update localization symbols adding es_CO
 
 ## 0.19.0
  * Update to CLDR v44.
