@@ -26,6 +26,9 @@ const usedSymbols = <String>[
   'ICU4XLocale_total_cmp_',
   //additional
   'ICU4XDataProvider_create_compiled',
+  'ICU4XDataProvider_destroy',
+  'ICU4XLocale_destroy',
+  'ICU4XCollator_destroy',
 ];
 
 void main(List<String> arguments) {

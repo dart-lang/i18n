@@ -27,11 +27,15 @@ dependencies:
     git: 
       url: https://github.com/dart-lang/native.git
       path: pkgs/native_assets_cli
+      ref: fixLinkerSomeMore
+
   native_toolchain_c:
     # path: ../../../native/pkgs/native_toolchain_c
     git: 
       url: https://github.com/dart-lang/native.git
       path: pkgs/native_toolchain_c
+      ref: fixLinkerSomeMore
+      
   path: ^1.9.0
 
 dev_dependencies:
