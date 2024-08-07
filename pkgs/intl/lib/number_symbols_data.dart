@@ -74,8 +74,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN:
-          '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
+      CURRENCY_PATTERN: '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EGP'),
   // Number formatting symbols for locale ar_DZ.
   "ar_DZ": new NumberSymbols(
@@ -93,8 +92,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN:
-          '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
+      CURRENCY_PATTERN: '\u200F#,##0.00\u00A0\u00A4;\u200F-#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'DZD'),
   // Number formatting symbols for locale ar_EG.
   "ar_EG": new NumberSymbols(
@@ -654,6 +652,24 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'MXN'),
+  // Number formatting symbols for locale es_CO.
+  "es_CO": new NumberSymbols(
+      NAME: "es_CO",
+      DECIMAL_SEP: '.',
+      GROUP_SEP: ',',
+      PERCENT: '%',
+      ZERO_DIGIT: '0',
+      PLUS_SIGN: '+',
+      MINUS_SIGN: '-',
+      EXP_SYMBOL: 'E',
+      PERMILL: '\u2030',
+      INFINITY: '\u221E',
+      NAN: 'NaN',
+      DECIMAL_PATTERN: '#,##0.###',
+      SCIENTIFIC_PATTERN: '#E0',
+      PERCENT_PATTERN: '#,##0%',
+      CURRENCY_PATTERN: '\u00A4#,##0.00',
+      DEF_CURRENCY_CODE: 'MXN'),
   // Number formatting symbols for locale es_ES.
   "es_ES": new NumberSymbols(
       NAME: "es_ES",
@@ -976,8 +992,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN:
-          '\u200F#,##0.00\u00A0\u200F\u00A4;\u200F-#,##0.00\u00A0\u200F\u00A4',
+      CURRENCY_PATTERN: '\u200F#,##0.00\u00A0\u200F\u00A4;\u200F-#,##0.00\u00A0\u200F\u00A4',
       DEF_CURRENCY_CODE: 'ILS'),
   // Number formatting symbols for locale hi.
   "hi": new NumberSymbols(
@@ -1157,8 +1172,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
-      CURRENCY_PATTERN:
-          '\u200F#,##0.00\u00A0\u200F\u00A4;\u200F-#,##0.00\u00A0\u200F\u00A4',
+      CURRENCY_PATTERN: '\u200F#,##0.00\u00A0\u200F\u00A4;\u200F-#,##0.00\u00A0\u200F\u00A4',
       DEF_CURRENCY_CODE: 'ILS'),
   // Number formatting symbols for locale ja.
   "ja": new NumberSymbols(
@@ -1190,8 +1204,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-          '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
+      NAN: '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
@@ -1317,8 +1330,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-          '\u0E9A\u0ECD\u0EC8\u200B\u0EC1\u0EA1\u0EC8\u0E99\u200B\u0EC2\u0E95\u200B\u0EC0\u0EA5\u0E81',
+      NAN: '\u0E9A\u0ECD\u0EC8\u200B\u0EC1\u0EA1\u0EC8\u0E99\u200B\u0EC2\u0E95\u200B\u0EC0\u0EA5\u0E81',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#',
       PERCENT_PATTERN: '#,##0%',
@@ -1498,8 +1510,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       EXP_SYMBOL: 'E',
       PERMILL: '\u2030',
       INFINITY: '\u221E',
-      NAN:
-          '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
+      NAN: '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
       DECIMAL_PATTERN: '#,##0.###',
       SCIENTIFIC_PATTERN: '#E0',
       PERCENT_PATTERN: '#,##0%',
@@ -2349,20 +2360,13 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     5: {'other': '0 \u09B2\u09BE\u0996'},
     6: {'other': '0 \u09A8\u09BF\u09AF\u09C1\u09A4'},
     9: {'other': '0 \u09B6\u09A4 \u0995\u09CB\u099F\u09BF'},
-    12: {
-      'other': '0 \u09B6\u09A4 \u09AA\u09F0\u09BE\u09F0\u09CD\u09A6\u09CD\u09A7'
-    },
+    12: {'other': '0 \u09B6\u09A4 \u09AA\u09F0\u09BE\u09F0\u09CD\u09A6\u09CD\u09A7'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '\u00A4\u00A00\u00A0\u09B9\u09BE\u099C\u09BE\u09F0'},
     5: {'other': '\u00A4\u00A0000\u00A0\u09B2\u09BE\u0996'},
     6: {'other': '\u00A4\u00A00\u00A0\u09A8\u09BF\u09AF\u09C1\u09A4'},
-    9: {
-      'other': '\u00A4\u00A00\u00A0\u09B6\u09A4\u00A0\u0995\u09CB\u099F\u09BF'
-    },
-    12: {
-      'other':
-          '\u00A4\u00A00\u00A0\u09B6\u09A4\u00A0\u09AA\u09F0\u09BE\u09F0\u09CD\u09A6\u09CD\u09A7'
-    },
+    9: {'other': '\u00A4\u00A00\u00A0\u09B6\u09A4\u00A0\u0995\u09CB\u099F\u09BF'},
+    12: {'other': '\u00A4\u00A00\u00A0\u09B6\u09A4\u00A0\u09AA\u09F0\u09BE\u09F0\u09CD\u09A6\u09CD\u09A7'},
   }),
   // Compact number symbols for locale az.
   "az": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -2847,35 +2851,20 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     },
     4: {'other': '00 \u03C7\u03B9\u03BB\u03B9\u03AC\u03B4\u03B5\u03C2'},
     6: {
-      'one':
-          '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-      'other':
-          '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+      'one': '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+      'other': '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
     },
-    7: {
-      'other':
-          '00 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'
-    },
+    7: {'other': '00 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'},
     9: {
-      'one':
-          '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-      'other':
-          '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+      'one': '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+      'other': '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
     },
-    10: {
-      'other':
-          '00 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'
-    },
+    10: {'other': '00 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'},
     12: {
-      'one':
-          '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-      'other':
-          '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+      'one': '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+      'other': '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
     },
-    13: {
-      'other':
-          '00 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'
-    },
+    13: {'other': '00 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '0\u00A0\u03C7\u03B9\u03BB.\u00A0\u00A4'},
     6: {'other': '0\u00A0\u03B5\u03BA.\u00A0\u00A4'},
@@ -3247,20 +3236,12 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     3: {'other': '0 \u0647\u0632\u0627\u0631'},
     6: {'other': '0 \u0645\u06CC\u0644\u06CC\u0648\u0646'},
     9: {'other': '0 \u0645\u06CC\u0644\u06CC\u0627\u0631\u062F'},
-    12: {
-      'other':
-          '0 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F'
-    },
+    12: {'other': '0 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '0\u00A0\u0647\u0632\u0627\u0631\u00A0\u00A4'},
     6: {'other': '0\u00A0\u0645\u06CC\u0644\u06CC\u0648\u0646\u00A0\u00A4'},
-    9: {
-      'other': '0\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4'
-    },
-    12: {
-      'other':
-          '0\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4'
-    },
+    9: {'other': '0\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4'},
+    12: {'other': '0\u00A0\u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F\u00A0\u00A4'},
   }),
   // Compact number symbols for locale fi.
   "fi": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -3910,9 +3891,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     3: {'other': '0 \u0CB8\u0CBE\u0CB5\u0CBF\u0CB0'},
     6: {'other': '0 \u0CAE\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD'},
     9: {'other': '0 \u0CAC\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD'},
-    12: {
-      'other': '0 \u0C9F\u0CCD\u0CB0\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD\u200C'
-    },
+    12: {'other': '0 \u0C9F\u0CCD\u0CB0\u0CBF\u0CB2\u0CBF\u0CAF\u0CA8\u0CCD\u200C'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '\u00A40\u0CB8\u0CBE'},
     6: {'other': '\u00A40\u0CAE\u0CBF'},
@@ -3979,9 +3958,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     5: {'other': '\u00A4000\u00A0\u0E81\u0EB5\u0E9A'},
     6: {'other': '\u00A40\u00A0\u0EA5\u0EC9\u0EB2\u0E99'},
     9: {'other': '\u00A40\u00A0\u0E95\u0EB7\u0EC9'},
-    12: {
-      'other': '\u00A40\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99'
-    },
+    12: {'other': '\u00A40\u00A0\u0EA5\u0EC9\u0EB2\u0E99\u0EA5\u0EC9\u0EB2\u0E99'},
   }),
   // Compact number symbols for locale lt.
   "lt": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4154,9 +4131,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     6: {'other': '\u00A40\u00A0\u0441\u0430\u044F'},
     9: {'other': '\u00A40\u00A0\u0442\u044D\u0440\u0431\u0443\u043C'},
     10: {'other': '\u00A4\u00A000\u00A0\u0442\u044D\u0440\u0431\u0443\u043C'},
-    12: {
-      'other': '\u00A4\u00A00\u00A0\u0438\u0445\u00A0\u043D\u0430\u044F\u0434'
-    },
+    12: {'other': '\u00A4\u00A00\u00A0\u0438\u0445\u00A0\u043D\u0430\u044F\u0434'},
   }),
   // Compact number symbols for locale mr.
   "mr": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
@@ -4228,9 +4203,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     5: {'other': '0 \u101E\u102D\u1014\u103A\u1038'},
     6: {'other': '0 \u101E\u1014\u103A\u1038'},
     7: {'other': '0 \u1000\u102F\u100B\u1031'},
-    11: {
-      'other': '\u1000\u102F\u100B\u1031 0 \u101E\u1031\u102C\u1004\u103A\u1038'
-    },
+    11: {'other': '\u1000\u102F\u100B\u1031 0 \u101E\u1031\u102C\u1004\u103A\u1038'},
     12: {'other': '\u1000\u102F\u100B\u1031 0 \u101E\u102D\u1014\u103A\u1038'},
     13: {'other': '\u1000\u102F\u100B\u1031 0 \u101E\u1014\u103A\u1038'},
     14: {'other': '0 \u1000\u1031\u102C\u100B\u102D'},
@@ -4240,18 +4213,9 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     5: {'other': '\u00A4\u00A00\u00A0\u101E\u102D\u1014\u103A\u1038'},
     6: {'other': '\u00A4\u00A00\u00A0\u101E\u1014\u103A\u1038'},
     7: {'other': '\u00A4\u00A00\u00A0\u1000\u102F\u100B\u1031'},
-    11: {
-      'other':
-          '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u1031\u102C\u1004\u103A\u1038'
-    },
-    12: {
-      'other':
-          '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u102D\u1014\u103A\u1038'
-    },
-    13: {
-      'other':
-          '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u1014\u103A\u1038'
-    },
+    11: {'other': '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u1031\u102C\u1004\u103A\u1038'},
+    12: {'other': '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u102D\u1014\u103A\u1038'},
+    13: {'other': '\u00A4\u00A0\u1000\u102F\u100B\u1031\u00A00\u00A0\u101E\u1014\u103A\u1038'},
     14: {'other': '\u00A4\u00A00\u00A0\u1000\u1031\u102C\u100B\u102D'},
   }),
   // Compact number symbols for locale nb.
@@ -4923,10 +4887,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     3: {'other': '0 \u0B86\u0BAF\u0BBF\u0BB0\u0BAE\u0BCD'},
     6: {'other': '0 \u0BAE\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'},
     9: {'other': '0 \u0BAA\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'},
-    12: {
-      'other':
-          '0 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'
-    },
+    12: {'other': '0 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '\u00A4\u00A00\u0B86'},
     6: {'other': '\u00A4\u00A00\u0BAE\u0BBF'},
@@ -4965,13 +4926,9 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     10: {'other': '00 \u0C2C\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41'},
     12: {
       'one': '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D',
-      'other':
-          '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
+      'other': '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
     },
-    13: {
-      'other':
-          '00 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41'
-    },
+    13: {'other': '00 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41'},
   }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
     3: {'other': '\u00A40\u0C35\u0C47'},
     6: {'other': '\u00A40\u0C2E\u0C3F'},
