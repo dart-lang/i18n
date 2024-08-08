@@ -109,7 +109,7 @@ class Bidi {
   }
 
   static final _rtlLocaleRegex = RegExp(
-      r'^(ar|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
+      r'^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
       r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
       r'($|-|_)',
       caseSensitive: false);
