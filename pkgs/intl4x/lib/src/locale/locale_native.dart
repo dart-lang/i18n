@@ -7,7 +7,7 @@ import 'locale.dart';
 /// This file should be replaced by references to ICU4X when ready.
 
 Locale parseLocaleWithSeparatorPlaceholder(String s, [String separator = '-']) {
-  final parsed = s.split(separator);
+  final parsed = s.split('.').first.split(separator);
   // ignore: unused_local_variable
   final subtags = parsed.skipWhile((value) => value != 'u').toList();
   final tags = parsed.takeWhile((value) => value != 'u').toList();
