@@ -4,18 +4,24 @@
 
 import 'dart:io';
 
-import 'package:archive/archive_io.dart';
+import 'package:crypto/crypto.dart' show sha256;
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as path;
+
+import 'hashes.dart';
+import 'version.dart';
 
 const crateName = 'icu_capi';
 const package = 'intl4x';
 const assetId = 'src/bindings/lib.g.dart';
 
+final env = 'ICU4X_BUILD_MODE';
+
 void main(List<String> args) async {
   await build(args, (config, output) async {
-    final buildMode = switch (Platform.environment['ICU4X_BUILD_MODE']) {
-      'local' => LocalMode(),
+    final environmentBuildMode = Platform.environment[env];
+    final buildMode = switch (environmentBuildMode) {
+      'local' => LocalMode(config),
       'checkout' => CheckoutMode(config),
       'fetch' || null => FetchMode(config),
       String() => throw ArgumentError('''
@@ -30,6 +36,8 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
     };
 
     final builtLibrary = await buildMode.build();
+    // For debugging purposes
+    output.addMetadatum(env, environmentBuildMode ?? 'fetch');
 
     output.addAsset(NativeCodeAsset(
       package: package,
@@ -44,65 +52,52 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
       [
         ...buildMode.dependencies,
         config.packageRoot.resolve('hook/build.dart'),
-        //TODO: Fix this, currently causes a rebuild for checkout mode
-        //builtLibrary,
       ],
     );
   });
 }
 
-void unzipFirstFile({required File input, required File output}) {
-  final inputStream = InputFileStream(input.path);
-  final archive = ZipDecoder().decodeBuffer(inputStream);
-  final file = archive.files.firstOrNull;
-  // If it's a file and not a directory
-  if (file?.isFile ?? false) {
-    final outputStream = OutputFileStream(output.path);
-    file!.writeContent(outputStream);
-    outputStream.close();
-  }
-}
-
 sealed class BuildMode {
+  final BuildConfig config;
+
+  const BuildMode(this.config);
+
   List<Uri> get dependencies;
 
   Future<Uri> build();
 }
 
-final class FetchMode implements BuildMode {
-  final BuildConfig config;
-
-  FetchMode(this.config);
+final class FetchMode extends BuildMode {
+  FetchMode(super.config);
 
   @override
   Future<Uri> build() async {
-    // TODO: Get a nicer CDN than a generated link to a privately owned repo.
+    final target = '${config.targetOS}_${config.targetArchitecture}';
     final uri = Uri.parse(
-        'https://nightly.link/mosuem/i18n/workflows/intl4x_artifacts/main/lib-$platformName-latest.zip');
+        'https://github.com/dart-lang/i18n/releases/download/$version/$target');
     final request = await HttpClient().getUrl(uri);
     final response = await request.close();
     if (response.statusCode != 200) {
       throw ArgumentError('The request to $uri failed');
     }
-    final zippedDynamicLibrary =
-        File(path.join(Directory.systemTemp.path, 'tmp.zip'));
-    zippedDynamicLibrary.createSync();
-    await response.pipe(zippedDynamicLibrary.openWrite());
-
-    final dynamicLibrary =
-        File.fromUri(config.outputDirectory.resolve('icu4xlib'));
+    final dynamicLibrary = File.fromUri(
+        config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
     await dynamicLibrary.create();
-    unzipFirstFile(input: zippedDynamicLibrary, output: dynamicLibrary);
-    return dynamicLibrary.uri;
-  }
+    await response.pipe(dynamicLibrary.openWrite());
 
-  String get platformName {
-    if (Platform.isMacOS) {
-      return 'macos';
-    } else if (Platform.isWindows) {
-      return 'windows';
+    final bytes = await dynamicLibrary.readAsBytes();
+    final fileHash = sha256.convert(bytes).toString();
+    final expectedFileHash = fileHashes[(
+      config.targetOS,
+      config.targetArchitecture,
+    )];
+    if (fileHash == expectedFileHash) {
+      return dynamicLibrary.uri;
     } else {
-      return 'ubuntu';
+      throw Exception(
+          'The pre-built binary for the target $target at $uri has a hash of '
+          '$fileHash, which does not match $expectedFileHash fixed in the '
+          'build hook of package:intl4x.');
     }
   }
 
@@ -110,20 +105,38 @@ final class FetchMode implements BuildMode {
   List<Uri> get dependencies => [];
 }
 
-final class LocalMode implements BuildMode {
-  String get _localBinaryPath => Platform.environment['LOCAL_ICU4X_BINARY']!;
+final class LocalMode extends BuildMode {
+  LocalMode(super.config);
+
+  String get _localBinaryPath {
+    final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
+    if (localPath != null) {
+      return localPath;
+    }
+    throw ArgumentError('`LOCAL_ICU4X_BINARY` is empty. '
+        'If the `ICU4X_BUILD_MODE` is set to `local`, the '
+        '`LOCAL_ICU4X_BINARY` environment variable must contain the path to '
+        'the binary.');
+  }
 
   @override
-  Future<Uri> build() async => Uri.file(_localBinaryPath);
+  Future<Uri> build() async {
+    final dylibFileName = config.targetOS.dylibFileName('icu4x');
+    final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+    final file = File(_localBinaryPath);
+    if (!(await file.exists())) {
+      throw FileSystemException('Could not find binary.', _localBinaryPath);
+    }
+    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
+    return dylibFileUri;
+  }
 
   @override
   List<Uri> get dependencies => [Uri.file(_localBinaryPath)];
 }
 
-final class CheckoutMode implements BuildMode {
-  final BuildConfig config;
-
-  CheckoutMode(this.config);
+final class CheckoutMode extends BuildMode {
+  CheckoutMode(super.config);
 
   String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
 
@@ -235,7 +248,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
     if (!(await file.exists())) {
       throw FileSystemException('Building the dylib failed', builtPath);
     }
-    await file.copy(dylibFileUri.path);
+    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
   }
   return dylibFileUri;
 }

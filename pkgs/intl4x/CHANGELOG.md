@@ -1,6 +1,11 @@
+## 0.9.2-wip
+
+- Copy files instead of symlinking, for easier upgrading.
+- Get binaries from Github and check their hashes.
+
 ## 0.9.1
 
-- Small fixes in imports
+- Small fixes in imports.
 
 ## 0.9.0
 
