@@ -189,7 +189,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
     final tempDir = await Directory.systemTemp.createTemp();
 
     final stdFeatures = [
-      'default_components',
+      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
       'compiled_data',
       'buffer_provider',
       'logging',
@@ -197,7 +197,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
       'experimental_components',
     ];
     final noStdFeatures = [
-      'default_components',
+      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
       'compiled_data',
       'buffer_provider',
       'libc-alloc',
