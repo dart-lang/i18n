@@ -10,5 +10,5 @@
 1. Create PR.
 2. Run `bash tools/regenerate_bindings.sh`, and fix resulting errors.
 3. Update `const version` in `hook/version.dart` to tag.
-4. Regenerate hashes using `dart --enable-experiment=native-assets run tool/generate_hashes.dart`.
+4. Regenerate hashes using `cd pkgs/intl4x/; dart --enable-experiment=native-assets run tool/generate_hashes.dart`.
 5. Land PR.
