@@ -1,5 +1,6 @@
-## 0.20.1-wip
+## 0.20.1
   * Add topics to `pubspec.yaml`
+  * Throw if the main argument in plurals and selects does not match the argument list.
 
 ## 0.20.0
   * Throw if the `Intl.select` `arg` is not in the list of `args`.
