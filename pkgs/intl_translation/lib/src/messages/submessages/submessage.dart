@@ -94,7 +94,12 @@ abstract class SubMessage extends ComplexMessage {
   List toJson() {
     var json = [];
     json.add(dartMessageName);
-    json.add(arguments.indexOf(mainArgument));
+    var indexOf = arguments.indexOf(mainArgument);
+    if (indexOf == -1) {
+      throw ArgumentError('The argument `$mainArgument` could not be found in '
+          '`$arguments`.');
+    }
+    json.add(indexOf);
     for (var arg in codeAttributeNames) {
       json.add(this[arg]?.toJson());
     }
