@@ -96,6 +96,8 @@ abstract class SubMessage extends ComplexMessage {
     json.add(dartMessageName);
     var indexOf = arguments.indexOf(mainArgument);
     if (indexOf == -1) {
+      // This is an error as this should have been checked in
+      // lib/visitors/plural_gender_visitor.dart already.
       throw ArgumentError('The argument `$mainArgument` could not be found in '
           '`$arguments`.');
     }
