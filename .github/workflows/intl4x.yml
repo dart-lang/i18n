@@ -120,7 +120,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -132,7 +132,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -144,7 +144,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
       if: matrix.os == 'ubuntu-latest'
