@@ -160,10 +160,12 @@ jobs:
     - name: Display structure of downloaded files
       run: ls -R
 
-    - run: |
+    - name: Run `dart pub get`
+      run: |
         cd pkgs/intl4x
         dart pub get
 
-    - run: |
+    - name: Run `dart test`
+      run: |
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test

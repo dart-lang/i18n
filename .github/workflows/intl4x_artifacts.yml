@@ -22,7 +22,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
+        compiletype: [ dynamic, static ]
     runs-on: ${{ matrix.os }}
+    env:
+      DATA: ${{ matrix.compiletype == 'dynamic' && ',compiled_data' || '' }}
 
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
@@ -65,14 +68,14 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64 linux_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm_${{ matrix.compiletype }} android_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm64_${{ matrix.compiletype }} android_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_ia32_${{ matrix.compiletype }} android_ia32 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_x64_${{ matrix.compiletype }} android_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm_${{ matrix.compiletype }} linux_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64_${{ matrix.compiletype }} linux_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64_${{ matrix.compiletype }} linux_riscv64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64_${{ matrix.compiletype }} linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
         cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
@@ -99,11 +102,11 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm_${{ matrix.compiletype }} ios_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64_${{ matrix.compiletype }} ios_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/ios_x64_${{ matrix.compiletype }} ios_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64_${{ matrix.compiletype }} macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/macos_x64_${{ matrix.compiletype }} macos_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
@@ -125,9 +128,9 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64_${{ matrix.compiletype }} windows_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32_${{ matrix.compiletype }} windows_ia32 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64_${{ matrix.compiletype }} windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
