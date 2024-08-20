@@ -37,6 +37,7 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
 
     final builtLibrary = await buildMode.build();
     // For debugging purposes
+    // ignore: deprecated_member_use
     output.addMetadatum(env, environmentBuildMode ?? 'fetch');
 
     output.addAsset(NativeCodeAsset(

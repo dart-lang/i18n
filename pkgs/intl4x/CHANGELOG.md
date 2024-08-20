@@ -1,4 +1,4 @@
-## 0.9.2-wip
+## 0.9.2
 
 - Copy files instead of symlinking, for easier upgrading.
 - Get binaries from Github and check their hashes.
