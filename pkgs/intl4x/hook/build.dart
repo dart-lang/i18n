@@ -5,11 +5,10 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:intl4x/src/hook_helpers/hashes.dart';
+import 'package:intl4x/src/hook_helpers/version.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as path;
-
-import 'hashes.dart';
-import 'version.dart';
 
 const crateName = 'icu_capi';
 const package = 'intl4x';
