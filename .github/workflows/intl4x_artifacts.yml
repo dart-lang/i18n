@@ -177,7 +177,7 @@ jobs:
         run: |
           cd pkgs/intl4x
           dart pub get
-          dart --enable-experiment=native-assets tool/generate_hashes.dart
+          dart --enable-experiment=native-assets tool/regenerate_hashes.dart
           git diff --exit-code
 
   release:
