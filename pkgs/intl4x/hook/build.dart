@@ -73,7 +73,12 @@ final class FetchMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
-    final target = '${config.targetOS}_${config.targetArchitecture}';
+    final libraryType = 'dynamic';
+    final target = [
+      config.targetOS,
+      config.targetArchitecture,
+      libraryType,
+    ].join('_');
     final uri = Uri.parse(
         'https://github.com/dart-lang/i18n/releases/download/$version/$target');
     final request = await HttpClient().getUrl(uri);
@@ -81,19 +86,17 @@ final class FetchMode extends BuildMode {
     if (response.statusCode != 200) {
       throw ArgumentError('The request to $uri failed');
     }
-    final dynamicLibrary = File.fromUri(
+    final library = File.fromUri(
         config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
-    await dynamicLibrary.create();
-    await response.pipe(dynamicLibrary.openWrite());
+    await library.create();
+    await response.pipe(library.openWrite());
 
-    final bytes = await dynamicLibrary.readAsBytes();
+    final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
-    final expectedFileHash = fileHashes[(
-      config.targetOS,
-      config.targetArchitecture,
-    )];
+    final expectedFileHash =
+        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
     if (fileHash == expectedFileHash) {
-      return dynamicLibrary.uri;
+      return library.uri;
     } else {
       throw Exception(
           'The pre-built binary for the target $target at $uri has a hash of '

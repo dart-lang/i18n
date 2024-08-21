@@ -9,7 +9,7 @@
 
 import 'package:native_assets_cli/native_assets_cli.dart';
 
-const fileHashes = <(OS, Architecture), String>{
+const fileHashes = <(OS, Architecture, String), String>{
   (OS.android, Architecture.arm):
       'a14fd80a9f3bf2a208a125d75a1b6a7315911f258df56ab1992c8b45c9d2d0e8',
   (OS.android, Architecture.arm64):
