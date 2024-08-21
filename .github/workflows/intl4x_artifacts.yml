@@ -8,7 +8,6 @@ on:
     branches: [ main ]
     paths:
       - pkgs/intl4x/hook/hashes.dart
-      - .github/workflows/intl4x_artifacts.yml
   push:
     tags:
       - 'intl4x-icu*'
