@@ -2,6 +2,7 @@
 
 - Copy files instead of symlinking, for easier upgrading.
 - Get binaries from Github and check their hashes.
+- Upgrade minimum SDK to `3.6.0`.
 
 ## 0.9.1
 
