@@ -1,3 +1,8 @@
+## 0.10.0
+
+- Upgrade minimum SDK to `3.6.0-0`.
+- Move hook code to `lib/src/`.
+
 ## 0.9.2
 
 - Copy files instead of symlinking, for easier upgrading.
