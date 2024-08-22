@@ -72,7 +72,7 @@ final class FetchMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
-    final libraryType = 'dynamic';
+    final libraryType = 'dynamic'; //TODO: Add `static` when using link hooks.
     final target = [
       config.targetOS,
       config.targetArchitecture,
