@@ -77,6 +77,9 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64_${{ matrix.compiletype }} linux_riscv64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart bin/linux_x64_${{ matrix.compiletype }} linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Linux data
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
+      run: |
         cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
         cd provider/datagen # avoid global feature resolution
@@ -108,6 +111,9 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/macos_arm64_${{ matrix.compiletype }} macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart bin/macos_x64_${{ matrix.compiletype }} macos_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Mac data
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
+      run: |
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
@@ -132,6 +138,9 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/windows_ia32_${{ matrix.compiletype }} windows_ia32 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64_${{ matrix.compiletype }} windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Windows data
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
+      run: |
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc

@@ -1,3 +1,7 @@
+## 0.10.1
+
+- Upgrade to new artifacts.
+
 ## 0.10.0
 
 - Upgrade minimum SDK to `3.6.0-0`.
