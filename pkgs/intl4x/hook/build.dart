@@ -240,31 +240,16 @@ Future<BuildResult> buildLib(
   final datagenFileUri = config.outputDirectory.resolve('datagen');
   final postcardFileUri = config.outputDirectory.resolve('postcard');
   if (!config.dryRun) {
-    final rustTarget = _asRustTarget(
-      config.targetOS,
-      config.dryRun ? null : config.targetArchitecture!,
-      config.targetOS == OS.iOS &&
-          config.targetIOSSdk == IOSSdk.iPhoneSimulator,
-    );
     final isNoStd =
         _isNoStdTarget((config.targetOS, config.targetArchitecture));
 
     if (!isNoStd) {
-      final rustArguments = ['target', 'add', rustTarget];
-      final rustup = await Process.run(
+      final rustArguments = ['target', 'add', asRustTarget(config)];
+      await runProcess(
         'rustup',
         rustArguments,
         workingDirectory: workingDirectory,
       );
-
-      if (rustup.exitCode != 0) {
-        throw ProcessException(
-          'rustup',
-          rustArguments,
-          rustup.stderr.toString(),
-          rustup.exitCode,
-        );
-      }
     }
     final tempDir = await Directory.systemTemp.createTemp();
 
@@ -298,27 +283,18 @@ Future<BuildResult> buildLib(
       if (isNoStd) '--features=${noStdFeatures.join(',')}',
       if (isNoStd) '-Zbuild-std=core,alloc',
       if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-      '--target=$rustTarget',
+      '--target=${asRustTarget(config)}',
       '--target-dir=${tempDir.path}'
     ];
-    final cargo = await Process.run(
+    await runProcess(
       'cargo',
       arguments,
       workingDirectory: workingDirectory,
     );
 
-    if (cargo.exitCode != 0) {
-      throw ProcessException(
-        'cargo',
-        arguments,
-        cargo.stderr.toString(),
-        cargo.exitCode,
-      );
-    }
-
     final builtPath = path.join(
       tempDir.path,
-      rustTarget,
+      asRustTarget(config),
       'release',
       libFileName,
     );
@@ -326,7 +302,7 @@ Future<BuildResult> buildLib(
 
     if (config.linkingEnabled) {
       final postcardPath = path.join(tempDir.path, 'full.postcard');
-      await Process.run(
+      await runProcess(
         'cargo',
         [
           'run',
@@ -341,26 +317,31 @@ Future<BuildResult> buildLib(
       );
       await copyFile(postcardPath, postcardFileUri);
 
-      final datagenPath = path.join(tempDir.path, 'datagen');
+      final datagenPath = path.join(
+        tempDir.path,
+        asRustTarget(config),
+        'release',
+        'icu4x-datagen',
+      );
       final datagenDirectory = path.join(workingDirectory, 'provider/datagen');
-      await Process.run(
+      await runProcess(
         'rustup',
-        ['target', 'add', 'aarch64-unknown-linux-gnu'],
+        ['target', 'add', asRustTarget(config)],
         workingDirectory: datagenDirectory,
       );
-      await Process.run(
+      await runProcess(
         'cargo',
         [
           'build',
           '--release',
-          '--bin',
-          'icu4x-datagen',
+          ...['--bin', 'icu4x-datagen'],
           '--no-default-features',
           ...[
             '--features',
             'bin,blob_exporter,blob_input,rayon,experimental_components'
           ],
-          ...['--target', 'aarch64-unknown-linux-gnu']
+          ...['--target', asRustTarget(config)],
+          '--target-dir=${tempDir.path}'
         ],
         workingDirectory: datagenDirectory,
       );
@@ -372,6 +353,15 @@ Future<BuildResult> buildLib(
     datagen: config.linkingEnabled ? datagenFileUri : null,
     postcard: config.linkingEnabled ? postcardFileUri : null,
   );
+}
+
+String asRustTarget(BuildConfig config) {
+  final rustTarget = _asRustTarget(
+    config.targetOS,
+    config.dryRun ? null : config.targetArchitecture!,
+    config.targetOS == OS.iOS && config.targetIOSSdk == IOSSdk.iPhoneSimulator,
+  );
+  return rustTarget;
 }
 
 String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
@@ -416,10 +406,39 @@ extension on BuildConfig {
       buildStatic ? targetOS.staticlibFileName : targetOS.dylibFileName;
 }
 
-Future<void> copyFile(String path, Uri libFileUri) async {
-  final file = File(path);
+Future<void> copyFile(String from, Uri to) async {
+  final file = File(from);
   if (!(await file.exists())) {
-    throw FileSystemException('File does not exist.', path);
+    throw FileSystemException('File does not exist.', from);
   }
-  await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
+  await file.copy(to.toFilePath(windows: Platform.isWindows));
+}
+
+Future<void> runProcess(
+  String executable,
+  List<String> arguments, {
+  required String workingDirectory,
+  bool dryRun = false,
+}) async {
+  print('----------');
+  print('Running `$executable $arguments` in $workingDirectory');
+  if (!dryRun) {
+    final processResult = await Process.run(
+      executable,
+      arguments,
+      workingDirectory: workingDirectory,
+    );
+    print('stdout:');
+    print(processResult.stdout);
+    if ((processResult.stderr as String).isNotEmpty) {
+      print('stderr:');
+      print(processResult.stderr);
+    }
+    if (processResult.exitCode != 0) {
+      throw ProcessException(executable, arguments, '', processResult.exitCode);
+    }
+  } else {
+    print('Not running, as --dry-run is set.');
+  }
+  print('==========');
 }

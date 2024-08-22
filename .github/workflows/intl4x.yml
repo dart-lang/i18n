@@ -32,9 +32,7 @@ jobs:
       matrix:
         sdk: [dev]
         os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - sdk: dev
-            run-tests: true
+
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
         with:
@@ -42,20 +40,24 @@ jobs:
 
       - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
         with:
-          sdk: ${{matrix.sdk}}
+          sdk: ${{ matrix.sdk }}
 
       - run: dart --enable-experiment=native-assets pub get
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
       - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test -p chrome
-        if: ${{matrix.run-tests}}
+
+      - name: Compile and run example
+        run: |
+          cd example_native
+          dart --enable-experiment=native-assets pub get
+          dart --enable-experiment=native-assets build bin/example_native.dart
+          ./bin/example_native.exe
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
@@ -84,11 +86,19 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
 
+      - name: Compile and run example
+        run: |
+          cd example_native
+          dart --enable-experiment=native-assets pub get
+          dart --enable-experiment=native-assets build bin/example_native.dart
+          ./bin/example_native.exe
+
   build_local:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
+        compiletype: [ dynamic, static ]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -120,7 +130,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -132,7 +142,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -144,18 +154,29 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os == 'ubuntu-latest' && ${{ matrix.compiletype }} == 'dynamic'
+
+    - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+      if: matrix.os == 'ubuntu-latest' && ${{ matrix.compiletype }} == 'static'
 
     - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-latest' && ${{ matrix.compiletype }} == 'dynamic'
     
+    - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+      if: matrix.os == 'macos-latest' && ${{ matrix.compiletype }} == 'static'
+
     - run: echo ("LOCAL_ICU4X_BINARY_DYNAMIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
-      if: matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-latest' && ${{ matrix.compiletype }} == 'dynamic'
+      
+    - run: echo ("LOCAL_ICU4X_BINARY_STATIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+      if: matrix.os == 'windows-latest' && ${{ matrix.compiletype }} == 'static'
 
     - run: echo $LOCAL_ICU4X_BINARY_DYNAMIC
+    
+    - run: echo $LOCAL_ICU4X_BINARY_STATIC
           
     - name: Display structure of downloaded files
       run: ls -R
@@ -169,3 +190,10 @@ jobs:
       run: |
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test
+
+    - name: Compile and run example
+      run: |
+        cd pkgs/intl4x/example_native
+        dart --enable-experiment=native-assets pub get
+        dart --enable-experiment=native-assets build bin/example_native.dart
+        ./bin/example_native.exe
