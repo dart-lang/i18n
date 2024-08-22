@@ -98,10 +98,11 @@ final class FetchMode extends BuildMode {
 
   @override
   Future<BuildResult> build() async {
+    final libraryType = config.linkingEnabled ? 'static' : 'dynamic';
     final target = '${config.targetOS}_${config.targetArchitecture}';
     final dylibRemoteUri = Uri.parse(
-        'https://github.com/dart-lang/i18n/releases/download/$version/$target');
-    final dynamicLibrary = await fetchToFile(
+        'https://github.com/dart-lang/i18n/releases/download/$version/${target}_$libraryType');
+    final library = await fetchToFile(
       dylibRemoteUri,
       config.outputDirectory.resolve(config.filename('icu4x')),
     );
@@ -118,15 +119,13 @@ final class FetchMode extends BuildMode {
       config.outputDirectory.resolve('full.postcard'),
     );
 
-    final bytes = await dynamicLibrary.readAsBytes();
+    final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
-    final expectedFileHash = fileHashes[(
-      config.targetOS,
-      config.targetArchitecture,
-    )];
+    final expectedFileHash =
+        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
     if (fileHash == expectedFileHash) {
       return BuildResult(
-        library: dynamicLibrary.uri,
+        library: library.uri,
         datagen: datagen.uri,
         postcard: postcard.uri,
       );
