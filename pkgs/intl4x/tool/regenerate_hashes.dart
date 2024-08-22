@@ -44,7 +44,7 @@ import 'package:native_assets_cli/native_assets_cli.dart';
 
 const fileHashes = <(OS, Architecture, String), String>{
 ${fileHashes.map((key, value) => MapEntry(
-                ('OS.${key.$1}', 'Architecture.${key.$2}', key.$3),
+                ('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"),
                 "'$value'",
               )).entries.map(
             (e) => '  ${e.key}:\n      ${e.value}',
