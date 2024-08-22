@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:intl4x/src/hook_helpers/version.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
-
-import '../hook/version.dart';
 
 final httpClient = HttpClient();
 
@@ -29,7 +28,7 @@ Future<void> main(List<String> args) async {
   }
   httpClient.close(force: true);
 
-  await File('hook/hashes.dart').writeAsString('''
+  await File('lib/src/hook_helpers/hashes.dart').writeAsString('''
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
