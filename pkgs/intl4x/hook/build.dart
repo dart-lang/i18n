@@ -107,9 +107,10 @@ final class FetchMode extends BuildMode {
       config.outputDirectory.resolve(config.filename('icu4x')),
     );
 
+    final datagenName = config.targetOS.executableFileName('$target-datagen');
     final datagen = await fetchToFile(
       Uri.parse(
-          'https://github.com/dart-lang/i18n/releases/download/$version/$target-datagen'),
+          'https://github.com/dart-lang/i18n/releases/download/$version/$datagenName'),
       config.outputDirectory.resolve('datagen'),
     );
 
