@@ -20,8 +20,22 @@ dependencies:
   crypto: ^3.0.3
   ffi: ^2.1.0
   js: ^0.7.1
+  logging: ^1.2.0
   meta: ^1.12.0
-  native_assets_cli: ^0.7.2
+  native_assets_cli:
+    # path: ../../../native/pkgs/native_assets_cli
+    git: 
+      url: https://github.com/dart-lang/native.git
+      path: pkgs/native_assets_cli
+      ref: fixLinkerSomeMore
+
+  native_toolchain_c:
+    # path: ../../../native/pkgs/native_toolchain_c
+    git: 
+      url: https://github.com/dart-lang/native.git
+      path: pkgs/native_toolchain_c
+      ref: fixLinkerSomeMore
+      
   path: ^1.9.0
 
 dev_dependencies:
