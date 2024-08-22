@@ -13,6 +13,8 @@ platforms:
 topics:
   - i18n
 
+publish_to: none
+
 environment:
   sdk: ">=3.6.0-0 <4.0.0"
 
