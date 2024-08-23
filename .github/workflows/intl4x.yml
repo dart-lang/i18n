@@ -135,6 +135,15 @@ jobs:
         dart pub get
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
+
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-unknown-linux-gnu
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-unknown-linux-gnu
+        cd ../..
+
+        cp target/x86_64-unknown-linux-gnu/release/icu4x-datagen bin/linux_x64-datagen
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -147,6 +156,15 @@ jobs:
         dart pub get
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
+
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-apple-darwin
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-apple-darwin
+        cd ../..
+
+        cp target/x86_64-apple-darwin/release/icu4x-datagen bin/macos_x64-datagen
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -159,28 +177,51 @@ jobs:
         dart pub get
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
-    - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-pc-windows-msvc
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-pc-windows-msvc
+        cd ../..
+
+        cp target/x86_64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_x64-datagen.exe
+
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
       if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'dynamic'
 
-    - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_DATAGEN=$(realpath submodules/icu4x/bin/linux_x64-datagen)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_POSTCARD=$(realpath submodules/icu4x/bin/full.postcard)" >> $GITHUB_ENV
       if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
 
-    - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
       if: matrix.os == 'macos-latest' && matrix.compiletype == 'dynamic'
     
-    - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_DATAGEN=$(realpath submodules/icu4x/bin/macos_x64-datagen)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_POSTCARD=$(realpath submodules/icu4x/bin/full.postcard)" >> $GITHUB_ENV
       if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
 
-    - run: echo ("LOCAL_ICU4X_BINARY_DYNAMIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+    - run: |
+        echo ("LOCAL_ICU4X_BINARY_DYNAMIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
       if: matrix.os == 'windows-latest' && matrix.compiletype == 'dynamic'
       
-    - run: echo ("LOCAL_ICU4X_BINARY_STATIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+    - run: |
+        echo ("LOCAL_ICU4X_BINARY_STATIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+        echo ("LOCAL_ICU4X_DATAGEN=" + (Get-Item submodules\icu4x\bin\windows_x64-datagen.exe).FullName -replace '/', '\') >> $env:GITHUB_ENV
+        echo ("LOCAL_ICU4X_POSTCARD=" + (Get-Item submodules\icu4x\bin\full.postcard).FullName -replace '/', '\') >> $env:GITHUB_ENV
       if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
 
-    - run: echo $LOCAL_ICU4X_BINARY_DYNAMIC
-    
-    - run: echo $LOCAL_ICU4X_BINARY_STATIC
+    - run: |
+        echo $LOCAL_ICU4X_BINARY_DYNAMIC
+        echo $LOCAL_ICU4X_BINARY_STATIC
+        echo $LOCAL_ICU4X_DATAGEN
+        echo $LOCAL_ICU4X_POSTCARD
           
     - name: Display structure of downloaded files
       run: ls -R
