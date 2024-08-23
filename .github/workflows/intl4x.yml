@@ -59,7 +59,7 @@ jobs:
           cd example_native
           dart --enable-experiment=native-assets pub get
           dart --enable-experiment=native-assets build bin/example_native.dart
-          ./bin/example_native.exe
+          ./bin/example_native/example_native.exe
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
@@ -95,7 +95,7 @@ jobs:
           cd example_native
           dart --enable-experiment=native-assets pub get
           dart --enable-experiment=native-assets build bin/example_native.dart
-          ./bin/example_native.exe
+          ./bin/example_native/example_native.exe
 
   build_local:
     strategy:
@@ -203,4 +203,4 @@ jobs:
         cd pkgs/intl4x/example_native
         dart --enable-experiment=native-assets pub get
         dart --enable-experiment=native-assets build bin/example_native.dart
-        ./bin/example_native.exe
+        ./bin/example_native/example_native.exe
