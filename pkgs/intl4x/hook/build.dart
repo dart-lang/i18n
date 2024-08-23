@@ -107,12 +107,35 @@ final class FetchMode extends BuildMode {
       config.outputDirectory.resolve(config.filename('icu4x')),
     );
 
+    final bytes = await library.readAsBytes();
+    final fileHash = sha256.convert(bytes).toString();
+    final expectedFileHash =
+        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
+    if (fileHash != expectedFileHash) {
+      throw Exception(
+          'The pre-built binary for the target $target at $dylibRemoteUri has a'
+          ' hash of $fileHash, which does not match $expectedFileHash fixed in'
+          ' the build hook of package:intl4x.');
+    }
+
     final datagenName = config.targetOS.executableFileName('$target-datagen');
+    final datagenUri = Uri.parse(
+        'https://github.com/dart-lang/i18n/releases/download/$version/$datagenName');
     final datagen = await fetchToFile(
-      Uri.parse(
-          'https://github.com/dart-lang/i18n/releases/download/$version/$datagenName'),
+      datagenUri,
       config.outputDirectory.resolve('datagen'),
     );
+
+    final datagenBytes = await datagen.readAsBytes();
+    final datagenHash = sha256.convert(datagenBytes).toString();
+    final expectedDatagenHash =
+        datagenHashes[(config.targetOS, config.targetArchitecture)];
+    if (datagenHash != expectedDatagenHash) {
+      throw Exception(
+          'The pre-built binary for the target $target at $datagenUri has a'
+          ' hash of $datagenHash, which does not match $expectedDatagenHash '
+          'fixed in the build hook of package:intl4x.');
+    }
 
     final postcard = await fetchToFile(
       Uri.parse(
@@ -120,22 +143,11 @@ final class FetchMode extends BuildMode {
       config.outputDirectory.resolve('full.postcard'),
     );
 
-    final bytes = await library.readAsBytes();
-    final fileHash = sha256.convert(bytes).toString();
-    final expectedFileHash =
-        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
-    if (fileHash == expectedFileHash) {
-      return BuildResult(
-        library: library.uri,
-        datagen: datagen.uri,
-        postcard: postcard.uri,
-      );
-    } else {
-      throw Exception(
-          'The pre-built binary for the target $target at $dylibRemoteUri has a'
-          ' hash of $fileHash, which does not match $expectedFileHash fixed in'
-          ' the build hook of package:intl4x.');
-    }
+    return BuildResult(
+      library: library.uri,
+      datagen: datagen.uri,
+      postcard: postcard.uri,
+    );
   }
 
   Future<File> fetchToFile(Uri uri, Uri fileUri) async {

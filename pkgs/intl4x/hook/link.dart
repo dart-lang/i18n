@@ -66,6 +66,7 @@ void main(List<String> arguments) {
       final dylib = output.assets.first;
 
       final datagen = datagenTool.file!.toFilePath();
+
       if (OS.current == OS.linux) {
         await runProcess('chmod', ['+x', datagen]);
       }
