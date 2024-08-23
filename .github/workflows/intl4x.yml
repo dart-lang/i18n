@@ -157,22 +157,22 @@ jobs:
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
-      if: matrix.os == 'ubuntu-latest' && ${{ matrix.compiletype }} == 'dynamic'
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'dynamic'
 
     - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
-      if: matrix.os == 'ubuntu-latest' && ${{ matrix.compiletype }} == 'static'
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
 
     - run: echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
-      if: matrix.os == 'macos-latest' && ${{ matrix.compiletype }} == 'dynamic'
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'dynamic'
     
     - run: echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
-      if: matrix.os == 'macos-latest' && ${{ matrix.compiletype }} == 'static'
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
 
     - run: echo ("LOCAL_ICU4X_BINARY_DYNAMIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
-      if: matrix.os == 'windows-latest' && ${{ matrix.compiletype }} == 'dynamic'
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'dynamic'
       
     - run: echo ("LOCAL_ICU4X_BINARY_STATIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
-      if: matrix.os == 'windows-latest' && ${{ matrix.compiletype }} == 'static'
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
 
     - run: echo $LOCAL_ICU4X_BINARY_DYNAMIC
     
