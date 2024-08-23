@@ -52,7 +52,9 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test -p chrome
 
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
       - name: Compile and run example
+        if: matrix.os == 'ubuntu-latest'
         run: |
           cd example_native
           dart --enable-experiment=native-assets pub get
@@ -86,7 +88,9 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
 
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
       - name: Compile and run example
+        if: matrix.os == 'ubuntu-latest'
         run: |
           cd example_native
           dart --enable-experiment=native-assets pub get
@@ -192,8 +196,9 @@ jobs:
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test
 
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
     - name: Compile and run example
-      if: matrix.compiletype == 'static'
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static' 
       run: |
         cd pkgs/intl4x/example_native
         dart --enable-experiment=native-assets pub get
