@@ -187,11 +187,13 @@ jobs:
         dart pub get
 
     - name: Run `dart test`
+      if: matrix.compiletype == 'dynamic'
       run: |
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test
 
     - name: Compile and run example
+      if: matrix.compiletype == 'static'
       run: |
         cd pkgs/intl4x/example_native
         dart --enable-experiment=native-assets pub get
