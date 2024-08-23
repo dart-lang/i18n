@@ -65,7 +65,12 @@ void main(List<String> arguments) {
           config.assets.firstWhere((asset) => asset.id.endsWith('datagen'));
       final dylib = output.assets.first;
 
-      await Process.run(datagenTool.file!.toFilePath(), [
+      final datagen = datagenTool.file!.toFilePath();
+      if (OS.current == OS.linux) {
+        await runProcess('chmod', ['+x', datagen]);
+      }
+
+      await Process.run(datagen, [
         '--locales',
         (await _customLocales ?? locales).join(','),
         '--input',
