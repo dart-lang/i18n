@@ -5,6 +5,6 @@
 import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
-  final intl = Intl();
+  final intl = Intl(locale: Locale(language: 'en'));
   print('collation: ${intl.collation().compare('a', 'b')}!');
 }
