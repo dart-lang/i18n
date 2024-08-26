@@ -83,6 +83,10 @@ const datagenHashes = <(OS, Architecture), String>{
       'fdee9c86eb6d8abad33c1ec2a343dc3b66ffd54412a448a38be2b17ea1d28241',
   (OS.linux, Architecture.x64):
       '10add51f8739a7e87907a1453f58c6fc268b06489bd1d51502e142db7e33eb28',
+  (OS.windows, Architecture.arm64):
+      'e7be9f8a484a4c86003d4eb6310b9ad7d4af688d2581048f421c08c324ded2b8',
+  (OS.windows, Architecture.x64):
+      'c09dae71c4031447513b5393a876d7a5481afc02bbcedcc8edb06561c96a3929',
   (OS.macOS, Architecture.arm64):
       '019fb83b2a59f366afc21dea30b69ebaa65f16026cd55c57075617c6ca89c61e',
   (OS.macOS, Architecture.x64):

@@ -14,7 +14,9 @@ Future<void> main(List<String> args) async {
   await file.create();
   for (final os in ['linux', 'windows', 'fuchsia', 'android', 'macOS', 'iOS']) {
     for (final architecture in Architecture.values) {
-      final target = '${os}_$architecture-datagen';
+      final target = OS.values
+          .firstWhere((value) => value.toString() == os.toLowerCase())
+          .executableFileName('${os}_$architecture-datagen');
       final datagenHash = await getHash(target, file);
       if (datagenHash != null) {
         datagenHashes[(os, architecture)] = datagenHash;
