@@ -346,9 +346,6 @@ class Intl {
         return many ?? other;
       case plural_rules.PluralCase.OTHER:
         return other;
-      default:
-        throw ArgumentError.value(
-            howMany, 'howMany', 'Invalid plural argument');
     }
   }
 
