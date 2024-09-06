@@ -62,6 +62,8 @@ void main() {
   });
 
   testWithFormatting('extension', () {
-    expect(list.toLocaleFormat(enUS), 'A, B, and C');
+    expect(list.joinAnd(enUS), 'A, B, and C');
+    expect(list.joinOr(enUS), 'A, B, or C');
+    expect(list.joinUnit(enUS), 'A, B, C');
   });
 }
