@@ -5,6 +5,11 @@
 import '../test_checker.dart';
 import 'case_mapping_impl.dart';
 
+/// A locale-sensitive case mapper for transforming strings.
+///
+/// This class provides methods to convert strings to lowercase or uppercase
+/// based on the current locale. During testing, the input is returned
+/// unchanged.
 class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
