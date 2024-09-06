@@ -11,5 +11,5 @@ extension CaseMappingWithIntl4X on String {
   String toLocaleLowerCase(Locale locale) =>
       Intl(locale: locale).caseMapping.toLowerCase(this);
   String toLocaleUpperCase(Locale locale) =>
-      Intl(locale: locale).caseMapping.toLowerCase(this);
+      Intl(locale: locale).caseMapping.toUpperCase(this);
 }
