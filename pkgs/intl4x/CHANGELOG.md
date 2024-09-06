@@ -1,3 +1,7 @@
+## 0.10.2-wip
+
+- Remove Dart parser of locale strings.
+
 ## 0.10.1
 
 - Upgrade to new artifacts.
