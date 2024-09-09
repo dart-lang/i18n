@@ -34,6 +34,6 @@ extension ListFormatIntl4x on List<String> {
   ///
   /// For more options, use [Intl.listFormat] directly.
   String joinUnit([Locale? locale]) => Intl(locale: locale)
-      .listFormat(const ListFormatOptions(type: Type.or))
+      .listFormat(const ListFormatOptions(type: Type.unit))
       .format(this);
 }
