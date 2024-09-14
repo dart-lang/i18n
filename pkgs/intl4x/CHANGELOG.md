@@ -1,3 +1,7 @@
+## 0.10.2-wip
+
+- Add case mapping functionality.
+
 ## 0.10.1
 
 - Upgrade to new artifacts.
