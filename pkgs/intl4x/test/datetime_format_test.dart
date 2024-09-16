@@ -166,4 +166,14 @@ void main() {
     },
     tags: ['icu4xUnimplemented'],
   );
+  testWithFormatting(
+    'Extension',
+    () {
+      expect(
+          DateTime.utc(2012, 12, 20, 3, 0, 0)
+              .toLocaleDateString(const Locale(language: 'en', region: 'US')),
+          '12/20/2012');
+    },
+    tags: ['icu4xUnimplemented'],
+  );
 }
