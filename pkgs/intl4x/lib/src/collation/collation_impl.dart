@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
@@ -25,7 +23,6 @@ abstract class CollationImpl {
 
   /// Factory to get the correct implementation, either calling on ICU4X or the
   /// in-built browser implementation.
-  @ResourceIdentifier('Collation')
   static CollationImpl build(
     Locale locale,
     Data data,
