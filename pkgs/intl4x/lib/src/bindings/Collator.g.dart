@@ -67,13 +67,13 @@ final class Collator implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XCollator_destroy')
+@KeepSymbol('ICU4XCollator_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XCollator_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XCollator_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XCollator_create_v1')
+@KeepSymbol('ICU4XCollator_create_v1')
 @ffi.Native<
     _ResultOpaqueInt32 Function(
         ffi.Pointer<ffi.Opaque>,
@@ -85,7 +85,7 @@ external _ResultOpaqueInt32 _ICU4XCollator_create_v1(
     ffi.Pointer<ffi.Opaque> locale,
     _CollatorOptionsFfi options);
 
-@meta.ResourceIdentifier('ICU4XCollator_compare_utf16_')
+@KeepSymbol('ICU4XCollator_compare_utf16_')
 @ffi.Native<
     ffi.Int8 Function(
         ffi.Pointer<ffi.Opaque>,
@@ -101,7 +101,7 @@ external int _ICU4XCollator_compare_utf16_(
     ffi.Pointer<ffi.Uint16> rightData,
     int rightLength);
 
-@meta.ResourceIdentifier('ICU4XCollator_resolved_options')
+@KeepSymbol('ICU4XCollator_resolved_options')
 @ffi.Native<_ResolvedCollatorOptionsFfi Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XCollator_resolved_options')
 // ignore: non_constant_identifier_names

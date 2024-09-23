@@ -74,13 +74,13 @@ final class BuildResult {
           os: config.targetOS,
           file: library,
         ),
-        if (datagen != null)
+        if (config.linkingEnabled)
           DataAsset(
             package: package,
             name: 'datagen',
             file: datagen!,
           ),
-        if (postcard != null)
+        if (config.linkingEnabled)
           DataAsset(
             package: package,
             name: 'postcard',
@@ -118,12 +118,20 @@ final class FetchMode extends BuildMode {
           ' the build hook of package:intl4x.');
     }
 
+    if (!config.linkingEnabled) {
+      return BuildResult(
+        library: library.uri,
+        datagen: null,
+        postcard: null,
+      );
+    }
     final datagenName = config.targetOS.executableFileName('$target-datagen');
-    final datagenUri = Uri.parse(
+    final datagenRemote = Uri.parse(
         'https://github.com/dart-lang/i18n/releases/download/$version/$datagenName');
+    final datagenUri = config.outputDirectory.resolve('datagen');
     final datagen = await fetchToFile(
+      datagenRemote,
       datagenUri,
-      config.outputDirectory.resolve('datagen'),
     );
 
     final datagenBytes = await datagen.readAsBytes();
@@ -132,21 +140,21 @@ final class FetchMode extends BuildMode {
         datagenHashes[(config.targetOS, config.targetArchitecture)];
     if (datagenHash != expectedDatagenHash) {
       throw Exception(
-          'The pre-built binary for the target $target at $datagenUri has a'
+          'The pre-built binary for the target $target at $datagenRemote has a'
           ' hash of $datagenHash, which does not match $expectedDatagenHash '
           'fixed in the build hook of package:intl4x.');
     }
 
-    final postcard = await fetchToFile(
+    final postcardUri = config.outputDirectory.resolve('full.postcard');
+    await fetchToFile(
       Uri.parse(
           'https://github.com/dart-lang/i18n/releases/download/$version/full.postcard'),
-      config.outputDirectory.resolve('full.postcard'),
+      postcardUri,
     );
-
     return BuildResult(
       library: library.uri,
-      datagen: datagen.uri,
-      postcard: postcard.uri,
+      datagen: datagenUri,
+      postcard: postcardUri,
     );
   }
 
@@ -176,8 +184,10 @@ final class LocalMode extends BuildMode {
           'LOCAL_ICU4X_BINARY_${config.linkingEnabled ? 'STATIC' : 'DYNAMIC'}',
           true,
         )!,
-        localDatagenPath = _getFromEnvironment('LOCAL_ICU4X_DATAGEN', false),
-        localPostcardPath = _getFromEnvironment('LOCAL_ICU4X_POSTCARD', false);
+        localDatagenPath =
+            _getFromEnvironment('LOCAL_ICU4X_DATAGEN', config.linkingEnabled),
+        localPostcardPath =
+            _getFromEnvironment('LOCAL_ICU4X_POSTCARD', config.linkingEnabled);
 
   static String? _getFromEnvironment(String key, bool mustExist) {
     final localPath = Platform.environment[key];
@@ -194,21 +204,19 @@ final class LocalMode extends BuildMode {
     final libFileUri = config.outputDirectory.resolve(config.filename('icu4x'));
     await copyFile(localLibraryPath, libFileUri);
 
-    final Uri? datagenFileUri;
-    if (localDatagenPath != null) {
-      datagenFileUri = config.outputDirectory.resolve('datagen');
-      await copyFile(localDatagenPath!, datagenFileUri);
-    } else {
-      datagenFileUri = null;
+    if (!config.linkingEnabled) {
+      return BuildResult(
+        library: libFileUri,
+        datagen: null,
+        postcard: null,
+      );
     }
 
-    final Uri? postcardFileUri;
-    if (localPostcardPath != null) {
-      postcardFileUri = config.outputDirectory.resolve('postcard');
-      await copyFile(localPostcardPath!, postcardFileUri);
-    } else {
-      postcardFileUri = null;
-    }
+    final datagenFileUri = config.outputDirectory.resolve('datagen');
+    await copyFile(localDatagenPath!, datagenFileUri);
+
+    final postcardFileUri = config.outputDirectory.resolve('postcard');
+    await copyFile(localPostcardPath!, postcardFileUri);
 
     return BuildResult(
       library: libFileUri,
@@ -218,9 +226,7 @@ final class LocalMode extends BuildMode {
   }
 
   @override
-  List<Uri> get dependencies => [
-        Uri.file(localLibraryPath),
-      ];
+  List<Uri> get dependencies => [Uri.file(localLibraryPath)];
 }
 
 final class CheckoutMode extends BuildMode {
@@ -251,119 +257,129 @@ Future<BuildResult> buildLib(
   final libFileUri = config.outputDirectory.resolve(libFileName);
   final datagenFileUri = config.outputDirectory.resolve('datagen');
   final postcardFileUri = config.outputDirectory.resolve('postcard');
-  if (!config.dryRun) {
-    final isNoStd =
-        _isNoStdTarget((config.targetOS, config.targetArchitecture));
+  if (config.dryRun) {
+    return BuildResult(
+      library: libFileUri,
+      datagen: datagenFileUri,
+      postcard: postcardFileUri,
+    );
+  }
+  final isNoStd = _isNoStdTarget((config.targetOS, config.targetArchitecture));
 
-    if (!isNoStd) {
-      final rustArguments = ['target', 'add', asRustTarget(config)];
-      await runProcess(
-        'rustup',
-        rustArguments,
-        workingDirectory: workingDirectory,
-      );
-    }
-    final tempDir = await Directory.systemTemp.createTemp();
-
-    final stdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'logging',
-      'simple_logger',
-      'experimental_components',
-    ];
-    final noStdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'libc-alloc',
-      'panic-handler',
-      'experimental_components',
-    ];
-    final linkModeType = config.buildStatic ? 'staticlib' : 'cdylib';
-    final arguments = [
-      if (isNoStd) '+nightly',
-      'rustc',
-      '-p=$crateName',
-      '--crate-type=$linkModeType',
-      '--release',
-      '--config=profile.release.panic="abort"',
-      '--config=profile.release.codegen-units=1',
-      '--no-default-features',
-      if (!isNoStd) '--features=${stdFeatures.join(',')}',
-      if (isNoStd) '--features=${noStdFeatures.join(',')}',
-      if (isNoStd) '-Zbuild-std=core,alloc',
-      if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-      '--target=${asRustTarget(config)}',
-      '--target-dir=${tempDir.path}'
-    ];
+  if (!isNoStd) {
+    final rustArguments = ['target', 'add', asRustTarget(config)];
     await runProcess(
-      'cargo',
-      arguments,
+      'rustup',
+      rustArguments,
       workingDirectory: workingDirectory,
     );
-
-    final builtPath = path.join(
-      tempDir.path,
-      asRustTarget(config),
-      'release',
-      libFileName,
-    );
-    await copyFile(builtPath, libFileUri);
-
-    if (config.linkingEnabled) {
-      final postcardPath = path.join(tempDir.path, 'full.postcard');
-      await runProcess(
-        'cargo',
-        [
-          'run',
-          ...['-p', 'icu_datagen'],
-          '--',
-          ...['--locales', 'full'],
-          ...['--keys', 'all'],
-          ...['--format', 'blob'],
-          ...['--out', postcardPath],
-        ],
-        workingDirectory: workingDirectory,
-      );
-      await copyFile(postcardPath, postcardFileUri);
-
-      final datagenPath = path.join(
-        tempDir.path,
-        asRustTarget(config),
-        'release',
-        'icu4x-datagen',
-      );
-      final datagenDirectory = path.join(workingDirectory, 'provider/datagen');
-      await runProcess(
-        'rustup',
-        ['target', 'add', asRustTarget(config)],
-        workingDirectory: datagenDirectory,
-      );
-      await runProcess(
-        'cargo',
-        [
-          'build',
-          '--release',
-          ...['--bin', 'icu4x-datagen'],
-          '--no-default-features',
-          ...[
-            '--features',
-            'bin,blob_exporter,blob_input,rayon,experimental_components'
-          ],
-          ...['--target', asRustTarget(config)],
-          '--target-dir=${tempDir.path}'
-        ],
-        workingDirectory: datagenDirectory,
-      );
-      await copyFile(datagenPath, datagenFileUri);
-    }
   }
+  final tempDir = await Directory.systemTemp.createTemp();
+
+  final stdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'logging',
+    'simple_logger',
+    'experimental_components',
+  ];
+  final noStdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'libc-alloc',
+    'panic-handler',
+    'experimental_components',
+  ];
+  final linkModeType = config.buildStatic ? 'staticlib' : 'cdylib';
+  final arguments = [
+    if (isNoStd) '+nightly',
+    'rustc',
+    '-p=$crateName',
+    '--crate-type=$linkModeType',
+    '--release',
+    '--config=profile.release.panic="abort"',
+    '--config=profile.release.codegen-units=1',
+    '--no-default-features',
+    if (!isNoStd) '--features=${stdFeatures.join(',')}',
+    if (isNoStd) '--features=${noStdFeatures.join(',')}',
+    if (isNoStd) '-Zbuild-std=core,alloc',
+    if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
+    '--target=${asRustTarget(config)}',
+    '--target-dir=${tempDir.path}'
+  ];
+  await runProcess(
+    'cargo',
+    arguments,
+    workingDirectory: workingDirectory,
+  );
+
+  final builtPath = path.join(
+    tempDir.path,
+    asRustTarget(config),
+    'release',
+    libFileName,
+  );
+  await copyFile(builtPath, libFileUri);
+
+  if (!config.linkingEnabled) {
+    return BuildResult(
+      library: libFileUri,
+      datagen: null,
+      postcard: null,
+    );
+  }
+
+  final postcardPath = path.join(tempDir.path, 'full.postcard');
+  await runProcess(
+    'cargo',
+    [
+      'run',
+      ...['-p', 'icu_datagen'],
+      '--',
+      ...['--locales', 'full'],
+      ...['--keys', 'all'],
+      ...['--format', 'blob'],
+      ...['--out', postcardPath],
+    ],
+    workingDirectory: workingDirectory,
+  );
+  await copyFile(postcardPath, postcardFileUri);
+
+  final datagenPath = path.join(
+    tempDir.path,
+    asRustTarget(config),
+    'release',
+    'icu4x-datagen',
+  );
+  final datagenDirectory = path.join(workingDirectory, 'provider/datagen');
+  await runProcess(
+    'rustup',
+    ['target', 'add', asRustTarget(config)],
+    workingDirectory: datagenDirectory,
+  );
+  await runProcess(
+    'cargo',
+    [
+      'build',
+      '--release',
+      ...['--bin', 'icu4x-datagen'],
+      '--no-default-features',
+      ...[
+        '--features',
+        'bin,blob_exporter,blob_input,rayon,experimental_components'
+      ],
+      ...['--target', asRustTarget(config)],
+      '--target-dir=${tempDir.path}'
+    ],
+    workingDirectory: datagenDirectory,
+  );
+  await copyFile(datagenPath, datagenFileUri);
   return BuildResult(
     library: libFileUri,
-    datagen: config.linkingEnabled ? datagenFileUri : null,
-    postcard: config.linkingEnabled ? postcardFileUri : null,
+    datagen: datagenFileUri,
+    postcard: postcardFileUri,
   );
 }
 

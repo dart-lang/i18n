@@ -51,26 +51,26 @@ final class WordBreakIteratorUtf8 implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XWordBreakIteratorUtf8_destroy')
+@KeepSymbol('ICU4XWordBreakIteratorUtf8_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XWordBreakIteratorUtf8_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XWordBreakIteratorUtf8_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XWordBreakIteratorUtf8_next')
+@KeepSymbol('ICU4XWordBreakIteratorUtf8_next')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWordBreakIteratorUtf8_next')
 // ignore: non_constant_identifier_names
 external int _ICU4XWordBreakIteratorUtf8_next(ffi.Pointer<ffi.Opaque> self);
 
-@meta.ResourceIdentifier('ICU4XWordBreakIteratorUtf8_word_type')
+@KeepSymbol('ICU4XWordBreakIteratorUtf8_word_type')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWordBreakIteratorUtf8_word_type')
 // ignore: non_constant_identifier_names
 external int _ICU4XWordBreakIteratorUtf8_word_type(
     ffi.Pointer<ffi.Opaque> self);
 
-@meta.ResourceIdentifier('ICU4XWordBreakIteratorUtf8_is_word_like')
+@KeepSymbol('ICU4XWordBreakIteratorUtf8_is_word_like')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWordBreakIteratorUtf8_is_word_like')
 // ignore: non_constant_identifier_names

@@ -55,20 +55,20 @@ final class SentenceSegmenter implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XSentenceSegmenter_destroy')
+@KeepSymbol('ICU4XSentenceSegmenter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XSentenceSegmenter_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XSentenceSegmenter_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XSentenceSegmenter_create')
+@KeepSymbol('ICU4XSentenceSegmenter_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XSentenceSegmenter_create')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XSentenceSegmenter_create(
     ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XSentenceSegmenter_segment_utf16')
+@KeepSymbol('ICU4XSentenceSegmenter_segment_utf16')
 @ffi.Native<
     ffi.Pointer<ffi.Opaque> Function(
         ffi.Pointer<ffi.Opaque>,
