@@ -17,7 +17,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'CRC': '\u20a1',
   'NIO': r'C$',
   'GMD': 'GMD',
-  'MKD': 'den',
+  'MKD': 'din',
   'BHD': 'din',
   'DZD': 'din',
   'IQD': 'din',
