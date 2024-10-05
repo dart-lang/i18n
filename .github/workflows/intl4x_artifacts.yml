@@ -28,7 +28,7 @@ jobs:
       DATA: ${{ matrix.compiletype == 'dynamic' && ',compiled_data' || '' }}
 
     steps:
-    - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+    - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
       with:
         submodules: true
 
@@ -165,7 +165,7 @@ jobs:
       ICU4X_BUILD_MODE: local
       
     steps:
-      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+      - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
         with:
           submodules: true
 

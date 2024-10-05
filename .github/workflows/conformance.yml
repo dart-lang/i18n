@@ -21,9 +21,9 @@ jobs:
           with:
             sdk: dev
 
-        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+        - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
                 
-        - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
+        - uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938
           with:
             repository: unicode-org/conformance
             path: 'conformance'
