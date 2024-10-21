@@ -32,9 +32,7 @@ jobs:
       matrix:
         sdk: [dev]
         os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - sdk: dev
-            run-tests: true
+
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
         with:
@@ -42,20 +40,26 @@ jobs:
 
       - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
         with:
-          sdk: ${{matrix.sdk}}
+          sdk: ${{ matrix.sdk }}
 
       - run: dart --enable-experiment=native-assets pub get
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
       - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test -p chrome
-        if: ${{matrix.run-tests}}
+
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
+      - name: Compile and run example
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd example_native
+          dart --enable-experiment=native-assets pub get
+          dart --enable-experiment=native-assets build bin/example_native.dart
+          ./bin/example_native/example_native.exe
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
@@ -84,11 +88,21 @@ jobs:
 
       - run: dart --enable-experiment=native-assets test
 
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
+      - name: Compile and run example
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd example_native
+          dart --enable-experiment=native-assets pub get
+          dart --enable-experiment=native-assets build bin/example_native.dart
+          ./bin/example_native/example_native.exe
+
   build_local:
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
+        compiletype: [ dynamic, static ]
     runs-on: ${{ matrix.os }}
 
     env:
@@ -120,7 +134,16 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
+
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-unknown-linux-gnu
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-unknown-linux-gnu
+        cd ../..
+
+        cp target/x86_64-unknown-linux-gnu/release/icu4x-datagen bin/linux_x64-datagen
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -132,7 +155,16 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
+
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-apple-darwin
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-apple-darwin
+        cd ../..
+
+        cp target/x86_64-apple-darwin/release/icu4x-datagen bin/macos_x64-datagen
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -144,18 +176,52 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
-      if: matrix.os == 'ubuntu-latest'
+        cd provider/datagen # avoid global feature resolution
+        rustup target add x86_64-pc-windows-msvc
+        cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target x86_64-pc-windows-msvc
+        cd ../..
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
-      if: matrix.os == 'macos-latest'
+        cp target/x86_64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_x64-datagen.exe
+
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'dynamic'
+
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_DATAGEN=$(realpath submodules/icu4x/bin/linux_x64-datagen)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_POSTCARD=$(realpath submodules/icu4x/bin/full.postcard)" >> $GITHUB_ENV
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
+
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_DYNAMIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'dynamic'
     
-    - run: echo ("LOCAL_ICU4X_BINARY=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
-      if: matrix.os == 'windows-latest'
+    - run: |
+        echo "LOCAL_ICU4X_BINARY_STATIC=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_DATAGEN=$(realpath submodules/icu4x/bin/macos_x64-datagen)" >> $GITHUB_ENV
+        echo "LOCAL_ICU4X_POSTCARD=$(realpath submodules/icu4x/bin/full.postcard)" >> $GITHUB_ENV
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
 
-    - run: echo $LOCAL_ICU4X_BINARY
+    - run: |
+        echo ("LOCAL_ICU4X_BINARY_DYNAMIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'dynamic'
+      
+    - run: |
+        echo ("LOCAL_ICU4X_BINARY_STATIC=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+        echo ("LOCAL_ICU4X_DATAGEN=" + (Get-Item submodules\icu4x\bin\windows_x64-datagen.exe).FullName -replace '/', '\') >> $env:GITHUB_ENV
+        echo ("LOCAL_ICU4X_POSTCARD=" + (Get-Item submodules\icu4x\bin\full.postcard).FullName -replace '/', '\') >> $env:GITHUB_ENV
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
+
+    - run: |
+        echo $LOCAL_ICU4X_BINARY_DYNAMIC
+        echo $LOCAL_ICU4X_BINARY_STATIC
+        echo $LOCAL_ICU4X_DATAGEN
+        echo $LOCAL_ICU4X_POSTCARD
           
     - name: Display structure of downloaded files
       run: ls -R
@@ -166,6 +232,16 @@ jobs:
         dart pub get
 
     - name: Run `dart test`
+      if: matrix.compiletype == 'dynamic'
       run: |
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test
+
+    #TODO: Enable for windows and mac https://github.com/dart-lang/native/issues/1376
+    - name: Compile and run example
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static' 
+      run: |
+        cd pkgs/intl4x/example_native
+        dart --enable-experiment=native-assets pub get
+        dart --enable-experiment=native-assets build bin/example_native.dart
+        ./bin/example_native/example_native.exe
