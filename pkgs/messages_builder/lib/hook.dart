@@ -38,13 +38,14 @@ class MessagesDataBuilder {
                 .map((path) => p.relative(path, from: config.packageRoot.path))
                 .toList());
 
-  Future<void> run({
+  Future<List<DataAsset>> run({
     required BuildConfig config,
     required BuildOutput output,
     required Logger? logger,
   }) async {
     logger?.warning('Starting to add arb files');
     final files = await arbFiles(config);
+    final assets = <DataAsset>[];
     for (final arbFilePath in files) {
       if (p.isAbsolute(arbFilePath)) {
         throw ArgumentError('Paths for .arb files must be relative to the'
@@ -75,7 +76,7 @@ class MessagesDataBuilder {
 
       await _writeDataToFile(data, file);
 
-      output.addAsset(DataAsset(
+      assets.add(DataAsset(
         package: config.packageName,
         name: assetName,
         file: file.uri,
@@ -84,6 +85,7 @@ class MessagesDataBuilder {
       output.addDependency(arbFileUri);
     }
     output.addDependency(config.packageRoot.resolve('hook/build.dart'));
+    return assets;
   }
 
   String _arbToDataFile(MessagesWithMetadata messageBundle, String arbFilePath,

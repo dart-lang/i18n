@@ -61,9 +61,8 @@ class MethodGeneration {
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = await ByteAsset(carb).load();
-          final string = utf8.decode(data);
-          final messageList = MessageListJson.fromString(string, _pluralSelector);''',
+          final data = await _fileLoader(carb);
+          final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
         mb
           ..name = 'loadLocale'

@@ -12,11 +12,18 @@ void main(List<String> args) {
   build(args, (config, output) async {
     final builder = MessagesDataBuilder.fromFolder('assets/l10n/');
 
-    await builder.run(
+    final assets = await builder.run(
       config: config,
       output: output,
       logger: Logger('')
-        ..onRecord.listen((event) => stdout.add((event.toString()).codeUnits)),
+        ..onRecord.listen((event) => stdout.add(event.toString().codeUnits)),
     );
+
+    for (final asset in assets) {
+      final outputPath = config.packageRoot.resolve(asset.name);
+      final file = File.fromUri(outputPath);
+      await file.create();
+      await File.fromUri(asset.file!).copy(file.path);
+    }
   });
 }

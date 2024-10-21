@@ -1,6 +1,6 @@
 ## 0.3.0-wip
 
-- Adapt to use `dart:asset`.
+- Adapt to output data files to assets.
 
 ## 0.2.0
 

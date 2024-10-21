@@ -18,6 +18,15 @@ class FieldGeneration {
   );
 
   List<Field> generate() {
+    final loadingStrategy = Field(
+      (fb) {
+        final returnType = const Reference('Future<String>').symbol;
+        fb
+          ..name = '_fileLoader'
+          ..modifier = FieldModifier.final$
+          ..type = Reference('$returnType Function(String id)');
+      },
+    );
     final currentLocale = Field(
       (fb) => fb
         ..type = const Reference('String')
@@ -50,6 +59,7 @@ class FieldGeneration {
             '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})'''),
     );
     final fields = [
+      loadingStrategy,
       currentLocale,
       messages,
       dataFiles,

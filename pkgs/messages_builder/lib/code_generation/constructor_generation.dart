@@ -14,6 +14,11 @@ class ConstructorGeneration {
   List<Constructor> generate() {
     final nativeConstructor = Constructor((cb) => cb
       ..requiredParameters.addAll([
+        Parameter(
+          (pb) => pb
+            ..name = '_fileLoader'
+            ..toThis = true,
+        ),
         if (options.pluralSelector == PluralSelectorType.custom)
           Parameter((pb) => pb
             ..name = 'pluralSelector'

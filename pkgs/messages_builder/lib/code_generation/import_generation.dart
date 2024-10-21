@@ -27,8 +27,6 @@ class ImportGeneration {
     return [
       ...serializationImports,
       ...pluralImports,
-      Directive.import('dart:asset'),
-      Directive.import('dart:convert'),
     ];
   }
 }
