@@ -55,11 +55,37 @@ final class PropertyValueNameToEnumMapper implements ffi.Finalizable {
     return result;
   }
 
-  /// See the [Rust documentation for `get_name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.GeneralCategory.html#method.get_name_to_enum_mapper) for more information.
+  /// See the [Rust documentation for `name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.GeneralCategory.html#method.name_to_enum_mapper) for more information.
   ///
   /// Throws [Error] on failure.
   factory PropertyValueNameToEnumMapper.generalCategory(DataProvider provider) {
     final result = _ICU4XPropertyValueNameToEnumMapper_load_general_category(
+        provider._ffi);
+    if (!result.isOk) {
+      throw Error.values.firstWhere((v) => v._ffi == result.union.err);
+    }
+    return PropertyValueNameToEnumMapper._fromFfi(result.union.ok, []);
+  }
+
+  /// See the [Rust documentation for `name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.HangulSyllableType.html#method.name_to_enum_mapper) for more information.
+  ///
+  /// Throws [Error] on failure.
+  factory PropertyValueNameToEnumMapper.hangulSyllableType(
+      DataProvider provider) {
+    final result =
+        _ICU4XPropertyValueNameToEnumMapper_load_hangul_syllable_type(
+            provider._ffi);
+    if (!result.isOk) {
+      throw Error.values.firstWhere((v) => v._ffi == result.union.err);
+    }
+    return PropertyValueNameToEnumMapper._fromFfi(result.union.ok, []);
+  }
+
+  /// See the [Rust documentation for `name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.EastAsianWidth.html#method.name_to_enum_mapper) for more information.
+  ///
+  /// Throws [Error] on failure.
+  factory PropertyValueNameToEnumMapper.eastAsianWidth(DataProvider provider) {
+    final result = _ICU4XPropertyValueNameToEnumMapper_load_east_asian_width(
         provider._ffi);
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -73,18 +99,6 @@ final class PropertyValueNameToEnumMapper implements ffi.Finalizable {
   factory PropertyValueNameToEnumMapper.bidiClass(DataProvider provider) {
     final result =
         _ICU4XPropertyValueNameToEnumMapper_load_bidi_class(provider._ffi);
-    if (!result.isOk) {
-      throw Error.values.firstWhere((v) => v._ffi == result.union.err);
-    }
-    return PropertyValueNameToEnumMapper._fromFfi(result.union.ok, []);
-  }
-
-  /// See the [Rust documentation for `name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.EastAsianWidth.html#method.name_to_enum_mapper) for more information.
-  ///
-  /// Throws [Error] on failure.
-  factory PropertyValueNameToEnumMapper.eastAsianWidth(DataProvider provider) {
-    final result = _ICU4XPropertyValueNameToEnumMapper_load_east_asian_width(
-        provider._ffi);
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -117,7 +131,7 @@ final class PropertyValueNameToEnumMapper implements ffi.Finalizable {
     return PropertyValueNameToEnumMapper._fromFfi(result.union.ok, []);
   }
 
-  /// See the [Rust documentation for `get_name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.GraphemeClusterBreak.html#method.get_name_to_enum_mapper) for more information.
+  /// See the [Rust documentation for `name_to_enum_mapper`](https://docs.rs/icu/latest/icu/properties/struct.GraphemeClusterBreak.html#method.name_to_enum_mapper) for more information.
   ///
   /// Throws [Error] on failure.
   factory PropertyValueNameToEnumMapper.graphemeClusterBreak(
@@ -207,12 +221,15 @@ external _ResultOpaqueInt32
     _ICU4XPropertyValueNameToEnumMapper_load_general_category(
         ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XPropertyValueNameToEnumMapper_load_bidi_class')
+@meta.ResourceIdentifier(
+    'ICU4XPropertyValueNameToEnumMapper_load_hangul_syllable_type')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XPropertyValueNameToEnumMapper_load_bidi_class')
+    isLeaf: true,
+    symbol: 'ICU4XPropertyValueNameToEnumMapper_load_hangul_syllable_type')
 // ignore: non_constant_identifier_names
-external _ResultOpaqueInt32 _ICU4XPropertyValueNameToEnumMapper_load_bidi_class(
-    ffi.Pointer<ffi.Opaque> provider);
+external _ResultOpaqueInt32
+    _ICU4XPropertyValueNameToEnumMapper_load_hangul_syllable_type(
+        ffi.Pointer<ffi.Opaque> provider);
 
 @meta.ResourceIdentifier(
     'ICU4XPropertyValueNameToEnumMapper_load_east_asian_width')
@@ -223,6 +240,13 @@ external _ResultOpaqueInt32 _ICU4XPropertyValueNameToEnumMapper_load_bidi_class(
 external _ResultOpaqueInt32
     _ICU4XPropertyValueNameToEnumMapper_load_east_asian_width(
         ffi.Pointer<ffi.Opaque> provider);
+
+@meta.ResourceIdentifier('ICU4XPropertyValueNameToEnumMapper_load_bidi_class')
+@ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
+    isLeaf: true, symbol: 'ICU4XPropertyValueNameToEnumMapper_load_bidi_class')
+// ignore: non_constant_identifier_names
+external _ResultOpaqueInt32 _ICU4XPropertyValueNameToEnumMapper_load_bidi_class(
+    ffi.Pointer<ffi.Opaque> provider);
 
 @meta.ResourceIdentifier(
     'ICU4XPropertyValueNameToEnumMapper_load_indic_syllabic_category')

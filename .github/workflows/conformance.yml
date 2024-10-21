@@ -19,7 +19,7 @@ jobs:
       steps:
         - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
           with:
-            sdk: stable
+            sdk: dev
 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
                 
@@ -35,7 +35,7 @@ jobs:
         - name: Download Reference Exec Summary
           if: github.ref != 'refs/heads/main'
           continue-on-error: true
-          uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+          uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
           with:
             name: reference_exec_summary
 
@@ -47,7 +47,7 @@ jobs:
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+          uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874
           with:
             name: reference_exec_summary
             path: conformance/TEMP_DATA/testReports/exec_summary.json

@@ -198,6 +198,23 @@ final class CustomTimeZone implements ffi.Finalizable {
     }
   }
 
+  /// Sets the `time_zone_id` field from an IANA string by looking up
+  /// the corresponding BCP-47 string.
+  ///
+  /// Errors if the string is not a valid BCP-47 time zone ID.
+  ///
+  /// Throws [Error] on failure.
+  void trySetIanaTimeZoneId2(TimeZoneIdMapper mapper, String id) {
+    final temp = ffi2.Arena();
+    final idView = id.utf8View;
+    final result = _ICU4XCustomTimeZone_try_set_iana_time_zone_id_2(
+        _ffi, mapper._ffi, idView.allocIn(temp), idView.length);
+    temp.releaseAll();
+    if (!result.isOk) {
+      throw Error.values.firstWhere((v) => v._ffi == result.union.err);
+    }
+  }
+
   /// Clears the `time_zone_id` field.
   ///
   /// See the [Rust documentation for `time_zone_id`](https://docs.rs/icu/latest/icu/timezone/struct.CustomTimeZone.html#structfield.time_zone_id) for more information.
@@ -319,7 +336,8 @@ final class CustomTimeZone implements ffi.Finalizable {
     return writeable.finalize();
   }
 
-  /// Sets the `zone_variant` field to standard time.
+  /// Sets the `zone_variant` field to "standard" time, which may or may
+  /// not correspond to a display name with "Standard" in its name.
   ///
   /// See the [Rust documentation for `standard`](https://docs.rs/icu/latest/icu/timezone/struct.ZoneVariant.html#method.standard) for more information.
   ///
@@ -328,7 +346,8 @@ final class CustomTimeZone implements ffi.Finalizable {
     _ICU4XCustomTimeZone_set_standard_time(_ffi);
   }
 
-  /// Sets the `zone_variant` field to daylight time.
+  /// Sets the `zone_variant` field to "daylight" time, which may or may
+  /// not correspond to a display name with "Daylight" in its name.
   ///
   /// See the [Rust documentation for `daylight`](https://docs.rs/icu/latest/icu/timezone/struct.ZoneVariant.html#method.daylight) for more information.
   ///
@@ -473,6 +492,18 @@ external _ResultVoidInt32 _ICU4XCustomTimeZone_try_set_time_zone_id(
     isLeaf: true, symbol: 'ICU4XCustomTimeZone_try_set_iana_time_zone_id')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XCustomTimeZone_try_set_iana_time_zone_id(
+    ffi.Pointer<ffi.Opaque> self,
+    ffi.Pointer<ffi.Opaque> mapper,
+    ffi.Pointer<ffi.Uint8> idData,
+    int idLength);
+
+@meta.ResourceIdentifier('ICU4XCustomTimeZone_try_set_iana_time_zone_id_2')
+@ffi.Native<
+        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
+            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)>(
+    isLeaf: true, symbol: 'ICU4XCustomTimeZone_try_set_iana_time_zone_id_2')
+// ignore: non_constant_identifier_names
+external _ResultVoidInt32 _ICU4XCustomTimeZone_try_set_iana_time_zone_id_2(
     ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Opaque> mapper,
     ffi.Pointer<ffi.Uint8> idData,
