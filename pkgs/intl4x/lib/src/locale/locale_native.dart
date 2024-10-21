@@ -2,40 +2,25 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../bindings/lib.g.dart' as icu;
 import 'locale.dart';
 
 /// This file should be replaced by references to ICU4X when ready.
 
-Locale parseLocaleWithSeparatorPlaceholder(String s, [String separator = '-']) {
-  final parsed = s.split(separator);
-  // ignore: unused_local_variable
-  final subtags = parsed.skipWhile((value) => value != 'u').toList();
-  final tags = parsed.takeWhile((value) => value != 'u').toList();
-  final language = tags.first;
-  final String? script;
-  final String? region;
-  if (tags.length == 2) {
-    if (tags[1].length == 2 && tags[1] == tags[1].toUpperCase()) {
-      region = tags[1];
-      script = null;
-    } else {
-      region = null;
-      script = tags[1];
-    }
-  } else if (tags.length == 3) {
-    script = tags[1];
-    region = tags[2];
-  } else {
-    script = null;
-    region = null;
-  }
+class IcuLocale extends Locale {
+  final icu.Locale locale;
 
-  return Locale(
-    language: language,
-    region: region,
-    script: script,
-  );
+  IcuLocale(this.locale)
+      : super(
+          language: locale.language,
+          region: locale.region,
+          script: locale.script,
+        );
 }
+
+Locale parseLocaleWithSeparatorPlaceholder(String s,
+        [String separator = '-']) =>
+    IcuLocale(icu.Locale.fromString(s));
 
 //TODO: Switch to ICU4X!
 Locale parseLocale(String s, [String separator = '-']) {
