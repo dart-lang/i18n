@@ -10,6 +10,8 @@ dependencies:
   collection: ^1.17.1
   intl: ^0.19.0
   logging: ^1.2.0
+  messages_builder:
+    path: ../messages_builder
   native_assets_cli: ^0.8.0
   path: ^1.9.0
 

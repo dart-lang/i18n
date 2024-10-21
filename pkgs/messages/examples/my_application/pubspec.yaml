@@ -16,8 +16,6 @@ dependencies:
     path: ../../../messages
   messages_builder:
     path: ../../../messages_builder
-  logging: ^1.2.0
-  native_assets_cli: ^0.8.0
 
 dev_dependencies:
   lints: ^4.0.0
