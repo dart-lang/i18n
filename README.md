@@ -11,6 +11,10 @@ This repository is home to Dart internationalization (i18n) and localization (l1
 | [intl4x](pkgs/intl4x/) | A lightweight modular library for internationalization (i18n) functionality. | [![Pub](https://img.shields.io/pub/v/intl4x.svg)](https://pub.dev/packages/intl4x) | Experimental |
 | [messages](pkgs/messages/) | A data-based, easy, safe, and small localization (l10n) library. | [![Pub](https://img.shields.io/pub/v/messages.svg)](https://pub.dev/packages/messages) | Experimental |
 
+## Contribute
+
+Let us know about [bugs and feature requests](https://github.com/dart-lang/i18n/issues), file a [pull request](https://github.com/dart-lang/i18n/pulls), or participate in the [discussions](https://github.com/dart-lang/i18n/discussions)!
+
 ## Publishing automation
 
 For information about our publishing automation and release process, see
