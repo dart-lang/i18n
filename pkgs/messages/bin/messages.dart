@@ -4,6 +4,11 @@ import 'package:messages_builder/builder.dart';
 import 'package:messages_builder/generation_options.dart';
 import 'package:messages_builder/message_data_builder.dart';
 
+/// Regenerates both data files and code for retrieving the messages from the
+/// data files.
+///
+/// Executed by running `dart run messages` in a project with a dependency on
+/// `package:messages`.
 Future<void> main(List<String> args) async {
   final generationOptions = await _generationOptions();
   final inputFolder = Directory.fromUri(

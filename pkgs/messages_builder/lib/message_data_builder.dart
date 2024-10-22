@@ -30,7 +30,12 @@ class MessageDataFileBuilder {
         .map((file) => file.path)
         .where((path) => p.extension(path) == '.arb')
         .toList();
+
     final mapping = <String, String>{};
+    if (arbFiles.isEmpty) {
+      print('No `.arb` files found in $inputFolder.');
+      return mapping;
+    }
 
     for (final arbFilePath in arbFiles) {
       print('Generating $arbFilePath, bundle this in your assets.');
