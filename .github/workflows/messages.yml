@@ -40,10 +40,10 @@ jobs:
         working-directory: pkgs/messages/example
 
       - run: flutter pub get
-        working-directory: pkgs/messages/examples/my_application
+        working-directory: pkgs/messages/examples_flutter/my_application
 
       - run: flutter pub get
-        working-directory: pkgs/messages/examples/my_shopping_cart
+        working-directory: pkgs/messages/examples_flutter/my_shopping_cart
 
       - run: dart analyze --fatal-infos
 
