@@ -19,7 +19,10 @@ dev_dependencies:
 
 package_options:
   messages_builder:
-    generateMethods: true
-    generateFindById: false
-    generateFindBy: integer
-    pluralSelector: intl
+    generate_methods: true
+    generate_find_by_id: true
+    generate_find_by: integer
+    plural_selector: intl
+    arb_input_folder: assets/l10n/
+    message_output_folder: assets/
+    generated_code_file: lib/messages.g.dart

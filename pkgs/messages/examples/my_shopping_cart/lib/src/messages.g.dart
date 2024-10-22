@@ -34,7 +34,7 @@ class ShoppingCartMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'en_US': ('package:my_shopping_cart/assets/l10n/messages.json', 'Nj229ee7')
+    'en_US': ('package:my_shopping_cart/assets/messages.arb.json', 'Nj229ee7')
   };
 
   String get currentLocale => _currentLocale;

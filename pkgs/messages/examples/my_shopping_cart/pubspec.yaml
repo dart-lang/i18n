@@ -14,3 +14,9 @@ dependencies:
 dev_dependencies:
   lints: ^4.0.0
   test: ^1.24.0
+
+package_options:
+  messages_builder:
+    arb_input_folder: assets/l10n/
+    message_output_folder: assets/
+    generated_code_file: lib/src/messages.g.dart

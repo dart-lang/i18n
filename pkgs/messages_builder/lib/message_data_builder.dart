@@ -11,15 +11,18 @@ import 'builder.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
 
-class MessagesDataBuilder {
-  //TODO allow arbs from other locations than package root subfolders
-  MessagesDataBuilder();
+class MessageDataFileBuilder {
+  final Directory inputFolder;
+  final Directory outputFolder;
+  final GenerationOptions generationOptions;
 
-  Future<void> run({
-    required Directory inputFolder,
-    required Directory outputFolder,
-    required String libOutput,
-  }) async {
+  MessageDataFileBuilder({
+    required this.inputFolder,
+    required this.outputFolder,
+    required this.generationOptions,
+  });
+
+  Future<Map<String, String>> run() async {
     print('Starting to add arb files from $inputFolder to $outputFolder');
     final arbFiles = await inputFolder
         .list()
@@ -27,11 +30,12 @@ class MessagesDataBuilder {
         .map((file) => file.path)
         .where((path) => p.extension(path) == '.arb')
         .toList();
+    final mapping = <String, String>{};
+
     for (final arbFilePath in arbFiles) {
       print('Generating $arbFilePath, bundle this in your assets.');
       final arbFileUri = Uri.file(arbFilePath);
       final arbFileContents = await File.fromUri(arbFileUri).readAsString();
-      final generationOptions = await _generationOptions();
       final messageBundle = await parseMessageFile(
         arbFileContents,
         generationOptions,
@@ -41,13 +45,18 @@ class MessagesDataBuilder {
 
       final data = _arbToData(messageBundle, arbFilePath, serializer);
 
-      final assetName =
-          p.setExtension(p.basename(arbFilePath), serializer.extension);
+      final assetName = p.setExtension(
+        p.basename(arbFilePath),
+        '.arb${serializer.extension}',
+      );
 
-      final dataFile = File.fromUri(outputFolder.uri.resolve(assetName));
+      final outputDataPath = outputFolder.uri.resolve(assetName);
+      final dataFile = File.fromUri(outputDataPath);
       await dataFile.create();
       await dataFile.writeAsString(data);
+      mapping[arbFilePath] = outputDataPath.path;
     }
+    return mapping;
   }
 
   String _arbToData(
@@ -62,10 +71,4 @@ class MessagesDataBuilder {
             messageBundle.messages.map((e) => e.message).toList(),
           )
           .data;
-
-  Future<GenerationOptions> _generationOptions() async {
-    final pubspecUri = Directory.current.uri.resolve('pubspec.yaml');
-    final file = File.fromUri(pubspecUri);
-    return GenerationOptions.fromPubspec(await file.readAsString());
-  }
 }

@@ -34,13 +34,20 @@ class AboutPageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'fr': ('package:example/assets/l10n/testarbctx2_fr.json', 'EyPjEJJU'),
-    'en': ('package:example/assets/l10n/testarbctx2.json', 'QrwRSsOy')
+    'fr': ('package:example/assets/testarbctx2_fr.arb.json', '390XWry3'),
+    'en': ('package:example/assets/testarbctx2.arb.json', 'QrwRSsOy')
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
+
+  String getById(
+    String id, [
+    List<dynamic> args = const [],
+  ]) {
+    return _currentMessages.generateStringAtId(id, args);
+  }
 
   static Iterable<String> get knownLocales => _dataFiles.keys;
 
@@ -99,13 +106,20 @@ class HomePageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'de': ('package:example/assets/l10n/testarb_de.json', 'hbDN1MhX'),
-    'en': ('package:example/assets/l10n/testarb.json', 'dr9Md951')
+    'de': ('package:example/assets/testarb_de.arb.json', 'hbDN1MhX'),
+    'en': ('package:example/assets/testarb.arb.json', 'dr9Md951')
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
+
+  String getById(
+    String id, [
+    List<dynamic> args = const [],
+  ]) {
+    return _currentMessages.generateStringAtId(id, args);
+  }
 
   static Iterable<String> get knownLocales => _dataFiles.keys;
 

@@ -1,5 +1,6 @@
 {
     "@@context": "AboutPage",
+    "@@locale": "fr",
     "helloAndWelcome": "Welcome {firstName} von {lastName} <",
     "otherMsg": "other",
     "aboutMessage": "Sur {websitename}",

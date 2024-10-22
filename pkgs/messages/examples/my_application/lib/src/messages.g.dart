@@ -34,7 +34,7 @@ class MyAppMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'en_US': ('package:my_application/assets/l10n/messages.json', 'IT21w/eV')
+    'en_US': ('package:my_application/assets/messages.arb.json', 'IT21w/eV')
   };
 
   String get currentLocale => _currentLocale;

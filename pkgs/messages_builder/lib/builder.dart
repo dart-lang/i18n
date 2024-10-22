@@ -4,11 +4,10 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
-import 'package:glob/glob.dart';
 import 'package:path/path.dart' as path;
 
 import 'arb_parser.dart';
@@ -17,44 +16,28 @@ import 'code_generation/library_generation.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
 
-Builder messagesBuilder(BuilderOptions options) =>
-    MessagesBuilder(options.config);
-
-class MessagesBuilder implements Builder {
-  final Map<String, dynamic> config;
-
-  MessagesBuilder(this.config);
-
-  @override
-  Map<String, List<String>> get buildExtensions => {
-        'l10n.messages': ['messages.g.dart'],
-      };
-
-  @override
-  Future<void> build(BuildStep buildStep) async {
-    final s = await GenerationOptions.getPubspecFrom(buildStep);
-    final generationOptions = await GenerationOptions.fromPubspec(s);
-    await BuildStepGenerator(buildStep, generationOptions).build();
-  }
-}
-
-class BuildStepGenerator {
-  final BuildStep buildStep;
+class MessageCallingCodeGenerator {
   final GenerationOptions options;
+  final Map<String, String> mapping;
 
-  BuildStepGenerator(this.buildStep, this.options);
+  MessageCallingCodeGenerator({
+    required this.options,
+    required this.mapping,
+  });
 
   Future<void> build() async {
     final allMessageFiles = await getParsedMessageFiles();
     final libraries = <Library>[];
     for (final input in allMessageFiles) {
       final parentFile = getParentFile(allMessageFiles, input);
-      final reducedMessageFile =
-          scrub(input.$2, parentFile.$2.messages.map((e) => e.name).toList());
-      if (parentFile.$1 == input.$1) {
+      final scrubbedMessageFile = scrub(
+        input.message,
+        parentFile.message.messages.map((e) => e.name).toList(),
+      );
+      if (parentFile.path == input.path) {
         final library = await writeDartLibrary(
           allMessageFiles,
-          reducedMessageFile,
+          scrubbedMessageFile,
         );
         libraries.add(library);
       }
@@ -65,13 +48,8 @@ class BuildStepGenerator {
         libraries: libraries,
       ).generate();
 
-      await buildStep.writeAsString(
-        AssetId(
-            buildStep.inputId.package,
-            buildStep.inputId.path
-                .replaceFirst('l10n.messages', 'messages.g.dart')),
-        code,
-      );
+      await options.generatedCodeFile.create(recursive: true);
+      await options.generatedCodeFile.writeAsString(code);
     }
   }
 
@@ -93,18 +71,18 @@ class BuildStepGenerator {
   /// format and makes the available to the user in a way specified through the
   /// `GenerationOptions`.
   Future<Library> writeDartLibrary(
-    List<(AssetId, MessagesWithMetadata)> assetList,
+    List<ParsedMessageFile> assetList,
     MessagesWithMetadata messageList,
   ) async {
     final resourcesInContext = assetList
-        .where((resource) => resource.$2.context == messageList.context);
+        .where((resource) => resource.message.context == messageList.context);
 
     final localeToResourceInfo =
         Map.fromEntries(resourcesInContext.map((resource) => MapEntry(
-              resource.$2.locale ?? inferLocale(resource.$1.path) ?? 'en_US',
+              resource.message.locale ?? 'en_US',
               (
-                id: 'package:${buildStep.inputId.package}/${resource.$1.changeExtension('.json').path}',
-                hasch: resource.$2.hash,
+                id: 'package:${options.packageName}/${resource.path}',
+                hasch: resource.message.hash,
               ),
             )));
 
@@ -118,29 +96,27 @@ class BuildStepGenerator {
     ).generate();
   }
 
-  Future<List<(AssetId, MessagesWithMetadata)>> getParsedMessageFiles() async =>
-      buildStep
-          .findAssets(Glob('**.arb'))
-          .asyncMap((assetId) async => (
-                assetId,
-                await parseMessageFile(await getArbfile(assetId), options)
+  Future<List<ParsedMessageFile>> getParsedMessageFiles() async =>
+      Future.wait(mapping.entries
+          .map((p) async => ParsedMessageFile(
+                path: path.relative(p.value, from: Directory.current.path),
+                message:
+                    await parseMessageFile(await getArbfile(p.key), options),
               ))
-          .toList();
+          .toList());
 
-  Future<String> getArbfile(AssetId assetId) async {
-    final arbFile = await buildStep.readAsString(assetId);
-    return arbFile;
-  }
+  Future<String> getArbfile(String path) async =>
+      await File(path).readAsString();
 
   /// Either get the referenced parent file, or try to infer which it might be.
-  static (AssetId, MessagesWithMetadata) getParentFile(
-    List<(AssetId, MessagesWithMetadata)> arbResources,
-    (AssetId, MessagesWithMetadata) arb,
+  static ParsedMessageFile getParentFile(
+    List<ParsedMessageFile> arbFiles,
+    ParsedMessageFile currentFile,
   ) {
     /// If the reference file is explicitly named, return that.
-    if (arb.$2.referencePath != null) {
-      final reference = arbResources
-          .where((element) => element.$1.path == arb.$2.referencePath)
+    if (currentFile.message.referencePath != null) {
+      final reference = arbFiles
+          .where((element) => element.path == currentFile.message.referencePath)
           .firstOrNull;
       if (reference != null) {
         return reference;
@@ -148,23 +124,23 @@ class BuildStepGenerator {
     }
 
     /// If the current file is a reference for others, return the current file.
-    final references = arbResources
-        .where((resource) => resource.$2.referencePath == arb.$1.path);
-    if (references.contains(arb)) {
-      return arb;
+    final references = arbFiles.where(
+        (resource) => resource.message.referencePath == currentFile.path);
+    if (references.contains(currentFile)) {
+      return currentFile;
     }
 
     /// Try to infer by looking at which files contain metadata, which is a sign
     /// they might be the references for others in the same context.
     final contextLeads =
-        arbResources.groupListsBy((resource) => resource.$2.context);
-    final contextWithMetadata = contextLeads[arb.$2.context]!
-        .firstWhereOrNull((element) => element.$2.hasMetadata);
+        arbFiles.groupListsBy((resource) => resource.message.context);
+    final contextWithMetadata = contextLeads[currentFile.message.context]!
+        .firstWhereOrNull((element) => element.message.hasMetadata);
     if (contextWithMetadata != null) {
       return contextWithMetadata;
     }
 
-    return arb;
+    return currentFile;
   }
 
   /// Display a notification to the user to include the newly generated files
@@ -193,10 +169,9 @@ Future<MessagesWithMetadata> parseMessageFile(
   return ArbParser(options.findById).parseMessageFile(arb);
 }
 
-String? inferLocale(String localPath) {
-  final skip = path.basenameWithoutExtension(localPath).split('_').skip(1);
-  if (skip.isEmpty) {
-    return null;
-  }
-  return skip.join('_');
+class ParsedMessageFile {
+  final String path;
+  final MessagesWithMetadata message;
+
+  ParsedMessageFile({required this.path, required this.message});
 }
