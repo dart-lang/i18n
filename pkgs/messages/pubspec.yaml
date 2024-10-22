@@ -3,6 +3,8 @@ description: A lightweight modular library for localization (l10n) functionality
 version: 0.3.0-wip
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/messages
 
+publish_to: none
+
 environment:
   sdk: ^3.0.0
 

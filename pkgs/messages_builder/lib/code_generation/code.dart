@@ -28,6 +28,7 @@ class CodeGenerator {
         ), (value, element) {
       return Library(
         (p0) => p0
+          ..ignoreForFile.add('non_constant_identifier_names')
           ..comments.addAll({...value.comments, ...element.comments})
           ..directives.addAll({...value.directives, ...element.directives})
           ..body.addAll([
