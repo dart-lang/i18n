@@ -80,11 +80,10 @@ class MessageCallingCodeGenerator {
     final localeToResource = resourcesInContext
         .map((resource) => (
               locale: resource.message.locale ?? 'en_US',
-              id: 'package:${options.packageName}/${resource.path}',
+              id: 'packages/${options.packageName}/${resource.path}',
               hasch: resource.message.hash,
             ))
         .sortedBy((resource) => resource.locale);
-    print(localeToResource);
     printIncludeFilesNotification(messageList.context, localeToResource);
     return LibraryGeneration(
       options,
