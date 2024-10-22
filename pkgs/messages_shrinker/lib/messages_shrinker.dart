@@ -33,7 +33,7 @@ class MessageShrinker {
   String shrinkJson(String buffer, List<int> messagesToKeep) {
     final sizeBefore = buffer.length;
     final json = JsonDeserializer(buffer).deserialize(
-      (howMany, {few, locale, many, numberCases, required other, wordCases}) {
+      (howMany, locale, {few, many, numberCases, required other, wordCases}) {
         throw StateError('As the deserialized MessageList is not used, but '
             'just immediately reserialized, this selector will not be called.');
       },
