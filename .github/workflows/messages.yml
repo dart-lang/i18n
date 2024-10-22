@@ -39,11 +39,11 @@ jobs:
       - run: dart pub get
         working-directory: pkgs/messages/example
 
-      - run: dart pub get
-        working-directory: pkgs/messages/examples_flutter/my_application
+      # - run: dart pub get
+      #   working-directory: pkgs/messages/examples_flutter/my_application
 
-      - run: dart pub get
-        working-directory: pkgs/messages/examples_flutter/my_shopping_cart
+      # - run: dart pub get
+      #   working-directory: pkgs/messages/examples_flutter/my_shopping_cart
 
       - run: dart analyze --fatal-infos
 
