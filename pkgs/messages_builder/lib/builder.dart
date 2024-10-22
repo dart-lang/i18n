@@ -84,7 +84,8 @@ class MessageCallingCodeGenerator {
                 id: 'package:${options.packageName}/${resource.path}',
                 hasch: resource.message.hash,
               ),
-            )));
+            ))
+          ..sortedBy((element) => element.key));
 
     printIncludeFilesNotification(messageList.context, localeToResourceInfo);
     return LibraryGeneration(
