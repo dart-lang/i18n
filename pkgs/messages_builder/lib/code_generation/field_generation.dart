@@ -8,7 +8,8 @@ import '../generation_options.dart';
 
 class FieldGeneration {
   final GenerationOptions options;
-  final Map<String, ({String id, String hasch})> localeToResourceInfo;
+  final Iterable<({String hasch, String id, String locale})>
+      localeToResourceInfo;
   final String locale;
 
   FieldGeneration(
@@ -42,8 +43,8 @@ class FieldGeneration {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = localeToResourceInfo.entries
-            .map((e) => "'${e.key}' : ('${e.value.id}', '${e.value.hasch}')")
+        final paths = localeToResourceInfo
+            .map((e) => "'${e.locale}' : ('${e.id}', '${e.hasch}')")
             .join(',');
         fb
           ..name = '_dataFiles'

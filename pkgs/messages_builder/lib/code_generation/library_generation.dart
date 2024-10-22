@@ -16,7 +16,8 @@ class LibraryGeneration {
   final String? context;
   final String locale;
   final List<MessageWithMetadata> messages;
-  final Map<String, ({String id, String hasch})> localeToResourceInfo;
+  final Iterable<({String hasch, String id, String locale})>
+      localeToResourceInfo;
 
   LibraryGeneration(
     this.options,

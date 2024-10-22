@@ -77,15 +77,12 @@ class MessageCallingCodeGenerator {
     final resourcesInContext = assetList
         .where((resource) => resource.message.context == messageList.context);
 
-    final localeToResourceInfo =
-        Map.fromEntries(resourcesInContext.map((resource) => MapEntry(
-              resource.message.locale ?? 'en_US',
-              (
-                id: 'package:${options.packageName}/${resource.path}',
-                hasch: resource.message.hash,
-              ),
-            ))
-          ..sortedBy((element) => element.key));
+    final localeToResourceInfo = resourcesInContext.map((resource) => (
+          locale: resource.message.locale ?? 'en_US',
+          id: 'package:${options.packageName}/${resource.path}',
+          hasch: resource.message.hash,
+        ))
+      ..sortedBy((entry) => entry.locale);
 
     printIncludeFilesNotification(messageList.context, localeToResourceInfo);
     return LibraryGeneration(
@@ -148,14 +145,13 @@ class MessageCallingCodeGenerator {
   /// in their assets.
   void printIncludeFilesNotification(
     String? context,
-    Map<String, ({String hasch, String id})> localeToResource,
+    Iterable<({String hasch, String id, String locale})> localeToResource,
   ) {
     var contextMessage = 'The';
     if (context != null) {
       contextMessage = 'For the messages in $context, the';
     }
-    final fileList =
-        localeToResource.entries.map((e) => '\t${e.value.id}').join('\n');
+    final fileList = localeToResource.map((e) => '\t${e.id}').join('\n');
     print(
         '''$contextMessage following files need to be declared in your assets:\n$fileList''');
   }
