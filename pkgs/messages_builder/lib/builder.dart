@@ -77,20 +77,21 @@ class MessageCallingCodeGenerator {
     final resourcesInContext = assetList
         .where((resource) => resource.message.context == messageList.context);
 
-    final localeToResourceInfo = resourcesInContext.map((resource) => (
-          locale: resource.message.locale ?? 'en_US',
-          id: 'package:${options.packageName}/${resource.path}',
-          hasch: resource.message.hash,
-        ))
-      ..sortedBy((entry) => entry.locale);
-
-    printIncludeFilesNotification(messageList.context, localeToResourceInfo);
+    final localeToResource = resourcesInContext
+        .map((resource) => (
+              locale: resource.message.locale ?? 'en_US',
+              id: 'package:${options.packageName}/${resource.path}',
+              hasch: resource.message.hash,
+            ))
+        .sortedBy((resource) => resource.locale);
+    print(localeToResource);
+    printIncludeFilesNotification(messageList.context, localeToResource);
     return LibraryGeneration(
       options,
       messageList.context,
       messageList.locale!,
       messageList.messages,
-      localeToResourceInfo,
+      localeToResource,
     ).generate();
   }
 

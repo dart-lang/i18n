@@ -36,8 +36,8 @@ class AboutPageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'fr': ('package:example/assets/testarbctx2_fr.arb.json', '390XWry3'),
-    'en': ('package:example/assets/testarbctx2.arb.json', 'QrwRSsOy')
+    'en': ('package:example/assets/testarbctx2.arb.json', 'QrwRSsOy'),
+    'fr': ('package:example/assets/testarbctx2_fr.arb.json', '390XWry3')
   };
 
   String get currentLocale => _currentLocale;
