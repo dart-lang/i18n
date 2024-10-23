@@ -46,7 +46,7 @@ jobs:
 
       - run: dart test
 
-      - name: Run example
+      - name: Regenerate and run example
         working-directory: pkgs/messages/example
         run: |
           dart run messages_builder
