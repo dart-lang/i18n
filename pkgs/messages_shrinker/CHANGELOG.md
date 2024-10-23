@@ -1,6 +1,7 @@
 ## 0.2.2-wip
 
 - Add license header.
+- Fixes related to API change in package:messages_builder.
 
 ## 0.2.1
 

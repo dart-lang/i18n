@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:build/build.dart';
 import 'package:crypto/crypto.dart';
 
 import 'message_parser/message_parser.dart';
@@ -14,11 +13,7 @@ class ArbParser {
   final bool addName;
   ArbParser([this.addName = false]);
 
-  MessagesWithMetadata parseMessageFile(
-    Map<String, dynamic> arb,
-    AssetId assetId, [
-    String inferredLocale = 'en_US',
-  ]) {
+  MessagesWithMetadata parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
     final referencePath = arb['@@x-reference'] as String?;
@@ -30,12 +25,11 @@ class ArbParser {
     final messages = messagesWithKeys.map((e) => e.$2).toList();
     return MessagesWithMetadata(
       messages,
-      locale ?? inferredLocale,
+      locale,
       context,
       referencePath,
       getHash(arb),
       arb.keys.any((key) => key.startsWith('@') && !key.startsWith('@@')),
-      assetId,
     );
   }
 

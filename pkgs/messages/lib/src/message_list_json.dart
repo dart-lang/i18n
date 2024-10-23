@@ -64,11 +64,12 @@ class MessageListJson extends MessageList {
   String generateStringAtId(String id, List args) => messages
       .where((element) => element.id == id)
       .first
-      .generateString(args, pluralSelector: _selector);
+      .generateString(args, locale: preamble.locale, pluralSelector: _selector);
 
   @override
   String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args, pluralSelector: _selector);
+      messages[getIndex(index)].generateString(args,
+          locale: preamble.locale, pluralSelector: _selector);
 
   int getIndex(int index) => messageIndices?[index] ?? index;
 }

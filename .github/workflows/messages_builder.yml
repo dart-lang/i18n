@@ -23,9 +23,9 @@ jobs:
         working-directory: pkgs/messages_builder
     strategy:
       matrix:
-        sdk: [stable, dev] # {pkgs.versions}
+        sdk: [dev]
         include:
-          - sdk: stable
+          - sdk: dev
             run-tests: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
