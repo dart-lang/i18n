@@ -27,7 +27,7 @@ jobs:
 
       - uses: flutter-actions/setup-flutter@61f93c6f11e0234fa9ec4df59362c9699b979660
         with:
-          channel: main
+          channel: beta
 
       - run: dart pub get
 
