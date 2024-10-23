@@ -49,6 +49,6 @@ jobs:
       - name: Run example
         working-directory: pkgs/messages/example
         run: |
-          dart run messages
+          dart run messages_builder
           git diff --exit-code
           dart run
