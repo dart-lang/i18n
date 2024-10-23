@@ -191,21 +191,23 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
     }
     final tempDir = await Directory.systemTemp.createTemp();
 
-    final stdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    final commonFeatures = [
+      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,icu_casemap',
       'compiled_data',
       'buffer_provider',
-      'logging',
-      'simple_logger',
       'experimental_components',
     ];
+
+    final stdFeatures = [
+      ...commonFeatures,
+      'logging',
+      'simple_logger',
+    ];
     final noStdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
+      ...commonFeatures,
+      //noStdFeatures
       'libc-alloc',
       'panic-handler',
-      'experimental_components',
     ];
     final linkModeType = config.linkModePreference == LinkModePreference.static
         ? 'staticlib'
