@@ -5,6 +5,9 @@
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
+import 'empty_en.dart' deferred as empty_en;
+import 'empty_de.dart' deferred as empty_de;
+
 Message _pluralSelector(
   num howMany,
   String locale, {
@@ -52,6 +55,12 @@ class MyAppMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
+      if (locale.startsWith('en')) {
+        empty_en.loadLibrary();
+      } else if (locale.startsWith('de')) {
+        empty_de.loadLibrary();
+      }
+
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {

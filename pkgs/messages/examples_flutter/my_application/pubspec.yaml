@@ -25,5 +25,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  assets:
-    - assets/messages.arb.json
+  deferred-components:
+    - name: enMessages
+      libraries:
+        - package:my_application/src/empty_en.dart
+      assets:
+        - assets/messages.arb.json
+    - name: deMessages
+      libraries:
+        - package:my_application/src/empty_de.dart
+      assets:
+        - assets/messages_de.arb.json
+
