@@ -27,17 +27,17 @@ Message _pluralSelector(
 }
 
 class AboutPageMessages {
-  AboutPageMessages(this._fileLoader);
+  AboutPageMessages(this._assetLoader);
 
-  final Future<String> Function(String id) _fileLoader;
+  final Future<String> Function(String id) _assetLoader;
 
   String _currentLocale = 'en';
 
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'en': ('package:example/assets/testarbctx2.arb.json', 'QrwRSsOy'),
-    'fr': ('package:example/assets/testarbctx2_fr.arb.json', '390XWry3')
+    'en': ('packages/example/assets/testarbctx2.arb.json', 'QrwRSsOy'),
+    'fr': ('packages/example/assets/testarbctx2_fr.arb.json', '390XWry3')
   };
 
   String get currentLocale => _currentLocale;
@@ -56,11 +56,11 @@ class AboutPageMessages {
   Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
       final info = _dataFiles[locale];
-      final carb = info?.$1;
-      if (carb == null) {
+      final dataFile = info?.$1;
+      if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = await _fileLoader(carb);
+      final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError('''
@@ -99,17 +99,17 @@ class AboutPageMessages {
 }
 
 class HomePageMessages {
-  HomePageMessages(this._fileLoader);
+  HomePageMessages(this._assetLoader);
 
-  final Future<String> Function(String id) _fileLoader;
+  final Future<String> Function(String id) _assetLoader;
 
   String _currentLocale = 'en';
 
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'de': ('package:example/assets/testarb_de.arb.json', 'hbDN1MhX'),
-    'en': ('package:example/assets/testarb.arb.json', 'dr9Md951')
+    'de': ('packages/example/assets/testarb_de.arb.json', 'hbDN1MhX'),
+    'en': ('packages/example/assets/testarb.arb.json', 'dr9Md951')
   };
 
   String get currentLocale => _currentLocale;
@@ -128,11 +128,11 @@ class HomePageMessages {
   Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
       final info = _dataFiles[locale];
-      final carb = info?.$1;
-      if (carb == null) {
+      final dataFile = info?.$1;
+      if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = await _fileLoader(carb);
+      final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError('''

@@ -68,7 +68,7 @@ This translated file was created by a translator given the reference `en.arb`.
 ```
 you can then run
 
-`dart run messages`
+`dart run messages_builder`
 
 This will generate both code to call your messages, as well as data files which will be shipped with your application. You can then use these generated files by importing the generated files:
 

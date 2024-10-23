@@ -27,9 +27,9 @@ Message _pluralSelector(
 }
 
 class MyAppMessages {
-  MyAppMessages(this._fileLoader);
+  MyAppMessages(this._assetLoader);
 
-  final Future<String> Function(String id) _fileLoader;
+  final Future<String> Function(String id) _assetLoader;
 
   String _currentLocale = 'en_US';
 
@@ -48,11 +48,11 @@ class MyAppMessages {
   Future<void> loadLocale(String locale) async {
     if (!_messages.containsKey(locale)) {
       final info = _dataFiles[locale];
-      final carb = info?.$1;
-      if (carb == null) {
+      final dataFile = info?.$1;
+      if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      final data = await _fileLoader(carb);
+      final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError('''

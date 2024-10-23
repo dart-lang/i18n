@@ -19,6 +19,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  messages_builder:
+    path: ../../../messages_builder
 
 package_options:
   messages_builder:

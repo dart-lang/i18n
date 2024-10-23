@@ -21,37 +21,30 @@ jobs:
     defaults:
       run:
         working-directory: pkgs/messages
-    strategy:
-      matrix:
-        sdk: [dev]
-        include:
-          - sdk: dev
-            run-tests: true
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
-      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+
+      - uses: flutter-actions/setup-flutter@d030cb603380106494f72d65a7e52462f380781f
         with:
-          sdk: ${{matrix.sdk}}
+          channel: master
 
       - run: dart pub get
 
       - run: dart pub get
         working-directory: pkgs/messages/example
 
-      # - run: dart pub get
-      #   working-directory: pkgs/messages/examples_flutter/my_application
+      - run: flutter pub get
+        working-directory: pkgs/messages/examples_flutter/my_application
 
-      # - run: dart pub get
-      #   working-directory: pkgs/messages/examples_flutter/my_shopping_cart
+      - run: flutter pub get
+        working-directory: pkgs/messages/examples_flutter/my_shopping_cart
 
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
 
       - run: dart test
-        if: ${{matrix.run-tests}}
 
       - name: Run example
         working-directory: pkgs/messages/example

@@ -7,11 +7,14 @@ environment:
 
 dependencies:
   intl: ^0.19.0
-  messages: ^0.2.0
+  messages: 
+    path: ../../messages
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.1.0
   lints: ^4.0.0
+  messages_builder:
+    path: ../../messages_builder
   path: ^1.8.3
   test: ^1.16.0
 

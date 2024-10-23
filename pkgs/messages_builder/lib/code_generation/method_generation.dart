@@ -61,7 +61,7 @@ class MethodGeneration {
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = await _fileLoader(carb);
+          final data = await _assetLoader(dataFile);
           final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
         mb
@@ -75,8 +75,8 @@ class MethodGeneration {
           ..body = Code('''
           if (!_messages.containsKey(locale)) {
             final info = _dataFiles[locale];
-            final carb = info?.\$1;
-            if (carb == null) {
+            final dataFile = info?.\$1;
+            if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
             $loading

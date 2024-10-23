@@ -23,7 +23,7 @@ class FieldGeneration {
       (fb) {
         final returnType = const Reference('Future<String>').symbol;
         fb
-          ..name = '_fileLoader'
+          ..name = '_assetLoader'
           ..modifier = FieldModifier.final$
           ..type = Reference('$returnType Function(String id)');
       },

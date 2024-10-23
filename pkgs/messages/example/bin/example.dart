@@ -10,7 +10,8 @@ import 'package:example/messages.g.dart';
 
 Future<void> main(List<String> arguments) async {
   final messages = AboutPageMessages(
-      (id) => File(id.substring(id.indexOf('/') + 1)).readAsString());
+    (id) => File(id.split('/').skip(2).join('/')).readAsString(),
+  );
   // final index = AboutPageMessagesEnum.aboutMessage;
 
   await messages.loadLocale('en');

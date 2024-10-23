@@ -16,7 +16,7 @@ class ConstructorGeneration {
       ..requiredParameters.addAll([
         Parameter(
           (pb) => pb
-            ..name = '_fileLoader'
+            ..name = '_assetLoader'
             ..toThis = true,
         ),
         if (options.pluralSelector == PluralSelectorType.custom)
