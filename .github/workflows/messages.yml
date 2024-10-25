@@ -49,6 +49,6 @@ jobs:
       - name: Regenerate and run example
         working-directory: pkgs/messages/example
         run: |
-          dart run messages_builder
+          dart run messages
           git diff --exit-code
           dart run
