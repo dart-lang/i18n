@@ -1,5 +1,9 @@
 ## 0.20.1-wip
   * Add topics to `pubspec.yaml`
+  * Update to `dart_style `2.3.7`. `bin/make_examples_const.dart` and
+    `rewrite_intl_messages.dart` will now look for a surrounding
+    `.dart_tool/package_config.json` file to infer the language version of the
+    files updated by the script.
 
 ## 0.20.0
   * Throw if the `Intl.select` `arg` is not in the list of `args`.
@@ -30,7 +34,7 @@
   * Remove petit_parser dependency.
   * Address analyzer deprecations, see [#168](https://github.com/dart-lang/intl_translation/issues/168).
   * Migrate to null safety.
-  
+
 ## 0.17.10+1
   * Generate code that passes analysis with `implicit-casts: false`.
   * Allow use of `MessageExtraction` and `MessageGeneration` without `File`.
