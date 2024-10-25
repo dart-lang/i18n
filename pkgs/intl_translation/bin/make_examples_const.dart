@@ -10,10 +10,11 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:intl_translation/src/language_version.dart';
 import 'package:intl_translation/src/message_rewriter.dart';
 import 'package:intl_translation/src/messages/main_message.dart';
 
-void main(List<String> args) {
+Future<void> main(List<String> args) async {
   var parser = ArgParser();
   var rest = parser.parse(args).rest;
   if (rest.isEmpty) {
@@ -24,7 +25,6 @@ void main(List<String> args) {
     exit(0);
   }
 
-  var formatter = DartFormatter();
   for (var inputFile in rest) {
     var outputFile = inputFile;
     var file = File(inputFile);
@@ -35,6 +35,11 @@ void main(List<String> args) {
     } else {
       print('Writing new source to $outputFile');
       var out = File(outputFile);
+
+      var languageVersion = (await findPackageLanguageVersion(file)) ??
+          DartFormatter.latestLanguageVersion;
+      var formatter = DartFormatter(languageVersion: languageVersion);
+
       out.writeAsStringSync(formatter.format(newSource));
     }
   }
