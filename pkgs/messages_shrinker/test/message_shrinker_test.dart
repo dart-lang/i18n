@@ -8,7 +8,6 @@ library;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:build/build.dart';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
@@ -17,13 +16,13 @@ import 'package:messages_shrinker/messages_shrinker.dart';
 import 'package:test/test.dart';
 
 Message intlPluralSelector(
-  num howMany, {
+  num howMany,
+  String locale, {
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
   Message? few,
   Message? many,
   required Message other,
-  String? locale,
 }) {
   return old_intl.Intl.pluralLogic(
     howMany,
@@ -49,14 +48,15 @@ void main() {
   });
 
   String getMessage(int i, List<int> args) => JsonDeserializer(dataFileContents)
-      .deserialize(intl)
+      .deserialize(intlPluralSelector)
       .generateStringAtIndex(i, args);
 
   test('Shrink a json', () {
     final messageIndex = 1;
     final output =
         MessageShrinker().shrinkJson(dataFileContents, [messageIndex]);
-    final deserialize = JsonDeserializer(output).deserialize(intl);
+    final deserialize =
+        JsonDeserializer(output).deserialize(intlPluralSelector);
     final args = [2];
     final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
     expect(generateStringAtIndex, getMessage(messageIndex, args));
@@ -86,8 +86,7 @@ String readArbFileToDataFile() {
   final path = 'test/testarb.arb';
   final arbFile = File(path).readAsStringSync();
   final arb = jsonDecode(arbFile) as Map<String, dynamic>;
-  final parsed =
-      ArbParser().parseMessageFile(arb, AssetId('messsages_shrinker', path));
+  final parsed = ArbParser().parseMessageFile(arb);
   return JsonSerializer()
       .serialize('', '', parsed.messages.map((e) => e.message).toList())
       .data;

@@ -5,11 +5,11 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import 'generation.dart';
 
-class FieldGeneration extends Generation<Field> {
+class FieldGeneration {
   final GenerationOptions options;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
+  final Iterable<({String hasch, String id, String locale})>
+      localeToResourceInfo;
   final String locale;
 
   FieldGeneration(
@@ -18,13 +18,12 @@ class FieldGeneration extends Generation<Field> {
     this.locale,
   );
 
-  @override
   List<Field> generate() {
     final loadingStrategy = Field(
       (fb) {
         final returnType = const Reference('Future<String>').symbol;
         fb
-          ..name = '_fileLoader'
+          ..name = '_assetLoader'
           ..modifier = FieldModifier.final$
           ..type = Reference('$returnType Function(String id)');
       },
@@ -44,8 +43,8 @@ class FieldGeneration extends Generation<Field> {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = localeToResourceInfo.entries
-            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
+        final paths = localeToResourceInfo
+            .map((e) => "'${e.locale}' : ('${e.id}', '${e.hasch}')")
             .join(',');
         fb
           ..name = '_dataFiles'

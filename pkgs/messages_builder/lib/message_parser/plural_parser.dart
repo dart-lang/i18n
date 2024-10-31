@@ -7,7 +7,7 @@ import 'package:messages/messages.dart';
 import 'icu_message_parser.dart';
 import 'message_parser.dart';
 
-Map<String, int> numbers = {'one': 1, 'two': 2};
+Map<String, int> numbers = {'zero': 0, 'one': 1, 'two': 2};
 
 class PluralParser {
   MapEntry<T, Message>? getPluralCaseFrom<T>(

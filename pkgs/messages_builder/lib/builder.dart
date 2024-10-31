@@ -4,71 +4,61 @@
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
+import 'dart:io';
 
-import 'package:build/build.dart';
+import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
-import 'package:glob/glob.dart';
-import 'package:messages_serializer/messages_serializer.dart';
 import 'package:path/path.dart' as path;
 
 import 'arb_parser.dart';
 import 'code_generation/code.dart';
+import 'code_generation/library_generation.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
 
-Builder messagesBuilder(BuilderOptions options) =>
-    MessagesBuilder(options.config);
-
-class MessagesBuilder implements Builder {
-  final Map<String, dynamic> config;
-
-  MessagesBuilder(this.config);
-
-  @override
-  Map<String, List<String>> get buildExtensions => {
-        '.arb': ['.g.dart', '.json'],
-        '^pubspec.yaml': [],
-      };
-
-  @override
-  Future<void> build(BuildStep buildStep) async {
-    final generationOptions = await GenerationOptions.fromPubspec(buildStep);
-    await BuildStepGenerator(buildStep, generationOptions).build();
-  }
-}
-
-class BuildStepGenerator {
-  final BuildStep buildStep;
-  AssetId get inputId => buildStep.inputId;
+class MessageCallingCodeGenerator {
   final GenerationOptions options;
+  final Map<String, String> mapping;
 
-  BuildStepGenerator(this.buildStep, this.options);
-
-  Serializer get serializer => getSerializer(options);
+  MessageCallingCodeGenerator({
+    required this.options,
+    required this.mapping,
+  });
 
   Future<void> build() async {
     final allMessageFiles = await getParsedMessageFiles();
-    final inputMessageFile = allMessageFiles
-        .singleWhere((messageFile) => messageFile.assetId == inputId);
-    final parentFile = getParentFile(allMessageFiles, inputMessageFile);
+    final libraries = <Library>[];
+    for (final input in allMessageFiles) {
+      final parentFile = getParentFile(allMessageFiles, input);
+      final scrubbedMessageFile = scrub(
+        input.message,
+        parentFile.message.messages.map((e) => e.name).toList(),
+      );
+      if (parentFile.path == input.path) {
+        final library = await writeDartLibrary(
+          allMessageFiles,
+          scrubbedMessageFile,
+        );
+        libraries.add(library);
+      }
+    }
+    if (libraries.isNotEmpty) {
+      final code = CodeGenerator(
+        options: options,
+        libraries: libraries,
+      ).generate();
 
-    final reducedMessageFile = reduce(parentFile, inputMessageFile);
-
-    await writeDataFile(reducedMessageFile);
-    if (parentFile.assetId == inputId) {
-      await writeDartLibrary(allMessageFiles, reducedMessageFile);
+      await options.generatedCodeFile.create(recursive: true);
+      await options.generatedCodeFile.writeAsString(code);
     }
   }
 
   /// Only keep the messages which are in the parent file, as only those will
   /// get a generated method to embed them in code.
-  MessagesWithMetadata reduce(
-    MessagesWithMetadata parentFile,
+  MessagesWithMetadata scrub(
     MessagesWithMetadata inputMessageFile,
+    List<String> messageNames,
   ) {
-    final messageNames = parentFile.messages.map((e) => e.name).toList();
-
     final messages = inputMessageFile.messages
         .where((message) => messageNames.contains(message.name))
         .toList()
@@ -80,68 +70,51 @@ class BuildStepGenerator {
   /// Generates the Dart library which extracts the messages from their file
   /// format and makes the available to the user in a way specified through the
   /// `GenerationOptions`.
-  Future<void> writeDartLibrary(
-    List<MessagesWithMetadata> assetList,
+  Future<Library> writeDartLibrary(
+    List<ParsedMessageFile> assetList,
     MessagesWithMetadata messageList,
   ) async {
-    final resourcesInContext =
-        assetList.where((resource) => resource.context == messageList.context);
+    final resourcesInContext = assetList
+        .where((resource) => resource.message.context == messageList.context);
 
-    final localeToResourceInfo =
-        Map.fromEntries(resourcesInContext.map((resource) => MapEntry(
-              resource.locale,
-              (
-                path: resource.assetId.changeExtension('.json').path,
-                hasch: resource.hash,
-              ),
-            )));
-
-    printIncludeFilesNotification(messageList.context, localeToResourceInfo);
-    final libraryCode = CodeGenerator(
+    final localeToResource = resourcesInContext
+        .map((resource) => (
+              locale: resource.message.locale ?? 'en_US',
+              id: 'packages/${options.packageName}/${resource.path}',
+              hasch: resource.message.hash,
+            ))
+        .sortedBy((resource) => resource.locale);
+    printIncludeFilesNotification(messageList.context, localeToResource);
+    return LibraryGeneration(
       options,
-      messageList,
-      localeToResourceInfo,
+      messageList.context,
+      messageList.locale!,
+      messageList.messages,
+      localeToResource,
     ).generate();
-
-    await buildStep.writeAsString(
-      inputId.changeExtension('.g.dart'),
-      libraryCode,
-    );
   }
 
-  Serializer<dynamic> getSerializer(GenerationOptions generationOptions) {
-    return JsonSerializer(generationOptions.findById);
-  }
+  Future<List<ParsedMessageFile>> getParsedMessageFiles() async =>
+      Future.wait(mapping.entries
+          .map((p) async => ParsedMessageFile(
+                path: path.relative(p.value, from: Directory.current.path),
+                message:
+                    await parseMessageFile(await getArbfile(p.key), options),
+              ))
+          .toList());
 
-  Future<List<MessagesWithMetadata>> getParsedMessageFiles() async =>
-      buildStep.findAssets(Glob('**.arb')).asyncMap(parseMessageFile).toList();
-
-  Future<MessagesWithMetadata> parseMessageFile(AssetId assetId) async {
-    final arbFile = await buildStep.readAsString(assetId);
-    final decoded = jsonDecode(arbFile) as Map;
-    final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
-    final inferredLocale = path
-        .basenameWithoutExtension(assetId.path)
-        .split('_')
-        .skip(1)
-        .join('_');
-    final messageList = ArbParser(options.findById).parseMessageFile(
-      arb,
-      assetId,
-      inferredLocale,
-    );
-    return messageList;
-  }
+  Future<String> getArbfile(String path) async =>
+      await File(path).readAsString();
 
   /// Either get the referenced parent file, or try to infer which it might be.
-  static MessagesWithMetadata getParentFile(
-    List<MessagesWithMetadata> arbResources,
-    MessagesWithMetadata arb,
+  static ParsedMessageFile getParentFile(
+    List<ParsedMessageFile> arbFiles,
+    ParsedMessageFile currentFile,
   ) {
     /// If the reference file is explicitly named, return that.
-    if (arb.referencePath != null) {
-      final reference = arbResources
-          .where((element) => element.assetId.path == arb.referencePath)
+    if (currentFile.message.referencePath != null) {
+      final reference = arbFiles
+          .where((element) => element.path == currentFile.message.referencePath)
           .firstOrNull;
       if (reference != null) {
         return reference;
@@ -149,60 +122,53 @@ class BuildStepGenerator {
     }
 
     /// If the current file is a reference for others, return the current file.
-    final references = arbResources
-        .where((resource) => resource.referencePath == arb.assetId.path);
-    if (references.contains(arb)) {
-      return arb;
+    final references = arbFiles.where(
+        (resource) => resource.message.referencePath == currentFile.path);
+    if (references.contains(currentFile)) {
+      return currentFile;
     }
 
     /// Try to infer by looking at which files contain metadata, which is a sign
     /// they might be the references for others in the same context.
     final contextLeads =
-        arbResources.groupListsBy((resource) => resource.context);
-    final contextWithMetadata = contextLeads[arb.context]!
-        .firstWhereOrNull((element) => element.hasMetadata);
+        arbFiles.groupListsBy((resource) => resource.message.context);
+    final contextWithMetadata = contextLeads[currentFile.message.context]!
+        .firstWhereOrNull((element) => element.message.hasMetadata);
     if (contextWithMetadata != null) {
       return contextWithMetadata;
     }
 
-    return arb;
-  }
-
-  /// This writes the file containing the messages, which can be either a binary
-  /// `.carb` file or a JSON file, depending on the serializer.
-  ///
-  /// This message data file must be shipped with the application, it is
-  /// unpacked at runtime so that the messages can be read from it.
-  ///
-  /// Returns the list of indices of the messages which are visible to the user.
-  Future<void> writeDataFile(MessagesWithMetadata messages) async {
-    final serialization = serializer.serialize(
-      messages.hash,
-      messages.locale,
-      messages.messages.map((e) => e.message).toList(),
-    );
-    final carbFile = messages.assetId.changeExtension('.json');
-    final data = serialization.data;
-    if (data is Uint8List) {
-      await buildStep.writeAsBytes(carbFile, data);
-    } else if (data is String) {
-      await buildStep.writeAsString(carbFile, data);
-    }
+    return currentFile;
   }
 
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
   void printIncludeFilesNotification(
     String? context,
-    Map<String, ({String hasch, String path})> localeToResource,
+    Iterable<({String hasch, String id, String locale})> localeToResource,
   ) {
     var contextMessage = 'The';
     if (context != null) {
       contextMessage = 'For the messages in $context, the';
     }
-    final fileList =
-        localeToResource.entries.map((e) => '\t${e.value.path}').join('\n');
+    final fileList = localeToResource.map((e) => '\t${e.id}').join('\n');
     print(
         '''$contextMessage following files need to be declared in your assets:\n$fileList''');
   }
+}
+
+Future<MessagesWithMetadata> parseMessageFile(
+  String arbFile,
+  GenerationOptions options,
+) async {
+  final decoded = jsonDecode(arbFile) as Map;
+  final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
+  return ArbParser(options.findById).parseMessageFile(arb);
+}
+
+class ParsedMessageFile {
+  final String path;
+  final MessagesWithMetadata message;
+
+  ParsedMessageFile({required this.path, required this.message});
 }

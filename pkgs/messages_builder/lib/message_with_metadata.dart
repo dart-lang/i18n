@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:build/build.dart';
 import 'package:messages/messages.dart';
 
 class MessageWithMetadata {
@@ -19,12 +18,11 @@ class MessageWithMetadata {
 
 class MessagesWithMetadata {
   final List<MessageWithMetadata> messages;
-  final String locale;
+  final String? locale;
   final String? context;
   final String? referencePath;
   final String hash;
   final bool hasMetadata;
-  final AssetId assetId;
 
   MessagesWithMetadata(
     this.messages,
@@ -33,7 +31,6 @@ class MessagesWithMetadata {
     this.referencePath,
     this.hash,
     this.hasMetadata,
-    this.assetId,
   );
 
   MessagesWithMetadata copyWith({
@@ -43,7 +40,6 @@ class MessagesWithMetadata {
     String? referencePath,
     String? hash,
     bool? hasMetadata,
-    AssetId? assetId,
   }) {
     return MessagesWithMetadata(
       messages ?? this.messages,
@@ -52,7 +48,6 @@ class MessagesWithMetadata {
       referencePath ?? this.referencePath,
       hash ?? this.hash,
       hasMetadata ?? this.hasMetadata,
-      assetId ?? this.assetId,
     );
   }
 }
