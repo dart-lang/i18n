@@ -28,12 +28,12 @@ flutter:
   deferred-components:
     - name: enMessages
       libraries:
-        - package:my_application/src/empty_en.dart
+        - package:my_application/src/my_app_en_US_empty.g.dart
       assets:
         - assets/messages.arb.json
     - name: deMessages
       libraries:
-        - package:my_application/src/empty_de.dart
+        - package:my_application/src/my_app_de_DE_empty.g.dart
       assets:
         - assets/messages_de.arb.json
 

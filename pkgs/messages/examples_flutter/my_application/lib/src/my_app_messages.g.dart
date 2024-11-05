@@ -5,6 +5,7 @@
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
+import 'my_app_de_DE_empty.g.dart' deferred as my_app_de_DE_empty;
 import 'my_app_en_US_empty.g.dart' deferred as my_app_en_US_empty;
 
 class MyAppMessages {
@@ -17,6 +18,10 @@ class MyAppMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
+    'de_DE': (
+      'packages/my_application/assets/messages_de.arb.json',
+      'xXViKglj'
+    ),
     'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k')
   };
 
@@ -33,7 +38,9 @@ class MyAppMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      if (locale == 'en_US') {
+      if (locale == 'de_DE') {
+        await my_app_de_DE_empty.loadLibrary();
+      } else if (locale == 'en_US') {
         await my_app_en_US_empty.loadLibrary();
       }
 
