@@ -4,7 +4,7 @@
 
 import 'package:messages/messages.dart';
 
-class MessageWithMetadata {
+class ParameterizedMessage {
   final Message message;
   final String name;
   List<Placeholder> placeholders;
@@ -12,40 +12,36 @@ class MessageWithMetadata {
   static final RegExp _dartName = RegExp(r'^[a-zA-Z][a-zA-Z_0-9]*$');
   bool get nameIsDartConform => _dartName.hasMatch(name);
 
-  MessageWithMetadata(this.message, List<String> arguments, this.name)
+  ParameterizedMessage(this.message, List<String> arguments, this.name)
       : placeholders = arguments.map(Placeholder.new).toList();
 }
 
-class MessagesWithMetadata {
-  final List<MessageWithMetadata> messages;
+class MessageFile {
+  final List<ParameterizedMessage> messages;
   final String? locale;
   final String? context;
-  final String? referencePath;
   final String hash;
   final bool hasMetadata;
 
-  MessagesWithMetadata(
+  MessageFile(
     this.messages,
     this.locale,
     this.context,
-    this.referencePath,
     this.hash,
     this.hasMetadata,
   );
 
-  MessagesWithMetadata copyWith({
-    List<MessageWithMetadata>? messages,
+  MessageFile copyWith({
+    List<ParameterizedMessage>? messages,
     String? locale,
     String? context,
-    String? referencePath,
     String? hash,
     bool? hasMetadata,
   }) {
-    return MessagesWithMetadata(
+    return MessageFile(
       messages ?? this.messages,
       locale ?? this.locale,
       context ?? this.context,
-      referencePath ?? this.referencePath,
       hash ?? this.hash,
       hasMetadata ?? this.hasMetadata,
     );

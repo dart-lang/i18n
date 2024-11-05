@@ -5,26 +5,7 @@
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
-Message _pluralSelector(
-  num howMany,
-  String locale, {
-  required Message other,
-  Message? few,
-  Message? many,
-  Map<int, Message>? numberCases,
-  Map<int, Message>? wordCases,
-}) {
-  return Intl.pluralLogic(
-    howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
-    other: other,
-    locale: locale,
-  );
-}
+import 'my_app_en_US_empty.g.dart' deferred as my_app_en_US_empty;
 
 class MyAppMessages {
   MyAppMessages(this._assetLoader);
@@ -36,7 +17,7 @@ class MyAppMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'en_US': ('packages/my_application/assets/messages.arb.json', 'IT21w/eV')
+    'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k')
   };
 
   String get currentLocale => _currentLocale;
@@ -52,6 +33,10 @@ class MyAppMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
+      if (locale == 'en_US') {
+        await my_app_en_US_empty.loadLibrary();
+      }
+
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
@@ -71,4 +56,25 @@ class MyAppMessages {
 
   String current_sale_name(String arg) =>
       _currentMessages.generateStringAtIndex(0, [arg]);
+}
+
+Message _pluralSelector(
+  num howMany,
+  String locale, {
+  required Message other,
+  Message? few,
+  Message? many,
+  Map<int, Message>? numberCases,
+  Map<int, Message>? wordCases,
+}) {
+  return Intl.pluralLogic(
+    howMany,
+    few: few,
+    many: many,
+    zero: numberCases?[0] ?? wordCases?[0],
+    one: numberCases?[1] ?? wordCases?[1],
+    two: numberCases?[2] ?? wordCases?[2],
+    other: other,
+    locale: locale,
+  );
 }

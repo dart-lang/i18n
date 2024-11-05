@@ -10,7 +10,7 @@ import 'plural_parser.dart';
 import 'select_parser.dart';
 
 class MessageParser {
-  static MessageWithMetadata parse(
+  static ParameterizedMessage parse(
     String debugString,
     String fileContents,
     String name, {
@@ -20,7 +20,7 @@ class MessageParser {
     final arguments = <String>[];
     final message =
         parseNode(node, arguments, name, addId) ?? StringMessage('');
-    return MessageWithMetadata(message, arguments, name);
+    return ParameterizedMessage(message, arguments, name);
   }
 
   static Message? parseNode(

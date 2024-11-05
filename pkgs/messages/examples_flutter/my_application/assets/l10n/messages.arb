@@ -7,7 +7,7 @@
       "placeholders": {
           "arg": {
             "type":"String",
-            "example":"1" 
+            "example":"winter" 
           }
       }
   }

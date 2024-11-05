@@ -65,7 +65,7 @@ class MessageDataFileBuilder {
   }
 
   String _arbToData(
-    MessagesWithMetadata messageBundle,
+    MessageFile messageBundle,
     String arbFilePath,
     Serializer<String> serializer,
   ) =>

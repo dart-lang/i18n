@@ -10,7 +10,7 @@ import 'generation.dart';
 
 class ClassGeneration {
   final GenerationOptions options;
-  final List<MessageWithMetadata> messages;
+  final List<ParameterizedMessage> messages;
   final String? context;
 
   final List<Constructor> constructors;

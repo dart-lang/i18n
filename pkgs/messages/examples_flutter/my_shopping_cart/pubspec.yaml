@@ -26,7 +26,7 @@ package_options:
   messages_builder:
     arb_input_folder: assets/l10n/
     message_output_folder: assets/
-    generated_code_file: lib/src/messages.g.dart
+    generated_code_files: lib/src/
 
 flutter:
   assets:

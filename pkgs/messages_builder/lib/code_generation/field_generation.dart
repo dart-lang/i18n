@@ -5,17 +5,17 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
+import 'message_file_metadata.dart';
 
 class FieldGeneration {
   final GenerationOptions options;
-  final Iterable<({String hasch, String id, String locale})>
-      localeToResourceInfo;
-  final String locale;
+  final Iterable<MessageFileMetadata> messageFilesMetadata;
+  final String initialLocale;
 
   FieldGeneration(
     this.options,
-    this.localeToResourceInfo,
-    this.locale,
+    this.messageFilesMetadata,
+    this.initialLocale,
   );
 
   List<Field> generate() {
@@ -32,7 +32,7 @@ class FieldGeneration {
       (fb) => fb
         ..type = const Reference('String')
         ..name = '_currentLocale'
-        ..assignment = Code("'$locale'"),
+        ..assignment = Code("'$initialLocale'"),
     );
     final messages = Field(
       (fb) => fb
@@ -43,8 +43,8 @@ class FieldGeneration {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = localeToResourceInfo
-            .map((e) => "'${e.locale}' : ('${e.id}', '${e.hasch}')")
+        final paths = messageFilesMetadata
+            .map((e) => "'${e.locale}' : ('${e.path}', '${e.hash}')")
             .join(',');
         fb
           ..name = '_dataFiles'

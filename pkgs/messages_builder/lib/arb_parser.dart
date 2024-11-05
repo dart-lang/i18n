@@ -13,21 +13,19 @@ class ArbParser {
   final bool addName;
   ArbParser([this.addName = false]);
 
-  MessagesWithMetadata parseMessageFile(Map<String, dynamic> arb) {
+  MessageFile parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
-    final referencePath = arb['@@x-reference'] as String?;
     final messagesWithKeys = arb.keys
         .where((key) => !key.startsWith('@'))
         .map((key) => (key, parseMessage(arb, key, '${context}_$locale')))
         .toList();
     messagesWithKeys.sort((a, b) => a.$1.compareTo(b.$1));
     final messages = messagesWithKeys.map((e) => e.$2).toList();
-    return MessagesWithMetadata(
+    return MessageFile(
       messages,
       locale,
       context,
-      referencePath,
       getHash(arb),
       arb.keys.any((key) => key.startsWith('@') && !key.startsWith('@@')),
     );
@@ -38,7 +36,7 @@ class ArbParser {
     return base64Encode(digest.bytes).substring(0, 8);
   }
 
-  MessageWithMetadata parseMessage(
+  ParameterizedMessage parseMessage(
     Map<String, dynamic> arb,
     String messageKey,
     String debugString,

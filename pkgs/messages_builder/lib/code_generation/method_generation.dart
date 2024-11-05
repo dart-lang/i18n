@@ -11,11 +11,12 @@ import 'generation.dart';
 class MethodGeneration {
   final GenerationOptions options;
   final String? context;
-  final List<MessageWithMetadata> messages;
+  final List<ParameterizedMessage> messages;
+  final Map<String, String> emptyFiles;
 
-  MethodGeneration(this.options, this.context, this.messages);
+  MethodGeneration(this.options, this.context, this.messages, this.emptyFiles);
 
-  Method? generateMessageCall(int index, MessageWithMetadata message) {
+  Method? generateMessageCall(int index, ParameterizedMessage message) {
     if (!message.nameIsDartConform) {
       return null;
     }
@@ -64,6 +65,15 @@ class MethodGeneration {
           final data = await _assetLoader(dataFile);
           final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
+        final loadLibraries = emptyFiles.entries
+            .map(
+              (e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''',
+            )
+            .join(' else ');
         mb
           ..name = 'loadLocale'
           ..requiredParameters.add(Parameter(
@@ -79,6 +89,7 @@ class MethodGeneration {
             if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
+            $loadLibraries
             $loading
             if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
