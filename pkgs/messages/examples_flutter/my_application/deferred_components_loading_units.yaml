@@ -23,3 +23,9 @@
 # deferred imports should be reviewed. Third party plugins and packages may
 # also introduce deferred imports that result in unexpected loading units.
 loading-units:
+  - id: 2
+    libraries:
+      - package:my_application/src/my_app_de_DE_empty.g.dart
+  - id: 3
+    libraries:
+      - package:my_application/src/my_app_en_US_empty.g.dart
