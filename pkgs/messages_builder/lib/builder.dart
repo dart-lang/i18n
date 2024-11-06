@@ -11,7 +11,7 @@ import 'package:path/path.dart' as path;
 
 import 'arb_parser.dart';
 import 'code_generation/code_generation.dart';
-import 'code_generation/library_generation.dart';
+import 'code_generation/classes_generation.dart';
 import 'code_generation/message_file_metadata.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
@@ -45,7 +45,7 @@ class MessageCallingCodeGenerator {
           .map((e) => e.locale)
           .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))));
 
-      final library = LibraryGeneration(
+      final library = ClassesGeneration(
               options: options,
               context: context,
               initialLocale: parent.file.locale!,
@@ -56,7 +56,7 @@ class MessageCallingCodeGenerator {
 
       final code = CodeGenerator(
         options: options,
-        library: library,
+        classes: library,
         emptyFilePaths: dummyFilePaths.values,
       ).generate();
 

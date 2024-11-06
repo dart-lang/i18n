@@ -10,12 +10,12 @@ import 'import_generation.dart';
 
 class CodeGenerator {
   final GenerationOptions options;
-  final Library library;
+  final List<Spec> classes;
   final Iterable<String> emptyFilePaths;
 
   CodeGenerator({
     required this.options,
-    required this.library,
+    required this.classes,
     required this.emptyFilePaths,
   });
 
@@ -23,11 +23,15 @@ class CodeGenerator {
     final imports = ImportGeneration(options, emptyFilePaths).generate();
     final lib = Library(
       (p0) => p0
-        ..ignoreForFile.add('non_constant_identifier_names')
+        ..ignoreForFile.addAll([
+          'non_constant_identifier_names',
+          'unused_import',
+          'library_prefixes',
+        ])
         ..comments.add(options.header)
         ..directives.addAll(imports)
         ..body.addAll([
-          ...library.body,
+          ...classes,
           if (options.pluralSelector != PluralSelectorType.custom)
             pluralSelector(),
         ]),

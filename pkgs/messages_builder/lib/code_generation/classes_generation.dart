@@ -12,7 +12,7 @@ import 'field_generation.dart';
 import 'message_file_metadata.dart';
 import 'method_generation.dart';
 
-class LibraryGeneration {
+class ClassesGeneration {
   final GenerationOptions options;
   final String? context;
   final String initialLocale;
@@ -20,7 +20,7 @@ class LibraryGeneration {
   final Iterable<MessageFileMetadata> messageFilesMetadata;
   final Map<String, String> emptyFiles;
 
-  LibraryGeneration({
+  ClassesGeneration({
     required this.options,
     required this.context,
     required this.initialLocale,
@@ -29,7 +29,7 @@ class LibraryGeneration {
     required this.emptyFiles,
   });
 
-  Library generate() {
+  List<Spec> generate() {
     final constructors = ConstructorGeneration(options).generate();
 
     final fields = FieldGeneration(
@@ -54,6 +54,6 @@ class LibraryGeneration {
       methods,
     ).generate();
 
-    return Library((b) => b..body.addAll(classes));
+    return classes;
   }
 }
