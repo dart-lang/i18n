@@ -10,8 +10,8 @@ import 'package:collection/collection.dart';
 import 'package:path/path.dart' as path;
 
 import 'arb_parser.dart';
-import 'code_generation/code_generation.dart';
 import 'code_generation/classes_generation.dart';
+import 'code_generation/code_generation.dart';
 import 'code_generation/message_file_metadata.dart';
 import 'generation_options.dart';
 import 'message_with_metadata.dart';
