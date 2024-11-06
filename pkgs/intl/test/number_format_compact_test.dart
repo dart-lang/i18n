@@ -211,7 +211,7 @@ void main() {
   // Locales which don't have a suffix for thousands.
   testCurrency('it', 442, '442\u00A0€', '442\u00A0€');
   testCurrency('it', 4420, '4420\u00A0\$', '4420\u00A0\$', currency: 'CAD');
-  testCurrency('it', 4420000, '4,42\u00A0Mio\u00A0\$', '4\u00A0Mio\u00A0\$',
+  testCurrency('it', 4420000, '4,42\u00A0Mln\u00A0\$', '4\u00A0Mln\u00A0\$',
       currency: 'USD');
 
   testCurrency('he', 335, '\u200F335\u00A0\u200F₪', '\u200F335\u00A0\u200F₪');
