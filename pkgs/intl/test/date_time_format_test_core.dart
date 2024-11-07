@@ -476,21 +476,23 @@ void runDateTests(SubsetFuncType subsetFunc) {
   });
 
   test('Native digit default', () {
-    if (!subset.contains('ar')) return;
-    var nativeFormat = DateFormat.yMd('ar');
+    // Note that digits changed for 'ar' from default Eastern Arabic to ASCII in CLDR 46 
+    // Now testing with ar_SA
+    if (!subset.contains('ar_SA')) return;
+    var nativeFormat = DateFormat.yMd('ar_SA');
     var date = DateTime(1974, 12, 30);
     var native = nativeFormat.format(date);
-    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar'), true);
-    DateFormat.useNativeDigitsByDefaultFor('ar', false);
-    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar'), false);
-    var asciiFormat = DateFormat.yMd('ar');
+    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar_SA'), true);
+    DateFormat.useNativeDigitsByDefaultFor('ar_SA', false);
+    expect(DateFormat.shouldUseNativeDigitsByDefaultFor('ar_SA'), false);
+    var asciiFormat = DateFormat.yMd('ar_SA');
     var ascii = asciiFormat.format(date);
     // This prints with RTL markers before the slashes. That doesn't seem good,
     // but it's what the data says.
     expect(ascii, '30\u200f/12\u200f/1974');
     expect(native, '٣٠\u200f/١٢\u200f/١٩٧٤');
     // Reset the value.
-    DateFormat.useNativeDigitsByDefaultFor('ar', true);
+    DateFormat.useNativeDigitsByDefaultFor('ar_SA', true);
   });
 
   // This just tests the basic logic, which was in error, not
