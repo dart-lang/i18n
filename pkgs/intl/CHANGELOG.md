@@ -1,4 +1,4 @@
-## 0.20.0-wip
+## 0.20.0
  * Fix caching of messages in `CompositeMessageLookup`.
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
  * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
