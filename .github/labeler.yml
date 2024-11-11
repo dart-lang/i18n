@@ -1,33 +1,33 @@
-# Configuration for .github/workflows/pull_request_label.yml. 
+# Configuration for .github/workflows/pull_request_label.yml.
 
 'type-infra':
   - changed-files:
-      - any-glob-to-any-file: '.github/**'
+    - any-glob-to-any-file: '.github/**'
 
 'package:intl':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/intl/**'
-
-'package:intl_translation':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/intl_translation/**'
+    - any-glob-to-any-file: 'pkgs/intl/**'
 
 'package:intl4x':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/intl4x/**'
+    - any-glob-to-any-file: 'pkgs/intl4x/**'
+
+'package:intl_translation':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/intl_translation/**'
 
 'package:messages':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/messages/**'
-
-'package:messages_serializer':
-  - changed-files:
-      - any-glob-to-any-file: 'pkgs/messages_serializer/**'
+    - any-glob-to-any-file: 'pkgs/messages/**'
 
 'package:messages_builder':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/messages_builder/**'
+    - any-glob-to-any-file: 'pkgs/messages_builder/**'
+
+'package:messages_serializer':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/messages_serializer/**'
 
 'package:messages_shrinker':
   - changed-files:
-      - any-glob-to-any-file: 'pkgs/messages_shrinker/**'
+    - any-glob-to-any-file: 'pkgs/messages_shrinker/**'

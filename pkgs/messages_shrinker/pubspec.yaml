@@ -2,6 +2,7 @@ name: messages_shrinker
 description: Removing unneeded messages from message data files for package:messages.
 version: 0.2.2-wip
 repository: https://github.com/dart-lang/i18n/pkgs/messages_shrinker
+issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Amessages_shrinker
 
 environment:
   sdk: ^3.0.0
