@@ -10,6 +10,7 @@
  * Support compiling to WASM.
  * Update to and account for `package:lints` `^4.0.0`.
  * rtl Detection fix in `bidi.dart` for Kordi Sorani "ckb".
+ * Update to CLDR v45.
 
 ## 0.19.0
  * Update to CLDR v44.
