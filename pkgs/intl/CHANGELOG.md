@@ -1,4 +1,4 @@
-## 0.20.0-wip
+## 0.20.0
  * Fix caching of messages in `CompositeMessageLookup`.
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
  * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
@@ -10,6 +10,7 @@
  * Support compiling to WASM.
  * Update to and account for `package:lints` `^4.0.0`.
  * rtl Detection fix in `bidi.dart` for Kordi Sorani "ckb".
+ * Update to CLDR v45.
 
 ## 0.19.0
  * Update to CLDR v44.
