@@ -5,12 +5,12 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
+import '../parameterized_message.dart';
 import 'generation.dart';
 
 class ClassGeneration {
   final GenerationOptions options;
-  final List<MessageWithMetadata> messages;
+  final List<ParameterizedMessage> messages;
   final String? context;
 
   final List<Constructor> constructors;

@@ -49,7 +49,7 @@ class GenerationOptions {
   /// Where to write the message data files to.
   final Directory messageFolder;
 
-  final File generatedCodeFile;
+  final Directory generatedCodeFiles;
 
   final String packageName;
 
@@ -60,7 +60,7 @@ class GenerationOptions {
   static const _pluralSelectorKey = 'plural_selector';
   static const _arbInputFolderKey = 'arb_input_folder';
   static const _messageOutputFolderKey = 'message_output_folder';
-  static const _generatedCodeFileKey = 'generated_code_file';
+  static const _generatedCodeFilesKey = 'generated_code_files';
 
   static List<String> get validKeys => [
         _generateMethodsKey,
@@ -70,7 +70,7 @@ class GenerationOptions {
         _headerKey,
         _arbInputFolderKey,
         _messageOutputFolderKey,
-        _generatedCodeFileKey,
+        _generatedCodeFilesKey,
       ];
 
   GenerationOptions({
@@ -84,7 +84,7 @@ class GenerationOptions {
     required this.packageName,
     required this.arbFolder,
     required this.messageFolder,
-    required this.generatedCodeFile,
+    required this.generatedCodeFiles,
   });
 
   static Future<GenerationOptions> fromPubspec(String pubspecData) async {
@@ -111,9 +111,8 @@ class GenerationOptions {
             messagesOptions?[_arbInputFolderKey] as String? ?? 'assets/l10n/'),
         messageFolder: Directory(
             messagesOptions?[_messageOutputFolderKey] as String? ?? 'assets/'),
-        generatedCodeFile: File(
-            messagesOptions?[_generatedCodeFileKey] as String? ??
-                'lib/src/messages.g.dart'));
+        generatedCodeFiles: Directory(
+            messagesOptions?[_generatedCodeFilesKey] as String? ?? 'lib/src/'));
     return generationOptions;
   }
 

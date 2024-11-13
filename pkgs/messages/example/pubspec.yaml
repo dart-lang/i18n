@@ -26,4 +26,4 @@ package_options:
     plural_selector: intl
     arb_input_folder: assets/l10n/
     message_output_folder: assets/
-    generated_code_file: lib/messages.g.dart
+    generated_code_files: lib/

@@ -5,52 +5,52 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
+import '../located_message_file.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';
 import 'method_generation.dart';
 
-class LibraryGeneration {
+class ClassesGeneration {
   final GenerationOptions options;
   final String? context;
-  final String locale;
-  final List<MessageWithMetadata> messages;
-  final Iterable<({String hasch, String id, String locale})>
-      localeToResourceInfo;
+  final LocatedMessageFile parent;
+  final Iterable<LocatedMessageFile> children;
+  final Map<String, String> emptyFiles;
 
-  LibraryGeneration(
-    this.options,
-    this.context,
-    this.locale,
-    this.messages,
-    this.localeToResourceInfo,
-  );
+  ClassesGeneration({
+    required this.options,
+    required this.context,
+    required this.parent,
+    required this.children,
+    required this.emptyFiles,
+  });
 
-  Library generate() {
+  List<Spec> generate() {
     final constructors = ConstructorGeneration(options).generate();
 
     final fields = FieldGeneration(
       options,
-      localeToResourceInfo,
-      locale,
+      children,
+      parent.locale,
     ).generate();
 
     final methods = MethodGeneration(
       options,
       context,
-      messages,
+      parent.file.messages,
+      emptyFiles,
     ).generate();
 
     final classes = ClassGeneration(
       options,
-      messages,
+      parent.file.messages,
       context,
       constructors,
       fields,
       methods,
     ).generate();
 
-    return Library((b) => b..body.addAll(classes));
+    return classes;
   }
 }

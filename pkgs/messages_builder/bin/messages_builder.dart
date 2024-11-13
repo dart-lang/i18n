@@ -23,7 +23,7 @@ Future<void> main(List<String> args) async {
   final mapping = await MessageDataFileBuilder(
     inputFolder: inputFolder,
     outputFolder: outputFolder,
-    generationOptions: generationOptions,
+    options: generationOptions,
   ).run();
 
   await MessageCallingCodeGenerator(

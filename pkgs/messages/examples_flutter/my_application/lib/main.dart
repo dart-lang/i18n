@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_application/src/messages.g.dart';
+import 'package:my_application/src/my_app_messages.g.dart';
 import 'package:my_shopping_cart/my_shopping_cart.dart';
 
 void main() {

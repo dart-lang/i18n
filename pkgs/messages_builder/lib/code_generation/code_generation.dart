@@ -10,33 +10,32 @@ import 'import_generation.dart';
 
 class CodeGenerator {
   final GenerationOptions options;
-  final List<Library> libraries;
+  final List<Spec> classes;
+  final Iterable<String> emptyFilePaths;
 
-  CodeGenerator({required this.options, required this.libraries});
+  CodeGenerator({
+    required this.options,
+    required this.classes,
+    required this.emptyFilePaths,
+  });
 
   String generate() {
-    final imports = ImportGeneration(options).generate();
-    final lib = libraries.fold(
-        Library(
-          (p0) => p0
-            ..comments.add(options.header)
-            ..directives.addAll(imports)
-            ..body.addAll([
-              if (options.pluralSelector != PluralSelectorType.custom)
-                pluralSelector(),
-            ]),
-        ), (value, element) {
-      return Library(
-        (p0) => p0
-          ..ignoreForFile.add('non_constant_identifier_names')
-          ..comments.addAll({...value.comments, ...element.comments})
-          ..directives.addAll({...value.directives, ...element.directives})
-          ..body.addAll([
-            ...value.body,
-            ...element.body,
-          ]),
-      );
-    });
+    final imports = ImportGeneration(options, emptyFilePaths).generate();
+    final lib = Library(
+      (p0) => p0
+        ..ignoreForFile.addAll([
+          'non_constant_identifier_names',
+          'unused_import',
+          'library_prefixes',
+        ])
+        ..comments.add(options.header)
+        ..directives.addAll(imports)
+        ..body.addAll([
+          ...classes,
+          if (options.pluralSelector != PluralSelectorType.custom)
+            pluralSelector(),
+        ]),
+    );
     final emitter = DartEmitter(orderDirectives: true);
     final source = '${lib.accept(emitter)}';
     final code = DartFormatter().format(source);
