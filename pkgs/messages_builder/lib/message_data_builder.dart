@@ -14,12 +14,12 @@ import 'message_file.dart';
 class MessageDataFileBuilder {
   final Directory inputFolder;
   final Directory outputFolder;
-  final GenerationOptions generationOptions;
+  final GenerationOptions options;
 
   MessageDataFileBuilder({
     required this.inputFolder,
     required this.outputFolder,
-    required this.generationOptions,
+    required this.options,
   });
 
   Future<Map<String, String>> run() async {
@@ -41,12 +41,9 @@ class MessageDataFileBuilder {
       print('Generating $arbFilePath, bundle this in your assets.');
       final arbFileUri = Uri.file(arbFilePath);
       final arbFileContents = await File.fromUri(arbFileUri).readAsString();
-      final messageBundle = await parseMessageFile(
-        arbFileContents,
-        generationOptions,
-      );
+      final messageBundle = await parseMessageFile(arbFileContents, options);
 
-      final serializer = JsonSerializer(generationOptions.findById);
+      final serializer = JsonSerializer(options.findById);
 
       final data = _arbToData(messageBundle, arbFilePath, serializer);
 
