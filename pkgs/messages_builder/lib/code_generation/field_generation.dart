@@ -4,12 +4,12 @@
 
 import 'package:code_builder/code_builder.dart';
 
+import '../builder.dart';
 import '../generation_options.dart';
-import 'message_file_metadata.dart';
 
 class FieldGeneration {
   final GenerationOptions options;
-  final Iterable<MessageFileMetadata> messageFilesMetadata;
+  final Iterable<LocatedMessageFile> messageFilesMetadata;
   final String initialLocale;
 
   FieldGeneration(

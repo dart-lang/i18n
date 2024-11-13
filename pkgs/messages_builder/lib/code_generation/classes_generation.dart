@@ -4,28 +4,25 @@
 
 import 'package:code_builder/code_builder.dart';
 
+import '../builder.dart';
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';
-import 'message_file_metadata.dart';
 import 'method_generation.dart';
 
 class ClassesGeneration {
   final GenerationOptions options;
   final String? context;
-  final String initialLocale;
-  final List<ParameterizedMessage> messages;
-  final Iterable<MessageFileMetadata> messageFilesMetadata;
+  final LocatedMessageFile parent;
+  final Iterable<LocatedMessageFile> children;
   final Map<String, String> emptyFiles;
 
   ClassesGeneration({
     required this.options,
     required this.context,
-    required this.initialLocale,
-    required this.messages,
-    required this.messageFilesMetadata,
+    required this.parent,
+    required this.children,
     required this.emptyFiles,
   });
 
@@ -34,20 +31,20 @@ class ClassesGeneration {
 
     final fields = FieldGeneration(
       options,
-      messageFilesMetadata,
-      initialLocale,
+      children,
+      parent.locale,
     ).generate();
 
     final methods = MethodGeneration(
       options,
       context,
-      messages,
+      parent.file.messages,
       emptyFiles,
     ).generate();
 
     final classes = ClassGeneration(
       options,
-      messages,
+      parent.file.messages,
       context,
       constructors,
       fields,

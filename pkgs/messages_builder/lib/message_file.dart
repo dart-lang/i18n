@@ -2,25 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:messages/messages.dart';
+import 'parameterized_message.dart';
 
-class ParameterizedMessage {
-  final Message message;
-  final String name;
-  List<Placeholder> placeholders;
-
-  static final RegExp _dartName = RegExp(r'^[a-zA-Z][a-zA-Z_0-9]*$');
-  bool get nameIsDartConform => _dartName.hasMatch(name);
-
-  ParameterizedMessage(this.message, List<String> arguments, this.name)
-      : placeholders = arguments.map(Placeholder.new).toList();
-}
-
+/// A class representing a translation message file.
+///
+/// It stores a list of [ParameterizedMessage]s together with some metadata such
+/// as the [locale] of the messages, the [context], and the [hash] of file.
+///
+/// An example file might be
+/// ```json
+/// {
+///   "@@locale": "en_US",
+///   "@@context": "LoginPage",
+///   "name": "Hello {placeholder}!",
+///   "@name": {
+///     "description": "Initial welcome message",
+///     "placeholders": {
+///       "placeholder": {
+///         "type": "String"
+///       },
+///     }
+///   },
+///   ...
+/// }
+/// ```
 class MessageFile {
   final List<ParameterizedMessage> messages;
   final String? locale;
   final String? context;
   final String hash;
+
+  /// Whether any message in the file has metadata associated with it. This is
+  /// used to determine which file is the main source of truth, and which files
+  /// are translations of that main file.
   final bool hasMetadata;
 
   MessageFile(
@@ -45,17 +59,5 @@ class MessageFile {
       hash ?? this.hash,
       hasMetadata ?? this.hasMetadata,
     );
-  }
-}
-
-class Placeholder {
-  final String name;
-  final String type;
-
-  Placeholder(this.name, [this.type = 'String']);
-
-  @override
-  String toString() {
-    return '$name: $type';
   }
 }

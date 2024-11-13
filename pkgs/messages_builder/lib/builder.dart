@@ -12,9 +12,8 @@ import 'package:path/path.dart' as path;
 import 'arb_parser.dart';
 import 'code_generation/classes_generation.dart';
 import 'code_generation/code_generation.dart';
-import 'code_generation/message_file_metadata.dart';
 import 'generation_options.dart';
-import 'message_with_metadata.dart';
+import 'message_file.dart';
 
 class MessageCallingCodeGenerator {
   final GenerationOptions options;
@@ -26,7 +25,7 @@ class MessageCallingCodeGenerator {
   });
 
   Future<void> build() async {
-    final messageFiles = await parseMessageFiles();
+    final messageFiles = await _parseMessageFiles();
 
     final families = messageFiles.groupListsBy(
         (messageFile) => getParentFile(messageFiles, messageFile));
@@ -36,23 +35,19 @@ class MessageCallingCodeGenerator {
     for (final MapEntry(key: parent, value: children) in families.entries) {
       final context = parent.file.context;
 
-      final childrensMetadata = collectMetadata(children);
+      printIncludeFilesNotification(context, children.map((f) => f.path));
 
-      printIncludeFilesNotification(
-          context, childrensMetadata.map((e) => e.path));
-
-      final dummyFilePaths = Map.fromEntries(childrensMetadata
+      final dummyFilePaths = Map.fromEntries(children
           .map((e) => e.locale)
           .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))));
 
       final library = ClassesGeneration(
-              options: options,
-              context: context,
-              initialLocale: parent.file.locale!,
-              messages: parent.file.messages,
-              messageFilesMetadata: childrensMetadata,
-              emptyFiles: dummyFilePaths)
-          .generate();
+        options: options,
+        context: context,
+        parent: parent,
+        children: children,
+        emptyFiles: dummyFilePaths,
+      ).generate();
 
       final code = CodeGenerator(
         options: options,
@@ -79,17 +74,7 @@ class MessageCallingCodeGenerator {
     }
   }
 
-  List<MessageFileMetadata> collectMetadata(
-          List<LocatedMessageFile> messageFiles) =>
-      messageFiles
-          .map((messageFile) => MessageFileMetadata(
-                locale: messageFile.file.locale ?? 'en_US',
-                path: 'packages/${options.packageName}/${messageFile.path}',
-                hash: messageFile.file.hash,
-              ))
-          .sortedBy((resource) => resource.locale);
-
-  Future<List<LocatedMessageFile>> parseMessageFiles() async =>
+  Future<List<LocatedMessageFile>> _parseMessageFiles() async =>
       Future.wait(mapping.entries
           .map((p) async => LocatedMessageFile(
                 path: path.relative(p.value, from: Directory.current.path),
@@ -144,6 +129,10 @@ Future<MessageFile> parseMessageFile(
 class LocatedMessageFile {
   final String path;
   final MessageFile file;
+  String get locale => file.locale ?? 'en_US';
+  String get hash => file.hash;
+
+  String namespacedPath(String packageName) => 'packages/$packageName/$path';
 
   LocatedMessageFile({required this.path, required this.file});
 }

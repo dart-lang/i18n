@@ -6,8 +6,10 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
+import 'message_file.dart';
 import 'message_parser/message_parser.dart';
-import 'message_with_metadata.dart';
+import 'parameterized_message.dart';
+import 'placeholder.dart';
 
 class ArbParser {
   final bool addName;
@@ -16,12 +18,16 @@ class ArbParser {
   MessageFile parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
-    final messagesWithKeys = arb.keys
+    final messages = arb.keys
         .where((key) => !key.startsWith('@'))
-        .map((key) => (key, parseMessage(arb, key, '${context}_$locale')))
+        .map((key) => parseMessage(
+              arb[key] as String,
+              arb['@$key'] as Map<String, dynamic>?,
+              key,
+              '${context}_$locale',
+            ))
         .toList();
-    messagesWithKeys.sort((a, b) => a.$1.compareTo(b.$1));
-    final messages = messagesWithKeys.map((e) => e.$2).toList();
+    messages.sort((a, b) => a.name.compareTo(b.name));
     return MessageFile(
       messages,
       locale,
@@ -37,44 +43,29 @@ class ArbParser {
   }
 
   ParameterizedMessage parseMessage(
-    Map<String, dynamic> arb,
-    String messageKey,
+    String messageContent,
+    Map<String, dynamic>? metadata,
+    String name,
     String debugString,
   ) {
-    final messageContent = arb[messageKey] as String;
     final message = MessageParser.parse(
       debugString,
       messageContent,
-      messageKey,
+      name,
       addId: addName,
     );
-    final messageMetadata = arb['@$messageKey'];
-    if (messageMetadata != null) {
-      final metadata = messageMetadata as Map<String, dynamic>;
-      final placeholdersMap = metadata['placeholders'] as Map<String, dynamic>?;
-      final placeholders = placeholdersMap ?? <String, dynamic>{};
-      final placeholdersWithMetadata = parsePlaceholderMetadata(placeholders);
+    final placeholdersMap = metadata?['placeholders'] as Map<String, dynamic>?;
+    final placeholdersWithMetadata = placeholdersMap?.map(
+          (name, metadata) {
+            final type = (metadata as Map<String, dynamic>)['type'] as String?;
+            return MapEntry(name, Placeholder(name, type ?? 'String'));
+          },
+        ) ??
+        <String, Placeholder>{};
 
-      message.placeholders = message.placeholders
-          .map((placeholder) => placeholdersWithMetadata.firstWhere(
-                (p) => p.name == placeholder.name,
-                orElse: () => placeholder,
-              ))
-          .toList();
-    }
-    return message;
-  }
-
-  List<Placeholder> parsePlaceholderMetadata(
-    Map<String, dynamic> placeholders,
-  ) {
-    final placeholderTypes = <Placeholder>[];
-    for (var entry in placeholders.entries) {
-      final placeholderName = entry.key;
-      final placeholderData = entry.value as Map<String, dynamic>;
-      final type = (placeholderData['type'] as String?) ?? 'String';
-      placeholderTypes.add(Placeholder(placeholderName, type));
-    }
-    return placeholderTypes;
+    final placeholders = message.placeholders
+        .map((p) => placeholdersWithMetadata[p.name] ?? p)
+        .toList();
+    return ParameterizedMessage(message.message, message.name, placeholders);
   }
 }

@@ -9,7 +9,7 @@ import 'package:path/path.dart' as p;
 
 import 'builder.dart';
 import 'generation_options.dart';
-import 'message_with_metadata.dart';
+import 'message_file.dart';
 
 class MessageDataFileBuilder {
   final Directory inputFolder;

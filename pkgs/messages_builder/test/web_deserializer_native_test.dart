@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
-import 'package:messages_builder/message_with_metadata.dart';
+import 'package:messages_builder/parameterized_message.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
@@ -37,7 +37,7 @@ Message intlPluralSelector(
 void main() {
   test('generateMessageFile from Object json', () {
     final message = StringMessage('Hello World');
-    final message1 = ParameterizedMessage(message, [], 'helloWorld');
+    final message1 = ParameterizedMessage(message, 'helloWorld', []);
     final messageList = <ParameterizedMessage>[message1];
     final buffer = JsonSerializer()
         .serialize('', '', messageList.map((e) => e.message).toList())
@@ -117,13 +117,13 @@ void main() {
 
   test('Key with spaces is not ok', () {
     final key = 'key with spaces';
-    final message = ArbParser().parseMessage({key: 'Some message'}, key, 'id');
+    final message = ArbParser().parseMessage('Some message', null, key, 'id');
     expect(message.nameIsDartConform, false);
   });
 
   test('Key without spaces is ok', () {
     final key = 'key_without_spaces';
-    final message = ArbParser().parseMessage({key: 'Some message'}, key, 'id');
+    final message = ArbParser().parseMessage('Some message', null, key, 'id');
     expect(message.nameIsDartConform, true);
   });
 }
