@@ -4,8 +4,8 @@
 
 import 'package:code_builder/code_builder.dart';
 
-import '../builder.dart';
 import '../generation_options.dart';
+import '../located_message_file.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';

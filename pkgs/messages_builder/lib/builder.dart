@@ -13,6 +13,7 @@ import 'arb_parser.dart';
 import 'code_generation/classes_generation.dart';
 import 'code_generation/code_generation.dart';
 import 'generation_options.dart';
+import 'located_message_file.dart';
 import 'message_file.dart';
 
 class MessageCallingCodeGenerator {
@@ -124,15 +125,4 @@ Future<MessageFile> parseMessageFile(
   final decoded = jsonDecode(arbFile) as Map;
   final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
   return ArbParser(options.findById).parseMessageFile(arb);
-}
-
-class LocatedMessageFile {
-  final String path;
-  final MessageFile file;
-  String get locale => file.locale ?? 'en_US';
-  String get hash => file.hash;
-
-  String namespacedPath(String packageName) => 'packages/$packageName/$path';
-
-  LocatedMessageFile({required this.path, required this.file});
 }
