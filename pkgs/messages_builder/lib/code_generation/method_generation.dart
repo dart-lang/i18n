@@ -39,7 +39,7 @@ class MethodGeneration {
           message.placeholders.map(
             (placeholder) => Parameter(
               (pb) => pb
-                ..type = Reference(placeholder.type)
+                ..type = Reference(placeholder.type ?? 'String')
                 ..name = placeholder.name,
             ),
           ),

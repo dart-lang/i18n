@@ -28,8 +28,10 @@ class MessageCallingCodeGenerator {
   Future<void> build() async {
     final messageFiles = await _parseMessageFiles();
 
-    final families = messageFiles.groupListsBy(
-        (messageFile) => getParentFile(messageFiles, messageFile));
+    final families = messageFiles
+        .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
+        .map((key, value) =>
+            MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
 
     var counter = 0;
 

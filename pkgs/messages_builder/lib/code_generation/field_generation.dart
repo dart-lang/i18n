@@ -9,12 +9,12 @@ import '../located_message_file.dart';
 
 class FieldGeneration {
   final GenerationOptions options;
-  final Iterable<LocatedMessageFile> messageFilesMetadata;
+  final Iterable<LocatedMessageFile> messageFiles;
   final String initialLocale;
 
   FieldGeneration(
     this.options,
-    this.messageFilesMetadata,
+    this.messageFiles,
     this.initialLocale,
   );
 
@@ -43,8 +43,9 @@ class FieldGeneration {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = messageFilesMetadata
-            .map((e) => "'${e.locale}' : ('${e.path}', '${e.hash}')")
+        final paths = messageFiles
+            .map((e) => """
+'${e.locale}' : ('${e.namespacedPath(options.packageName)}', '${e.hash}')""")
             .join(',');
         fb
           ..name = '_dataFiles'
