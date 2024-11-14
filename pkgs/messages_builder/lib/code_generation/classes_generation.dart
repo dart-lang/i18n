@@ -9,7 +9,6 @@ import '../located_message_file.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';
-import 'message_file_metadata.dart';
 import 'method_generation.dart';
 
 class ClassesGeneration {

@@ -14,9 +14,9 @@ import 'package:yaml_edit/yaml_edit.dart';
 import 'arb_parser.dart';
 import 'code_generation/classes_generation.dart';
 import 'code_generation/code_generation.dart';
-import 'code_generation/message_file_metadata.dart';
 import 'generation_options.dart';
-import 'message_with_metadata.dart';
+import 'located_message_file.dart';
+import 'message_file.dart';
 
 class MessageCodeBuilder {
   final GenerationOptions options;
@@ -30,36 +30,31 @@ class MessageCodeBuilder {
   });
 
   Future<void> build() async {
-    final messageFiles = await parseMessageFiles();
+    final messageFiles = await _parseMessageFiles();
 
-    final families = messageFiles.groupListsBy(
-        (messageFile) => getParentFile(messageFiles, messageFile));
+    final families = messageFiles
+        .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
+        .map((key, value) =>
+            MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
 
     var counter = 0;
 
     for (final MapEntry(key: parent, value: children) in families.entries) {
       final context = parent.file.context;
 
-      final childrensMetadata = collectMetadata(children);
+      await includeFilesInPubspec(context, children.map((f) => f.path));
 
-      await includeFilesInPubspec(
-        context,
-        childrensMetadata.map((e) => e.path.split('/').skip(2).join('/')),
-        options.generatedCodeFiles,
-      );
-
-      final dummyFilePaths = Map.fromEntries(childrensMetadata
+      final dummyFilePaths = Map.fromEntries(children
           .map((e) => e.locale)
           .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))));
 
       final library = ClassesGeneration(
-              options: options,
-              context: context,
-              initialLocale: parent.file.locale!,
-              messages: parent.file.messages,
-              messageFilesMetadata: childrensMetadata,
-              emptyFiles: dummyFilePaths)
-          .generate();
+        options: options,
+        context: context,
+        parent: parent,
+        children: children,
+        emptyFiles: dummyFilePaths,
+      ).generate();
 
       final code = CodeGenerator(
         options: options,
@@ -88,17 +83,7 @@ class MessageCodeBuilder {
     }
   }
 
-  List<MessageFileMetadata> collectMetadata(
-          List<LocatedMessageFile> messageFiles) =>
-      messageFiles
-          .map((messageFile) => MessageFileMetadata(
-                locale: messageFile.file.locale ?? 'en_US',
-                path: 'packages/${options.packageName}/${messageFile.path}',
-                hash: messageFile.file.hash,
-              ))
-          .sortedBy((resource) => resource.locale);
-
-  Future<List<LocatedMessageFile>> parseMessageFiles() async =>
+  Future<List<LocatedMessageFile>> _parseMessageFiles() async =>
       Future.wait(inputToOutputFiles.entries
           .map((p) async => LocatedMessageFile(
                 path: path.relative(p.value, from: Directory.current.path),
@@ -132,7 +117,6 @@ The files $filesInContext have no metadata, so it is not clear which one is the 
   Future<void> includeFilesInPubspec(
     String? context,
     Iterable<String> fileList,
-    Directory generatedCodeFiles,
   ) async {
     final contextMessage =
         context != null ? 'For the messages in $context, the' : 'The';
@@ -172,13 +156,6 @@ Future<MessageFile> parseMessageFile(
   final decoded = jsonDecode(arbFile) as Map;
   final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
   return ArbParser(options.findById).parseMessageFile(arb);
-}
-
-class LocatedMessageFile {
-  final String path;
-  final MessageFile file;
-
-  LocatedMessageFile({required this.path, required this.file});
 }
 
 extension on YamlEditor {
