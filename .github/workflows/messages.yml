@@ -52,3 +52,14 @@ jobs:
           dart run messages
           git diff --exit-code
           dart run
+
+  health:
+    uses: dart-lang/ecosystem/.github/workflows/health.yaml@d227021abb0aa60fe6168a6b6fad5feb6ad88000
+    with:
+      coverage_web: true
+      experiments: native-assets
+      sdk: dev
+      ignore_license: ""
+      ignore_coverage: "**.g.dart"
+    permissions:
+      pull-requests: write
