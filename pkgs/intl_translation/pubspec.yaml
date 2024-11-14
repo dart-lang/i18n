@@ -5,10 +5,11 @@ description: >-
   date and number formatting and parsing, bi-directional text, and
   other internationalization issues.
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl_translation
+issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aintl_translation
 
 topics:
-- i18n
-- intl
+  - i18n
+  - intl
 
 environment:
   sdk: ^3.0.0
