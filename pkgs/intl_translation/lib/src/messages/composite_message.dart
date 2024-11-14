@@ -23,6 +23,6 @@ class CompositeMessage extends Message {
   String toString() => 'CompositeMessage($pieces)';
   @override
   String expanded(
-          [String Function(dynamic, dynamic) transform = nullTransform]) =>
+          [String Function(Message, Object) transform = nullTransform]) =>
       pieces.map((chunk) => transform(this, chunk)).join('');
 }

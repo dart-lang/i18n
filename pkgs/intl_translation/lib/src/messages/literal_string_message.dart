@@ -16,6 +16,6 @@ class LiteralString extends Message {
   String toString() => 'Literal($string)';
   @override
   String expanded(
-          [String Function(dynamic, dynamic) transform = nullTransform]) =>
+          [String Function(Message, Object) transform = nullTransform]) =>
       transform(this, string);
 }
