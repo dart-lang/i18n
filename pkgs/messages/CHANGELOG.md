@@ -1,6 +1,7 @@
-## 0.3.0-wip
+## 0.3.0
 
 - Adapt to output data files to assets.
+- Use a `dart run messages` command.
 
 ## 0.2.0
 

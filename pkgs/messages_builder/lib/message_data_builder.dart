@@ -7,23 +7,23 @@ import 'dart:io';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:path/path.dart' as p;
 
-import 'builder.dart';
 import 'generation_options.dart';
 import 'message_file.dart';
 
-class MessageDataFileBuilder {
+class MessageDataBuilder {
   final Directory inputFolder;
   final Directory outputFolder;
   final GenerationOptions options;
 
-  MessageDataFileBuilder({
+  MessageDataBuilder({
     required this.inputFolder,
     required this.outputFolder,
     required this.options,
   });
 
   Future<Map<String, String>> run() async {
-    print('Starting to add arb files from $inputFolder to $outputFolder');
+    print('''
+Searching "${p.relative(inputFolder.path, from: '.')}" for arb files.''');
     final arbFiles = await inputFolder
         .list()
         .where((file) => file is File)
@@ -31,14 +31,29 @@ class MessageDataFileBuilder {
         .where((path) => p.extension(path) == '.arb')
         .toList();
 
-    final mapping = <String, String>{};
     if (arbFiles.isEmpty) {
-      print('No `.arb` files found in $inputFolder.');
-      return mapping;
+      print('No arb files in ${p.relative(inputFolder.path, from: '.')}.');
+      return {};
     }
 
-    for (final arbFilePath in arbFiles) {
-      print('Generating $arbFilePath, bundle this in your assets.');
+    final serializer = JsonSerializer(generationOptions.findById);
+    final inputOutputPairs = Map.fromEntries(arbFiles.map(
+      (inputPath) {
+        final assetName = p.setExtension(
+          p.basename(inputPath),
+          '.arb${serializer.extension}',
+        );
+        final outputDataPath = p.join(outputFolder.path, assetName);
+        return MapEntry(inputPath, outputDataPath);
+      },
+    ));
+
+    if (arbFiles.isNotEmpty) {
+      print('Generating data files from arb sources.');
+    }
+    for (final MapEntry(key: arbFilePath, value: outputDataPath)
+        in inputOutputPairs.entries) {
+      stdout.write('${p.relative(arbFilePath, from: '.')} --> ');
       final arbFileUri = Uri.file(arbFilePath);
       final arbFileContents = await File.fromUri(arbFileUri).readAsString();
       final messageBundle = await parseMessageFile(arbFileContents, options);
@@ -47,18 +62,18 @@ class MessageDataFileBuilder {
 
       final data = _arbToData(messageBundle, arbFilePath, serializer);
 
-      final assetName = p.setExtension(
-        p.basename(arbFilePath),
-        '.arb${serializer.extension}',
-      );
-
-      final outputDataPath = outputFolder.uri.resolve(assetName);
-      final dataFile = File.fromUri(outputDataPath);
-      await dataFile.create();
-      await dataFile.writeAsString(data);
-      mapping[arbFilePath] = outputDataPath.path;
+      stdout.writeln('${p.relative(outputDataPath, from: '.')}.');
+      final dataFile = File(outputDataPath);
+      if (await dataFile.exists() && (await dataFile.readAsString() == data)) {
+        continue;
+      } else {
+        await dataFile.create();
+        await dataFile.writeAsString(data);
+        print('''
+${p.relative(arbFilePath, from: '.')} --> ${p.relative(outputDataPath, from: '.')}''');
+      }
     }
-    return mapping;
+    return inputOutputPairs;
   }
 
   String _arbToData(

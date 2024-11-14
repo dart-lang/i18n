@@ -5,7 +5,7 @@ library my_shopping_cart;
 
 import 'package:flutter/services.dart';
 
-import 'src/messages.g.dart';
+import 'src/shopping_cart_messages.g.dart';
 
 class MyShoppingCart {
   final _messages = ShoppingCartMessages(rootBundle.loadString);

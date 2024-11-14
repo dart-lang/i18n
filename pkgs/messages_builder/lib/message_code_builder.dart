@@ -8,49 +8,58 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:path/path.dart' as path;
+import 'package:yaml/yaml.dart';
+import 'package:yaml_edit/yaml_edit.dart';
 
 import 'arb_parser.dart';
 import 'code_generation/classes_generation.dart';
 import 'code_generation/code_generation.dart';
+import 'code_generation/message_file_metadata.dart';
 import 'generation_options.dart';
-import 'located_message_file.dart';
-import 'message_file.dart';
+import 'message_with_metadata.dart';
 
-class MessageCallingCodeGenerator {
+class MessageCodeBuilder {
   final GenerationOptions options;
-  final Map<String, String> mapping;
+  final Map<String, String> inputToOutputFiles;
+  final Uri pubspecUri;
 
-  MessageCallingCodeGenerator({
+  MessageCodeBuilder({
     required this.options,
-    required this.mapping,
+    required this.inputToOutputFiles,
+    required this.pubspecUri,
   });
 
   Future<void> build() async {
-    final messageFiles = await _parseMessageFiles();
+    final messageFiles = await parseMessageFiles();
 
-    final families = messageFiles
-        .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
-        .map((key, value) =>
-            MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
+    final families = messageFiles.groupListsBy(
+        (messageFile) => getParentFile(messageFiles, messageFile));
 
     var counter = 0;
 
     for (final MapEntry(key: parent, value: children) in families.entries) {
       final context = parent.file.context;
 
-      printIncludeFilesNotification(context, children.map((f) => f.path));
+      final childrensMetadata = collectMetadata(children);
 
-      final dummyFilePaths = Map.fromEntries(children
+      await includeFilesInPubspec(
+        context,
+        childrensMetadata.map((e) => e.path.split('/').skip(2).join('/')),
+        options.generatedCodeFiles,
+      );
+
+      final dummyFilePaths = Map.fromEntries(childrensMetadata
           .map((e) => e.locale)
           .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))));
 
       final library = ClassesGeneration(
-        options: options,
-        context: context,
-        parent: parent,
-        children: children,
-        emptyFiles: dummyFilePaths,
-      ).generate();
+              options: options,
+              context: context,
+              initialLocale: parent.file.locale!,
+              messages: parent.file.messages,
+              messageFilesMetadata: childrensMetadata,
+              emptyFiles: dummyFilePaths)
+          .generate();
 
       final code = CodeGenerator(
         options: options,
@@ -60,10 +69,12 @@ class MessageCallingCodeGenerator {
 
       final parentPath = Directory(options.generatedCodeFiles.path);
 
-      final mainFile = File(path.join(
+      final codeFile = File(path.join(
           parentPath.path, '${context ?? 'm${counter++}'}_messages.g.dart'));
-      await mainFile.create(recursive: true);
-      await mainFile.writeAsString(code);
+      print(
+          'Generate dart file at ${path.relative(codeFile.path, from: '.')}.');
+      await codeFile.create(recursive: true);
+      await codeFile.writeAsString(code);
 
       for (final MapEntry(key: locale, value: emptyFilePath)
           in dummyFilePaths.entries) {
@@ -77,8 +88,18 @@ class MessageCallingCodeGenerator {
     }
   }
 
-  Future<List<LocatedMessageFile>> _parseMessageFiles() async =>
-      Future.wait(mapping.entries
+  List<MessageFileMetadata> collectMetadata(
+          List<LocatedMessageFile> messageFiles) =>
+      messageFiles
+          .map((messageFile) => MessageFileMetadata(
+                locale: messageFile.file.locale ?? 'en_US',
+                path: 'packages/${options.packageName}/${messageFile.path}',
+                hash: messageFile.file.hash,
+              ))
+          .sortedBy((resource) => resource.locale);
+
+  Future<List<LocatedMessageFile>> parseMessageFiles() async =>
+      Future.wait(inputToOutputFiles.entries
           .map((p) async => LocatedMessageFile(
                 path: path.relative(p.value, from: Directory.current.path),
                 file: await parseMessageFile(await getArbfile(p.key), options),
@@ -108,15 +129,39 @@ The files $filesInContext have no metadata, so it is not clear which one is the 
 
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
-  void printIncludeFilesNotification(
+  Future<void> includeFilesInPubspec(
     String? context,
     Iterable<String> fileList,
-  ) {
+    Directory generatedCodeFiles,
+  ) async {
     final contextMessage =
         context != null ? 'For the messages in $context, the' : 'The';
     final fileListJoined = fileList.map((e) => '\t$e').join('\n');
-    print(
-        '''$contextMessage following files need to be declared in your assets:\n$fileListJoined''');
+
+    final pubspecFile = File.fromUri(pubspecUri);
+    final pubspecString = await pubspecFile.readAsString();
+    final yamlEditor = YamlEditor(pubspecString);
+    if (yamlEditor.contains(['flutter', 'assets']) ||
+        yamlEditor.contains(['dependencies', 'flutter'])) {
+      if (!yamlEditor.contains(['flutter', 'assets'])) {
+        yamlEditor.update(['flutter'], {'assets': <String>[]});
+      }
+      final existingAssets =
+          (yamlEditor.parseAt(['flutter', 'assets']).value as YamlList)
+              .map((element) => element as String);
+      final newFiles = fileList.whereNot(existingAssets.contains);
+      for (final file in newFiles) {
+        yamlEditor.appendToList(['flutter', 'assets'], file);
+      }
+      if (newFiles.isNotEmpty) {
+        print(
+            '''$contextMessage following files have been declared in your assets:\n$newFiles''');
+      }
+      await pubspecFile.writeAsString(yamlEditor.toString());
+    } else {
+      print(
+          '''$contextMessage following files must be added to your assets:\n$fileListJoined''');
+    }
   }
 }
 
@@ -127,4 +172,16 @@ Future<MessageFile> parseMessageFile(
   final decoded = jsonDecode(arbFile) as Map;
   final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
   return ArbParser(options.findById).parseMessageFile(arb);
+}
+
+class LocatedMessageFile {
+  final String path;
+  final MessageFile file;
+
+  LocatedMessageFile({required this.path, required this.file});
+}
+
+extension on YamlEditor {
+  bool contains(List<String> path) =>
+      parseAt(path, orElse: () => wrapAsYamlNode(null)).value != null;
 }
