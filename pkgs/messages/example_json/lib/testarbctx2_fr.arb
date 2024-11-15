@@ -1,8 +1,0 @@
-{
-    "@@context": "AboutPage",
-    "helloAndWelcome": "Welcome {firstName} von {lastName} <",
-    "otherMsg": "other",
-    "aboutMessage": "Sur {websitename}",
-    "newMessages": "test {newMessages, plural, =0 {No new messages} =1 {One new message} two{Two new Messages} other {test {newMessages} new messages}}",
-    "newMessages2": "test {gender, select,male {No new messages} female {One new message} other{Two new Messages} other {test {gender} new messages of type {newVar}}}"
-}

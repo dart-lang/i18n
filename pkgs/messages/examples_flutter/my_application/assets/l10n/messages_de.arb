@@ -1,0 +1,6 @@
+{
+  "@@locale": "de_DE",
+  "@@context": "my_app",
+  "@@x-template": "messages.arb",
+  "current_sale_name": "{arg, select, other{Kein Sonderverkauf} winter{Winterschlussverkauf} summer{Sommerschlussverkauf}}"
+}

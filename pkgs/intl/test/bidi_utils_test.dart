@@ -31,6 +31,7 @@ void main() {
     expect(Bidi.isRtlLanguage('az-Arab'), isTrue);
     expect(Bidi.isRtlLanguage('az-ARAB-IR'), isTrue);
     expect(Bidi.isRtlLanguage('az_arab_IR'), isTrue);
+    expect(Bidi.isRtlLanguage('ckb'), isTrue);
     Intl.withLocale('en_US', () {
       expect(Bidi.isRtlLanguage(), isFalse);
     });

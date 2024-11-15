@@ -4,24 +4,33 @@ permissions:
   contents: write
 
 on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - pkgs/intl4x/hook/hashes.dart
   push:
     tags:
-      - 'intl4x-v.*'
+      - 'intl4x-icu*'
+  schedule:
+    - cron: '0 0 * * 0' # weekly
   workflow_dispatch:
 
 jobs:
   dart-libs:
-    name: "Build Dart binaries"
+    name: Build Dart binaries
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
+        compiletype: [ dynamic, static ]
     runs-on: ${{ matrix.os }}
+    env:
+      DATA: ${{ matrix.compiletype == 'dynamic' && ',compiled_data' || '' }}
 
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       with:
-        submodules: 'true'
+        submodules: true
 
     - name: Install Rust toolchains
       run: |
@@ -59,15 +68,18 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm android_arm
-        dart run ffi/dart/tool/build_libs.dart bin/android_arm64 android_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/android_ia32 android_ia32
-        dart run ffi/dart/tool/build_libs.dart bin/android_x64 android_x64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm linux_arm
-        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64 linux_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64 linux_riscv64
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm_${{ matrix.compiletype }} android_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_arm64_${{ matrix.compiletype }} android_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_ia32_${{ matrix.compiletype }} android_ia32 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/android_x64_${{ matrix.compiletype }} android_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm_${{ matrix.compiletype }} linux_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_arm64_${{ matrix.compiletype }} linux_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_riscv64_${{ matrix.compiletype }} linux_riscv64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/linux_x64_${{ matrix.compiletype }} linux_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Linux data
+      if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
+      run: |
         cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
         cd provider/datagen # avoid global feature resolution
@@ -93,12 +105,15 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm ios_arm
-        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64 ios_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/ios_x64 ios_x64
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/macos_x64 macos_x64
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm_${{ matrix.compiletype }} ios_arm ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/ios_arm64_${{ matrix.compiletype }} ios_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/ios_x64_${{ matrix.compiletype }} ios_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64_${{ matrix.compiletype }} macos_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/macos_x64_${{ matrix.compiletype }} macos_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Mac data
+      if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
+      run: |
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
@@ -119,10 +134,13 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64 windows_arm64
-        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32 windows_ia32
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64
+        dart run ffi/dart/tool/build_libs.dart bin/windows_arm64_${{ matrix.compiletype }} windows_arm64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/windows_ia32_${{ matrix.compiletype }} windows_ia32 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart run ffi/dart/tool/build_libs.dart bin/windows_x64_${{ matrix.compiletype }} windows_x64 ${{ matrix.compiletype }} icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
+    - name: Build Windows data
+      if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
+      run: |
         cd provider/datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
@@ -134,25 +152,56 @@ jobs:
         cp target/x86_64-pc-windows-msvc/release/icu4x-datagen.exe bin/windows_x64-datagen.exe
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
       with:
-        name: dart-${{matrix.os}}-libs
+        name: dart-${{matrix.os}}-${{ matrix.compiletype }}-libs
         path: submodules/icu4x/bin
-  
+
+  check_hashes:
+    needs: dart-libs
+    runs-on: ubuntu-latest
+
+    env:
+      ICU4X_BUILD_MODE: local
+      
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
+        with:
+          submodules: true
+
+      - name: Download binaries
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          merge-multiple: true
+
+      - name: Display structure of downloaded files
+        run: ls -R
+
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        with:
+          sdk: dev
+
+      - name: Check hashes of released artifacts
+        run: |
+          cd pkgs/intl4x
+          dart pub get
+          dart --enable-experiment=native-assets tool/regenerate_hashes.dart
+          git diff --exit-code
+
   release:
     needs: dart-libs
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
       - name: Download binaries
-        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
 
       - name: Display structure of downloaded files
         run: ls -R
 
       - name: Release
-        uses: softprops/action-gh-release@a74c6b72af54cfa997e81df42d94703d6313a2d0
+        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8
         with:
           files: '**'
           fail_on_unmatched_files: true
-          body: "Build artifacts for `package:intl4x`, based on ICU4X at ref ${{ env.icu_version }}"
+          body: "Build artifacts for `package:intl4x`, based on ICU4X at ref ${{ github.ref_name }}"

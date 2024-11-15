@@ -15,6 +15,8 @@ abstract class Serializer<T> {
 
   Serializer(this.writeIds);
 
+  String get extension;
+
   Serialization<T> serialize(
     String hash,
     String locale,

@@ -110,6 +110,7 @@ final class PluralMessage extends Message {
   }) {
     return pluralSelector(
       allArgs[argIndex] as num,
+      locale!,
       numberCases: numberCases,
       wordCases: wordCases,
       few: few,

@@ -1,4 +1,8 @@
-## 0.20.0-wip
+## 0.20.1-wip
+ * Upgrade `package:web` dependency constraint to `1.1.0`, fixes issue
+   [#916](https://github.com/dart-lang/i18n/issues/916).
+
+## 0.20.0
  * Fix caching of messages in `CompositeMessageLookup`.
  * Type `numberFormatSymbols` as a `Map<String, NumberSymbols>`.
  * Type `dateTimeSymbolMap` as a `Map<String, DateSymbols>`.
@@ -9,6 +13,8 @@
  * Require `package:web` `^0.5.0`.
  * Support compiling to WASM.
  * Update to and account for `package:lints` `^4.0.0`.
+ * rtl Detection fix in `bidi.dart` for Kordi Sorani "ckb".
+ * Update to CLDR v45.
 
 ## 0.19.0
  * Update to CLDR v44.

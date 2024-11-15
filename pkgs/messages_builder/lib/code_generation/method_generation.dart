@@ -5,17 +5,18 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
+import '../parameterized_message.dart';
 import 'generation.dart';
 
-class MethodGeneration extends Generation<Method> {
+class MethodGeneration {
   final GenerationOptions options;
   final String? context;
-  final List<MessageWithMetadata> messages;
+  final List<ParameterizedMessage> messages;
+  final Map<String, String> emptyFiles;
 
-  MethodGeneration(this.options, this.context, this.messages);
+  MethodGeneration(this.options, this.context, this.messages, this.emptyFiles);
 
-  Method? generateMessageCall(int index, MessageWithMetadata message) {
+  Method? generateMessageCall(int index, ParameterizedMessage message) {
     if (!message.nameIsDartConform) {
       return null;
     }
@@ -38,7 +39,7 @@ class MethodGeneration extends Generation<Method> {
           message.placeholders.map(
             (placeholder) => Parameter(
               (pb) => pb
-                ..type = Reference(placeholder.type)
+                ..type = Reference(placeholder.type ?? 'String')
                 ..name = placeholder.name,
             ),
           ),
@@ -47,7 +48,6 @@ class MethodGeneration extends Generation<Method> {
     );
   }
 
-  @override
   List<Method> generate() {
     Iterable<Method> messageCalls;
     if (options.messageCalls) {
@@ -62,9 +62,18 @@ class MethodGeneration extends Generation<Method> {
       (mb) {
         final loading = switch (options.deserialization) {
           DeserializationType.web => '''
-          final data = await _fileLoader(carb);
-          final messageList = MessageListJson.fromString(data, pluralSelector);''',
+          final data = await _assetLoader(dataFile);
+          final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
+        final loadLibraries = emptyFiles.entries
+            .map(
+              (e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''',
+            )
+            .join(' else ');
         mb
           ..name = 'loadLocale'
           ..requiredParameters.add(Parameter(
@@ -76,10 +85,11 @@ class MethodGeneration extends Generation<Method> {
           ..body = Code('''
           if (!_messages.containsKey(locale)) {
             final info = _dataFiles[locale];
-            final carb = info?.\$1;
-            if (carb == null) {
+            final dataFile = info?.\$1;
+            if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
+            $loadLibraries
             $loading
             if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
@@ -96,10 +106,11 @@ class MethodGeneration extends Generation<Method> {
       (mb) {
         mb
           ..name = 'loadAllLocales'
-          ..returns = const Reference('void')
+          ..returns = const Reference('Future<void>')
+          ..modifier = MethodModifier.async
           ..body = const Code('''
           for (final locale in knownLocales) {
-             loadLocale(locale);
+             await loadLocale(locale);
           }
       ''');
       },
@@ -166,60 +177,6 @@ class MethodGeneration extends Generation<Method> {
           const Code('_currentMessages.generateStringAtIndex(val.index, args)')
       ..lambda = true
       ..returns = const Reference('String'));
-    // Message Function(num,
-    //     {Message? few,
-    //     String? locale,
-    //     Message? many,
-    //     Map<int, Message>? numberCases,
-    //     required Message other,
-    //     Map<int, Message>? wordCases}) intl;
-    Method pluralSelector() => Method(
-          (mb) => mb
-            ..name = 'pluralSelector'
-            ..returns = const Reference('Message')
-            ..requiredParameters.addAll([
-              Parameter(
-                (pb) => pb
-                  ..name = 'howMany'
-                  ..type = const Reference('num')
-                  ..named = false,
-              ),
-            ])
-            ..optionalParameters.addAll([
-              Parameter(
-                (pb) => pb
-                  ..name = 'other'
-                  ..type = const Reference('Message')
-                  ..required = true
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'few'
-                  ..type = const Reference('Message?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'many'
-                  ..type = const Reference('Message?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'numberCases'
-                  ..type = const Reference('Map<int, Message>?')
-                  ..named = true,
-              ),
-              Parameter(
-                (pb) => pb
-                  ..name = 'wordCases'
-                  ..type = const Reference('Map<int, Message>?')
-                  ..named = true,
-              ),
-            ])
-            ..body = pluralSelectorBody(),
-        );
 
     return [
       getCurrentLocale,
@@ -229,37 +186,7 @@ class MethodGeneration extends Generation<Method> {
       getKnownLocales,
       loadLocale,
       loadAllLocales,
-      if (options.pluralSelector != PluralSelectorType.custom) pluralSelector(),
       ...messageCalls,
     ];
-  }
-
-  Code pluralSelectorBody() {
-    return switch (options.pluralSelector) {
-      PluralSelectorType.intl => const Code('''
-return Intl.pluralLogic(
-    howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
-    other: other,
-    locale: currentLocale,
-  );
-  '''),
-      PluralSelectorType.intl4x => const Code('''
-Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
-    return switch (Intl(locale: Locale.parse(currentLocale)).plural().select(howMany)) {
-      PluralCategory.zero => getCase(0),
-      PluralCategory.one => getCase(1),
-      PluralCategory.two => getCase(2),
-      PluralCategory.few => few ?? other,
-      PluralCategory.many => many ?? other,
-      PluralCategory.other => other,
-    };
-    '''),
-      PluralSelectorType.custom => throw ArgumentError(),
-    };
   }
 }

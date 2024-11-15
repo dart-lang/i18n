@@ -1,0 +1,39 @@
+name: my_application
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.19.0
+  messages:
+    path: ../../../messages
+  my_shopping_cart:
+    path: ../my_shopping_cart
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  messages_builder:
+    path: ../../../messages_builder
+
+flutter:
+  uses-material-design: true
+
+  deferred-components:
+    - name: enMessages
+      libraries:
+        - package:my_application/src/my_app_en_US_empty.g.dart
+      assets:
+        - assets/messages.arb.json
+    - name: deMessages
+      libraries:
+        - package:my_application/src/my_app_de_DE_empty.g.dart
+      assets:
+        - assets/messages_de.arb.json
+

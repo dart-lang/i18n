@@ -5,12 +5,12 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../message_with_metadata.dart';
+import '../parameterized_message.dart';
 import 'generation.dart';
 
-class ClassGeneration extends Generation<Spec> {
+class ClassGeneration {
   final GenerationOptions options;
-  final List<MessageWithMetadata> messages;
+  final List<ParameterizedMessage> messages;
   final String? context;
 
   final List<Constructor> constructors;
@@ -26,9 +26,9 @@ class ClassGeneration extends Generation<Spec> {
     this.methods,
   );
 
-  String getClassName(String? context) => '${context ?? ''}Messages';
+  String getClassName(String? context) =>
+      _toCamelCase('${context ?? ''}Messages');
 
-  @override
   List<Spec> generate() {
     final classes = <Spec>[
       Class(
@@ -53,3 +53,8 @@ class ClassGeneration extends Generation<Spec> {
     return classes;
   }
 }
+
+String _toCamelCase(String input) => input
+    .split('_')
+    .map((e) => e.substring(0, 1).toUpperCase() + e.substring(1))
+    .join();
