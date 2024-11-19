@@ -6,13 +6,12 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:intl4x/src/hook_helpers/hashes.dart';
+import 'package:intl4x/src/hook_helpers/shared.dart';
 import 'package:intl4x/src/hook_helpers/version.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as path;
 
 const crateName = 'icu_capi';
-const package = 'intl4x';
-const assetId = 'src/bindings/lib.g.dart';
 
 final env = 'ICU4X_BUILD_MODE';
 
@@ -34,26 +33,12 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
 '''),
     };
 
-    final builtLibrary = await buildMode.build();
+    final buildResult = await buildMode.build();
     // For debugging purposes
     // ignore: deprecated_member_use
     output.addMetadatum(env, environmentBuildMode ?? 'fetch');
-
-    output.addAsset(NativeCodeAsset(
-      package: package,
-      name: assetId,
-      linkMode: DynamicLoadingBundled(),
-      architecture: config.targetArchitecture,
-      os: config.targetOS,
-      file: builtLibrary,
-    ));
-
-    output.addDependencies(
-      [
-        ...buildMode.dependencies,
-        config.packageRoot.resolve('hook/build.dart'),
-      ],
-    );
+    buildResult.addAssets(config, output);
+    output.addDependencies(buildMode.dependencies);
   });
 }
 
@@ -64,44 +49,125 @@ sealed class BuildMode {
 
   List<Uri> get dependencies;
 
-  Future<Uri> build();
+  Future<BuildResult> build();
+}
+
+final class BuildResult {
+  final Uri library;
+  final Uri? datagen;
+  final Uri? postcard;
+
+  BuildResult({
+    required this.library,
+    required this.datagen,
+    required this.postcard,
+  });
+
+  void addAssets(BuildConfig config, BuildOutput output) {
+    output.addAssets(
+      [
+        NativeCodeAsset(
+          package: package,
+          name: assetId,
+          linkMode: DynamicLoadingBundled(),
+          architecture: config.targetArchitecture,
+          os: config.targetOS,
+          file: library,
+        ),
+        if (config.linkingEnabled)
+          DataAsset(
+            package: package,
+            name: 'datagen',
+            file: datagen!,
+          ),
+        if (config.linkingEnabled)
+          DataAsset(
+            package: package,
+            name: 'postcard',
+            file: postcard!,
+          ),
+      ],
+      linkInPackage: config.linkingEnabled ? config.packageName : null,
+    );
+  }
 }
 
 final class FetchMode extends BuildMode {
   FetchMode(super.config);
+  final httpClient = HttpClient();
 
   @override
-  Future<Uri> build() async {
-    final libraryType = 'dynamic'; //TODO: Add `static` when using link hooks.
-    final target = [
-      config.targetOS,
-      config.targetArchitecture,
-      libraryType,
-    ].join('_');
-    final uri = Uri.parse(
-        'https://github.com/dart-lang/i18n/releases/download/$version/$target');
-    final request = await HttpClient().getUrl(uri);
-    final response = await request.close();
-    if (response.statusCode != 200) {
-      throw ArgumentError('The request to $uri failed');
-    }
-    final library = File.fromUri(
-        config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
-    await library.create();
-    await response.pipe(library.openWrite());
+  Future<BuildResult> build() async {
+    final libraryType = config.linkingEnabled ? 'static' : 'dynamic';
+    final target = '${config.targetOS}_${config.targetArchitecture}';
+    final dylibRemoteUri = Uri.parse(
+        'https://github.com/dart-lang/i18n/releases/download/$version/${target}_$libraryType');
+    final library = await fetchToFile(
+      dylibRemoteUri,
+      config.outputDirectory.resolve(config.filename('icu4x')),
+    );
 
     final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
     final expectedFileHash =
         fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
-    if (fileHash == expectedFileHash) {
-      return library.uri;
-    } else {
+    if (fileHash != expectedFileHash) {
       throw Exception(
-          'The pre-built binary for the target $target at $uri has a hash of '
-          '$fileHash, which does not match $expectedFileHash fixed in the '
-          'build hook of package:intl4x.');
+          'The pre-built binary for the target $target at $dylibRemoteUri has a'
+          ' hash of $fileHash, which does not match $expectedFileHash fixed in'
+          ' the build hook of package:intl4x.');
     }
+
+    if (!config.linkingEnabled) {
+      return BuildResult(
+        library: library.uri,
+        datagen: null,
+        postcard: null,
+      );
+    }
+    final datagenName = config.targetOS.executableFileName('$target-datagen');
+    final datagenRemote = Uri.parse(
+        'https://github.com/dart-lang/i18n/releases/download/$version/$datagenName');
+    final datagenUri = config.outputDirectory.resolve('datagen');
+    final datagen = await fetchToFile(
+      datagenRemote,
+      datagenUri,
+    );
+
+    final datagenBytes = await datagen.readAsBytes();
+    final datagenHash = sha256.convert(datagenBytes).toString();
+    final expectedDatagenHash =
+        datagenHashes[(config.targetOS, config.targetArchitecture)];
+    if (datagenHash != expectedDatagenHash) {
+      throw Exception(
+          'The pre-built binary for the target $target at $datagenRemote has a'
+          ' hash of $datagenHash, which does not match $expectedDatagenHash '
+          'fixed in the build hook of package:intl4x.');
+    }
+
+    final postcardUri = config.outputDirectory.resolve('full.postcard');
+    await fetchToFile(
+      Uri.parse(
+          'https://github.com/dart-lang/i18n/releases/download/$version/full.postcard'),
+      postcardUri,
+    );
+    return BuildResult(
+      library: library.uri,
+      datagen: datagenUri,
+      postcard: postcardUri,
+    );
+  }
+
+  Future<File> fetchToFile(Uri uri, Uri fileUri) async {
+    final request = await httpClient.getUrl(uri);
+    final response = await request.close();
+    if (response.statusCode != 200) {
+      throw ArgumentError('The request to $uri failed');
+    }
+    final file = File.fromUri(fileUri);
+    await file.create();
+    await response.pipe(file.openWrite());
+    return file;
   }
 
   @override
@@ -109,33 +175,58 @@ final class FetchMode extends BuildMode {
 }
 
 final class LocalMode extends BuildMode {
-  LocalMode(super.config);
+  final String localLibraryPath;
+  final String? localDatagenPath;
+  final String? localPostcardPath;
 
-  String get _localBinaryPath {
-    final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
-    if (localPath != null) {
+  LocalMode(super.config)
+      : localLibraryPath = _getFromEnvironment(
+          'LOCAL_ICU4X_BINARY_${config.linkingEnabled ? 'STATIC' : 'DYNAMIC'}',
+          true,
+        )!,
+        localDatagenPath =
+            _getFromEnvironment('LOCAL_ICU4X_DATAGEN', config.linkingEnabled),
+        localPostcardPath =
+            _getFromEnvironment('LOCAL_ICU4X_POSTCARD', config.linkingEnabled);
+
+  static String? _getFromEnvironment(String key, bool mustExist) {
+    final localPath = Platform.environment[key];
+    if (localPath != null || !mustExist) {
       return localPath;
     }
-    throw ArgumentError('`LOCAL_ICU4X_BINARY` is empty. '
+    throw ArgumentError('`$key` is empty. '
         'If the `ICU4X_BUILD_MODE` is set to `local`, the '
-        '`LOCAL_ICU4X_BINARY` environment variable must contain the path to '
-        'the binary.');
+        '`$key` environment variable must be set.');
   }
 
   @override
-  Future<Uri> build() async {
-    final dylibFileName = config.targetOS.dylibFileName('icu4x');
-    final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
-    final file = File(_localBinaryPath);
-    if (!(await file.exists())) {
-      throw FileSystemException('Could not find binary.', _localBinaryPath);
+  Future<BuildResult> build() async {
+    final libFileUri = config.outputDirectory.resolve(config.filename('icu4x'));
+    await copyFile(localLibraryPath, libFileUri);
+
+    if (!config.linkingEnabled) {
+      return BuildResult(
+        library: libFileUri,
+        datagen: null,
+        postcard: null,
+      );
     }
-    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
-    return dylibFileUri;
+
+    final datagenFileUri = config.outputDirectory.resolve('datagen');
+    await copyFile(localDatagenPath!, datagenFileUri);
+
+    final postcardFileUri = config.outputDirectory.resolve('postcard');
+    await copyFile(localPostcardPath!, postcardFileUri);
+
+    return BuildResult(
+      library: libFileUri,
+      datagen: datagenFileUri,
+      postcard: postcardFileUri,
+    );
   }
 
   @override
-  List<Uri> get dependencies => [Uri.file(_localBinaryPath)];
+  List<Uri> get dependencies => [Uri.file(localLibraryPath)];
 }
 
 final class CheckoutMode extends BuildMode {
@@ -144,7 +235,7 @@ final class CheckoutMode extends BuildMode {
   String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
 
   @override
-  Future<Uri> build() async {
+  Future<BuildResult> build() async {
     if (workingDirectory == null) {
       throw ArgumentError('Specify the ICU4X checkout folder'
           'with the LOCAL_ICU4X_CHECKOUT variable');
@@ -158,102 +249,147 @@ final class CheckoutMode extends BuildMode {
       ];
 }
 
-Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
-  final dylibFileName =
-      config.targetOS.dylibFileName(crateName.replaceAll('-', '_'));
-  final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
-  if (!config.dryRun) {
-    final rustTarget = _asRustTarget(
-      config.targetOS,
-      config.dryRun ? null : config.targetArchitecture!,
-      config.targetOS == OS.iOS &&
-          config.targetIOSSdk == IOSSdk.iPhoneSimulator,
+Future<BuildResult> buildLib(
+    BuildConfig config, String workingDirectory) async {
+  final crateNameFixed = crateName.replaceAll('-', '_');
+  final libFileName = config.filename(crateNameFixed);
+
+  final libFileUri = config.outputDirectory.resolve(libFileName);
+  final datagenFileUri = config.outputDirectory.resolve('datagen');
+  final postcardFileUri = config.outputDirectory.resolve('postcard');
+  if (config.dryRun) {
+    return BuildResult(
+      library: libFileUri,
+      datagen: datagenFileUri,
+      postcard: postcardFileUri,
     );
-    final isNoStd =
-        _isNoStdTarget((config.targetOS, config.targetArchitecture));
+  }
+  final isNoStd = _isNoStdTarget((config.targetOS, config.targetArchitecture));
 
-    if (!isNoStd) {
-      final rustArguments = ['target', 'add', rustTarget];
-      final rustup = await Process.run(
-        'rustup',
-        rustArguments,
-        workingDirectory: workingDirectory,
-      );
-
-      if (rustup.exitCode != 0) {
-        throw ProcessException(
-          'rustup',
-          rustArguments,
-          rustup.stderr.toString(),
-          rustup.exitCode,
-        );
-      }
-    }
-    final tempDir = await Directory.systemTemp.createTemp();
-
-    final stdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'logging',
-      'simple_logger',
-      'experimental_components',
-    ];
-    final noStdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'libc-alloc',
-      'panic-handler',
-      'experimental_components',
-    ];
-    final linkModeType = config.linkModePreference == LinkModePreference.static
-        ? 'staticlib'
-        : 'cdylib';
-    final arguments = [
-      if (isNoStd) '+nightly',
-      'rustc',
-      '-p=$crateName',
-      '--crate-type=$linkModeType',
-      '--release',
-      '--config=profile.release.panic="abort"',
-      '--config=profile.release.codegen-units=1',
-      '--no-default-features',
-      if (!isNoStd) '--features=${stdFeatures.join(',')}',
-      if (isNoStd) '--features=${noStdFeatures.join(',')}',
-      if (isNoStd) '-Zbuild-std=core,alloc',
-      if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-      '--target=$rustTarget',
-      '--target-dir=${tempDir.path}'
-    ];
-    final cargo = await Process.run(
-      'cargo',
-      arguments,
+  if (!isNoStd) {
+    final rustArguments = ['target', 'add', asRustTarget(config)];
+    await runProcess(
+      'rustup',
+      rustArguments,
       workingDirectory: workingDirectory,
     );
-
-    if (cargo.exitCode != 0) {
-      throw ProcessException(
-        'cargo',
-        arguments,
-        cargo.stderr.toString(),
-        cargo.exitCode,
-      );
-    }
-
-    final builtPath = path.join(
-      tempDir.path,
-      rustTarget,
-      'release',
-      dylibFileName,
-    );
-    final file = File(builtPath);
-    if (!(await file.exists())) {
-      throw FileSystemException('Building the dylib failed', builtPath);
-    }
-    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
   }
-  return dylibFileUri;
+  final tempDir = await Directory.systemTemp.createTemp();
+
+  final stdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'logging',
+    'simple_logger',
+    'experimental_components',
+  ];
+  final noStdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'libc-alloc',
+    'panic-handler',
+    'experimental_components',
+  ];
+  final linkModeType = config.buildStatic ? 'staticlib' : 'cdylib';
+  final arguments = [
+    if (isNoStd) '+nightly',
+    'rustc',
+    '-p=$crateName',
+    '--crate-type=$linkModeType',
+    '--release',
+    '--config=profile.release.panic="abort"',
+    '--config=profile.release.codegen-units=1',
+    '--no-default-features',
+    if (!isNoStd) '--features=${stdFeatures.join(',')}',
+    if (isNoStd) '--features=${noStdFeatures.join(',')}',
+    if (isNoStd) '-Zbuild-std=core,alloc',
+    if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
+    '--target=${asRustTarget(config)}',
+    '--target-dir=${tempDir.path}'
+  ];
+  await runProcess(
+    'cargo',
+    arguments,
+    workingDirectory: workingDirectory,
+  );
+
+  final builtPath = path.join(
+    tempDir.path,
+    asRustTarget(config),
+    'release',
+    libFileName,
+  );
+  await copyFile(builtPath, libFileUri);
+
+  if (!config.linkingEnabled) {
+    return BuildResult(
+      library: libFileUri,
+      datagen: null,
+      postcard: null,
+    );
+  }
+
+  final postcardPath = path.join(tempDir.path, 'full.postcard');
+  await runProcess(
+    'cargo',
+    [
+      'run',
+      ...['-p', 'icu_datagen'],
+      '--',
+      ...['--locales', 'full'],
+      ...['--keys', 'all'],
+      ...['--format', 'blob'],
+      ...['--out', postcardPath],
+    ],
+    workingDirectory: workingDirectory,
+  );
+  await copyFile(postcardPath, postcardFileUri);
+
+  final datagenPath = path.join(
+    tempDir.path,
+    asRustTarget(config),
+    'release',
+    'icu4x-datagen',
+  );
+  final datagenDirectory = path.join(workingDirectory, 'provider/datagen');
+  await runProcess(
+    'rustup',
+    ['target', 'add', asRustTarget(config)],
+    workingDirectory: datagenDirectory,
+  );
+  await runProcess(
+    'cargo',
+    [
+      'build',
+      '--release',
+      ...['--bin', 'icu4x-datagen'],
+      '--no-default-features',
+      ...[
+        '--features',
+        'bin,blob_exporter,blob_input,rayon,experimental_components'
+      ],
+      ...['--target', asRustTarget(config)],
+      '--target-dir=${tempDir.path}'
+    ],
+    workingDirectory: datagenDirectory,
+  );
+  await copyFile(datagenPath, datagenFileUri);
+  return BuildResult(
+    library: libFileUri,
+    datagen: datagenFileUri,
+    postcard: postcardFileUri,
+  );
+}
+
+String asRustTarget(BuildConfig config) {
+  final rustTarget = _asRustTarget(
+    config.targetOS,
+    config.dryRun ? null : config.targetArchitecture!,
+    config.targetOS == OS.iOS && config.targetIOSSdk == IOSSdk.iPhoneSimulator,
+  );
+  return rustTarget;
 }
 
 String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
@@ -290,3 +426,18 @@ bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
       (OS.android, Architecture.riscv64),
       (OS.linux, Architecture.riscv64)
     ].contains(arg);
+
+extension on BuildConfig {
+  bool get buildStatic =>
+      linkModePreference == LinkModePreference.static || linkingEnabled;
+  String Function(String) get filename =>
+      buildStatic ? targetOS.staticlibFileName : targetOS.dylibFileName;
+}
+
+Future<void> copyFile(String from, Uri to) async {
+  final file = File(from);
+  if (!(await file.exists())) {
+    throw FileSystemException('File does not exist.', from);
+  }
+  await file.copy(to.toFilePath(windows: Platform.isWindows));
+}
