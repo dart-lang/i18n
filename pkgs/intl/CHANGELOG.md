@@ -1,4 +1,4 @@
-## 0.20.1-wip
+## 0.20.1
  * Upgrade `package:web` dependency constraint to `1.1.0`, fixes issue
    [#916](https://github.com/dart-lang/i18n/issues/916).
  * Update to CLDR v46.
