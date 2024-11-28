@@ -1,4 +1,4 @@
-name: Ecosystem test:Internal
+name: Ecosystem test
 
 on:
   pull_request:
