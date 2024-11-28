@@ -13,6 +13,7 @@ library;
 
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
+
 import 'package:intl/intl.dart' as intl;
 import 'package:test/test.dart';
 
@@ -99,14 +100,17 @@ var _unsupportedChromeLocales = [
 var _skipLocalesShort = [
   'it', // Expected: '7,7 Mio', actual: '7,7 Mln'
   'it-CH', // Expected: '7.7 Mio', actual: '7.7 Mln'
-  'en-ZA', // Expected: '4.3K', actual: '4,3K'.
+  'en-IN', // Expected: '4.3K', actual: '4.3T'.
+  'en-ZA', // Expected: '4,3K', actual: '4.3K'.
   ..._unsupportedChromeLocales
 ];
 
 var _skipLocalesLong = [
-  'en-ZA', // Expected: '4.3 thousand', actual: '4,3 thousand'.
-  'zh-HK', // Expected: '4.3K', actual: '4321'.
-  ..._unsupportedChromeLocales
+  'en-ZA', // Expected: '4,3 thousand', actual: '4.3 thousand'.
+  'es-419', // Expected: '1.4 billones', actual: '1.4 billón'.
+  'es-US', // Expected: '1.4 billones', actual: '1.4 billón'.
+  'ml', // Expected: '1.1 ബില്യൺ', actual: '1.1 ലക്ഷം കോടി'.
+  ..._unsupportedChromeLocales,
 ];
 
 String _fixLocale(String locale) {

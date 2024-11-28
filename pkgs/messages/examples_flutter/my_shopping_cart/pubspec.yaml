@@ -1,0 +1,33 @@
+name: my_shopping_cart
+description: "A new Flutter package project."
+version: 0.0.1
+
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  intl: ^0.19.0
+  messages:
+    path: ../../../messages
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  messages_builder:
+    path: ../../../messages_builder
+
+package_options:
+  messages_builder:
+    arb_input_folder: assets/l10n/
+    message_output_folder: assets/
+    generated_code_files: lib/src/
+
+flutter:
+  assets:
+    - assets/messages.arb.json

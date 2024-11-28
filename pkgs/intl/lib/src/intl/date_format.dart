@@ -796,7 +796,7 @@ class DateFormat {
 
   /// Should a new DateFormat for [locale] have useNativeDigits true.
   ///
-  /// For example, for locale 'ar' when this setting is true, DateFormat will
+  /// For example, for locale 'ar_SA' when this setting is true, DateFormat will
   /// format using Eastern Arabic digits, e.g. '\u0660, \u0661, \u0662'. If it
   /// is false, a new DateFormat will format using ASCII digits.
   static bool shouldUseNativeDigitsByDefaultFor(String locale) {
@@ -806,7 +806,7 @@ class DateFormat {
   /// Indicate if a new DateFormat for [locale] should have useNativeDigits
   /// true.
   ///
-  /// For example, for locale 'ar' when this setting is true, DateFormat will
+  /// For example, for locale 'ar_SA' when this setting is true, DateFormat will
   /// format using Eastern Arabic digits, e.g. '\u0660, \u0661, \u0662'. If it
   /// is false, a new DateFormat will format using ASCII digits.
   ///

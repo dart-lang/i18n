@@ -119,7 +119,7 @@ class Intl {
   /// and pass the appropriate arguments to it. If provided, [name] must be
   /// globally unique in the program. It must match the enclosing function name,
   /// or if the function is a method of a class, [name] can also be of the form
-  /// <className>_<methodName>, to make it easier to distinguish messages with
+  /// `<className>_<methodName>`, to make it easier to distinguish messages with
   /// the same name but in different classes.
   ///
   /// The [desc] provides a description of the message usage.
@@ -346,9 +346,6 @@ class Intl {
         return many ?? other;
       case plural_rules.PluralCase.OTHER:
         return other;
-      default:
-        throw ArgumentError.value(
-            howMany, 'howMany', 'Invalid plural argument');
     }
   }
 

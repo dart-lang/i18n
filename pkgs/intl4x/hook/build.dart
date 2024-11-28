@@ -5,11 +5,10 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:intl4x/src/hook_helpers/hashes.dart';
+import 'package:intl4x/src/hook_helpers/version.dart';
 import 'package:native_assets_cli/native_assets_cli.dart';
 import 'package:path/path.dart' as path;
-
-import 'hashes.dart';
-import 'version.dart';
 
 const crateName = 'icu_capi';
 const package = 'intl4x';
@@ -37,6 +36,7 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
 
     final builtLibrary = await buildMode.build();
     // For debugging purposes
+    // ignore: deprecated_member_use
     output.addMetadatum(env, environmentBuildMode ?? 'fetch');
 
     output.addAsset(NativeCodeAsset(
@@ -72,7 +72,12 @@ final class FetchMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
-    final target = '${config.targetOS}_${config.targetArchitecture}';
+    final libraryType = 'dynamic'; //TODO: Add `static` when using link hooks.
+    final target = [
+      config.targetOS,
+      config.targetArchitecture,
+      libraryType,
+    ].join('_');
     final uri = Uri.parse(
         'https://github.com/dart-lang/i18n/releases/download/$version/$target');
     final request = await HttpClient().getUrl(uri);
@@ -80,19 +85,17 @@ final class FetchMode extends BuildMode {
     if (response.statusCode != 200) {
       throw ArgumentError('The request to $uri failed');
     }
-    final dynamicLibrary = File.fromUri(
+    final library = File.fromUri(
         config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
-    await dynamicLibrary.create();
-    await response.pipe(dynamicLibrary.openWrite());
+    await library.create();
+    await response.pipe(library.openWrite());
 
-    final bytes = await dynamicLibrary.readAsBytes();
+    final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
-    final expectedFileHash = fileHashes[(
-      config.targetOS,
-      config.targetArchitecture,
-    )];
+    final expectedFileHash =
+        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
     if (fileHash == expectedFileHash) {
-      return dynamicLibrary.uri;
+      return library.uri;
     } else {
       throw Exception(
           'The pre-built binary for the target $target at $uri has a hash of '
@@ -189,7 +192,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
     final tempDir = await Directory.systemTemp.createTemp();
 
     final stdFeatures = [
-      'default_components',
+      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
       'compiled_data',
       'buffer_provider',
       'logging',
@@ -197,7 +200,7 @@ Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
       'experimental_components',
     ];
     final noStdFeatures = [
-      'default_components',
+      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
       'compiled_data',
       'buffer_provider',
       'libc-alloc',

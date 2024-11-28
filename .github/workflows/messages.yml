@@ -21,28 +21,34 @@ jobs:
     defaults:
       run:
         working-directory: pkgs/messages
-    strategy:
-      matrix:
-        sdk: [stable, dev] # {pkgs.versions}
-        dependencies: [path, published]
-        include:
-          - sdk: stable
-            run-tests: true
 
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
-      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+
+      - uses: flutter-actions/setup-flutter@61f93c6f11e0234fa9ec4df59362c9699b979660
         with:
-          sdk: ${{matrix.sdk}}
+          channel: beta
 
       - run: dart pub get
 
-      - run: (cd example_json; dart pub get)
+      - run: dart pub get
+        working-directory: pkgs/messages/example
+
+      - run: flutter pub get
+        working-directory: pkgs/messages/examples_flutter/my_application
+
+      - run: flutter pub get
+        working-directory: pkgs/messages/examples_flutter/my_shopping_cart
 
       - run: dart analyze --fatal-infos
 
       - run: dart format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
 
       - run: dart test
-        if: ${{matrix.run-tests}}
+
+      - name: Regenerate and run example
+        working-directory: pkgs/messages/example
+        run: |
+          dart run messages || exit 1
+          git diff --exit-code || exit 1
+          dart run || exit 1

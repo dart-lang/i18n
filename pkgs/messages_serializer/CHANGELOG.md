@@ -1,3 +1,7 @@
+## 0.3.0-wip
+
+- Adapt to output data files to assets.
+
 ## 0.2.1
 
 - Bump dependencies.

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/dart/ast/ast.dart';
+
 import 'complex_message.dart';
 import 'message.dart';
 import 'message_extraction_exception.dart';
@@ -121,7 +122,7 @@ class MainMessage extends ComplexMessage {
   /// See [messagePieces].
   @override
   String expanded(
-          [String Function(Message, dynamic) transform = nullTransform]) =>
+          [String Function(Message, Object) transform = nullTransform]) =>
       messagePieces.map((chunk) => transform(this, chunk)).join('');
 
   /// Record the translation for this message in the given locale, after

@@ -12,7 +12,7 @@ class PairMessage<T extends Message, S extends Message> extends Message {
 
   @override
   String expanded(
-          [String Function(dynamic, dynamic) transform = nullTransform]) =>
+          [String Function(Message, Object) transform = nullTransform]) =>
       [first, second].map((chunk) => transform(this, chunk)).join('');
 
   @override

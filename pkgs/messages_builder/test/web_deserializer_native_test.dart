@@ -4,24 +4,23 @@
 
 import 'dart:convert';
 
-import 'package:build/src/asset/id.dart';
 import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_builder/arb_parser.dart';
-import 'package:messages_builder/message_with_metadata.dart';
+import 'package:messages_builder/parameterized_message.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
 import 'testarb.arb.dart';
 
 Message intlPluralSelector(
-  num howMany, {
+  num howMany,
+  String locale, {
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
   Message? few,
   Message? many,
   required Message other,
-  String? locale,
 }) {
   return old_intl.Intl.pluralLogic(
     howMany,
@@ -36,11 +35,10 @@ Message intlPluralSelector(
 }
 
 void main() {
-  final uniqueKey = AssetId('package', 'path');
   test('generateMessageFile from Object json', () {
     final message = StringMessage('Hello World');
-    final message1 = MessageWithMetadata(message, [], 'helloWorld');
-    final messageList = <MessageWithMetadata>[message1];
+    final message1 = ParameterizedMessage(message, 'helloWorld', []);
+    final messageList = <ParameterizedMessage>[message1];
     final buffer = JsonSerializer()
         .serialize('', '', messageList.map((e) => e.message).toList())
         .data;
@@ -54,7 +52,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': 'Hello World'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -67,7 +65,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': 'Hello {name}'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -84,7 +82,7 @@ void main() {
       '@@locale': 'en',
       'helloWorld': '{greeting}{space}{name}'
     };
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -103,7 +101,7 @@ void main() {
 
   test('generateMessageFile from complex arb JSON', () {
     final arb = jsonDecode(arbFile) as Map<String, dynamic>;
-    final parsed = ArbParser().parseMessageFile(arb, uniqueKey);
+    final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
@@ -119,13 +117,13 @@ void main() {
 
   test('Key with spaces is not ok', () {
     final key = 'key with spaces';
-    final message = ArbParser().parseMessage({key: 'Some message'}, key, 'id');
+    final message = ArbParser().parseMessage('Some message', null, key, 'id');
     expect(message.nameIsDartConform, false);
   });
 
   test('Key without spaces is ok', () {
     final key = 'key_without_spaces';
-    final message = ArbParser().parseMessage({key: 'Some message'}, key, 'id');
+    final message = ArbParser().parseMessage('Some message', null, key, 'id');
     expect(message.nameIsDartConform, true);
   });
 }

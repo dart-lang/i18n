@@ -369,8 +369,8 @@ abstract class Message {
     return value;
   }
 
-  /// Expand this string out into a printed form. The function [f] will be
+  /// Expand this string out into a printed form. The function [transform] is
   /// applied to any sub-messages, allowing this to be used to generate a form
   /// suitable for a wide variety of translation file formats.
-  String expanded([String Function(dynamic, dynamic) transform]);
+  String expanded([String Function(Message, Object) transform]);
 }
