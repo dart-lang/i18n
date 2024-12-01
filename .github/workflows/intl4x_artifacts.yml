@@ -39,7 +39,7 @@ jobs:
     - name: Show the selected Rust toolchain
       run: rustup show
     
-    - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+    - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
       with:
         sdk: dev
 
@@ -177,7 +177,7 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
 
-      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+      - uses: dart-lang/setup-dart@e630b99d28a3b71860378cafdc2a067c71107f94
         with:
           sdk: dev
 
@@ -200,7 +200,7 @@ jobs:
         run: ls -R
 
       - name: Release
-        uses: softprops/action-gh-release@e7a8f85e1c67a31e6ed99a94b41bd0b71bbee6b8
+        uses: softprops/action-gh-release@01570a1f39cb168c169c802c3bceb9e93fb10974
         with:
           files: '**'
           fail_on_unmatched_files: true
