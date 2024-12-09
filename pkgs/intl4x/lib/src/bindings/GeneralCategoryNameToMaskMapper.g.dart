@@ -63,14 +63,14 @@ final class GeneralCategoryNameToMaskMapper implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XGeneralCategoryNameToMaskMapper_destroy')
+@KeepSymbol('ICU4XGeneralCategoryNameToMaskMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XGeneralCategoryNameToMaskMapper_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XGeneralCategoryNameToMaskMapper_destroy(
     ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XGeneralCategoryNameToMaskMapper_get_strict')
+@KeepSymbol('ICU4XGeneralCategoryNameToMaskMapper_get_strict')
 @ffi.Native<
         ffi.Uint32 Function(
             ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)>(
@@ -81,7 +81,7 @@ external int _ICU4XGeneralCategoryNameToMaskMapper_get_strict(
     ffi.Pointer<ffi.Uint8> nameData,
     int nameLength);
 
-@meta.ResourceIdentifier('ICU4XGeneralCategoryNameToMaskMapper_get_loose')
+@KeepSymbol('ICU4XGeneralCategoryNameToMaskMapper_get_loose')
 @ffi.Native<
         ffi.Uint32 Function(
             ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)>(
@@ -92,7 +92,7 @@ external int _ICU4XGeneralCategoryNameToMaskMapper_get_loose(
     ffi.Pointer<ffi.Uint8> nameData,
     int nameLength);
 
-@meta.ResourceIdentifier('ICU4XGeneralCategoryNameToMaskMapper_load')
+@KeepSymbol('ICU4XGeneralCategoryNameToMaskMapper_load')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XGeneralCategoryNameToMaskMapper_load')
 // ignore: non_constant_identifier_names
