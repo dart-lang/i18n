@@ -5,12 +5,17 @@
 import '../bindings/lib.g.dart' as icu;
 
 import 'locale.dart';
+import 'locale_native.dart';
 
-extension Locale4X on Locale {
+extension Locale4XTransformer on Locale {
   icu.Locale to4X() {
-    final icu4xLocale = icu.Locale.und()..language = language;
-    if (region != null) icu4xLocale.region = region!;
-    if (script != null) icu4xLocale.script = script!;
-    return icu4xLocale;
+    if (this is IcuLocale) {
+      return (this as IcuLocale).locale;
+    } else {
+      final icu4xLocale = icu.Locale.und()..language = language;
+      if (region != null) icu4xLocale.region = region!;
+      if (script != null) icu4xLocale.script = script!;
+      return icu4xLocale;
+    }
   }
 }
