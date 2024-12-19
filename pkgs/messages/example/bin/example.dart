@@ -6,7 +6,8 @@
 
 import 'dart:io';
 
-import 'package:example/AboutPage_messages.g.dart';
+// ignore: avoid_relative_lib_imports
+import '../lib/AboutPage_messages.g.dart';
 
 Future<void> main(List<String> arguments) async {
   final messages = AboutPageMessages(
