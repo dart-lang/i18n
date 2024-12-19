@@ -17,7 +17,7 @@ abstract class NumberParserBase<R> {
   final String text;
 
   /// What we use to iterate over the input text.
-  final StringStack input;
+  final StringStack _input;
 
   /// The result of parsing [text] according to [format]. Automatically
   /// populated in the constructor.
@@ -61,7 +61,7 @@ abstract class NumberParserBase<R> {
   int get _localeZero => format.localeZero;
 
   ///  Create a new [_NumberParser] on which we can call parse().
-  NumberParserBase(this.format, this.text) : input = StringStack(text) {
+  NumberParserBase(this.format, this.text) : _input = StringStack(text) {
     scale = format.multiplier;
     value = parse();
   }
@@ -95,7 +95,7 @@ abstract class NumberParserBase<R> {
       };
 
   void invalidFormat() =>
-      throw FormatException('Invalid number: ${input.contents}');
+      throw FormatException('Invalid number: ${_input.contents}');
 
   /// Replace a space in the number with the normalized form. If space is not
   /// a significant character (normally grouping) then it's just invalid. If it
@@ -108,7 +108,7 @@ abstract class NumberParserBase<R> {
   /// [handleSpace].
   bool get groupingIsNotASpaceOrElseItIsSpaceFollowedByADigit {
     if (symbols.GROUP_SEP != '\u00a0' || symbols.GROUP_SEP != ' ') return true;
-    var peeked = input.peek(symbols.GROUP_SEP.length + 1);
+    var peeked = _input.peek(symbols.GROUP_SEP.length + 1);
     return asDigit(peeked[peeked.length - 1]) != null;
   }
 
@@ -128,7 +128,7 @@ abstract class NumberParserBase<R> {
   /// prefixes. Set the [gotPositive] and [gotNegative] variables accordingly.
   void checkPrefixes({bool skip = false}) {
     bool checkPrefix(String prefix) =>
-        prefix.isNotEmpty && input.startsWith(prefix);
+        prefix.isNotEmpty && _input.startsWith(prefix);
 
     // TODO(alanknight): There's a faint possibility of a bug here where
     // a positive prefix is followed by a negative prefix that's also a valid
@@ -146,15 +146,15 @@ abstract class NumberParserBase<R> {
       }
     }
     if (skip) {
-      if (gotPositive) input.pop(_positivePrefix.length);
-      if (gotNegative) input.pop(_negativePrefix.length);
+      if (gotPositive) _input.pop(_positivePrefix.length);
+      if (gotNegative) _input.pop(_negativePrefix.length);
     }
   }
 
   /// If the rest of our input is either the positive or negative suffix,
   /// set [gotPositiveSuffix] or [gotNegativeSuffix] accordingly.
   void checkSuffixes() {
-    var remainder = input.peekAll();
+    var remainder = _input.peekAll();
     if (remainder == _positiveSuffix) gotPositiveSuffix = true;
     if (remainder == _negativeSuffix) gotNegativeSuffix = true;
   }
@@ -168,16 +168,16 @@ abstract class NumberParserBase<R> {
     // skip them initially because they might also be semantically meaningful,
     // e.g. leading %. So we allow them through the loop, but only once.
     var foundAnInterpretation = false;
-    if (input.atStart && !prefixesSkipped) {
+    if (_input.atStart && !prefixesSkipped) {
       prefixesSkipped = true;
       checkPrefixes(skip: true);
       foundAnInterpretation = true;
     }
 
     for (var key in replacements.keys) {
-      if (input.startsWith(key)) {
+      if (_input.startsWith(key)) {
         _normalized.write(replacements[key]!());
-        input.pop(key.length);
+        _input.pop(key.length);
         return;
       }
     }
@@ -199,18 +199,18 @@ abstract class NumberParserBase<R> {
     }
 
     checkPrefixes();
-    var parsed = parseNumber(input);
+    var parsed = parseNumber(_input);
 
     if (gotPositive && !gotPositiveSuffix) invalidNumber();
     if (gotNegative && !gotNegativeSuffix) invalidNumber();
-    if (!input.atEnd) invalidNumber();
+    if (!_input.atEnd) invalidNumber();
 
     return parsed;
   }
 
   /// The number is invalid, throw a [FormatException].
   void invalidNumber() =>
-      throw FormatException('Invalid Number: ${input.contents}');
+      throw FormatException('Invalid Number: ${_input.contents}');
 
   /// Parse the number portion of the input, i.e. not any prefixes or suffixes,
   /// and assuming NaN and Infinity are already handled.

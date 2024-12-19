@@ -6,8 +6,8 @@ import 'package:clock/clock.dart';
 
 import 'date_computation.dart' as date_computation;
 
-/// A class for holding onto the data for a date so that it can be built
-/// up incrementally.
+/// A class for holding onto the data for a date so that it can be built up
+/// incrementally.
 class DateBuilder {
   // Default the date values to the EPOCH so that there's a valid date
   // in case the format doesn't set them.
