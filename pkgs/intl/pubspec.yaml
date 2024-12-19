@@ -8,8 +8,8 @@ repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl
 issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aintl
 
 topics:
- - i18n
- - intl
+  - i18n
+  - intl
 
 environment:
   sdk: ^3.3.0
