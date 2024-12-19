@@ -1,3 +1,6 @@
+## 0.20.2-wip
+ * Remove the dependency on `package:http`.
+
 ## 0.20.1
  * Upgrade `package:web` dependency constraint to `1.1.0`, fixes issue
    [#916](https://github.com/dart-lang/i18n/issues/916).
