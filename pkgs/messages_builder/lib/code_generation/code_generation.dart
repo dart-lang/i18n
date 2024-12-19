@@ -4,6 +4,7 @@
 
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:pub_semver/pub_semver.dart' show Version;
 
 import '../generation_options.dart';
 import 'import_generation.dart';
@@ -38,7 +39,8 @@ class CodeGenerator {
     );
     final emitter = DartEmitter(orderDirectives: true);
     final source = '${lib.accept(emitter)}';
-    final code = DartFormatter().format(source);
+    final code =
+        DartFormatter(languageVersion: Version(3, 0, 0)).format(source);
     return code;
   }
 
