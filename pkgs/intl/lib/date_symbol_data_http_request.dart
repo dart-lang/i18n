@@ -20,7 +20,7 @@ export 'src/data/dates/locale_list.dart';
 /// The [url] parameter should end with a "/". For example,
 ///   "http://localhost:8000/dates/"
 Future<void> initializeDateFormatting(String locale, String url) {
-  //Initialize symbols
+  // Initialize symbols
   var symbolReader = HttpRequestDataReader('${url}symbols/');
   LazyLocaleData symbolsInitializer() => LazyLocaleData(
         symbolReader,
@@ -29,7 +29,7 @@ Future<void> initializeDateFormatting(String locale, String url) {
       );
   initializeDateSymbols(symbolsInitializer);
 
-  //Initialize patterns
+  // Initialize patterns
   var patternsReader = HttpRequestDataReader('${url}patterns/');
   LazyLocaleData patternsInitializer() => LazyLocaleData(
         patternsReader,
@@ -43,7 +43,7 @@ Future<void> initializeDateFormatting(String locale, String url) {
     availableLocalesForDateFormatting.contains,
   )!;
 
-  //Initialize locale for both symbols and patterns
+  /// Initialize locale for both symbols and patterns.
   Future<List<void>> initLocale(
     LazyLocaleData symbols,
     LazyLocaleData patterns,
