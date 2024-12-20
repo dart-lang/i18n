@@ -1,5 +1,6 @@
-## 0.20.2-wip
+## 0.20.2
  * Remove the dependency on `package:http`.
+ * Remove the dependency on `package:web`.
 
 ## 0.20.1
  * Upgrade `package:web` dependency constraint to `1.1.0`, fixes issue
