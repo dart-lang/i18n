@@ -9,9 +9,8 @@ library;
 import 'dart:async';
 import 'dart:js_interop';
 
-import 'package:web/web.dart';
-
 import 'intl_helpers.dart';
+import 'web.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
   /// The base url from which we read the data.
