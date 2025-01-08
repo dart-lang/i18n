@@ -8,12 +8,12 @@ import '../generation_options.dart';
 import '../parameterized_message.dart';
 
 class MethodGeneration {
-  final GenerationOptions options;
+  final DeserializationType deserialization;
   final String? context;
   final List<ParameterizedMessage> messages;
 
   MethodGeneration(
-    this.options,
+    this.deserialization,
     this.context,
     this.messages,
   );
@@ -48,17 +48,13 @@ class MethodGeneration {
 
   List<Method> generate() {
     Iterable<Method> messageCalls;
-    if (options.messageCalls) {
-      messageCalls = List.generate(
-        messages.length,
-        (i) => generateMessageCall(i, messages[i]),
-      ).whereType<Method>();
-    } else {
-      messageCalls = [];
-    }
+    messageCalls = List.generate(
+      messages.length,
+      (i) => generateMessageCall(i, messages[i]),
+    ).whereType<Method>();
     final loadLocale = Method(
       (mb) {
-        final loading = switch (options.deserialization) {
+        final loading = switch (deserialization) {
           DeserializationType.web => '''
           final data = await _assetLoader(dataFile);
           final messageList = MessageListJson.fromString(data, _pluralSelector);''',

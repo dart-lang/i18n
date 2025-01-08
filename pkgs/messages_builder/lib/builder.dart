@@ -15,6 +15,7 @@ import 'code_generation/code_generation.dart';
 import 'generation_options.dart';
 import 'located_message_file.dart';
 import 'message_file.dart';
+import 'parameterized_message.dart';
 
 class MessageCallingCodeGenerator {
   final GenerationOptions options;
@@ -28,38 +29,92 @@ class MessageCallingCodeGenerator {
   Future<void> build() async {
     final messageFiles = await _parseMessageFiles();
     final codeOutDirectory = options.generatedCodeFiles.path;
+    final deserialization = options.deserialization;
+    final packageName = options.packageName;
+    final pluralSelector = options.pluralSelector;
+    final header = options.header;
 
+    final contextToCode = generateCode(
+      messageFiles: messageFiles,
+      deserialization: deserialization,
+      packageName: packageName,
+      pluralSelector: pluralSelector,
+      header: header,
+    );
+
+    final parentPath = Directory(codeOutDirectory);
+    for (final MapEntry(key: context, value: code) in contextToCode.entries) {
+      final mainFile =
+          File(path.join(parentPath.path, '${context}_messages.g.dart'));
+      await mainFile.create(recursive: true);
+      await mainFile.writeAsString(code);
+    }
+  }
+
+  /// Writes one code file per context.
+  static Map<String, String> generateCode({
+    required String packageName,
+    required List<LocatedMessageFile> messageFiles,
+    DeserializationType deserialization = DeserializationType.web,
+    PluralSelectorType pluralSelector = PluralSelectorType.intl,
+    String header = '',
+  }) {
     final families = messageFiles
         .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
         .map((key, value) =>
             MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
 
-    var counter = 0;
-
+    final contextToCode = <String, String>{};
     for (final MapEntry(key: parent, value: children) in families.entries) {
       final context = parent.file.context;
 
       printIncludeFilesNotification(context, children.map((f) => f.path));
 
-      final library = ClassesGeneration(
-        options: options,
+      contextToCode[context!] = generateCodeForContext(
         context: context,
-        parent: parent,
-        children: children,
-      ).generate();
-
-      final code = CodeGenerator(
-        options: options,
-        classes: library,
-      ).generate();
-
-      final parentPath = Directory(codeOutDirectory);
-
-      final mainFile = File(path.join(
-          parentPath.path, '${context ?? 'm${counter++}'}_messages.g.dart'));
-      await mainFile.create(recursive: true);
-      await mainFile.writeAsString(code);
+        initialLocale: parent.locale,
+        messages: parent.file.messages,
+        dataFiles: children.map((e) => (
+              locale: e.locale,
+              path: e.namespacedPath(packageName),
+              hash: e.hash
+            )),
+        deserialization: deserialization,
+        pluralSelector: pluralSelector,
+        header: header,
+      );
     }
+    return contextToCode;
+  }
+
+  /// Generates the calling code for a single [context] and list of [messages].
+  ///
+  /// Also references the [dataFiles], with their locale, path used as a key for
+  /// retrieval, and the hash to compare against the one stored in them.
+  static String generateCodeForContext({
+    required String? context,
+    required String initialLocale,
+    required List<ParameterizedMessage> messages,
+    required Iterable<({String locale, String path, String hash})> dataFiles,
+    DeserializationType deserialization = DeserializationType.web,
+    PluralSelectorType pluralSelector = PluralSelectorType.intl,
+    String header = '',
+  }) {
+    final library = ClassesGeneration(
+      context: context,
+      initialLocale: initialLocale,
+      messages: messages,
+      children: dataFiles,
+      deserialization: deserialization,
+      pluralSelectorType: pluralSelector,
+    ).generate();
+
+    return CodeGenerator(
+      classes: library,
+      header: header,
+      deserialization: deserialization,
+      pluralSelectorType: pluralSelector,
+    ).generate();
   }
 
   Future<List<LocatedMessageFile>> _parseMessageFiles() async =>
@@ -93,7 +148,7 @@ The files $filesInContext have no metadata, so it is not clear which one is the 
 
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
-  void printIncludeFilesNotification(
+  static void printIncludeFilesNotification(
     String? context,
     Iterable<String> fileList,
   ) {
