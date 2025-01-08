@@ -67,10 +67,7 @@ void main() {
     final serialized = JsonSerializer().serialize('hash', 'locale', messages);
     final deserialize =
         JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages,
-      orderedEquals(messages),
-    );
+    compareMessages(deserialize.messages, messages);
   });
 
   test('Serialize partially', () {
@@ -84,10 +81,7 @@ void main() {
         JsonSerializer().serialize('hash', 'locale', messages, [1, 3]);
     final deserialize =
         JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages,
-      orderedEquals([messages[1], messages[3]]),
-    );
+    compareMessages(deserialize.messages, [messages[1], messages[3]]);
   });
 
   test('First serialize, then deserialize again', () {
