@@ -8,9 +8,8 @@ import '../generation_options.dart';
 
 class ImportGeneration {
   final GenerationOptions options;
-  final Iterable<String> emptyFiles;
 
-  ImportGeneration(this.options, this.emptyFiles);
+  ImportGeneration(this.options);
 
   List<Directive> generate() {
     final serializationImports = switch (options.deserialization) {
@@ -26,14 +25,9 @@ class ImportGeneration {
       PluralSelectorType.custom => <Directive>[],
     };
 
-    final deferredImports = emptyFiles.map((emptyFilePath) {
-      return Directive.importDeferredAs('$emptyFilePath.g.dart', emptyFilePath);
-    });
-
     return [
       ...serializationImports,
       ...pluralImports,
-      ...deferredImports,
     ];
   }
 }

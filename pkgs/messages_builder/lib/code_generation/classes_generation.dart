@@ -16,14 +16,12 @@ class ClassesGeneration {
   final String? context;
   final LocatedMessageFile parent;
   final Iterable<LocatedMessageFile> children;
-  final Map<String, String> emptyFiles;
 
   ClassesGeneration({
     required this.options,
     required this.context,
     required this.parent,
     required this.children,
-    required this.emptyFiles,
   });
 
   List<Spec> generate() {
@@ -39,7 +37,6 @@ class ClassesGeneration {
       options,
       context,
       parent.file.messages,
-      emptyFiles,
     ).generate();
 
     final classes = ClassGeneration(

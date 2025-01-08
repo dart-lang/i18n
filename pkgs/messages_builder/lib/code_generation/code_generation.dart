@@ -11,16 +11,14 @@ import 'import_generation.dart';
 class CodeGenerator {
   final GenerationOptions options;
   final List<Spec> classes;
-  final Iterable<String> emptyFilePaths;
 
   CodeGenerator({
     required this.options,
     required this.classes,
-    required this.emptyFilePaths,
   });
 
   String generate() {
-    final imports = ImportGeneration(options, emptyFilePaths).generate();
+    final imports = ImportGeneration(options).generate();
     final lib = Library(
       (p0) => p0
         ..ignoreForFile.addAll([

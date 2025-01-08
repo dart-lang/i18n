@@ -12,9 +12,12 @@ class MethodGeneration {
   final GenerationOptions options;
   final String? context;
   final List<ParameterizedMessage> messages;
-  final Map<String, String> emptyFiles;
 
-  MethodGeneration(this.options, this.context, this.messages, this.emptyFiles);
+  MethodGeneration(
+    this.options,
+    this.context,
+    this.messages,
+  );
 
   Method? generateMessageCall(int index, ParameterizedMessage message) {
     if (!message.nameIsDartConform) {
@@ -65,15 +68,6 @@ class MethodGeneration {
           final data = await _assetLoader(dataFile);
           final messageList = MessageListJson.fromString(data, _pluralSelector);''',
         };
-        final loadLibraries = emptyFiles.entries
-            .map(
-              (e) => '''
-if (locale == '${e.key}') {
- await ${e.value}.loadLibrary();
-}
-''',
-            )
-            .join(' else ');
         mb
           ..name = 'loadLocale'
           ..requiredParameters.add(Parameter(
@@ -89,7 +83,6 @@ if (locale == '${e.key}') {
             if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
-            $loadLibraries
             $loading
             if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
