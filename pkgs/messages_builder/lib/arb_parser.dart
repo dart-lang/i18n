@@ -12,8 +12,7 @@ import 'parameterized_message.dart';
 import 'placeholder.dart';
 
 class ArbParser {
-  final bool addName;
-  ArbParser([this.addName = false]);
+  ArbParser();
 
   MessageFile parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
@@ -52,7 +51,6 @@ class ArbParser {
       debugString,
       messageContent,
       name,
-      addId: addName,
     );
     final placeholdersMap = metadata?['placeholders'] as Map<String, dynamic>?;
     final placeholdersWithMetadata = placeholdersMap?.map(

@@ -14,13 +14,11 @@ class MessageParser {
   static ParameterizedMessage parse(
     String debugString,
     String fileContents,
-    String name, {
-    bool addId = false,
-  }) {
+    String name,
+  ) {
     final node = Parser(name, debugString, fileContents).parse();
     final arguments = <String>[];
-    final message =
-        parseNode(node, arguments, name, addId) ?? StringMessage('');
+    final message = parseNode(node, arguments, name) ?? StringMessage('');
     final placeholders = arguments.map(Placeholder.new).toList();
     return ParameterizedMessage(message, name, placeholders);
   }
@@ -29,18 +27,16 @@ class MessageParser {
     Node node,
     List<String> arguments, [
     String? name,
-    bool addId = false,
   ]) {
-    final id = addId ? name : null;
     final submessages = <Message>[];
     final placeholders = <({int argIndex, int afterStringMessage})>[];
     for (var child in node.children) {
       switch (child.type) {
         case ST.string:
-          submessages.add(StringMessage(child.value!, id: id));
+          submessages.add(StringMessage(child.value!));
           break;
         case ST.pluralExpr:
-          submessages.add(PluralParser().parse(child, arguments, addId, name));
+          submessages.add(PluralParser().parse(child, arguments));
           break;
         case ST.placeholderExpr:
           final identifier = child.children
@@ -55,7 +51,7 @@ class MessageParser {
           ));
           break;
         case ST.selectExpr:
-          submessages.add(SelectParser().parse(child, arguments, addId, name));
+          submessages.add(SelectParser().parse(child, arguments));
           break;
         default:
           break;
@@ -68,17 +64,15 @@ class MessageParser {
     } else if (submessages.every((message) => message is StringMessage)) {
       return combineStringsAndPlaceholders(
         submessages.whereType<StringMessage>().toList(),
-        id,
         placeholders,
       );
     } else {
-      return CombinedMessage(id, submessages);
+      return CombinedMessage(submessages);
     }
   }
 
   static StringMessage combineStringsAndPlaceholders(
     List<StringMessage> submessages,
-    String? id,
     List<({int afterStringMessage, int argIndex})> placeholders,
   ) {
     final argPositions = <({int argIndex, int stringIndex})>[];
@@ -94,6 +88,6 @@ class MessageParser {
         s.write(submessage.value);
       }
     }
-    return StringMessage(s.toString(), argPositions: argPositions, id: id);
+    return StringMessage(s.toString(), argPositions: argPositions);
   }
 }

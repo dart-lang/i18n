@@ -40,7 +40,6 @@ class ClassesGeneration {
     ).generate();
 
     final classes = ClassGeneration(
-      options,
       parent.file.messages,
       context,
       constructors,

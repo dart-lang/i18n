@@ -6,7 +6,6 @@ import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
 import '../parameterized_message.dart';
-import 'generation.dart';
 
 class MethodGeneration {
   final GenerationOptions options;
@@ -26,11 +25,7 @@ class MethodGeneration {
     final arguments =
         message.placeholders.map((placeholder) => placeholder.name).join(', ');
 
-    final indexStr = options.indexType == IndexType.enumerate
-        ? '${enumName(context)}.${message.name}.index'
-        : index.toString();
-    final body =
-        '_currentMessages.generateStringAtIndex($indexStr, [$arguments])';
+    final body = '_currentMessages.generateStringAtIndex($index, [$arguments])';
     final methodType = message.placeholders.isEmpty ? MethodType.getter : null;
     return Method(
       (mb) => mb
@@ -133,49 +128,9 @@ class MethodGeneration {
         ..body = const Code('_currentLocale')
         ..returns = const Reference('String'),
     );
-    final getMessagebyId = Method((mb) => mb
-      ..name = 'getById'
-      ..requiredParameters.addAll([
-        Parameter(
-          (pb) => pb
-            ..name = 'id'
-            ..type = const Reference('String'),
-        )
-      ])
-      ..optionalParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'args'
-          ..type = const Reference('List<dynamic>')
-          ..defaultTo = const Code('const []'),
-      ))
-      ..body =
-          const Code('return _currentMessages.generateStringAtId(id, args);')
-      ..returns = const Reference('String'));
-    final findByEnum = Method((mb) => mb
-      ..name = 'getByEnum'
-      ..annotations
-          .add(const CodeExpression(Code("pragma('dart2js:noInline')")))
-      ..requiredParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'val'
-          ..type = Reference(enumName(context)),
-      ))
-      ..optionalParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'args'
-          ..type = const Reference('List<dynamic>')
-          ..defaultTo = const Code('const []'),
-      ))
-      ..body =
-          const Code('_currentMessages.generateStringAtIndex(val.index, args)')
-      ..lambda = true
-      ..returns = const Reference('String'));
-
     return [
       getCurrentLocale,
       getCurrentMessages,
-      if (options.findById) getMessagebyId,
-      if (options.indexType == IndexType.enumerate) findByEnum,
       getKnownLocales,
       loadLocale,
       loadAllLocales,

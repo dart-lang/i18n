@@ -34,7 +34,6 @@ void main() {
         serializationVersion: serializationVersion,
         locale: 'en_US',
         hash: 'hash',
-        hasIds: false,
       ),
       [
         StringMessage('Hello World'),
@@ -64,7 +63,6 @@ void main() {
       null,
     );
 
-    expect(messageList.preamble.hasIds, false);
     expect(messageList.preamble.locale, 'en_US');
     expect(messageList.generateStringAtIndex(0, []), 'Hello World');
     expect(messageList.generateStringAtIndex(1, ['case1']), 'Case case1');
