@@ -1,13 +1,10 @@
 ---
-name: Bug report for pkg:intl_translation
-about: Report a bug in intl_translation
-title: ''
-labels: 'type-bug'
-assignees: ''
-
+name: "package:intl_translation"
+about: "Create a bug or file a feature request against package:intl_translation."
+labels: "package:intl_translation"
 ---
 
-**Describe the bug**
+**Describe the bug/feature request**
 
 **Which script did you execute?**
 [ ] `extract_to_arb`

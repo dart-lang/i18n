@@ -1,12 +1,18 @@
 ---
-name: Wrong Locale Data
-about: I think the locale data is wrong
-title: ''
-labels: ''
-assignees: ''
-
+name: "package:intl"
+about: "Create a bug or file a feature request against package:intl."
+labels: "package:intl"
 ---
 
+*Delete the sections which are irrelevant*
+
+**Which locale is missing?**
+<e.g. `en_US`>
+
+**Which locale have you considered of using instead, but was not sufficient?**
+<e.g. `en_NZ`>
+
+**I think the locale data is wrong**
 Is it really wrong?
 
 For locale data, there are only a few hard and fast facts, such as the names of days and months. Even these are subject to regional variants, and to changes over time. For example, the “Czech Republic” is known since 2016 as “Czechia”.
