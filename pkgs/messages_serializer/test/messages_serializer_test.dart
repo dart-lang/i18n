@@ -32,7 +32,7 @@ Message intlPluralSelector(
 
 StringMessage stringMessage = StringMessage('Hello World', id: 'hello_world');
 
-CombinedMessage combinedMessage = CombinedMessage('combined', [
+CombinedMessage combinedMessage = CombinedMessage([
   StringMessage('First '),
   StringMessage('Second'),
 ]);
@@ -54,7 +54,6 @@ SelectMessage selectMessage = SelectMessage(
     'case2': StringMessage('Case2'),
   },
   0,
-  'selectMes',
 );
 
 void main() {
@@ -65,14 +64,10 @@ void main() {
       pluralMessage,
       selectMessage,
     ];
-    final serialized =
-        JsonSerializer(true).serialize('hash', 'locale', messages);
+    final serialized = JsonSerializer().serialize('hash', 'locale', messages);
     final deserialize =
         JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages.map((e) => e.id),
-      orderedEquals(messages.map((e) => e.id)),
-    );
+    compareMessages(deserialize.messages, messages);
   });
 
   test('Serialize partially', () {
@@ -83,13 +78,10 @@ void main() {
       selectMessage,
     ];
     final serialized =
-        JsonSerializer(true).serialize('hash', 'locale', messages, [1, 3]);
+        JsonSerializer().serialize('hash', 'locale', messages, [1, 3]);
     final deserialize =
         JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages.map((e) => e.id),
-      orderedEquals([messages[1], messages[3]].map((e) => e.id)),
-    );
+    compareMessages(deserialize.messages, [messages[1], messages[3]]);
   });
 
   test('First serialize, then deserialize again', () {
@@ -102,14 +94,10 @@ void main() {
         selectMessage,
       ]
     ];
-    final params = [
-      for (var writeId in [true, false])
-        for (var messages in messageTypes) (writeId, messages)
-    ];
-    for (final (writeId, messages) in params) {
+    for (final messages in messageTypes) {
       serializeThenDeserialize<String>(
         messages,
-        JsonSerializer(writeId),
+        JsonSerializer(),
         JsonDeserializer.new,
       );
     }
