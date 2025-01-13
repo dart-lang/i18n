@@ -4,14 +4,12 @@
 
 import 'package:messages/messages.dart';
 
-import '../parameterized_message.dart';
-import '../placeholder.dart';
 import 'icu_message_parser.dart';
 import 'plural_parser.dart';
 import 'select_parser.dart';
 
 class MessageParser {
-  static ParameterizedMessage parse(
+  static (Message, List<String>) parse(
     String debugString,
     String fileContents,
     String name,
@@ -19,17 +17,11 @@ class MessageParser {
     final node = Parser(name, debugString, fileContents).parse();
     final arguments = <String>[];
     final message = parseNode(node, arguments, name) ?? StringMessage('');
-    final placeholders = arguments.map(Placeholder.new).toList();
-    return ParameterizedMessage(message, name, placeholders);
+    return (message, arguments);
   }
 
-  static Message? parseNode(
-    Node node,
-    List<String> arguments, [
-    String? name,
-  ]) {
+  static Message? parseNode(Node node, List<String> arguments, [String? name]) {
     final submessages = <Message>[];
-    final placeholders = <({int argIndex, int afterStringMessage})>[];
     for (var child in node.children) {
       switch (child.type) {
         case ST.string:
@@ -45,10 +37,14 @@ class MessageParser {
           if (!arguments.contains(identifier)) {
             arguments.add(identifier);
           }
-          placeholders.add((
-            argIndex: arguments.indexOf(identifier),
-            afterStringMessage: submessages.length,
-          ));
+          submessages.add(
+            StringMessage(
+              '',
+              argPositions: [
+                (argIndex: arguments.indexOf(identifier), stringIndex: 0),
+              ],
+            ),
+          );
           break;
         case ST.selectExpr:
           submessages.add(SelectParser().parse(child, arguments));
@@ -57,37 +53,40 @@ class MessageParser {
           break;
       }
     }
-    if (submessages.isEmpty && placeholders.isEmpty) {
+    if (submessages.isEmpty) {
       return null;
-    } else if (submessages.length == 1 && placeholders.isEmpty) {
-      return submessages.first;
-    } else if (submessages.every((message) => message is StringMessage)) {
-      return combineStringsAndPlaceholders(
-        submessages.whereType<StringMessage>().toList(),
-        placeholders,
-      );
+    }
+    final fold = submessages.fold(<Message>[], (messages, message) {
+      if (messages.isNotEmpty &&
+          message is StringMessage &&
+          messages.last is StringMessage) {
+        final last = messages.removeLast() as StringMessage;
+        return [...messages, combineStringMessages(last, message)];
+      } else {
+        return [...messages, message];
+      }
+    });
+    if (fold.length == 1) {
+      return fold.first;
     } else {
-      return CombinedMessage(submessages);
+      return CombinedMessage(fold);
     }
   }
 
-  static StringMessage combineStringsAndPlaceholders(
-    List<StringMessage> submessages,
-    List<({int afterStringMessage, int argIndex})> placeholders,
-  ) {
-    final argPositions = <({int argIndex, int stringIndex})>[];
-    final s = StringBuffer();
-    for (var i = 0; i < submessages.length + 1; i++) {
-      placeholders
-          .where((element) => element.afterStringMessage == i)
-          .forEach((element) {
-        argPositions.add((argIndex: element.argIndex, stringIndex: s.length));
-      });
-      if (i < submessages.length) {
-        final submessage = submessages[i];
-        s.write(submessage.value);
-      }
-    }
-    return StringMessage(s.toString(), argPositions: argPositions);
-  }
+  static StringMessage combineStringMessages(
+    StringMessage message1,
+    StringMessage message2,
+  ) =>
+      StringMessage(
+        message1.value + message2.value,
+        argPositions: [
+          ...message1.argPositions,
+          ...message2.argPositions.map(
+            (e) => (
+              argIndex: e.argIndex,
+              stringIndex: e.stringIndex + message1.value.length,
+            ),
+          ),
+        ],
+      );
 }
