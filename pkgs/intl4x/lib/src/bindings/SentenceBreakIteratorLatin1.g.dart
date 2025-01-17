@@ -35,14 +35,14 @@ final class SentenceBreakIteratorLatin1 implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XSentenceBreakIteratorLatin1_destroy')
+@KeepSymbol('ICU4XSentenceBreakIteratorLatin1_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XSentenceBreakIteratorLatin1_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XSentenceBreakIteratorLatin1_destroy(
     ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XSentenceBreakIteratorLatin1_next')
+@KeepSymbol('ICU4XSentenceBreakIteratorLatin1_next')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XSentenceBreakIteratorLatin1_next')
 // ignore: non_constant_identifier_names
