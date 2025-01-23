@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - pkgs/intl4x/hook/hashes.dart
+      - pkgs/intl4x/src/hook_helpers/hashes.dart
   push:
     tags:
       - 'intl4x-icu*'

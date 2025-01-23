@@ -9,6 +9,7 @@ library;
 import 'dart:io';
 
 import 'package:path/path.dart';
+
 import 'intl_helpers.dart';
 
 class FileDataReader implements LocaleDataReader {

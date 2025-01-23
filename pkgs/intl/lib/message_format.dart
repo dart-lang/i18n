@@ -10,6 +10,7 @@
 library;
 
 import 'dart:collection';
+
 import 'intl.dart';
 
 /// **MessageFormat grammar:**
