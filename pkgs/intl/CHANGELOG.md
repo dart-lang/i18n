@@ -1,3 +1,8 @@
+## [Next Release]
+ * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`  
+   from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the  
+   official symbol introduced in 2012.
+
 ## 0.20.2
  * Remove the dependency on `package:http`.
  * Remove the dependency on `package:web`.
