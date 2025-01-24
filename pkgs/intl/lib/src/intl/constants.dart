@@ -91,7 +91,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'RON': 'RON',
   'BGN': 'lev',
   'SZL': 'SZL',
-  'TRY': 'TL',
+  'TRY': '\u20BA',
   'LTL': 'Lt',
   'LSL': 'LSL',
   'AZN': 'man.',
