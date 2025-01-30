@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../../ecma_policy.dart';
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
+import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'plural_rules.dart';
 import 'plural_rules_options.dart';
@@ -23,7 +22,7 @@ abstract class PluralRulesImpl {
 
   PluralCategory selectImpl(num number);
 
-  @ResourceIdentifier('PluralRules')
+  @RecordSymbol('PluralRules')
   static PluralRulesImpl build(
     Locale locales,
     Data data,

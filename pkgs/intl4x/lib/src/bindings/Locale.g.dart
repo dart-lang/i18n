@@ -253,33 +253,33 @@ final class Locale implements ffi.Finalizable, core.Comparable<Locale> {
       42; // Cannot get hash from Rust, so a constant is the only correct impl
 }
 
-@meta.ResourceIdentifier('ICU4XLocale_destroy')
+@RecordSymbol('ICU4XLocale_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XLocale_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XLocale_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XLocale_create_from_string')
+@RecordSymbol('ICU4XLocale_create_from_string')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
     isLeaf: true, symbol: 'ICU4XLocale_create_from_string')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XLocale_create_from_string(
     ffi.Pointer<ffi.Uint8> nameData, int nameLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_create_und')
+@RecordSymbol('ICU4XLocale_create_und')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function()>(
     isLeaf: true, symbol: 'ICU4XLocale_create_und')
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XLocale_create_und();
 
-@meta.ResourceIdentifier('ICU4XLocale_clone')
+@RecordSymbol('ICU4XLocale_clone')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XLocale_clone')
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XLocale_clone(
     ffi.Pointer<ffi.Opaque> self);
 
-@meta.ResourceIdentifier('ICU4XLocale_basename')
+@RecordSymbol('ICU4XLocale_basename')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Opaque>)>(isLeaf: true, symbol: 'ICU4XLocale_basename')
@@ -287,7 +287,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XLocale_clone(
 external _ResultVoidInt32 _ICU4XLocale_basename(
     ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_get_unicode_extension')
+@RecordSymbol('ICU4XLocale_get_unicode_extension')
 @ffi.Native<
         _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
@@ -299,7 +299,7 @@ external _ResultVoidInt32 _ICU4XLocale_get_unicode_extension(
     int bytesLength,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_language')
+@RecordSymbol('ICU4XLocale_language')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Opaque>)>(isLeaf: true, symbol: 'ICU4XLocale_language')
@@ -307,7 +307,7 @@ external _ResultVoidInt32 _ICU4XLocale_get_unicode_extension(
 external _ResultVoidInt32 _ICU4XLocale_language(
     ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_set_language')
+@RecordSymbol('ICU4XLocale_set_language')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>,
         ffi.Size)>(isLeaf: true, symbol: 'ICU4XLocale_set_language')
@@ -317,7 +317,7 @@ external _ResultVoidInt32 _ICU4XLocale_set_language(
     ffi.Pointer<ffi.Uint8> bytesData,
     int bytesLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_region')
+@RecordSymbol('ICU4XLocale_region')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Opaque>)>(isLeaf: true, symbol: 'ICU4XLocale_region')
@@ -325,7 +325,7 @@ external _ResultVoidInt32 _ICU4XLocale_set_language(
 external _ResultVoidInt32 _ICU4XLocale_region(
     ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_set_region')
+@RecordSymbol('ICU4XLocale_set_region')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>,
         ffi.Size)>(isLeaf: true, symbol: 'ICU4XLocale_set_region')
@@ -333,7 +333,7 @@ external _ResultVoidInt32 _ICU4XLocale_region(
 external _ResultVoidInt32 _ICU4XLocale_set_region(ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Uint8> bytesData, int bytesLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_script')
+@RecordSymbol('ICU4XLocale_script')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Opaque>)>(isLeaf: true, symbol: 'ICU4XLocale_script')
@@ -341,7 +341,7 @@ external _ResultVoidInt32 _ICU4XLocale_set_region(ffi.Pointer<ffi.Opaque> self,
 external _ResultVoidInt32 _ICU4XLocale_script(
     ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_set_script')
+@RecordSymbol('ICU4XLocale_set_script')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>,
         ffi.Size)>(isLeaf: true, symbol: 'ICU4XLocale_set_script')
@@ -349,7 +349,7 @@ external _ResultVoidInt32 _ICU4XLocale_script(
 external _ResultVoidInt32 _ICU4XLocale_set_script(ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Uint8> bytesData, int bytesLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_canonicalize')
+@RecordSymbol('ICU4XLocale_canonicalize')
 @ffi.Native<
         _ResultVoidInt32 Function(
             ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
@@ -360,7 +360,7 @@ external _ResultVoidInt32 _ICU4XLocale_canonicalize(
     int bytesLength,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_to_string')
+@RecordSymbol('ICU4XLocale_to_string')
 @ffi.Native<
     _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
         ffi.Pointer<ffi.Opaque>)>(isLeaf: true, symbol: 'ICU4XLocale_to_string')
@@ -368,7 +368,7 @@ external _ResultVoidInt32 _ICU4XLocale_canonicalize(
 external _ResultVoidInt32 _ICU4XLocale_to_string(
     ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XLocale_normalizing_eq')
+@RecordSymbol('ICU4XLocale_normalizing_eq')
 @ffi.Native<
     ffi.Bool Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>,
         ffi.Size)>(isLeaf: true, symbol: 'ICU4XLocale_normalizing_eq')
@@ -376,7 +376,7 @@ external _ResultVoidInt32 _ICU4XLocale_to_string(
 external bool _ICU4XLocale_normalizing_eq(ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Uint8> otherData, int otherLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_strict_cmp_')
+@RecordSymbol('ICU4XLocale_strict_cmp_')
 @ffi.Native<
     ffi.Int8 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>,
         ffi.Size)>(isLeaf: true, symbol: 'ICU4XLocale_strict_cmp_')
@@ -384,7 +384,7 @@ external bool _ICU4XLocale_normalizing_eq(ffi.Pointer<ffi.Opaque> self,
 external int _ICU4XLocale_strict_cmp_(ffi.Pointer<ffi.Opaque> self,
     ffi.Pointer<ffi.Uint8> otherData, int otherLength);
 
-@meta.ResourceIdentifier('ICU4XLocale_total_cmp_')
+@RecordSymbol('ICU4XLocale_total_cmp_')
 @ffi.Native<
         ffi.Int8 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XLocale_total_cmp_')

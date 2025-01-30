@@ -213,20 +213,20 @@ final class CaseMapper implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_destroy')
+@RecordSymbol('ICU4XCaseMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XCaseMapper_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_create')
+@RecordSymbol('ICU4XCaseMapper_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_create')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XCaseMapper_create(
     ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_lowercase')
+@RecordSymbol('ICU4XCaseMapper_lowercase')
 @ffi.Native<
         _ResultVoidInt32 Function(
             ffi.Pointer<ffi.Opaque>,
@@ -243,7 +243,7 @@ external _ResultVoidInt32 _ICU4XCaseMapper_lowercase(
     ffi.Pointer<ffi.Opaque> locale,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_uppercase')
+@RecordSymbol('ICU4XCaseMapper_uppercase')
 @ffi.Native<
         _ResultVoidInt32 Function(
             ffi.Pointer<ffi.Opaque>,
@@ -260,8 +260,7 @@ external _ResultVoidInt32 _ICU4XCaseMapper_uppercase(
     ffi.Pointer<ffi.Opaque> locale,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier(
-    'ICU4XCaseMapper_titlecase_segment_with_only_case_data_v1')
+@RecordSymbol('ICU4XCaseMapper_titlecase_segment_with_only_case_data_v1')
 @ffi.Native<
         _ResultVoidInt32 Function(
             ffi.Pointer<ffi.Opaque>,
@@ -282,7 +281,7 @@ external _ResultVoidInt32
         _TitlecaseOptionsFfi options,
         ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_fold')
+@RecordSymbol('ICU4XCaseMapper_fold')
 @ffi.Native<
     _ResultVoidInt32 Function(
         ffi.Pointer<ffi.Opaque>,
@@ -296,7 +295,7 @@ external _ResultVoidInt32 _ICU4XCaseMapper_fold(
     int sLength,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_fold_turkic')
+@RecordSymbol('ICU4XCaseMapper_fold_turkic')
 @ffi.Native<
         _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
@@ -308,7 +307,7 @@ external _ResultVoidInt32 _ICU4XCaseMapper_fold_turkic(
     int sLength,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_add_case_closure_to')
+@RecordSymbol('ICU4XCaseMapper_add_case_closure_to')
 @ffi.Native<
         ffi.Void Function(
             ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Pointer<ffi.Opaque>)>(
@@ -317,35 +316,35 @@ external _ResultVoidInt32 _ICU4XCaseMapper_fold_turkic(
 external void _ICU4XCaseMapper_add_case_closure_to(
     ffi.Pointer<ffi.Opaque> self, Rune c, ffi.Pointer<ffi.Opaque> builder);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_simple_lowercase')
+@RecordSymbol('ICU4XCaseMapper_simple_lowercase')
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_simple_lowercase')
 // ignore: non_constant_identifier_names
 external Rune _ICU4XCaseMapper_simple_lowercase(
     ffi.Pointer<ffi.Opaque> self, Rune ch);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_simple_uppercase')
+@RecordSymbol('ICU4XCaseMapper_simple_uppercase')
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_simple_uppercase')
 // ignore: non_constant_identifier_names
 external Rune _ICU4XCaseMapper_simple_uppercase(
     ffi.Pointer<ffi.Opaque> self, Rune ch);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_simple_titlecase')
+@RecordSymbol('ICU4XCaseMapper_simple_titlecase')
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_simple_titlecase')
 // ignore: non_constant_identifier_names
 external Rune _ICU4XCaseMapper_simple_titlecase(
     ffi.Pointer<ffi.Opaque> self, Rune ch);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_simple_fold')
+@RecordSymbol('ICU4XCaseMapper_simple_fold')
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_simple_fold')
 // ignore: non_constant_identifier_names
 external Rune _ICU4XCaseMapper_simple_fold(
     ffi.Pointer<ffi.Opaque> self, Rune ch);
 
-@meta.ResourceIdentifier('ICU4XCaseMapper_simple_fold_turkic')
+@RecordSymbol('ICU4XCaseMapper_simple_fold_turkic')
 @ffi.Native<ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
     isLeaf: true, symbol: 'ICU4XCaseMapper_simple_fold_turkic')
 // ignore: non_constant_identifier_names

@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:intl4x/src/hook_helpers/hashes.dart';
 import 'package:intl4x/src/hook_helpers/version.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart';
 import 'package:path/path.dart' as path;
 
 const crateName = 'icu_capi';
@@ -17,12 +17,12 @@ const assetId = 'src/bindings/lib.g.dart';
 final env = 'ICU4X_BUILD_MODE';
 
 void main(List<String> args) async {
-  await build(args, (config, output) async {
+  await build(args, (input, output) async {
     final environmentBuildMode = Platform.environment[env];
     final buildMode = switch (environmentBuildMode) {
-      'local' => LocalMode(config),
-      'checkout' => CheckoutMode(config),
-      'fetch' || null => FetchMode(config),
+      'local' => LocalMode(input),
+      'checkout' => CheckoutMode(input),
+      'fetch' || null => FetchMode(input),
       String() => throw ArgumentError('''
 
 
@@ -39,28 +39,30 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
     // ignore: deprecated_member_use
     output.addMetadatum(env, environmentBuildMode ?? 'fetch');
 
-    output.addAsset(NativeCodeAsset(
+    final targetOS = input.config.code.targetOS;
+    final targetArchitecture = input.config.code.targetArchitecture;
+    output.assets.code.add(CodeAsset(
       package: package,
       name: assetId,
       linkMode: DynamicLoadingBundled(),
-      architecture: config.targetArchitecture,
-      os: config.targetOS,
+      architecture: targetArchitecture,
+      os: targetOS,
       file: builtLibrary,
     ));
 
     output.addDependencies(
       [
         ...buildMode.dependencies,
-        config.packageRoot.resolve('hook/build.dart'),
+        input.packageRoot.resolve('hook/build.dart'),
       ],
     );
   });
 }
 
 sealed class BuildMode {
-  final BuildConfig config;
+  final BuildInput input;
 
-  const BuildMode(this.config);
+  const BuildMode(this.input);
 
   List<Uri> get dependencies;
 
@@ -68,14 +70,16 @@ sealed class BuildMode {
 }
 
 final class FetchMode extends BuildMode {
-  FetchMode(super.config);
+  FetchMode(super.input);
 
   @override
   Future<Uri> build() async {
+    final targetOS = input.config.code.targetOS;
+    final targetArchitecture = input.config.code.targetArchitecture;
     final libraryType = 'dynamic'; //TODO: Add `static` when using link hooks.
     final target = [
-      config.targetOS,
-      config.targetArchitecture,
+      targetOS,
+      targetArchitecture,
       libraryType,
     ].join('_');
     final uri = Uri.parse(
@@ -86,14 +90,14 @@ final class FetchMode extends BuildMode {
       throw ArgumentError('The request to $uri failed');
     }
     final library = File.fromUri(
-        config.outputDirectory.resolve(config.targetOS.dylibFileName('icu4x')));
+        input.outputDirectory.resolve(targetOS.dylibFileName('icu4x')));
     await library.create();
     await response.pipe(library.openWrite());
 
     final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
     final expectedFileHash =
-        fileHashes[(config.targetOS, config.targetArchitecture, libraryType)];
+        fileHashes[(targetOS, targetArchitecture, libraryType)];
     if (fileHash == expectedFileHash) {
       return library.uri;
     } else {
@@ -109,7 +113,7 @@ final class FetchMode extends BuildMode {
 }
 
 final class LocalMode extends BuildMode {
-  LocalMode(super.config);
+  LocalMode(super.input);
 
   String get _localBinaryPath {
     final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
@@ -124,8 +128,9 @@ final class LocalMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
-    final dylibFileName = config.targetOS.dylibFileName('icu4x');
-    final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
+    final targetOS = input.config.code.targetOS;
+    final dylibFileName = targetOS.dylibFileName('icu4x');
+    final dylibFileUri = input.outputDirectory.resolve(dylibFileName);
     final file = File(_localBinaryPath);
     if (!(await file.exists())) {
       throw FileSystemException('Could not find binary.', _localBinaryPath);
@@ -139,7 +144,7 @@ final class LocalMode extends BuildMode {
 }
 
 final class CheckoutMode extends BuildMode {
-  CheckoutMode(super.config);
+  CheckoutMode(super.input);
 
   String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
 
@@ -149,7 +154,7 @@ final class CheckoutMode extends BuildMode {
       throw ArgumentError('Specify the ICU4X checkout folder'
           'with the LOCAL_ICU4X_CHECKOUT variable');
     }
-    return await buildLib(config, workingDirectory!);
+    return await buildLib(input, workingDirectory!);
   }
 
   @override
@@ -158,101 +163,99 @@ final class CheckoutMode extends BuildMode {
       ];
 }
 
-Future<Uri> buildLib(BuildConfig config, String workingDirectory) async {
-  final dylibFileName =
-      config.targetOS.dylibFileName(crateName.replaceAll('-', '_'));
-  final dylibFileUri = config.outputDirectory.resolve(dylibFileName);
-  if (!config.dryRun) {
-    final rustTarget = _asRustTarget(
-      config.targetOS,
-      config.dryRun ? null : config.targetArchitecture!,
-      config.targetOS == OS.iOS &&
-          config.targetIOSSdk == IOSSdk.iPhoneSimulator,
-    );
-    final isNoStd =
-        _isNoStdTarget((config.targetOS, config.targetArchitecture));
+Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
+  final code = input.config.code;
+  final targetOS = code.targetOS;
+  final targetArchitecture = code.targetArchitecture;
+  final dylibFileName = targetOS.dylibFileName(crateName.replaceAll('-', '_'));
+  final dylibFileUri = input.outputDirectory.resolve(dylibFileName);
+  final rustTarget = _asRustTarget(
+    targetOS,
+    targetArchitecture,
+    targetOS == OS.iOS && code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
+  );
+  final isNoStd = _isNoStdTarget((targetOS, targetArchitecture));
 
-    if (!isNoStd) {
-      final rustArguments = ['target', 'add', rustTarget];
-      final rustup = await Process.run(
-        'rustup',
-        rustArguments,
-        workingDirectory: workingDirectory,
-      );
-
-      if (rustup.exitCode != 0) {
-        throw ProcessException(
-          'rustup',
-          rustArguments,
-          rustup.stderr.toString(),
-          rustup.exitCode,
-        );
-      }
-    }
-    final tempDir = await Directory.systemTemp.createTemp();
-
-    final stdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'logging',
-      'simple_logger',
-      'experimental_components',
-    ];
-    final noStdFeatures = [
-      'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-      'compiled_data',
-      'buffer_provider',
-      'libc-alloc',
-      'panic-handler',
-      'experimental_components',
-    ];
-    final linkModeType = config.linkModePreference == LinkModePreference.static
-        ? 'staticlib'
-        : 'cdylib';
-    final arguments = [
-      if (isNoStd) '+nightly',
-      'rustc',
-      '-p=$crateName',
-      '--crate-type=$linkModeType',
-      '--release',
-      '--config=profile.release.panic="abort"',
-      '--config=profile.release.codegen-units=1',
-      '--no-default-features',
-      if (!isNoStd) '--features=${stdFeatures.join(',')}',
-      if (isNoStd) '--features=${noStdFeatures.join(',')}',
-      if (isNoStd) '-Zbuild-std=core,alloc',
-      if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-      '--target=$rustTarget',
-      '--target-dir=${tempDir.path}'
-    ];
-    final cargo = await Process.run(
-      'cargo',
-      arguments,
+  if (!isNoStd) {
+    final rustArguments = ['target', 'add', rustTarget];
+    final rustup = await Process.run(
+      'rustup',
+      rustArguments,
       workingDirectory: workingDirectory,
     );
 
-    if (cargo.exitCode != 0) {
+    if (rustup.exitCode != 0) {
       throw ProcessException(
-        'cargo',
-        arguments,
-        cargo.stderr.toString(),
-        cargo.exitCode,
+        'rustup',
+        rustArguments,
+        rustup.stderr.toString(),
+        rustup.exitCode,
       );
     }
-
-    final builtPath = path.join(
-      tempDir.path,
-      rustTarget,
-      'release',
-      dylibFileName,
-    );
-    final file = File(builtPath);
-    if (!(await file.exists())) {
-      throw FileSystemException('Building the dylib failed', builtPath);
-    }
-    await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
   }
+  final tempDir = await Directory.systemTemp.createTemp();
+
+  final stdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'logging',
+    'simple_logger',
+    'experimental_components',
+  ];
+  final noStdFeatures = [
+    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+    'compiled_data',
+    'buffer_provider',
+    'libc-alloc',
+    'panic-handler',
+    'experimental_components',
+  ];
+  final linkModeType = code.linkModePreference == LinkModePreference.static
+      ? 'staticlib'
+      : 'cdylib';
+  final arguments = [
+    if (isNoStd) '+nightly',
+    'rustc',
+    '-p=$crateName',
+    '--crate-type=$linkModeType',
+    '--release',
+    '--config=profile.release.panic="abort"',
+    '--config=profile.release.codegen-units=1',
+    '--no-default-features',
+    if (!isNoStd) '--features=${stdFeatures.join(',')}',
+    if (isNoStd) '--features=${noStdFeatures.join(',')}',
+    if (isNoStd) '-Zbuild-std=core,alloc',
+    if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
+    '--target=$rustTarget',
+    '--target-dir=${tempDir.path}'
+  ];
+  final cargo = await Process.run(
+    'cargo',
+    arguments,
+    workingDirectory: workingDirectory,
+  );
+
+  if (cargo.exitCode != 0) {
+    throw ProcessException(
+      'cargo',
+      arguments,
+      cargo.stderr.toString(),
+      cargo.exitCode,
+    );
+  }
+
+  final builtPath = path.join(
+    tempDir.path,
+    rustTarget,
+    'release',
+    dylibFileName,
+  );
+  final file = File(builtPath);
+  if (!(await file.exists())) {
+    throw FileSystemException('Building the dylib failed', builtPath);
+  }
+  await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
   return dylibFileUri;
 }
 

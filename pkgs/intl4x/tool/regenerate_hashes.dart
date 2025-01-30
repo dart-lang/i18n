@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:intl4x/src/hook_helpers/version.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
-
-final httpClient = HttpClient();
+import 'package:native_assets_cli/code_assets.dart' show Architecture;
 
 Future<void> main(List<String> args) async {
+  final httpClient = HttpClient();
+
   print('Checking hashes for $version');
   final fileHashes = <(String, Architecture, String), String>{};
   final dynamicLibrary = File.fromUri(Directory.systemTemp.uri.resolve('lib'));

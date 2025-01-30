@@ -71,13 +71,13 @@ final class WeekCalculator implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XWeekCalculator_destroy')
+@RecordSymbol('ICU4XWeekCalculator_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XWeekCalculator_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XWeekCalculator_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XWeekCalculator_create')
+@RecordSymbol('ICU4XWeekCalculator_create')
 @ffi.Native<
         _ResultOpaqueInt32 Function(
             ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
@@ -86,7 +86,7 @@ external void _ICU4XWeekCalculator_destroy(ffi.Pointer<ffi.Void> self);
 external _ResultOpaqueInt32 _ICU4XWeekCalculator_create(
     ffi.Pointer<ffi.Opaque> provider, ffi.Pointer<ffi.Opaque> locale);
 
-@meta.ResourceIdentifier(
+@RecordSymbol(
     'ICU4XWeekCalculator_create_from_first_day_of_week_and_min_week_days')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Int32, ffi.Uint8)>(
     isLeaf: true,
@@ -97,19 +97,19 @@ external ffi.Pointer<ffi.Opaque>
     _ICU4XWeekCalculator_create_from_first_day_of_week_and_min_week_days(
         int firstWeekday, int minWeekDays);
 
-@meta.ResourceIdentifier('ICU4XWeekCalculator_first_weekday')
+@RecordSymbol('ICU4XWeekCalculator_first_weekday')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWeekCalculator_first_weekday')
 // ignore: non_constant_identifier_names
 external int _ICU4XWeekCalculator_first_weekday(ffi.Pointer<ffi.Opaque> self);
 
-@meta.ResourceIdentifier('ICU4XWeekCalculator_min_week_days')
+@RecordSymbol('ICU4XWeekCalculator_min_week_days')
 @ffi.Native<ffi.Uint8 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWeekCalculator_min_week_days')
 // ignore: non_constant_identifier_names
 external int _ICU4XWeekCalculator_min_week_days(ffi.Pointer<ffi.Opaque> self);
 
-@meta.ResourceIdentifier('ICU4XWeekCalculator_weekend')
+@RecordSymbol('ICU4XWeekCalculator_weekend')
 @ffi.Native<_WeekendContainsDayFfi Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XWeekCalculator_weekend')
 // ignore: non_constant_identifier_names

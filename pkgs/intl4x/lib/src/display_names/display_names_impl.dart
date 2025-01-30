@@ -2,12 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
+import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'display_names_4x.dart'
     if (dart.library.js) 'display_names_stub_4x.dart';
@@ -34,7 +33,7 @@ abstract class DisplayNamesImpl {
 
   String ofCalendar(Calendar calendar);
 
-  @ResourceIdentifier('DisplayNames')
+  @RecordSymbol('DisplayNames')
   static DisplayNamesImpl build(
     Locale locale,
     Data data,

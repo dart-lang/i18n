@@ -2,12 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
+import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
@@ -25,7 +24,7 @@ abstract class DateTimeFormatImpl {
 
   String formatImpl(DateTime datetime);
 
-  @ResourceIdentifier('DisplayNames')
+  @RecordSymbol('DisplayNames')
   static DateTimeFormatImpl build(
     Locale locale,
     Data data,

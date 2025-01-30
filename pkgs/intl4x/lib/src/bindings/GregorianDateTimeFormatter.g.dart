@@ -57,14 +57,14 @@ final class GregorianDateTimeFormatter implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XGregorianDateTimeFormatter_destroy')
+@RecordSymbol('ICU4XGregorianDateTimeFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XGregorianDateTimeFormatter_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XGregorianDateTimeFormatter_destroy(
     ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XGregorianDateTimeFormatter_create_with_lengths')
+@RecordSymbol('ICU4XGregorianDateTimeFormatter_create_with_lengths')
 @ffi.Native<
         _ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Opaque>, ffi.Int32, ffi.Int32)>(
@@ -77,7 +77,7 @@ external _ResultOpaqueInt32
         int dateLength,
         int timeLength);
 
-@meta.ResourceIdentifier('ICU4XGregorianDateTimeFormatter_format_iso_datetime')
+@RecordSymbol('ICU4XGregorianDateTimeFormatter_format_iso_datetime')
 @ffi.Native<
         _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(

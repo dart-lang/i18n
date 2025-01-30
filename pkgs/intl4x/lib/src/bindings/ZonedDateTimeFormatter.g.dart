@@ -107,13 +107,13 @@ final class ZonedDateTimeFormatter implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XZonedDateTimeFormatter_destroy')
+@RecordSymbol('ICU4XZonedDateTimeFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XZonedDateTimeFormatter_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XZonedDateTimeFormatter_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XZonedDateTimeFormatter_create_with_lengths')
+@RecordSymbol('ICU4XZonedDateTimeFormatter_create_with_lengths')
 @ffi.Native<
         _ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Opaque>, ffi.Int32, ffi.Int32)>(
@@ -125,7 +125,7 @@ external _ResultOpaqueInt32 _ICU4XZonedDateTimeFormatter_create_with_lengths(
     int dateLength,
     int timeLength);
 
-@meta.ResourceIdentifier(
+@RecordSymbol(
     'ICU4XZonedDateTimeFormatter_create_with_lengths_and_iso_8601_time_zone_fallback')
 @ffi.Native<
         _ResultOpaqueInt32 Function(
@@ -146,7 +146,7 @@ external _ResultOpaqueInt32
         int timeLength,
         _IsoTimeZoneOptionsFfi zoneOptions);
 
-@meta.ResourceIdentifier(
+@RecordSymbol(
     'ICU4XZonedDateTimeFormatter_format_datetime_with_custom_time_zone')
 @ffi.Native<
         _ResultVoidInt32 Function(
@@ -164,7 +164,7 @@ external _ResultVoidInt32
         ffi.Pointer<ffi.Opaque> timeZone,
         ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier(
+@RecordSymbol(
     'ICU4XZonedDateTimeFormatter_format_iso_datetime_with_custom_time_zone')
 @ffi.Native<
         _ResultVoidInt32 Function(

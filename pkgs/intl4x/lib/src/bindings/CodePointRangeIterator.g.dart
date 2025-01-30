@@ -35,13 +35,13 @@ final class CodePointRangeIterator implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('CodePointRangeIterator_destroy')
+@RecordSymbol('CodePointRangeIterator_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'CodePointRangeIterator_destroy')
 // ignore: non_constant_identifier_names
 external void _CodePointRangeIterator_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('CodePointRangeIterator_next')
+@RecordSymbol('CodePointRangeIterator_next')
 @ffi.Native<_CodePointRangeIteratorResultFfi Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'CodePointRangeIterator_next')
 // ignore: non_constant_identifier_names

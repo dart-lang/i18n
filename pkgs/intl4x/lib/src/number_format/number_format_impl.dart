@@ -2,12 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
+import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'number_format_options.dart';
 import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
@@ -24,7 +23,7 @@ abstract class NumberFormatImpl {
 
   String formatImpl(Object number);
 
-  @ResourceIdentifier('NumberFormat')
+  @RecordSymbol('NumberFormat')
   static NumberFormatImpl build(
     Locale locale,
     Data data,

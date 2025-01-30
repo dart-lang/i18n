@@ -86,27 +86,27 @@ final class DecomposingNormalizer implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XDecomposingNormalizer_destroy')
+@RecordSymbol('ICU4XDecomposingNormalizer_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XDecomposingNormalizer_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XDecomposingNormalizer_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XDecomposingNormalizer_create_nfd')
+@RecordSymbol('ICU4XDecomposingNormalizer_create_nfd')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XDecomposingNormalizer_create_nfd')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XDecomposingNormalizer_create_nfd(
     ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XDecomposingNormalizer_create_nfkd')
+@RecordSymbol('ICU4XDecomposingNormalizer_create_nfkd')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XDecomposingNormalizer_create_nfkd')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XDecomposingNormalizer_create_nfkd(
     ffi.Pointer<ffi.Opaque> provider);
 
-@meta.ResourceIdentifier('ICU4XDecomposingNormalizer_normalize')
+@RecordSymbol('ICU4XDecomposingNormalizer_normalize')
 @ffi.Native<
         _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
             ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
@@ -118,7 +118,7 @@ external _ResultVoidInt32 _ICU4XDecomposingNormalizer_normalize(
     int sLength,
     ffi.Pointer<ffi.Opaque> writeable);
 
-@meta.ResourceIdentifier('ICU4XDecomposingNormalizer_is_normalized')
+@RecordSymbol('ICU4XDecomposingNormalizer_is_normalized')
 @ffi.Native<
         ffi.Bool Function(
             ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)>(

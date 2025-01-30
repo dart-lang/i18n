@@ -45,13 +45,13 @@ final class LocaleFallbackIterator
   }
 }
 
-@meta.ResourceIdentifier('ICU4XLocaleFallbackIterator_destroy')
+@RecordSymbol('ICU4XLocaleFallbackIterator_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
     isLeaf: true, symbol: 'ICU4XLocaleFallbackIterator_destroy')
 // ignore: non_constant_identifier_names
 external void _ICU4XLocaleFallbackIterator_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XLocaleFallbackIterator_next')
+@RecordSymbol('ICU4XLocaleFallbackIterator_next')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>)>(
     isLeaf: true, symbol: 'ICU4XLocaleFallbackIterator_next')
 // ignore: non_constant_identifier_names

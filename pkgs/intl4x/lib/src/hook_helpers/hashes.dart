@@ -7,7 +7,7 @@
 //    dart --enable-experiment=native-assets run tool/regenerate_hashes.dart
 //
 
-import 'package:native_assets_cli/native_assets_cli.dart';
+import 'package:native_assets_cli/code_assets.dart' show Architecture, OS;
 
 const fileHashes = <(OS, Architecture, String), String>{
   (OS.linux, Architecture.arm, 'dynamic'):
