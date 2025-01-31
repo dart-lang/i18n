@@ -2,34 +2,50 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:intl4x/src/hook_helpers/hashes.dart';
+import 'package:intl4x/src/hook_helpers/shared.dart'
+    show assetId, package, runProcess;
 import 'package:intl4x/src/hook_helpers/version.dart';
 import 'package:native_assets_cli/code_assets.dart';
 import 'package:path/path.dart' as path;
 
 const crateName = 'icu_capi';
-const package = 'intl4x';
-const assetId = 'src/bindings/lib.g.dart';
-
-final env = 'ICU4X_BUILD_MODE';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final environmentBuildMode = Platform.environment[env];
-    final buildMode = switch (environmentBuildMode) {
-      'local' => LocalMode(input),
-      'checkout' => CheckoutMode(input),
-      'fetch' || null => FetchMode(input),
-      String() => throw ArgumentError('''
+    final buildOptions = await getBuildOptions();
+    final buildMode = switch (buildOptions.buildMode) {
+      BuildModeEnum.local => LocalMode(input, buildOptions.localDylibPath),
+      BuildModeEnum.checkout => CheckoutMode(input, buildOptions.checkoutPath),
+      BuildModeEnum.fetch => FetchMode(input),
+      null => throw ArgumentError('''
 
 
-Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable with either `fetch`, `local`, or `checkout`.
+Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing a config file at ~/intl4x.json:
 * fetch: Fetch the precompiled binary from a CDN.
+```
+{
+    "buildMode": "fetch"
+}
+```
 * local: Use a locally existing binary at the environment variable `LOCAL_ICU4X_BINARY`.
-* checkout: Build a fresh library from a local git checkout of the icu4x repository at the environment variable `LOCAL_ICU4X_CHECKOUT`.
+```
+{
+    "buildMode": "local",
+    "localDylibPath": "path/to/dylib.so"
+}
+```
+* checkout: Build a fresh library from a local git checkout of the icu4x repository.
+```
+{
+    "buildMode": "checkout",
+    "checkoutPath": "path/to/checkout"
+}
+```
 
 '''),
     };
@@ -37,25 +53,24 @@ Unknown build mode for icu4x. Set the `ICU4X_BUILD_MODE` environment variable wi
     final builtLibrary = await buildMode.build();
     // For debugging purposes
     // ignore: deprecated_member_use
-    output.addMetadatum(env, environmentBuildMode ?? 'fetch');
+    output.addMetadatum('ICU4X_BUILD_MODE',
+        (buildOptions.buildMode ?? BuildModeEnum.fetch).name);
 
     final targetOS = input.config.code.targetOS;
     final targetArchitecture = input.config.code.targetArchitecture;
-    output.assets.code.add(CodeAsset(
-      package: package,
-      name: assetId,
-      linkMode: DynamicLoadingBundled(),
-      architecture: targetArchitecture,
-      os: targetOS,
-      file: builtLibrary,
-    ));
-
-    output.addDependencies(
-      [
-        ...buildMode.dependencies,
-        input.packageRoot.resolve('hook/build.dart'),
-      ],
+    output.assets.code.add(
+      CodeAsset(
+        package: package,
+        name: assetId,
+        linkMode: DynamicLoadingBundled(),
+        architecture: targetArchitecture,
+        os: targetOS,
+        file: builtLibrary,
+      ),
+      linkInPackage: input.config.linkingEnabled ? package : null,
     );
+
+    output.addDependencies(buildMode.dependencies);
   });
 }
 
@@ -71,41 +86,50 @@ sealed class BuildMode {
 
 final class FetchMode extends BuildMode {
   FetchMode(super.input);
+  final httpClient = HttpClient();
 
   @override
   Future<Uri> build() async {
+    print('Running in `fetch` mode');
     final targetOS = input.config.code.targetOS;
     final targetArchitecture = input.config.code.targetArchitecture;
-    final libraryType = 'dynamic'; //TODO: Add `static` when using link hooks.
+    final libraryType = input.config.linkingEnabled ? 'static' : 'dynamic';
     final target = [
       targetOS,
       targetArchitecture,
       libraryType,
     ].join('_');
-    final uri = Uri.parse(
+    print('Fetching pre-built binary for $version and $target');
+    final dylibRemoteUri = Uri.parse(
         'https://github.com/dart-lang/i18n/releases/download/$version/$target');
-    final request = await HttpClient().getUrl(uri);
-    final response = await request.close();
-    if (response.statusCode != 200) {
-      throw ArgumentError('The request to $uri failed');
-    }
-    final library = File.fromUri(
-        input.outputDirectory.resolve(targetOS.dylibFileName('icu4x')));
-    await library.create();
-    await response.pipe(library.openWrite());
+    final library = await fetchToFile(
+      dylibRemoteUri,
+      input.outputDirectory.resolve(input.config.filename('icu4x')),
+    );
 
     final bytes = await library.readAsBytes();
     final fileHash = sha256.convert(bytes).toString();
     final expectedFileHash =
         fileHashes[(targetOS, targetArchitecture, libraryType)];
-    if (fileHash == expectedFileHash) {
-      return library.uri;
-    } else {
+    if (fileHash != expectedFileHash) {
       throw Exception(
-          'The pre-built binary for the target $target at $uri has a hash of '
-          '$fileHash, which does not match $expectedFileHash fixed in the '
-          'build hook of package:intl4x.');
+          'The pre-built binary for the target $target at $dylibRemoteUri has a'
+          ' hash of $fileHash, which does not match $expectedFileHash fixed in'
+          ' the build hook of package:intl4x.');
     }
+    return library.uri;
+  }
+
+  Future<File> fetchToFile(Uri uri, Uri fileUri) async {
+    final request = await httpClient.getUrl(uri);
+    final response = await request.close();
+    if (response.statusCode != 200) {
+      throw ArgumentError('The request to $uri failed');
+    }
+    final file = File.fromUri(fileUri);
+    await file.create();
+    await response.pipe(file.openWrite());
+    return file;
   }
 
   @override
@@ -113,12 +137,12 @@ final class FetchMode extends BuildMode {
 }
 
 final class LocalMode extends BuildMode {
-  LocalMode(super.input);
+  final String? localPath;
+  LocalMode(super.input, this.localPath);
 
-  String get _localBinaryPath {
-    final localPath = Platform.environment['LOCAL_ICU4X_BINARY'];
+  String get _localLibraryPath {
     if (localPath != null) {
-      return localPath;
+      return localPath!;
     }
     throw ArgumentError('`LOCAL_ICU4X_BINARY` is empty. '
         'If the `ICU4X_BUILD_MODE` is set to `local`, the '
@@ -128,70 +152,61 @@ final class LocalMode extends BuildMode {
 
   @override
   Future<Uri> build() async {
+    print('Running in `local` mode');
     final targetOS = input.config.code.targetOS;
     final dylibFileName = targetOS.dylibFileName('icu4x');
     final dylibFileUri = input.outputDirectory.resolve(dylibFileName);
-    final file = File(_localBinaryPath);
+    final file = File(_localLibraryPath);
     if (!(await file.exists())) {
-      throw FileSystemException('Could not find binary.', _localBinaryPath);
+      throw FileSystemException('Could not find binary.', _localLibraryPath);
     }
     await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
     return dylibFileUri;
   }
 
   @override
-  List<Uri> get dependencies => [Uri.file(_localBinaryPath)];
+  List<Uri> get dependencies => [Uri.file(_localLibraryPath)];
 }
 
 final class CheckoutMode extends BuildMode {
-  CheckoutMode(super.input);
+  final String? checkoutPath;
 
-  String? get workingDirectory => Platform.environment['LOCAL_ICU4X_CHECKOUT'];
+  CheckoutMode(super.input, this.checkoutPath);
 
   @override
   Future<Uri> build() async {
-    if (workingDirectory == null) {
+    print('Running in `checkout` mode');
+    if (checkoutPath == null) {
       throw ArgumentError('Specify the ICU4X checkout folder'
           'with the LOCAL_ICU4X_CHECKOUT variable');
     }
-    return await buildLib(input, workingDirectory!);
+    return await buildLib(input, checkoutPath!);
   }
 
   @override
   List<Uri> get dependencies => [
-        Uri.directory(workingDirectory!).resolve('Cargo.lock'),
+        Uri.directory(checkoutPath!).resolve('Cargo.lock'),
       ];
 }
 
 Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
+  final crateNameFixed = crateName.replaceAll('-', '_');
+  final libFileName = input.config.filename(crateNameFixed);
+  final libFileUri = input.outputDirectory.resolve(libFileName);
+
   final code = input.config.code;
   final targetOS = code.targetOS;
   final targetArchitecture = code.targetArchitecture;
-  final dylibFileName = targetOS.dylibFileName(crateName.replaceAll('-', '_'));
-  final dylibFileUri = input.outputDirectory.resolve(dylibFileName);
-  final rustTarget = _asRustTarget(
-    targetOS,
-    targetArchitecture,
-    targetOS == OS.iOS && code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
-  );
+
   final isNoStd = _isNoStdTarget((targetOS, targetArchitecture));
 
   if (!isNoStd) {
-    final rustArguments = ['target', 'add', rustTarget];
-    final rustup = await Process.run(
+    final rustArguments = ['target', 'add', asRustTarget(input)];
+    await runProcess(
       'rustup',
       rustArguments,
       workingDirectory: workingDirectory,
     );
-
-    if (rustup.exitCode != 0) {
-      throw ProcessException(
-        'rustup',
-        rustArguments,
-        rustup.stderr.toString(),
-        rustup.exitCode,
-      );
-    }
   }
   final tempDir = await Directory.systemTemp.createTemp();
 
@@ -207,15 +222,13 @@ Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
     'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
     'compiled_data',
     'buffer_provider',
-    'libc-alloc',
-    'panic-handler',
+    'libc_alloc',
+    'panic_handler',
     'experimental_components',
   ];
-  final linkModeType = code.linkModePreference == LinkModePreference.static
-      ? 'staticlib'
-      : 'cdylib';
+  final linkModeType = input.config.buildStatic ? 'staticlib' : 'cdylib';
   final arguments = [
-    if (isNoStd) '+nightly',
+    if (input.config.buildStatic || isNoStd) '+nightly',
     'rustc',
     '-p=$crateName',
     '--crate-type=$linkModeType',
@@ -223,40 +236,46 @@ Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
     '--config=profile.release.panic="abort"',
     '--config=profile.release.codegen-units=1',
     '--no-default-features',
-    if (!isNoStd) '--features=${stdFeatures.join(',')}',
-    if (isNoStd) '--features=${noStdFeatures.join(',')}',
+    isNoStd
+        ? '--features=${noStdFeatures.join(',')}'
+        : '--features=${stdFeatures.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
-    if (isNoStd) '-Zbuild-std-features=panic_immediate_abort',
-    '--target=$rustTarget',
+    if (input.config.buildStatic || isNoStd) ...[
+      '-Zbuild-std=std,panic_abort',
+      '-Zbuild-std-features=panic_immediate_abort',
+    ],
+    '--target=${asRustTarget(input)}',
     '--target-dir=${tempDir.path}'
   ];
-  final cargo = await Process.run(
+  await runProcess(
     'cargo',
     arguments,
     workingDirectory: workingDirectory,
   );
 
-  if (cargo.exitCode != 0) {
-    throw ProcessException(
-      'cargo',
-      arguments,
-      cargo.stderr.toString(),
-      cargo.exitCode,
-    );
-  }
-
   final builtPath = path.join(
     tempDir.path,
-    rustTarget,
+    asRustTarget(input),
     'release',
-    dylibFileName,
+    libFileName,
   );
   final file = File(builtPath);
   if (!(await file.exists())) {
     throw FileSystemException('Building the dylib failed', builtPath);
   }
-  await file.copy(dylibFileUri.toFilePath(windows: Platform.isWindows));
-  return dylibFileUri;
+  await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
+  await tempDir.delete(recursive: true);
+  return libFileUri;
+}
+
+String asRustTarget(BuildInput input) {
+  final rustTarget = _asRustTarget(
+    input.config.code.targetOS,
+    input.config.code.targetArchitecture,
+    input.config.code.targetOS == OS.iOS &&
+        input.config.code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
+  );
+  return rustTarget;
 }
 
 String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
@@ -293,3 +312,60 @@ bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
       (OS.android, Architecture.riscv64),
       (OS.linux, Architecture.riscv64)
     ].contains(arg);
+
+extension on BuildConfig {
+  bool get buildStatic =>
+      code.linkModePreference == LinkModePreference.static || linkingEnabled;
+  String Function(String) get filename => buildStatic
+      ? code.targetOS.staticlibFileName
+      : code.targetOS.dylibFileName;
+}
+
+Future<BuildOptions> getBuildOptions() async {
+  final file = File(path.join(Platform.environment['HOME']!, 'intl4x.json'));
+  if (await file.exists()) {
+    final contents = await file.readAsString();
+    return BuildOptions.fromJson(contents);
+  }
+  return BuildOptions();
+}
+
+enum BuildModeEnum {
+  local,
+  checkout,
+  fetch,
+}
+
+class BuildOptions {
+  final BuildModeEnum? buildMode;
+  final String? localDylibPath;
+  final String? checkoutPath;
+
+  BuildOptions({
+    this.buildMode,
+    this.localDylibPath,
+    this.checkoutPath,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'buildMode': buildMode.toString(),
+      'localDylibPath': localDylibPath,
+      'checkoutPath': checkoutPath,
+    };
+  }
+
+  factory BuildOptions.fromMap(Map<String, dynamic> map) {
+    return BuildOptions(
+      buildMode: BuildModeEnum.values
+          .firstWhere((element) => element.name == map['buildMode']),
+      localDylibPath: map['localDylibPath'] as String?,
+      checkoutPath: map['checkoutPath'] as String?,
+    );
+  }
+
+  String toJson() => const JsonEncoder.withIndent('  ').convert(toMap());
+
+  factory BuildOptions.fromJson(String source) =>
+      BuildOptions.fromMap(json.decode(source) as Map<String, dynamic>);
+}
