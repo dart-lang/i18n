@@ -1,3 +1,7 @@
+## 0.10.2
+
+- Introduce link hook.
+
 ## 0.10.1
 
 - Upgrade to new artifacts.
