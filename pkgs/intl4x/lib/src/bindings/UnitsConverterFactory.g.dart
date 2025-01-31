@@ -24,6 +24,7 @@ final class UnitsConverterFactory implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XUnitsConverterFactory_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XUnitsConverterFactory_destroy));
 

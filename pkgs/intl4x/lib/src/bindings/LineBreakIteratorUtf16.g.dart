@@ -24,6 +24,7 @@ final class LineBreakIteratorUtf16 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XLineBreakIteratorUtf16_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLineBreakIteratorUtf16_destroy));
 

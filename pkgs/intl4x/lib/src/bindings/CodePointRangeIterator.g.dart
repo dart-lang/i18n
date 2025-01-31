@@ -23,6 +23,7 @@ final class CodePointRangeIterator implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('CodePointRangeIterator_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_CodePointRangeIterator_destroy));
 

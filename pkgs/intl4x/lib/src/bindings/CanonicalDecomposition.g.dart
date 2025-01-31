@@ -24,6 +24,7 @@ final class CanonicalDecomposition implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XCanonicalDecomposition_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XCanonicalDecomposition_destroy));
 

@@ -20,6 +20,7 @@ final class LocaleDisplayNamesFormatter implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XLocaleDisplayNamesFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLocaleDisplayNamesFormatter_destroy));
 

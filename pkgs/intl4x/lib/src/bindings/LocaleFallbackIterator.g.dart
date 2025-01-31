@@ -25,6 +25,7 @@ final class LocaleFallbackIterator
     }
   }
 
+  @RecordSymbol('ICU4XLocaleFallbackIterator_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLocaleFallbackIterator_destroy));
 

@@ -22,6 +22,7 @@ final class ScriptWithExtensions implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XScriptWithExtensions_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XScriptWithExtensions_destroy));
 

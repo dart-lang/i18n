@@ -20,6 +20,7 @@ final class RegionDisplayNames implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XRegionDisplayNames_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XRegionDisplayNames_destroy));
 

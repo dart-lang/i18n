@@ -26,6 +26,7 @@ final class IanaToBcp47Mapper implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XIanaToBcp47Mapper_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XIanaToBcp47Mapper_destroy));
 

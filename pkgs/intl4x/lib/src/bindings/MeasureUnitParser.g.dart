@@ -25,6 +25,7 @@ final class MeasureUnitParser implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XMeasureUnitParser_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XMeasureUnitParser_destroy));
 

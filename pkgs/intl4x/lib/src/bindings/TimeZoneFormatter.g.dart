@@ -22,6 +22,7 @@ final class TimeZoneFormatter implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XTimeZoneFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XTimeZoneFormatter_destroy));
 

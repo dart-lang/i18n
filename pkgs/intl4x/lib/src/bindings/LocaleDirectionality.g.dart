@@ -20,6 +20,7 @@ final class LocaleDirectionality implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XLocaleDirectionality_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLocaleDirectionality_destroy));
 

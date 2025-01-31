@@ -24,6 +24,7 @@ final class GeneralCategoryNameToMaskMapper implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XGeneralCategoryNameToMaskMapper_destroy));
 

@@ -23,6 +23,7 @@ final class GraphemeClusterBreakIteratorUtf8 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XGraphemeClusterBreakIteratorUtf8_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XGraphemeClusterBreakIteratorUtf8_destroy));
 

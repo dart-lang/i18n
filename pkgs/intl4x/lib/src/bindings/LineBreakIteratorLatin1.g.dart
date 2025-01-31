@@ -24,6 +24,7 @@ final class LineBreakIteratorLatin1 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XLineBreakIteratorLatin1_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLineBreakIteratorLatin1_destroy));
 

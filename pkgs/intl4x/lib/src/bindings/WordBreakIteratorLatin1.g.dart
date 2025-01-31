@@ -22,6 +22,7 @@ final class WordBreakIteratorLatin1 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XWordBreakIteratorLatin1_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XWordBreakIteratorLatin1_destroy));
 

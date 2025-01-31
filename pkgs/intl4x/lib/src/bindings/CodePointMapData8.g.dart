@@ -28,6 +28,7 @@ final class CodePointMapData8 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XCodePointMapData8_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XCodePointMapData8_destroy));
 

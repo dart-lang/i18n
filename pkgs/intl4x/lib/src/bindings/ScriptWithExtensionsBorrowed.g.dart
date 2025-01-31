@@ -25,6 +25,7 @@ final class ScriptWithExtensionsBorrowed implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XScriptWithExtensionsBorrowed_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XScriptWithExtensionsBorrowed_destroy));
 

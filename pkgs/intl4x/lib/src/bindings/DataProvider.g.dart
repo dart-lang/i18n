@@ -22,6 +22,7 @@ final class DataProvider implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XDataProvider_destroy')
   static final _finalizer =
       ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XDataProvider_destroy));
 

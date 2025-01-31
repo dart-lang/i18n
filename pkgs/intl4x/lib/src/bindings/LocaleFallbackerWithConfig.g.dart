@@ -26,6 +26,7 @@ final class LocaleFallbackerWithConfig implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XLocaleFallbackerWithConfig_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XLocaleFallbackerWithConfig_destroy));
 

@@ -22,6 +22,7 @@ final class GregorianZonedDateTimeFormatter implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XGregorianZonedDateTimeFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XGregorianZonedDateTimeFormatter_destroy));
 

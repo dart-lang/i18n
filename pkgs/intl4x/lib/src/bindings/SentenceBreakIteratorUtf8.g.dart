@@ -22,6 +22,7 @@ final class SentenceBreakIteratorUtf8 implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XSentenceBreakIteratorUtf8_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XSentenceBreakIteratorUtf8_destroy));
 

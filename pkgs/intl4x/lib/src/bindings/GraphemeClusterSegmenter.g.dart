@@ -23,6 +23,7 @@ final class GraphemeClusterSegmenter implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XGraphemeClusterSegmenter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XGraphemeClusterSegmenter_destroy));
 

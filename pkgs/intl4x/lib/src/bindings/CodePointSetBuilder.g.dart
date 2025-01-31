@@ -20,6 +20,7 @@ final class CodePointSetBuilder implements ffi.Finalizable {
     }
   }
 
+  @RecordSymbol('ICU4XCodePointSetBuilder_destroy')
   static final _finalizer = ffi.NativeFinalizer(
       ffi.Native.addressOf(_ICU4XCodePointSetBuilder_destroy));
 
