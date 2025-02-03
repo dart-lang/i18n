@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:js_util';
+import 'dart:js_interop'
+    show BoolToJSBoolean, JSAny, JSObject, StringToJSString;
+import 'dart:js_interop_unsafe';
 
 import 'package:js/js.dart';
 
@@ -70,22 +72,29 @@ String toLanguageTagImpl(Locale l, [String separator = '-']) {
 }
 
 LocaleJS fromLocale(Locale l) {
-  final options = newObject<Object>();
-  if (l.region != null) setProperty(options, 'region', l.region);
-  if (l.script != null) setProperty(options, 'script', l.script);
-  if (l.calendar != null) setProperty(options, 'calendar', l.calendar!.jsName);
+  final options = JSObject();
+  if (l.region != null) setProperty(options, 'region', l.region!.toJS);
+  if (l.script != null) setProperty(options, 'script', l.script!.toJS);
+  if (l.calendar != null) {
+    setProperty(options, 'calendar', l.calendar!.jsName.toJS);
+  }
   if (l.caseFirst != null) {
-    setProperty(options, 'caseFirst', l.caseFirst?.jsName);
+    setProperty(options, 'caseFirst', l.caseFirst!.jsName.toJS);
   }
-  if (l.collation != null) setProperty(options, 'collation', l.collation);
-  if (l.hourCycle != null) setProperty(options, 'hourCycle', l.hourCycle!.name);
+  if (l.collation != null) setProperty(options, 'collation', l.collation!.toJS);
+  if (l.hourCycle != null) {
+    setProperty(options, 'hourCycle', l.hourCycle!.name.toJS);
+  }
   if (l.numberingSystem != null) {
-    setProperty(options, 'numberingSystem', l.numberingSystem);
+    setProperty(options, 'numberingSystem', l.numberingSystem!.toJS);
   }
-  if (l.numeric != null) setProperty(options, 'numeric', l.numeric);
+  if (l.numeric != null) setProperty(options, 'numeric', l.numeric!.toJS);
   final localeJS = LocaleJS.constructor(l.language, options);
   return localeJS;
 }
+
+void setProperty(JSObject options, String s, JSAny t) =>
+    options.setProperty(s.toJS, t);
 
 Locale minimizeImpl(Locale l) => toLocale(fromLocale(l).minimize());
 Locale maximizeImpl(Locale l) => toLocale(fromLocale(l).maximize());
