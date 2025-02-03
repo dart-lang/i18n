@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:intl4x/src/hook_helpers/build_options.dart';
 import 'package:intl4x/src/hook_helpers/hashes.dart';
 import 'package:intl4x/src/hook_helpers/shared.dart'
     show assetId, package, runProcess;
@@ -319,53 +319,4 @@ extension on BuildConfig {
   String Function(String) get filename => buildStatic
       ? code.targetOS.staticlibFileName
       : code.targetOS.dylibFileName;
-}
-
-Future<BuildOptions> getBuildOptions() async {
-  final file = File(path.join(Platform.environment['HOME']!, 'intl4x.json'));
-  if (await file.exists()) {
-    final contents = await file.readAsString();
-    return BuildOptions.fromJson(contents);
-  }
-  return BuildOptions();
-}
-
-enum BuildModeEnum {
-  local,
-  checkout,
-  fetch,
-}
-
-class BuildOptions {
-  final BuildModeEnum? buildMode;
-  final String? localDylibPath;
-  final String? checkoutPath;
-
-  BuildOptions({
-    this.buildMode,
-    this.localDylibPath,
-    this.checkoutPath,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'buildMode': buildMode.toString(),
-      'localDylibPath': localDylibPath,
-      'checkoutPath': checkoutPath,
-    };
-  }
-
-  factory BuildOptions.fromMap(Map<String, dynamic> map) {
-    return BuildOptions(
-      buildMode: BuildModeEnum.values
-          .firstWhere((element) => element.name == map['buildMode']),
-      localDylibPath: map['localDylibPath'] as String?,
-      checkoutPath: map['checkoutPath'] as String?,
-    );
-  }
-
-  String toJson() => const JsonEncoder.withIndent('  ').convert(toMap());
-
-  factory BuildOptions.fromJson(String source) =>
-      BuildOptions.fromMap(json.decode(source) as Map<String, dynamic>);
 }

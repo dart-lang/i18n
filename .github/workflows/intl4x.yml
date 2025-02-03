@@ -60,9 +60,6 @@ jobs:
   build_fetch:
     runs-on:  ${{ matrix.os }}
 
-    env:
-      ICU4X_BUILD_MODE: fetch
-    
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -146,13 +143,13 @@ jobs:
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+    - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/linux_x64)
       if: matrix.os == 'ubuntu-latest'
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+    - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/macos_arm64)
       if: matrix.os == 'macos-latest'
     
-    - run: echo ("LOCAL_ICU4X_BINARY=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+    - run: dart pkgs/intl4x/tool/write_option_file.dart local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\')
       if: matrix.os == 'windows-latest'
 
     - run: echo $LOCAL_ICU4X_BINARY
