@@ -143,7 +143,8 @@ jobs:
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
-    - run: |
+    - name: Run `dart pub get`
+      run: |
         cd pkgs/intl4x
         dart pub get
 
@@ -160,11 +161,6 @@ jobs:
           
     - name: Display structure of downloaded files
       run: ls -R
-
-    - name: Run `dart pub get`
-      run: |
-        cd pkgs/intl4x
-        dart pub get
 
     - name: Run `dart test`
       run: |
