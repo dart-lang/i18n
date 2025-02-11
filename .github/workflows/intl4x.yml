@@ -149,7 +149,7 @@ jobs:
     - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/macos_arm64)
       if: matrix.os == 'macos-latest'
     
-    - run: dart pkgs/intl4x/tool/write_option_file.dart local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\')
+    - run: dart pkgs/intl4x/tool/write_option_file.dart local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\'
       if: matrix.os == 'windows-latest'
 
     - run: echo $LOCAL_ICU4X_BINARY
