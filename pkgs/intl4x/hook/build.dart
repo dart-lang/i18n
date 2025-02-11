@@ -18,12 +18,8 @@ const crateName = 'icu_capi';
 void main(List<String> args) async {
   await build(args, (input, output) async {
     final buildOptions = await getBuildOptions();
-    final buildMode = switch (buildOptions.buildMode) {
-      BuildModeEnum.local => LocalMode(input, buildOptions.localDylibPath),
-      BuildModeEnum.checkout => CheckoutMode(input, buildOptions.checkoutPath),
-      BuildModeEnum.fetch => FetchMode(input),
-      null => throw ArgumentError('''
-
+    if (buildOptions == null) {
+      throw ArgumentError('''
 
 Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing a config file at ~/intl4x.json:
 * fetch: Fetch the precompiled binary from a CDN.
@@ -47,14 +43,18 @@ Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, o
 }
 ```
 
-'''),
+''');
+    }
+    final buildMode = switch (buildOptions.buildMode) {
+      BuildModeEnum.local => LocalMode(input, buildOptions.localDylibPath),
+      BuildModeEnum.checkout => CheckoutMode(input, buildOptions.checkoutPath),
+      BuildModeEnum.fetch => FetchMode(input),
     };
 
     final builtLibrary = await buildMode.build();
     // For debugging purposes
     // ignore: deprecated_member_use
-    output.addMetadatum('ICU4X_BUILD_MODE',
-        (buildOptions.buildMode ?? BuildModeEnum.fetch).name);
+    output.addMetadatum('ICU4X_BUILD_MODE', buildOptions.buildMode.name);
 
     final targetOS = input.config.code.targetOS;
     final targetArchitecture = input.config.code.targetArchitecture;

@@ -9,12 +9,12 @@ import 'package:path/path.dart' as path;
 
 final file = File(path.join(Platform.environment['HOME']!, 'intl4x.json'));
 
-Future<BuildOptions> getBuildOptions() async {
+Future<BuildOptions?> getBuildOptions() async {
   if (await file.exists()) {
     final contents = await file.readAsString();
     return BuildOptions.fromJson(contents);
   }
-  return BuildOptions();
+  return BuildOptions(buildMode: BuildModeEnum.fetch);
 }
 
 Future<void> writeBuildOptions(BuildOptions options) async {
@@ -29,19 +29,19 @@ enum BuildModeEnum {
 }
 
 class BuildOptions {
-  final BuildModeEnum? buildMode;
+  final BuildModeEnum buildMode;
   final String? localDylibPath;
   final String? checkoutPath;
 
   BuildOptions({
-    this.buildMode,
+    required this.buildMode,
     this.localDylibPath,
     this.checkoutPath,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'buildMode': buildMode.toString(),
+      'buildMode': buildMode.name,
       'localDylibPath': localDylibPath,
       'checkoutPath': checkoutPath,
     };
