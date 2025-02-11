@@ -143,6 +143,10 @@ jobs:
         cd ../..
         dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
+    - run: |
+        cd pkgs/intl4x
+        dart pub get
+
     - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/linux_x64)
       if: matrix.os == 'ubuntu-latest'
 
