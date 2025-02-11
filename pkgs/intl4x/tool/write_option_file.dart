@@ -20,5 +20,6 @@ Future<void> main(List<String> args) async {
       ),
     BuildModeEnum.fetch => BuildOptions(buildMode: buildMode)
   };
+  print('Writing build options: ${buildOptions.toJson()}');
   await writeBuildOptions(buildOptions);
 }
