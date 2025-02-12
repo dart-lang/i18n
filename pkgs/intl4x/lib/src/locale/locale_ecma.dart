@@ -2,20 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:js_interop'
-    show BoolToJSBoolean, JSAny, JSObject, StringToJSString;
-import 'dart:js_interop_unsafe';
-
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../../collation.dart';
 import '../datetime_format/datetime_format_options.dart';
 import 'locale.dart';
 
 @JS('Intl.Locale')
-class LocaleJS {
+extension type LocaleJS._(JSObject _) implements JSObject {
   external factory LocaleJS(String s);
-  external factory LocaleJS.constructor(String language, Object options);
+  external factory LocaleJS.constructor(String language, JSAny options);
   external LocaleJS minimize();
   external LocaleJS maximize();
   external String get language;
@@ -31,25 +27,23 @@ class LocaleJS {
 
 Locale parseLocale(String s) => toLocale(LocaleJS(s));
 
-Locale toLocale(LocaleJS parsed) {
-  return Locale(
-    language: parsed.language,
-    region: parsed.region,
-    script: parsed.script,
-    calendar: Calendar.values
-        .where((element) => element.jsName == parsed.calendar)
-        .firstOrNull,
-    caseFirst: CaseFirst.values
-        .where((element) => element.jsName == parsed.caseFirst)
-        .firstOrNull,
-    collation: parsed.collation,
-    hourCycle: HourCycle.values
-        .where((element) => element.name == parsed.hourCycle)
-        .firstOrNull,
-    numberingSystem: parsed.numberingSystem,
-    numeric: bool.tryParse(parsed.numeric ?? ''),
-  );
-}
+Locale toLocale(LocaleJS parsed) => Locale(
+      language: parsed.language,
+      region: parsed.region,
+      script: parsed.script,
+      calendar: Calendar.values
+          .where((element) => element.jsName == parsed.calendar)
+          .firstOrNull,
+      caseFirst: CaseFirst.values
+          .where((element) => element.jsName == parsed.caseFirst)
+          .firstOrNull,
+      collation: parsed.collation,
+      hourCycle: HourCycle.values
+          .where((element) => element.name == parsed.hourCycle)
+          .firstOrNull,
+      numberingSystem: parsed.numberingSystem,
+      numeric: bool.tryParse(parsed.numeric ?? ''),
+    );
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) {
   // return fromLocale(l).toString(); Uncomment as soon as https://github.com/dart-lang/sdk/issues/53106 is resolved
@@ -72,29 +66,18 @@ String toLanguageTagImpl(Locale l, [String separator = '-']) {
 }
 
 LocaleJS fromLocale(Locale l) {
-  final options = JSObject();
-  if (l.region != null) setProperty(options, 'region', l.region!.toJS);
-  if (l.script != null) setProperty(options, 'script', l.script!.toJS);
-  if (l.calendar != null) {
-    setProperty(options, 'calendar', l.calendar!.jsName.toJS);
-  }
-  if (l.caseFirst != null) {
-    setProperty(options, 'caseFirst', l.caseFirst!.jsName.toJS);
-  }
-  if (l.collation != null) setProperty(options, 'collation', l.collation!.toJS);
-  if (l.hourCycle != null) {
-    setProperty(options, 'hourCycle', l.hourCycle!.name.toJS);
-  }
-  if (l.numberingSystem != null) {
-    setProperty(options, 'numberingSystem', l.numberingSystem!.toJS);
-  }
-  if (l.numeric != null) setProperty(options, 'numeric', l.numeric!.toJS);
-  final localeJS = LocaleJS.constructor(l.language, options);
-  return localeJS;
+  final options = {
+    if (l.region != null) 'region': l.region!.toJS,
+    if (l.script != null) 'script': l.script!.toJS,
+    if (l.calendar != null) 'calendar': l.calendar!.jsName.toJS,
+    if (l.caseFirst != null) 'caseFirst': l.caseFirst!.jsName.toJS,
+    if (l.collation != null) 'collation': l.collation!.toJS,
+    if (l.hourCycle != null) 'hourCycle': l.hourCycle!.name.toJS,
+    if (l.numberingSystem != null) 'numberingSystem': l.numberingSystem!.toJS,
+    if (l.numeric != null) 'numeric': l.numeric!.toJS,
+  }.jsify()!;
+  return LocaleJS.constructor(l.language, options);
 }
-
-void setProperty(JSObject options, String s, JSAny t) =>
-    options.setProperty(s.toJS, t);
 
 Locale minimizeImpl(Locale l) => toLocale(fromLocale(l).minimize());
 Locale maximizeImpl(Locale l) => toLocale(fromLocale(l).maximize());
