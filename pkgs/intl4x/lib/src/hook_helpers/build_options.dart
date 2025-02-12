@@ -7,14 +7,10 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
-final homeFolder = Platform.isWindows ? '%UserProfile%' : 'HOME';
+final homeFolder = Platform.isWindows ? 'USERPROFILE' : 'HOME';
 
-File get configFile {
-  final configPath =
-      path.join(Platform.environment[homeFolder]!, 'intl4x.json');
-  print('Setting config file at $configPath');
-  return File(configPath);
-}
+final configFile =
+    File(path.join(Platform.environment[homeFolder]!, 'intl4x.json'));
 
 Future<BuildOptions?> getBuildOptions() async {
   if (await configFile.exists()) {
