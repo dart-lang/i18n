@@ -7,7 +7,9 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
-final file = File(path.join(Platform.environment['HOME']!, 'intl4x.json'));
+final homeFolder = Platform.isWindows ? '%UserProfile%' : 'HOME';
+
+final file = File(path.join(Platform.environment[homeFolder]!, 'intl4x.json'));
 
 Future<BuildOptions?> getBuildOptions() async {
   if (await file.exists()) {
