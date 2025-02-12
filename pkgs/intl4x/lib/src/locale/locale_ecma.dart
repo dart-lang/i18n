@@ -4,8 +4,6 @@
 
 import 'dart:js_interop';
 
-import '../../collation.dart';
-import '../datetime_format/datetime_format_options.dart';
 import 'locale.dart';
 
 @JS('Intl.Locale')
@@ -17,12 +15,6 @@ extension type LocaleJS._(JSObject _) implements JSObject {
   external String get language;
   external String? get script;
   external String? get region;
-  external String? get calendar;
-  external String? get caseFirst;
-  external String? get collation;
-  external String? get hourCycle;
-  external String? get numberingSystem;
-  external String? get numeric;
 }
 
 Locale parseLocale(String s) => toLocale(LocaleJS(s));
@@ -31,52 +23,17 @@ Locale toLocale(LocaleJS parsed) => Locale(
       language: parsed.language,
       region: parsed.region,
       script: parsed.script,
-      calendar: Calendar.values
-          .where((element) => element.jsName == parsed.calendar)
-          .firstOrNull,
-      caseFirst: CaseFirst.values
-          .where((element) => element.jsName == parsed.caseFirst)
-          .firstOrNull,
-      collation: parsed.collation,
-      hourCycle: HourCycle.values
-          .where((element) => element.name == parsed.hourCycle)
-          .firstOrNull,
-      numberingSystem: parsed.numberingSystem,
-      numeric: bool.tryParse(parsed.numeric ?? ''),
     );
 
-String toLanguageTagImpl(Locale l, [String separator = '-']) {
-  // return fromLocale(l).toString(); Uncomment as soon as https://github.com/dart-lang/sdk/issues/53106 is resolved
-
-  final subtags = <String>[
-    if (l.calendar != null) ...['ca', l.calendar!.jsName],
-    if (l.caseFirst != null) l.caseFirst!.jsName,
-    if (l.collation != null) l.collation!,
-    if (l.hourCycle != null) ...['hc', l.hourCycle!.name],
-    if (l.numberingSystem != null) l.numberingSystem!,
-    if (l.numeric != null) l.numeric!.toString(),
-  ];
-  return <String>[
-    l.language,
-    if (l.script != null) l.script!,
-    if (l.region != null) l.region!,
-    if (subtags.isNotEmpty) 'u',
-    ...subtags,
-  ].join(separator);
-}
+String toLanguageTagImpl(Locale l, [String separator = '-']) =>
+    fromLocale(l).toString();
 
 LocaleJS fromLocale(Locale l) {
   final options = {
-    if (l.region != null) 'region': l.region!.toJS,
-    if (l.script != null) 'script': l.script!.toJS,
-    if (l.calendar != null) 'calendar': l.calendar!.jsName.toJS,
-    if (l.caseFirst != null) 'caseFirst': l.caseFirst!.jsName.toJS,
-    if (l.collation != null) 'collation': l.collation!.toJS,
-    if (l.hourCycle != null) 'hourCycle': l.hourCycle!.name.toJS,
-    if (l.numberingSystem != null) 'numberingSystem': l.numberingSystem!.toJS,
-    if (l.numeric != null) 'numeric': l.numeric!.toJS,
-  }.jsify()!;
-  return LocaleJS.constructor(l.language, options);
+    if (l.region != null) 'region': l.region,
+    if (l.script != null) 'script': l.script,
+  };
+  return LocaleJS.constructor(l.language, options.jsify()!);
 }
 
 Locale minimizeImpl(Locale l) => toLocale(fromLocale(l).minimize());
