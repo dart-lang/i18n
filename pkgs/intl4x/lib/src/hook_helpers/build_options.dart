@@ -6,28 +6,28 @@ import 'dart:convert' show JsonEncoder, json;
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
+import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
 
-final homeFolder = Platform.isWindows ? 'USERPROFILE' : 'HOME';
-
-final configFile =
-    File(path.join(Platform.environment[homeFolder]!, 'intl4x.json'));
-
-Future<BuildOptions?> getBuildOptions() async {
-  print('Reading build options from $configFile');
-  if (await configFile.exists()) {
-    final contents = await configFile.readAsString();
-    final buildOptions = BuildOptions.fromJson(contents);
-    print('Got build options: ${buildOptions.toJson()}');
-    return buildOptions;
-  }
-  print('Config file does not exist.');
-  return BuildOptions(buildMode: BuildModeEnum.fetch);
+Future<BuildOptions?> getBuildOptions(String searchDir) async {
+  final map = await readOptionsFromPubspec(searchDir);
+  print('Reading build options from $map');
+  final buildOptions =
+      // ignore: avoid_dynamic_calls
+      BuildOptions.fromMap(map['intl4x'] as Map? ?? {});
+  print('Got build options: ${buildOptions.toJson()}');
+  return buildOptions;
 }
 
-Future<void> writeBuildOptions(BuildOptions options) async {
-  print('Writing build options to $configFile');
-  await configFile.create(recursive: true);
-  await configFile.writeAsString(options.toJson());
+Future<Map> readOptionsFromPubspec(String searchPath) async {
+  File pubspec(Directory dir) => File(path.join(dir.path, 'pubspec.yaml'));
+
+  var directory = Directory(searchPath);
+  while (!pubspec(directory).existsSync()) {
+    directory = directory.parent;
+  }
+
+  // ignore: avoid_dynamic_calls
+  return loadYaml(pubspec(directory).readAsStringSync())['hook'] as YamlMap;
 }
 
 enum BuildModeEnum {
@@ -55,7 +55,7 @@ class BuildOptions {
     };
   }
 
-  factory BuildOptions.fromMap(Map<String, dynamic> map) {
+  factory BuildOptions.fromMap(Map map) {
     return BuildOptions(
       buildMode: BuildModeEnum.values
           .firstWhere((element) => element.name == map['buildMode']),

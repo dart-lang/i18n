@@ -17,7 +17,8 @@ const crateName = 'icu_capi';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final buildOptions = await getBuildOptions();
+    final buildOptions =
+        await getBuildOptions(input.outputDirectory.toFilePath());
     if (buildOptions == null) {
       throw ArgumentError('''
 
