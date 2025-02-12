@@ -6,7 +6,7 @@ import 'package:intl4x/src/hook_helpers/build_options.dart';
 
 Future<void> main(List<String> args) async {
   final buildModeString = args[0];
-  final pathString = args[1];
+  final pathString = args.length > 1 ? args[1] : null;
   final buildMode =
       BuildModeEnum.values.firstWhere((mode) => mode.name == buildModeString);
   final buildOptions = switch (buildMode) {

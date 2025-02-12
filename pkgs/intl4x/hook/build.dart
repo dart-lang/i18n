@@ -45,6 +45,7 @@ Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, o
 
 ''');
     }
+    print('Read build options: ${buildOptions.toJson()}');
     final buildMode = switch (buildOptions.buildMode) {
       BuildModeEnum.local => LocalMode(input, buildOptions.localDylibPath),
       BuildModeEnum.checkout => CheckoutMode(input, buildOptions.checkoutPath),
