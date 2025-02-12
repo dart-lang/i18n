@@ -42,13 +42,13 @@ jobs:
 
       - run: dart pub get
 
-      - run: dart tool/write_option_file.dart checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
         if: matrix.os == 'ubuntu-latest'
 
-      - run: dart tool/write_option_file.dart checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
         if: matrix.os == 'macos-latest'
       
-      - run: dart tool/write_option_file.dart checkout (Get-Item  ${{ github.workspace }}\submodules\icu4x).FullName -replace '/', '\'
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout (Get-Item  ${{ github.workspace }}\submodules\icu4x).FullName -replace '/', '\'
         if: matrix.os == 'windows-latest'
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
@@ -84,7 +84,7 @@ jobs:
 
       - run: dart pub get
 
-      - run: dart tool/write_option_file.dart fetch
+      - run: dart tool/write_option_file.dart pubspec.yaml fetch
 
       - run: dart --enable-experiment=native-assets test
 
@@ -152,13 +152,13 @@ jobs:
         cd pkgs/intl4x
         dart pub get
 
-    - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/linux_x64)
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local $(realpath submodules/icu4x/bin/linux_x64)
       if: matrix.os == 'ubuntu-latest'
 
-    - run: dart pkgs/intl4x/tool/write_option_file.dart local $(realpath submodules/icu4x/bin/macos_arm64)
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local $(realpath submodules/icu4x/bin/macos_arm64)
       if: matrix.os == 'macos-latest'
     
-    - run: dart pkgs/intl4x/tool/write_option_file.dart local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\'
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\'
       if: matrix.os == 'windows-latest'
 
     - run: echo $LOCAL_ICU4X_BINARY
