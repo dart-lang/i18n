@@ -21,6 +21,7 @@ Future<BuildOptions?> getBuildOptions() async {
 }
 
 Future<void> writeBuildOptions(BuildOptions options) async {
+  print(Platform.environment);
   await configFile.create(recursive: true);
   await configFile.writeAsString(options.toJson());
 }
