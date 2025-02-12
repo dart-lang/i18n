@@ -13,15 +13,19 @@ final configFile =
     File(path.join(Platform.environment[homeFolder]!, 'intl4x.json'));
 
 Future<BuildOptions?> getBuildOptions() async {
+  print('Reading build options from $configFile');
   if (await configFile.exists()) {
     final contents = await configFile.readAsString();
-    return BuildOptions.fromJson(contents);
+    final buildOptions = BuildOptions.fromJson(contents);
+    print('Got build options: ${buildOptions.toJson()}');
+    return buildOptions;
   }
+  print('Config file does not exist.');
   return BuildOptions(buildMode: BuildModeEnum.fetch);
 }
 
 Future<void> writeBuildOptions(BuildOptions options) async {
-  print(Platform.environment);
+  print('Writing build options to $configFile');
   await configFile.create(recursive: true);
   await configFile.writeAsString(options.toJson());
 }
