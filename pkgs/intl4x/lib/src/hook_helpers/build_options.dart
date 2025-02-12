@@ -9,19 +9,24 @@ import 'package:path/path.dart' as path;
 
 final homeFolder = Platform.isWindows ? '%UserProfile%' : 'HOME';
 
-final file = File(path.join(Platform.environment[homeFolder]!, 'intl4x.json'));
+File get configFile {
+  final configPath =
+      path.join(Platform.environment[homeFolder]!, 'intl4x.json');
+  print('Setting config file at $configPath');
+  return File(configPath);
+}
 
 Future<BuildOptions?> getBuildOptions() async {
-  if (await file.exists()) {
-    final contents = await file.readAsString();
+  if (await configFile.exists()) {
+    final contents = await configFile.readAsString();
     return BuildOptions.fromJson(contents);
   }
   return BuildOptions(buildMode: BuildModeEnum.fetch);
 }
 
 Future<void> writeBuildOptions(BuildOptions options) async {
-  await file.create(recursive: true);
-  await file.writeAsString(options.toJson());
+  await configFile.create(recursive: true);
+  await configFile.writeAsString(options.toJson());
 }
 
 enum BuildModeEnum {
