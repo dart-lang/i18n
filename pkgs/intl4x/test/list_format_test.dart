@@ -3,15 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/src/list_format/list_format_options.dart';
+import 'package:intl4x/list_format.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';
 
 void main() {
+  final list = ['A', 'B', 'C'];
+  const enUS = Locale(language: 'en', region: 'US');
+  final intl = Intl(locale: enUS);
   group('List style options', () {
-    final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
       final listFormat =
           intl.listFormat(const ListFormatOptions(style: ListStyle.long));
@@ -30,8 +31,6 @@ void main() {
   });
 
   group('List type options', () {
-    final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
       final listFormat =
           intl.listFormat(const ListFormatOptions(type: Type.and));
@@ -50,8 +49,6 @@ void main() {
   });
 
   group('List style and type combinations', () {
-    final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
       final formatter = intl.listFormat(
           const ListFormatOptions(style: ListStyle.narrow, type: Type.and));
@@ -62,5 +59,11 @@ void main() {
           const ListFormatOptions(style: ListStyle.short, type: Type.unit));
       expect(formatter.format(list), 'A, B, C');
     });
+  });
+
+  testWithFormatting('extension', () {
+    expect(list.joinAnd(enUS), 'A, B, and C');
+    expect(list.joinOr(enUS), 'A, B, or C');
+    expect(list.joinUnit(enUS), 'A, B, C');
   });
 }
