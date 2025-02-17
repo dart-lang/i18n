@@ -50,8 +50,8 @@ class BuildOptions {
   Map<String, dynamic> toMap() {
     return {
       'buildMode': buildMode.name,
-      'localDylibPath': localDylibPath,
-      'checkoutPath': checkoutPath,
+      if (localDylibPath != null) 'localDylibPath': localDylibPath,
+      if (checkoutPath != null) 'checkoutPath': checkoutPath,
     };
   }
 

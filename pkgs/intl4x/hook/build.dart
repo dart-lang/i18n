@@ -22,26 +22,32 @@ void main(List<String> args) async {
     if (buildOptions == null) {
       throw ArgumentError('''
 
-Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing a config file at ~/intl4x.json:
+Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing into your pubspec:
 * fetch: Fetch the precompiled binary from a CDN.
 ```
-{
-    "buildMode": "fetch"
-}
+...
+hook:
+  intl4x:
+    buildMode: fetch
+...
 ```
 * local: Use a locally existing binary at the environment variable `LOCAL_ICU4X_BINARY`.
 ```
-{
-    "buildMode": "local",
-    "localDylibPath": "path/to/dylib.so"
-}
+...
+hook:
+  intl4x:
+    buildMode: local
+    localDylibPath: path/to/dylib.so
+...
 ```
 * checkout: Build a fresh library from a local git checkout of the icu4x repository.
 ```
-{
-    "buildMode": "checkout",
-    "checkoutPath": "path/to/checkout"
-}
+...
+hook:
+  intl4x:
+    buildMode: checkout
+    checkoutPath: path/to/checkout
+...
 ```
 
 ''');
