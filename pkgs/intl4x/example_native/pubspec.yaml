@@ -12,3 +12,7 @@ dependencies:
 
 dev_dependencies:
   lints: ^5.0.0
+
+hook:
+  intl4x:
+    buildMode: fetch
