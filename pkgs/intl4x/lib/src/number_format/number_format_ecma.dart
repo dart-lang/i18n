@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:js_interop';
+import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -17,14 +18,16 @@ NumberFormatImpl? getNumberFormatterECMA(
     _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.NumberFormat')
-extension type NumberFormat._(JSObject _) implements JSObject {
-  external factory NumberFormat([JSArray<JSString> locale, JSAny options]);
-  external String format(JSAny num);
-
-  external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
+class _NumberFormatJS {
+  external factory _NumberFormatJS([List<String> locale, Object options]);
+  external String format(Object num);
 }
+
+@JS('Intl.NumberFormat.supportedLocalesOf')
+external List<String> _supportedLocalesOfJS(
+  List<String> listOfLocales, [
+  Object options,
+]);
 
 class _NumberFormatECMA extends NumberFormatImpl {
   _NumberFormatECMA(super.locale, super.options);
@@ -44,12 +47,10 @@ class _NumberFormatECMA extends NumberFormatImpl {
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
-    final o = {
-      'localeMatcher': localeMatcher.jsName,
-    }.jsify()!;
-    return NumberFormat.supportedLocalesOf(
-            [locale.toLanguageTag().toJS].toJS, o)
-        .toDart
+    final o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return List<dynamic>.from(
+            _supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
@@ -57,59 +58,62 @@ class _NumberFormatECMA extends NumberFormatImpl {
 
   @override
   String formatImpl(Object number) {
-    final numberFormatJS = NumberFormat(
-      [locale.toLanguageTag().toJS].toJS,
+    final numberFormatJS = _NumberFormatJS(
+      [locale.toLanguageTag()],
       options.toJsOptions(),
     );
-    return numberFormatJS.format(number.jsify()!);
+    return numberFormatJS.format(number);
   }
 }
 
 extension on NumberFormatOptions {
-  JSAny toJsOptions() {
-    Map<String, dynamic> styleOptions;
+  Object toJsOptions() {
+    final o = newObject<Object>();
+    setProperty(o, 'sign', signDisplay.name);
+    if (notation is CompactNotation) {
+      setProperty(o, 'compactDisplay',
+          (notation as CompactNotation).compactDisplay.name);
+    }
     if (style is CurrencyStyle) {
       final currencyStyle = style as CurrencyStyle;
-      styleOptions = {
-        'currency': currencyStyle.currency,
-        'currencyDisplay': currencyStyle.display.name,
-        'currencySign': currencyStyle.sign.name,
-      };
-    } else if (style is UnitStyle) {
-      final unitStyle = style as UnitStyle;
-      styleOptions = {
-        'unit': unitStyle.unit.jsName,
-        'unitDisplay': unitStyle.unitDisplay.name,
-      };
-    } else {
-      styleOptions = {};
+      setProperty(o, 'currency', currencyStyle.currency);
+      setProperty(o, 'currencyDisplay', currencyStyle.display.name);
+      setProperty(o, 'currencySign', currencyStyle.sign.name);
     }
-    return {
-      ...styleOptions,
-      'sign': signDisplay.name,
-      if (notation is CompactNotation)
-        'compactDisplay': (notation as CompactNotation).compactDisplay.name,
-      'localeMatcher': localeMatcher.jsName,
-      'notation': notation.name,
-      if (numberingSystem != null) 'numberingSystem': numberingSystem,
-      'signDisplay': signDisplay.name,
-      'style': style.name,
-      'useGrouping': useGrouping.jsName,
-      'roundingMode': roundingMode.name,
-      if (digits?.roundingPriority != null)
-        'roundingPriority': digits?.roundingPriority!.name,
-      if (digits?.roundingIncrement != null)
-        'roundingIncrement': digits?.roundingIncrement!,
-      'minimumIntegerDigits': minimumIntegerDigits,
-      if (digits?.fractionDigits.$1 != null)
-        'minimumFractionDigits': digits?.fractionDigits.$1,
-      if (digits?.fractionDigits.$2 != null)
-        'maximumFractionDigits': digits?.fractionDigits.$2,
-      if (digits?.significantDigits.$1 != null)
-        'minimumSignificantDigits': digits?.significantDigits.$1,
-      if (digits?.significantDigits.$2 != null)
-        'maximumSignificantDigits': digits?.significantDigits.$2,
-      'trailingZeroDisplay': trailingZeroDisplay.name,
-    }.jsify()!;
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'notation', notation.name);
+    if (numberingSystem != null) {
+      setProperty(o, 'numberingSystem', numberingSystem);
+    }
+    setProperty(o, 'signDisplay', signDisplay.name);
+    setProperty(o, 'style', style.name);
+    if (style is UnitStyle) {
+      final unitStyle = style as UnitStyle;
+      setProperty(o, 'unit', unitStyle.unit.jsName);
+      setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
+    }
+    setProperty(o, 'useGrouping', useGrouping.jsName);
+    setProperty(o, 'roundingMode', roundingMode.name);
+    if (digits?.roundingPriority != null) {
+      setProperty(o, 'roundingPriority', digits?.roundingPriority!.name);
+    }
+    if (digits?.roundingIncrement != null) {
+      setProperty(o, 'roundingIncrement', digits?.roundingIncrement!);
+    }
+    setProperty(o, 'minimumIntegerDigits', minimumIntegerDigits);
+    if (digits?.fractionDigits.$1 != null) {
+      setProperty(o, 'minimumFractionDigits', digits?.fractionDigits.$1);
+    }
+    if (digits?.fractionDigits.$2 != null) {
+      setProperty(o, 'maximumFractionDigits', digits?.fractionDigits.$2);
+    }
+    if (digits?.significantDigits.$1 != null) {
+      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits.$1);
+    }
+    if (digits?.significantDigits.$2 != null) {
+      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits.$2);
+    }
+    setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
+    return o;
   }
 }

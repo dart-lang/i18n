@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:js_interop';
+import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -18,15 +19,16 @@ PluralRulesImpl? getPluralSelectECMA(
     _PluralRulesECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.PluralRules')
-extension type PluralRules._(JSObject _) implements JSObject {
-  external factory PluralRules([JSArray<JSString> locales, JSAny options]);
-  external String select(JSNumber number);
-
-  external static JSArray<JSString> supportedLocalesOf(
-    JSArray<JSString> locales, [
-    JSAny options,
-  ]);
+class PluralRulesJS {
+  external factory PluralRulesJS([List<String> locale, Object options]);
+  external String select(num number);
 }
+
+@JS('Intl.PluralRules.supportedLocalesOf')
+external List<String> supportedLocalesOfJS(
+  List<String> listOfLocales, [
+  Object options,
+]);
 
 class _PluralRulesECMA extends PluralRulesImpl {
   _PluralRulesECMA(super.locale, super.options);
@@ -43,10 +45,12 @@ class _PluralRulesECMA extends PluralRulesImpl {
   }
 
   static List<Locale> supportedLocalesOf(
-      Locale locale, LocaleMatcher localeMatcher) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
-    return PluralRules.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
-        .toDart
+    Locale locale,
+    LocaleMatcher localeMatcher,
+  ) {
+    final o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return List<dynamic>.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
@@ -55,33 +59,39 @@ class _PluralRulesECMA extends PluralRulesImpl {
   @override
   PluralCategory selectImpl(num number) {
     final categoryString =
-        PluralRules([locale.toLanguageTag().toJS].toJS, options.toJsOptions())
-            .select(number.toJS);
+        PluralRulesJS([locale.toLanguageTag()], options.toJsOptions())
+            .select(number);
     return PluralCategory.values
         .firstWhere((category) => category.name == categoryString);
   }
 }
 
 extension on PluralRulesOptions {
-  JSAny toJsOptions() {
-    return {
-      'localeMatcher': localeMatcher.jsName,
-      'type': type.name,
-      'roundingMode': roundingMode.name,
-      if (digits?.roundingPriority != null)
-        'roundingPriority': digits?.roundingPriority!.name,
-      if (digits?.roundingIncrement != null)
-        'roundingIncrement': digits?.roundingIncrement!,
-      'minimumIntegerDigits': minimumIntegerDigits,
-      if (digits?.fractionDigits.$1 != null)
-        'minimumFractionDigits': digits?.fractionDigits.$1,
-      if (digits?.fractionDigits.$2 != null)
-        'maximumFractionDigits': digits?.fractionDigits.$2,
-      if (digits?.significantDigits.$1 != null)
-        'minimumSignificantDigits': digits?.significantDigits.$1,
-      if (digits?.significantDigits.$2 != null)
-        'maximumSignificantDigits': digits?.significantDigits.$2,
-      'trailingZeroDisplay': trailingZeroDisplay.name,
-    }.jsify()!;
+  Object toJsOptions() {
+    final o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'type', type.name);
+    setProperty(o, 'roundingMode', roundingMode.name);
+    if (digits?.roundingPriority != null) {
+      setProperty(o, 'roundingPriority', digits?.roundingPriority!.name);
+    }
+    if (digits?.roundingIncrement != null) {
+      setProperty(o, 'roundingIncrement', digits?.roundingIncrement!);
+    }
+    setProperty(o, 'minimumIntegerDigits', minimumIntegerDigits);
+    if (digits?.fractionDigits.$1 != null) {
+      setProperty(o, 'minimumFractionDigits', digits?.fractionDigits.$1);
+    }
+    if (digits?.fractionDigits.$2 != null) {
+      setProperty(o, 'maximumFractionDigits', digits?.fractionDigits.$2);
+    }
+    if (digits?.significantDigits.$1 != null) {
+      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits.$1);
+    }
+    if (digits?.significantDigits.$2 != null) {
+      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits.$2);
+    }
+    setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
+    return o;
   }
 }

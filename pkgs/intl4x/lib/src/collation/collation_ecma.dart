@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-@JS('Intl')
-library;
-
-import 'dart:js_interop';
+import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -19,14 +17,17 @@ CollationImpl? getCollatorECMA(
 ) =>
     CollationECMA.tryToBuild(locale, options, localeMatcher);
 
-extension type Collator._(JSObject _) implements JSObject {
-  external Collator([JSArray<JSString> locales, JSAny options]);
+@JS('Intl.Collator')
+class CollatorJS {
+  external factory CollatorJS([List<String> locale, Object options]);
   external int compare(String a, String b);
-
-  external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
 }
+
+@JS('Intl.Collator.supportedLocalesOf')
+external List<String> supportedLocalesOfJS(
+  List<String> listOfLocales, [
+  Object options,
+]);
 
 class CollationECMA extends CollationImpl {
   CollationECMA(super.locale, super.options);
@@ -46,9 +47,9 @@ class CollationECMA extends CollationImpl {
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
-    return Collator.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
-        .toDart
+    final o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    return List<dynamic>.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
         .whereType<String>()
         .map(Locale.parse)
         .toList();
@@ -56,8 +57,8 @@ class CollationECMA extends CollationImpl {
 
   @override
   int compareImpl(String a, String b) {
-    final collatorJS = Collator(
-      [locale.toLanguageTag().toJS].toJS,
+    final collatorJS = CollatorJS(
+      [locale.toLanguageTag()],
       options.toJsOptions(),
     );
     return collatorJS.compare(a, b);
@@ -65,13 +66,19 @@ class CollationECMA extends CollationImpl {
 }
 
 extension on CollationOptions {
-  JSAny toJsOptions() => {
-        'localeMatcher': localeMatcher.jsName,
-        'usage': usage.name,
-        if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
-        'ignorePunctuation': ignorePunctuation,
-        'numeric': numeric,
-        'caseFirst': caseFirst.jsName,
-        if (collation != null) 'collation': collation,
-      }.jsify()!;
+  Object toJsOptions() {
+    final o = newObject<Object>();
+    setProperty(o, 'localeMatcher', localeMatcher.jsName);
+    setProperty(o, 'usage', usage.name);
+    if (sensitivity != null) {
+      setProperty(o, 'sensitivity', sensitivity!.jsName);
+    }
+    setProperty(o, 'ignorePunctuation', ignorePunctuation);
+    setProperty(o, 'numeric', numeric);
+    setProperty(o, 'caseFirst', caseFirst.jsName);
+    if (collation != null) {
+      setProperty(o, 'collation', collation);
+    }
+    return o;
+  }
 }
