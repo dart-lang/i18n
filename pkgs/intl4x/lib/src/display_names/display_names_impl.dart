@@ -6,7 +6,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'display_names_4x.dart'
     if (dart.library.js) 'display_names_stub_4x.dart';
@@ -33,7 +32,6 @@ abstract class DisplayNamesImpl {
 
   String ofCalendar(Calendar calendar);
 
-  @RecordSymbol('DisplayNames')
   static DisplayNamesImpl build(
     Locale locale,
     Data data,

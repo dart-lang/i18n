@@ -6,7 +6,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
@@ -24,7 +23,6 @@ abstract class DateTimeFormatImpl {
 
   String formatImpl(DateTime datetime);
 
-  @RecordSymbol('DisplayNames')
   static DateTimeFormatImpl build(
     Locale locale,
     Data data,

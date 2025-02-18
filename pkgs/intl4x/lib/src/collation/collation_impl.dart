@@ -6,7 +6,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'collation.dart';
 import 'collation_options.dart';
@@ -24,7 +23,6 @@ abstract class CollationImpl {
 
   /// Factory to get the correct implementation, either calling on ICU4X or the
   /// in-built browser implementation.
-  @RecordSymbol('Collation')
   static CollationImpl build(
     Locale locale,
     Data data,

@@ -20,7 +20,7 @@ class Locale {
   /// for Latin America.
   final String? region;
 
-  //TODO(mosum): Add RecordSymbol here, as soon as it is supported on
+  //TODO(mosum): Add RecordUse here, as soon as it is supported on
   //const constructors
   const Locale({
     required this.language,

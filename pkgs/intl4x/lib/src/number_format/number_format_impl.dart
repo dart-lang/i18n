@@ -6,7 +6,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'number_format_options.dart';
 import 'number_format_stub.dart' if (dart.library.js) 'number_format_ecma.dart';
@@ -23,7 +22,6 @@ abstract class NumberFormatImpl {
 
   String formatImpl(Object number);
 
-  @RecordSymbol('NumberFormat')
   static NumberFormatImpl build(
     Locale locale,
     Data data,

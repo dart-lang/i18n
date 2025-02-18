@@ -7,7 +7,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'list_format_options.dart';
 import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
@@ -21,7 +20,6 @@ abstract class ListFormatImpl {
 
   String formatImpl(List<String> list);
 
-  @RecordSymbol('ListFormat')
   static ListFormatImpl build(
     Locale locales,
     Data data,

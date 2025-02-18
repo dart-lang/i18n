@@ -7,7 +7,6 @@ import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
-import '../usage_recording.dart' show RecordSymbol;
 import '../utils.dart';
 import 'plural_rules.dart';
 import 'plural_rules_options.dart';
@@ -22,7 +21,6 @@ abstract class PluralRulesImpl {
 
   PluralCategory selectImpl(num number);
 
-  @RecordSymbol('PluralRules')
   static PluralRulesImpl build(
     Locale locales,
     Data data,
