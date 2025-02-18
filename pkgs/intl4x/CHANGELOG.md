@@ -1,6 +1,6 @@
 ## 0.11.0-wip
 
-- Remove dep on dart:html.
+- Remove dep on package:js.
 
 ## 0.10.1
 
