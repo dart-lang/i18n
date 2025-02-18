@@ -5,28 +5,23 @@
 @TestOn('browser')
 library;
 
+import 'dart:js_interop';
 import 'dart:math';
 
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
 
 @JS('Intl.NumberFormat')
-class _NumberFormatJS {
-  external factory _NumberFormatJS([List<String> locale, Object options]);
-  external String format(Object num);
+extension type NumberFormat._(JSObject _) implements JSObject {
+  external factory NumberFormat([JSArray<JSString> locale, JSAny options]);
+  external String format(JSAny num);
 }
 
-Object generateProperties(Map<String, Object> properties) {
-  final object = Object();
-  for (final entry in properties.entries) {
-    setProperty(object, entry.key, entry.value);
-  }
-  return object;
+JSAny generateProperties(Map<String, Object> properties) {
+  return properties.jsify()!;
 }
 
 void main() {
@@ -76,7 +71,7 @@ void main() {
       const Locale(language: 'de', region: 'DE'),
       const Locale(language: 'zh', region: 'TW')
     ];
-    final options = <(Object, NumberFormatOptions, Object)>[
+    final options = <(Object, NumberFormatOptions, JSAny)>[
       (
         {'minimumFractionDigits': 2},
         NumberFormatOptions.custom(
@@ -101,8 +96,8 @@ void main() {
       ),
     ];
 
-    List<(num, Locale, (Object, NumberFormatOptions, Object))>
-        selectIndicesFrom(int length) {
+    List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
+        int length) {
       return List.generate(
           length,
           (index) => (
@@ -114,8 +109,8 @@ void main() {
 
     for (final (number, locale, (desc, options, object))
         in selectIndicesFrom(1000)) {
-      final jsFormat =
-          _NumberFormatJS([locale.toLanguageTag()], object).format(number);
+      final jsFormat = NumberFormat([locale.toLanguageTag().toJS].toJS, object)
+          .format(number.toJS);
       final dartFormat =
           Intl(locale: locale).numberFormat(options).format(number);
       expect(dartFormat, jsFormat,
