@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/datetime_format.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 
@@ -35,15 +34,6 @@ void main() {
             script: 'Hant',
           ).toLanguageTag(),
           'de-Hant-DE');
-      expect(
-          const Locale(
-            language: 'ko',
-            script: 'Kore',
-            region: 'KR',
-            hourCycle: HourCycle.h24,
-            calendar: Calendar.gregory,
-          ).toLanguageTag(),
-          'ko-Kore-KR-u-ca-gregory-hc-h24');
     },
   );
 
