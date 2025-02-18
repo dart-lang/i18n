@@ -40,11 +40,13 @@ class BuildOptions {
   final BuildModeEnum buildMode;
   final String? localDylibPath;
   final String? checkoutPath;
+  final bool? treeshake;
 
   BuildOptions({
     required this.buildMode,
     this.localDylibPath,
     this.checkoutPath,
+    this.treeshake,
   });
 
   Map<String, dynamic> toMap() {
@@ -52,6 +54,7 @@ class BuildOptions {
       'buildMode': buildMode.name,
       if (localDylibPath != null) 'localDylibPath': localDylibPath,
       if (checkoutPath != null) 'checkoutPath': checkoutPath,
+      if (treeshake != null) 'treeshake': treeshake.toString(),
     };
   }
 
@@ -61,6 +64,7 @@ class BuildOptions {
           .firstWhere((element) => element.name == map['buildMode']),
       localDylibPath: map['localDylibPath'] as String?,
       checkoutPath: map['checkoutPath'] as String?,
+      treeshake: map['treeshake'] == true,
     );
   }
 

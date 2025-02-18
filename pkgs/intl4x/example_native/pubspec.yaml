@@ -16,3 +16,4 @@ dev_dependencies:
 hook:
   intl4x:
     buildMode: fetch
+    treeshake: true

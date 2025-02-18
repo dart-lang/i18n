@@ -53,10 +53,13 @@ hook:
 ''');
     }
     print('Read build options: ${buildOptions.toJson()}');
+    final treeshake = buildOptions.treeshake ?? false;
     final buildMode = switch (buildOptions.buildMode) {
-      BuildModeEnum.local => LocalMode(input, buildOptions.localDylibPath),
-      BuildModeEnum.checkout => CheckoutMode(input, buildOptions.checkoutPath),
-      BuildModeEnum.fetch => FetchMode(input),
+      BuildModeEnum.local =>
+        LocalMode(input, buildOptions.localDylibPath, treeshake),
+      BuildModeEnum.checkout =>
+        CheckoutMode(input, buildOptions.checkoutPath, treeshake),
+      BuildModeEnum.fetch => FetchMode(input, treeshake),
     };
 
     final builtLibrary = await buildMode.build();
@@ -84,8 +87,9 @@ hook:
 
 sealed class BuildMode {
   final BuildInput input;
+  final bool treeshake;
 
-  const BuildMode(this.input);
+  const BuildMode(this.input, this.treeshake);
 
   List<Uri> get dependencies;
 
@@ -93,7 +97,7 @@ sealed class BuildMode {
 }
 
 final class FetchMode extends BuildMode {
-  FetchMode(super.input);
+  FetchMode(super.input, super.treeshake);
   final httpClient = HttpClient();
 
   @override
@@ -101,7 +105,8 @@ final class FetchMode extends BuildMode {
     print('Running in `fetch` mode');
     final targetOS = input.config.code.targetOS;
     final targetArchitecture = input.config.code.targetArchitecture;
-    final libraryType = input.config.linkingEnabled ? 'static' : 'dynamic';
+    final libraryType =
+        input.config.buildStatic(treeshake) ? 'static' : 'dynamic';
     final target = [
       targetOS,
       targetArchitecture,
@@ -112,7 +117,7 @@ final class FetchMode extends BuildMode {
         'https://github.com/dart-lang/i18n/releases/download/$version/$target');
     final library = await fetchToFile(
       dylibRemoteUri,
-      input.outputDirectory.resolve(input.config.filename('icu4x')),
+      input.outputDirectory.resolve(input.config.filename(treeshake)('icu4x')),
     );
 
     final bytes = await library.readAsBytes();
@@ -146,7 +151,7 @@ final class FetchMode extends BuildMode {
 
 final class LocalMode extends BuildMode {
   final String? localPath;
-  LocalMode(super.input, this.localPath);
+  LocalMode(super.input, this.localPath, super.treeshake);
 
   String get _localLibraryPath {
     if (localPath != null) {
@@ -179,7 +184,7 @@ final class LocalMode extends BuildMode {
 final class CheckoutMode extends BuildMode {
   final String? checkoutPath;
 
-  CheckoutMode(super.input, this.checkoutPath);
+  CheckoutMode(super.input, this.checkoutPath, super.treeshake);
 
   @override
   Future<Uri> build() async {
@@ -188,7 +193,7 @@ final class CheckoutMode extends BuildMode {
       throw ArgumentError('Specify the ICU4X checkout folder'
           'with the LOCAL_ICU4X_CHECKOUT variable');
     }
-    return await buildLib(input, checkoutPath!);
+    return await buildLib(input, checkoutPath!, treeshake);
   }
 
   @override
@@ -197,9 +202,10 @@ final class CheckoutMode extends BuildMode {
       ];
 }
 
-Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
+Future<Uri> buildLib(
+    BuildInput input, String workingDirectory, bool treeshake) async {
   final crateNameFixed = crateName.replaceAll('-', '_');
-  final libFileName = input.config.filename(crateNameFixed);
+  final libFileName = input.config.filename(treeshake)(crateNameFixed);
   final libFileUri = input.outputDirectory.resolve(libFileName);
 
   final code = input.config.code;
@@ -234,9 +240,10 @@ Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
     'panic_handler',
     'experimental_components',
   ];
-  final linkModeType = input.config.buildStatic ? 'staticlib' : 'cdylib';
+  final linkModeType =
+      input.config.buildStatic(treeshake) ? 'staticlib' : 'cdylib';
   final arguments = [
-    if (input.config.buildStatic || isNoStd) '+nightly',
+    if (input.config.buildStatic(treeshake) || isNoStd) '+nightly',
     'rustc',
     '-p=$crateName',
     '--crate-type=$linkModeType',
@@ -248,7 +255,7 @@ Future<Uri> buildLib(BuildInput input, String workingDirectory) async {
         ? '--features=${noStdFeatures.join(',')}'
         : '--features=${stdFeatures.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
-    if (input.config.buildStatic || isNoStd) ...[
+    if (input.config.buildStatic(treeshake) || isNoStd) ...[
       '-Zbuild-std=std,panic_abort',
       '-Zbuild-std-features=panic_immediate_abort',
     ],
@@ -322,9 +329,11 @@ bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
     ].contains(arg);
 
 extension on BuildConfig {
-  bool get buildStatic =>
-      code.linkModePreference == LinkModePreference.static || linkingEnabled;
-  String Function(String) get filename => buildStatic
+  bool buildStatic(bool treeshake) =>
+      code.linkModePreference == LinkModePreference.static ||
+      (linkingEnabled && treeshake);
+
+  String Function(String) filename(bool treeshake) => buildStatic(treeshake)
       ? code.targetOS.staticlibFileName
       : code.targetOS.dylibFileName;
 }
