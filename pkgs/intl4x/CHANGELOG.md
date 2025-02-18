@@ -1,3 +1,7 @@
+## 0.11.0-wip
+
+- Remove dep on dart:html.
+
 ## 0.10.1
 
 - Upgrade to new artifacts.
