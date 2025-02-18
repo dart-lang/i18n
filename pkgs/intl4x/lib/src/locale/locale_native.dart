@@ -7,7 +7,7 @@ import 'locale.dart';
 /// This file should be replaced by references to ICU4X when ready.
 
 Locale parseLocaleWithSeparatorPlaceholder(String s, [String separator = '-']) {
-  final parsed = s.split(separator);
+  final parsed = s.split('.').first.split(separator);
   // ignore: unused_local_variable
   final subtags = parsed.skipWhile((value) => value != 'u').toList();
   final tags = parsed.takeWhile((value) => value != 'u').toList();
@@ -47,20 +47,10 @@ Locale parseLocale(String s, [String separator = '-']) {
 }
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) {
-  final subtags = <String>[
-    if (l.calendar != null) ...['ca', l.calendar!.jsName],
-    if (l.caseFirst != null) l.caseFirst!.jsName,
-    if (l.collation != null) l.collation!,
-    if (l.hourCycle != null) ...['hc', l.hourCycle!.name],
-    if (l.numberingSystem != null) l.numberingSystem!,
-    if (l.numeric != null) l.numeric!.toString(),
-  ];
   return <String>[
     l.language,
     if (l.script != null) l.script!,
     if (l.region != null) l.region!,
-    if (subtags.isNotEmpty) 'u',
-    ...subtags,
   ].join(separator);
 }
 

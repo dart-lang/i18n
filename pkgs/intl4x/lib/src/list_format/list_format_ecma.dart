@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -18,16 +17,14 @@ ListFormatImpl? getListFormatterECMA(
     _ListFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.ListFormat')
-class ListFormatJS {
-  external factory ListFormatJS([List<String> locale, Object options]);
-  external String format(List<String> list);
-}
+extension type ListFormat._(JSObject _) implements JSObject {
+  external factory ListFormat([JSArray<JSString> locale, JSAny options]);
+  external String format(JSArray<JSString> list);
 
-@JS('Intl.ListFormat.supportedLocalesOf')
-external List<String> supportedLocalesOfJS(
-  List<String> listOfLocales, [
-  Object options,
-]);
+  external static JSArray<JSString> supportedLocalesOf(
+      JSArray<JSString> locales,
+      [JSAny options]);
+}
 
 class _ListFormatECMA extends ListFormatImpl {
   _ListFormatECMA(super.locale, super.options);
@@ -47,9 +44,11 @@ class _ListFormatECMA extends ListFormatImpl {
     Locale locale,
     LocaleMatcher localeMatcher,
   ) {
-    final o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List<dynamic>.from(supportedLocalesOfJS([locale.toLanguageTag()], o))
+    final o = {
+      'localeMatcher': localeMatcher.jsName,
+    }.jsify()!;
+    return ListFormat.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
+        .toDart
         .whereType<String>()
         .map(Locale.parse)
         .toList();
@@ -57,17 +56,15 @@ class _ListFormatECMA extends ListFormatImpl {
 
   @override
   String formatImpl(List<String> list) {
-    return ListFormatJS([locale.toLanguageTag()], options.toJsOptions())
-        .format(list);
+    return ListFormat([locale.toLanguageTag().toJS].toJS, options.toJsOptions())
+        .format(list.map((e) => e.toJS).toList().toJS);
   }
 }
 
 extension on ListFormatOptions {
-  Object toJsOptions() {
-    final o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    setProperty(o, 'type', type.jsName);
-    setProperty(o, 'style', style.name);
-    return o;
-  }
+  JSAny toJsOptions() => {
+        'localeMatcher': localeMatcher.jsName,
+        'type': type.jsName,
+        'style': style.name,
+      }.jsify()!;
 }
