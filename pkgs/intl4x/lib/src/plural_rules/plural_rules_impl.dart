@@ -27,14 +27,13 @@ abstract class PluralRulesImpl {
     PluralRulesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) =>
-      buildFormatter(
-        locales,
-        data,
-        options,
-        localeMatcher,
-        ecmaPolicy,
-        getPluralSelectECMA,
-        getPluralSelect4X,
-      );
+  ) => buildFormatter(
+    locales,
+    data,
+    options,
+    localeMatcher,
+    ecmaPolicy,
+    getPluralSelectECMA,
+    getPluralSelect4X,
+  );
 }

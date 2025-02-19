@@ -17,8 +17,9 @@ const crateName = 'icu_capi';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final buildOptions =
-        await getBuildOptions(input.outputDirectory.toFilePath());
+    final buildOptions = await getBuildOptions(
+      input.outputDirectory.toFilePath(),
+    );
     if (buildOptions == null) {
       throw ArgumentError('''
 
@@ -55,10 +56,16 @@ hook:
     print('Read build options: ${buildOptions.toJson()}');
     final treeshake = buildOptions.treeshake ?? false;
     final buildMode = switch (buildOptions.buildMode) {
-      BuildModeEnum.local =>
-        LocalMode(input, buildOptions.localDylibPath, treeshake),
-      BuildModeEnum.checkout =>
-        CheckoutMode(input, buildOptions.checkoutPath, treeshake),
+      BuildModeEnum.local => LocalMode(
+        input,
+        buildOptions.localDylibPath,
+        treeshake,
+      ),
+      BuildModeEnum.checkout => CheckoutMode(
+        input,
+        buildOptions.checkoutPath,
+        treeshake,
+      ),
       BuildModeEnum.fetch => FetchMode(input, treeshake),
     };
 
@@ -107,14 +114,11 @@ final class FetchMode extends BuildMode {
     final targetArchitecture = input.config.code.targetArchitecture;
     final libraryType =
         input.config.buildStatic(treeshake) ? 'static' : 'dynamic';
-    final target = [
-      targetOS,
-      targetArchitecture,
-      libraryType,
-    ].join('_');
+    final target = [targetOS, targetArchitecture, libraryType].join('_');
     print('Fetching pre-built binary for $version and $target');
     final dylibRemoteUri = Uri.parse(
-        'https://github.com/dart-lang/i18n/releases/download/$version/$target');
+      'https://github.com/dart-lang/i18n/releases/download/$version/$target',
+    );
     final library = await fetchToFile(
       dylibRemoteUri,
       input.outputDirectory.resolve(input.config.filename(treeshake)('icu4x')),
@@ -126,9 +130,10 @@ final class FetchMode extends BuildMode {
         fileHashes[(targetOS, targetArchitecture, libraryType)];
     if (fileHash != expectedFileHash) {
       throw Exception(
-          'The pre-built binary for the target $target at $dylibRemoteUri has a'
-          ' hash of $fileHash, which does not match $expectedFileHash fixed in'
-          ' the build hook of package:intl4x.');
+        'The pre-built binary for the target $target at $dylibRemoteUri has a'
+        ' hash of $fileHash, which does not match $expectedFileHash fixed in'
+        ' the build hook of package:intl4x.',
+      );
     }
     return library.uri;
   }
@@ -157,10 +162,12 @@ final class LocalMode extends BuildMode {
     if (localPath != null) {
       return localPath!;
     }
-    throw ArgumentError('`LOCAL_ICU4X_BINARY` is empty. '
-        'If the `ICU4X_BUILD_MODE` is set to `local`, the '
-        '`LOCAL_ICU4X_BINARY` environment variable must contain the path to '
-        'the binary.');
+    throw ArgumentError(
+      '`LOCAL_ICU4X_BINARY` is empty. '
+      'If the `ICU4X_BUILD_MODE` is set to `local`, the '
+      '`LOCAL_ICU4X_BINARY` environment variable must contain the path to '
+      'the binary.',
+    );
   }
 
   @override
@@ -190,20 +197,25 @@ final class CheckoutMode extends BuildMode {
   Future<Uri> build() async {
     print('Running in `checkout` mode');
     if (checkoutPath == null) {
-      throw ArgumentError('Specify the ICU4X checkout folder'
-          'with the LOCAL_ICU4X_CHECKOUT variable');
+      throw ArgumentError(
+        'Specify the ICU4X checkout folder'
+        'with the LOCAL_ICU4X_CHECKOUT variable',
+      );
     }
     return await buildLib(input, checkoutPath!, treeshake);
   }
 
   @override
   List<Uri> get dependencies => [
-        Uri.directory(checkoutPath!).resolve('Cargo.lock'),
-      ];
+    Uri.directory(checkoutPath!).resolve('Cargo.lock'),
+  ];
 }
 
 Future<Uri> buildLib(
-    BuildInput input, String workingDirectory, bool treeshake) async {
+  BuildInput input,
+  String workingDirectory,
+  bool treeshake,
+) async {
   final crateNameFixed = crateName.replaceAll('-', '_');
   final libFileName = input.config.filename(treeshake)(crateNameFixed);
   final libFileUri = input.outputDirectory.resolve(libFileName);
@@ -260,13 +272,9 @@ Future<Uri> buildLib(
       '-Zbuild-std-features=panic_immediate_abort',
     ],
     '--target=${asRustTarget(input)}',
-    '--target-dir=${tempDir.path}'
+    '--target-dir=${tempDir.path}',
   ];
-  await runProcess(
-    'cargo',
-    arguments,
-    workingDirectory: workingDirectory,
-  );
+  await runProcess('cargo', arguments, workingDirectory: workingDirectory);
 
   final builtPath = path.join(
     tempDir.path,
@@ -318,22 +326,25 @@ String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
     (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
     (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
     (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
-    (_, _) => throw UnimplementedError(
-        'Target ${(os, architecture)} not available for rust'),
+    (_, _) =>
+      throw UnimplementedError(
+        'Target ${(os, architecture)} not available for rust',
+      ),
   };
 }
 
 bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
-      (OS.android, Architecture.riscv64),
-      (OS.linux, Architecture.riscv64)
-    ].contains(arg);
+  (OS.android, Architecture.riscv64),
+  (OS.linux, Architecture.riscv64),
+].contains(arg);
 
 extension on BuildConfig {
   bool buildStatic(bool treeshake) =>
       code.linkModePreference == LinkModePreference.static ||
       (linkingEnabled && treeshake);
 
-  String Function(String) filename(bool treeshake) => buildStatic(treeshake)
-      ? code.targetOS.staticlibFileName
-      : code.targetOS.dylibFileName;
+  String Function(String) filename(bool treeshake) =>
+      buildStatic(treeshake)
+          ? code.targetOS.staticlibFileName
+          : code.targetOS.dylibFileName;
 }

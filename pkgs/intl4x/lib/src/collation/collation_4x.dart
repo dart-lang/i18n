@@ -11,18 +11,20 @@ import 'collation_impl.dart';
 import 'collation_options.dart';
 
 CollationImpl getCollator4X(
-        Locale locale, Data data, CollationOptions options) =>
-    Collation4X(locale, data, options);
+  Locale locale,
+  Data data,
+  CollationOptions options,
+) => Collation4X(locale, data, options);
 
 class Collation4X extends CollationImpl {
   final icu.Collator _collator;
 
   Collation4X(super.locale, Data data, super.options)
-      : _collator = icu.Collator(
-          data.to4X(),
-          locale.to4X(),
-          options.to4xOptions(),
-        );
+    : _collator = icu.Collator(
+        data.to4X(),
+        locale.to4X(),
+        options.to4xOptions(),
+      );
 
   @override
   int compareImpl(String a, String b) => _collator.compare(a, b);
@@ -47,9 +49,10 @@ extension on CollationOptions {
       null => icu.CollatorStrength.tertiary,
     };
 
-    final icuCaseLevel = sensitivity == Sensitivity.caseSensitivity
-        ? icu.CollatorCaseLevel.on
-        : icu.CollatorCaseLevel.off;
+    final icuCaseLevel =
+        sensitivity == Sensitivity.caseSensitivity
+            ? icu.CollatorCaseLevel.on
+            : icu.CollatorCaseLevel.off;
 
     return icu.CollatorOptions(
       strength: icuStrength,

@@ -20,8 +20,9 @@ final class Calendar implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XCalendar_destroy));
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XCalendar_destroy),
+  );
 
   /// Creates a new [`Calendar`] from the specified date and time.
   ///
@@ -60,28 +61,37 @@ final class Calendar implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XCalendar_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XCalendar_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XCalendar_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XCalendar_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XCalendar_create_for_locale')
 @ffi.Native<
-        _ResultOpaqueInt32 Function(
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XCalendar_create_for_locale')
+  _ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
+>(isLeaf: true, symbol: 'ICU4XCalendar_create_for_locale')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XCalendar_create_for_locale(
-    ffi.Pointer<ffi.Opaque> provider, ffi.Pointer<ffi.Opaque> locale);
+  ffi.Pointer<ffi.Opaque> provider,
+  ffi.Pointer<ffi.Opaque> locale,
+);
 
 @RecordSymbol('ICU4XCalendar_create_for_kind')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Int32)>(
-    isLeaf: true, symbol: 'ICU4XCalendar_create_for_kind')
+  isLeaf: true,
+  symbol: 'ICU4XCalendar_create_for_kind',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XCalendar_create_for_kind(
-    ffi.Pointer<ffi.Opaque> provider, int kind);
+  ffi.Pointer<ffi.Opaque> provider,
+  int kind,
+);
 
 @RecordSymbol('ICU4XCalendar_kind')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XCalendar_kind')
+  isLeaf: true,
+  symbol: 'ICU4XCalendar_kind',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XCalendar_kind(ffi.Pointer<ffi.Opaque> self);

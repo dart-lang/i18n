@@ -22,8 +22,9 @@ final class Bidi implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XBidi_destroy));
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XBidi_destroy),
+  );
 
   /// Creates a new [`Bidi`] from locale data.
   ///
@@ -49,7 +50,11 @@ final class Bidi implements ffi.Finalizable {
     // This lifetime edge depends on lifetimes: 'text
     core.List<Object> textEdges = [textArena];
     final result = _ICU4XBidi_for_text_valid_utf8(
-        _ffi, textView.allocIn(textArena.arena), textView.length, defaultLevel);
+      _ffi,
+      textView.allocIn(textArena.arena),
+      textView.length,
+      defaultLevel,
+    );
     return BidiInfo._fromFfi(result, [], textEdges);
   }
 
@@ -67,7 +72,10 @@ final class Bidi implements ffi.Finalizable {
     final temp = ffi2.Arena();
     final levelsView = levels.uint8View;
     final result = _ICU4XBidi_reorder_visual(
-        _ffi, levelsView.allocIn(temp), levelsView.length);
+      _ffi,
+      levelsView.allocIn(temp),
+      levelsView.length,
+    );
     temp.releaseAll();
     return ReorderedIndexMap._fromFfi(result, []);
   }
@@ -111,51 +119,65 @@ final class Bidi implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XBidi_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XBidi_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XBidi_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XBidi_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XBidi_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XBidi_create')
+  isLeaf: true,
+  symbol: 'ICU4XBidi_create',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XBidi_create(ffi.Pointer<ffi.Opaque> provider);
 
 @RecordSymbol('ICU4XBidi_for_text_valid_utf8')
 @ffi.Native<
-    ffi.Pointer<ffi.Opaque> Function(
-        ffi.Pointer<ffi.Opaque>,
-        ffi.Pointer<ffi.Uint8>,
-        ffi.Size,
-        ffi.Uint8)>(isLeaf: true, symbol: 'ICU4XBidi_for_text_valid_utf8')
+  ffi.Pointer<ffi.Opaque> Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Uint8,
+  )
+>(isLeaf: true, symbol: 'ICU4XBidi_for_text_valid_utf8')
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XBidi_for_text_valid_utf8(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> textData,
-    int textLength,
-    int defaultLevel);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> textData,
+  int textLength,
+  int defaultLevel,
+);
 
 @RecordSymbol('ICU4XBidi_reorder_visual')
 @ffi.Native<
-    ffi.Pointer<ffi.Opaque> Function(
-        ffi.Pointer<ffi.Opaque>,
-        ffi.Pointer<ffi.Uint8>,
-        ffi.Size)>(isLeaf: true, symbol: 'ICU4XBidi_reorder_visual')
+  ffi.Pointer<ffi.Opaque> Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+  )
+>(isLeaf: true, symbol: 'ICU4XBidi_reorder_visual')
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XBidi_reorder_visual(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> levelsData,
-    int levelsLength);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> levelsData,
+  int levelsLength,
+);
 
 @RecordSymbol('ICU4XBidi_level_is_rtl')
 @ffi.Native<ffi.Bool Function(ffi.Uint8)>(
-    isLeaf: true, symbol: 'ICU4XBidi_level_is_rtl')
+  isLeaf: true,
+  symbol: 'ICU4XBidi_level_is_rtl',
+)
 // ignore: non_constant_identifier_names
 external bool _ICU4XBidi_level_is_rtl(int level);
 
 @RecordSymbol('ICU4XBidi_level_is_ltr')
 @ffi.Native<ffi.Bool Function(ffi.Uint8)>(
-    isLeaf: true, symbol: 'ICU4XBidi_level_is_ltr')
+  isLeaf: true,
+  symbol: 'ICU4XBidi_level_is_ltr',
+)
 // ignore: non_constant_identifier_names
 external bool _ICU4XBidi_level_is_ltr(int level);
 

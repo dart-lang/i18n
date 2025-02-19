@@ -25,17 +25,26 @@ final class DateTimeFormatter implements ffi.Finalizable {
 
   @RecordSymbol('ICU4XDateTimeFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
-      ffi.Native.addressOf(_ICU4XDateTimeFormatter_destroy));
+    ffi.Native.addressOf(_ICU4XDateTimeFormatter_destroy),
+  );
 
   /// Creates a new [`DateTimeFormatter`] from locale data.
   ///
   /// See the [Rust documentation for `try_new`](https://docs.rs/icu/latest/icu/datetime/struct.DateTimeFormatter.html#method.try_new) for more information.
   ///
   /// Throws [Error] on failure.
-  factory DateTimeFormatter.withLengths(DataProvider provider, Locale locale,
-      DateLength dateLength, TimeLength timeLength) {
+  factory DateTimeFormatter.withLengths(
+    DataProvider provider,
+    Locale locale,
+    DateLength dateLength,
+    TimeLength timeLength,
+  ) {
     final result = _ICU4XDateTimeFormatter_create_with_lengths(
-        provider._ffi, locale._ffi, dateLength.index, timeLength.index);
+      provider._ffi,
+      locale._ffi,
+      dateLength.index,
+      timeLength.index,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -50,7 +59,10 @@ final class DateTimeFormatter implements ffi.Finalizable {
   String formatDatetime(DateTime value) {
     final writeable = _Writeable();
     final result = _ICU4XDateTimeFormatter_format_datetime(
-        _ffi, value._ffi, writeable._ffi);
+      _ffi,
+      value._ffi,
+      writeable._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -67,7 +79,10 @@ final class DateTimeFormatter implements ffi.Finalizable {
   String formatIsoDatetime(IsoDateTime value) {
     final writeable = _Writeable();
     final result = _ICU4XDateTimeFormatter_format_iso_datetime(
-        _ffi, value._ffi, writeable._ffi);
+      _ffi,
+      value._ffi,
+      writeable._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -77,40 +92,55 @@ final class DateTimeFormatter implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XDateTimeFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XDateTimeFormatter_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XDateTimeFormatter_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XDateTimeFormatter_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XDateTimeFormatter_create_with_lengths')
 @ffi.Native<
-        _ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Opaque>, ffi.Int32, ffi.Int32)>(
-    isLeaf: true, symbol: 'ICU4XDateTimeFormatter_create_with_lengths')
+  _ResultOpaqueInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Int32,
+    ffi.Int32,
+  )
+>(isLeaf: true, symbol: 'ICU4XDateTimeFormatter_create_with_lengths')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XDateTimeFormatter_create_with_lengths(
-    ffi.Pointer<ffi.Opaque> provider,
-    ffi.Pointer<ffi.Opaque> locale,
-    int dateLength,
-    int timeLength);
+  ffi.Pointer<ffi.Opaque> provider,
+  ffi.Pointer<ffi.Opaque> locale,
+  int dateLength,
+  int timeLength,
+);
 
 @RecordSymbol('ICU4XDateTimeFormatter_format_datetime')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDateTimeFormatter_format_datetime')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XDateTimeFormatter_format_datetime')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDateTimeFormatter_format_datetime(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Opaque> value,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> value,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
 @RecordSymbol('ICU4XDateTimeFormatter_format_iso_datetime')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDateTimeFormatter_format_iso_datetime')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XDateTimeFormatter_format_iso_datetime')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDateTimeFormatter_format_iso_datetime(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Opaque> value,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> value,
+  ffi.Pointer<ffi.Opaque> writeable,
+);

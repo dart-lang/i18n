@@ -47,20 +47,19 @@ Future<void> main(List<String> args) async {
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const fileHashes = <(OS, Architecture, String), String>{
-${fileHashes.map((key, value) => MapEntry(
-                ('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"),
-                "'$value'",
-              )).entries.map(
-            (e) => '  ${e.key}:\n      ${e.value}',
-          ).join(',\n')}
+${fileHashes.map((key, value) => MapEntry(('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"), "'$value'")).entries.map((e) => '  ${e.key}:\n      ${e.value}').join(',\n')}
 };
 ''');
 }
 
 Future<bool> _fetchLibrary(
-    String target, HttpClient httpClient, File dynamicLibrary) async {
+  String target,
+  HttpClient httpClient,
+  File dynamicLibrary,
+) async {
   final uri = Uri.parse(
-      'https://github.com/dart-lang/i18n/releases/download/$version/$target');
+    'https://github.com/dart-lang/i18n/releases/download/$version/$target',
+  );
   print('Fetch file from $uri');
   final request = await httpClient.getUrl(uri);
   final response = await request.close();

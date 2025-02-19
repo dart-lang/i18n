@@ -13,5 +13,5 @@ enum FixedDecimalSign {
   negative,
 
   /// An explicit positive sign, e.g., +1729.
-  positive;
+  positive,
 }

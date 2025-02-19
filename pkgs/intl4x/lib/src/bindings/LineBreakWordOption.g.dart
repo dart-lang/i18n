@@ -3,10 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `LineBreakWordOption`](https://docs.rs/icu/latest/icu/segmenter/enum.LineBreakWordOption.html) for more information.
-enum LineBreakWordOption {
-  normal,
-
-  breakAll,
-
-  keepAll;
-}
+enum LineBreakWordOption { normal, breakAll, keepAll }

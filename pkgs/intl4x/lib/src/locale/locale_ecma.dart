@@ -20,10 +20,10 @@ extension type LocaleJS._(JSObject _) implements JSObject {
 Locale parseLocale(String s) => toLocale(LocaleJS(s));
 
 Locale toLocale(LocaleJS parsed) => Locale(
-      language: parsed.language,
-      region: parsed.region,
-      script: parsed.script,
-    );
+  language: parsed.language,
+  region: parsed.region,
+  script: parsed.script,
+);
 
 String toLanguageTagImpl(Locale l, [String separator = '-']) =>
     fromLocale(l).toString();

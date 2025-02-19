@@ -23,8 +23,9 @@ final class DataProvider implements ffi.Finalizable {
   }
 
   @RecordSymbol('ICU4XDataProvider_destroy')
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XDataProvider_destroy));
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XDataProvider_destroy),
+  );
 
   /// Constructs an [`DataProvider`] that uses compiled data.
   ///
@@ -46,7 +47,9 @@ final class DataProvider implements ffi.Finalizable {
     final temp = ffi2.Arena();
     final blobView = blob;
     final result = _ICU4XDataProvider_create_from_byte_slice(
-        blobView.allocIn(temp), blobView.length);
+      blobView.allocIn(temp),
+      blobView.length,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -115,8 +118,10 @@ final class DataProvider implements ffi.Finalizable {
   ///
   /// Throws [Error] on failure.
   void enableLocaleFallbackWith(LocaleFallbacker fallbacker) {
-    final result =
-        _ICU4XDataProvider_enable_locale_fallback_with(_ffi, fallbacker._ffi);
+    final result = _ICU4XDataProvider_enable_locale_fallback_with(
+      _ffi,
+      fallbacker._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -125,59 +130,75 @@ final class DataProvider implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XDataProvider_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XDataProvider_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XDataProvider_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XDataProvider_create_compiled')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function()>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_create_compiled')
+  isLeaf: true,
+  symbol: 'ICU4XDataProvider_create_compiled',
+)
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XDataProvider_create_compiled();
 
 @RecordSymbol('ICU4XDataProvider_create_from_byte_slice')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_create_from_byte_slice')
+  isLeaf: true,
+  symbol: 'ICU4XDataProvider_create_from_byte_slice',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XDataProvider_create_from_byte_slice(
-    ffi.Pointer<ffi.Uint8> blobData, int blobLength);
+  ffi.Pointer<ffi.Uint8> blobData,
+  int blobLength,
+);
 
 @RecordSymbol('ICU4XDataProvider_create_empty')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function()>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_create_empty')
+  isLeaf: true,
+  symbol: 'ICU4XDataProvider_create_empty',
+)
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XDataProvider_create_empty();
 
 @RecordSymbol('ICU4XDataProvider_fork_by_key')
 @ffi.Native<
-        _ResultVoidInt32 Function(
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_fork_by_key')
+  _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
+>(isLeaf: true, symbol: 'ICU4XDataProvider_fork_by_key')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDataProvider_fork_by_key(
-    ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> other);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> other,
+);
 
 @RecordSymbol('ICU4XDataProvider_fork_by_locale')
 @ffi.Native<
-        _ResultVoidInt32 Function(
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_fork_by_locale')
+  _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
+>(isLeaf: true, symbol: 'ICU4XDataProvider_fork_by_locale')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDataProvider_fork_by_locale(
-    ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> other);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> other,
+);
 
 @RecordSymbol('ICU4XDataProvider_enable_locale_fallback')
 @ffi.Native<_ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_enable_locale_fallback')
+  isLeaf: true,
+  symbol: 'ICU4XDataProvider_enable_locale_fallback',
+)
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDataProvider_enable_locale_fallback(
-    ffi.Pointer<ffi.Opaque> self);
+  ffi.Pointer<ffi.Opaque> self,
+);
 
 @RecordSymbol('ICU4XDataProvider_enable_locale_fallback_with')
 @ffi.Native<
-        _ResultVoidInt32 Function(
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XDataProvider_enable_locale_fallback_with')
+  _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
+>(isLeaf: true, symbol: 'ICU4XDataProvider_enable_locale_fallback_with')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XDataProvider_enable_locale_fallback_with(
-    ffi.Pointer<ffi.Opaque> self, ffi.Pointer<ffi.Opaque> fallbacker);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> fallbacker,
+);

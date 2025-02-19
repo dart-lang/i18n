@@ -36,15 +36,15 @@ final class ResolvedCollatorOptions {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   ResolvedCollatorOptions._fromFfi(_ResolvedCollatorOptionsFfi ffi)
-      : strength = CollatorStrength.values[ffi.strength],
-        alternateHandling =
-            CollatorAlternateHandling.values[ffi.alternateHandling],
-        caseFirst = CollatorCaseFirst.values[ffi.caseFirst],
-        maxVariable = CollatorMaxVariable.values[ffi.maxVariable],
-        caseLevel = CollatorCaseLevel.values[ffi.caseLevel],
-        numeric = CollatorNumeric.values[ffi.numeric],
-        backwardSecondLevel =
-            CollatorBackwardSecondLevel.values[ffi.backwardSecondLevel];
+    : strength = CollatorStrength.values[ffi.strength],
+      alternateHandling =
+          CollatorAlternateHandling.values[ffi.alternateHandling],
+      caseFirst = CollatorCaseFirst.values[ffi.caseFirst],
+      maxVariable = CollatorMaxVariable.values[ffi.maxVariable],
+      caseLevel = CollatorCaseLevel.values[ffi.caseLevel],
+      numeric = CollatorNumeric.values[ffi.numeric],
+      backwardSecondLevel =
+          CollatorBackwardSecondLevel.values[ffi.backwardSecondLevel];
 
   // ignore: unused_element
   _ResolvedCollatorOptionsFfi _toFfi(ffi.Allocator temp) {
@@ -72,12 +72,12 @@ final class ResolvedCollatorOptions {
 
   @override
   int get hashCode => Object.hashAll([
-        strength,
-        alternateHandling,
-        caseFirst,
-        maxVariable,
-        caseLevel,
-        numeric,
-        backwardSecondLevel,
-      ]);
+    strength,
+    alternateHandling,
+    caseFirst,
+    maxVariable,
+    caseLevel,
+    numeric,
+    backwardSecondLevel,
+  ]);
 }

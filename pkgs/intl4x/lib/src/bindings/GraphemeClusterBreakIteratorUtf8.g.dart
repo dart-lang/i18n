@@ -17,7 +17,10 @@ final class GraphemeClusterBreakIteratorUtf8 implements ffi.Finalizable {
   // references to objects, and this object will hold on to them to keep them alive and
   // maintain borrow validity.
   GraphemeClusterBreakIteratorUtf8._fromFfi(
-      this._ffi, this._selfEdge, this._aEdge) {
+    this._ffi,
+    this._selfEdge,
+    this._aEdge,
+  ) {
     if (_selfEdge.isEmpty) {
       _finalizer.attach(this, _ffi.cast());
     }
@@ -25,7 +28,8 @@ final class GraphemeClusterBreakIteratorUtf8 implements ffi.Finalizable {
 
   @RecordSymbol('ICU4XGraphemeClusterBreakIteratorUtf8_destroy')
   static final _finalizer = ffi.NativeFinalizer(
-      ffi.Native.addressOf(_ICU4XGraphemeClusterBreakIteratorUtf8_destroy));
+    ffi.Native.addressOf(_ICU4XGraphemeClusterBreakIteratorUtf8_destroy),
+  );
 
   /// Finds the next breakpoint. Returns -1 if at the end of the string or if the index is
   /// out of range of a 32-bit signed integer.
@@ -39,14 +43,20 @@ final class GraphemeClusterBreakIteratorUtf8 implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XGraphemeClusterBreakIteratorUtf8_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XGraphemeClusterBreakIteratorUtf8_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XGraphemeClusterBreakIteratorUtf8_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XGraphemeClusterBreakIteratorUtf8_destroy(
-    ffi.Pointer<ffi.Void> self);
+  ffi.Pointer<ffi.Void> self,
+);
 
 @RecordSymbol('ICU4XGraphemeClusterBreakIteratorUtf8_next')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XGraphemeClusterBreakIteratorUtf8_next')
+  isLeaf: true,
+  symbol: 'ICU4XGraphemeClusterBreakIteratorUtf8_next',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XGraphemeClusterBreakIteratorUtf8_next(
-    ffi.Pointer<ffi.Opaque> self);
+  ffi.Pointer<ffi.Opaque> self,
+);

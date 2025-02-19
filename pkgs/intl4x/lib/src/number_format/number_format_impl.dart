@@ -28,14 +28,13 @@ abstract class NumberFormatImpl {
     NumberFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) =>
-      buildFormatter(
-        locale,
-        data,
-        options,
-        localeMatcher,
-        ecmaPolicy,
-        getNumberFormatterECMA,
-        getNumberFormatter4X,
-      );
+  ) => buildFormatter(
+    locale,
+    data,
+    options,
+    localeMatcher,
+    ecmaPolicy,
+    getNumberFormatterECMA,
+    getNumberFormatter4X,
+  );
 }

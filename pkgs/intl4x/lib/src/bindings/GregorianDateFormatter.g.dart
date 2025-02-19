@@ -25,7 +25,8 @@ final class GregorianDateFormatter implements ffi.Finalizable {
 
   @RecordSymbol('ICU4XGregorianDateFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
-      ffi.Native.addressOf(_ICU4XGregorianDateFormatter_destroy));
+    ffi.Native.addressOf(_ICU4XGregorianDateFormatter_destroy),
+  );
 
   /// Creates a new [`GregorianDateFormatter`] from locale data.
   ///
@@ -33,9 +34,15 @@ final class GregorianDateFormatter implements ffi.Finalizable {
   ///
   /// Throws [Error] on failure.
   factory GregorianDateFormatter.withLength(
-      DataProvider provider, Locale locale, DateLength length) {
+    DataProvider provider,
+    Locale locale,
+    DateLength length,
+  ) {
     final result = _ICU4XGregorianDateFormatter_create_with_length(
-        provider._ffi, locale._ffi, length.index);
+      provider._ffi,
+      locale._ffi,
+      length.index,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -50,7 +57,10 @@ final class GregorianDateFormatter implements ffi.Finalizable {
   String formatIsoDate(IsoDate value) {
     final writeable = _Writeable();
     final result = _ICU4XGregorianDateFormatter_format_iso_date(
-        _ffi, value._ffi, writeable._ffi);
+      _ffi,
+      value._ffi,
+      writeable._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -65,7 +75,10 @@ final class GregorianDateFormatter implements ffi.Finalizable {
   String formatIsoDatetime(IsoDateTime value) {
     final writeable = _Writeable();
     final result = _ICU4XGregorianDateFormatter_format_iso_datetime(
-        _ffi, value._ffi, writeable._ffi);
+      _ffi,
+      value._ffi,
+      writeable._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
@@ -75,39 +88,53 @@ final class GregorianDateFormatter implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XGregorianDateFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XGregorianDateFormatter_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XGregorianDateFormatter_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XGregorianDateFormatter_create_with_length')
 @ffi.Native<
-        _ResultOpaqueInt32 Function(
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>, ffi.Int32)>(
-    isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_create_with_length')
+  _ResultOpaqueInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Int32,
+  )
+>(isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_create_with_length')
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XGregorianDateFormatter_create_with_length(
-    ffi.Pointer<ffi.Opaque> provider,
-    ffi.Pointer<ffi.Opaque> locale,
-    int length);
+  ffi.Pointer<ffi.Opaque> provider,
+  ffi.Pointer<ffi.Opaque> locale,
+  int length,
+);
 
 @RecordSymbol('ICU4XGregorianDateFormatter_format_iso_date')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_format_iso_date')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_format_iso_date')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XGregorianDateFormatter_format_iso_date(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Opaque> value,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> value,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
 @RecordSymbol('ICU4XGregorianDateFormatter_format_iso_datetime')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_format_iso_datetime')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XGregorianDateFormatter_format_iso_datetime')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XGregorianDateFormatter_format_iso_datetime(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Opaque> value,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Opaque> value,
+  ffi.Pointer<ffi.Opaque> writeable,
+);

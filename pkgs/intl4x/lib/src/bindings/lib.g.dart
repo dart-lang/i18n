@@ -163,13 +163,16 @@ final _nopFree = core.Finalizer((nothing) => {});
 
 // ignore: unused_element
 final _rustFree = core.Finalizer(
-    (({ffi.Pointer<ffi.Void> pointer, int bytes, int align}) record) =>
-        _diplomat_free(record.pointer, record.bytes, record.align));
+  (({ffi.Pointer<ffi.Void> pointer, int bytes, int align}) record) =>
+      _diplomat_free(record.pointer, record.bytes, record.align),
+);
 
 final class _RustAlloc implements ffi.Allocator {
   @override
-  ffi.Pointer<T> allocate<T extends ffi.NativeType>(int byteCount,
-      {int? alignment}) {
+  ffi.Pointer<T> allocate<T extends ffi.NativeType>(
+    int byteCount, {
+    int? alignment,
+  }) {
     return _diplomat_alloc(byteCount, alignment ?? 1).cast();
   }
 
@@ -181,21 +184,26 @@ final class _RustAlloc implements ffi.Allocator {
 
 @RecordSymbol('diplomat_alloc')
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Size)>(
-    symbol: 'diplomat_alloc', isLeaf: true)
+  symbol: 'diplomat_alloc',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Void> _diplomat_alloc(int len, int align);
 
 @RecordSymbol('diplomat_free')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Void>, ffi.Size, ffi.Size)>(
-    symbol: 'diplomat_free', isLeaf: true)
+  symbol: 'diplomat_free',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external int _diplomat_free(ffi.Pointer<ffi.Void> ptr, int len, int align);
 
 // ignore: unused_element
 class _FinalizedArena {
   final ffi2.Arena arena;
-  static final core.Finalizer<ffi2.Arena> _finalizer =
-      core.Finalizer((arena) => arena.releaseAll());
+  static final core.Finalizer<ffi2.Arena> _finalizer = core.Finalizer(
+    (arena) => arena.releaseAll(),
+  );
 
   // ignore: unused_element
   _FinalizedArena() : arena = ffi2.Arena() {
@@ -204,7 +212,7 @@ class _FinalizedArena {
 
   // ignore: unused_element
   _FinalizedArena.withLifetime(core.List<core.List<Object>> lifetimeAppendArray)
-      : arena = ffi2.Arena() {
+    : arena = ffi2.Arena() {
     _finalizer.attach(this, arena);
     for (final edge in lifetimeAppendArray) {
       edge.add(this);
@@ -313,9 +321,9 @@ class _ListUtf8View {
     final slice = alloc<_SliceUtf8>(length);
     for (var i = 0; i < length; i++) {
       final codeUnits = const Utf8Encoder().convert(_strings[i]);
-      final str = alloc<ffi.Uint8>(codeUnits.length)
-        ..asTypedList(codeUnits.length)
-            .setRange(0, codeUnits.length, codeUnits);
+      final str = alloc<ffi.Uint8>(
+        codeUnits.length,
+      )..asTypedList(codeUnits.length).setRange(0, codeUnits.length, codeUnits);
       slice[i]._data = str;
       slice[i]._length = codeUnits.length;
     }
@@ -335,9 +343,9 @@ class _ListUtf16View {
     final slice = alloc<_SliceUtf16>(length);
     for (var i = 0; i < length; i++) {
       final codeUnits = _strings[i].codeUnits;
-      final str = alloc<ffi.Uint16>(codeUnits.length)
-        ..asTypedList(codeUnits.length)
-            .setRange(0, codeUnits.length, codeUnits);
+      final str = alloc<ffi.Uint16>(
+        codeUnits.length,
+      )..asTypedList(codeUnits.length).setRange(0, codeUnits.length, codeUnits);
       slice[i]._data = str;
       slice[i]._length = codeUnits.length;
     }
@@ -678,12 +686,15 @@ final class _SliceUsize extends ffi.Struct {
   int get hashCode => _length.hashCode;
 
   core.List<int> _toDart(core.List<Object> lifetimeEdges) {
-    final r = core.Iterable<int>.generate(_length)
-        .map((i) => _data[i])
-        .toList(growable: false);
+    final r = core.Iterable<int>.generate(
+      _length,
+    ).map((i) => _data[i]).toList(growable: false);
     if (lifetimeEdges.isEmpty) {
-      _diplomat_free(_data.cast(), _length * ffi.sizeOf<ffi.Size>(),
-          ffi.sizeOf<ffi.Size>());
+      _diplomat_free(
+        _data.cast(),
+        _length * ffi.sizeOf<ffi.Size>(),
+        ffi.sizeOf<ffi.Size>(),
+      );
     }
     return r;
   }
@@ -764,8 +775,10 @@ final class _Writeable {
 
   String finalize() {
     final string = const Utf8Decoder().convert(
-        _diplomat_buffer_writeable_get_bytes(_ffi)
-            .asTypedList(_diplomat_buffer_writeable_len(_ffi)));
+      _diplomat_buffer_writeable_get_bytes(
+        _ffi,
+      ).asTypedList(_diplomat_buffer_writeable_len(_ffi)),
+    );
     _diplomat_buffer_writeable_destroy(_ffi);
     return string;
   }
@@ -773,25 +786,34 @@ final class _Writeable {
 
 @RecordSymbol('diplomat_buffer_writeable_create')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Size)>(
-    symbol: 'diplomat_buffer_writeable_create', isLeaf: true)
+  symbol: 'diplomat_buffer_writeable_create',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _diplomat_buffer_writeable_create(int len);
 
 @RecordSymbol('diplomat_buffer_writeable_len')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
-    symbol: 'diplomat_buffer_writeable_len', isLeaf: true)
+  symbol: 'diplomat_buffer_writeable_len',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external int _diplomat_buffer_writeable_len(ffi.Pointer<ffi.Opaque> ptr);
 
 @RecordSymbol('diplomat_buffer_writeable_get_bytes')
 @ffi.Native<ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<ffi.Opaque>)>(
-    symbol: 'diplomat_buffer_writeable_get_bytes', isLeaf: true)
+  symbol: 'diplomat_buffer_writeable_get_bytes',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Uint8> _diplomat_buffer_writeable_get_bytes(
-    ffi.Pointer<ffi.Opaque> ptr);
+  ffi.Pointer<ffi.Opaque> ptr,
+);
 
 @RecordSymbol('diplomat_buffer_writeable_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>)>(
-    symbol: 'diplomat_buffer_writeable_destroy', isLeaf: true)
+  symbol: 'diplomat_buffer_writeable_destroy',
+  isLeaf: true,
+)
 // ignore: non_constant_identifier_names
 external void _diplomat_buffer_writeable_destroy(ffi.Pointer<ffi.Opaque> ptr);

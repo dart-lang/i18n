@@ -9,15 +9,12 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  test(
-    'Does not compare in tests',
-    () {
-      final unsorted = ['Z', 'a', 'z', 'ä'];
-      final collationGerman =
-          Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
-      expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
-    },
-  );
+  test('Does not compare in tests', () {
+    final unsorted = ['Z', 'a', 'z', 'ä'];
+    final collationGerman =
+        Intl(locale: const Locale(language: 'de', region: 'DE')).collation();
+    expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
+  });
 
   testWithFormatting('Simple EN', () {
     final list = ['A', 'B', 'C'];
@@ -38,15 +35,14 @@ void main() {
     final intl = Intl(locale: const Locale(language: 'de'));
     final list = ['AE', 'Ä'];
 
-    final searchCollation =
-        intl.collation(const CollationOptions(usage: Usage.search));
-    expect(
-      list..sort(searchCollation.compare),
-      orderedEquals(list),
+    final searchCollation = intl.collation(
+      const CollationOptions(usage: Usage.search),
     );
+    expect(list..sort(searchCollation.compare), orderedEquals(list));
 
-    final sortCollation =
-        intl.collation(const CollationOptions(usage: Usage.sort));
+    final sortCollation = intl.collation(
+      const CollationOptions(usage: Usage.sort),
+    );
     expect(
       list..sort(sortCollation.compare),
       orderedEquals(list.reversed),

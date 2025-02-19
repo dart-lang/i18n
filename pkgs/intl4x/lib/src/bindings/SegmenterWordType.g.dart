@@ -19,6 +19,8 @@ enum SegmenterWordType {
 
 @RecordSymbol('ICU4XSegmenterWordType_is_word_like')
 @ffi.Native<ffi.Bool Function(ffi.Int32)>(
-    isLeaf: true, symbol: 'ICU4XSegmenterWordType_is_word_like')
+  isLeaf: true,
+  symbol: 'ICU4XSegmenterWordType_is_word_like',
+)
 // ignore: non_constant_identifier_names
 external bool _ICU4XSegmenterWordType_is_word_like(int self);

@@ -26,7 +26,8 @@ final class ScriptExtensionsSet implements ffi.Finalizable {
 
   @RecordSymbol('ICU4XScriptExtensionsSet_destroy')
   static final _finalizer = ffi.NativeFinalizer(
-      ffi.Native.addressOf(_ICU4XScriptExtensionsSet_destroy));
+    ffi.Native.addressOf(_ICU4XScriptExtensionsSet_destroy),
+  );
 
   /// Check if the Script_Extensions property of the given code point covers the given script
   ///
@@ -58,26 +59,38 @@ final class ScriptExtensionsSet implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XScriptExtensionsSet_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XScriptExtensionsSet_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XScriptExtensionsSet_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XScriptExtensionsSet_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XScriptExtensionsSet_contains')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>, ffi.Uint16)>(
-    isLeaf: true, symbol: 'ICU4XScriptExtensionsSet_contains')
+  isLeaf: true,
+  symbol: 'ICU4XScriptExtensionsSet_contains',
+)
 // ignore: non_constant_identifier_names
 external bool _ICU4XScriptExtensionsSet_contains(
-    ffi.Pointer<ffi.Opaque> self, int script);
+  ffi.Pointer<ffi.Opaque> self,
+  int script,
+);
 
 @RecordSymbol('ICU4XScriptExtensionsSet_count')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XScriptExtensionsSet_count')
+  isLeaf: true,
+  symbol: 'ICU4XScriptExtensionsSet_count',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XScriptExtensionsSet_count(ffi.Pointer<ffi.Opaque> self);
 
 @RecordSymbol('ICU4XScriptExtensionsSet_script_at')
 @ffi.Native<_ResultUint16Void Function(ffi.Pointer<ffi.Opaque>, ffi.Size)>(
-    isLeaf: true, symbol: 'ICU4XScriptExtensionsSet_script_at')
+  isLeaf: true,
+  symbol: 'ICU4XScriptExtensionsSet_script_at',
+)
 // ignore: non_constant_identifier_names
 external _ResultUint16Void _ICU4XScriptExtensionsSet_script_at(
-    ffi.Pointer<ffi.Opaque> self, int index);
+  ffi.Pointer<ffi.Opaque> self,
+  int index,
+);

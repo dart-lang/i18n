@@ -26,20 +26,26 @@ final class TimeZoneIdMapperWithFastCanonicalization
     }
   }
 
-  static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(
-      _ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy));
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(
+      _ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy,
+    ),
+  );
 
   /// See the [Rust documentation for `new`](https://docs.rs/icu/latest/icu/timezone/struct.TimeZoneIdMapperWithFastCanonicalization.html#method.new) for more information.
   ///
   /// Throws [Error] on failure.
   factory TimeZoneIdMapperWithFastCanonicalization(DataProvider provider) {
-    final result =
-        _ICU4XTimeZoneIdMapperWithFastCanonicalization_create(provider._ffi);
+    final result = _ICU4XTimeZoneIdMapperWithFastCanonicalization_create(
+      provider._ffi,
+    );
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
     }
     return TimeZoneIdMapperWithFastCanonicalization._fromFfi(
-        result.union.ok, []);
+      result.union.ok,
+      [],
+    );
   }
 
   /// See the [Rust documentation for `canonicalize_iana`](https://docs.rs/icu/latest/icu/timezone/struct.TimeZoneIdMapperWithFastCanonicalizationBorrowed.html#method.canonicalize_iana) for more information.
@@ -51,7 +57,11 @@ final class TimeZoneIdMapperWithFastCanonicalization
     final writeable = _Writeable();
     final result =
         _ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana(
-            _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+          _ffi,
+          valueView.allocIn(temp),
+          valueView.length,
+          writeable._ffi,
+        );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -68,7 +78,11 @@ final class TimeZoneIdMapperWithFastCanonicalization
     final writeable = _Writeable();
     final result =
         _ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47(
-            _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+          _ffi,
+          valueView.allocIn(temp),
+          valueView.length,
+          writeable._ffi,
+        );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -79,47 +93,66 @@ final class TimeZoneIdMapperWithFastCanonicalization
 
 @RecordSymbol('ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true,
-    symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XTimeZoneIdMapperWithFastCanonicalization_destroy(
-    ffi.Pointer<ffi.Void> self);
+  ffi.Pointer<ffi.Void> self,
+);
 
 @RecordSymbol('ICU4XTimeZoneIdMapperWithFastCanonicalization_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true,
-    symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_create')
+  isLeaf: true,
+  symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_create',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32
-    _ICU4XTimeZoneIdMapperWithFastCanonicalization_create(
-        ffi.Pointer<ffi.Opaque> provider);
+_ICU4XTimeZoneIdMapperWithFastCanonicalization_create(
+  ffi.Pointer<ffi.Opaque> provider,
+);
 
 @RecordSymbol('ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true,
-    symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(
+  isLeaf: true,
+  symbol: 'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana',
+)
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32
-    _ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana(
-        ffi.Pointer<ffi.Opaque> self,
-        ffi.Pointer<ffi.Uint8> valueData,
-        int valueLength,
-        ffi.Pointer<ffi.Opaque> writeable);
+_ICU4XTimeZoneIdMapperWithFastCanonicalization_canonicalize_iana(
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
 @RecordSymbol(
-    'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47')
+  'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47',
+)
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true,
-    symbol:
-        'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(
+  isLeaf: true,
+  symbol:
+      'ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47',
+)
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32
-    _ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47(
-        ffi.Pointer<ffi.Opaque> self,
-        ffi.Pointer<ffi.Uint8> valueData,
-        int valueLength,
-        ffi.Pointer<ffi.Opaque> writeable);
+_ICU4XTimeZoneIdMapperWithFastCanonicalization_canonical_iana_from_bcp47(
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);

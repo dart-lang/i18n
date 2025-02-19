@@ -24,8 +24,9 @@ final class BidiInfo implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XBidiInfo_destroy));
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XBidiInfo_destroy),
+  );
 
   /// The number of paragraphs contained here
   int get paragraphCount {
@@ -62,32 +63,42 @@ final class BidiInfo implements ffi.Finalizable {
 
 @RecordSymbol('ICU4XBidiInfo_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XBidiInfo_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XBidiInfo_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XBidiInfo_destroy(ffi.Pointer<ffi.Void> self);
 
 @RecordSymbol('ICU4XBidiInfo_paragraph_count')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XBidiInfo_paragraph_count')
+  isLeaf: true,
+  symbol: 'ICU4XBidiInfo_paragraph_count',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XBidiInfo_paragraph_count(ffi.Pointer<ffi.Opaque> self);
 
 @RecordSymbol('ICU4XBidiInfo_paragraph_at')
 @ffi.Native<
-        ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Size)>(
-    isLeaf: true, symbol: 'ICU4XBidiInfo_paragraph_at')
+  ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Size)
+>(isLeaf: true, symbol: 'ICU4XBidiInfo_paragraph_at')
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XBidiInfo_paragraph_at(
-    ffi.Pointer<ffi.Opaque> self, int n);
+  ffi.Pointer<ffi.Opaque> self,
+  int n,
+);
 
 @RecordSymbol('ICU4XBidiInfo_size')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XBidiInfo_size')
+  isLeaf: true,
+  symbol: 'ICU4XBidiInfo_size',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XBidiInfo_size(ffi.Pointer<ffi.Opaque> self);
 
 @RecordSymbol('ICU4XBidiInfo_level_at')
 @ffi.Native<ffi.Uint8 Function(ffi.Pointer<ffi.Opaque>, ffi.Size)>(
-    isLeaf: true, symbol: 'ICU4XBidiInfo_level_at')
+  isLeaf: true,
+  symbol: 'ICU4XBidiInfo_level_at',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XBidiInfo_level_at(ffi.Pointer<ffi.Opaque> self, int pos);
