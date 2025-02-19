@@ -17,6 +17,7 @@ const recordSymbolId = record_use.Identifier(
   name: '_DiplomatFfiUse',
 );
 
+/// Run the linker to turn a static into a treeshaken dynamic library.
 Future<void> main(List<String> args) async {
   await link(args, (input, output) async {
     print('Start linking');
