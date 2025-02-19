@@ -28,7 +28,7 @@ final class ScriptWithExtensionsBorrowed implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XScriptWithExtensionsBorrowed_destroy')
+  @_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XScriptWithExtensionsBorrowed_destroy),
   );
@@ -82,7 +82,7 @@ final class ScriptWithExtensionsBorrowed implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XScriptWithExtensionsBorrowed_destroy')
+@_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XScriptWithExtensionsBorrowed_destroy',
@@ -92,7 +92,7 @@ external void _ICU4XScriptWithExtensionsBorrowed_destroy(
   ffi.Pointer<ffi.Void> self,
 );
 
-@RecordSymbol('ICU4XScriptWithExtensionsBorrowed_get_script_val')
+@_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_get_script_val')
 @ffi.Native<ffi.Uint16 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XScriptWithExtensionsBorrowed_get_script_val',
@@ -103,7 +103,7 @@ external int _ICU4XScriptWithExtensionsBorrowed_get_script_val(
   int codePoint,
 );
 
-@RecordSymbol('ICU4XScriptWithExtensionsBorrowed_get_script_extensions_val')
+@_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_get_script_extensions_val')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)
 >(
@@ -117,7 +117,7 @@ _ICU4XScriptWithExtensionsBorrowed_get_script_extensions_val(
   int codePoint,
 );
 
-@RecordSymbol('ICU4XScriptWithExtensionsBorrowed_has_script')
+@_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_has_script')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Uint16)>(
   isLeaf: true,
   symbol: 'ICU4XScriptWithExtensionsBorrowed_has_script',
@@ -129,7 +129,7 @@ external bool _ICU4XScriptWithExtensionsBorrowed_has_script(
   int script,
 );
 
-@RecordSymbol('ICU4XScriptWithExtensionsBorrowed_get_script_extensions_set')
+@_DiplomatFfiUse('ICU4XScriptWithExtensionsBorrowed_get_script_extensions_set')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Uint16)
 >(

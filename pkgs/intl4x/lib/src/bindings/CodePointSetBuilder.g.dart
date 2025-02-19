@@ -20,7 +20,7 @@ final class CodePointSetBuilder implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XCodePointSetBuilder_destroy')
+  @_DiplomatFfiUse('ICU4XCodePointSetBuilder_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XCodePointSetBuilder_destroy),
   );
@@ -151,7 +151,7 @@ final class CodePointSetBuilder implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XCodePointSetBuilder_destroy')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_destroy',
@@ -159,7 +159,7 @@ final class CodePointSetBuilder implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XCodePointSetBuilder_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XCodePointSetBuilder_create')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_create')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function()>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_create',
@@ -167,7 +167,7 @@ external void _ICU4XCodePointSetBuilder_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XCodePointSetBuilder_create();
 
-@RecordSymbol('ICU4XCodePointSetBuilder_build')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_build')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_build',
@@ -177,7 +177,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XCodePointSetBuilder_build(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_complement')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_complement')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_complement',
@@ -187,7 +187,7 @@ external void _ICU4XCodePointSetBuilder_complement(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_is_empty')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_is_empty')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_is_empty',
@@ -195,7 +195,7 @@ external void _ICU4XCodePointSetBuilder_complement(
 // ignore: non_constant_identifier_names
 external bool _ICU4XCodePointSetBuilder_is_empty(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XCodePointSetBuilder_add_char')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_add_char')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_add_char',
@@ -206,7 +206,7 @@ external void _ICU4XCodePointSetBuilder_add_char(
   Rune ch,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_add_inclusive_range')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_add_inclusive_range')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_add_inclusive_range',
@@ -218,7 +218,7 @@ external void _ICU4XCodePointSetBuilder_add_inclusive_range(
   Rune end,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_add_set')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_add_set')
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XCodePointSetBuilder_add_set')
@@ -228,7 +228,7 @@ external void _ICU4XCodePointSetBuilder_add_set(
   ffi.Pointer<ffi.Opaque> data,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_remove_char')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_remove_char')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_remove_char',
@@ -239,7 +239,7 @@ external void _ICU4XCodePointSetBuilder_remove_char(
   Rune ch,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_remove_inclusive_range')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_remove_inclusive_range')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_remove_inclusive_range',
@@ -251,7 +251,7 @@ external void _ICU4XCodePointSetBuilder_remove_inclusive_range(
   Rune end,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_remove_set')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_remove_set')
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XCodePointSetBuilder_remove_set')
@@ -261,7 +261,7 @@ external void _ICU4XCodePointSetBuilder_remove_set(
   ffi.Pointer<ffi.Opaque> data,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_retain_char')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_retain_char')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_retain_char',
@@ -272,7 +272,7 @@ external void _ICU4XCodePointSetBuilder_retain_char(
   Rune ch,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_retain_inclusive_range')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_retain_inclusive_range')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_retain_inclusive_range',
@@ -284,7 +284,7 @@ external void _ICU4XCodePointSetBuilder_retain_inclusive_range(
   Rune end,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_retain_set')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_retain_set')
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XCodePointSetBuilder_retain_set')
@@ -294,7 +294,7 @@ external void _ICU4XCodePointSetBuilder_retain_set(
   ffi.Pointer<ffi.Opaque> data,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_complement_char')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_complement_char')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_complement_char',
@@ -305,7 +305,7 @@ external void _ICU4XCodePointSetBuilder_complement_char(
   Rune ch,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_complement_inclusive_range')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_complement_inclusive_range')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetBuilder_complement_inclusive_range',
@@ -317,7 +317,7 @@ external void _ICU4XCodePointSetBuilder_complement_inclusive_range(
   Rune end,
 );
 
-@RecordSymbol('ICU4XCodePointSetBuilder_complement_set')
+@_DiplomatFfiUse('ICU4XCodePointSetBuilder_complement_set')
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XCodePointSetBuilder_complement_set')

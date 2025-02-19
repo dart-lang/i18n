@@ -20,7 +20,7 @@ final class FixedDecimal implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XFixedDecimal_destroy')
+  @_DiplomatFfiUse('ICU4XFixedDecimal_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XFixedDecimal_destroy),
   );
@@ -316,7 +316,7 @@ final class FixedDecimal implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XFixedDecimal_destroy')
+@_DiplomatFfiUse('ICU4XFixedDecimal_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_destroy',
@@ -324,7 +324,7 @@ final class FixedDecimal implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XFixedDecimal_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XFixedDecimal_create_from_i64')
+@_DiplomatFfiUse('ICU4XFixedDecimal_create_from_i64')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Int64)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_create_from_i64',
@@ -332,7 +332,7 @@ external void _ICU4XFixedDecimal_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _ICU4XFixedDecimal_create_from_i64(int v);
 
-@RecordSymbol('ICU4XFixedDecimal_create_from_f64_with_lower_magnitude')
+@_DiplomatFfiUse('ICU4XFixedDecimal_create_from_f64_with_lower_magnitude')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Double, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_create_from_f64_with_lower_magnitude',
@@ -344,7 +344,7 @@ _ICU4XFixedDecimal_create_from_f64_with_lower_magnitude(
   int magnitude,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_create_from_f64_with_significant_digits')
+@_DiplomatFfiUse('ICU4XFixedDecimal_create_from_f64_with_significant_digits')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Double, ffi.Uint8)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_create_from_f64_with_significant_digits',
@@ -356,7 +356,7 @@ _ICU4XFixedDecimal_create_from_f64_with_significant_digits(
   int digits,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_create_from_f64_with_floating_precision')
+@_DiplomatFfiUse('ICU4XFixedDecimal_create_from_f64_with_floating_precision')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Double)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_create_from_f64_with_floating_precision',
@@ -365,7 +365,7 @@ _ICU4XFixedDecimal_create_from_f64_with_significant_digits(
 external _ResultOpaqueInt32
 _ICU4XFixedDecimal_create_from_f64_with_floating_precision(double f);
 
-@RecordSymbol('ICU4XFixedDecimal_create_from_string')
+@_DiplomatFfiUse('ICU4XFixedDecimal_create_from_string')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_create_from_string',
@@ -376,7 +376,7 @@ external _ResultOpaqueInt32 _ICU4XFixedDecimal_create_from_string(
   int vLength,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_digit_at')
+@_DiplomatFfiUse('ICU4XFixedDecimal_digit_at')
 @ffi.Native<ffi.Uint8 Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_digit_at',
@@ -387,7 +387,7 @@ external int _ICU4XFixedDecimal_digit_at(
   int magnitude,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_magnitude_start')
+@_DiplomatFfiUse('ICU4XFixedDecimal_magnitude_start')
 @ffi.Native<ffi.Int16 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_magnitude_start',
@@ -395,7 +395,7 @@ external int _ICU4XFixedDecimal_digit_at(
 // ignore: non_constant_identifier_names
 external int _ICU4XFixedDecimal_magnitude_start(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_magnitude_end')
+@_DiplomatFfiUse('ICU4XFixedDecimal_magnitude_end')
 @ffi.Native<ffi.Int16 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_magnitude_end',
@@ -403,7 +403,7 @@ external int _ICU4XFixedDecimal_magnitude_start(ffi.Pointer<ffi.Opaque> self);
 // ignore: non_constant_identifier_names
 external int _ICU4XFixedDecimal_magnitude_end(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_nonzero_magnitude_start')
+@_DiplomatFfiUse('ICU4XFixedDecimal_nonzero_magnitude_start')
 @ffi.Native<ffi.Int16 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_nonzero_magnitude_start',
@@ -413,7 +413,7 @@ external int _ICU4XFixedDecimal_nonzero_magnitude_start(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_nonzero_magnitude_end')
+@_DiplomatFfiUse('ICU4XFixedDecimal_nonzero_magnitude_end')
 @ffi.Native<ffi.Int16 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_nonzero_magnitude_end',
@@ -423,7 +423,7 @@ external int _ICU4XFixedDecimal_nonzero_magnitude_end(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_is_zero')
+@_DiplomatFfiUse('ICU4XFixedDecimal_is_zero')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_is_zero',
@@ -431,7 +431,7 @@ external int _ICU4XFixedDecimal_nonzero_magnitude_end(
 // ignore: non_constant_identifier_names
 external bool _ICU4XFixedDecimal_is_zero(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_multiply_pow10')
+@_DiplomatFfiUse('ICU4XFixedDecimal_multiply_pow10')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_multiply_pow10',
@@ -442,7 +442,7 @@ external void _ICU4XFixedDecimal_multiply_pow10(
   int power,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_sign')
+@_DiplomatFfiUse('ICU4XFixedDecimal_sign')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_sign',
@@ -450,7 +450,7 @@ external void _ICU4XFixedDecimal_multiply_pow10(
 // ignore: non_constant_identifier_names
 external int _ICU4XFixedDecimal_sign(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_set_sign')
+@_DiplomatFfiUse('ICU4XFixedDecimal_set_sign')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_set_sign',
@@ -461,7 +461,7 @@ external void _ICU4XFixedDecimal_set_sign(
   int sign,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_apply_sign_display')
+@_DiplomatFfiUse('ICU4XFixedDecimal_apply_sign_display')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_apply_sign_display',
@@ -472,7 +472,7 @@ external void _ICU4XFixedDecimal_apply_sign_display(
   int signDisplay,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_trim_start')
+@_DiplomatFfiUse('ICU4XFixedDecimal_trim_start')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_trim_start',
@@ -480,7 +480,7 @@ external void _ICU4XFixedDecimal_apply_sign_display(
 // ignore: non_constant_identifier_names
 external void _ICU4XFixedDecimal_trim_start(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_trim_end')
+@_DiplomatFfiUse('ICU4XFixedDecimal_trim_end')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_trim_end',
@@ -488,7 +488,7 @@ external void _ICU4XFixedDecimal_trim_start(ffi.Pointer<ffi.Opaque> self);
 // ignore: non_constant_identifier_names
 external void _ICU4XFixedDecimal_trim_end(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XFixedDecimal_pad_start')
+@_DiplomatFfiUse('ICU4XFixedDecimal_pad_start')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_pad_start',
@@ -499,7 +499,7 @@ external void _ICU4XFixedDecimal_pad_start(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_pad_end')
+@_DiplomatFfiUse('ICU4XFixedDecimal_pad_end')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_pad_end',
@@ -510,7 +510,7 @@ external void _ICU4XFixedDecimal_pad_end(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_set_max_position')
+@_DiplomatFfiUse('ICU4XFixedDecimal_set_max_position')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_set_max_position',
@@ -521,7 +521,7 @@ external void _ICU4XFixedDecimal_set_max_position(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_trunc')
+@_DiplomatFfiUse('ICU4XFixedDecimal_trunc')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_trunc',
@@ -532,7 +532,7 @@ external void _ICU4XFixedDecimal_trunc(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_trunc_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_trunc_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_trunc_to_increment',
@@ -544,7 +544,7 @@ external void _ICU4XFixedDecimal_trunc_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_trunc')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_trunc')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_trunc',
@@ -555,7 +555,7 @@ external void _ICU4XFixedDecimal_half_trunc(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_trunc_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_trunc_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_trunc_to_increment',
@@ -567,7 +567,7 @@ external void _ICU4XFixedDecimal_half_trunc_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_expand')
+@_DiplomatFfiUse('ICU4XFixedDecimal_expand')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_expand',
@@ -578,7 +578,7 @@ external void _ICU4XFixedDecimal_expand(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_expand_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_expand_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_expand_to_increment',
@@ -590,7 +590,7 @@ external void _ICU4XFixedDecimal_expand_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_expand')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_expand')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_expand',
@@ -601,7 +601,7 @@ external void _ICU4XFixedDecimal_half_expand(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_expand_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_expand_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_expand_to_increment',
@@ -613,7 +613,7 @@ external void _ICU4XFixedDecimal_half_expand_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_ceil')
+@_DiplomatFfiUse('ICU4XFixedDecimal_ceil')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_ceil',
@@ -624,7 +624,7 @@ external void _ICU4XFixedDecimal_ceil(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_ceil_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_ceil_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_ceil_to_increment',
@@ -636,7 +636,7 @@ external void _ICU4XFixedDecimal_ceil_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_ceil')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_ceil')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_ceil',
@@ -647,7 +647,7 @@ external void _ICU4XFixedDecimal_half_ceil(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_ceil_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_ceil_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_ceil_to_increment',
@@ -659,7 +659,7 @@ external void _ICU4XFixedDecimal_half_ceil_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_floor')
+@_DiplomatFfiUse('ICU4XFixedDecimal_floor')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_floor',
@@ -670,7 +670,7 @@ external void _ICU4XFixedDecimal_floor(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_floor_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_floor_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_floor_to_increment',
@@ -682,7 +682,7 @@ external void _ICU4XFixedDecimal_floor_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_floor')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_floor')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_floor',
@@ -693,7 +693,7 @@ external void _ICU4XFixedDecimal_half_floor(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_floor_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_floor_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_floor_to_increment',
@@ -705,7 +705,7 @@ external void _ICU4XFixedDecimal_half_floor_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_even')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_even')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_even',
@@ -716,7 +716,7 @@ external void _ICU4XFixedDecimal_half_even(
   int position,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_half_even_to_increment')
+@_DiplomatFfiUse('ICU4XFixedDecimal_half_even_to_increment')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Int16, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XFixedDecimal_half_even_to_increment',
@@ -728,7 +728,7 @@ external void _ICU4XFixedDecimal_half_even_to_increment(
   int increment,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_concatenate_end')
+@_DiplomatFfiUse('ICU4XFixedDecimal_concatenate_end')
 @ffi.Native<
   _ResultVoidVoid Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XFixedDecimal_concatenate_end')
@@ -738,7 +738,7 @@ external _ResultVoidVoid _ICU4XFixedDecimal_concatenate_end(
   ffi.Pointer<ffi.Opaque> other,
 );
 
-@RecordSymbol('ICU4XFixedDecimal_to_string')
+@_DiplomatFfiUse('ICU4XFixedDecimal_to_string')
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XFixedDecimal_to_string')

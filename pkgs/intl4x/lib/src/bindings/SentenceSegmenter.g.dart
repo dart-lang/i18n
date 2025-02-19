@@ -22,7 +22,7 @@ final class SentenceSegmenter implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XSentenceSegmenter_destroy')
+  @_DiplomatFfiUse('ICU4XSentenceSegmenter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XSentenceSegmenter_destroy),
   );
@@ -60,7 +60,7 @@ final class SentenceSegmenter implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XSentenceSegmenter_destroy')
+@_DiplomatFfiUse('ICU4XSentenceSegmenter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XSentenceSegmenter_destroy',
@@ -68,7 +68,7 @@ final class SentenceSegmenter implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XSentenceSegmenter_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XSentenceSegmenter_create')
+@_DiplomatFfiUse('ICU4XSentenceSegmenter_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XSentenceSegmenter_create',
@@ -78,7 +78,7 @@ external _ResultOpaqueInt32 _ICU4XSentenceSegmenter_create(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XSentenceSegmenter_segment_utf16')
+@_DiplomatFfiUse('ICU4XSentenceSegmenter_segment_utf16')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(
     ffi.Pointer<ffi.Opaque>,

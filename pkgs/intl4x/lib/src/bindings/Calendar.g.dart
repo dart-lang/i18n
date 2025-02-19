@@ -20,6 +20,7 @@ final class Calendar implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XCalendar_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XCalendar_destroy),
   );
@@ -59,7 +60,7 @@ final class Calendar implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XCalendar_destroy')
+@_DiplomatFfiUse('ICU4XCalendar_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XCalendar_destroy',
@@ -67,7 +68,7 @@ final class Calendar implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XCalendar_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XCalendar_create_for_locale')
+@_DiplomatFfiUse('ICU4XCalendar_create_for_locale')
 @ffi.Native<
   _ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Opaque>)
 >(isLeaf: true, symbol: 'ICU4XCalendar_create_for_locale')
@@ -77,7 +78,7 @@ external _ResultOpaqueInt32 _ICU4XCalendar_create_for_locale(
   ffi.Pointer<ffi.Opaque> locale,
 );
 
-@RecordSymbol('ICU4XCalendar_create_for_kind')
+@_DiplomatFfiUse('ICU4XCalendar_create_for_kind')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Int32)>(
   isLeaf: true,
   symbol: 'ICU4XCalendar_create_for_kind',
@@ -88,7 +89,7 @@ external _ResultOpaqueInt32 _ICU4XCalendar_create_for_kind(
   int kind,
 );
 
-@RecordSymbol('ICU4XCalendar_kind')
+@_DiplomatFfiUse('ICU4XCalendar_kind')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCalendar_kind',

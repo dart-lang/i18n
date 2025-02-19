@@ -28,7 +28,7 @@ final class CodePointMapData16 implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XCodePointMapData16_destroy')
+  @_DiplomatFfiUse('ICU4XCodePointMapData16_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XCodePointMapData16_destroy),
   );
@@ -84,7 +84,7 @@ final class CodePointMapData16 implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XCodePointMapData16_destroy')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointMapData16_destroy',
@@ -92,7 +92,7 @@ final class CodePointMapData16 implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XCodePointMapData16_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XCodePointMapData16_get')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_get')
 @ffi.Native<ffi.Uint16 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointMapData16_get',
@@ -103,7 +103,7 @@ external int _ICU4XCodePointMapData16_get(
   Rune cp,
 );
 
-@RecordSymbol('ICU4XCodePointMapData16_iter_ranges_for_value')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_iter_ranges_for_value')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Uint16)
 >(isLeaf: true, symbol: 'ICU4XCodePointMapData16_iter_ranges_for_value')
@@ -113,7 +113,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XCodePointMapData16_iter_ranges_for_value(
   int value,
 );
 
-@RecordSymbol('ICU4XCodePointMapData16_iter_ranges_for_value_complemented')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_iter_ranges_for_value_complemented')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Uint16)
 >(
@@ -127,7 +127,7 @@ _ICU4XCodePointMapData16_iter_ranges_for_value_complemented(
   int value,
 );
 
-@RecordSymbol('ICU4XCodePointMapData16_get_set_for_value')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_get_set_for_value')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Uint16)
 >(isLeaf: true, symbol: 'ICU4XCodePointMapData16_get_set_for_value')
@@ -137,7 +137,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XCodePointMapData16_get_set_for_value(
   int value,
 );
 
-@RecordSymbol('ICU4XCodePointMapData16_load_script')
+@_DiplomatFfiUse('ICU4XCodePointMapData16_load_script')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointMapData16_load_script',

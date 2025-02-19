@@ -22,6 +22,7 @@ final class WordSegmenter implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XWordSegmenter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XWordSegmenter_destroy),
   );
@@ -94,7 +95,7 @@ final class WordSegmenter implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XWordSegmenter_destroy')
+@_DiplomatFfiUse('ICU4XWordSegmenter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XWordSegmenter_destroy',
@@ -102,7 +103,7 @@ final class WordSegmenter implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XWordSegmenter_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XWordSegmenter_create_auto')
+@_DiplomatFfiUse('ICU4XWordSegmenter_create_auto')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordSegmenter_create_auto',
@@ -112,7 +113,7 @@ external _ResultOpaqueInt32 _ICU4XWordSegmenter_create_auto(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XWordSegmenter_create_lstm')
+@_DiplomatFfiUse('ICU4XWordSegmenter_create_lstm')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordSegmenter_create_lstm',
@@ -122,7 +123,7 @@ external _ResultOpaqueInt32 _ICU4XWordSegmenter_create_lstm(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XWordSegmenter_create_dictionary')
+@_DiplomatFfiUse('ICU4XWordSegmenter_create_dictionary')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordSegmenter_create_dictionary',
@@ -132,7 +133,7 @@ external _ResultOpaqueInt32 _ICU4XWordSegmenter_create_dictionary(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XWordSegmenter_segment_utf16')
+@_DiplomatFfiUse('ICU4XWordSegmenter_segment_utf16')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(
     ffi.Pointer<ffi.Opaque>,

@@ -7,9 +7,8 @@ import 'dart:ffi' as ffi;
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:meta/meta.dart' show RecordUse, mustBeConst;
 import 'package:ffi/ffi.dart' as ffi2 show Arena, calloc;
-
-import '../usage_recording.dart' show RecordSymbol;
 
 part 'AnyCalendarKind.g.dart';
 part 'Bcp47ToIanaMapper.g.dart';
@@ -167,6 +166,7 @@ final _rustFree = core.Finalizer(
       _diplomat_free(record.pointer, record.bytes, record.align),
 );
 
+// ignore: unused_element
 final class _RustAlloc implements ffi.Allocator {
   @override
   ffi.Pointer<T> allocate<T extends ffi.NativeType>(
@@ -182,7 +182,7 @@ final class _RustAlloc implements ffi.Allocator {
   }
 }
 
-@RecordSymbol('diplomat_alloc')
+@_DiplomatFfiUse('diplomat_alloc')
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Size)>(
   symbol: 'diplomat_alloc',
   isLeaf: true,
@@ -190,7 +190,7 @@ final class _RustAlloc implements ffi.Allocator {
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Void> _diplomat_alloc(int len, int align);
 
-@RecordSymbol('diplomat_free')
+@_DiplomatFfiUse('diplomat_free')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Void>, ffi.Size, ffi.Size)>(
   symbol: 'diplomat_free',
   isLeaf: true,
@@ -284,7 +284,7 @@ class _Utf8View {
   final Uint8List _codeUnits;
 
   // Copies
-  _Utf8View(String string) : _codeUnits = const Utf8Encoder().convert(string);
+  _Utf8View(String string) : _codeUnits = Utf8Encoder().convert(string);
 
   ffi.Pointer<ffi.Uint8> allocIn(ffi.Allocator alloc) {
     // Copies
@@ -320,7 +320,7 @@ class _ListUtf8View {
   ffi.Pointer<_SliceUtf8> allocIn(ffi.Allocator alloc) {
     final slice = alloc<_SliceUtf8>(length);
     for (var i = 0; i < length; i++) {
-      final codeUnits = const Utf8Encoder().convert(_strings[i]);
+      final codeUnits = Utf8Encoder().convert(_strings[i]);
       final str = alloc<ffi.Uint8>(
         codeUnits.length,
       )..asTypedList(codeUnits.length).setRange(0, codeUnits.length, codeUnits);
@@ -686,7 +686,7 @@ final class _SliceUsize extends ffi.Struct {
   int get hashCode => _length.hashCode;
 
   core.List<int> _toDart(core.List<Object> lifetimeEdges) {
-    final r = core.Iterable<int>.generate(
+    final r = core.Iterable.generate(
       _length,
     ).map((i) => _data[i]).toList(growable: false);
     if (lifetimeEdges.isEmpty) {
@@ -725,6 +725,7 @@ final class _SliceUtf16 extends ffi.Struct {
   @override
   int get hashCode => _length.hashCode;
 
+  // ignore: unused_element
   String _toDart(core.List<Object> lifetimeEdges) {
     final r = core.String.fromCharCodes(_data.asTypedList(_length));
     if (lifetimeEdges.isEmpty) {
@@ -760,7 +761,7 @@ final class _SliceUtf8 extends ffi.Struct {
   int get hashCode => _length.hashCode;
 
   String _toDart(core.List<Object> lifetimeEdges) {
-    final r = const Utf8Decoder().convert(_data.asTypedList(_length));
+    final r = Utf8Decoder().convert(_data.asTypedList(_length));
     if (lifetimeEdges.isEmpty) {
       _diplomat_free(_data.cast(), _length, 1);
     }
@@ -774,7 +775,7 @@ final class _Writeable {
   _Writeable() : _ffi = _diplomat_buffer_writeable_create(0);
 
   String finalize() {
-    final string = const Utf8Decoder().convert(
+    final string = Utf8Decoder().convert(
       _diplomat_buffer_writeable_get_bytes(
         _ffi,
       ).asTypedList(_diplomat_buffer_writeable_len(_ffi)),
@@ -784,7 +785,7 @@ final class _Writeable {
   }
 }
 
-@RecordSymbol('diplomat_buffer_writeable_create')
+@_DiplomatFfiUse('diplomat_buffer_writeable_create')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Size)>(
   symbol: 'diplomat_buffer_writeable_create',
   isLeaf: true,
@@ -792,7 +793,7 @@ final class _Writeable {
 // ignore: non_constant_identifier_names
 external ffi.Pointer<ffi.Opaque> _diplomat_buffer_writeable_create(int len);
 
-@RecordSymbol('diplomat_buffer_writeable_len')
+@_DiplomatFfiUse('diplomat_buffer_writeable_len')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
   symbol: 'diplomat_buffer_writeable_len',
   isLeaf: true,
@@ -800,7 +801,7 @@ external ffi.Pointer<ffi.Opaque> _diplomat_buffer_writeable_create(int len);
 // ignore: non_constant_identifier_names
 external int _diplomat_buffer_writeable_len(ffi.Pointer<ffi.Opaque> ptr);
 
-@RecordSymbol('diplomat_buffer_writeable_get_bytes')
+@_DiplomatFfiUse('diplomat_buffer_writeable_get_bytes')
 @ffi.Native<ffi.Pointer<ffi.Uint8> Function(ffi.Pointer<ffi.Opaque>)>(
   symbol: 'diplomat_buffer_writeable_get_bytes',
   isLeaf: true,
@@ -810,10 +811,17 @@ external ffi.Pointer<ffi.Uint8> _diplomat_buffer_writeable_get_bytes(
   ffi.Pointer<ffi.Opaque> ptr,
 );
 
-@RecordSymbol('diplomat_buffer_writeable_destroy')
+@_DiplomatFfiUse('diplomat_buffer_writeable_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Opaque>)>(
   symbol: 'diplomat_buffer_writeable_destroy',
   isLeaf: true,
 )
 // ignore: non_constant_identifier_names
 external void _diplomat_buffer_writeable_destroy(ffi.Pointer<ffi.Opaque> ptr);
+
+@RecordUse()
+class _DiplomatFfiUse extends RecordUse {
+  final String symbol;
+
+  const _DiplomatFfiUse(@mustBeConst this.symbol);
+}

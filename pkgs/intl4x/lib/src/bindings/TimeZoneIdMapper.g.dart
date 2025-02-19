@@ -25,6 +25,7 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XTimeZoneIdMapper_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XTimeZoneIdMapper_destroy),
   );
@@ -121,7 +122,7 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_destroy')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XTimeZoneIdMapper_destroy',
@@ -129,7 +130,7 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XTimeZoneIdMapper_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_create')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XTimeZoneIdMapper_create',
@@ -139,7 +140,7 @@ external _ResultOpaqueInt32 _ICU4XTimeZoneIdMapper_create(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_iana_to_bcp47')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_iana_to_bcp47')
 @ffi.Native<
   _ResultVoidInt32 Function(
     ffi.Pointer<ffi.Opaque>,
@@ -156,7 +157,7 @@ external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_iana_to_bcp47(
   ffi.Pointer<ffi.Opaque> writeable,
 );
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_normalize_iana')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_normalize_iana')
 @ffi.Native<
   _ResultVoidInt32 Function(
     ffi.Pointer<ffi.Opaque>,
@@ -173,7 +174,7 @@ external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_normalize_iana(
   ffi.Pointer<ffi.Opaque> writeable,
 );
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_canonicalize_iana')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_canonicalize_iana')
 @ffi.Native<
   _ResultVoidInt32 Function(
     ffi.Pointer<ffi.Opaque>,
@@ -190,7 +191,7 @@ external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_canonicalize_iana(
   ffi.Pointer<ffi.Opaque> writeable,
 );
 
-@RecordSymbol('ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
 @ffi.Native<
   _ResultVoidInt32 Function(
     ffi.Pointer<ffi.Opaque>,

@@ -20,6 +20,7 @@ final class Logger implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XLogger_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XLogger_destroy),
   );
@@ -41,7 +42,7 @@ final class Logger implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XLogger_destroy')
+@_DiplomatFfiUse('ICU4XLogger_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XLogger_destroy',
@@ -49,7 +50,7 @@ final class Logger implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XLogger_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XLogger_init_simple_logger')
+@_DiplomatFfiUse('ICU4XLogger_init_simple_logger')
 @ffi.Native<ffi.Bool Function()>(
   isLeaf: true,
   symbol: 'ICU4XLogger_init_simple_logger',
@@ -57,7 +58,7 @@ external void _ICU4XLogger_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external bool _ICU4XLogger_init_simple_logger();
 
-@RecordSymbol('ICU4XLogger_init_console_logger')
+@_DiplomatFfiUse('ICU4XLogger_init_console_logger')
 @ffi.Native<ffi.Bool Function()>(
   isLeaf: true,
   symbol: 'ICU4XLogger_init_console_logger',

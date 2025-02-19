@@ -26,6 +26,7 @@ final class CodePointSetData implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XCodePointSetData_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XCodePointSetData_destroy),
   );
@@ -862,7 +863,7 @@ final class CodePointSetData implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XCodePointSetData_destroy')
+@_DiplomatFfiUse('ICU4XCodePointSetData_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_destroy',
@@ -870,7 +871,7 @@ final class CodePointSetData implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XCodePointSetData_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XCodePointSetData_contains')
+@_DiplomatFfiUse('ICU4XCodePointSetData_contains')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_contains',
@@ -881,7 +882,7 @@ external bool _ICU4XCodePointSetData_contains(
   Rune cp,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_iter_ranges')
+@_DiplomatFfiUse('ICU4XCodePointSetData_iter_ranges')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_iter_ranges',
@@ -891,7 +892,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XCodePointSetData_iter_ranges(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_iter_ranges_complemented')
+@_DiplomatFfiUse('ICU4XCodePointSetData_iter_ranges_complemented')
 @ffi.Native<ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_iter_ranges_complemented',
@@ -900,7 +901,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XCodePointSetData_iter_ranges(
 external ffi.Pointer<ffi.Opaque>
 _ICU4XCodePointSetData_iter_ranges_complemented(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XCodePointSetData_load_for_general_category_group')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_for_general_category_group')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>, ffi.Uint32)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_for_general_category_group',
@@ -912,7 +913,7 @@ _ICU4XCodePointSetData_load_for_general_category_group(
   int group,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_ascii_hex_digit')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_ascii_hex_digit')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_ascii_hex_digit',
@@ -922,7 +923,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_ascii_hex_digit(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_alnum')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_alnum')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_alnum',
@@ -932,7 +933,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_alnum(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_alphabetic')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_alphabetic')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_alphabetic',
@@ -942,7 +943,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_alphabetic(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_bidi_control')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_bidi_control')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_bidi_control',
@@ -952,7 +953,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_bidi_control(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_bidi_mirrored')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_bidi_mirrored')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_bidi_mirrored',
@@ -962,7 +963,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_bidi_mirrored(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_blank')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_blank')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_blank',
@@ -972,7 +973,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_blank(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_cased')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_cased')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_cased',
@@ -982,7 +983,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_cased(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_case_ignorable')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_case_ignorable')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_case_ignorable',
@@ -992,7 +993,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_case_ignorable(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_full_composition_exclusion')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_full_composition_exclusion')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_full_composition_exclusion',
@@ -1003,7 +1004,7 @@ _ICU4XCodePointSetData_load_full_composition_exclusion(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_casefolded')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_casefolded')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_casefolded',
@@ -1013,7 +1014,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_changes_when_casefolded(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_casemapped')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_casemapped')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_casemapped',
@@ -1023,7 +1024,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_changes_when_casemapped(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_nfkc_casefolded')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_nfkc_casefolded')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_nfkc_casefolded',
@@ -1034,7 +1035,7 @@ _ICU4XCodePointSetData_load_changes_when_nfkc_casefolded(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_lowercased')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_lowercased')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_lowercased',
@@ -1044,7 +1045,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_changes_when_lowercased(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_titlecased')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_titlecased')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_titlecased',
@@ -1054,7 +1055,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_changes_when_titlecased(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_changes_when_uppercased')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_changes_when_uppercased')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_changes_when_uppercased',
@@ -1064,7 +1065,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_changes_when_uppercased(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_dash')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_dash')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_dash',
@@ -1074,7 +1075,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_dash(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_deprecated')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_deprecated')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_deprecated',
@@ -1084,7 +1085,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_deprecated(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_default_ignorable_code_point')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_default_ignorable_code_point')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_default_ignorable_code_point',
@@ -1095,7 +1096,7 @@ _ICU4XCodePointSetData_load_default_ignorable_code_point(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_diacritic')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_diacritic')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_diacritic',
@@ -1105,7 +1106,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_diacritic(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_emoji_modifier_base')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_emoji_modifier_base')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_emoji_modifier_base',
@@ -1115,7 +1116,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_emoji_modifier_base(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_emoji_component')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_emoji_component')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_emoji_component',
@@ -1125,7 +1126,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_emoji_component(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_emoji_modifier')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_emoji_modifier')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_emoji_modifier',
@@ -1135,7 +1136,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_emoji_modifier(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_emoji')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_emoji')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_emoji',
@@ -1145,7 +1146,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_emoji(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_emoji_presentation')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_emoji_presentation')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_emoji_presentation',
@@ -1155,7 +1156,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_emoji_presentation(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_extender')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_extender')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_extender',
@@ -1165,7 +1166,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_extender(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_extended_pictographic')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_extended_pictographic')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_extended_pictographic',
@@ -1175,7 +1176,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_extended_pictographic(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_graph')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_graph')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_graph',
@@ -1185,7 +1186,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_graph(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_grapheme_base')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_grapheme_base')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_grapheme_base',
@@ -1195,7 +1196,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_grapheme_base(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_grapheme_extend')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_grapheme_extend')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_grapheme_extend',
@@ -1205,7 +1206,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_grapheme_extend(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_grapheme_link')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_grapheme_link')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_grapheme_link',
@@ -1215,7 +1216,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_grapheme_link(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_hex_digit')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_hex_digit')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_hex_digit',
@@ -1225,7 +1226,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_hex_digit(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_hyphen')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_hyphen')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_hyphen',
@@ -1235,7 +1236,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_hyphen(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_id_continue')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_id_continue')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_id_continue',
@@ -1245,7 +1246,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_id_continue(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_ideographic')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_ideographic')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_ideographic',
@@ -1255,7 +1256,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_ideographic(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_id_start')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_id_start')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_id_start',
@@ -1265,7 +1266,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_id_start(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_ids_binary_operator')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_ids_binary_operator')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_ids_binary_operator',
@@ -1275,7 +1276,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_ids_binary_operator(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_ids_trinary_operator')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_ids_trinary_operator')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_ids_trinary_operator',
@@ -1285,7 +1286,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_ids_trinary_operator(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_join_control')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_join_control')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_join_control',
@@ -1295,7 +1296,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_join_control(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_logical_order_exception')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_logical_order_exception')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_logical_order_exception',
@@ -1305,7 +1306,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_logical_order_exception(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_lowercase')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_lowercase')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_lowercase',
@@ -1315,7 +1316,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_lowercase(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_math')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_math')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_math',
@@ -1325,7 +1326,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_math(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_noncharacter_code_point')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_noncharacter_code_point')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_noncharacter_code_point',
@@ -1335,7 +1336,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_noncharacter_code_point(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_nfc_inert')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_nfc_inert')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_nfc_inert',
@@ -1345,7 +1346,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_nfc_inert(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_nfd_inert')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_nfd_inert')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_nfd_inert',
@@ -1355,7 +1356,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_nfd_inert(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_nfkc_inert')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_nfkc_inert')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_nfkc_inert',
@@ -1365,7 +1366,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_nfkc_inert(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_nfkd_inert')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_nfkd_inert')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_nfkd_inert',
@@ -1375,7 +1376,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_nfkd_inert(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_pattern_syntax')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_pattern_syntax')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_pattern_syntax',
@@ -1385,7 +1386,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_pattern_syntax(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_pattern_white_space')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_pattern_white_space')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_pattern_white_space',
@@ -1395,7 +1396,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_pattern_white_space(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_prepended_concatenation_mark')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_prepended_concatenation_mark')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_prepended_concatenation_mark',
@@ -1406,7 +1407,7 @@ _ICU4XCodePointSetData_load_prepended_concatenation_mark(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_print')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_print')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_print',
@@ -1416,7 +1417,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_print(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_quotation_mark')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_quotation_mark')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_quotation_mark',
@@ -1426,7 +1427,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_quotation_mark(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_radical')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_radical')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_radical',
@@ -1436,7 +1437,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_radical(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_regional_indicator')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_regional_indicator')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_regional_indicator',
@@ -1446,7 +1447,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_regional_indicator(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_soft_dotted')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_soft_dotted')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_soft_dotted',
@@ -1456,7 +1457,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_soft_dotted(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_segment_starter')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_segment_starter')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_segment_starter',
@@ -1466,7 +1467,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_segment_starter(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_case_sensitive')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_case_sensitive')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_case_sensitive',
@@ -1476,7 +1477,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_case_sensitive(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_sentence_terminal')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_sentence_terminal')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_sentence_terminal',
@@ -1486,7 +1487,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_sentence_terminal(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_terminal_punctuation')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_terminal_punctuation')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_terminal_punctuation',
@@ -1496,7 +1497,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_terminal_punctuation(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_unified_ideograph')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_unified_ideograph')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_unified_ideograph',
@@ -1506,7 +1507,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_unified_ideograph(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_uppercase')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_uppercase')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_uppercase',
@@ -1516,7 +1517,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_uppercase(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_variation_selector')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_variation_selector')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_variation_selector',
@@ -1526,7 +1527,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_variation_selector(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_white_space')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_white_space')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_white_space',
@@ -1536,7 +1537,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_white_space(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_xdigit')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_xdigit')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_xdigit',
@@ -1546,7 +1547,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_xdigit(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_xid_continue')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_xid_continue')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_xid_continue',
@@ -1556,7 +1557,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_xid_continue(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_xid_start')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_xid_start')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XCodePointSetData_load_xid_start',
@@ -1566,7 +1567,7 @@ external _ResultOpaqueInt32 _ICU4XCodePointSetData_load_xid_start(
   ffi.Pointer<ffi.Opaque> provider,
 );
 
-@RecordSymbol('ICU4XCodePointSetData_load_for_ecma262')
+@_DiplomatFfiUse('ICU4XCodePointSetData_load_for_ecma262')
 @ffi.Native<
   _ResultOpaqueInt32 Function(
     ffi.Pointer<ffi.Opaque>,

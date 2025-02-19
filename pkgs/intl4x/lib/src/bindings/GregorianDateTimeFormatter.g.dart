@@ -23,7 +23,7 @@ final class GregorianDateTimeFormatter implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XGregorianDateTimeFormatter_destroy')
+  @_DiplomatFfiUse('ICU4XGregorianDateTimeFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XGregorianDateTimeFormatter_destroy),
   );
@@ -70,7 +70,7 @@ final class GregorianDateTimeFormatter implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XGregorianDateTimeFormatter_destroy')
+@_DiplomatFfiUse('ICU4XGregorianDateTimeFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XGregorianDateTimeFormatter_destroy',
@@ -80,7 +80,7 @@ external void _ICU4XGregorianDateTimeFormatter_destroy(
   ffi.Pointer<ffi.Void> self,
 );
 
-@RecordSymbol('ICU4XGregorianDateTimeFormatter_create_with_lengths')
+@_DiplomatFfiUse('ICU4XGregorianDateTimeFormatter_create_with_lengths')
 @ffi.Native<
   _ResultOpaqueInt32 Function(
     ffi.Pointer<ffi.Opaque>,
@@ -98,7 +98,7 @@ _ICU4XGregorianDateTimeFormatter_create_with_lengths(
   int timeLength,
 );
 
-@RecordSymbol('ICU4XGregorianDateTimeFormatter_format_iso_datetime')
+@_DiplomatFfiUse('ICU4XGregorianDateTimeFormatter_format_iso_datetime')
 @ffi.Native<
   _ResultVoidInt32 Function(
     ffi.Pointer<ffi.Opaque>,

@@ -108,7 +108,7 @@ enum AnyCalendarKind {
   }
 }
 
-@RecordSymbol('ICU4XAnyCalendarKind_get_for_locale')
+@_DiplomatFfiUse('ICU4XAnyCalendarKind_get_for_locale')
 @ffi.Native<_ResultInt32Void Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XAnyCalendarKind_get_for_locale',
@@ -118,7 +118,7 @@ external _ResultInt32Void _ICU4XAnyCalendarKind_get_for_locale(
   ffi.Pointer<ffi.Opaque> locale,
 );
 
-@RecordSymbol('ICU4XAnyCalendarKind_get_for_bcp47')
+@_DiplomatFfiUse('ICU4XAnyCalendarKind_get_for_bcp47')
 @ffi.Native<_ResultInt32Void Function(ffi.Pointer<ffi.Uint8>, ffi.Size)>(
   isLeaf: true,
   symbol: 'ICU4XAnyCalendarKind_get_for_bcp47',
@@ -129,7 +129,7 @@ external _ResultInt32Void _ICU4XAnyCalendarKind_get_for_bcp47(
   int sLength,
 );
 
-@RecordSymbol('ICU4XAnyCalendarKind_bcp47')
+@_DiplomatFfiUse('ICU4XAnyCalendarKind_bcp47')
 @ffi.Native<_ResultVoidInt32 Function(ffi.Int32, ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XAnyCalendarKind_bcp47',

@@ -24,7 +24,7 @@ final class GeneralCategoryNameToMaskMapper implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_destroy')
+  @_DiplomatFfiUse('ICU4XGeneralCategoryNameToMaskMapper_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XGeneralCategoryNameToMaskMapper_destroy),
   );
@@ -71,7 +71,7 @@ final class GeneralCategoryNameToMaskMapper implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_destroy')
+@_DiplomatFfiUse('ICU4XGeneralCategoryNameToMaskMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XGeneralCategoryNameToMaskMapper_destroy',
@@ -81,7 +81,7 @@ external void _ICU4XGeneralCategoryNameToMaskMapper_destroy(
   ffi.Pointer<ffi.Void> self,
 );
 
-@RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_get_strict')
+@_DiplomatFfiUse('ICU4XGeneralCategoryNameToMaskMapper_get_strict')
 @ffi.Native<
   ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)
 >(isLeaf: true, symbol: 'ICU4XGeneralCategoryNameToMaskMapper_get_strict')
@@ -92,7 +92,7 @@ external int _ICU4XGeneralCategoryNameToMaskMapper_get_strict(
   int nameLength,
 );
 
-@RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_get_loose')
+@_DiplomatFfiUse('ICU4XGeneralCategoryNameToMaskMapper_get_loose')
 @ffi.Native<
   ffi.Uint32 Function(ffi.Pointer<ffi.Opaque>, ffi.Pointer<ffi.Uint8>, ffi.Size)
 >(isLeaf: true, symbol: 'ICU4XGeneralCategoryNameToMaskMapper_get_loose')
@@ -103,7 +103,7 @@ external int _ICU4XGeneralCategoryNameToMaskMapper_get_loose(
   int nameLength,
 );
 
-@RecordSymbol('ICU4XGeneralCategoryNameToMaskMapper_load')
+@_DiplomatFfiUse('ICU4XGeneralCategoryNameToMaskMapper_load')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XGeneralCategoryNameToMaskMapper_load',

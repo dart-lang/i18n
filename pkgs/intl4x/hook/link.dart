@@ -13,8 +13,8 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart' as record_use;
 
 const recordSymbolId = record_use.Identifier(
-  importUri: 'package:intl4x/src/usage_recording.dart',
-  name: 'RecordSymbol',
+  importUri: 'package:intl4x/src/bindings/lib.g.dart',
+  name: '_DiplomatFfiUse',
 );
 
 Future<void> main(List<String> args) async {

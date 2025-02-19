@@ -22,7 +22,7 @@ final class ZonedDateTimeFormatter implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XZonedDateTimeFormatter_destroy')
+  @_DiplomatFfiUse('ICU4XZonedDateTimeFormatter_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XZonedDateTimeFormatter_destroy),
   );
@@ -131,7 +131,7 @@ final class ZonedDateTimeFormatter implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XZonedDateTimeFormatter_destroy')
+@_DiplomatFfiUse('ICU4XZonedDateTimeFormatter_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XZonedDateTimeFormatter_destroy',
@@ -139,7 +139,7 @@ final class ZonedDateTimeFormatter implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XZonedDateTimeFormatter_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XZonedDateTimeFormatter_create_with_lengths')
+@_DiplomatFfiUse('ICU4XZonedDateTimeFormatter_create_with_lengths')
 @ffi.Native<
   _ResultOpaqueInt32 Function(
     ffi.Pointer<ffi.Opaque>,
@@ -156,7 +156,7 @@ external _ResultOpaqueInt32 _ICU4XZonedDateTimeFormatter_create_with_lengths(
   int timeLength,
 );
 
-@RecordSymbol(
+@_DiplomatFfiUse(
   'ICU4XZonedDateTimeFormatter_create_with_lengths_and_iso_8601_time_zone_fallback',
 )
 @ffi.Native<
@@ -182,7 +182,7 @@ _ICU4XZonedDateTimeFormatter_create_with_lengths_and_iso_8601_time_zone_fallback
   _IsoTimeZoneOptionsFfi zoneOptions,
 );
 
-@RecordSymbol(
+@_DiplomatFfiUse(
   'ICU4XZonedDateTimeFormatter_format_datetime_with_custom_time_zone',
 )
 @ffi.Native<
@@ -205,7 +205,7 @@ _ICU4XZonedDateTimeFormatter_format_datetime_with_custom_time_zone(
   ffi.Pointer<ffi.Opaque> writeable,
 );
 
-@RecordSymbol(
+@_DiplomatFfiUse(
   'ICU4XZonedDateTimeFormatter_format_iso_datetime_with_custom_time_zone',
 )
 @ffi.Native<

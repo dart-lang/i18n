@@ -22,7 +22,7 @@ final class WordBreakIteratorLatin1 implements ffi.Finalizable {
     }
   }
 
-  @RecordSymbol('ICU4XWordBreakIteratorLatin1_destroy')
+  @_DiplomatFfiUse('ICU4XWordBreakIteratorLatin1_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XWordBreakIteratorLatin1_destroy),
   );
@@ -53,7 +53,7 @@ final class WordBreakIteratorLatin1 implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XWordBreakIteratorLatin1_destroy')
+@_DiplomatFfiUse('ICU4XWordBreakIteratorLatin1_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XWordBreakIteratorLatin1_destroy',
@@ -61,7 +61,7 @@ final class WordBreakIteratorLatin1 implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XWordBreakIteratorLatin1_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XWordBreakIteratorLatin1_next')
+@_DiplomatFfiUse('ICU4XWordBreakIteratorLatin1_next')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordBreakIteratorLatin1_next',
@@ -69,7 +69,7 @@ external void _ICU4XWordBreakIteratorLatin1_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external int _ICU4XWordBreakIteratorLatin1_next(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XWordBreakIteratorLatin1_word_type')
+@_DiplomatFfiUse('ICU4XWordBreakIteratorLatin1_word_type')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordBreakIteratorLatin1_word_type',
@@ -79,7 +79,7 @@ external int _ICU4XWordBreakIteratorLatin1_word_type(
   ffi.Pointer<ffi.Opaque> self,
 );
 
-@RecordSymbol('ICU4XWordBreakIteratorLatin1_is_word_like')
+@_DiplomatFfiUse('ICU4XWordBreakIteratorLatin1_is_word_like')
 @ffi.Native<ffi.Bool Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XWordBreakIteratorLatin1_is_word_like',

@@ -24,6 +24,7 @@ final class BidiInfo implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XBidiInfo_destroy')
   static final _finalizer = ffi.NativeFinalizer(
     ffi.Native.addressOf(_ICU4XBidiInfo_destroy),
   );
@@ -61,7 +62,7 @@ final class BidiInfo implements ffi.Finalizable {
   }
 }
 
-@RecordSymbol('ICU4XBidiInfo_destroy')
+@_DiplomatFfiUse('ICU4XBidiInfo_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   isLeaf: true,
   symbol: 'ICU4XBidiInfo_destroy',
@@ -69,7 +70,7 @@ final class BidiInfo implements ffi.Finalizable {
 // ignore: non_constant_identifier_names
 external void _ICU4XBidiInfo_destroy(ffi.Pointer<ffi.Void> self);
 
-@RecordSymbol('ICU4XBidiInfo_paragraph_count')
+@_DiplomatFfiUse('ICU4XBidiInfo_paragraph_count')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XBidiInfo_paragraph_count',
@@ -77,7 +78,7 @@ external void _ICU4XBidiInfo_destroy(ffi.Pointer<ffi.Void> self);
 // ignore: non_constant_identifier_names
 external int _ICU4XBidiInfo_paragraph_count(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XBidiInfo_paragraph_at')
+@_DiplomatFfiUse('ICU4XBidiInfo_paragraph_at')
 @ffi.Native<
   ffi.Pointer<ffi.Opaque> Function(ffi.Pointer<ffi.Opaque>, ffi.Size)
 >(isLeaf: true, symbol: 'ICU4XBidiInfo_paragraph_at')
@@ -87,7 +88,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XBidiInfo_paragraph_at(
   int n,
 );
 
-@RecordSymbol('ICU4XBidiInfo_size')
+@_DiplomatFfiUse('ICU4XBidiInfo_size')
 @ffi.Native<ffi.Size Function(ffi.Pointer<ffi.Opaque>)>(
   isLeaf: true,
   symbol: 'ICU4XBidiInfo_size',
@@ -95,7 +96,7 @@ external ffi.Pointer<ffi.Opaque> _ICU4XBidiInfo_paragraph_at(
 // ignore: non_constant_identifier_names
 external int _ICU4XBidiInfo_size(ffi.Pointer<ffi.Opaque> self);
 
-@RecordSymbol('ICU4XBidiInfo_level_at')
+@_DiplomatFfiUse('ICU4XBidiInfo_level_at')
 @ffi.Native<ffi.Uint8 Function(ffi.Pointer<ffi.Opaque>, ffi.Size)>(
   isLeaf: true,
   symbol: 'ICU4XBidiInfo_level_at',

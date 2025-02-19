@@ -58,7 +58,7 @@ final class TitlecaseOptions {
   int get hashCode => Object.hashAll([leadingAdjustment, trailingCase]);
 }
 
-@RecordSymbol('ICU4XTitlecaseOptionsV1_default_options')
+@_DiplomatFfiUse('ICU4XTitlecaseOptionsV1_default_options')
 @ffi.Native<_TitlecaseOptionsFfi Function()>(
   isLeaf: true,
   symbol: 'ICU4XTitlecaseOptionsV1_default_options',
