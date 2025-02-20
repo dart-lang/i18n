@@ -2,6 +2,9 @@
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`  
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the  
    official symbol introduced in 2012.
+ * Fix parsing of locale strings containing script codes in `verifiedLocale`.
+   For example, `zh-Hans-CN` would have been previously parsed as `zh`, but is
+   now parsed as `zh_CN`.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
