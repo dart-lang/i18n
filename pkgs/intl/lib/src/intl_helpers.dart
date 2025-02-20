@@ -128,7 +128,7 @@ String? computeMessageName(String? name, String? text, String? meaning) {
   return meaning == null ? text : '${text}_$meaning';
 }
 
-/// Returns an index of a separator between language and region.
+/// Returns an index of a separator between language and other subtags.
 ///
 /// Assumes that language length can be only 2 or 3.
 int _separatorIndex(String locale) {
@@ -143,6 +143,19 @@ int _separatorIndex(String locale) {
   }
   if (locale[3] == '-' || locale[3] == '_') {
     return 3;
+  }
+  return -1;
+}
+
+/// Returns an index of a separator between script and region.
+///
+/// Assumes that script contains exactly 4 characters.
+int _regionSeparatorIndex(String region) {
+  if (region.length < 5) {
+    return -1;
+  }
+  if (region[4] == '-' || region[4] == '_') {
+    return 4;
   }
   return -1;
 }
@@ -165,6 +178,9 @@ String canonicalizedLocale(String? aLocale) {
   }
   var language = aLocale.substring(0, separatorIndex);
   var region = aLocale.substring(separatorIndex + 1);
+  separatorIndex = _regionSeparatorIndex(region);
+  // If there is a script subtag, ignore it.
+  if (separatorIndex != -1) region = region.substring(separatorIndex + 1);
   // If it's longer than three it's something odd, so don't touch it.
   if (region.length <= 3) region = region.toUpperCase();
   return '${language}_$region';
