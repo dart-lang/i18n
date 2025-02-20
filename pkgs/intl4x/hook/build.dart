@@ -211,6 +211,7 @@ final class CheckoutMode extends BuildMode {
   ];
 }
 
+//TODO: Reuse code from package:icu4x as soon as it is published.
 Future<Uri> buildLib(
   BuildInput input,
   String workingDirectory,
@@ -223,62 +224,56 @@ Future<Uri> buildLib(
   final code = input.config.code;
   final targetOS = code.targetOS;
   final targetArchitecture = code.targetArchitecture;
+  final buildStatic = input.config.buildStatic(treeshake);
 
   final isNoStd = _isNoStdTarget((targetOS, targetArchitecture));
+  final target = asRustTarget(input);
 
   if (!isNoStd) {
-    final rustArguments = ['target', 'add', asRustTarget(input)];
+    final rustArguments = ['target', 'add', target];
     await runProcess(
       'rustup',
       rustArguments,
       workingDirectory: workingDirectory,
     );
   }
-  final tempDir = await Directory.systemTemp.createTemp();
-
-  final stdFeatures = [
-    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
+  final stdFeatures = ['logging', 'simple_logger'];
+  final noStdFeatures = ['libc_alloc', 'panic_handler'];
+  final features = {
+    'default_components',
+    'icu_collator',
+    'icu_datetime',
+    'icu_list',
+    'icu_decimal',
+    'icu_plurals',
     'compiled_data',
     'buffer_provider',
-    'logging',
-    'simple_logger',
     'experimental_components',
-  ];
-  final noStdFeatures = [
-    'icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals',
-    'compiled_data',
-    'buffer_provider',
-    'libc_alloc',
-    'panic_handler',
-    'experimental_components',
-  ];
-  final linkModeType =
-      input.config.buildStatic(treeshake) ? 'staticlib' : 'cdylib';
+    ...(isNoStd ? noStdFeatures : stdFeatures),
+  };
   final arguments = [
-    if (input.config.buildStatic(treeshake) || isNoStd) '+nightly',
+    if (buildStatic || isNoStd) '+nightly',
     'rustc',
-    '-p=$crateName',
-    '--crate-type=$linkModeType',
+    '--manifest-path=$workingDirectory/ffi/capi/Cargo.toml',
+    '--crate-type=${buildStatic ? 'staticlib' : 'cdylib'}',
     '--release',
     '--config=profile.release.panic="abort"',
     '--config=profile.release.codegen-units=1',
     '--no-default-features',
-    isNoStd
-        ? '--features=${noStdFeatures.join(',')}'
-        : '--features=${stdFeatures.join(',')}',
+    '--features=${features.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
-    if (input.config.buildStatic(treeshake) || isNoStd) ...[
+    if (buildStatic || isNoStd) ...[
       '-Zbuild-std=std,panic_abort',
       '-Zbuild-std-features=panic_immediate_abort',
     ],
-    '--target=${asRustTarget(input)}',
-    '--target-dir=${tempDir.path}',
+    '--target=$target',
   ];
   await runProcess('cargo', arguments, workingDirectory: workingDirectory);
 
   final builtPath = path.join(
-    tempDir.path,
-    asRustTarget(input),
+    workingDirectory,
+    'target',
+    target,
     'release',
     libFileName,
   );
@@ -287,7 +282,6 @@ Future<Uri> buildLib(
     throw FileSystemException('Building the dylib failed', builtPath);
   }
   await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
-  await tempDir.delete(recursive: true);
   return libFileUri;
 }
 
