@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
@@ -25,21 +23,19 @@ abstract class DateTimeFormatImpl {
 
   String formatImpl(DateTime datetime);
 
-  @ResourceIdentifier('DisplayNames')
   static DateTimeFormatImpl build(
     Locale locale,
     Data data,
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) =>
-      buildFormatter(
-        locale,
-        data,
-        options,
-        localeMatcher,
-        ecmaPolicy,
-        getDateTimeFormatterECMA,
-        getDateTimeFormatter4X,
-      );
+  ) => buildFormatter(
+    locale,
+    data,
+    options,
+    localeMatcher,
+    ecmaPolicy,
+    getDateTimeFormatterECMA,
+    getDateTimeFormatter4X,
+  );
 }

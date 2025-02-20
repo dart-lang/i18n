@@ -12,14 +12,8 @@ void main(List<String> args) {
   final argParser = ArgParser();
   final referencePathOption = 'reference-path';
   final currentPathOption = 'current-path';
-  argParser.addOption(
-    referencePathOption,
-    mandatory: true,
-  );
-  argParser.addOption(
-    currentPathOption,
-    mandatory: true,
-  );
+  argParser.addOption(referencePathOption, mandatory: true);
+  argParser.addOption(currentPathOption, mandatory: true);
   final parse = argParser.parse(args);
   final pathToReference = parse[referencePathOption] as String;
   final pathToCurrent = parse[currentPathOption] as String;
@@ -34,7 +28,8 @@ void main(List<String> args) {
   for (final entry in infos.entries) {
     final referenceInfo = referenceInfos[entry.key];
     markdown.writeln(
-        '| ${entry.key} ${entry.value.getRow(referenceInfo ?? Info())}');
+      '| ${entry.key} ${entry.value.getRow(referenceInfo ?? Info())}',
+    );
   }
   print(markdown);
 
@@ -68,9 +63,10 @@ String? shouldFail(Info info, Info referenceInfo) {
       info.error > referenceInfo.error ? 'Too many new errors' : null;
   final moreFailing =
       info.failing > referenceInfo.failing ? 'Too many new failing' : null;
-  final moreUnsupported = info.unsupported > referenceInfo.unsupported
-      ? 'Too many new unsupported'
-      : null;
+  final moreUnsupported =
+      info.unsupported > referenceInfo.unsupported
+          ? 'Too many new unsupported'
+          : null;
   return moreErrors ?? moreFailing ?? moreUnsupported;
 }
 
@@ -100,9 +96,10 @@ Map<String, dynamic> getJson(String pathToCurrent, String exec) {
   final decoded = jsonDecode(currentStr) as Map<String, dynamic>;
 
   return decoded.map((key, value) {
-    final list = (value as List)
-        .where((element) => (element as Map)['exec'] == exec)
-        .toList();
+    final list =
+        (value as List)
+            .where((element) => (element as Map)['exec'] == exec)
+            .toList();
     return MapEntry(key, list);
   });
 }

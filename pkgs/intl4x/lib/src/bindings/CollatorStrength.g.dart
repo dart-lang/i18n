@@ -14,5 +14,5 @@ enum CollatorStrength {
 
   quaternary,
 
-  identical;
+  identical,
 }

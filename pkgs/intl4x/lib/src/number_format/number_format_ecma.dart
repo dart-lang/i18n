@@ -13,8 +13,7 @@ NumberFormatImpl? getNumberFormatterECMA(
   Locale locale,
   NumberFormatOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.NumberFormat')
 extension type NumberFormat._(JSObject _) implements JSObject {
@@ -22,8 +21,9 @@ extension type NumberFormat._(JSObject _) implements JSObject {
   external String format(JSAny num);
 
   external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
+    JSArray<JSString> locales, [
+    JSAny options,
+  ]);
 }
 
 class _NumberFormatECMA extends NumberFormatImpl {
@@ -44,15 +44,11 @@ class _NumberFormatECMA extends NumberFormatImpl {
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
-    final o = {
-      'localeMatcher': localeMatcher.jsName,
-    }.jsify()!;
+    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
     return NumberFormat.supportedLocalesOf(
-            [locale.toLanguageTag().toJS].toJS, o)
-        .toDart
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   @override

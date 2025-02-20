@@ -33,24 +33,11 @@ class DisplayNamesOptions {
   }
 }
 
-enum DisplayType {
-  calendar,
-  currency,
-  dateTimeField,
-  language,
-  region,
-  script,
-}
+enum DisplayType { calendar, currency, dateTimeField, language, region, script }
 
-enum LanguageDisplay {
-  dialect,
-  standard,
-}
+enum LanguageDisplay { dialect, standard }
 
-enum Fallback {
-  code,
-  none,
-}
+enum Fallback { code, none }
 
 enum DateTimeField {
   era,

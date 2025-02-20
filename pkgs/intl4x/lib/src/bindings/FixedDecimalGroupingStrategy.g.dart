@@ -3,12 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `GroupingStrategy`](https://docs.rs/icu/latest/icu/decimal/options/enum.GroupingStrategy.html) for more information.
-enum FixedDecimalGroupingStrategy {
-  auto,
-
-  never,
-
-  always,
-
-  min2;
-}
+enum FixedDecimalGroupingStrategy { auto, never, always, min2 }

@@ -2,10 +2,4 @@
 
 part of 'lib.g.dart';
 
-enum BidiDirection {
-  ltr,
-
-  rtl,
-
-  mixed;
-}
+enum BidiDirection { ltr, rtl, mixed }

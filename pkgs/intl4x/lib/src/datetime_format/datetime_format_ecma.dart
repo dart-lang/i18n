@@ -13,8 +13,7 @@ DateTimeFormatImpl? getDateTimeFormatterECMA(
   Locale locale,
   DateTimeFormatOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    _DateTimeFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _DateTimeFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
@@ -40,7 +39,7 @@ extension type Date._(JSObject _) implements JSObject {
 
   external factory Date.fromTimeStamp(int timeStamp);
 
-// ignore: non_constant_identifier_names
+  // ignore: non_constant_identifier_names
   external static int UTC(
     int year,
     int monthIndex,
@@ -72,28 +71,30 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   ) {
     final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
     return DateTimeFormat.supportedLocalesOf(
-            [locale.toLanguageTag().toJS].toJS, o)
-        .toDart
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   @override
-  String formatImpl(DateTime datetime) =>
-      DateTimeFormat([locale.toLanguageTag().toJS].toJS, options.toJsOptions())
-          .format(datetime.toJs());
+  String formatImpl(DateTime datetime) => DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    options.toJsOptions(),
+  ).format(datetime.toJs());
 }
 
 extension on DateTime {
-  Date toJs() => isUtc
-      ? Date.fromTimeStamp(
-          Date.UTC(year, month - 1, day, hour, minute, second, millisecond))
-      : Date(year, month - 1, day, hour, minute, second, millisecond);
+  Date toJs() =>
+      isUtc
+          ? Date.fromTimeStamp(
+            Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
+          )
+          : Date(year, month - 1, day, hour, minute, second, millisecond);
 }
 
 extension on DateTimeFormatOptions {
-  JSAny toJsOptions() => {
+  JSAny toJsOptions() =>
+      {
         'localeMatcher': localeMatcher.jsName,
         if (dateFormatStyle != null) 'dateStyle': dateFormatStyle!.name,
         if (timeFormatStyle != null) 'timeStyle': timeFormatStyle!.name,

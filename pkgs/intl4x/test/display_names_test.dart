@@ -11,10 +11,11 @@ import 'utils.dart';
 void main() {
   testWithFormatting('basic', () {
     expect(
-        Intl(locale: const Locale(language: 'en', region: 'US'))
-            .displayNames()
-            .ofLanguage(const Locale(language: 'de', region: 'DE')),
-        'German (Germany)');
+      Intl(
+        locale: const Locale(language: 'en', region: 'US'),
+      ).displayNames().ofLanguage(const Locale(language: 'de', region: 'DE')),
+      'German (Germany)',
+    );
   });
 
   testWithFormatting('language', () {
@@ -28,12 +29,16 @@ void main() {
     const zh = Locale(language: 'zh', script: 'Hant');
     expect(languageOf(en, fr), 'French');
     expect(languageOf(en, de), 'German');
-    expect(languageOf(en, const Locale(language: 'fr', region: 'CA')),
-        'Canadian French');
+    expect(
+      languageOf(en, const Locale(language: 'fr', region: 'CA')),
+      'Canadian French',
+    );
     //TODO(mosuem): Skip as ECMA seems to have a bug here.
     // expect(languageOf(en, zh), 'Traditional Chinese');
-    expect(languageOf(en, const Locale(language: 'en', region: 'US')),
-        'American English');
+    expect(
+      languageOf(en, const Locale(language: 'en', region: 'US')),
+      'American English',
+    );
     //TODO(mosuem): Skip as ECMA seems to have a bug here.
     // expect(languageOf(en, const Locale(language: 'zh', region: 'TW')),
     //     'Chinese (Taiwan)');
@@ -43,79 +48,58 @@ void main() {
     expect(languageOf(zh, de), '德文');
   });
 
-  testWithFormatting(
-    'language with languageDisplay',
-    () {
-      String languageWith(LanguageDisplay display) =>
-          Intl(locale: const Locale(language: 'en'))
-              .displayNames(DisplayNamesOptions(languageDisplay: display))
-              .ofLanguage(const Locale(language: 'en', region: 'GB'));
+  testWithFormatting('language with languageDisplay', () {
+    String languageWith(LanguageDisplay display) =>
+        Intl(locale: const Locale(language: 'en'))
+            .displayNames(DisplayNamesOptions(languageDisplay: display))
+            .ofLanguage(const Locale(language: 'en', region: 'GB'));
 
-      expect(languageWith(LanguageDisplay.dialect), 'British English');
-      expect(
-          languageWith(LanguageDisplay.standard), 'English (United Kingdom)');
-    },
-    tags: ['icu4xUnimplemented'],
-  );
+    expect(languageWith(LanguageDisplay.dialect), 'British English');
+    expect(languageWith(LanguageDisplay.standard), 'English (United Kingdom)');
+  }, tags: ['icu4xUnimplemented']);
 
-  testWithFormatting(
-    'calendar',
-    () {
-      final displayNames =
-          Intl(locale: const Locale(language: 'en')).displayNames();
+  testWithFormatting('calendar', () {
+    final displayNames =
+        Intl(locale: const Locale(language: 'en')).displayNames();
 
-      expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
-      expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
-      expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
-    },
-    tags: ['icu4xUnimplemented'],
-  );
+    expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
+    expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
+    expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
+  }, tags: ['icu4xUnimplemented']);
 
-  testWithFormatting(
-    'dateTimeField',
-    () {
-      final displayNames =
-          Intl(locale: const Locale(language: 'pt')).displayNames();
-      expect(displayNames.ofDateTime(DateTimeField.era), 'era');
-      expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
-      expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
-      expect(displayNames.ofDateTime(DateTimeField.quarter), 'trimestre');
-      expect(displayNames.ofDateTime(DateTimeField.weekOfYear), 'semana');
-      expect(displayNames.ofDateTime(DateTimeField.weekday), 'dia da semana');
-      expect(displayNames.ofDateTime(DateTimeField.dayPeriod), 'AM/PM');
-      expect(displayNames.ofDateTime(DateTimeField.day), 'dia');
-      expect(displayNames.ofDateTime(DateTimeField.hour), 'hora');
-      expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
-      expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
-    },
-    tags: ['icu4xUnimplemented'],
-  );
+  testWithFormatting('dateTimeField', () {
+    final displayNames =
+        Intl(locale: const Locale(language: 'pt')).displayNames();
+    expect(displayNames.ofDateTime(DateTimeField.era), 'era');
+    expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
+    expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
+    expect(displayNames.ofDateTime(DateTimeField.quarter), 'trimestre');
+    expect(displayNames.ofDateTime(DateTimeField.weekOfYear), 'semana');
+    expect(displayNames.ofDateTime(DateTimeField.weekday), 'dia da semana');
+    expect(displayNames.ofDateTime(DateTimeField.dayPeriod), 'AM/PM');
+    expect(displayNames.ofDateTime(DateTimeField.day), 'dia');
+    expect(displayNames.ofDateTime(DateTimeField.hour), 'hora');
+    expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
+    expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
+  }, tags: ['icu4xUnimplemented']);
 
-  testWithFormatting(
-    'currency',
-    () {
-      expect(
-        Intl(locale: const Locale(language: 'pt'))
-            .displayNames()
-            .ofCurrency('USD'),
-        'Dólar americano',
-      );
-    },
-    tags: ['icu4xUnimplemented'],
-  );
+  testWithFormatting('currency', () {
+    expect(
+      Intl(
+        locale: const Locale(language: 'pt'),
+      ).displayNames().ofCurrency('USD'),
+      'Dólar americano',
+    );
+  }, tags: ['icu4xUnimplemented']);
 
-  testWithFormatting(
-    'script',
-    () {
-      expect(
-        Intl(locale: const Locale(language: 'fr'))
-            .displayNames()
-            .ofScript('Egyp'),
-        'hiéroglyphes égyptiens',
-      );
-    },
-    tags: ['icu4xUnimplemented'],
-  );
+  testWithFormatting('script', () {
+    expect(
+      Intl(
+        locale: const Locale(language: 'fr'),
+      ).displayNames().ofScript('Egyp'),
+      'hiéroglyphes égyptiens',
+    );
+  }, tags: ['icu4xUnimplemented']);
 
   testWithFormatting('region', () {
     String regionNames(Locale locale, String region) =>

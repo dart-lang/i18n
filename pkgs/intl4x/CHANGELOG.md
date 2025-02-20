@@ -1,6 +1,7 @@
 ## 0.11.0-wip
 
 - Remove dep on package:js.
+- Introduce link hook.
 
 ## 0.10.1
 

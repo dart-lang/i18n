@@ -9,41 +9,51 @@ void main() {
   test('Default locale is set', () {
     expect(Intl().locale.language, isNotEmpty);
   });
+  test('Parsing different locales', () {
+    expect(Locale.parse('de'), const Locale(language: 'de'));
+    expect(Locale.parse('de-DE'), const Locale(language: 'de', region: 'DE'));
+    expect(
+      Locale.parse('zh-Hant-TW'),
+      const Locale(language: 'zh', region: 'TW', script: 'Hant'),
+    );
+    expect(
+      Locale.parse('zh-Hant'),
+      const Locale(language: 'zh', script: 'Hant'),
+    );
+  });
+
+  test('toLanguageTag', () {
+    expect(const Locale(language: 'de').toLanguageTag(), 'de');
+    expect(const Locale(language: 'de', region: 'DE').toLanguageTag(), 'de-DE');
+    expect(
+      const Locale(
+        language: 'de',
+        region: 'DE',
+        script: 'Hant',
+      ).toLanguageTag(),
+      'de-Hant-DE',
+    );
+  });
+
   test(
-    'Parsing different locales',
+    'Minimize',
     () {
-      expect(Locale.parse('de'), const Locale(language: 'de'));
-      expect(Locale.parse('de-DE'), const Locale(language: 'de', region: 'DE'));
-      expect(Locale.parse('zh-Hant-TW'),
-          const Locale(language: 'zh', region: 'TW', script: 'Hant'));
-      expect(Locale.parse('zh-Hant'),
-          const Locale(language: 'zh', script: 'Hant'));
+      expect(
+        Locale.parse('en-Latn-US').minimize(),
+        const Locale(language: 'en'),
+      );
     },
+    testOn: 'browser', //Wait for ICU4X implementation for native
   );
 
   test(
-    'toLanguageTag',
+    'Maximize',
     () {
-      expect(const Locale(language: 'de').toLanguageTag(), 'de');
       expect(
-          const Locale(language: 'de', region: 'DE').toLanguageTag(), 'de-DE');
-      expect(
-          const Locale(
-            language: 'de',
-            region: 'DE',
-            script: 'Hant',
-          ).toLanguageTag(),
-          'de-Hant-DE');
+        const Locale(language: 'en').maximize(),
+        Locale.parse('en-Latn-US'),
+      );
     },
+    testOn: 'browser', //Wait for ICU4X implementation for native
   );
-
-  test('Minimize', () {
-    expect(Locale.parse('en-Latn-US').minimize(), const Locale(language: 'en'));
-  }, testOn: 'browser' //Wait for ICU4X implementation for native
-      );
-
-  test('Maximize', () {
-    expect(const Locale(language: 'en').maximize(), Locale.parse('en-Latn-US'));
-  }, testOn: 'browser' //Wait for ICU4X implementation for native
-      );
 }

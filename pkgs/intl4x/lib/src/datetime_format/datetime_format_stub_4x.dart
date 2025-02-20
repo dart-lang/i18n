@@ -11,5 +11,4 @@ DateTimeFormatImpl getDateTimeFormatter4X(
   Locale locale,
   Data data,
   DateTimeFormatOptions options,
-) =>
-    throw UnimplementedError('Cannot use ICU4X in web environments.');
+) => throw UnimplementedError('Cannot use ICU4X in web environments.');

@@ -8,5 +8,7 @@ import '../locale/locale.dart';
 import 'list_format_impl.dart';
 
 ListFormatImpl getListFormatter4X(
-        Locale locale, Data data, ListFormatOptions options) =>
-    throw UnimplementedError('Cannot use ICU4X in web environments.');
+  Locale locale,
+  Data data,
+  ListFormatOptions options,
+) => throw UnimplementedError('Cannot use ICU4X in web environments.');

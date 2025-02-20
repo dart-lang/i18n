@@ -25,8 +25,8 @@ final class Decomposed {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   Decomposed._fromFfi(_DecomposedFfi ffi)
-      : first = ffi.first,
-        second = ffi.second;
+    : first = ffi.first,
+      second = ffi.second;
 
   // ignore: unused_element
   _DecomposedFfi _toFfi(ffi.Allocator temp) {
@@ -41,8 +41,5 @@ final class Decomposed {
       other is Decomposed && other.first == first && other.second == second;
 
   @override
-  int get hashCode => Object.hashAll([
-        first,
-        second,
-      ]);
+  int get hashCode => Object.hashAll([first, second]);
 }

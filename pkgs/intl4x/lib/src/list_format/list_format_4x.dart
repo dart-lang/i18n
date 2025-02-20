@@ -11,13 +11,15 @@ import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
 ListFormatImpl getListFormatter4X(
-        Locale locale, Data data, ListFormatOptions options) =>
-    ListFormat4X(locale, data, options);
+  Locale locale,
+  Data data,
+  ListFormatOptions options,
+) => ListFormat4X(locale, data, options);
 
 class ListFormat4X extends ListFormatImpl {
   final icu.ListFormatter _formatter;
   ListFormat4X(super.locale, Data data, super.options)
-      : _formatter = _getFormatter(locale, data, options);
+    : _formatter = _getFormatter(locale, data, options);
 
   @override
   String formatImpl(List<String> list) {
@@ -34,18 +36,14 @@ class ListFormat4X extends ListFormatImpl {
       Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
-    return constructor(
-      data.to4X(),
-      locale.to4X(),
-      options.style.to4X(),
-    );
+    return constructor(data.to4X(), locale.to4X(), options.style.to4X());
   }
 }
 
 extension on ListStyle {
   icu.ListLength to4X() => switch (this) {
-        ListStyle.narrow => icu.ListLength.narrow,
-        ListStyle.short => icu.ListLength.short,
-        ListStyle.long => icu.ListLength.wide,
-      };
+    ListStyle.narrow => icu.ListLength.narrow,
+    ListStyle.short => icu.ListLength.short,
+    ListStyle.long => icu.ListLength.wide,
+  };
 }

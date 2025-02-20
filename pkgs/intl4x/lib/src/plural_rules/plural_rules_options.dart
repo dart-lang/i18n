@@ -51,5 +51,5 @@ enum Type {
 
   /// For ordinal numbers (referring to the ordering or ranking of things):
   /// "1st", "2nd", "3rd", etc.
-  ordinal;
+  ordinal,
 }

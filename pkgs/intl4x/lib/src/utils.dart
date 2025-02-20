@@ -14,7 +14,7 @@ T buildFormatter<T, Options>(
   LocaleMatcher localeMatcher,
   EcmaPolicy ecmaPolicy,
   T? Function(Locale locales, Options options, LocaleMatcher localeMatcher)
-      builderECMA,
+  builderECMA,
   T Function(Locale locales, Data data, Options options) builder4X,
 ) {
   if (ecmaPolicy.useBrowser(locale)) {

@@ -24,8 +24,10 @@ final class LineBreakIteratorUtf16 implements ffi.Finalizable {
     }
   }
 
+  @_DiplomatFfiUse('ICU4XLineBreakIteratorUtf16_destroy')
   static final _finalizer = ffi.NativeFinalizer(
-      ffi.Native.addressOf(_ICU4XLineBreakIteratorUtf16_destroy));
+    ffi.Native.addressOf(_ICU4XLineBreakIteratorUtf16_destroy),
+  );
 
   /// Finds the next breakpoint. Returns -1 if at the end of the string or if the index is
   /// out of range of a 32-bit signed integer.
@@ -37,14 +39,18 @@ final class LineBreakIteratorUtf16 implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XLineBreakIteratorUtf16_destroy')
+@_DiplomatFfiUse('ICU4XLineBreakIteratorUtf16_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XLineBreakIteratorUtf16_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XLineBreakIteratorUtf16_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XLineBreakIteratorUtf16_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XLineBreakIteratorUtf16_next')
+@_DiplomatFfiUse('ICU4XLineBreakIteratorUtf16_next')
 @ffi.Native<ffi.Int32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XLineBreakIteratorUtf16_next')
+  isLeaf: true,
+  symbol: 'ICU4XLineBreakIteratorUtf16_next',
+)
 // ignore: non_constant_identifier_names
 external int _ICU4XLineBreakIteratorUtf16_next(ffi.Pointer<ffi.Opaque> self);

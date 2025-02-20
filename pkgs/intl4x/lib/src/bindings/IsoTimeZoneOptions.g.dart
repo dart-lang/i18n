@@ -16,8 +16,11 @@ final class IsoTimeZoneOptions {
   IsoTimeZoneMinuteDisplay minutes;
   IsoTimeZoneSecondDisplay seconds;
 
-  IsoTimeZoneOptions(
-      {required this.format, required this.minutes, required this.seconds});
+  IsoTimeZoneOptions({
+    required this.format,
+    required this.minutes,
+    required this.seconds,
+  });
 
   // This struct contains borrowed fields, so this takes in a list of
   // "edges" corresponding to where each lifetime's data may have been borrowed from
@@ -26,9 +29,9 @@ final class IsoTimeZoneOptions {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   IsoTimeZoneOptions._fromFfi(_IsoTimeZoneOptionsFfi ffi)
-      : format = IsoTimeZoneFormat.values[ffi.format],
-        minutes = IsoTimeZoneMinuteDisplay.values[ffi.minutes],
-        seconds = IsoTimeZoneSecondDisplay.values[ffi.seconds];
+    : format = IsoTimeZoneFormat.values[ffi.format],
+      minutes = IsoTimeZoneMinuteDisplay.values[ffi.minutes],
+      seconds = IsoTimeZoneSecondDisplay.values[ffi.seconds];
 
   // ignore: unused_element
   _IsoTimeZoneOptionsFfi _toFfi(ffi.Allocator temp) {
@@ -47,9 +50,5 @@ final class IsoTimeZoneOptions {
       other.seconds == seconds;
 
   @override
-  int get hashCode => Object.hashAll([
-        format,
-        minutes,
-        seconds,
-      ]);
+  int get hashCode => Object.hashAll([format, minutes, seconds]);
 }

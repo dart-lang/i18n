@@ -14,28 +14,32 @@ void main() {
   group('grouping', () {
     testWithFormatting('always', () {
       final numberFormatOptions = intl.numberFormat(
-          NumberFormatOptions.custom(useGrouping: Grouping.always));
+        NumberFormatOptions.custom(useGrouping: Grouping.always),
+      );
       expect(numberFormatOptions.format(1000), '1,000');
       expect(numberFormatOptions.format(10000), '10,000');
     });
 
     testWithFormatting('never', () {
       final numberFormatOptions = intl.numberFormat(
-          NumberFormatOptions.custom(useGrouping: Grouping.never));
+        NumberFormatOptions.custom(useGrouping: Grouping.never),
+      );
       expect(numberFormatOptions.format(1000), '1000');
       expect(numberFormatOptions.format(10000), '10000');
     });
 
     testWithFormatting('auto', () {
-      final numberFormatOptions = intl
-          .numberFormat(NumberFormatOptions.custom(useGrouping: Grouping.auto));
+      final numberFormatOptions = intl.numberFormat(
+        NumberFormatOptions.custom(useGrouping: Grouping.auto),
+      );
       expect(numberFormatOptions.format(1000), '1,000');
       expect(numberFormatOptions.format(10000), '10,000');
     });
 
     testWithFormatting('min2', () {
-      final numberFormatOptions = intl
-          .numberFormat(NumberFormatOptions.custom(useGrouping: Grouping.min2));
+      final numberFormatOptions = intl.numberFormat(
+        NumberFormatOptions.custom(useGrouping: Grouping.min2),
+      );
       expect(numberFormatOptions.format(1000), '1000');
       expect(numberFormatOptions.format(10000), '10,000');
     });
@@ -44,28 +48,34 @@ void main() {
   group('digits', () {
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
-            minimumIntegerDigits: 5,
-            useGrouping: Grouping.never,
-          ))
+          .numberFormat(
+            NumberFormatOptions.custom(
+              minimumIntegerDigits: 5,
+              useGrouping: Grouping.never,
+            ),
+          )
           .format(number);
       expect(formatter(540), '00540');
     });
 
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
-            digits: const Digits.withSignificantDigits(maximum: 1),
-            useGrouping: Grouping.never,
-          ))
+          .numberFormat(
+            NumberFormatOptions.custom(
+              digits: const Digits.withSignificantDigits(maximum: 1),
+              useGrouping: Grouping.never,
+            ),
+          )
           .format(number);
       expect(formatter(540), '500');
     });
 
     testWithFormatting('significantDigits', () {
-      final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
-        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
-      ));
+      final numberFormatOptions = intl.numberFormat(
+        NumberFormatOptions.custom(
+          digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
+        ),
+      );
 
       expect(numberFormatOptions.format(3), '3');
       expect(numberFormatOptions.format(3.1), '3.1');
@@ -75,35 +85,36 @@ void main() {
 
     testWithFormatting('fractionDigits min', () {
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
-            minimumIntegerDigits: 3,
-            digits: const Digits.withFractionDigits(minimum: 4),
-          ))
+          .numberFormat(
+            NumberFormatOptions.custom(
+              minimumIntegerDigits: 3,
+              digits: const Digits.withFractionDigits(minimum: 4),
+            ),
+          )
           .format(number);
       expect(formatter(4.33), '004.3300');
     });
 
     testWithFormatting('fractionDigits max', () {
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
-            minimumIntegerDigits: 3,
-            digits: const Digits.withFractionDigits(
-              maximum: 1,
+          .numberFormat(
+            NumberFormatOptions.custom(
+              minimumIntegerDigits: 3,
+              digits: const Digits.withFractionDigits(maximum: 1),
             ),
-          ))
+          )
           .format(number);
       expect(formatter(4.33), '004.3');
     });
 
     testWithFormatting('fractionDigits min < max', () {
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
-            minimumIntegerDigits: 3,
-            digits: const Digits.withFractionDigits(
-              minimum: 4,
-              maximum: 6,
+          .numberFormat(
+            NumberFormatOptions.custom(
+              minimumIntegerDigits: 3,
+              digits: const Digits.withFractionDigits(minimum: 4, maximum: 6),
             ),
-          ))
+          )
           .format(number);
       expect(formatter(4.33), '004.3300');
     });
@@ -111,23 +122,25 @@ void main() {
 
   testWithFormatting('RoundingMode', () {
     for (final roundingMode in RoundingMode.values) {
-      final expectation = switch (roundingMode) {
-        RoundingMode.ceil => [2.3, 2.3, 2.3, -2.2, -2.2, -2.2],
-        RoundingMode.floor => [2.2, 2.2, 2.2, -2.3, -2.3, -2.3],
-        RoundingMode.expand => [2.3, 2.3, 2.3, -2.3, -2.3, -2.3],
-        RoundingMode.trunc => [2.2, 2.2, 2.2, -2.2, -2.2, -2.2],
-        RoundingMode.halfCeil => [2.2, 2.3, 2.3, -2.2, -2.2, -2.3],
-        RoundingMode.halfFloor => [2.2, 2.2, 2.3, -2.2, -2.3, -2.3],
-        RoundingMode.halfExpand => [2.2, 2.3, 2.3, -2.2, -2.3, -2.3],
-        RoundingMode.halfTrunc => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
-        RoundingMode.halfEven => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
-      }
-          .map((e) => e.toString())
-          .toList();
+      final expectation =
+          switch (roundingMode) {
+            RoundingMode.ceil => [2.3, 2.3, 2.3, -2.2, -2.2, -2.2],
+            RoundingMode.floor => [2.2, 2.2, 2.2, -2.3, -2.3, -2.3],
+            RoundingMode.expand => [2.3, 2.3, 2.3, -2.3, -2.3, -2.3],
+            RoundingMode.trunc => [2.2, 2.2, 2.2, -2.2, -2.2, -2.2],
+            RoundingMode.halfCeil => [2.2, 2.3, 2.3, -2.2, -2.2, -2.3],
+            RoundingMode.halfFloor => [2.2, 2.2, 2.3, -2.2, -2.3, -2.3],
+            RoundingMode.halfExpand => [2.2, 2.3, 2.3, -2.2, -2.3, -2.3],
+            RoundingMode.halfTrunc => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
+            RoundingMode.halfEven => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
+          }.map((e) => e.toString()).toList();
       String formatter(Object number) => intl
-          .numberFormat(NumberFormatOptions.custom(
+          .numberFormat(
+            NumberFormatOptions.custom(
               roundingMode: roundingMode,
-              digits: const Digits.withSignificantDigits(maximum: 2)))
+              digits: const Digits.withSignificantDigits(maximum: 2),
+            ),
+          )
           .format(number);
       final inputs = [2.23, 2.25, 2.28, -2.23, -2.25, -2.28];
       for (final pairs in IterableZip([inputs, expectation])) {
@@ -147,26 +160,30 @@ void main() {
         .format(number);
     testWithFormatting('lessPrecision', () {
       expect(
-          formatter(
-              1.23456,
-              const Digits.withSignificantAndFractionDigits(
-                roundingPriority: RoundingPriority.lessPrecision,
-                maximumSignificantDigits: 3,
-                maximumFractionDigits: 3,
-              )),
-          '1.23');
+        formatter(
+          1.23456,
+          const Digits.withSignificantAndFractionDigits(
+            roundingPriority: RoundingPriority.lessPrecision,
+            maximumSignificantDigits: 3,
+            maximumFractionDigits: 3,
+          ),
+        ),
+        '1.23',
+      );
     });
 
     testWithFormatting('morePrecision', () {
       expect(
-          formatter(
-              1.23456,
-              const Digits.withSignificantAndFractionDigits(
-                roundingPriority: RoundingPriority.morePrecision,
-                maximumSignificantDigits: 3,
-                maximumFractionDigits: 3,
-              )),
-          '1.235');
+        formatter(
+          1.23456,
+          const Digits.withSignificantAndFractionDigits(
+            roundingPriority: RoundingPriority.morePrecision,
+            maximumSignificantDigits: 3,
+            maximumFractionDigits: 3,
+          ),
+        ),
+        '1.235',
+      );
     });
   });
 }

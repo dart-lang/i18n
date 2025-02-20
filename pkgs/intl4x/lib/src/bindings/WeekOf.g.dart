@@ -21,8 +21,8 @@ final class WeekOf {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   WeekOf._fromFfi(_WeekOfFfi ffi)
-      : week = ffi.week,
-        unit = WeekRelativeUnit.values[ffi.unit];
+    : week = ffi.week,
+      unit = WeekRelativeUnit.values[ffi.unit];
 
   // ignore: unused_element
   _WeekOfFfi _toFfi(ffi.Allocator temp) {
@@ -37,8 +37,5 @@ final class WeekOf {
       other is WeekOf && other.week == week && other.unit == unit;
 
   @override
-  int get hashCode => Object.hashAll([
-        week,
-        unit,
-      ]);
+  int get hashCode => Object.hashAll([week, unit]);
 }

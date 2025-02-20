@@ -3,10 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `Numeric`](https://docs.rs/icu/latest/icu/collator/enum.Numeric.html) for more information.
-enum CollatorNumeric {
-  auto,
-
-  off,
-
-  on;
-}
+enum CollatorNumeric { auto, off, on }

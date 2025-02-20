@@ -119,12 +119,7 @@ class ClockStyle {
   const ClockStyle({required this.is12Hour, this.startAtZero});
 }
 
-enum TimeFormatStyle {
-  full,
-  long,
-  medium,
-  short,
-}
+enum TimeFormatStyle { full, long, medium, short }
 
 enum NumberingSystem {
   arab,
@@ -148,15 +143,10 @@ enum NumberingSystem {
   tamldec,
   telu,
   thai,
-  tibt;
+  tibt,
 }
 
-enum HourCycle {
-  h11,
-  h12,
-  h23,
-  h24;
-}
+enum HourCycle { h11, h12, h23, h24 }
 
 enum FormatMatcher {
   basic,
@@ -211,5 +201,5 @@ enum TimeZoneName {
   shortGeneric,
 
   /// Example: `Pacific Time`
-  longGeneric;
+  longGeneric,
 }

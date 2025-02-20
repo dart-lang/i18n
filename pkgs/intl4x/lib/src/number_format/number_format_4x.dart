@@ -13,17 +13,19 @@ import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
 NumberFormatImpl getNumberFormatter4X(
-        Locale locale, Data data, NumberFormatOptions options) =>
-    NumberFormat4X(locale, data, options);
+  Locale locale,
+  Data data,
+  NumberFormatOptions options,
+) => NumberFormat4X(locale, data, options);
 
 class NumberFormat4X extends NumberFormatImpl {
   final icu.FixedDecimalFormatter _formatter;
   NumberFormat4X(super.locale, Data data, super.options)
-      : _formatter = icu.FixedDecimalFormatter.withGroupingStrategy(
-          data.to4X(),
-          locale.to4X(),
-          options.groupingStrategy4X(),
-        );
+    : _formatter = icu.FixedDecimalFormatter.withGroupingStrategy(
+        data.to4X(),
+        locale.to4X(),
+        options.groupingStrategy4X(),
+      );
 
   @override
   String formatImpl(Object number) {
@@ -52,8 +54,10 @@ class NumberFormat4X extends NumberFormatImpl {
 
     final overhead = fixedDecimal.length - (maxSignificantDigits ?? 0);
     final maxSignificantPosition = fixedDecimal.magnitudeStart + overhead;
-    final maxFractionPosition =
-        max(fixedDecimal.magnitudeStart, -(maxFractionDigits ?? 0));
+    final maxFractionPosition = max(
+      fixedDecimal.magnitudeStart,
+      -(maxFractionDigits ?? 0),
+    );
 
     final roundingPriority = options.digits?.roundingPriority;
     final bool? useSignificant;
@@ -97,7 +101,9 @@ class NumberFormat4X extends NumberFormatImpl {
   }
 
   void _roundDecimal(
-      icu.FixedDecimal fixedDecimal, int maxSignificantPosition) {
+    icu.FixedDecimal fixedDecimal,
+    int maxSignificantPosition,
+  ) {
     final roundingFunction = switch (options.roundingMode) {
       RoundingMode.ceil => fixedDecimal.ceil,
       RoundingMode.floor => fixedDecimal.floor,

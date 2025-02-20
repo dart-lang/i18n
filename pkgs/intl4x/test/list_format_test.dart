@@ -13,18 +13,21 @@ void main() {
     final list = ['A', 'B', 'C'];
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(style: ListStyle.long));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(style: ListStyle.long),
+      );
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(style: ListStyle.short));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(style: ListStyle.short),
+      );
       expect(listFormat.format(list), 'A, B, & C');
     });
     testWithFormatting('narrow', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(style: ListStyle.narrow));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(style: ListStyle.narrow),
+      );
       expect(listFormat.format(list), 'A, B, C');
     });
   });
@@ -33,18 +36,21 @@ void main() {
     final list = ['A', 'B', 'C'];
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(type: Type.and));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(type: Type.and),
+      );
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(type: Type.or));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(type: Type.or),
+      );
       expect(listFormat.format(list), 'A, B, or C');
     });
     testWithFormatting('narrow', () {
-      final listFormat =
-          intl.listFormat(const ListFormatOptions(type: Type.unit));
+      final listFormat = intl.listFormat(
+        const ListFormatOptions(type: Type.unit),
+      );
       expect(listFormat.format(list), 'A, B, C');
     });
   });
@@ -54,12 +60,14 @@ void main() {
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
     testWithFormatting('long', () {
       final formatter = intl.listFormat(
-          const ListFormatOptions(style: ListStyle.narrow, type: Type.and));
+        const ListFormatOptions(style: ListStyle.narrow, type: Type.and),
+      );
       expect(formatter.format(list), 'A, B, C');
     });
     testWithFormatting('short', () {
       final formatter = intl.listFormat(
-          const ListFormatOptions(style: ListStyle.short, type: Type.unit));
+        const ListFormatOptions(style: ListStyle.short, type: Type.unit),
+      );
       expect(formatter.format(list), 'A, B, C');
     });
   });

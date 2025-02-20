@@ -25,8 +25,10 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XTimeZoneIdMapper_destroy));
+  @_DiplomatFfiUse('ICU4XTimeZoneIdMapper_destroy')
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XTimeZoneIdMapper_destroy),
+  );
 
   /// See the [Rust documentation for `new`](https://docs.rs/icu/latest/icu/timezone/struct.TimeZoneIdMapper.html#method.new) for more information.
   ///
@@ -47,7 +49,11 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     final valueView = value.utf8View;
     final writeable = _Writeable();
     final result = _ICU4XTimeZoneIdMapper_iana_to_bcp47(
-        _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+      _ffi,
+      valueView.allocIn(temp),
+      valueView.length,
+      writeable._ffi,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -63,7 +69,11 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     final valueView = value.utf8View;
     final writeable = _Writeable();
     final result = _ICU4XTimeZoneIdMapper_normalize_iana(
-        _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+      _ffi,
+      valueView.allocIn(temp),
+      valueView.length,
+      writeable._ffi,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -79,7 +89,11 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     final valueView = value.utf8View;
     final writeable = _Writeable();
     final result = _ICU4XTimeZoneIdMapper_canonicalize_iana(
-        _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+      _ffi,
+      valueView.allocIn(temp),
+      valueView.length,
+      writeable._ffi,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -95,7 +109,11 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
     final valueView = value.utf8View;
     final writeable = _Writeable();
     final result = _ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47(
-        _ffi, valueView.allocIn(temp), valueView.length, writeable._ffi);
+      _ffi,
+      valueView.allocIn(temp),
+      valueView.length,
+      writeable._ffi,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -104,64 +122,88 @@ final class TimeZoneIdMapper implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_destroy')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XTimeZoneIdMapper_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XTimeZoneIdMapper_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_create')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_create')
+  isLeaf: true,
+  symbol: 'ICU4XTimeZoneIdMapper_create',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XTimeZoneIdMapper_create(
-    ffi.Pointer<ffi.Opaque> provider);
+  ffi.Pointer<ffi.Opaque> provider,
+);
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_iana_to_bcp47')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_iana_to_bcp47')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_iana_to_bcp47')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_iana_to_bcp47')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_iana_to_bcp47(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> valueData,
-    int valueLength,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_normalize_iana')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_normalize_iana')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_normalize_iana')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_normalize_iana')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_normalize_iana(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> valueData,
-    int valueLength,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_canonicalize_iana')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_canonicalize_iana')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_canonicalize_iana')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_canonicalize_iana')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_canonicalize_iana(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> valueData,
-    int valueLength,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
 
-@meta.ResourceIdentifier('ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
+@_DiplomatFfiUse('ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
 @ffi.Native<
-        _ResultVoidInt32 Function(ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>, ffi.Size, ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true,
-    symbol: 'ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XTimeZoneIdMapper_find_canonical_iana_from_bcp47(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> valueData,
-    int valueLength,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> valueData,
+  int valueLength,
+  ffi.Pointer<ffi.Opaque> writeable,
+);

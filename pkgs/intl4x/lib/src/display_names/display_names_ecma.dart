@@ -13,8 +13,7 @@ DisplayNamesImpl? getDisplayNamesECMA(
   Locale locale,
   DisplayNamesOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    _DisplayNamesECMA.tryToBuild(locale, options, localeMatcher);
+) => _DisplayNamesECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.DisplayNames')
 extension type DisplayNames._(JSObject _) implements JSObject {
@@ -22,8 +21,9 @@ extension type DisplayNames._(JSObject _) implements JSObject {
   external String of(String object);
 
   external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
+    JSArray<JSString> locales, [
+    JSAny options,
+  ]);
 }
 
 class _DisplayNamesECMA extends DisplayNamesImpl {
@@ -46,11 +46,9 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
   ) {
     final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
     return DisplayNames.supportedLocalesOf(
-            [locale.toLanguageTag().toJS].toJS, o)
-        .toDart
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   String of(DisplayNamesOptions options, DisplayType type, String jsName) =>
@@ -85,7 +83,8 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
 }
 
 extension on DisplayNamesOptions {
-  JSAny toJsOptions(DisplayType type) => {
+  JSAny toJsOptions(DisplayType type) =>
+      {
         'localeMatcher': localeMatcher.jsName,
         'style': style.name,
         'type': type.name,

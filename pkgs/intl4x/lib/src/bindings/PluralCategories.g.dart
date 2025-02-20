@@ -32,12 +32,12 @@ final class PluralCategories {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   PluralCategories._fromFfi(_PluralCategoriesFfi ffi)
-      : zero = ffi.zero,
-        one = ffi.one,
-        two = ffi.two,
-        few = ffi.few,
-        many = ffi.many,
-        other = ffi.other;
+    : zero = ffi.zero,
+      one = ffi.one,
+      two = ffi.two,
+      few = ffi.few,
+      many = ffi.many,
+      other = ffi.other;
 
   // ignore: unused_element
   _PluralCategoriesFfi _toFfi(ffi.Allocator temp) {
@@ -62,12 +62,5 @@ final class PluralCategories {
       other.other == this.other;
 
   @override
-  int get hashCode => Object.hashAll([
-        zero,
-        one,
-        two,
-        few,
-        many,
-        other,
-      ]);
+  int get hashCode => Object.hashAll([zero, one, two, few, many, other]);
 }

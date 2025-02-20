@@ -3,12 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `Time`](https://docs.rs/icu/latest/icu/datetime/options/length/enum.Time.html) for more information.
-enum TimeLength {
-  full,
-
-  long,
-
-  medium,
-
-  short;
-}
+enum TimeLength { full, long, medium, short }

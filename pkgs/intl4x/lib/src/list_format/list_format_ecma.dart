@@ -13,8 +13,7 @@ ListFormatImpl? getListFormatterECMA(
   Locale locale,
   ListFormatOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    _ListFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _ListFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.ListFormat')
 extension type ListFormat._(JSObject _) implements JSObject {
@@ -22,8 +21,9 @@ extension type ListFormat._(JSObject _) implements JSObject {
   external String format(JSArray<JSString> list);
 
   external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
+    JSArray<JSString> locales, [
+    JSAny options,
+  ]);
 }
 
 class _ListFormatECMA extends ListFormatImpl {
@@ -44,25 +44,25 @@ class _ListFormatECMA extends ListFormatImpl {
     Locale locale,
     LocaleMatcher localeMatcher,
   ) {
-    final o = {
-      'localeMatcher': localeMatcher.jsName,
-    }.jsify()!;
-    return ListFormat.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
-        .toDart
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+    return ListFormat.supportedLocalesOf(
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   @override
   String formatImpl(List<String> list) {
-    return ListFormat([locale.toLanguageTag().toJS].toJS, options.toJsOptions())
-        .format(list.map((e) => e.toJS).toList().toJS);
+    return ListFormat(
+      [locale.toLanguageTag().toJS].toJS,
+      options.toJsOptions(),
+    ).format(list.map((e) => e.toJS).toList().toJS);
   }
 }
 
 extension on ListFormatOptions {
-  JSAny toJsOptions() => {
+  JSAny toJsOptions() =>
+      {
         'localeMatcher': localeMatcher.jsName,
         'type': type.jsName,
         'style': style.name,

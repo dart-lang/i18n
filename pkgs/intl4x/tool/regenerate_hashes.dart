@@ -1,12 +1,16 @@
+// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:intl4x/src/hook_helpers/version.dart';
-import 'package:native_assets_cli/native_assets_cli.dart';
-
-final httpClient = HttpClient();
+import 'package:native_assets_cli/code_assets.dart' show Architecture;
 
 Future<void> main(List<String> args) async {
+  final httpClient = HttpClient();
+
   print('Checking hashes for $version');
   final fileHashes = <(String, Architecture, String), String>{};
   final dynamicLibrary = File.fromUri(Directory.systemTemp.uri.resolve('lib'));
@@ -43,20 +47,19 @@ Future<void> main(List<String> args) async {
 import 'package:native_assets_cli/native_assets_cli.dart';
 
 const fileHashes = <(OS, Architecture, String), String>{
-${fileHashes.map((key, value) => MapEntry(
-                ('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"),
-                "'$value'",
-              )).entries.map(
-            (e) => '  ${e.key}:\n      ${e.value}',
-          ).join(',\n')}
+${fileHashes.map((key, value) => MapEntry(('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"), "'$value'")).entries.map((e) => '  ${e.key}:\n      ${e.value}').join(',\n')}
 };
 ''');
 }
 
 Future<bool> _fetchLibrary(
-    String target, HttpClient httpClient, File dynamicLibrary) async {
+  String target,
+  HttpClient httpClient,
+  File dynamicLibrary,
+) async {
   final uri = Uri.parse(
-      'https://github.com/dart-lang/i18n/releases/download/$version/$target');
+    'https://github.com/dart-lang/i18n/releases/download/$version/$target',
+  );
   print('Fetch file from $uri');
   final request = await httpClient.getUrl(uri);
   final response = await request.close();

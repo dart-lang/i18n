@@ -3,12 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `IsoFormat`](https://docs.rs/icu/latest/icu/datetime/time_zone/enum.IsoFormat.html) for more information.
-enum IsoTimeZoneFormat {
-  basic,
-
-  extended,
-
-  utcBasic,
-
-  utcExtended;
-}
+enum IsoTimeZoneFormat { basic, extended, utcBasic, utcExtended }

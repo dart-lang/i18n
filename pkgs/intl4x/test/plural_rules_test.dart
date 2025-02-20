@@ -9,9 +9,9 @@ import 'utils.dart';
 
 void main() {
   testWithFormatting('en-US simple', () {
-    final numberFormatOptions =
-        Intl(locale: const Locale(language: 'en', region: 'US'))
-            .plural(PluralRulesOptions());
+    final numberFormatOptions = Intl(
+      locale: const Locale(language: 'en', region: 'US'),
+    ).plural(PluralRulesOptions());
 
     expect(numberFormatOptions.select(0), PluralCategory.other);
     expect(numberFormatOptions.select(1), PluralCategory.one);
@@ -20,9 +20,9 @@ void main() {
   });
 
   testWithFormatting('ar-EG simple', () {
-    final numberFormatOptions =
-        Intl(locale: const Locale(language: 'ar', region: 'EG'))
-            .plural(PluralRulesOptions());
+    final numberFormatOptions = Intl(
+      locale: const Locale(language: 'ar', region: 'EG'),
+    ).plural(PluralRulesOptions());
 
     expect(numberFormatOptions.select(0), PluralCategory.zero);
     expect(numberFormatOptions.select(1), PluralCategory.one);
@@ -32,9 +32,9 @@ void main() {
   });
 
   testWithFormatting('en-US ordinal', () {
-    final numberFormatOptions =
-        Intl(locale: const Locale(language: 'en', region: 'US'))
-            .plural(PluralRulesOptions(type: Type.ordinal));
+    final numberFormatOptions = Intl(
+      locale: const Locale(language: 'en', region: 'US'),
+    ).plural(PluralRulesOptions(type: Type.ordinal));
 
     expect(numberFormatOptions.select(0), PluralCategory.other);
     expect(numberFormatOptions.select(1), PluralCategory.one);

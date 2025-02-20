@@ -21,10 +21,6 @@ jobs:
   build_checkout:
     runs-on:  ${{ matrix.os }}
 
-    env:
-      ICU4X_BUILD_MODE: checkout
-      LOCAL_ICU4X_CHECKOUT:  ${{ github.workspace }}/submodules/icu4x
-    
     defaults:
       run:
         working-directory: pkgs/intl4x
@@ -44,7 +40,16 @@ jobs:
         with:
           sdk: ${{matrix.sdk}}
 
-      - run: dart --enable-experiment=native-assets pub get
+      - run: dart pub get
+
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+        if: matrix.os == 'ubuntu-latest'
+
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+        if: matrix.os == 'macos-latest'
+      
+      - run: dart tool/write_option_file.dart pubspec.yaml checkout (Get-Item  ${{ github.workspace }}\submodules\icu4x).FullName -replace '/', '\'
+        if: matrix.os == 'windows-latest'
 
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
@@ -60,9 +65,6 @@ jobs:
   build_fetch:
     runs-on:  ${{ matrix.os }}
 
-    env:
-      ICU4X_BUILD_MODE: fetch
-    
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -80,7 +82,9 @@ jobs:
         with:
           sdk: dev
 
-      - run: dart --enable-experiment=native-assets pub get
+      - run: dart pub get
+
+      - run: dart tool/write_option_file.dart pubspec.yaml fetch
 
       - run: dart --enable-experiment=native-assets test
 
@@ -90,9 +94,6 @@ jobs:
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
     runs-on: ${{ matrix.os }}
-
-    env:
-      ICU4X_BUILD_MODE: local
 
     steps:
     - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
@@ -120,7 +121,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/linux_x64 linux_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart ffi/dart/tool/build_libs.dart --file bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -132,7 +133,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/macos_arm64 macos_arm64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart ffi/dart/tool/build_libs.dart --file bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -144,26 +145,26 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart bin/windows_x64 windows_x64 dynamic icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart ffi/dart/tool/build_libs.dart --file bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/linux_x64)" >> $GITHUB_ENV
+    - name: Run `dart pub get`
+      run: |
+        cd pkgs/intl4x
+        dart pub get
+
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local $(realpath submodules/icu4x/bin/linux_x64)
       if: matrix.os == 'ubuntu-latest'
 
-    - run: echo "LOCAL_ICU4X_BINARY=$(realpath submodules/icu4x/bin/macos_arm64)" >> $GITHUB_ENV
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local $(realpath submodules/icu4x/bin/macos_arm64)
       if: matrix.os == 'macos-latest'
     
-    - run: echo ("LOCAL_ICU4X_BINARY=" + (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\') >> $env:GITHUB_ENV
+    - run: dart pkgs/intl4x/tool/write_option_file.dart pkgs/intl4x/pubspec.yaml local (Get-Item submodules\icu4x\bin\windows_x64).FullName -replace '/', '\'
       if: matrix.os == 'windows-latest'
 
     - run: echo $LOCAL_ICU4X_BINARY
           
     - name: Display structure of downloaded files
       run: ls -R
-
-    - name: Run `dart pub get`
-      run: |
-        cd pkgs/intl4x
-        dart pub get
 
     - name: Run `dart test`
       run: |

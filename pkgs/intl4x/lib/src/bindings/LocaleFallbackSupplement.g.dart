@@ -5,8 +5,4 @@ part of 'lib.g.dart';
 /// What additional data is required to load when performing fallback.
 ///
 /// See the [Rust documentation for `LocaleFallbackSupplement`](https://docs.rs/icu/latest/icu/locid_transform/fallback/enum.LocaleFallbackSupplement.html) for more information.
-enum LocaleFallbackSupplement {
-  none,
-
-  collation;
-}
+enum LocaleFallbackSupplement { none, collation }

@@ -20,8 +20,10 @@ final class TitlecaseMapper implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer =
-      ffi.NativeFinalizer(ffi.Native.addressOf(_ICU4XTitlecaseMapper_destroy));
+  @_DiplomatFfiUse('ICU4XTitlecaseMapper_destroy')
+  static final _finalizer = ffi.NativeFinalizer(
+    ffi.Native.addressOf(_ICU4XTitlecaseMapper_destroy),
+  );
 
   /// Construct a new `TitlecaseMapper` instance
   ///
@@ -48,12 +50,13 @@ final class TitlecaseMapper implements ffi.Finalizable {
     final sView = s.utf8View;
     final writeable = _Writeable();
     final result = _ICU4XTitlecaseMapper_titlecase_segment_v1(
-        _ffi,
-        sView.allocIn(temp),
-        sView.length,
-        locale._ffi,
-        options._toFfi(temp),
-        writeable._ffi);
+      _ffi,
+      sView.allocIn(temp),
+      sView.length,
+      locale._ffi,
+      options._toFfi(temp),
+      writeable._ffi,
+    );
     temp.releaseAll();
     if (!result.isOk) {
       throw Error.values.firstWhere((v) => v._ffi == result.union.err);
@@ -62,34 +65,41 @@ final class TitlecaseMapper implements ffi.Finalizable {
   }
 }
 
-@meta.ResourceIdentifier('ICU4XTitlecaseMapper_destroy')
+@_DiplomatFfiUse('ICU4XTitlecaseMapper_destroy')
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
-    isLeaf: true, symbol: 'ICU4XTitlecaseMapper_destroy')
+  isLeaf: true,
+  symbol: 'ICU4XTitlecaseMapper_destroy',
+)
 // ignore: non_constant_identifier_names
 external void _ICU4XTitlecaseMapper_destroy(ffi.Pointer<ffi.Void> self);
 
-@meta.ResourceIdentifier('ICU4XTitlecaseMapper_create')
+@_DiplomatFfiUse('ICU4XTitlecaseMapper_create')
 @ffi.Native<_ResultOpaqueInt32 Function(ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTitlecaseMapper_create')
+  isLeaf: true,
+  symbol: 'ICU4XTitlecaseMapper_create',
+)
 // ignore: non_constant_identifier_names
 external _ResultOpaqueInt32 _ICU4XTitlecaseMapper_create(
-    ffi.Pointer<ffi.Opaque> provider);
+  ffi.Pointer<ffi.Opaque> provider,
+);
 
-@meta.ResourceIdentifier('ICU4XTitlecaseMapper_titlecase_segment_v1')
+@_DiplomatFfiUse('ICU4XTitlecaseMapper_titlecase_segment_v1')
 @ffi.Native<
-        _ResultVoidInt32 Function(
-            ffi.Pointer<ffi.Opaque>,
-            ffi.Pointer<ffi.Uint8>,
-            ffi.Size,
-            ffi.Pointer<ffi.Opaque>,
-            _TitlecaseOptionsFfi,
-            ffi.Pointer<ffi.Opaque>)>(
-    isLeaf: true, symbol: 'ICU4XTitlecaseMapper_titlecase_segment_v1')
+  _ResultVoidInt32 Function(
+    ffi.Pointer<ffi.Opaque>,
+    ffi.Pointer<ffi.Uint8>,
+    ffi.Size,
+    ffi.Pointer<ffi.Opaque>,
+    _TitlecaseOptionsFfi,
+    ffi.Pointer<ffi.Opaque>,
+  )
+>(isLeaf: true, symbol: 'ICU4XTitlecaseMapper_titlecase_segment_v1')
 // ignore: non_constant_identifier_names
 external _ResultVoidInt32 _ICU4XTitlecaseMapper_titlecase_segment_v1(
-    ffi.Pointer<ffi.Opaque> self,
-    ffi.Pointer<ffi.Uint8> sData,
-    int sLength,
-    ffi.Pointer<ffi.Opaque> locale,
-    _TitlecaseOptionsFfi options,
-    ffi.Pointer<ffi.Opaque> writeable);
+  ffi.Pointer<ffi.Opaque> self,
+  ffi.Pointer<ffi.Uint8> sData,
+  int sLength,
+  ffi.Pointer<ffi.Opaque> locale,
+  _TitlecaseOptionsFfi options,
+  ffi.Pointer<ffi.Opaque> writeable,
+);
