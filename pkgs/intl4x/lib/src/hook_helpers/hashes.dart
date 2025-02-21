@@ -73,5 +73,5 @@ const fileHashes = <(OS, Architecture, String), String>{
   (OS.iOS, Architecture.x64, 'dynamic'):
       '4b23970d8c08401152705b52b7e830bf79434c7a5ee180b5413820e9df961218',
   (OS.iOS, Architecture.x64, 'static'):
-      '6e4e4072126b3017c6a532575a165d1a80b2bccb59a24108682483935c98ff19',
+      '6e4e4072126b3017c6a532575a165d1a80b2bccb59a24108682483935c98ff19'
 };

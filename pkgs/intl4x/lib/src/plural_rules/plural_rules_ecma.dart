@@ -14,7 +14,8 @@ PluralRulesImpl? getPluralSelectECMA(
   Locale locale,
   PluralRulesOptions options,
   LocaleMatcher localeMatcher,
-) => _PluralRulesECMA.tryToBuild(locale, options, localeMatcher);
+) =>
+    _PluralRulesECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.PluralRules')
 extension type PluralRules._(JSObject _) implements JSObject {
@@ -42,25 +43,22 @@ class _PluralRulesECMA extends PluralRulesImpl {
   }
 
   static List<Locale> supportedLocalesOf(
-    Locale locale,
-    LocaleMatcher localeMatcher,
-  ) {
+      Locale locale, LocaleMatcher localeMatcher) {
     final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
-    return PluralRules.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-      o,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
+    return PluralRules.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
+        .toDart
+        .whereType<String>()
+        .map(Locale.parse)
+        .toList();
   }
 
   @override
   PluralCategory selectImpl(num number) {
-    final categoryString = PluralRules(
-      [locale.toLanguageTag().toJS].toJS,
-      options.toJsOptions(),
-    ).select(number.toJS);
-    return PluralCategory.values.firstWhere(
-      (category) => category.name == categoryString,
-    );
+    final categoryString =
+        PluralRules([locale.toLanguageTag().toJS].toJS, options.toJsOptions())
+            .select(number.toJS);
+    return PluralCategory.values
+        .firstWhere((category) => category.name == categoryString);
   }
 }
 

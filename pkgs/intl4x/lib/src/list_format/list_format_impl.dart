@@ -26,13 +26,14 @@ abstract class ListFormatImpl {
     ListFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) => buildFormatter(
-    locales,
-    data,
-    options,
-    localeMatcher,
-    ecmaPolicy,
-    getListFormatterECMA,
-    getListFormatter4X,
-  );
+  ) =>
+      buildFormatter(
+        locales,
+        data,
+        options,
+        localeMatcher,
+        ecmaPolicy,
+        getListFormatterECMA,
+        getListFormatter4X,
+      );
 }

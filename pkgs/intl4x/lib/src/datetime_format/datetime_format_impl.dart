@@ -29,13 +29,14 @@ abstract class DateTimeFormatImpl {
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) => buildFormatter(
-    locale,
-    data,
-    options,
-    localeMatcher,
-    ecmaPolicy,
-    getDateTimeFormatterECMA,
-    getDateTimeFormatter4X,
-  );
+  ) =>
+      buildFormatter(
+        locale,
+        data,
+        options,
+        localeMatcher,
+        ecmaPolicy,
+        getDateTimeFormatterECMA,
+        getDateTimeFormatter4X,
+      );
 }

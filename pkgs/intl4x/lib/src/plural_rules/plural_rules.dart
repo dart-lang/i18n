@@ -22,4 +22,11 @@ class PluralRules {
   }
 }
 
-enum PluralCategory { zero, one, two, few, many, other }
+enum PluralCategory {
+  zero,
+  one,
+  two,
+  few,
+  many,
+  other;
+}

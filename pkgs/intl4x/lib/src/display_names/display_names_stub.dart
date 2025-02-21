@@ -10,4 +10,5 @@ DisplayNamesImpl? getDisplayNamesECMA(
   Locale locales,
   DisplayNamesOptions options,
   LocaleMatcher localeMatcher,
-) => throw UnimplementedError('Cannot use ECMA outside of web environments.');
+) =>
+    throw UnimplementedError('Cannot use ECMA outside of web environments.');

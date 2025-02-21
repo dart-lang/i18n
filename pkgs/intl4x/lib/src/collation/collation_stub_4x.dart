@@ -9,7 +9,5 @@ import 'collation_impl.dart';
 
 /// Stub for the conditional import
 CollationImpl getCollator4X(
-  Locale locale,
-  Data data,
-  CollationOptions options,
-) => throw UnimplementedError('Cannot use ICU4X in web environments.');
+        Locale locale, Data data, CollationOptions options) =>
+    throw UnimplementedError('Cannot use ICU4X in web environments.');

@@ -24,7 +24,10 @@ class DisplayNames {
 
   String ofCalendar(Calendar calendar) => _of(calendar, _impl.ofCalendar);
 
-  String _of<T>(T object, String Function(T field) implementation) {
+  String _of<T>(
+    T object,
+    String Function(T field) implementation,
+  ) {
     if (isInTest) {
       return '$object//${_impl.locale}';
     } else {

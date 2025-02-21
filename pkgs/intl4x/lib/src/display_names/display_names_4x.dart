@@ -14,19 +14,23 @@ DisplayNamesImpl getDisplayNames4X(
   Locale locale,
   Data data,
   DisplayNamesOptions options,
-) => DisplayNames4X(locale, data, options);
+) =>
+    DisplayNames4X(locale, data, options);
 
 class DisplayNames4X extends DisplayNamesImpl {
   final icu.LocaleDisplayNamesFormatter _formatter;
   final icu.RegionDisplayNames _regionFormatter;
 
   DisplayNames4X(super.locale, Data data, super.options)
-    : _formatter = icu.LocaleDisplayNamesFormatter(
-        data.to4X(),
-        locale.to4X(),
-        options.to4X(),
-      ),
-      _regionFormatter = icu.RegionDisplayNames(data.to4X(), locale.to4X());
+      : _formatter = icu.LocaleDisplayNamesFormatter(
+          data.to4X(),
+          locale.to4X(),
+          options.to4X(),
+        ),
+        _regionFormatter = icu.RegionDisplayNames(
+          data.to4X(),
+          locale.to4X(),
+        );
 
   @override
   String ofCalendar(Calendar calendar) {

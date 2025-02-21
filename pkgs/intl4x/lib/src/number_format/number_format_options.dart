@@ -24,20 +24,19 @@ class NumberFormatOptions {
   final Digits? digits;
 
   NumberFormatOptions.custom(
-  //General options
-  {
-    this.style = const DecimalStyle(),
-    this.currency,
-    this.localeMatcher = LocaleMatcher.bestfit,
-    this.signDisplay = SignDisplay.auto,
-    this.notation = const StandardNotation(),
-    this.useGrouping = Grouping.auto,
-    this.numberingSystem,
-    this.roundingMode = RoundingMode.halfExpand,
-    this.trailingZeroDisplay = TrailingZeroDisplay.auto,
-    this.minimumIntegerDigits = 1,
-    Digits? digits,
-  }) : digits = getDigits(style, digits);
+      //General options
+      {this.style = const DecimalStyle(),
+      this.currency,
+      this.localeMatcher = LocaleMatcher.bestfit,
+      this.signDisplay = SignDisplay.auto,
+      this.notation = const StandardNotation(),
+      this.useGrouping = Grouping.auto,
+      this.numberingSystem,
+      this.roundingMode = RoundingMode.halfExpand,
+      this.trailingZeroDisplay = TrailingZeroDisplay.auto,
+      this.minimumIntegerDigits = 1,
+      Digits? digits})
+      : digits = getDigits(style, digits);
 
   factory NumberFormatOptions.percent({
     //General options
@@ -79,7 +78,10 @@ class NumberFormatOptions {
     Digits? digits,
   }) {
     return NumberFormatOptions.custom(
-      style: UnitStyle(unit: unit, unitDisplay: unitDisplay),
+      style: UnitStyle(
+        unit: unit,
+        unitDisplay: unitDisplay,
+      ),
       localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
@@ -226,8 +228,8 @@ final class FractionDigits {
 
   //TODO: add checks dependent on style
   const FractionDigits({this.minimum, this.maximum})
-    : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true),
-      assert(minimum != null && maximum != null ? minimum <= maximum : true);
+      : assert(minimum != null ? 0 <= minimum && minimum <= 20 : true),
+        assert(minimum != null && maximum != null ? minimum <= maximum : true);
 }
 
 final class SignificantDigits {
@@ -235,14 +237,21 @@ final class SignificantDigits {
   final int maximum;
 
   SignificantDigits({this.minimum = 1, this.maximum = 21})
-    : assert(1 <= minimum && minimum <= 21),
-      assert(1 <= maximum && maximum <= 21),
-      assert(minimum <= maximum);
+      : assert(1 <= minimum && minimum <= 21),
+        assert(1 <= maximum && maximum <= 21),
+        assert(minimum <= maximum);
 }
 
-enum TrailingZeroDisplay { auto, stripIfInteger }
+enum TrailingZeroDisplay {
+  auto,
+  stripIfInteger;
+}
 
-enum RoundingPriority { auto, morePrecision, lessPrecision }
+enum RoundingPriority {
+  auto,
+  morePrecision,
+  lessPrecision;
+}
 
 final class Digits {
   final (int? min, int? max) fractionDigits;
@@ -261,20 +270,20 @@ final class Digits {
     int? minimum,
     int? maximum,
     this.roundingIncrement,
-  }) : fractionDigits = (minimum, maximum),
-       significantDigits = (null, null),
-       roundingPriority = null,
-       assert(
-         roundingIncrement == null ||
-             ((minimum != null || maximum != null) || minimum == maximum),
-       ),
-       assert((minimum == null || maximum == null) || minimum < maximum);
+  })  : fractionDigits = (minimum, maximum),
+        significantDigits = (null, null),
+        roundingPriority = null,
+        assert(roundingIncrement == null ||
+            ((minimum != null || maximum != null) || minimum == maximum)),
+        assert((minimum == null || maximum == null) || minimum < maximum);
 
-  const Digits.withSignificantDigits({int? minimum = 1, int? maximum = 21})
-    : fractionDigits = (null, null),
-      significantDigits = (minimum, maximum),
-      roundingPriority = null,
-      roundingIncrement = null;
+  const Digits.withSignificantDigits({
+    int? minimum = 1,
+    int? maximum = 21,
+  })  : fractionDigits = (null, null),
+        significantDigits = (minimum, maximum),
+        roundingPriority = null,
+        roundingIncrement = null;
 
   const Digits.withSignificantAndFractionDigits({
     int? minimumSignificantDigits = 1,
@@ -282,9 +291,10 @@ final class Digits {
     int? minimumFractionDigits,
     int? maximumFractionDigits,
     this.roundingPriority = RoundingPriority.auto,
-  }) : fractionDigits = (minimumFractionDigits, maximumFractionDigits),
-       significantDigits = (minimumSignificantDigits, maximumSignificantDigits),
-       roundingIncrement = null;
+  })  : fractionDigits = (minimumFractionDigits, maximumFractionDigits),
+        significantDigits =
+            (minimumSignificantDigits, maximumSignificantDigits),
+        roundingIncrement = null;
 }
 
 enum RoundingMode {
@@ -296,7 +306,7 @@ enum RoundingMode {
   halfFloor,
   halfExpand,
   halfTrunc,
-  halfEven,
+  halfEven;
 }
 
 enum Grouping {
@@ -312,13 +322,30 @@ enum Grouping {
   const Grouping([this._jsName]);
 }
 
-enum CompactDisplay { short, long }
+enum CompactDisplay {
+  short,
+  long;
+}
 
-enum CurrencyDisplay { symbol, narrowSymbol, code, name }
+enum CurrencyDisplay {
+  symbol,
+  narrowSymbol,
+  code,
+  name;
+}
 
-enum CurrencySign { standard, accounting }
+enum CurrencySign {
+  standard,
+  accounting;
+}
 
-enum SignDisplay { auto, always, exceptZero, negative, never }
+enum SignDisplay {
+  auto,
+  always,
+  exceptZero,
+  negative,
+  never;
+}
 
 enum Unit {
   acre,
@@ -438,7 +465,10 @@ final class UnitStyle extends FormatStyle {
   final Unit unit;
   final UnitDisplay unitDisplay;
 
-  const UnitStyle({required this.unit, this.unitDisplay = UnitDisplay.short});
+  const UnitStyle({
+    required this.unit,
+    this.unitDisplay = UnitDisplay.short,
+  });
   @override
   String get name => 'unit';
 }

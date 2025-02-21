@@ -38,13 +38,14 @@ abstract class DisplayNamesImpl {
     DisplayNamesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) => buildFormatter(
-    locale,
-    data,
-    options,
-    localeMatcher,
-    ecmaPolicy,
-    getDisplayNamesECMA,
-    getDisplayNames4X,
-  );
+  ) =>
+      buildFormatter(
+        locale,
+        data,
+        options,
+        localeMatcher,
+        ecmaPolicy,
+        getDisplayNamesECMA,
+        getDisplayNames4X,
+      );
 }

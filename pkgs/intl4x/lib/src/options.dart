@@ -54,4 +54,8 @@ enum Calendar {
   const Calendar([this._jsName]);
 }
 
-enum Style { narrow, short, long }
+enum Style {
+  narrow,
+  short,
+  long,
+}

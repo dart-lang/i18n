@@ -30,7 +30,11 @@ Locale parseLocaleWithSeparatorPlaceholder(String s, [String separator = '-']) {
     region = null;
   }
 
-  return Locale(language: language, region: region, script: script);
+  return Locale(
+    language: language,
+    region: region,
+    script: script,
+  );
 }
 
 //TODO: Switch to ICU4X!

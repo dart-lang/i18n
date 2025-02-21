@@ -49,7 +49,10 @@ class CollationOptions {
 ///
 /// Example: For the `de` locale, `['AE', 'Ä']` is the correct order for
 /// [Usage.search], but `['Ä', 'AE']` for [Usage.sort].
-enum Usage { search, sort }
+enum Usage {
+  search,
+  sort;
+}
 
 /// Which differences in the strings should lead to non-zero result values.
 /// The default is [Sensitivity.variant] for usage [Usage.sort]; it's locale

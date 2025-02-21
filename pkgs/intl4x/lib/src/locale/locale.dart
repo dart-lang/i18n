@@ -22,7 +22,11 @@ class Locale {
 
   //TODO(mosum): Add RecordUse here, as soon as it is supported on
   //const constructors
-  const Locale({required this.language, this.region, this.script});
+  const Locale({
+    required this.language,
+    this.region,
+    this.script,
+  });
 
   /// Generate a language tag by joining the subtags with the [separator].
   String toLanguageTag([String separator = '-']) =>
