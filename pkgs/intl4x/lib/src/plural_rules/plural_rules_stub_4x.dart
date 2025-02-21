@@ -11,5 +11,4 @@ PluralRulesImpl getPluralSelect4X(
   Locale locale,
   Data data,
   PluralRulesOptions options,
-) =>
-    throw UnimplementedError('Cannot use ICU4X in web environments.');
+) => throw UnimplementedError('Cannot use ICU4X in web environments.');

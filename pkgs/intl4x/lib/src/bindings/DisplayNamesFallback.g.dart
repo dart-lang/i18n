@@ -3,8 +3,4 @@
 part of 'lib.g.dart';
 
 /// See the [Rust documentation for `Fallback`](https://docs.rs/icu/latest/icu/displaynames/options/enum.Fallback.html) for more information.
-enum DisplayNamesFallback {
-  code,
-
-  none;
-}
+enum DisplayNamesFallback { code, none }

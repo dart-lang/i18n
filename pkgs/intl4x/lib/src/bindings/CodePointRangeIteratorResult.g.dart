@@ -30,9 +30,9 @@ final class CodePointRangeIteratorResult {
   // should handle this when constructing edge arrays.
   // ignore: unused_element
   CodePointRangeIteratorResult._fromFfi(_CodePointRangeIteratorResultFfi ffi)
-      : start = ffi.start,
-        end = ffi.end,
-        done = ffi.done;
+    : start = ffi.start,
+      end = ffi.end,
+      done = ffi.done;
 
   // ignore: unused_element
   _CodePointRangeIteratorResultFfi _toFfi(ffi.Allocator temp) {
@@ -51,9 +51,5 @@ final class CodePointRangeIteratorResult {
       other.done == done;
 
   @override
-  int get hashCode => Object.hashAll([
-        start,
-        end,
-        done,
-      ]);
+  int get hashCode => Object.hashAll([start, end, done]);
 }

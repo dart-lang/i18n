@@ -12,5 +12,5 @@ enum RoundingIncrement {
 
   multiplesOf5,
 
-  multiplesOf25;
+  multiplesOf25,
 }

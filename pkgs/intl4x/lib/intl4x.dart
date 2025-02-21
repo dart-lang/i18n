@@ -53,34 +53,42 @@ class Intl {
       );
 
   NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
-        NumberFormatImpl.build(locale, data,
-            options ?? NumberFormatOptions.custom(), localeMatcher, ecmaPolicy),
-      );
+    NumberFormatImpl.build(
+      locale,
+      data,
+      options ?? NumberFormatOptions.custom(),
+      localeMatcher,
+      ecmaPolicy,
+    ),
+  );
 
-  ListFormat listFormat(
-          [ListFormatOptions options = const ListFormatOptions()]) =>
-      ListFormat(
-        ListFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
-      );
+  ListFormat listFormat([
+    ListFormatOptions options = const ListFormatOptions(),
+  ]) => ListFormat(
+    ListFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+  );
 
-  DisplayNames displayNames(
-          [DisplayNamesOptions options = const DisplayNamesOptions()]) =>
-      DisplayNames(
-        DisplayNamesImpl.build(
-            locale, data, options, localeMatcher, ecmaPolicy),
-      );
+  DisplayNames displayNames([
+    DisplayNamesOptions options = const DisplayNamesOptions(),
+  ]) => DisplayNames(
+    DisplayNamesImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+  );
 
-  DateTimeFormat datetimeFormat(
-          [DateTimeFormatOptions options = const DateTimeFormatOptions()]) =>
-      DateTimeFormat(
-        DateTimeFormatImpl.build(
-            locale, data, options, localeMatcher, ecmaPolicy),
-      );
+  DateTimeFormat datetimeFormat([
+    DateTimeFormatOptions options = const DateTimeFormatOptions(),
+  ]) => DateTimeFormat(
+    DateTimeFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+  );
 
   PluralRules plural([PluralRulesOptions? options]) => PluralRules(
-        PluralRulesImpl.build(locale, data, options ?? PluralRulesOptions(),
-            localeMatcher, ecmaPolicy),
-      );
+    PluralRulesImpl.build(
+      locale,
+      data,
+      options ?? PluralRulesOptions(),
+      localeMatcher,
+      ecmaPolicy,
+    ),
+  );
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
@@ -99,10 +107,10 @@ class Intl {
     List<Locale> includedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          locale: locale,
-          ecmaPolicy: ecmaPolicy,
-          supportedLocales: includedLocales,
-        );
+         locale: locale,
+         ecmaPolicy: ecmaPolicy,
+         supportedLocales: includedLocales,
+       );
 
   Intl.excludeLocales({
     Locale? locale,
@@ -110,12 +118,13 @@ class Intl {
     List<Locale> excludedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
   }) : this._(
-          locale: locale,
-          ecmaPolicy: ecmaPolicy,
-          supportedLocales: allLocales
-              .where((locale) => !excludedLocales.contains(locale))
-              .toList(),
-        );
+         locale: locale,
+         ecmaPolicy: ecmaPolicy,
+         supportedLocales:
+             allLocales
+                 .where((locale) => !excludedLocales.contains(locale))
+                 .toList(),
+       );
 
   Intl({
     Locale? locale,
@@ -123,11 +132,11 @@ class Intl {
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
     Data data = const BundleData(),
   }) : this._(
-          locale: locale,
-          ecmaPolicy: ecmaPolicy,
-          supportedLocales: allLocales,
-          data: data,
-        );
+         locale: locale,
+         ecmaPolicy: ecmaPolicy,
+         supportedLocales: allLocales,
+         data: data,
+       );
 
   Locale locale;
 
