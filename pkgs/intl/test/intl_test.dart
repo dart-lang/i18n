@@ -33,6 +33,7 @@ void main() {
     expect(Intl.canonicalizedLocale('C'), 'en_ISO');
     expect(Intl.canonicalizedLocale('gsw-ch'), 'gsw_CH');
     expect(Intl.canonicalizedLocale('test-locale'), 'test-locale');
+    expect(Intl.canonicalizedLocale('zh-Hans-CN'), 'zh_CN');
   });
 
   test('Shortening locales', () {

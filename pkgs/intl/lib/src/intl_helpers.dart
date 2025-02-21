@@ -128,10 +128,10 @@ String? computeMessageName(String? name, String? text, String? meaning) {
   return meaning == null ? text : '${text}_$meaning';
 }
 
-/// Returns an index of a separator between language and region.
+/// Returns an index of a separator between language and other subtags.
 ///
 /// Assumes that language length can be only 2 or 3.
-int _separatorIndex(String locale) {
+int _languageSeparatorIndex(String locale) {
   if (locale.length < 3) {
     return -1;
   }
@@ -143,6 +143,19 @@ int _separatorIndex(String locale) {
   }
   if (locale[3] == '-' || locale[3] == '_') {
     return 3;
+  }
+  return -1;
+}
+
+/// Returns an index of a separator between script and region.
+///
+/// Assumes that script contains exactly 4 characters.
+int _scriptSeparatorIndex(String region) {
+  if (region.length < 5) {
+    return -1;
+  }
+  if (region[4] == '-' || region[4] == '_') {
+    return 4;
   }
   return -1;
 }
@@ -159,12 +172,14 @@ String canonicalizedLocale(String? aLocale) {
   if (aLocale == 'C') return 'en_ISO';
   if (aLocale.length < 5) return aLocale;
 
-  var separatorIndex = _separatorIndex(aLocale);
+  var separatorIndex = _languageSeparatorIndex(aLocale);
   if (separatorIndex == -1) {
     return aLocale;
   }
   var language = aLocale.substring(0, separatorIndex);
-  var region = aLocale.substring(separatorIndex + 1);
+  var subtags = aLocale.substring(separatorIndex + 1);
+  separatorIndex = _scriptSeparatorIndex(subtags);
+  var region = subtags.substring(separatorIndex + 1);
   // If it's longer than three it's something odd, so don't touch it.
   if (region.length <= 3) region = region.toUpperCase();
   return '${language}_$region';
@@ -241,7 +256,7 @@ String shortLocale(String aLocale) {
   if (aLocale.length < 2) {
     return aLocale;
   }
-  var separatorIndex = _separatorIndex(aLocale);
+  var separatorIndex = _languageSeparatorIndex(aLocale);
   if (separatorIndex == -1) {
     if (aLocale.length < 4) {
       // aLocale is already only a language code.
