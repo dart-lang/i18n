@@ -19,7 +19,7 @@ jobs:
       if: false 
       runs-on: ubuntu-latest
       steps:
-        - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
           with:
             sdk: dev
 
@@ -49,7 +49,7 @@ jobs:
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+          uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
           with:
             name: reference_exec_summary
             path: conformance/TEMP_DATA/testReports/exec_summary.json
