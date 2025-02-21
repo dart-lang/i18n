@@ -14,11 +14,10 @@ import '../utils.dart';
 void main() {
   testWithFormatting('basic', () {
     expect(
-      Intl(
-        locale: const Locale(language: 'en', region: 'US'),
-      ).displayNames().ofLanguage(const Locale(language: 'de', region: 'DE')),
-      'German (Germany)',
-    );
+        Intl(locale: const Locale(language: 'en', region: 'US'))
+            .displayNames()
+            .ofLanguage(const Locale(language: 'de', region: 'DE')),
+        'German (Germany)');
   });
 
   testWithFormatting('languageDisplay', () {
@@ -64,27 +63,27 @@ void main() {
 
   testWithFormatting('currency', () {
     expect(
-      Intl(
-        locale: const Locale(language: 'pt'),
-      ).displayNames().ofCurrency('USD'),
+      Intl(locale: const Locale(language: 'pt'))
+          .displayNames()
+          .ofCurrency('USD'),
       'Dólar americano',
     );
   });
 
   testWithFormatting('script', () {
     expect(
-      Intl(
-        locale: const Locale(language: 'fr'),
-      ).displayNames().ofScript('Egyp'),
+      Intl(locale: const Locale(language: 'fr'))
+          .displayNames()
+          .ofScript('Egyp'),
       'hiéroglyphes égyptiens',
     );
   });
 
   testWithFormatting('region', () {
     expect(
-      Intl(
-        locale: const Locale(language: 'es', region: '419'),
-      ).displayNames().ofRegion('DE'),
+      Intl(locale: const Locale(language: 'es', region: '419'))
+          .displayNames()
+          .ofRegion('DE'),
       'Alemania',
     );
   });

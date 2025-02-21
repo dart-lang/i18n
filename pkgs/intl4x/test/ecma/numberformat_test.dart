@@ -29,11 +29,9 @@ void main() {
     final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
 
     testWithFormatting('significantDigits', () {
-      final numberFormatOptions = intl.numberFormat(
-        NumberFormatOptions.custom(
-          digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
-        ),
-      );
+      final numberFormatOptions = intl.numberFormat(NumberFormatOptions.custom(
+        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
+      ));
 
       expect(numberFormatOptions.format(3), '3');
       expect(numberFormatOptions.format(3.1), '3.1');
@@ -43,28 +41,22 @@ void main() {
 
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => intl
-          .numberFormat(
-            NumberFormatOptions.custom(
-              minimumIntegerDigits: 3,
-              digits: const Digits.withFractionDigits(minimum: 4),
-            ),
-          )
+          .numberFormat(NumberFormatOptions.custom(
+            minimumIntegerDigits: 3,
+            digits: const Digits.withFractionDigits(minimum: 4),
+          ))
           .format(number);
       expect(formatter(4.33), '004.3300');
     });
 
     testWithFormatting('percent', () {
-      expect(
-        intl.numberFormat(NumberFormatOptions.percent()).format(4.33),
-        '433%',
-      );
+      expect(intl.numberFormat(NumberFormatOptions.percent()).format(4.33),
+          '433%');
     });
 
     testWithFormatting('compact', () {
       expect(
-        intl.numberFormat(NumberFormatOptions.compact()).format(4.33),
-        '4.3',
-      );
+          intl.numberFormat(NumberFormatOptions.compact()).format(4.33), '4.3');
     });
   });
 
@@ -77,7 +69,7 @@ void main() {
     final locales = [
       const Locale(language: 'en', region: 'US'),
       const Locale(language: 'de', region: 'DE'),
-      const Locale(language: 'zh', region: 'TW'),
+      const Locale(language: 'zh', region: 'TW')
     ];
     final options = <(Object, NumberFormatOptions, JSAny)>[
       (
@@ -105,33 +97,24 @@ void main() {
     ];
 
     List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
-      int length,
-    ) {
+        int length) {
       return List.generate(
-        length,
-        (index) => (
-          numbers[random.nextInt(numbers.length)],
-          locales[random.nextInt(locales.length)],
-          options[random.nextInt(options.length)],
-        ),
-      ).toSet().toList();
+          length,
+          (index) => (
+                numbers[random.nextInt(numbers.length)],
+                locales[random.nextInt(locales.length)],
+                options[random.nextInt(options.length)]
+              )).toSet().toList();
     }
 
-    for (final (number, locale, (desc, options, object)) in selectIndicesFrom(
-      1000,
-    )) {
-      final jsFormat = NumberFormat(
-        [locale.toLanguageTag().toJS].toJS,
-        object,
-      ).format(number.toJS);
-      final dartFormat = Intl(
-        locale: locale,
-      ).numberFormat(options).format(number);
-      expect(
-        dartFormat,
-        jsFormat,
-        reason: 'With number $number, locale $locale, options $desc',
-      );
+    for (final (number, locale, (desc, options, object))
+        in selectIndicesFrom(1000)) {
+      final jsFormat = NumberFormat([locale.toLanguageTag().toJS].toJS, object)
+          .format(number.toJS);
+      final dartFormat =
+          Intl(locale: locale).numberFormat(options).format(number);
+      expect(dartFormat, jsFormat,
+          reason: 'With number $number, locale $locale, options $desc');
     }
   });
 }

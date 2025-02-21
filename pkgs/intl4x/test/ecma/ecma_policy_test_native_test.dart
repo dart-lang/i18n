@@ -10,8 +10,6 @@ import 'package:intl4x/src/ecma/ecma_policy.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test(
-    'Check default policy',
-    () => expect(Intl().ecmaPolicy, const NeverEcma()),
-  );
+  test('Check default policy',
+      () => expect(Intl().ecmaPolicy, const NeverEcma()));
 }
