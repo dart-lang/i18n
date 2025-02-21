@@ -12,8 +12,8 @@ Future<BuildOptions?> getBuildOptions(String searchDir) async {
   final map = await readOptionsFromPubspec(searchDir);
   print('Reading build options from $map');
   final buildOptions =
-      // ignore: avoid_dynamic_calls
-      BuildOptions.fromMap(map['intl4x'] as Map? ?? {});
+  // ignore: avoid_dynamic_calls
+  BuildOptions.fromMap(map['intl4x'] as Map? ?? {});
   print('Got build options: ${buildOptions.toJson()}');
   return buildOptions;
 }
@@ -30,11 +30,7 @@ Future<Map> readOptionsFromPubspec(String searchPath) async {
   return loadYaml(pubspec(directory).readAsStringSync())['hook'] as YamlMap;
 }
 
-enum BuildModeEnum {
-  local,
-  checkout,
-  fetch,
-}
+enum BuildModeEnum { local, checkout, fetch }
 
 class BuildOptions {
   final BuildModeEnum buildMode;
@@ -60,8 +56,9 @@ class BuildOptions {
 
   factory BuildOptions.fromMap(Map map) {
     return BuildOptions(
-      buildMode: BuildModeEnum.values
-          .firstWhere((element) => element.name == map['buildMode']),
+      buildMode: BuildModeEnum.values.firstWhere(
+        (element) => element.name == map['buildMode'],
+      ),
       localDylibPath: map['localDylibPath'] as String?,
       checkoutPath: map['checkoutPath'] as String?,
       treeshake: map['treeshake'] == true,

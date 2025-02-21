@@ -29,16 +29,15 @@ abstract class CollationImpl {
     CollationOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) =>
-      buildFormatter(
-        locale,
-        data,
-        options,
-        localeMatcher,
-        ecmaPolicy,
-        getCollatorECMA,
-        getCollator4X,
-      );
+  ) => buildFormatter(
+    locale,
+    data,
+    options,
+    localeMatcher,
+    ecmaPolicy,
+    getCollatorECMA,
+    getCollator4X,
+  );
 
   /// Actual implementation of the [Collation.compare] method.
   int compareImpl(String a, String b);

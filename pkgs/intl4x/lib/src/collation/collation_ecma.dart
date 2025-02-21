@@ -16,16 +16,16 @@ CollationImpl? getCollatorECMA(
   Locale locale,
   CollationOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    CollationECMA.tryToBuild(locale, options, localeMatcher);
+) => CollationECMA.tryToBuild(locale, options, localeMatcher);
 
 extension type Collator._(JSObject _) implements JSObject {
   external Collator([JSArray<JSString> locales, JSAny options]);
   external int compare(String a, String b);
 
   external static JSArray<JSString> supportedLocalesOf(
-      JSArray<JSString> locales,
-      [JSAny options]);
+    JSArray<JSString> locales, [
+    JSAny options,
+  ]);
 }
 
 class CollationECMA extends CollationImpl {
@@ -47,11 +47,10 @@ class CollationECMA extends CollationImpl {
     Locale locale,
   ) {
     final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
-    return Collator.supportedLocalesOf([locale.toLanguageTag().toJS].toJS, o)
-        .toDart
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+    return Collator.supportedLocalesOf(
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   @override
@@ -65,7 +64,8 @@ class CollationECMA extends CollationImpl {
 }
 
 extension on CollationOptions {
-  JSAny toJsOptions() => {
+  JSAny toJsOptions() =>
+      {
         'localeMatcher': localeMatcher.jsName,
         'usage': usage.name,
         if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
