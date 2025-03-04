@@ -17,3 +17,6 @@ jobs:
       write-comments: false
       checkout_submodules: true
       ignore-packages: "submodules"
+    permissions:
+      id-token: write
+      pull-requests: write
