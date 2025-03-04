@@ -102,7 +102,7 @@ jobs:
 
     - name: Install Rust toolchains
       run: |
-        rustup toolchain install stable
+        rustup toolchain install 1.78
     
     - name: Show the selected Rust toolchain
       run: rustup show

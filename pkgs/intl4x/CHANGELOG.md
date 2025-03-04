@@ -1,4 +1,4 @@
-## 0.11.0-wip
+## 0.11.0
 
 - Remove dep on package:js.
 - Introduce link hook.
