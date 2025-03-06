@@ -6,14 +6,14 @@ A lightweight modular library for internationalization (i18n) functionality.
 
 ## Features
 
-* Formatting for dates, numbers, and lists. 
-* Collation.
-* Display names.
+*   Formatting for dates, numbers, and lists.
+*   Collation.
+*   Display names.
+*   Plural Rules.
 
 ## Status - experimental
 
-We're actively iterating on the API for this package (please provide feedback
-via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
+We're actively iterating on the API for this package (please provide feedback via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
 |   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -22,26 +22,13 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
 ## Implementation and Goals
 
-* Wraps around [ICU4X](https://github.com/unicode-org/icu4x) on native or web
-  platforms.
-* Wraps around the built-in browser functionalities on the web.
-    * Select which locales you want to use the browser for through an `EcmaPolicy`.
+*   Wraps around [ICU4X](https://github.com/unicode-org/icu4x) on native or web platforms.
+*   Wraps around the built-in browser functionalities on the web.
+    *   Select which locales you want to use the browser for through an `EcmaPolicy`.
+*   The `useEcma` property on `Intl` determines if the browser should be used with the current settings.
 
-## Example
+## Usage
 
-The functionalities are called through getters on an `Intl` instance, i.e.
+The functionalities are called through getters on an `Intl` instance, which is the main class for all i18n calls.
 
-```dart
-import 'package:intl4x/ecma_policy.dart';
-import 'package:intl4x/intl4x.dart';
-import 'package:intl4x/number_format.dart';
-
-void main() {
-  final numberFormat = Intl(
-    ecmaPolicy: const AlwaysEcma(),
-    locale: const Locale(language: 'en', region: 'US'),
-  ).numberFormat(NumberFormatOptions.percent());
-
-  print(numberFormat.format(0.5)); // prints 50%
-}
-```
+### Basic example
