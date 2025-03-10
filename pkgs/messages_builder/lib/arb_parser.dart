@@ -12,20 +12,21 @@ import 'parameterized_message.dart';
 import 'placeholder.dart';
 
 class ArbParser {
-  final bool addName;
-  ArbParser([this.addName = false]);
+  ArbParser();
 
   MessageFile parseMessageFile(Map<String, dynamic> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
     final messages = arb.keys
         .where((key) => !key.startsWith('@'))
-        .map((key) => parseMessage(
-              arb[key] as String,
-              arb['@$key'] as Map<String, dynamic>?,
-              key,
-              '${context}_$locale',
-            ))
+        .map(
+          (key) => parseMessage(
+            arb[key] as String,
+            arb['@$key'] as Map<String, dynamic>?,
+            key,
+            '${context}_$locale',
+          ),
+        )
         .toList();
     messages.sort((a, b) => a.name.compareTo(b.name));
     return MessageFile(
@@ -48,24 +49,32 @@ class ArbParser {
     String name,
     String debugString,
   ) {
-    final message = MessageParser.parse(
+    final (message, arguments) = MessageParser.parse(
       debugString,
       messageContent,
       name,
-      addId: addName,
     );
+    final meaning = metadata?['meaning'] as String?;
+    final description = metadata?['description'] as String?;
+
     final placeholdersMap = metadata?['placeholders'] as Map<String, dynamic>?;
-    final placeholdersWithMetadata = placeholdersMap?.map(
-          (name, metadata) {
-            final type = (metadata as Map<String, dynamic>)['type'] as String?;
-            return MapEntry(name, Placeholder(name, type ?? 'String'));
-          },
-        ) ??
+    final placeholdersWithMetadata = placeholdersMap?.map((name, metadata) {
+          final type = (metadata as Map<String, dynamic>)['type'] as String?;
+          final example = metadata['example'] as String?;
+          return MapEntry(name, Placeholder(name, type ?? 'String', example));
+        }) ??
         <String, Placeholder>{};
 
-    final placeholders = message.placeholders
-        .map((p) => placeholdersWithMetadata[p.name] ?? p)
-        .toList();
-    return ParameterizedMessage(message.message, message.name, placeholders);
+    return ParameterizedMessage(
+      message: message,
+      name: name,
+      meaning: meaning,
+      description: description,
+      placeholders: arguments
+          .map(
+            (name) => placeholdersWithMetadata[name] ?? Placeholder(name),
+          )
+          .toList(),
+    );
   }
 }
