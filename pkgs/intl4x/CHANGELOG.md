@@ -1,3 +1,7 @@
+## 0.11.1
+
+- Fix fraction digits parsing and allow no hook options key in the pubspec.
+
 ## 0.11.0
 
 - Remove dep on package:js.

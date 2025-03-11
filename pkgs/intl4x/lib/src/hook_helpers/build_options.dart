@@ -11,23 +11,27 @@ import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
 Future<BuildOptions?> getBuildOptions(String searchDir) async {
   final map = await readOptionsFromPubspec(searchDir);
   print('Reading build options from $map');
-  final buildOptions =
-  // ignore: avoid_dynamic_calls
-  BuildOptions.fromMap(map['intl4x'] as Map? ?? {});
+  final buildOptions = BuildOptions.fromMap(map?['intl4x'] as Map? ?? {});
   print('Got build options: ${buildOptions.toJson()}');
   return buildOptions;
 }
 
-Future<Map> readOptionsFromPubspec(String searchPath) async {
+Future<YamlMap?> readOptionsFromPubspec(String searchPath) async {
   File pubspec(Directory dir) => File(path.join(dir.path, 'pubspec.yaml'));
 
   var directory = Directory(searchPath);
+  var counter = 0;
   while (!pubspec(directory).existsSync()) {
     directory = directory.parent;
+    counter++;
+    if (counter > 10) {
+      throw ArgumentError('Could not find pubspec at $searchPath');
+    }
   }
 
-  // ignore: avoid_dynamic_calls
-  return loadYaml(pubspec(directory).readAsStringSync())['hook'] as YamlMap;
+  final pubspecYaml =
+      loadYaml(pubspec(directory).readAsStringSync()) as YamlMap;
+  return pubspecYaml['hook'] as YamlMap?;
 }
 
 enum BuildModeEnum { local, checkout, fetch }

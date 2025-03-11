@@ -268,7 +268,7 @@ final class Digits {
          roundingIncrement == null ||
              ((minimum != null || maximum != null) || minimum == maximum),
        ),
-       assert((minimum == null || maximum == null) || minimum < maximum);
+       assert((minimum == null || maximum == null) || minimum <= maximum);
 
   const Digits.withSignificantDigits({int? minimum = 1, int? maximum = 21})
     : fractionDigits = (null, null),
