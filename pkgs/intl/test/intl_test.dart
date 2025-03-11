@@ -51,6 +51,10 @@ void main() {
     expect(Intl.verifiedLocale('en-ZZ', NumberFormat.localeExists), 'en');
     expect(Intl.verifiedLocale('es-999', NumberFormat.localeExists), 'es');
     expect(Intl.verifiedLocale('gsw-CH', NumberFormat.localeExists), 'gsw');
+    expect(
+      Intl.verifiedLocale('zh-Hant-CN', NumberFormat.localeExists),
+      'zh_CN',
+    );
 
     void checkAsNumberDefault(String locale, String expected) {
       var oldDefault = Intl.defaultLocale;
@@ -74,6 +78,7 @@ void main() {
     expect(Intl.verifiedLocale('en-ZZ', DateFormat.localeExists), 'en');
     expect(Intl.verifiedLocale('es-999', DateFormat.localeExists), 'es');
     expect(Intl.verifiedLocale('gsw-CH', DateFormat.localeExists), 'gsw');
+    expect(Intl.verifiedLocale('zh-Hant-CN', DateFormat.localeExists), 'zh_CN');
     // TODO(b/241094372): Remove this check.
     expect(Intl.verifiedLocale('invalid', DateFormat.localeExists), 'in');
 

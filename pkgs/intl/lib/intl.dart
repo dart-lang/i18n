@@ -208,7 +208,8 @@ class Intl {
       helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
-  static String shortLocale(String aLocale) => helpers.shortLocale(aLocale);
+  static String shortLocale(String aLocale) =>
+      helpers.languageOnlyLocale(aLocale);
 
   /// Return the name [aLocale] turned into xx_YY where it might possibly be
   /// in the wrong case or with a hyphen instead of an underscore. If
