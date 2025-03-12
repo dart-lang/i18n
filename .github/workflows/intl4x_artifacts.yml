@@ -35,6 +35,7 @@ jobs:
     - name: Install Rust toolchains
       run: |
         rustup toolchain install stable
+        rustup toolchain install nightly
     
     - name: Show the selected Rust toolchain
       run: rustup show
