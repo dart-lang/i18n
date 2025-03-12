@@ -61,8 +61,6 @@ Future<void> main(List<String> args) async {
   );
 }
 
-// Copied from Dart's package:intl4x build.dart, see
-// https://github.com/dart-lang/i18n/blob/main/pkgs/intl4x/hook/build.dart
 Future<File> buildLib(
   OS targetOS,
   Architecture targetArchitecture,
@@ -71,8 +69,6 @@ Future<File> buildLib(
   Directory workingDirectory,
   List<String> cargoFeatures,
 ) async {
-  // We assume that the first folder to contain a cargo.toml above the
-  // output directory is the directory containing the ICU4X code.
   if (!File.fromUri(workingDirectory.uri.resolve('Cargo.toml')).existsSync()) {
     throw ArgumentError('No Cargo.toml found in $workingDirectory');
   }
