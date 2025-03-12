@@ -105,7 +105,6 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart run ffi/dart/tool/build_libs.dart --file bin/ios_arm_${{ matrix.compiletype }} --os ios --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart --file bin/ios_arm64_${{ matrix.compiletype }} --os ios --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart --file bin/ios_x64_${{ matrix.compiletype }} --os ios --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
         dart run ffi/dart/tool/build_libs.dart --file bin/macos_arm64_${{ matrix.compiletype }} --os macos --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
