@@ -97,6 +97,7 @@ jobs:
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
+        rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
         (cd pkgs/intl4x && dart pub get)
 
         mkdir submodules/icu4x/bin
