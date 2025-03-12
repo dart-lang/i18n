@@ -122,12 +122,12 @@ jobs:
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
-        (cd pkgs/intl4x && dart pub get)
+        (cd pkgs\intl4x && dart pub get)
 
         mkdir submodules/icu4x/bin
-        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_arm64_${{ matrix.compiletype }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_ia32_${{ matrix.compiletype }} --os windows --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64_${{ matrix.compiletype }} --os windows --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs\intl4x\tool\build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_arm64_${{ matrix.compiletype }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs\intl4x\tool\build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_ia32_${{ matrix.compiletype }} --os windows --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs\intl4x\tool\build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64_${{ matrix.compiletype }} --os windows --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
     - name: Build Windows data
       if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
