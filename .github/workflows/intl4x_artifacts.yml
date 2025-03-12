@@ -161,6 +161,7 @@ jobs:
   check_hashes:
     needs: dart-libs
     runs-on: ubuntu-latest
+    if: github.event_name != 'push'
 
     env:
       ICU4X_BUILD_MODE: local
