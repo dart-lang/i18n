@@ -1,3 +1,7 @@
+## 0.11.2
+
+- Use locally modified build_tools.dart for building icu4x libs.
+
 ## 0.11.1
 
 - Fix fraction digits parsing and allow no hook options key in the pubspec.
