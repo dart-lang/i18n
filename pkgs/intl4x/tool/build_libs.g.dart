@@ -36,9 +36,6 @@ Future<void> main(List<String> args) async {
         );
 
   ArgResults parsed;
-  String os;
-  String architecture;
-  String compileType;
   try {
     parsed = argParser.parse(args);
   } catch (e) {
@@ -46,18 +43,15 @@ Future<void> main(List<String> args) async {
     print(argParser.usage);
     exit(1);
   }
-  os = parsed.option(osKey)!;
-  architecture = parsed.option(architectureKey)!;
-  compileType = parsed.option(compileTypeKey)!;
 
   final lib = await buildLib(
     OS.values.firstWhere((o) {
-      return o.name == os;
+      return o.name == parsed.option(osKey)!;
     }),
     Architecture.values.firstWhere((o) {
-      return o.name == architecture;
+      return o.name == parsed.option(architectureKey)!;
     }),
-    compileType == 'static',
+    parsed.option(compileTypeKey)! == 'static',
     parsed.flag(simulatorKey),
     Directory(parsed.option(workingDirectoryKey)!),
     parsed.multiOption(cargoFeaturesKey),
