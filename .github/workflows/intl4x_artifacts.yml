@@ -8,6 +8,7 @@ on:
     branches: [ main ]
     paths:
       - pkgs/intl4x/src/hook_helpers/hashes.dart
+      - .github/workflows/intl4x_artifacts.yml
   push:
     tags:
       - 'intl4x-icu*'
@@ -35,6 +36,7 @@ jobs:
     - name: Install Rust toolchains
       run: |
         rustup toolchain install stable
+        rustup toolchain install nightly
     
     - name: Show the selected Rust toolchain
       run: rustup show
@@ -61,25 +63,25 @@ jobs:
     - name: Build Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
-        cd submodules/icu4x
-
-        mkdir bin
-
-        cd ffi/dart
-        dart pub get
-        cd ../..
-        dart run ffi/dart/tool/build_libs.dart --file bin/android_arm_${{ matrix.compiletype }} --os android --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/android_arm64_${{ matrix.compiletype }} --os android --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/android_ia32_${{ matrix.compiletype }} --os android --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/android_x64_${{ matrix.compiletype }} --os android --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/linux_arm_${{ matrix.compiletype }} --os linux --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/linux_arm64_${{ matrix.compiletype }} --os linux --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/linux_riscv64_${{ matrix.compiletype }} --os linux --architecture riscv64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/linux_x64_${{ matrix.compiletype }} --os linux --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
+        (cd pkgs/intl4x && dart pub get)
+        
+        mkdir submodules/icu4x/bin
+        
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_arm_${{ matrix.compiletype }} --os android --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_arm64_${{ matrix.compiletype }} --os android --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_ia32_${{ matrix.compiletype }} --os android --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_x64_${{ matrix.compiletype }} --os android --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_arm_${{ matrix.compiletype }} --os linux --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_arm64_${{ matrix.compiletype }} --os linux --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_riscv64_${{ matrix.compiletype }} --os linux --architecture riscv64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_x64_${{ matrix.compiletype }} --os linux --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
     - name: Build Linux data
       if: matrix.os == 'ubuntu-latest' && matrix.compiletype == 'static'
       run: |
+        cd submodules/icu4x
+
         cargo run -p icu_datagen -- --locales full --keys all --format blob --out bin/full.postcard
 
         cd provider/datagen # avoid global feature resolution
@@ -98,23 +100,21 @@ jobs:
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
-        cd submodules/icu4x
+        rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
+        
+        (cd pkgs/intl4x && dart pub get)
 
-        mkdir bin
-
-        cd ffi/dart
-        dart pub get
-        cd ../..
-        dart run ffi/dart/tool/build_libs.dart --file bin/ios_arm_${{ matrix.compiletype }} --os ios --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/ios_arm64_${{ matrix.compiletype }} --os ios --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/ios_x64_${{ matrix.compiletype }} --os ios --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/macos_arm64_${{ matrix.compiletype }} --os macos --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/macos_x64_${{ matrix.compiletype }} --os macos --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        mkdir submodules/icu4x/bin
+        
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/ios_arm64_${{ matrix.compiletype }} --os ios --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/ios_x64_${{ matrix.compiletype }} --os ios --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_arm64_${{ matrix.compiletype }} --os macos --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_x64_${{ matrix.compiletype }} --os macos --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
     - name: Build Mac data
       if: matrix.os == 'macos-latest' && matrix.compiletype == 'static'
       run: |
-        cd provider/datagen # avoid global feature resolution
+        cd submodules/icu4x/provider/datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
         rustup target add x86_64-apple-darwin
@@ -127,21 +127,22 @@ jobs:
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
-        cd submodules/icu4x
-      
-        mkdir bin
-
-        cd ffi/dart
+        rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
+        
+        pushd pkgs/intl4x
         dart pub get
-        cd ../..
-        dart run ffi/dart/tool/build_libs.dart --file bin/windows_arm64_${{ matrix.compiletype }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/windows_ia32_${{ matrix.compiletype }} --os windows --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
-        dart run ffi/dart/tool/build_libs.dart --file bin/windows_x64_${{ matrix.compiletype }} --os windows --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        popd
+        
+        mkdir submodules/icu4x/bin
+        
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_arm64_${{ matrix.compiletype }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_ia32_${{ matrix.compiletype }} --os windows --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
+        dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64_${{ matrix.compiletype }} --os windows --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
 
     - name: Build Windows data
       if: matrix.os == 'windows-latest' && matrix.compiletype == 'static'
       run: |
-        cd provider/datagen # avoid global feature resolution
+        cd submodules/icu4x/provider/datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
         rustup target add x86_64-pc-windows-msvc
