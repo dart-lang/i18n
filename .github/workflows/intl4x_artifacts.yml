@@ -64,7 +64,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
-        (cd submodules/icu4x/ffi/dart && dart pub get)
+        (cd pkgs/intl4x && dart pub get)
         
         mkdir submodules/icu4x/bin
         dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_arm_${{ matrix.compiletype }} --os android --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
@@ -97,7 +97,7 @@ jobs:
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
-        (cd submodules/icu4x/ffi/dart && dart pub get)
+        (cd pkgs/intl4x && dart pub get)
 
         mkdir submodules/icu4x/bin
         dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/ios_arm64_${{ matrix.compiletype }} --os ios --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
@@ -121,7 +121,7 @@ jobs:
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
-        (cd submodules/icu4x/ffi/dart && dart pub get)
+        (cd pkgs/intl4x && dart pub get)
 
         mkdir submodules/icu4x/bin
         dart pkgs/intl4x/tool/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_arm64_${{ matrix.compiletype }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components${{ env.DATA }}
