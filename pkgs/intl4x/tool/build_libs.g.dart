@@ -45,12 +45,10 @@ Future<void> main(List<String> args) async {
   }
 
   final lib = await buildLib(
-    OS.values.firstWhere((o) {
-      return o.name == parsed.option(osKey)!;
-    }),
-    Architecture.values.firstWhere((o) {
-      return o.name == parsed.option(architectureKey)!;
-    }),
+    OS.values.firstWhere((o) => o.name == parsed.option(osKey)!),
+    Architecture.values.firstWhere(
+      (o) => o.name == parsed.option(architectureKey)!,
+    ),
     parsed.option(compileTypeKey)! == 'static',
     parsed.flag(simulatorKey),
     Directory(parsed.option(workingDirectoryKey)!),
