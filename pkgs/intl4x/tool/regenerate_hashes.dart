@@ -47,7 +47,7 @@ Future<void> main(List<String> args) async {
 import 'package:native_assets_cli/code_assets.dart' show Architecture, OS;
 
 const fileHashes = <(OS, Architecture, String), String>{
-${fileHashes.map((key, value) => MapEntry(('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"), "'$value'")).entries.map((e) => '  ${e.key}:\n      ${e.value}').join(',\n')}
+${fileHashes.map((key, value) => MapEntry(('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"), "'$value'")).entries.map((e) => '  ${e.key}:\n      ${e.value},').join('\n')}
 };
 ''');
 }
