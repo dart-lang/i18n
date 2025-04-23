@@ -31,20 +31,28 @@ Future<void> main(List<String> args) async {
 
     output.addDependency(staticLib.file!);
 
-    final usedSymbols = input.usages
-        .instancesOf(recordSymbolId)!
-        .map(
-          (instance) =>
-              // Get the "symbol" field value from "RecordSymbol"
-              (instance.instanceConstant.fields.values.first
-                      as record_use.StringConstant)
-                  .value,
-        );
+    final usages = input.usages;
+    Iterable<String>? usedSymbols;
+    if (usages == null) {
+      usedSymbols = null;
+    } else {
+      usedSymbols = usages
+          .instancesOf(recordSymbolId)!
+          .map(
+            (instance) =>
+                // Get the "symbol" field value from "RecordSymbol"
+                (instance.instanceConstant.fields.values.first
+                        as record_use.StringConstant)
+                    .value,
+          );
+    }
+    print('Using symbols: $usedSymbols');
+    final linkerOptions = LinkerOptions.treeshake(symbols: usedSymbols);
     final linker = CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.path],
-      linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
+      linkerOptions: linkerOptions,
     );
     await linker.run(
       input: input,
@@ -58,9 +66,11 @@ Future<void> main(List<String> args) async {
 }
 
 extension on LinkInput {
-  record_use.RecordedUsages get usages {
-    final usagesFile = recordedUsagesFile;
-    final usagesContent = File.fromUri(usagesFile!).readAsStringSync();
+  record_use.RecordedUsages? get usages {
+    if (recordedUsagesFile == null) {
+      return null;
+    }
+    final usagesContent = File.fromUri(recordedUsagesFile!).readAsStringSync();
     final usagesJson = jsonDecode(usagesContent) as Map<String, dynamic>;
     return record_use.RecordedUsages.fromJson(usagesJson);
   }
