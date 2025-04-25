@@ -5,13 +5,13 @@
 import 'dart:convert' show JsonEncoder;
 import 'dart:io';
 
+// ignore: implementation_imports
+import 'package:native_assets_cli/src/config.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
 
-Future<BuildOptions?> getBuildOptions(String searchDir) async {
-  final (map, dir) = await readOptionsFromPubspec(searchDir);
-  print('Reading build options from $map');
-  final buildOptions = BuildOptions.fromMap(map?['intl4x'] as Map? ?? {}, dir);
+Future<BuildOptions> getBuildOptions(HookInputUserDefines userDefines) async {
+  final buildOptions = BuildOptions.fromDefines(userDefines);
   print('Got build options: ${buildOptions.toJson()}');
   return buildOptions;
 }
@@ -38,8 +38,8 @@ enum BuildModeEnum { local, checkout, fetch }
 
 class BuildOptions {
   final BuildModeEnum buildMode;
-  final String? localDylibPath;
-  final String? checkoutPath;
+  final Uri? localDylibPath;
+  final Uri? checkoutPath;
   final bool? treeshake;
 
   BuildOptions({
@@ -52,22 +52,20 @@ class BuildOptions {
   Map<String, dynamic> toMap() {
     return {
       'buildMode': buildMode.name,
-      if (localDylibPath != null) 'localDylibPath': localDylibPath,
-      if (checkoutPath != null) 'checkoutPath': checkoutPath,
+      if (localDylibPath != null) 'localDylibPath': localDylibPath.toString(),
+      if (checkoutPath != null) 'checkoutPath': checkoutPath.toString(),
       if (treeshake != null) 'treeshake': treeshake.toString(),
     };
   }
 
-  factory BuildOptions.fromMap(Map map, Directory dir) {
-    final localPath = map['localDylibPath'] as String?;
-    final checkoutPath = map['checkoutPath'] as String?;
+  factory BuildOptions.fromDefines(HookInputUserDefines defines) {
     return BuildOptions(
       buildMode: BuildModeEnum.values.firstWhere(
-        (element) => element.name == map['buildMode'],
+        (element) => element.name == defines['buildMode'],
       ),
-      localDylibPath: localPath != null ? getPath(dir, localPath) : null,
-      checkoutPath: checkoutPath != null ? getPath(dir, checkoutPath) : null,
-      treeshake: map['treeshake'] == true,
+      localDylibPath: defines.path('localDylibPath'),
+      checkoutPath: defines.path('checkoutPath'),
+      treeshake: (defines['treeshake'] ?? true) == true,
     );
   }
 

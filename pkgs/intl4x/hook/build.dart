@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:crypto/crypto.dart' show sha256;
 import 'package:intl4x/src/hook_helpers/build_libs.g.dart' show buildLib;
 import 'package:intl4x/src/hook_helpers/build_options.dart'
-    show BuildModeEnum, getBuildOptions;
+    show BuildModeEnum, BuildOptions, getBuildOptions;
 import 'package:intl4x/src/hook_helpers/hashes.dart' show fileHashes;
 import 'package:intl4x/src/hook_helpers/shared.dart' show assetId, package;
 import 'package:intl4x/src/hook_helpers/version.dart' show version;
@@ -15,38 +15,40 @@ import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final buildOptions = await getBuildOptions(
-      input.outputDirectory.toFilePath(),
-    );
-    if (buildOptions == null) {
+    BuildOptions buildOptions;
+    try {
+      buildOptions = await getBuildOptions(input.userDefines);
+    } catch (e) {
       throw ArgumentError('''
+Error: $e
 
-Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing into your pubspec:
+
+Set the build mode with either `fetch`, `local`, or `checkout` by writing into your pubspec:
+
 * fetch: Fetch the precompiled binary from a CDN.
 ```
-...
-hook:
-  intl4x:
-    buildMode: fetch
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: fetch
 ```
+
 * local: Use a locally existing binary at the environment variable `LOCAL_ICU4X_BINARY`.
 ```
-...
-hook:
-  intl4x:
-    buildMode: local
-    localDylibPath: path/to/dylib.so
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: local
+      localDylibPath: path/to/dylib.so
 ```
+
 * checkout: Build a fresh library from a local git checkout of the icu4x repository.
 ```
-...
-hook:
-  intl4x:
-    buildMode: checkout
-    checkoutPath: path/to/checkout
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: checkout
+      checkoutPath: path/to/checkout
 ```
 
 ''');
@@ -70,17 +72,13 @@ hook:
     final builtLibrary = await buildMode.build();
     // For debugging purposes
     // ignore: deprecated_member_use
-    output.addMetadatum('ICU4X_BUILD_MODE', buildOptions.buildMode.name);
+    output.metadata.addAll({'ICU4X_BUILD_MODE': buildOptions.buildMode.name});
 
-    final targetOS = input.config.code.targetOS;
-    final targetArchitecture = input.config.code.targetArchitecture;
     output.assets.code.add(
       CodeAsset(
         package: package,
         name: assetId,
         linkMode: DynamicLoadingBundled(),
-        architecture: targetArchitecture,
-        os: targetOS,
         file: builtLibrary,
       ),
       routing:
@@ -156,12 +154,12 @@ final class FetchMode extends BuildMode {
 }
 
 final class LocalMode extends BuildMode {
-  final String? localPath;
+  final Uri? localPath;
   LocalMode(super.input, this.localPath, super.treeshake);
 
   String get _localLibraryPath {
     if (localPath != null) {
-      return localPath!;
+      return localPath!.toFilePath(windows: Platform.isWindows);
     }
     throw ArgumentError(
       '`LOCAL_ICU4X_BINARY` is empty. '
@@ -190,7 +188,7 @@ final class LocalMode extends BuildMode {
 }
 
 final class CheckoutMode extends BuildMode {
-  final String? checkoutPath;
+  final Uri? checkoutPath;
 
   CheckoutMode(super.input, this.checkoutPath, super.treeshake);
 
@@ -209,7 +207,7 @@ final class CheckoutMode extends BuildMode {
       input.config.buildStatic(treeshake),
       input.config.code.targetOS == OS.iOS &&
           input.config.code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
-      Directory(checkoutPath!),
+      Directory.fromUri(checkoutPath!),
       [
         'icu_collator',
         'icu_datetime',
@@ -217,15 +215,15 @@ final class CheckoutMode extends BuildMode {
         'icu_decimal',
         'icu_plurals',
         'experimental_components',
+        'default_components',
+        'compiled_data',
       ],
     );
     return builtLib.uri;
   }
 
   @override
-  List<Uri> get dependencies => [
-    Uri.directory(checkoutPath!).resolve('Cargo.lock'),
-  ];
+  List<Uri> get dependencies => [checkoutPath!.resolve('Cargo.lock')];
 }
 
 extension on BuildConfig {
