@@ -6,6 +6,7 @@ import 'dart:convert' show JsonEncoder;
 import 'dart:io';
 
 // ignore: implementation_imports
+import 'package:collection/collection.dart';
 import 'package:native_assets_cli/src/config.dart';
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
@@ -60,9 +61,11 @@ class BuildOptions {
 
   factory BuildOptions.fromDefines(HookInputUserDefines defines) {
     return BuildOptions(
-      buildMode: BuildModeEnum.values.firstWhere(
-        (element) => element.name == defines['buildMode'],
-      ),
+      buildMode:
+          BuildModeEnum.values.firstWhereOrNull(
+            (element) => element.name == defines['buildMode'],
+          ) ??
+          BuildModeEnum.fetch,
       localDylibPath: defines.path('localDylibPath'),
       checkoutPath: defines.path('checkoutPath'),
       treeshake: (defines['treeshake'] ?? true) == true,
