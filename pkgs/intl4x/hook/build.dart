@@ -4,14 +4,15 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:crypto/crypto.dart' show sha256;
+import 'package:hooks/hooks.dart';
 import 'package:intl4x/src/hook_helpers/build_libs.g.dart' show buildLib;
 import 'package:intl4x/src/hook_helpers/build_options.dart'
     show BuildModeEnum, BuildOptions, getBuildOptions;
 import 'package:intl4x/src/hook_helpers/hashes.dart' show fileHashes;
 import 'package:intl4x/src/hook_helpers/shared.dart' show assetId, package;
 import 'package:intl4x/src/hook_helpers/version.dart' show version;
-import 'package:native_assets_cli/code_assets.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {

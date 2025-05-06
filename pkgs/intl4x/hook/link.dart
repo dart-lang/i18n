@@ -5,10 +5,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
+import 'package:code_assets/code_assets.dart' show LinkInputCodeAssets;
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:hooks/hooks.dart' show LinkInput, link;
 import 'package:intl4x/src/hook_helpers/shared.dart' show assetId, package;
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart' as record_use;
 
@@ -37,14 +38,8 @@ Future<void> main(List<String> args) async {
       usedSymbols = null;
     } else {
       usedSymbols = usages
-          .instancesOf(recordSymbolId)!
-          .map(
-            (instance) =>
-                // Get the "symbol" field value from "RecordSymbol"
-                (instance.instanceConstant.fields.values.first
-                        as record_use.StringConstant)
-                    .value,
-          );
+          .constantsOf(recordSymbolId)
+          .map((instance) => instance['symbol'] as String);
     }
     print('Using symbols: $usedSymbols');
     final linkerOptions = LinkerOptions.treeshake(symbols: usedSymbols);
