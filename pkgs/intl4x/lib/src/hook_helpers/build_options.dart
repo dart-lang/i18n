@@ -7,7 +7,7 @@ import 'dart:io';
 
 // ignore: implementation_imports
 import 'package:collection/collection.dart';
-import 'package:native_assets_cli/src/config.dart';
+import 'package:hooks/hooks.dart' show HookInputUserDefines;
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
 
