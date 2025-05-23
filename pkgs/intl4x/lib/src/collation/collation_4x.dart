@@ -19,12 +19,15 @@ CollationImpl getCollator4X(
 class Collation4X extends CollationImpl {
   final icu.Collator _collator;
 
-  Collation4X(super.locale, Data data, super.options)
-    : _collator = icu.Collator(
-        data.to4X(),
-        locale.to4X(),
-        options.to4xOptions(),
-      );
+  Collation4X(super.locale, Data? data, super.options)
+    : _collator =
+          data != null
+              ? icu.Collator.createWithProvider(
+                data.to4X(),
+                locale.to4X(),
+                options.to4xOptions(),
+              )
+              : icu.Collator(locale.to4X(), options.to4xOptions());
 
   @override
   int compareImpl(String a, String b) => _collator.compare(a, b);
@@ -33,11 +36,13 @@ class Collation4X extends CollationImpl {
 extension on CollationOptions {
   icu.CollatorOptions to4xOptions() {
     final icuNumeric =
-        numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
+        numeric
+            ? icu.CollatorNumericOrdering.on
+            : icu.CollatorNumericOrdering.off;
 
     final icuCaseFirst = switch (caseFirst) {
-      CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
-      CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
+      CaseFirst.upper => icu.CollatorCaseFirst.upper,
+      CaseFirst.lower => icu.CollatorCaseFirst.lower,
       CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
     };
 
@@ -56,12 +61,8 @@ extension on CollationOptions {
 
     return icu.CollatorOptions(
       strength: icuStrength,
-      numeric: icuNumeric,
-      caseFirst: icuCaseFirst,
       caseLevel: icuCaseLevel,
       alternateHandling: icu.CollatorAlternateHandling.nonIgnorable,
-      backwardSecondLevel: icu.CollatorBackwardSecondLevel.off,
-      maxVariable: icu.CollatorMaxVariable.auto,
     );
   }
 }
