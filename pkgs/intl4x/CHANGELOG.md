@@ -1,3 +1,7 @@
+## 0.11.4
+
+- Remove `native_assets_*` dependencies for `hooks` and `code_assets`.
+
 ## 0.11.3
 
 - Use new artifacts from `intl4x-icu-v.0.11.2-artifacts` release.

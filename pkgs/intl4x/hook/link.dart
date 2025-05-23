@@ -5,10 +5,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
+import 'package:code_assets/code_assets.dart' show LinkInputCodeAssets;
+import 'package:collection/collection.dart' show IterableExtension;
+import 'package:hooks/hooks.dart' show LinkInput, link;
 import 'package:intl4x/src/hook_helpers/shared.dart' show assetId, package;
 import 'package:logging/logging.dart';
-import 'package:native_assets_cli/code_assets.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart' as record_use;
 
@@ -31,22 +32,19 @@ Future<void> main(List<String> args) async {
 
     output.addDependency(staticLib.file!);
 
-    final usedSymbols = input.usages
-        .instancesOf(recordSymbolId)!
-        .map(
-          (instance) =>
-              // Get the "symbol" field value from "RecordSymbol"
-              (instance.instanceConstant.fields.values.first
-                      as record_use.StringConstant)
-                  .value,
-        );
-    final linker = CLinker.library(
+    final usages = input.usages;
+    final usedSymbols = usages
+        ?.constantsOf(recordSymbolId)
+        .map((instance) => instance['symbol'] as String);
+
+    print('Using symbols: $usedSymbols');
+
+    await CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.path],
       linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
-    );
-    await linker.run(
+    ).run(
       input: input,
       output: output,
       logger:
@@ -58,9 +56,11 @@ Future<void> main(List<String> args) async {
 }
 
 extension on LinkInput {
-  record_use.RecordedUsages get usages {
-    final usagesFile = recordedUsagesFile;
-    final usagesContent = File.fromUri(usagesFile!).readAsStringSync();
+  record_use.RecordedUsages? get usages {
+    if (recordedUsagesFile == null) {
+      return null;
+    }
+    final usagesContent = File.fromUri(recordedUsagesFile!).readAsStringSync();
     final usagesJson = jsonDecode(usagesContent) as Map<String, dynamic>;
     return record_use.RecordedUsages.fromJson(usagesJson);
   }
