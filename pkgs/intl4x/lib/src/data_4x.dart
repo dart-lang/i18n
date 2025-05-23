@@ -11,7 +11,5 @@ extension DataProvider on Data {
     AssetData() => icu.DataProvider.fromByteSlice(
       File((this as AssetData).key).readAsBytesSync().buffer,
     ),
-    BundleData() => icu.DataProvider.compiled(),
-    NoData() => icu.DataProvider.empty(),
   };
 }

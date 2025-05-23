@@ -12,6 +12,8 @@ analyzer:
   exclude:
     - "submodules/*"
     - "lib/src/bindings/*"
+    - lib/src/hook_helpers/build_libs.g.dart
+    - tool/build_libs.g.dart
 
   enable-experiment:
     - native-assets

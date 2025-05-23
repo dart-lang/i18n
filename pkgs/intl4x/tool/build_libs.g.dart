@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:native_assets_cli/code_assets.dart';
+import 'package:code_assets/code_assets.dart';
 import 'package:path/path.dart' as path;
 
 const crateName = 'icu_capi';
@@ -14,26 +14,19 @@ Future<void> main(List<String> args) async {
   const fileKey = 'file';
   const osKey = 'os';
   const architectureKey = 'architecture';
-  const workingDirectoryKey = 'working_directory';
   const simulatorKey = 'simulator';
   const compileTypeKey = 'compile_type';
   const cargoFeaturesKey = 'cargo_features';
-  final argParser =
-      ArgParser()
-        ..addOption(fileKey, mandatory: true)
-        ..addOption(
-          compileTypeKey,
-          allowed: ['static', 'dynamic'],
-          mandatory: true,
-        )
-        ..addFlag(simulatorKey, defaultsTo: false)
-        ..addOption(osKey, mandatory: true)
-        ..addOption(architectureKey, mandatory: true)
-        ..addOption(workingDirectoryKey, mandatory: true)
-        ..addMultiOption(
-          cargoFeaturesKey,
-          defaultsTo: ['default_components', 'compiled_data'],
-        );
+  final argParser = ArgParser()
+    ..addOption(fileKey, mandatory: true)
+    ..addOption(compileTypeKey, allowed: ['static', 'dynamic'], mandatory: true)
+    ..addFlag(simulatorKey, defaultsTo: false)
+    ..addOption(osKey, mandatory: true)
+    ..addOption(architectureKey, mandatory: true)
+    ..addMultiOption(
+      cargoFeaturesKey,
+      defaultsTo: ['default_components', 'compiled_data'],
+    );
 
   ArgResults parsed;
   try {
@@ -51,7 +44,7 @@ Future<void> main(List<String> args) async {
     ),
     parsed.option(compileTypeKey)! == 'static',
     parsed.flag(simulatorKey),
-    Directory(parsed.option(workingDirectoryKey)!),
+    File.fromUri(Platform.script).parent,
     parsed.multiOption(cargoFeaturesKey),
   );
   await lib.copy(
@@ -59,16 +52,23 @@ Future<void> main(List<String> args) async {
   );
 }
 
+// Copied from Dart's package:intl4x build.dart, see
+// https://github.com/dart-lang/i18n/blob/main/pkgs/intl4x/hook/build.dart
 Future<File> buildLib(
   OS targetOS,
   Architecture targetArchitecture,
   bool buildStatic,
   bool isSimulator,
-  Directory workingDirectory,
+  Directory startingPoint,
   List<String> cargoFeatures,
 ) async {
-  if (!File.fromUri(workingDirectory.uri.resolve('Cargo.toml')).existsSync()) {
-    throw ArgumentError('No Cargo.toml found in $workingDirectory');
+  // We assume that the first folder to contain a cargo.toml above the
+  // output directory is the directory containing the ICU4X code.
+  var workingDirectory = startingPoint;
+  while (!File.fromUri(
+    workingDirectory.uri.resolve('Cargo.toml'),
+  ).existsSync()) {
+    workingDirectory = workingDirectory.parent;
   }
 
   final isNoStd = _isNoStdTarget((targetOS, targetArchitecture));
@@ -82,12 +82,6 @@ Future<File> buildLib(
     );
   }
 
-  final features = {
-    ...cargoFeatures,
-    ...(isNoStd
-        ? ['libc_alloc', 'looping_panic_handler']
-        : ['logging', 'simple_logger']),
-  };
   await runProcess('cargo', [
     if (buildStatic || isNoStd) '+nightly',
     'rustc',
@@ -97,7 +91,10 @@ Future<File> buildLib(
     '--config=profile.release.panic="abort"',
     '--config=profile.release.codegen-units=1',
     '--no-default-features',
-    '--features=${features.join(',')}',
+    '--features=${{
+      ...cargoFeatures,
+      ...(isNoStd ? ['libc_alloc', 'panic_handler'] : ['logging', 'simple_logger']),
+    }.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
     if (buildStatic || isNoStd) ...[
       '-Zbuild-std=std,panic_abort',
@@ -148,10 +145,9 @@ String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
     (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
     (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
     (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
-    (_, _) =>
-      throw UnimplementedError(
-        'Target ${(os, architecture)} not available for rust',
-      ),
+    (_, _) => throw UnimplementedError(
+      'Target ${(os, architecture)} not available for rust',
+    ),
   };
 }
 
