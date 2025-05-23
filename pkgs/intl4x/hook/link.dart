@@ -33,23 +33,18 @@ Future<void> main(List<String> args) async {
     output.addDependency(staticLib.file!);
 
     final usages = input.usages;
-    Iterable<String>? usedSymbols;
-    if (usages == null) {
-      usedSymbols = null;
-    } else {
-      usedSymbols = usages
-          .constantsOf(recordSymbolId)
-          .map((instance) => instance['symbol'] as String);
-    }
+    final usedSymbols = usages
+        ?.constantsOf(recordSymbolId)
+        .map((instance) => instance['symbol'] as String);
+
     print('Using symbols: $usedSymbols');
-    final linkerOptions = LinkerOptions.treeshake(symbols: usedSymbols);
-    final linker = CLinker.library(
+
+    await CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.path],
-      linkerOptions: linkerOptions,
-    );
-    await linker.run(
+      linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
+    ).run(
       input: input,
       output: output,
       logger:

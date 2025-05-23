@@ -9,31 +9,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:hooks/hooks.dart' show HookInputUserDefines;
 import 'package:path/path.dart' as path;
-import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
-
-Future<BuildOptions> getBuildOptions(HookInputUserDefines userDefines) async {
-  final buildOptions = BuildOptions.fromDefines(userDefines);
-  print('Got build options: ${buildOptions.toJson()}');
-  return buildOptions;
-}
-
-Future<(YamlMap?, Directory)> readOptionsFromPubspec(String searchPath) async {
-  File pubspec(Directory dir) => File(path.join(dir.path, 'pubspec.yaml'));
-
-  var directory = Directory(searchPath);
-  var counter = 0;
-  while (!pubspec(directory).existsSync()) {
-    directory = directory.parent;
-    counter++;
-    if (counter > 10) {
-      throw ArgumentError('Could not find pubspec at $searchPath');
-    }
-  }
-
-  final pubspecYaml =
-      loadYaml(pubspec(directory).readAsStringSync()) as YamlMap;
-  return (pubspecYaml['hook'] as YamlMap?, directory);
-}
 
 enum BuildModeEnum { local, checkout, fetch }
 
