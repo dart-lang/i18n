@@ -72,9 +72,6 @@ hooks:
     };
 
     final builtLibrary = await buildMode.build();
-    // For debugging purposes
-    // ignore: deprecated_member_use
-    output.metadata.addAll({'ICU4X_BUILD_MODE': buildOptions.buildMode.name});
 
     output.assets.code.add(
       CodeAsset(
@@ -88,8 +85,8 @@ hooks:
               ? const ToLinkHook(package)
               : const ToAppBundle(),
     );
-
     output.addDependencies(buildMode.dependencies);
+    output.addDependency(input.packageRoot.resolve('pubspec.yaml'));
   });
 }
 
