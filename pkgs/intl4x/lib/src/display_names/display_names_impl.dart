@@ -7,10 +7,10 @@ import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
-import 'display_names_4x.dart'
-    if (dart.library.js) 'display_names_stub_4x.dart';
 import 'display_names_options.dart';
 import 'display_names_stub.dart' if (dart.library.js) 'display_names_ecma.dart';
+import 'display_names_stub_4x.dart'
+    if (dart.library.io) 'display_names_4x.dart';
 
 /// This is an intermediate to defer to the actual implementations of
 /// Display naming.
