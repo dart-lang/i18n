@@ -1,3 +1,6 @@
+## 0.20.2-wip
+  * Allow analyzer 7.0.0
+
 ## 0.20.1
   * Add topics to `pubspec.yaml`
   * Update to `dart_style `2.3.7`. `bin/make_examples_const.dart` and
