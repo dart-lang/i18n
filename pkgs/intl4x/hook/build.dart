@@ -4,51 +4,53 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart';
 import 'package:crypto/crypto.dart' show sha256;
-import 'package:intl4x/src/hook_helpers/build_options.dart';
-import 'package:intl4x/src/hook_helpers/hashes.dart';
-import 'package:intl4x/src/hook_helpers/shared.dart'
-    show assetId, package, runProcess;
-import 'package:intl4x/src/hook_helpers/version.dart';
-import 'package:native_assets_cli/code_assets.dart';
-import 'package:path/path.dart' as path;
-
-const crateName = 'icu_capi';
+import 'package:hooks/hooks.dart';
+import 'package:intl4x/src/hook_helpers/build_libs.g.dart' show buildLib;
+import 'package:intl4x/src/hook_helpers/build_options.dart'
+    show BuildModeEnum, BuildOptions;
+import 'package:intl4x/src/hook_helpers/hashes.dart' show fileHashes;
+import 'package:intl4x/src/hook_helpers/shared.dart' show assetId, package;
+import 'package:intl4x/src/hook_helpers/version.dart' show version;
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final buildOptions = await getBuildOptions(
-      input.outputDirectory.toFilePath(),
-    );
-    if (buildOptions == null) {
+    BuildOptions buildOptions;
+    try {
+      buildOptions = BuildOptions.fromDefines(input.userDefines);
+      print('Got build options: ${buildOptions.toJson()}');
+    } catch (e) {
       throw ArgumentError('''
+Error: $e
 
-Unknown build mode for icu4x. Set the build mode with either `fetch`, `local`, or `checkout` by writing into your pubspec:
+
+Set the build mode with either `fetch`, `local`, or `checkout` by writing into your pubspec:
+
 * fetch: Fetch the precompiled binary from a CDN.
 ```
-...
-hook:
-  intl4x:
-    buildMode: fetch
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: fetch
 ```
+
 * local: Use a locally existing binary at the environment variable `LOCAL_ICU4X_BINARY`.
 ```
-...
-hook:
-  intl4x:
-    buildMode: local
-    localDylibPath: path/to/dylib.so
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: local
+      localDylibPath: path/to/dylib.so
 ```
+
 * checkout: Build a fresh library from a local git checkout of the icu4x repository.
 ```
-...
-hook:
-  intl4x:
-    buildMode: checkout
-    checkoutPath: path/to/checkout
-...
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: checkout
+      checkoutPath: path/to/checkout
 ```
 
 ''');
@@ -70,25 +72,21 @@ hook:
     };
 
     final builtLibrary = await buildMode.build();
-    // For debugging purposes
-    // ignore: deprecated_member_use
-    output.addMetadatum('ICU4X_BUILD_MODE', buildOptions.buildMode.name);
 
-    final targetOS = input.config.code.targetOS;
-    final targetArchitecture = input.config.code.targetArchitecture;
     output.assets.code.add(
       CodeAsset(
         package: package,
         name: assetId,
         linkMode: DynamicLoadingBundled(),
-        architecture: targetArchitecture,
-        os: targetOS,
         file: builtLibrary,
       ),
-      linkInPackage: input.config.linkingEnabled ? package : null,
+      routing:
+          input.config.linkingEnabled
+              ? const ToLinkHook(package)
+              : const ToAppBundle(),
     );
-
     output.addDependencies(buildMode.dependencies);
+    output.addDependency(input.packageRoot.resolve('pubspec.yaml'));
   });
 }
 
@@ -155,12 +153,12 @@ final class FetchMode extends BuildMode {
 }
 
 final class LocalMode extends BuildMode {
-  final String? localPath;
+  final Uri? localPath;
   LocalMode(super.input, this.localPath, super.treeshake);
 
   String get _localLibraryPath {
     if (localPath != null) {
-      return localPath!;
+      return localPath!.toFilePath(windows: Platform.isWindows);
     }
     throw ArgumentError(
       '`LOCAL_ICU4X_BINARY` is empty. '
@@ -189,7 +187,7 @@ final class LocalMode extends BuildMode {
 }
 
 final class CheckoutMode extends BuildMode {
-  final String? checkoutPath;
+  final Uri? checkoutPath;
 
   CheckoutMode(super.input, this.checkoutPath, super.treeshake);
 
@@ -198,139 +196,34 @@ final class CheckoutMode extends BuildMode {
     print('Running in `checkout` mode');
     if (checkoutPath == null) {
       throw ArgumentError(
-        'Specify the ICU4X checkout folder'
-        'with the LOCAL_ICU4X_CHECKOUT variable',
+        'Specify the ICU4X checkout folder with the `checkoutPath` key in your '
+        'pubspec build options.',
       );
     }
-    return await buildLib(input, checkoutPath!, treeshake);
+    final builtLib = await buildLib(
+      input.config.code.targetOS,
+      input.config.code.targetArchitecture,
+      input.config.buildStatic(treeshake),
+      input.config.code.targetOS == OS.iOS &&
+          input.config.code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
+      Directory.fromUri(checkoutPath!),
+      [
+        'icu_collator',
+        'icu_datetime',
+        'icu_list',
+        'icu_decimal',
+        'icu_plurals',
+        'experimental_components',
+        'default_components',
+        'compiled_data',
+      ],
+    );
+    return builtLib.uri;
   }
 
   @override
-  List<Uri> get dependencies => [
-    Uri.directory(checkoutPath!).resolve('Cargo.lock'),
-  ];
+  List<Uri> get dependencies => [checkoutPath!.resolve('Cargo.lock')];
 }
-
-//TODO: Reuse code from package:icu4x as soon as it is published.
-Future<Uri> buildLib(
-  BuildInput input,
-  String workingDirectory,
-  bool treeshake,
-) async {
-  final crateNameFixed = crateName.replaceAll('-', '_');
-  final libFileName = input.config.filename(treeshake)(crateNameFixed);
-  final libFileUri = input.outputDirectory.resolve(libFileName);
-
-  final code = input.config.code;
-  final targetOS = code.targetOS;
-  final targetArchitecture = code.targetArchitecture;
-  final buildStatic = input.config.buildStatic(treeshake);
-
-  final isNoStd = _isNoStdTarget((targetOS, targetArchitecture));
-  final target = asRustTarget(input);
-
-  if (!isNoStd) {
-    final rustArguments = ['target', 'add', target];
-    await runProcess(
-      'rustup',
-      rustArguments,
-      workingDirectory: workingDirectory,
-    );
-  }
-  final stdFeatures = ['logging', 'simple_logger'];
-  final noStdFeatures = ['libc_alloc', 'panic_handler'];
-  final features = {
-    'default_components',
-    'icu_collator',
-    'icu_datetime',
-    'icu_list',
-    'icu_decimal',
-    'icu_plurals',
-    'compiled_data',
-    'buffer_provider',
-    'experimental_components',
-    ...(isNoStd ? noStdFeatures : stdFeatures),
-  };
-  final arguments = [
-    if (buildStatic || isNoStd) '+nightly',
-    'rustc',
-    '--manifest-path=$workingDirectory/ffi/capi/Cargo.toml',
-    '--crate-type=${buildStatic ? 'staticlib' : 'cdylib'}',
-    '--release',
-    '--config=profile.release.panic="abort"',
-    '--config=profile.release.codegen-units=1',
-    '--no-default-features',
-    '--features=${features.join(',')}',
-    if (isNoStd) '-Zbuild-std=core,alloc',
-    if (buildStatic || isNoStd) ...[
-      '-Zbuild-std=std,panic_abort',
-      '-Zbuild-std-features=panic_immediate_abort',
-    ],
-    '--target=$target',
-  ];
-  await runProcess('cargo', arguments, workingDirectory: workingDirectory);
-
-  final builtPath = path.join(
-    workingDirectory,
-    'target',
-    target,
-    'release',
-    libFileName,
-  );
-  final file = File(builtPath);
-  if (!(await file.exists())) {
-    throw FileSystemException('Building the dylib failed', builtPath);
-  }
-  await file.copy(libFileUri.toFilePath(windows: Platform.isWindows));
-  return libFileUri;
-}
-
-String asRustTarget(BuildInput input) {
-  final rustTarget = _asRustTarget(
-    input.config.code.targetOS,
-    input.config.code.targetArchitecture,
-    input.config.code.targetOS == OS.iOS &&
-        input.config.code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
-  );
-  return rustTarget;
-}
-
-String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
-  if (os == OS.iOS && architecture == Architecture.arm64 && isSimulator) {
-    return 'aarch64-apple-ios-sim';
-  }
-  return switch ((os, architecture)) {
-    (OS.android, Architecture.arm) => 'armv7-linux-androideabi',
-    (OS.android, Architecture.arm64) => 'aarch64-linux-android',
-    (OS.android, Architecture.ia32) => 'i686-linux-android',
-    (OS.android, Architecture.riscv64) => 'riscv64-linux-android',
-    (OS.android, Architecture.x64) => 'x86_64-linux-android',
-    (OS.fuchsia, Architecture.arm64) => 'aarch64-unknown-fuchsia',
-    (OS.fuchsia, Architecture.x64) => 'x86_64-unknown-fuchsia',
-    (OS.iOS, Architecture.arm64) => 'aarch64-apple-ios',
-    (OS.iOS, Architecture.x64) => 'x86_64-apple-ios',
-    (OS.linux, Architecture.arm) => 'armv7-unknown-linux-gnueabihf',
-    (OS.linux, Architecture.arm64) => 'aarch64-unknown-linux-gnu',
-    (OS.linux, Architecture.ia32) => 'i686-unknown-linux-gnu',
-    (OS.linux, Architecture.riscv32) => 'riscv32gc-unknown-linux-gnu',
-    (OS.linux, Architecture.riscv64) => 'riscv64gc-unknown-linux-gnu',
-    (OS.linux, Architecture.x64) => 'x86_64-unknown-linux-gnu',
-    (OS.macOS, Architecture.arm64) => 'aarch64-apple-darwin',
-    (OS.macOS, Architecture.x64) => 'x86_64-apple-darwin',
-    (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
-    (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
-    (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
-    (_, _) =>
-      throw UnimplementedError(
-        'Target ${(os, architecture)} not available for rust',
-      ),
-  };
-}
-
-bool _isNoStdTarget((OS os, Architecture? architecture) arg) => [
-  (OS.android, Architecture.riscv64),
-  (OS.linux, Architecture.riscv64),
-].contains(arg);
 
 extension on BuildConfig {
   bool buildStatic(bool treeshake) =>

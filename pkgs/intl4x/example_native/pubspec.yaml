@@ -11,9 +11,10 @@ dependencies:
     path: ../
 
 dev_dependencies:
-  lints: ^5.0.0
+  lints: ^6.0.0
 
-hook:
-  intl4x:
-    buildMode: fetch
-    treeshake: true
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: checkout
+      checkoutPath: ../../../submodules/icu4x/
