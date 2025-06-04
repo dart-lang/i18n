@@ -358,7 +358,7 @@ String? evaluateConstString(Expression expression) => switch (expression) {
       _ => null,
     };
 
-Iterable<String>? _checkChildren<T>(Iterable<StringLiteral> strings) {
+Iterable<String>? _checkChildren(Iterable<StringLiteral> strings) {
   final constExpressions = strings.map(
     (string) => evaluateConstString(string),
   );
