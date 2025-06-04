@@ -35,8 +35,6 @@ library intl_message;
 import 'dart:convert';
 
 import 'package:analyzer/dart/ast/ast.dart';
-// ignore: implementation_imports
-import 'package:analyzer/src/dart/ast/constant_evaluator.dart';
 
 import 'complex_message.dart';
 import 'composite_message.dart';
@@ -74,26 +72,6 @@ abstract class Message {
 
   /// The name of the top-level [MainMessage].
   String get name => parent == null ? '<unnamed>' : parent!.name;
-
-  static final _evaluator = ConstantEvaluator();
-
-  static String? _evaluateAsString(expression) {
-    var result = expression.accept(_evaluator);
-    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
-      return null;
-    } else {
-      return result;
-    }
-  }
-
-  static Map? _evaluateAsMap(Expression expression) {
-    var result = expression.accept(_evaluator);
-    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! Map) {
-      return null;
-    } else {
-      return result;
-    }
-  }
 
   /// Verify that the args argument matches the method parameters and
   /// isn't, e.g. passing string names instead of the argument values.
@@ -141,7 +119,7 @@ abstract class Message {
   /// for messages with parameters.
   static void checkValidity(
     MethodInvocation node,
-    List arguments,
+    List<Expression> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,
@@ -165,7 +143,7 @@ abstract class Message {
           ' e.g. args: $parameterNames');
     }
 
-    var nameNamedExps = arguments
+    final nameNamedExps = arguments
         .whereType<NamedExpression>()
         .where((arg) => arg.name.label.name == 'name')
         .map((e) => e.expression);
@@ -177,7 +155,7 @@ abstract class Message {
     if (nameNamedExps.isEmpty) {
       if (!hasParameters) {
         // No name supplied, no parameters. Use the message as the name.
-        var name = _evaluateAsString(arguments[0]);
+        var name = evaluateConstString(arguments[0]);
         messageName = name;
         outerName = name;
       } else {
@@ -195,7 +173,7 @@ abstract class Message {
       }
     } else {
       // Name argument is supplied, use it.
-      var name = _evaluateAsString(nameNamedExps.first);
+      var name = evaluateConstString(nameNamedExps.first);
       messageName = name;
       givenName = name;
     }
@@ -227,7 +205,7 @@ abstract class Message {
         .map((each) => each.expression)
         .toList();
     for (var arg in values) {
-      if (_evaluateAsString(arg) == null) {
+      if (evaluateConstString(arg) == null) {
         throw MessageExtractionException(
             'Intl.message arguments must be string literals: $arg');
       }
@@ -245,8 +223,7 @@ abstract class Message {
       if (examples.isNotEmpty) {
         var example = examples.first;
         if (example is SetOrMapLiteral) {
-          var map = _evaluateAsMap(example);
-          if (map == null) {
+          if (!_isConstMap(example)) {
             throw MessageExtractionException(
                 'Examples must be a const Map literal.');
           } else if (example.constKeyword == null) {
@@ -373,4 +350,30 @@ abstract class Message {
   /// applied to any sub-messages, allowing this to be used to generate a form
   /// suitable for a wide variety of translation file formats.
   String expanded([String Function(Message, Object) transform]);
+}
+
+String? evaluateConstString(Expression expression) => switch (expression) {
+      SimpleStringLiteral() => expression.value,
+      AdjacentStrings() => _checkChildren(expression.strings)?.join(),
+      _ => null,
+    };
+
+Iterable<String>? _checkChildren<T>(Iterable<StringLiteral> strings) {
+  final constExpressions = strings.map(
+    (string) => evaluateConstString(string),
+  );
+  return constExpressions.any(
+    (string) => string == null,
+  )
+      ? null
+      : constExpressions.whereType();
+}
+
+bool _isConstMap(SetOrMapLiteral map) {
+  if (map.elements.any(
+    (element) => element is! MapLiteralEntry,
+  )) {
+    return false;
+  }
+  return map.isConst;
 }
