@@ -4,9 +4,9 @@
 
 import 'dart:io';
 
+import 'package:code_assets/code_assets.dart' show Architecture;
 import 'package:crypto/crypto.dart';
 import 'package:intl4x/src/hook_helpers/version.dart';
-import 'package:native_assets_cli/code_assets.dart' show Architecture;
 
 Future<void> main(List<String> args) async {
   final httpClient = HttpClient();
@@ -44,7 +44,7 @@ Future<void> main(List<String> args) async {
 //    dart tool/regenerate_hashes.dart
 //
 
-import 'package:native_assets_cli/code_assets.dart' show Architecture, OS;
+import 'package:code_assets/code_assets.dart' show Architecture, OS;
 
 const fileHashes = <(OS, Architecture, String), String>{
 ${fileHashes.map((key, value) => MapEntry(('OS.${key.$1}', 'Architecture.${key.$2}', "'${key.$3}'"), "'$value'")).entries.map((e) => '  ${e.key}:\n      ${e.value},').join('\n')}
