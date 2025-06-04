@@ -38,6 +38,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 
 import 'complex_message.dart';
 import 'composite_message.dart';
+import 'constant_evaluator.dart';
 import 'literal_string_message.dart';
 import 'message_extraction_exception.dart';
 import 'variable_substitution_message.dart';
@@ -223,7 +224,7 @@ abstract class Message {
       if (examples.isNotEmpty) {
         var example = examples.first;
         if (example is SetOrMapLiteral) {
-          if (!_isConstMap(example)) {
+          if (evaluateConstStringMap(example) == null) {
             throw MessageExtractionException(
                 'Examples must be a const Map literal.');
           } else if (example.constKeyword == null) {
@@ -350,30 +351,4 @@ abstract class Message {
   /// applied to any sub-messages, allowing this to be used to generate a form
   /// suitable for a wide variety of translation file formats.
   String expanded([String Function(Message, Object) transform]);
-}
-
-String? evaluateConstString(Expression expression) => switch (expression) {
-      SimpleStringLiteral() => expression.value,
-      AdjacentStrings() => _checkChildren(expression.strings)?.join(),
-      _ => null,
-    };
-
-Iterable<String>? _checkChildren(Iterable<StringLiteral> strings) {
-  final constExpressions = strings.map(
-    (string) => evaluateConstString(string),
-  );
-  return constExpressions.any(
-    (string) => string == null,
-  )
-      ? null
-      : constExpressions.whereType();
-}
-
-bool _isConstMap(SetOrMapLiteral map) {
-  if (map.elements.any(
-    (element) => element is! MapLiteralEntry,
-  )) {
-    return false;
-  }
-  return map.isConst;
 }
