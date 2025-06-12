@@ -2,44 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert' show JsonEncoder, json;
+import 'dart:convert' show JsonEncoder;
 import 'dart:io';
 
+// ignore: implementation_imports
+import 'package:collection/collection.dart';
+import 'package:hooks/hooks.dart' show HookInputUserDefines;
 import 'package:path/path.dart' as path;
-import 'package:yaml/yaml.dart' show YamlMap, loadYaml;
-
-Future<BuildOptions?> getBuildOptions(String searchDir) async {
-  final map = await readOptionsFromPubspec(searchDir);
-  print('Reading build options from $map');
-  final buildOptions = BuildOptions.fromMap(map?['intl4x'] as Map? ?? {});
-  print('Got build options: ${buildOptions.toJson()}');
-  return buildOptions;
-}
-
-Future<YamlMap?> readOptionsFromPubspec(String searchPath) async {
-  File pubspec(Directory dir) => File(path.join(dir.path, 'pubspec.yaml'));
-
-  var directory = Directory(searchPath);
-  var counter = 0;
-  while (!pubspec(directory).existsSync()) {
-    directory = directory.parent;
-    counter++;
-    if (counter > 10) {
-      throw ArgumentError('Could not find pubspec at $searchPath');
-    }
-  }
-
-  final pubspecYaml =
-      loadYaml(pubspec(directory).readAsStringSync()) as YamlMap;
-  return pubspecYaml['hook'] as YamlMap?;
-}
 
 enum BuildModeEnum { local, checkout, fetch }
 
 class BuildOptions {
   final BuildModeEnum buildMode;
-  final String? localDylibPath;
-  final String? checkoutPath;
+  final Uri? localDylibPath;
+  final Uri? checkoutPath;
   final bool? treeshake;
 
   BuildOptions({
@@ -52,25 +28,27 @@ class BuildOptions {
   Map<String, dynamic> toMap() {
     return {
       'buildMode': buildMode.name,
-      if (localDylibPath != null) 'localDylibPath': localDylibPath,
-      if (checkoutPath != null) 'checkoutPath': checkoutPath,
+      if (localDylibPath != null) 'localDylibPath': localDylibPath.toString(),
+      if (checkoutPath != null) 'checkoutPath': checkoutPath.toString(),
       if (treeshake != null) 'treeshake': treeshake.toString(),
     };
   }
 
-  factory BuildOptions.fromMap(Map map) {
+  factory BuildOptions.fromDefines(HookInputUserDefines defines) {
     return BuildOptions(
-      buildMode: BuildModeEnum.values.firstWhere(
-        (element) => element.name == map['buildMode'],
-      ),
-      localDylibPath: map['localDylibPath'] as String?,
-      checkoutPath: map['checkoutPath'] as String?,
-      treeshake: map['treeshake'] == true,
+      buildMode:
+          BuildModeEnum.values.firstWhereOrNull(
+            (element) => element.name == defines['buildMode'],
+          ) ??
+          BuildModeEnum.fetch,
+      localDylibPath: defines.path('localDylibPath'),
+      checkoutPath: defines.path('checkoutPath'),
+      treeshake: (defines['treeshake'] ?? true) == true,
     );
   }
 
-  String toJson() => const JsonEncoder.withIndent('  ').convert(toMap());
+  static String getPath(Directory dir, String p) =>
+      path.canonicalize(path.absolute(dir.path, p));
 
-  factory BuildOptions.fromJson(String source) =>
-      BuildOptions.fromMap(json.decode(source) as Map<String, dynamic>);
+  String toJson() => const JsonEncoder.withIndent('  ').convert(toMap());
 }
