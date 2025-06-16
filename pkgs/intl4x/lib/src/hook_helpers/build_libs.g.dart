@@ -18,17 +18,22 @@ Future<void> main(List<String> args) async {
   const compileTypeKey = 'compile_type';
   const cargoFeaturesKey = 'cargo_features';
   const workingDirectoryKey = 'working_directory';
-  final argParser = ArgParser()
-    ..addOption(fileKey, mandatory: true)
-    ..addOption(compileTypeKey, allowed: ['static', 'dynamic'], mandatory: true)
-    ..addFlag(simulatorKey, defaultsTo: false)
-    ..addOption(osKey, mandatory: true)
-    ..addOption(architectureKey, mandatory: true)
-    ..addOption(workingDirectoryKey)
-    ..addMultiOption(
-      cargoFeaturesKey,
-      defaultsTo: ['default_components', 'compiled_data'],
-    );
+  final argParser =
+      ArgParser()
+        ..addOption(fileKey, mandatory: true)
+        ..addOption(
+          compileTypeKey,
+          allowed: ['static', 'dynamic'],
+          mandatory: true,
+        )
+        ..addFlag(simulatorKey, defaultsTo: false)
+        ..addOption(osKey, mandatory: true)
+        ..addOption(architectureKey, mandatory: true)
+        ..addOption(workingDirectoryKey)
+        ..addMultiOption(
+          cargoFeaturesKey,
+          defaultsTo: ['default_components', 'compiled_data'],
+        );
 
   ArgResults parsed;
   try {
@@ -102,7 +107,7 @@ Future<File> buildLib(
     '--no-default-features',
     '--features=${{
       ...cargoFeatures,
-      ...(isNoStd ? ['libc_alloc', 'panic_handler'] : ['logging', 'simple_logger']),
+      ...(isNoStd ? ['libc_alloc'] : ['logging', 'simple_logger']),
     }.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
     if (buildStatic || isNoStd) ...[
@@ -154,9 +159,10 @@ String _asRustTarget(OS os, Architecture? architecture, bool isSimulator) {
     (OS.windows, Architecture.arm64) => 'aarch64-pc-windows-msvc',
     (OS.windows, Architecture.ia32) => 'i686-pc-windows-msvc',
     (OS.windows, Architecture.x64) => 'x86_64-pc-windows-msvc',
-    (_, _) => throw UnimplementedError(
-      'Target ${(os, architecture)} not available for rust',
-    ),
+    (_, _) =>
+      throw UnimplementedError(
+        'Target ${(os, architecture)} not available for rust',
+      ),
   };
 }
 
