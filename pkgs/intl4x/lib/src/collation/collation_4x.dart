@@ -4,7 +4,6 @@
 
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'collation_impl.dart';
@@ -21,8 +20,7 @@ class Collation4X extends CollationImpl {
 
   Collation4X(super.locale, Data data, super.options)
     : _collator = icu.Collator(
-        data.to4X(),
-        locale.to4X(),
+        locale.to4X().setOptions(options),
         options.to4xOptions(),
       );
 
@@ -30,17 +28,32 @@ class Collation4X extends CollationImpl {
   int compareImpl(String a, String b) => _collator.compare(a, b);
 }
 
+extension on icu.Locale {
+  icu.Locale setOptions(CollationOptions options) {
+    final icuNumeric = switch (options.numeric) {
+      true => icu.CollatorNumericOrdering.on,
+      false => icu.CollatorNumericOrdering.off,
+      null => null,
+    };
+    final s = 'kn';
+    if (icuNumeric != null && getUnicodeExtension(s) != null) {
+      setUnicodeExtension(s, icuNumeric.name);
+    }
+
+    final icuCaseFirst = switch (options.caseFirst) {
+      CaseFirst.upper => icu.CollatorCaseFirst.upper,
+      CaseFirst.lower => icu.CollatorCaseFirst.lower,
+      CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
+      null => throw UnimplementedError(),
+    };
+    if (icuCaseFirst != null) {
+      setUnicodeExtension(k, v);
+    }
+  }
+}
+
 extension on CollationOptions {
   icu.CollatorOptions to4xOptions() {
-    final icuNumeric =
-        numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
-
-    final icuCaseFirst = switch (caseFirst) {
-      CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
-      CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
-      CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
-    };
-
     final icuStrength = switch (sensitivity) {
       Sensitivity.base => icu.CollatorStrength.primary,
       Sensitivity.accent => icu.CollatorStrength.secondary,
@@ -56,12 +69,12 @@ extension on CollationOptions {
 
     return icu.CollatorOptions(
       strength: icuStrength,
-      numeric: icuNumeric,
-      caseFirst: icuCaseFirst,
       caseLevel: icuCaseLevel,
-      alternateHandling: icu.CollatorAlternateHandling.nonIgnorable,
-      backwardSecondLevel: icu.CollatorBackwardSecondLevel.off,
-      maxVariable: icu.CollatorMaxVariable.auto,
+      alternateHandling:
+          ignorePunctuation
+              ? icu.CollatorAlternateHandling.shifted
+              : icu.CollatorAlternateHandling.nonIgnorable,
+      // maxVariable: Not supported in ECMA402
     );
   }
 }
