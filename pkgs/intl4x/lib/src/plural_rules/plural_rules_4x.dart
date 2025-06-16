@@ -4,7 +4,6 @@
 
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'plural_rules.dart';
@@ -22,8 +21,8 @@ class PluralRules4X extends PluralRulesImpl {
 
   PluralRules4X(super.locale, Data data, super.options)
     : _pluralRules = switch (options.type) {
-        Type.cardinal => icu.PluralRules.cardinal(data.to4X(), locale.to4X()),
-        Type.ordinal => icu.PluralRules.ordinal(data.to4X(), locale.to4X()),
+        Type.cardinal => icu.PluralRules.cardinal(locale.to4X()),
+        Type.ordinal => icu.PluralRules.ordinal(locale.to4X()),
       };
 
   @override

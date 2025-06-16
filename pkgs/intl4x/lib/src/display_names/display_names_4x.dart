@@ -5,7 +5,6 @@
 import '../../display_names.dart';
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'display_names_impl.dart';
@@ -22,11 +21,10 @@ class DisplayNames4X extends DisplayNamesImpl {
 
   DisplayNames4X(super.locale, Data data, super.options)
     : _formatter = icu.LocaleDisplayNamesFormatter(
-        data.to4X(),
         locale.to4X(),
         options.to4X(),
       ),
-      _regionFormatter = icu.RegionDisplayNames(data.to4X(), locale.to4X());
+      _regionFormatter = icu.RegionDisplayNames(locale.to4X(), options.to4X());
 
   @override
   String ofCalendar(Calendar calendar) {

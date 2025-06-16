@@ -4,7 +4,6 @@
 
 import '../bindings/lib.g.dart' as icu;
 import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'list_format_impl.dart';
@@ -36,7 +35,7 @@ class ListFormat4X extends ListFormatImpl {
       Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
-    return constructor(data.to4X(), locale.to4X(), options.style.to4X());
+    return constructor(locale.to4X(), options.style.to4X());
   }
 }
 

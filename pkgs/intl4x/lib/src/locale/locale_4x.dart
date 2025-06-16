@@ -8,9 +8,9 @@ import 'locale.dart';
 
 extension Locale4X on Locale {
   icu.Locale to4X() {
-    final icu4xLocale = icu.Locale.und()..language = language;
-    if (region != null) icu4xLocale.region = region!;
-    if (script != null) icu4xLocale.script = script!;
+    final icu4xLocale = icu.Locale.unknown()..language = language;
+    if (region != null) icu4xLocale.setRegion(region!);
+    if (script != null) icu4xLocale.setScript(script!);
     return icu4xLocale;
   }
 }
