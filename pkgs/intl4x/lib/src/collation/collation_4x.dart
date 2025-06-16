@@ -20,7 +20,7 @@ class Collation4X extends CollationImpl {
 
   Collation4X(super.locale, Data data, super.options)
     : _collator = icu.Collator(
-        locale.to4X().setOptions(options),
+        locale.to4X()..setOptions(options),
         options.to4xOptions(),
       );
 
@@ -28,26 +28,33 @@ class Collation4X extends CollationImpl {
   int compareImpl(String a, String b) => _collator.compare(a, b);
 }
 
+const _numericExtensionKey = 'kn';
+final _caseFirstExtensionKey = 'kf';
+
 extension on icu.Locale {
-  icu.Locale setOptions(CollationOptions options) {
+  void setOptions(CollationOptions options) {
     final icuNumeric = switch (options.numeric) {
       true => icu.CollatorNumericOrdering.on,
       false => icu.CollatorNumericOrdering.off,
       null => null,
     };
-    final s = 'kn';
-    if (icuNumeric != null && getUnicodeExtension(s) != null) {
-      setUnicodeExtension(s, icuNumeric.name);
+    if (icuNumeric != null &&
+        getUnicodeExtension(_numericExtensionKey) != null) {
+      setUnicodeExtension(_numericExtensionKey, icuNumeric.name);
     }
 
     final icuCaseFirst = switch (options.caseFirst) {
       CaseFirst.upper => icu.CollatorCaseFirst.upper,
       CaseFirst.lower => icu.CollatorCaseFirst.lower,
       CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
-      null => throw UnimplementedError(),
+      null => null,
     };
     if (icuCaseFirst != null) {
-      setUnicodeExtension(k, v);
+      setUnicodeExtension(_caseFirstExtensionKey, switch (icuCaseFirst) {
+        icu.CollatorCaseFirst.lower => icuCaseFirst.name,
+        icu.CollatorCaseFirst.upper => icuCaseFirst.name,
+        icu.CollatorCaseFirst.off => 'false',
+      });
     }
   }
 }
@@ -74,7 +81,7 @@ extension on CollationOptions {
           ignorePunctuation
               ? icu.CollatorAlternateHandling.shifted
               : icu.CollatorAlternateHandling.nonIgnorable,
-      // maxVariable: Not supported in ECMA402
+      //TODO(mosum): maxVariable: Not supported in ECMA402
     );
   }
 }
