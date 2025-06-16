@@ -21,8 +21,8 @@ class NumberFormat4X extends NumberFormatImpl {
   final icu.DecimalFormatter _formatter;
   NumberFormat4X(super.locale, Data data, super.options)
     : _formatter = icu.DecimalFormatter.withGroupingStrategy(
-        locale.to4X(),
-        options.groupingStrategy4X(),
+        locale.toX,
+        options.toX,
       );
 
   @override
@@ -115,7 +115,7 @@ class NumberFormat4X extends NumberFormatImpl {
 }
 
 extension on NumberFormatOptions {
-  icu.DecimalGroupingStrategy groupingStrategy4X() => switch (useGrouping) {
+  icu.DecimalGroupingStrategy get toX => switch (useGrouping) {
     Grouping.always => icu.DecimalGroupingStrategy.always,
     Grouping.auto => icu.DecimalGroupingStrategy.auto,
     Grouping.never => icu.DecimalGroupingStrategy.never,

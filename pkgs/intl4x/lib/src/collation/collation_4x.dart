@@ -19,10 +19,7 @@ class Collation4X extends CollationImpl {
   final icu.Collator _collator;
 
   Collation4X(super.locale, Data data, super.options)
-    : _collator = icu.Collator(
-        locale.to4X()..setOptions(options),
-        options.to4xOptions(),
-      );
+    : _collator = icu.Collator(locale.toX..setOptions(options), options.toX);
 
   @override
   int compareImpl(String a, String b) => _collator.compare(a, b);
@@ -60,7 +57,7 @@ extension on icu.Locale {
 }
 
 extension on CollationOptions {
-  icu.CollatorOptions to4xOptions() {
+  icu.CollatorOptions get toX {
     final icuStrength = switch (sensitivity) {
       Sensitivity.base => icu.CollatorStrength.primary,
       Sensitivity.accent => icu.CollatorStrength.secondary,

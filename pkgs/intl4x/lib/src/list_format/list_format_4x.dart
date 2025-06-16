@@ -35,12 +35,12 @@ class ListFormat4X extends ListFormatImpl {
       Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
-    return constructor(locale.to4X(), options.style.to4X());
+    return constructor(locale.toX, options.style.toX);
   }
 }
 
 extension on ListStyle {
-  icu.ListLength to4X() => switch (this) {
+  icu.ListLength get toX => switch (this) {
     ListStyle.narrow => icu.ListLength.narrow,
     ListStyle.short => icu.ListLength.short,
     ListStyle.long => icu.ListLength.wide,

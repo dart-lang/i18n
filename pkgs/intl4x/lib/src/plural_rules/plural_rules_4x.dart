@@ -21,19 +21,19 @@ class PluralRules4X extends PluralRulesImpl {
 
   PluralRules4X(super.locale, Data data, super.options)
     : _pluralRules = switch (options.type) {
-        Type.cardinal => icu.PluralRules.cardinal(locale.to4X()),
-        Type.ordinal => icu.PluralRules.ordinal(locale.to4X()),
+        Type.cardinal => icu.PluralRules.cardinal(locale.toX),
+        Type.ordinal => icu.PluralRules.ordinal(locale.toX),
       };
 
   @override
   PluralCategory selectImpl(num number) {
     final operand = icu.PluralOperands.fromString(number.toString());
-    return _pluralRules.categoryFor(operand).toDart();
+    return _pluralRules.categoryFor(operand).toDart;
   }
 }
 
 extension on icu.PluralCategory {
-  PluralCategory toDart() => switch (this) {
+  PluralCategory get toDart => switch (this) {
     icu.PluralCategory.zero => PluralCategory.zero,
     icu.PluralCategory.one => PluralCategory.one,
     icu.PluralCategory.two => PluralCategory.two,

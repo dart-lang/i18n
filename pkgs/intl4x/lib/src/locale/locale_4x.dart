@@ -7,7 +7,7 @@ import '../bindings/lib.g.dart' as icu;
 import 'locale.dart';
 
 extension Locale4X on Locale {
-  icu.Locale to4X() {
+  icu.Locale get toX {
     final icu4xLocale = icu.Locale.unknown()..language = language;
     if (region != null) icu4xLocale.setRegion(region!);
     if (script != null) icu4xLocale.setScript(script!);
