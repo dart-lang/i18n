@@ -115,7 +115,7 @@ extension on DateTimeFormatOptions {
         if (second != null) 'second': second!.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
-        if (timeZoneName != null) 'timeZoneName': timeZoneName!.name,
+        if (timeZone != null) 'timeZoneName': timeZone!.name,
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
 }

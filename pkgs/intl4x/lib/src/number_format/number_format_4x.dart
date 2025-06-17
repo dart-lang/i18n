@@ -5,7 +5,6 @@
 import 'dart:math';
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'number_format_impl.dart';
@@ -13,13 +12,12 @@ import 'number_format_options.dart';
 
 NumberFormatImpl getNumberFormatter4X(
   Locale locale,
-  Data data,
   NumberFormatOptions options,
-) => NumberFormat4X(locale, data, options);
+) => NumberFormat4X(locale, options);
 
 class NumberFormat4X extends NumberFormatImpl {
   final icu.DecimalFormatter _formatter;
-  NumberFormat4X(super.locale, Data data, super.options)
+  NumberFormat4X(super.locale, super.options)
     : _formatter = icu.DecimalFormatter.withGroupingStrategy(
         locale.toX,
         options.toX,

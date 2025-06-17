@@ -3,22 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
-ListFormatImpl getListFormatter4X(
-  Locale locale,
-  Data data,
-  ListFormatOptions options,
-) => ListFormat4X(locale, data, options);
+ListFormatImpl getListFormatter4X(Locale locale, ListFormatOptions options) =>
+    ListFormat4X(locale, options);
 
 class ListFormat4X extends ListFormatImpl {
   final icu.ListFormatter _formatter;
-  ListFormat4X(super.locale, Data data, super.options)
-    : _formatter = _getFormatter(locale, data, options);
+  ListFormat4X(super.locale, super.options)
+    : _formatter = _getFormatter(locale, options);
 
   @override
   String formatImpl(List<String> list) {
@@ -27,7 +23,6 @@ class ListFormat4X extends ListFormatImpl {
 
   static icu.ListFormatter _getFormatter(
     Locale locale,
-    Data data,
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {

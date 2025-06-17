@@ -6,7 +6,6 @@ import 'collation.dart';
 import 'display_names.dart';
 import 'number_format.dart';
 import 'src/collation/collation_impl.dart';
-import 'src/data.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_impl.dart';
 import 'src/datetime_format/datetime_format_options.dart';
@@ -23,7 +22,6 @@ import 'src/plural_rules/plural_rules.dart';
 import 'src/plural_rules/plural_rules_impl.dart';
 import 'src/plural_rules/plural_rules_options.dart';
 
-export 'src/data.dart';
 export 'src/locale/locale.dart';
 export 'src/plural_rules/plural_rules.dart';
 
@@ -43,19 +41,17 @@ typedef Icu4xKey = String;
 /// ```
 class Intl {
   final EcmaPolicy ecmaPolicy;
-  final Data data;
   final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       Collation(
-        CollationImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+        CollationImpl.build(locale, options, localeMatcher, ecmaPolicy),
       );
 
   NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
     NumberFormatImpl.build(
       locale,
-      data,
       options ?? NumberFormatOptions.custom(),
       localeMatcher,
       ecmaPolicy,
@@ -65,25 +61,24 @@ class Intl {
   ListFormat listFormat([
     ListFormatOptions options = const ListFormatOptions(),
   ]) => ListFormat(
-    ListFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+    ListFormatImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
   DisplayNames displayNames([
     DisplayNamesOptions options = const DisplayNamesOptions(),
   ]) => DisplayNames(
-    DisplayNamesImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+    DisplayNamesImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
   DateTimeFormat datetimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
   ]) => DateTimeFormat(
-    DateTimeFormatImpl.build(locale, data, options, localeMatcher, ecmaPolicy),
+    DateTimeFormatImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
   PluralRules plural([PluralRulesOptions? options]) => PluralRules(
     PluralRulesImpl.build(
       locale,
-      data,
       options ?? PluralRulesOptions(),
       localeMatcher,
       ecmaPolicy,
@@ -98,7 +93,6 @@ class Intl {
     this.ecmaPolicy = defaultPolicy,
     this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
-    this.data = const NoData(),
   }) : locale = locale ?? findSystemLocale();
 
   Intl.includeLocales({
@@ -130,12 +124,10 @@ class Intl {
     Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-    Data data = const BundleData(),
   }) : this._(
          locale: locale,
          ecmaPolicy: ecmaPolicy,
          supportedLocales: allLocales,
-         data: data,
        );
 
   Locale locale;

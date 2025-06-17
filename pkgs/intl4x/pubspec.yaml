@@ -37,6 +37,9 @@ dev_dependencies:
   test: ^1.26.2
   yaml_edit: ^2.2.2
 
-hook:
-  intl4x:
-    buildMode: fetch
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: checkout
+      checkoutPath: ../../submodules/icu4x/
+

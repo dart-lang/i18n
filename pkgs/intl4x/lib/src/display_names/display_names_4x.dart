@@ -4,22 +4,22 @@
 
 import '../../display_names.dart';
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
+
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'display_names_impl.dart';
 
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
-  Data data,
+
   DisplayNamesOptions options,
-) => DisplayNames4X(locale, data, options);
+) => DisplayNames4X(locale, options);
 
 class DisplayNames4X extends DisplayNamesImpl {
   final icu.LocaleDisplayNamesFormatter _formatter;
   final icu.RegionDisplayNames _regionFormatter;
 
-  DisplayNames4X(super.locale, Data data, super.options)
+  DisplayNames4X(super.locale, super.options)
     : _formatter = icu.LocaleDisplayNamesFormatter(locale.toX, options.toX),
       _regionFormatter = icu.RegionDisplayNames(locale.toX, options.toX);
 

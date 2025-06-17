@@ -3,23 +3,19 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
-PluralRulesImpl getPluralSelect4X(
-  Locale locale,
-  Data data,
-  PluralRulesOptions options,
-) => PluralRules4X(locale, data, options);
+PluralRulesImpl getPluralSelect4X(Locale locale, PluralRulesOptions options) =>
+    PluralRules4X(locale, options);
 
 class PluralRules4X extends PluralRulesImpl {
   final icu.PluralRules _pluralRules;
 
-  PluralRules4X(super.locale, Data data, super.options)
+  PluralRules4X(super.locale, super.options)
     : _pluralRules = switch (options.type) {
         Type.cardinal => icu.PluralRules.cardinal(locale.toX),
         Type.ordinal => icu.PluralRules.ordinal(locale.toX),

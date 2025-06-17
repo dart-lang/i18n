@@ -25,10 +25,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.short,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.short(timeZone)),
           )
           .format(date),
       '12/16/2021, PST',
@@ -36,10 +33,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.long,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.long(timeZone)),
           )
           .format(date),
       '12/16/2021, Pacific Standard Time',
@@ -47,10 +41,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.shortOffset,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.shortOffset(timeZone)),
           )
           .format(date),
       '12/16/2021, GMT-8',
@@ -58,10 +49,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.longOffset,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.longOffset(timeZone)),
           )
           .format(date),
       '12/16/2021, GMT-08:00',
@@ -69,10 +57,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.shortGeneric,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.shortGeneric(timeZone)),
           )
           .format(date),
       '12/16/2021, PT',
@@ -80,10 +65,7 @@ void main() {
     expect(
       intl
           .datetimeFormat(
-            DateTimeFormatOptions(
-              timeZone: timeZone,
-              timeZoneName: TimeZoneName.longGeneric,
-            ),
+            DateTimeFormatOptions(timeZone: TimeZone.longGeneric(timeZone)),
           )
           .format(date),
       '12/16/2021, Pacific Time',
@@ -99,7 +81,7 @@ void main() {
               hour: TimeStyle.numeric,
               clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
               dayPeriod: DayPeriod.short,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),
@@ -113,7 +95,7 @@ void main() {
               hour: TimeStyle.numeric,
               clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
               dayPeriod: DayPeriod.narrow,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),
@@ -127,7 +109,7 @@ void main() {
               hour: TimeStyle.numeric,
               clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
               dayPeriod: DayPeriod.long,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),
@@ -142,7 +124,7 @@ void main() {
           .datetimeFormat(
             const DateTimeFormatOptions(
               timeFormatStyle: TimeFormatStyle.short,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),
@@ -153,7 +135,7 @@ void main() {
           .datetimeFormat(
             const DateTimeFormatOptions(
               dateFormatStyle: DateFormatStyle.short,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),
@@ -165,7 +147,7 @@ void main() {
             const DateTimeFormatOptions(
               timeFormatStyle: TimeFormatStyle.medium,
               dateFormatStyle: DateFormatStyle.short,
-              timeZone: 'UTC',
+              timeZone: TimeZone.short('UTC'),
             ),
           )
           .format(date),

@@ -23,7 +23,6 @@ class DateTimeFormatOptions {
   /// [clockstyle] parameter is true.
   final DayPeriod? dayPeriod;
   final NumberingSystem? numberingSystem;
-  final String? timeZone;
 
   /// Whether to use a 12- or 24-hour style clock.
   final ClockStyle? clockstyle;
@@ -40,7 +39,7 @@ class DateTimeFormatOptions {
   final int? fractionalSecondDigits;
 
   /// The localized representation of the time zone name.
-  final TimeZoneName? timeZoneName;
+  final TimeZone? timeZone;
   final FormatMatcher formatMatcher;
   final LocaleMatcher localeMatcher;
 
@@ -61,7 +60,6 @@ class DateTimeFormatOptions {
     this.minute,
     this.second,
     this.fractionalSecondDigits,
-    this.timeZoneName,
     this.formatMatcher = FormatMatcher.bestfit,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
@@ -72,7 +70,7 @@ class DateTimeFormatOptions {
     Calendar? calendar,
     DayPeriod? dayPeriod,
     NumberingSystem? numberingSystem,
-    String? timeZone,
+    TimeZone? timeZone,
     ClockStyle? clockstyle,
     WeekDayStyle? weekday,
     EraStyle? era,
@@ -83,7 +81,7 @@ class DateTimeFormatOptions {
     TimeStyle? minute,
     TimeStyle? second,
     int? fractionalSecondDigits,
-    TimeZoneName? timeZoneName,
+    TimeZoneType? timeZoneName,
     FormatMatcher? formatMatcher,
     LocaleMatcher? localeMatcher,
   }) {
@@ -105,7 +103,6 @@ class DateTimeFormatOptions {
       second: second ?? this.second,
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
-      timeZoneName: timeZoneName ?? this.timeZoneName,
       formatMatcher: formatMatcher ?? this.formatMatcher,
       localeMatcher: localeMatcher ?? this.localeMatcher,
     );
@@ -184,7 +181,19 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
-enum TimeZoneName {
+final class TimeZone {
+  final String name;
+  final TimeZoneType type;
+
+  const TimeZone.short(this.name) : type = TimeZoneType.short;
+  const TimeZone.long(this.name) : type = TimeZoneType.long;
+  const TimeZone.shortOffset(this.name) : type = TimeZoneType.shortOffset;
+  const TimeZone.longOffset(this.name) : type = TimeZoneType.longOffset;
+  const TimeZone.shortGeneric(this.name) : type = TimeZoneType.shortGeneric;
+  const TimeZone.longGeneric(this.name) : type = TimeZoneType.longGeneric;
+}
+
+enum TimeZoneType {
   /// Example: `Pacific Standard Time`
   long,
 

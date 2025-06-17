@@ -3,22 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
-CollationImpl getCollator4X(
-  Locale locale,
-  Data data,
-  CollationOptions options,
-) => Collation4X(locale, data, options);
+CollationImpl getCollator4X(Locale locale, CollationOptions options) =>
+    Collation4X(locale, options);
 
 class Collation4X extends CollationImpl {
   final icu.Collator _collator;
 
-  Collation4X(super.locale, Data data, super.options)
+  Collation4X(super.locale, super.options)
     : _collator = icu.Collator(locale.toX..setOptions(options), options.toX);
 
   @override
