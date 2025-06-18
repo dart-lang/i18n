@@ -122,10 +122,13 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     if (options.dateFormatStyle != null) {
       return null;
     }
+    final (alignment, yearstyle, precision) = options.toX;
     return options.timeFormatStyle?.map(
       (style) => icu.TimeFormatter(
         locale.toX,
-        timePrecision: icu.TimePrecision.minute,
+        timePrecision: precision,
+        alignment: icu.DateTimeAlignment.auto,
+        length: icu.DateTimeLength.long,
       ),
     );
   }
@@ -148,7 +151,6 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     }
     final (alignment, yearStyle, timePrecision) = options.toX;
     return switch ((dateFormatStyle, timeFormatStyle)) {
-      // TODO: Handle this case.
       (_, _) => icu.DateTimeFormatter.ymdt(
         localeX,
         alignment: alignment,
@@ -172,23 +174,23 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     final (alignment, yearStyle, timePrecision) = options.toX;
 
     return switch (dateFormatStyle) {
-      TimeFormatStyle.full => icu.DateFormatter.ymd(
+      TimeFormatStyle.full => icu.DateFormatter.ymde(
         locale.toX,
         alignment: alignment,
         yearStyle: yearStyle,
-        length: icu.DateTimeLength.short,
+        length: icu.DateTimeLength.long,
       ),
       TimeFormatStyle.long => icu.DateFormatter.ymd(
         locale.toX,
         alignment: alignment,
         yearStyle: yearStyle,
-        length: icu.DateTimeLength.short,
+        length: icu.DateTimeLength.long,
       ),
       TimeFormatStyle.medium => icu.DateFormatter.ymd(
         locale.toX,
         alignment: alignment,
         yearStyle: yearStyle,
-        length: icu.DateTimeLength.short,
+        length: icu.DateTimeLength.medium,
       ),
       TimeFormatStyle.short => icu.DateFormatter.ymd(
         locale.toX,
@@ -207,89 +209,82 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
 
   @override
   String formatImpl(DateTime datetime) {
-    final isoDate = icu.IsoDate(datetime.year, datetime.month, datetime.day);
-    final time = icu.Time(
-      datetime.hour,
-      datetime.minute,
-      datetime.second,
-      datetime.millisecond,
-    );
-    if (_zonedDateFormatter != null) {
-      return _zonedDateFormatter!.formatIso(
-        isoDate,
-        options.timeZone!.toX(isoDate, time),
+    final timeZone = options.timeZone;
+    if (timeZone != null) {
+      final utcOffset = icu.UtcOffset.fromString(timeZone.offset);
+      final correctedDateTime = datetime.add(
+        Duration(seconds: utcOffset.seconds),
       );
-    } else if (_zonedTimeFormatter != null) {
-      return _zonedTimeFormatter.format(
-        time,
-        options.timeZone!.toX(isoDate, time),
-      );
-    } else if (_zonedDateTimeFormatter != null) {
-      return _zonedDateTimeFormatter!.formatIso(
-        isoDate,
-        time,
-        options.timeZone!.toX(isoDate, time),
-      );
-    } else if (_dateFormatter != null) {
-      return _dateFormatter.formatIso(isoDate);
-    } else if (_timeFormatter != null) {
-      return _timeFormatter.format(time);
-    } else if (_dateTimeFormatter != null) {
-      return _dateTimeFormatter.formatIso(isoDate, time);
+      final (isoDate, time) = correctedDateTime.toX;
+      final timeZoneX = icu.IanaParser()
+          .parse(timeZone.name)
+          .withOffset(utcOffset)
+          .atDateTimeIso(isoDate, time);
+
+      final success = timeZoneX.inferVariant(icu.VariantOffsetsCalculator());
+      if (!success) {
+        throw ArgumentError(
+          '''
+The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
+        );
+      }
+      if (_zonedDateFormatter != null) {
+        return _zonedDateFormatter!.formatIso(isoDate, timeZoneX);
+      } else if (_zonedTimeFormatter != null) {
+        return _zonedTimeFormatter.format(time, timeZoneX);
+      } else if (_zonedDateTimeFormatter != null) {
+        return _zonedDateTimeFormatter!.formatIso(isoDate, time, timeZoneX);
+      } else {
+        throw UnimplementedError('''
+Either date or time formatting has to be enabled if a timezone is given.''');
+      }
     } else {
-      throw UnimplementedError(
-        'Custom skeletons are not yet supported in ICU4X. '
-        'Either date or time formatting has to be enabled.',
-      );
+      final (isoDate, time) = datetime.toX;
+      if (_dateFormatter != null) {
+        return _dateFormatter.formatIso(isoDate);
+      } else if (_timeFormatter != null) {
+        return _timeFormatter.format(time);
+      } else if (_dateTimeFormatter != null) {
+        return _dateTimeFormatter.formatIso(isoDate, time);
+      } else {
+        throw UnimplementedError(
+          'Either date or time formatting has to be enabled.',
+        );
+      }
     }
   }
 }
 
-extension on TimeFormatStyle {
-  icu.DateTimeLength get t2oX => switch (this) {
-    TimeFormatStyle.full => icu.DateTimeLength.long, //TODO: Does this match?
-    TimeFormatStyle.long => icu.DateTimeLength.long,
-    TimeFormatStyle.medium => icu.DateTimeLength.medium,
-    TimeFormatStyle.short => icu.DateTimeLength.short,
-  };
-}
-
-extension on TimeZone {
-  icu.TimeZoneInfo toX(icu.IsoDate date, icu.Time time) {
-    final timeZone = icu.IanaParser()
-        .parse(name)
-        .withOffset(icu.UtcOffset.fromString(offset))
-        .atDateTimeIso(date, time);
-
-    final success = timeZone.inferVariant(icu.VariantOffsetsCalculator());
-    if (!success) {
-      throw ArgumentError(
-        'The variant of $name with offset $offset could not be inferred',
-      );
-    }
-    return timeZone;
+extension on DateTime {
+  (icu.IsoDate, icu.Time) get toX {
+    final isoDate = icu.IsoDate(year, month, day);
+    final time = icu.Time(hour, minute, second, millisecond);
+    return (isoDate, time);
   }
 }
 
 extension on DateTimeFormatOptions {
   (icu.DateTimeAlignment?, icu.YearStyle?, icu.TimePrecision?) get toX {
-    final yearStyle = switch (dateFormatStyle) {
-      null => icu.YearStyle.full,
-      TimeFormatStyle.full => icu.YearStyle.auto,
-      TimeFormatStyle.long => icu.YearStyle.auto,
-      TimeFormatStyle.medium => icu.YearStyle.auto,
-      TimeFormatStyle.short => icu.YearStyle.auto,
-    };
-    var timePrecision;
-    return (alignmentX, yearStyle, timePrecision);
-  }
-
-  icu.DateTimeAlignment? get alignmentX {
-    final alignment = switch (year) {
-      null => null,
-      TimeStyle.numeric => icu.DateTimeAlignment.auto,
-      TimeStyle.twodigit => icu.DateTimeAlignment.column,
-    };
-    return alignment;
+    return (
+      switch (year) {
+        null => null,
+        TimeStyle.numeric => icu.DateTimeAlignment.auto,
+        TimeStyle.twodigit => icu.DateTimeAlignment.column,
+      },
+      switch (dateFormatStyle) {
+        null => icu.YearStyle.full,
+        TimeFormatStyle.full => icu.YearStyle.auto,
+        TimeFormatStyle.long => icu.YearStyle.auto,
+        TimeFormatStyle.medium => icu.YearStyle.auto,
+        TimeFormatStyle.short => icu.YearStyle.auto,
+      },
+      switch (timeFormatStyle) {
+        null => null,
+        TimeFormatStyle.full => icu.TimePrecision.second,
+        TimeFormatStyle.long => icu.TimePrecision.second,
+        TimeFormatStyle.medium => icu.TimePrecision.second,
+        TimeFormatStyle.short => icu.TimePrecision.minute,
+      },
+    );
   }
 }

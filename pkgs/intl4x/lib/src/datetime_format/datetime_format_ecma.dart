@@ -84,12 +84,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
 }
 
 extension on DateTime {
-  Date toJs() =>
-      isUtc
-          ? Date.fromTimeStamp(
-            Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
-          )
-          : Date(year, month - 1, day, hour, minute, second, millisecond);
+  // We assume the date is UTC
+  Date toJs() => Date(year, month - 1, day, hour, minute, second, millisecond);
 }
 
 extension on DateTimeFormatOptions {
