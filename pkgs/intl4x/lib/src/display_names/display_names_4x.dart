@@ -11,7 +11,6 @@ import 'display_names_impl.dart';
 
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
-
   DisplayNamesOptions options,
 ) => DisplayNames4X(locale, options);
 

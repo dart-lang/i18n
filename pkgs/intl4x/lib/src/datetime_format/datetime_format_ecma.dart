@@ -101,7 +101,7 @@ extension on DateTimeFormatOptions {
         if (calendar != null) 'calendar': calendar!.jsName,
         if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
         if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
-        if (timeZone != null) 'timeZone': timeZone!,
+        if (timeZone != null) 'timeZone': timeZone!.name,
         if (clockstyle != null) 'hour12': clockstyle!.is12Hour,
         if (clockstyle != null && clockstyle!.startAtZero != null)
           'hourCycle': clockstyle!.hourStyleJsString(),
@@ -115,7 +115,7 @@ extension on DateTimeFormatOptions {
         if (second != null) 'second': second!.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
-        if (timeZone != null) 'timeZoneName': timeZone!.name,
+        if (timeZone != null) 'timeZoneName': timeZone!.type.name,
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
 }

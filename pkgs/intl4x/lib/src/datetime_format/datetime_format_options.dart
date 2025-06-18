@@ -184,13 +184,27 @@ enum TimeStyle {
 final class TimeZone {
   final String name;
   final TimeZoneType type;
+  final String offset;
+  final bool inferVariant;
 
-  const TimeZone.short(this.name) : type = TimeZoneType.short;
-  const TimeZone.long(this.name) : type = TimeZoneType.long;
-  const TimeZone.shortOffset(this.name) : type = TimeZoneType.shortOffset;
-  const TimeZone.longOffset(this.name) : type = TimeZoneType.longOffset;
-  const TimeZone.shortGeneric(this.name) : type = TimeZoneType.shortGeneric;
-  const TimeZone.longGeneric(this.name) : type = TimeZoneType.longGeneric;
+  const TimeZone.short({required this.name, required this.offset})
+    : type = TimeZoneType.short,
+      inferVariant = true;
+  const TimeZone.long({required this.name, required this.offset})
+    : type = TimeZoneType.long,
+      inferVariant = true;
+  const TimeZone.shortOffset({required this.name, required this.offset})
+    : type = TimeZoneType.shortOffset,
+      inferVariant = true;
+  const TimeZone.longOffset({required this.name, required this.offset})
+    : type = TimeZoneType.longOffset,
+      inferVariant = true;
+  const TimeZone.shortGeneric({required this.name, required this.offset})
+    : type = TimeZoneType.shortGeneric,
+      inferVariant = false;
+  const TimeZone.longGeneric({required this.name, required this.offset})
+    : type = TimeZoneType.longGeneric,
+      inferVariant = false;
 }
 
 enum TimeZoneType {

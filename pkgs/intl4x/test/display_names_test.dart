@@ -56,7 +56,7 @@ void main() {
 
     expect(languageWith(LanguageDisplay.dialect), 'British English');
     expect(languageWith(LanguageDisplay.standard), 'English (United Kingdom)');
-  }, tags: ['icu4xUnimplemented']);
+  });
 
   testWithFormatting('calendar', () {
     final displayNames =

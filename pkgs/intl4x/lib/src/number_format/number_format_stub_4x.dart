@@ -8,6 +8,5 @@ import 'number_format_options.dart';
 
 NumberFormatImpl getNumberFormatter4X(
   Locale locale,
-
   NumberFormatOptions options,
 ) => throw UnimplementedError('Cannot use ICU4X in web environments.');

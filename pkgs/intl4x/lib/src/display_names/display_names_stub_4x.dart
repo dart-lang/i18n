@@ -9,6 +9,5 @@ import 'display_names_impl.dart';
 
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
-
   DisplayNamesOptions options,
 ) => throw UnimplementedError('Cannot use ICU4X in web environments.');

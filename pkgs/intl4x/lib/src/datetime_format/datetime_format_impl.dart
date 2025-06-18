@@ -24,7 +24,6 @@ abstract class DateTimeFormatImpl {
 
   static DateTimeFormatImpl build(
     Locale locale,
-
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,

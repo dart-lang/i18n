@@ -18,8 +18,8 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   final icu.DateTimeFormatter? _dateTimeFormatter;
   final icu.DateFormatter? _dateFormatter;
   final icu.TimeFormatter? _timeFormatter;
-  late final icu.ZonedDateTimeFormatter? _zonedDateTimeFormatter;
-  late final icu.ZonedDateFormatter? _zonedDateFormatter;
+  icu.ZonedDateTimeFormatter? _zonedDateTimeFormatter;
+  icu.ZonedDateFormatter? _zonedDateFormatter;
   final icu.ZonedTimeFormatter? _zonedTimeFormatter;
 
   DateTimeFormat4X(super.locale, super.options)
@@ -49,7 +49,11 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     icu.DateTimeFormatter df,
   ) {
     final timeZone = options.timeZone;
-    if (timeZone != null) {
+    final timeFormatStyle = options.timeFormatStyle;
+    final dateFormatStyle = options.dateFormatStyle;
+    if (timeZone != null &&
+        timeFormatStyle != null &&
+        dateFormatStyle != null) {
       final constr = switch (timeZone.type) {
         TimeZoneType.long => icu.ZonedDateTimeFormatter.specificLong,
         TimeZoneType.short => icu.ZonedDateTimeFormatter.specificShort,
@@ -115,12 +119,15 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     DateTimeFormatOptions options,
     Locale locale,
   ) {
-    final timeFormatStyle = options.timeFormatStyle;
-    if (timeFormatStyle != null) {
-      return icu.TimeFormatter(locale.toX);
-    } else {
+    if (options.dateFormatStyle != null) {
       return null;
     }
+    return options.timeFormatStyle?.map(
+      (style) => icu.TimeFormatter(
+        locale.toX,
+        timePrecision: icu.TimePrecision.minute,
+      ),
+    );
   }
 
   static icu.DateTimeFormatter? _setDateTimeFormatter(
@@ -134,13 +141,22 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       return null;
     }
 
-    final calendar = options.calendar?.toX.map(icu.Calendar.new);
-
     final localeX = locale.toX;
+    final calendar = options.calendar;
     if (calendar != null) {
-      localeX.setUnicodeExtension('ca', calendar.kind.name);
+      localeX.setUnicodeExtension('ca', calendar.jsName);
     }
-    return icu.DateTimeFormatter.det(localeX);
+    final (alignment, yearStyle, timePrecision) = options.toX;
+    return switch ((dateFormatStyle, timeFormatStyle)) {
+      // TODO: Handle this case.
+      (_, _) => icu.DateTimeFormatter.ymdt(
+        localeX,
+        alignment: alignment,
+        length: icu.DateTimeLength.short,
+        timePrecision: timePrecision,
+        yearStyle: yearStyle,
+      ),
+    };
   }
 
   static icu.DateFormatter? _setDateFormatter(
@@ -150,12 +166,43 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
 
-    if (dateFormatStyle == null && timeFormatStyle != null) {
+    if (timeFormatStyle != null) {
       return null;
     }
     final (alignment, yearStyle, timePrecision) = options.toX;
 
-    return icu.DateFormatter.d(locale.toX);
+    return switch (dateFormatStyle) {
+      TimeFormatStyle.full => icu.DateFormatter.ymd(
+        locale.toX,
+        alignment: alignment,
+        yearStyle: yearStyle,
+        length: icu.DateTimeLength.short,
+      ),
+      TimeFormatStyle.long => icu.DateFormatter.ymd(
+        locale.toX,
+        alignment: alignment,
+        yearStyle: yearStyle,
+        length: icu.DateTimeLength.short,
+      ),
+      TimeFormatStyle.medium => icu.DateFormatter.ymd(
+        locale.toX,
+        alignment: alignment,
+        yearStyle: yearStyle,
+        length: icu.DateTimeLength.short,
+      ),
+      TimeFormatStyle.short => icu.DateFormatter.ymd(
+        locale.toX,
+        alignment: alignment,
+        yearStyle: yearStyle,
+        length: icu.DateTimeLength.short,
+      ),
+      null => icu.DateFormatter.ymd(
+        locale.toX,
+        alignment: alignment,
+        yearStyle: yearStyle,
+        length: icu.DateTimeLength.short,
+      ),
+    };
   }
 
   @override
@@ -167,25 +214,28 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       datetime.second,
       datetime.millisecond,
     );
-    if (_zonedDateTimeFormatter != null) {
-      final timeZone = icu.IanaParser().parse(options.timeZone!.name);
-      return _zonedDateTimeFormatter.formatIso(
+    if (_zonedDateFormatter != null) {
+      return _zonedDateFormatter!.formatIso(
+        isoDate,
+        options.timeZone!.toX(isoDate, time),
+      );
+    } else if (_zonedTimeFormatter != null) {
+      return _zonedTimeFormatter.format(
+        time,
+        options.timeZone!.toX(isoDate, time),
+      );
+    } else if (_zonedDateTimeFormatter != null) {
+      return _zonedDateTimeFormatter!.formatIso(
         isoDate,
         time,
-        timeZone.withoutOffset(),
+        options.timeZone!.toX(isoDate, time),
       );
-    } else if (_zonedDateFormatter != null) {
-      final timeZone = icu.IanaParser().parse(options.timeZone!.name);
-      return _zonedDateFormatter.formatIso(isoDate, timeZone.withoutOffset());
-    } else if (_zonedTimeFormatter != null) {
-      final timeZone = icu.IanaParser().parse(options.timeZone!.name);
-      return _zonedTimeFormatter.format(time, timeZone.withoutOffset());
-    } else if (_dateTimeFormatter != null) {
-      return _dateTimeFormatter.formatIso(isoDate, time);
     } else if (_dateFormatter != null) {
       return _dateFormatter.formatIso(isoDate);
     } else if (_timeFormatter != null) {
       return _timeFormatter.format(time);
+    } else if (_dateTimeFormatter != null) {
+      return _dateTimeFormatter.formatIso(isoDate, time);
     } else {
       throw UnimplementedError(
         'Custom skeletons are not yet supported in ICU4X. '
@@ -204,9 +254,32 @@ extension on TimeFormatStyle {
   };
 }
 
+extension on TimeZone {
+  icu.TimeZoneInfo toX(icu.IsoDate date, icu.Time time) {
+    final timeZone = icu.IanaParser()
+        .parse(name)
+        .withOffset(icu.UtcOffset.fromString(offset))
+        .atDateTimeIso(date, time);
+
+    final success = timeZone.inferVariant(icu.VariantOffsetsCalculator());
+    if (!success) {
+      throw ArgumentError(
+        'The variant of $name with offset $offset could not be inferred',
+      );
+    }
+    return timeZone;
+  }
+}
+
 extension on DateTimeFormatOptions {
   (icu.DateTimeAlignment?, icu.YearStyle?, icu.TimePrecision?) get toX {
-    var yearStyle;
+    final yearStyle = switch (dateFormatStyle) {
+      null => icu.YearStyle.full,
+      TimeFormatStyle.full => icu.YearStyle.auto,
+      TimeFormatStyle.long => icu.YearStyle.auto,
+      TimeFormatStyle.medium => icu.YearStyle.auto,
+      TimeFormatStyle.short => icu.YearStyle.auto,
+    };
     var timePrecision;
     return (alignmentX, yearStyle, timePrecision);
   }
@@ -219,27 +292,4 @@ extension on DateTimeFormatOptions {
     };
     return alignment;
   }
-}
-
-extension on Calendar {
-  icu.CalendarKind get toX => switch (this) {
-    Calendar.buddhist => icu.CalendarKind.buddhist,
-    Calendar.chinese => icu.CalendarKind.chinese,
-    Calendar.coptic => icu.CalendarKind.coptic,
-    Calendar.dangi => icu.CalendarKind.dangi,
-    Calendar.ethioaa => icu.CalendarKind.ethiopianAmeteAlem,
-    Calendar.ethiopic => icu.CalendarKind.ethiopian,
-    Calendar.gregory => icu.CalendarKind.gregorian,
-    Calendar.hebrew => icu.CalendarKind.hebrew,
-    Calendar.indian => icu.CalendarKind.indian,
-    Calendar.islamic => icu.CalendarKind.hijriTabularTypeIiThursday,
-    Calendar.islamicUmalqura => icu.CalendarKind.hijriUmmAlQura,
-    Calendar.islamicTbla => icu.CalendarKind.hijriTabularTypeIiThursday,
-    Calendar.islamicCivil => icu.CalendarKind.hijriTabularTypeIiFriday,
-    Calendar.islamicRgsa => icu.CalendarKind.hijriSimulatedMecca,
-    Calendar.iso8601 => icu.CalendarKind.iso,
-    Calendar.japanese => icu.CalendarKind.japanese,
-    Calendar.persian => icu.CalendarKind.persian,
-    Calendar.roc => icu.CalendarKind.roc,
-  };
 }

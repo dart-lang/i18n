@@ -33,7 +33,6 @@ abstract class DisplayNamesImpl {
 
   static DisplayNamesImpl build(
     Locale locale,
-
     DisplayNamesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
