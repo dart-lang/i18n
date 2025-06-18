@@ -24,5 +24,5 @@ T buildFormatter<T, Options>(
 }
 
 extension Mapper<T extends Object> on T {
-  S map<S>(S Function(T value) f) => f(this);
+  R map<R>(R Function(T value) f) => f(this);
 }

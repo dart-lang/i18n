@@ -15,134 +15,109 @@ DateTimeFormatImpl getDateTimeFormatter4X(
 ) => DateTimeFormat4X(locale, options);
 
 class DateTimeFormat4X extends DateTimeFormatImpl {
-  final icu.DateTimeFormatter? _dateTimeFormatter;
-  final icu.DateFormatter? _dateFormatter;
-  final icu.TimeFormatter? _timeFormatter;
-  icu.ZonedDateTimeFormatter? _zonedDateTimeFormatter;
-  icu.ZonedDateFormatter? _zonedDateFormatter;
-  final icu.ZonedTimeFormatter? _zonedTimeFormatter;
+  final icu.DateTimeFormatter? _dateTime;
+  final icu.DateFormatter? _date;
+  final icu.TimeFormatter? _time;
+  icu.ZonedDateTimeFormatter? _zonedDateTime;
+  icu.ZonedDateFormatter? _zonedDate;
+  final icu.ZonedTimeFormatter? _zonedTime;
 
   DateTimeFormat4X(super.locale, super.options)
-    : _dateTimeFormatter = _setDateTimeFormatter(options, locale),
-      _timeFormatter = _setTimeFormatter(options, locale),
-      _dateFormatter = _setDateFormatter(options, locale),
-      _zonedTimeFormatter = _setZonedTimeFormatter(options, locale) {
-    if (_dateFormatter != null) {
-      _zonedDateFormatter = _setZonedDateFormatter(
-        options,
-        locale,
-        _dateFormatter,
-      );
+    : _dateTime =
+          options.dateFormatStyle != null && options.timeFormatStyle != null
+              ? _buildDateTime(options, locale)
+              : null,
+      _time =
+          options.dateFormatStyle == null ? _buildTime(options, locale) : null,
+      _date = _buildDate(options, locale),
+      _zonedTime =
+          options.timeFormatStyle != null
+              ? _buildZonedTime(options, locale)
+              : null {
+    if (_date != null) {
+      _zonedDate = _buildZonedDate(options, locale, _date);
     }
-    if (_dateTimeFormatter != null) {
-      _zonedDateTimeFormatter = _setZonedDateTimeFormatter(
-        options,
-        locale,
-        _dateTimeFormatter,
-      );
+    if (_dateTime != null) {
+      _zonedDateTime =
+          options.timeFormatStyle != null && options.dateFormatStyle != null
+              ? _buildZonedDateTime(options, locale, _dateTime)
+              : null;
     }
   }
 
-  static icu.ZonedDateTimeFormatter? _setZonedDateTimeFormatter(
+  static icu.ZonedDateTimeFormatter? _buildZonedDateTime(
     DateTimeFormatOptions options,
     Locale locale,
     icu.DateTimeFormatter df,
-  ) {
-    final timeZone = options.timeZone;
-    final timeFormatStyle = options.timeFormatStyle;
-    final dateFormatStyle = options.dateFormatStyle;
-    if (timeZone != null &&
-        timeFormatStyle != null &&
-        dateFormatStyle != null) {
-      final constr = switch (timeZone.type) {
-        TimeZoneType.long => icu.ZonedDateTimeFormatter.specificLong,
-        TimeZoneType.short => icu.ZonedDateTimeFormatter.specificShort,
-        TimeZoneType.shortOffset =>
-          icu.ZonedDateTimeFormatter.localizedOffsetShort,
-        TimeZoneType.longOffset =>
-          icu.ZonedDateTimeFormatter.localizedOffsetLong,
-        TimeZoneType.shortGeneric => icu.ZonedDateTimeFormatter.genericShort,
-        TimeZoneType.longGeneric => icu.ZonedDateTimeFormatter.genericLong,
-      };
+  ) => options.timeZone
+      ?.map(
+        (timeZone) => switch (timeZone.type) {
+          TimeZoneType.long => icu.ZonedDateTimeFormatter.specificLong,
+          TimeZoneType.short => icu.ZonedDateTimeFormatter.specificShort,
+          TimeZoneType.shortOffset =>
+            icu.ZonedDateTimeFormatter.localizedOffsetShort,
+          TimeZoneType.longOffset =>
+            icu.ZonedDateTimeFormatter.localizedOffsetLong,
+          TimeZoneType.shortGeneric => icu.ZonedDateTimeFormatter.genericShort,
+          TimeZoneType.longGeneric => icu.ZonedDateTimeFormatter.genericLong,
+        },
+      )
+      .map((constr) => constr(locale.toX, df));
 
-      return constr(locale.toX, df);
-    } else {
-      return null;
-    }
-  }
-
-  static icu.ZonedDateFormatter? _setZonedDateFormatter(
+  static icu.ZonedDateFormatter? _buildZonedDate(
     DateTimeFormatOptions options,
     Locale locale,
     icu.DateFormatter df,
-  ) {
-    final timeZone = options.timeZone;
-    if (timeZone != null) {
-      final constr = switch (timeZone.type) {
-        TimeZoneType.long => icu.ZonedDateFormatter.specificLong,
-        TimeZoneType.short => icu.ZonedDateFormatter.specificShort,
-        TimeZoneType.shortOffset => icu.ZonedDateFormatter.localizedOffsetShort,
-        TimeZoneType.longOffset => icu.ZonedDateFormatter.localizedOffsetLong,
-        TimeZoneType.shortGeneric => icu.ZonedDateFormatter.genericShort,
-        TimeZoneType.longGeneric => icu.ZonedDateFormatter.genericLong,
-      };
+  ) => options.timeZone
+      ?.map(
+        (timeZone) => switch (timeZone.type) {
+          TimeZoneType.long => icu.ZonedDateFormatter.specificLong,
+          TimeZoneType.short => icu.ZonedDateFormatter.specificShort,
+          TimeZoneType.shortOffset =>
+            icu.ZonedDateFormatter.localizedOffsetShort,
+          TimeZoneType.longOffset => icu.ZonedDateFormatter.localizedOffsetLong,
+          TimeZoneType.shortGeneric => icu.ZonedDateFormatter.genericShort,
+          TimeZoneType.longGeneric => icu.ZonedDateFormatter.genericLong,
+        },
+      )
+      .map((constructor) => constructor(locale.toX, df));
 
-      return constr(locale.toX, df);
-    } else {
-      return null;
-    }
-  }
-
-  static icu.ZonedTimeFormatter? _setZonedTimeFormatter(
+  static icu.ZonedTimeFormatter? _buildZonedTime(
     DateTimeFormatOptions options,
     Locale locale,
-  ) {
-    final timeZone = options.timeZone;
-    final timeFormatStyle = options.timeFormatStyle;
-    if (timeZone != null && timeFormatStyle != null) {
-      final constr = switch (timeZone.type) {
-        TimeZoneType.long => icu.ZonedTimeFormatter.specificLong,
-        TimeZoneType.short => icu.ZonedTimeFormatter.specificShort,
-        TimeZoneType.shortOffset => icu.ZonedTimeFormatter.localizedOffsetShort,
-        TimeZoneType.longOffset => icu.ZonedTimeFormatter.localizedOffsetLong,
-        TimeZoneType.shortGeneric => icu.ZonedTimeFormatter.genericShort,
-        TimeZoneType.longGeneric => icu.ZonedTimeFormatter.genericLong,
-      };
+  ) => options.timeZone
+      ?.map(
+        (timeZone) => switch (timeZone.type) {
+          TimeZoneType.long => icu.ZonedTimeFormatter.specificLong,
+          TimeZoneType.short => icu.ZonedTimeFormatter.specificShort,
+          TimeZoneType.shortOffset =>
+            icu.ZonedTimeFormatter.localizedOffsetShort,
+          TimeZoneType.longOffset => icu.ZonedTimeFormatter.localizedOffsetLong,
+          TimeZoneType.shortGeneric => icu.ZonedTimeFormatter.genericShort,
+          TimeZoneType.longGeneric => icu.ZonedTimeFormatter.genericLong,
+        },
+      )
+      .map((constructor) => constructor(locale.toX));
 
-      return constr(locale.toX);
-    } else {
-      return null;
-    }
-  }
-
-  static icu.TimeFormatter? _setTimeFormatter(
+  static icu.TimeFormatter? _buildTime(
     DateTimeFormatOptions options,
     Locale locale,
-  ) {
-    if (options.dateFormatStyle != null) {
-      return null;
-    }
+  ) => options.timeFormatStyle?.map((style) {
     final (alignment, yearstyle, precision) = options.toX;
-    return options.timeFormatStyle?.map(
-      (style) => icu.TimeFormatter(
-        locale.toX,
-        timePrecision: precision,
-        alignment: icu.DateTimeAlignment.auto,
-        length: icu.DateTimeLength.long,
-      ),
+    return icu.TimeFormatter(
+      locale.toX,
+      timePrecision: precision,
+      alignment: icu.DateTimeAlignment.auto,
+      length: icu.DateTimeLength.long,
     );
-  }
+  });
 
-  static icu.DateTimeFormatter? _setDateTimeFormatter(
+  static icu.DateTimeFormatter? _buildDateTime(
     DateTimeFormatOptions options,
     Locale locale,
   ) {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
-
-    if (dateFormatStyle == null || timeFormatStyle == null) {
-      return null;
-    }
 
     final localeX = locale.toX;
     final calendar = options.calendar;
@@ -161,18 +136,19 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     };
   }
 
-  static icu.DateFormatter? _setDateFormatter(
+  static icu.DateFormatter? _buildDate(
     DateTimeFormatOptions options,
     Locale locale,
   ) {
-    final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
 
     if (timeFormatStyle != null) {
+      // Use the time or datetime formatters
       return null;
     }
-    final (alignment, yearStyle, timePrecision) = options.toX;
 
+    final (alignment, yearStyle, timePrecision) = options.toX;
+    final dateFormatStyle = options.dateFormatStyle;
     return switch (dateFormatStyle) {
       TimeFormatStyle.full => icu.DateFormatter.ymde(
         locale.toX,
@@ -228,24 +204,24 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
 The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
         );
       }
-      if (_zonedDateFormatter != null) {
-        return _zonedDateFormatter!.formatIso(isoDate, timeZoneX);
-      } else if (_zonedTimeFormatter != null) {
-        return _zonedTimeFormatter.format(time, timeZoneX);
-      } else if (_zonedDateTimeFormatter != null) {
-        return _zonedDateTimeFormatter!.formatIso(isoDate, time, timeZoneX);
+      if (_zonedDate != null) {
+        return _zonedDate!.formatIso(isoDate, timeZoneX);
+      } else if (_zonedTime != null) {
+        return _zonedTime.format(time, timeZoneX);
+      } else if (_zonedDateTime != null) {
+        return _zonedDateTime!.formatIso(isoDate, time, timeZoneX);
       } else {
         throw UnimplementedError('''
 Either date or time formatting has to be enabled if a timezone is given.''');
       }
     } else {
       final (isoDate, time) = datetime.toX;
-      if (_dateFormatter != null) {
-        return _dateFormatter.formatIso(isoDate);
-      } else if (_timeFormatter != null) {
-        return _timeFormatter.format(time);
-      } else if (_dateTimeFormatter != null) {
-        return _dateTimeFormatter.formatIso(isoDate, time);
+      if (_date != null) {
+        return _date.formatIso(isoDate);
+      } else if (_time != null) {
+        return _time.format(time);
+      } else if (_dateTime != null) {
+        return _dateTime.formatIso(isoDate, time);
       } else {
         throw UnimplementedError(
           'Either date or time formatting has to be enabled.',
