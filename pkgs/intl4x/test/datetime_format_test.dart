@@ -262,4 +262,392 @@ void main() {
       ),
     );
   });
+
+  group('individual options', () {
+    final date = DateTime.utc(2025, 6, 18, 10, 30, 45, 123);
+    final intlEnUS = Intl(locale: const Locale(language: 'en', region: 'US'));
+
+    group('calendar', () {
+      testWithFormatting(
+        'calendar - chinese',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  calendar: Calendar.chinese,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(date),
+          '5/23/2025',
+        ),
+      );
+
+      testWithFormatting(
+        'calendar - japanese',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  calendar: Calendar.japanese,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(date),
+          '6/18/7 R',
+        ),
+      );
+
+      testWithFormatting(
+        'calendar - islamic',
+        () => expect(
+          Intl(locale: const Locale(language: 'ar'))
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  calendar: Calendar.islamic,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(date),
+          // Dhu al-Hijjah 12, 1446 AH
+          '22‏/12‏/1446 هـ', // 12/11/1446 AH
+        ),
+      );
+    });
+
+    group('numberingSystem', () {
+      testWithFormatting(
+        'numberingSystem - arab',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  numberingSystem: NumberingSystem.arab,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
+        ),
+      );
+
+      testWithFormatting(
+        'numberingSystem - devanagari',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  numberingSystem: NumberingSystem.deva,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '६/१८/२५', // 18/6/25 in Devanagari numerals
+        ),
+      );
+
+      testWithFormatting(
+        'numberingSystem - thai',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  numberingSystem: NumberingSystem.thai,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '๖/๑๘/๒๕', // 18/6/25 in Thai numerals
+        ),
+      );
+    });
+
+    group('clockstyle', () {
+      testWithFormatting(
+        'clockstyle - 24-hour',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.twodigit,
+                  clockstyle: ClockStyle(is12Hour: false),
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 15, 30, 0)),
+          '15:30',
+        ),
+      );
+
+      testWithFormatting(
+        'clockstyle - 12-hour, startAtZero true (0 AM)',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.twodigit,
+                  clockstyle: ClockStyle(is12Hour: true, startAtZero: true),
+                  dayPeriod: DayPeriod.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 0, 30, 0)),
+          '12:30 at night',
+        ),
+      );
+
+      testWithFormatting(
+        'clockstyle - 12-hour, startAtZero false (12 AM)',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.twodigit,
+                  clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
+                  dayPeriod: DayPeriod.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 0, 30, 0)),
+          '12:30 at night',
+        ),
+      );
+    });
+
+    group('year, month, day, hour, minute, second', () {
+      testWithFormatting(
+        'year - numeric',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(year: TimeStyle.numeric),
+              )
+              .format(date),
+          '2025',
+        ),
+      );
+
+      testWithFormatting(
+        'month - twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  month: MonthStyle.twodigit,
+                  day: TimeStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '06/18',
+        ),
+      );
+
+      testWithFormatting(
+        'month - narrow',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  month: MonthStyle.narrow,
+                  day: TimeStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 1, 18)), // January
+          'J 18',
+        ),
+      );
+
+      testWithFormatting(
+        'day - twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  day: TimeStyle.twodigit,
+                  month: MonthStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 8)),
+          '6/08',
+        ),
+      );
+
+      testWithFormatting(
+        'hour - twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.twodigit,
+                  minute: TimeStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 7, 30, 0)),
+          matches(r'7:30\sAM'),
+        ),
+      );
+
+      testWithFormatting(
+        'minute - twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  minute: TimeStyle.twodigit,
+                  hour: TimeStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 7, 5, 0)),
+          matches(r'7:05\sAM'),
+        ),
+      );
+
+      testWithFormatting(
+        'second - twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  second: TimeStyle.twodigit,
+                  minute: TimeStyle.numeric,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 7, 30, 5)),
+          '30:05',
+        ),
+      );
+    });
+
+    group('fractionalSecondDigits', () {
+      testWithFormatting(
+        'fractionalSecondDigits - 1 digit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.numeric,
+                  second: TimeStyle.numeric,
+                  fractionalSecondDigits: 1,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
+          '10:30:45.1 AM',
+        ),
+      );
+
+      testWithFormatting(
+        'fractionalSecondDigits - 3 digits',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.numeric,
+                  second: TimeStyle.numeric,
+                  fractionalSecondDigits: 3,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
+          '10:30:45.123 AM',
+        ),
+      );
+    });
+
+    group('formatMatcher and localeMatcher', () {
+      testWithFormatting(
+        'formatMatcher - basic',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  formatMatcher: FormatMatcher.basic,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '6/18/25',
+        ),
+      );
+
+      testWithFormatting(
+        'localeMatcher - lookup',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  localeMatcher: LocaleMatcher.lookup,
+                  dateFormatStyle: DateFormatStyle.short,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18)),
+          '6/18/25',
+        ),
+      );
+    });
+  });
+
+  group('combinations of options', () {
+    final date = DateTime.utc(2025, 6, 18, 10, 30, 45, 123);
+    final intlEnUS = Intl(locale: const Locale(language: 'en', region: 'US'));
+
+    group('Time Zone + Date/Time Components', () {
+      testWithFormatting(
+        'timeZone long + hour numeric + minute twodigit',
+        () => expect(
+          intlEnUS
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  timeZone: TimeZone.long(
+                    name: 'America/New_York',
+                    offset: '-05:00',
+                  ),
+                  hour: TimeStyle.numeric,
+                  minute: TimeStyle.twodigit,
+                ),
+              )
+              .format(DateTime.utc(2025, 6, 18, 10, 30, 0)), // 10:30 AM UTC
+          // This should convert to 5:30 AM New York time (UTC-5)
+          matches(r'^4:30\sAM Eastern Daylight Time$'),
+        ),
+      );
+    });
+
+    group('Locale Specific Behavior', () {
+      testWithFormatting(
+        'French locale - long date, short time',
+        () => expect(
+          Intl(locale: const Locale(language: 'fr', region: 'FR'))
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  dateFormatStyle: DateFormatStyle.long,
+                  timeFormatStyle: TimeFormatStyle.short,
+                ),
+              )
+              .format(date),
+          // Example: 18 juin 2025 à 10:30
+          // The output format might vary slightly based on ICU4X and locale data.
+          matches(r'^18 juin 2025 à 10:30$'),
+        ),
+      );
+
+      testWithFormatting(
+        'German locale - full date, medium time, 24-hour clock',
+        () => expect(
+          Intl(locale: const Locale(language: 'de', region: 'DE'))
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  dateFormatStyle: DateFormatStyle.full,
+                  timeFormatStyle: TimeFormatStyle.medium,
+                  clockstyle: ClockStyle(is12Hour: false),
+                ),
+              )
+              .format(date),
+
+          // Example: Mittwoch, 18. Juni 2025 um 10:30:45 Uhr
+          'Mittwoch, 18. Juni 2025 um 10:30:45',
+        ),
+      );
+    });
+  });
 }

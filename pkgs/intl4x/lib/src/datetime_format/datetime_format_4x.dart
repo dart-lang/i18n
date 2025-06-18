@@ -198,13 +198,8 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
           .withOffset(utcOffset)
           .atDateTimeIso(isoDate, time);
 
-      final success = timeZoneX.inferVariant(icu.VariantOffsetsCalculator());
-      if (!success) {
-        throw ArgumentError(
-          '''
-The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
-        );
-      }
+      timeZoneX.setVariant(timeZone);
+
       if (_zonedDate != null) {
         return _zonedDate!.formatIso(isoDate, timeZoneX);
       } else if (_zonedTime != null) {
@@ -212,12 +207,13 @@ The variant of ${timeZone.name} with offset ${timeZone.offset} could not be infe
       } else if (_zonedDateTime != null) {
         return _zonedDateTime!.formatIso(isoDate, time, timeZoneX);
       } else {
-        throw UnimplementedError('''
+        throw StateError('''
 Either date or time formatting has to be enabled if a timezone is given.''');
       }
     } else {
       assert([_date, _time, _dateTime].nonNulls.length == 1);
       final (isoDate, time) = datetime.toX;
+
       if (_date != null) {
         return _date.formatIso(isoDate);
       } else if (_time != null) {
@@ -225,10 +221,20 @@ Either date or time formatting has to be enabled if a timezone is given.''');
       } else if (_dateTime != null) {
         return _dateTime.formatIso(isoDate, time);
       } else {
-        throw UnimplementedError(
-          'Either date or time formatting has to be enabled.',
-        );
+        throw StateError('Either date or time formatting has to be enabled.');
       }
+    }
+  }
+}
+
+extension on icu.TimeZoneInfo {
+  void setVariant(TimeZone timeZone) {
+    final success = inferVariant(icu.VariantOffsetsCalculator());
+    if (!success) {
+      throw ArgumentError(
+        '''
+The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
+      );
     }
   }
 }
