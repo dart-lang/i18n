@@ -187,6 +187,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   String formatImpl(DateTime datetime) {
     final timeZone = options.timeZone;
     if (timeZone != null) {
+      assert([_zonedDate, _zonedTime, _zonedDateTime].nonNulls.length == 1);
       final utcOffset = icu.UtcOffset.fromString(timeZone.offset);
       final correctedDateTime = datetime.add(
         Duration(seconds: utcOffset.seconds),
@@ -215,6 +216,7 @@ The variant of ${timeZone.name} with offset ${timeZone.offset} could not be infe
 Either date or time formatting has to be enabled if a timezone is given.''');
       }
     } else {
+      assert([_date, _time, _dateTime].nonNulls.length == 1);
       final (isoDate, time) = datetime.toX;
       if (_date != null) {
         return _date.formatIso(isoDate);
