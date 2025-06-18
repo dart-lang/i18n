@@ -626,9 +626,9 @@ void main() {
               )
               .format(date),
           // Example: 18 juin 2025 à 10:30
-          // The output format might vary slightly based on ICU4X and locale data.
           matches(r'^18 juin 2025 à 10:30$'),
         ),
+        tags: ['icu4xUnimplemented'],
       );
 
       testWithFormatting(
@@ -647,6 +647,7 @@ void main() {
           // Example: Mittwoch, 18. Juni 2025 um 10:30:45 Uhr
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
+        tags: ['icu4xUnimplemented'],
       );
     });
   });
