@@ -158,10 +158,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     final clockStyle = options.clockstyle;
     if (clockStyle != null) {
       final hourStyleExtensionString = clockStyle.hourStyleExtensionString;
-      localeX.setUnicodeExtension(
-        'hc',
-        hourStyleExtensionString == 'h24' ? 'h23' : hourStyleExtensionString,
-      );
+      localeX.setUnicodeExtension('hc', hourStyleExtensionString);
     }
     final numberingSystem = options.numberingSystem;
     if (numberingSystem != null) {
@@ -297,7 +294,7 @@ The variant of ${timeZone.name} with offset ${timeZone.offset} could not be infe
 extension on DateTime {
   (icu.IsoDate, icu.Time) get toX {
     final isoDate = icu.IsoDate(year, month, day);
-    final time = icu.Time(hour, minute, second, millisecond);
+    final time = icu.Time(hour, minute, second, millisecond * 1_000_000);
     return (isoDate, time);
   }
 }

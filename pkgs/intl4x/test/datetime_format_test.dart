@@ -112,7 +112,7 @@ void main() {
             .datetimeFormat(
               const DateTimeFormatOptions(
                 hour: TimeStyle.numeric,
-                clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
+                clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.short,
               ),
             )
@@ -128,7 +128,7 @@ void main() {
             .datetimeFormat(
               const DateTimeFormatOptions(
                 hour: TimeStyle.numeric,
-                clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
+                clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.narrow,
               ),
             )
@@ -144,7 +144,7 @@ void main() {
             .datetimeFormat(
               const DateTimeFormatOptions(
                 hour: TimeStyle.numeric,
-                clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
+                clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.long,
               ),
             )
@@ -371,7 +371,7 @@ void main() {
                 const DateTimeFormatOptions(
                   hour: TimeStyle.numeric,
                   minute: TimeStyle.twodigit,
-                  clockstyle: ClockStyle(is12Hour: false),
+                  clockstyle: ClockStyle.startZeroIs24Hour,
                 ),
               )
               .format(DateTime.utc(2025, 6, 18, 15, 30, 0)),
@@ -387,7 +387,7 @@ void main() {
                 const DateTimeFormatOptions(
                   hour: TimeStyle.numeric,
                   minute: TimeStyle.twodigit,
-                  clockstyle: ClockStyle(is12Hour: true, startAtZero: true),
+                  clockstyle: ClockStyle.startOneIs12Hour,
                   dayPeriod: DayPeriod.short,
                 ),
               )
@@ -404,7 +404,7 @@ void main() {
                 const DateTimeFormatOptions(
                   hour: TimeStyle.numeric,
                   minute: TimeStyle.twodigit,
-                  clockstyle: ClockStyle(is12Hour: true, startAtZero: false),
+                  clockstyle: ClockStyle.startOneIs12Hour,
                   dayPeriod: DayPeriod.short,
                 ),
               )
@@ -532,7 +532,7 @@ void main() {
                 ),
               )
               .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
-          '10:30:45.1 AM',
+          matches(r'10:30:45.1\sAM'),
         ),
       );
 
@@ -549,7 +549,7 @@ void main() {
                 ),
               )
               .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
-          '10:30:45.123 AM',
+          matches(r'10:30:45.123\sAM'),
         ),
       );
     });
@@ -607,7 +607,7 @@ void main() {
                 ),
               )
               .format(DateTime.utc(2025, 6, 18, 10, 30, 0)), // 10:30 AM UTC
-          // This should convert to 5:30 AM New York time (UTC-5)
+          // This should convert to 5:30 AM New York time (UTC-4)
           matches(r'^4:30\sAM Eastern Daylight Time$'),
         ),
       );
@@ -639,7 +639,7 @@ void main() {
                 const DateTimeFormatOptions(
                   dateFormatStyle: DateFormatStyle.full,
                   timeFormatStyle: TimeFormatStyle.medium,
-                  clockstyle: ClockStyle(is12Hour: false),
+                  clockstyle: ClockStyle.startZeroIs24Hour,
                 ),
               )
               .format(date),

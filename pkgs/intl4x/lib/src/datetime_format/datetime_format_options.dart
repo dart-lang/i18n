@@ -109,25 +109,18 @@ class DateTimeFormatOptions {
   }
 }
 
-class ClockStyle {
-  final bool is12Hour;
-  final bool startAtZero;
-
-  const ClockStyle({required this.is12Hour, this.startAtZero = false});
+enum ClockStyle {
+  startZeroIs12Hour,
+  startOneIs12Hour,
+  startZeroIs24Hour;
 
   String get hourStyleExtensionString {
-    // The four possible values are h11, h12, h23, h24.
-    final firstDigit = is12Hour ? 1 : 2;
-
-    final subtrahend = startAtZero ? 1 : 0;
-    final secondDigit = firstDigit * 2 - subtrahend;
-
-    /// The cases are
-    /// * firstDigit == 1 && subtrahend == 1  --> h11
-    /// * firstDigit == 1 && subtrahend == 0  --> h12
-    /// * firstDigit == 2 && subtrahend == 1  --> h23
-    /// * firstDigit == 2 && subtrahend == 0  --> h24
-    return 'h$firstDigit$secondDigit';
+    // The three possible values are h11, h12, and h23.
+    return switch (this) {
+      ClockStyle.startZeroIs12Hour => 'h11',
+      ClockStyle.startOneIs12Hour => 'h12',
+      ClockStyle.startZeroIs24Hour => 'h23',
+    };
   }
 }
 
@@ -157,8 +150,6 @@ enum NumberingSystem {
   thai,
   tibt,
 }
-
-enum HourCycle { h11, h12, h23, h24 }
 
 enum FormatMatcher {
   basic,
@@ -205,18 +196,23 @@ final class TimeZone {
   const TimeZone.short({required this.name, required this.offset})
     : type = TimeZoneType.short,
       inferVariant = true;
+
   const TimeZone.long({required this.name, required this.offset})
     : type = TimeZoneType.long,
       inferVariant = true;
+
   const TimeZone.shortOffset({required this.name, required this.offset})
     : type = TimeZoneType.shortOffset,
       inferVariant = true;
+
   const TimeZone.longOffset({required this.name, required this.offset})
     : type = TimeZoneType.longOffset,
       inferVariant = true;
+
   const TimeZone.shortGeneric({required this.name, required this.offset})
     : type = TimeZoneType.shortGeneric,
       inferVariant = false;
+
   const TimeZone.longGeneric({required this.name, required this.offset})
     : type = TimeZoneType.longGeneric,
       inferVariant = false;

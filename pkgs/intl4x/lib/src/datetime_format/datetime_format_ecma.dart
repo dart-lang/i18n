@@ -115,3 +115,9 @@ extension on DateTimeFormatOptions {
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
 }
+
+extension on ClockStyle {
+  bool get is12Hour =>
+      this == ClockStyle.startZeroIs12Hour ||
+      this == ClockStyle.startOneIs12Hour;
+}
