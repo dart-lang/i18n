@@ -99,8 +99,8 @@ extension on DateTimeFormatOptions {
         if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
         if (timeZone != null) 'timeZone': timeZone!.name,
         if (clockstyle != null) 'hour12': clockstyle!.is12Hour,
-        if (clockstyle != null && clockstyle!.startAtZero != null)
-          'hourCycle': clockstyle!.hourStyleJsString(),
+        if (clockstyle != null)
+          'hourCycle': clockstyle!.hourStyleExtensionString,
         if (weekday != null) 'weekday': weekday!.name,
         if (era != null) 'era': era!.name,
         if (year != null) 'year': year!.jsName,
@@ -114,21 +114,4 @@ extension on DateTimeFormatOptions {
         if (timeZone != null) 'timeZoneName': timeZone!.type.name,
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
-}
-
-extension on ClockStyle {
-  String hourStyleJsString() {
-    // The four possible values are h11, h12, h23, h24.
-    final firstDigit = is12Hour ? 1 : 2;
-
-    final subtrahend = startAtZero! ? 1 : 0;
-    final secondDigit = firstDigit * 2 - subtrahend;
-
-    /// The cases are
-    /// * firstDigit == 1 && subtrahend == 1  --> h11
-    /// * firstDigit == 1 && subtrahend == 0  --> h12
-    /// * firstDigit == 2 && subtrahend == 1  --> h23
-    /// * firstDigit == 2 && subtrahend == 0  --> h24
-    return 'h$firstDigit$secondDigit';
-  }
 }

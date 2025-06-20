@@ -111,9 +111,24 @@ class DateTimeFormatOptions {
 
 class ClockStyle {
   final bool is12Hour;
-  final bool? startAtZero;
+  final bool startAtZero;
 
-  const ClockStyle({required this.is12Hour, this.startAtZero});
+  const ClockStyle({required this.is12Hour, this.startAtZero = false});
+
+  String get hourStyleExtensionString {
+    // The four possible values are h11, h12, h23, h24.
+    final firstDigit = is12Hour ? 1 : 2;
+
+    final subtrahend = startAtZero ? 1 : 0;
+    final secondDigit = firstDigit * 2 - subtrahend;
+
+    /// The cases are
+    /// * firstDigit == 1 && subtrahend == 1  --> h11
+    /// * firstDigit == 1 && subtrahend == 0  --> h12
+    /// * firstDigit == 2 && subtrahend == 1  --> h23
+    /// * firstDigit == 2 && subtrahend == 0  --> h24
+    return 'h$firstDigit$secondDigit';
+  }
 }
 
 enum TimeFormatStyle { full, long, medium, short }

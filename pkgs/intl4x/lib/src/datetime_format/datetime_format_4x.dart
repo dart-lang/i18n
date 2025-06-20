@@ -20,20 +20,21 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   final icu.TimeFormatter? _time;
   icu.ZonedDateTimeFormatter? _zonedDateTime;
   icu.ZonedDateFormatter? _zonedDate;
-  final icu.ZonedTimeFormatter? _zonedTime;
+  icu.ZonedTimeFormatter? _zonedTime;
 
   DateTimeFormat4X(super.locale, super.options)
     : _dateTime =
-          options.dateFormatStyle != null && options.timeFormatStyle != null
+          shouldFormatDate(options) && shouldFormatTime(options)
               ? _buildDateTime(options, locale)
               : null,
       _time =
-          options.dateFormatStyle == null ? _buildTime(options, locale) : null,
-      _date = _buildDate(options, locale),
-      _zonedTime =
-          options.timeFormatStyle != null
-              ? _buildZonedTime(options, locale)
-              : null {
+          shouldFormatTime(options) && !shouldFormatDate(options)
+              ? _buildTime(options, locale)
+              : null,
+      _date = !shouldFormatTime(options) ? _buildDate(options, locale) : null {
+    if (_time != null) {
+      _zonedTime = _buildZonedTime(options, locale);
+    }
     if (_date != null) {
       _zonedDate = _buildZonedDate(options, locale, _date);
     }
@@ -44,6 +45,18 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
               : null;
     }
   }
+
+  static bool shouldFormatTime(DateTimeFormatOptions options) =>
+      options.timeFormatStyle != null ||
+      options.hour != null ||
+      options.minute != null ||
+      options.second != null;
+
+  static bool shouldFormatDate(DateTimeFormatOptions options) =>
+      options.dateFormatStyle != null ||
+      options.year != null ||
+      options.month != null ||
+      options.day != null;
 
   static icu.ZonedDateTimeFormatter? _buildZonedDateTime(
     DateTimeFormatOptions options,
@@ -102,15 +115,16 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   static icu.TimeFormatter? _buildTime(
     DateTimeFormatOptions options,
     Locale locale,
-  ) => options.timeFormatStyle?.map((style) {
+  ) {
+    final localeX = setLocaleExtensions(locale, options);
     final (alignment, yearstyle, precision) = options.toX;
     return icu.TimeFormatter(
-      locale.toX,
+      localeX,
       timePrecision: precision,
       alignment: icu.DateTimeAlignment.auto,
       length: icu.DateTimeLength.long,
     );
-  });
+  }
 
   static icu.DateTimeFormatter? _buildDateTime(
     DateTimeFormatOptions options,
@@ -119,11 +133,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     final dateFormatStyle = options.dateFormatStyle;
     final timeFormatStyle = options.timeFormatStyle;
 
-    final localeX = locale.toX;
-    final calendar = options.calendar;
-    if (calendar != null) {
-      localeX.setUnicodeExtension('ca', calendar.jsName);
-    }
+    final localeX = setLocaleExtensions(locale, options);
     final (alignment, yearStyle, timePrecision) = options.toX;
     return switch ((dateFormatStyle, timeFormatStyle)) {
       (_, _) => icu.DateTimeFormatter.ymdt(
@@ -136,46 +146,91 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     };
   }
 
+  static icu.Locale setLocaleExtensions(
+    Locale locale,
+    DateTimeFormatOptions options,
+  ) {
+    final localeX = locale.toX;
+    final calendar = options.calendar;
+    if (calendar != null) {
+      localeX.setUnicodeExtension('ca', calendar.jsName);
+    }
+    final clockStyle = options.clockstyle;
+    if (clockStyle != null) {
+      final hourStyleExtensionString = clockStyle.hourStyleExtensionString;
+      localeX.setUnicodeExtension(
+        'hc',
+        hourStyleExtensionString == 'h24' ? 'h23' : hourStyleExtensionString,
+      );
+    }
+    final numberingSystem = options.numberingSystem;
+    if (numberingSystem != null) {
+      localeX.setUnicodeExtension('nu', numberingSystem.name);
+    }
+    return localeX;
+  }
+
   static icu.DateFormatter? _buildDate(
     DateTimeFormatOptions options,
     Locale locale,
   ) {
-    final timeFormatStyle = options.timeFormatStyle;
-
-    if (timeFormatStyle != null) {
-      // Use the time or datetime formatters
-      return null;
-    }
-
     final (alignment, yearStyle, timePrecision) = options.toX;
     final dateFormatStyle = options.dateFormatStyle;
+    final localeX = setLocaleExtensions(locale, options);
+    if (dateFormatStyle == null &&
+        (options.year != null ||
+            options.month != null ||
+            options.day != null)) {
+      return switch ((options.year, options.month, options.day)) {
+        (null, null, _) => icu.DateFormatter.d(
+          localeX,
+          alignment: alignment,
+          length: icu.DateTimeLength.short,
+        ),
+        (null, _, _) => icu.DateFormatter.md(
+          localeX,
+          alignment: alignment,
+          length: icu.DateTimeLength.short,
+        ),
+        (_, null, null) => icu.DateFormatter.y(
+          localeX,
+          alignment: alignment,
+          length: icu.DateTimeLength.long,
+        ),
+        (_, _, _) => icu.DateFormatter.md(
+          localeX,
+          alignment: alignment,
+          length: icu.DateTimeLength.short,
+        ),
+      };
+    }
     return switch (dateFormatStyle) {
       TimeFormatStyle.full => icu.DateFormatter.ymde(
-        locale.toX,
+        localeX,
         alignment: alignment,
         yearStyle: yearStyle,
         length: icu.DateTimeLength.long,
       ),
       TimeFormatStyle.long => icu.DateFormatter.ymd(
-        locale.toX,
+        localeX,
         alignment: alignment,
         yearStyle: yearStyle,
         length: icu.DateTimeLength.long,
       ),
       TimeFormatStyle.medium => icu.DateFormatter.ymd(
-        locale.toX,
+        localeX,
         alignment: alignment,
         yearStyle: yearStyle,
         length: icu.DateTimeLength.medium,
       ),
       TimeFormatStyle.short => icu.DateFormatter.ymd(
-        locale.toX,
+        localeX,
         alignment: alignment,
         yearStyle: yearStyle,
         length: icu.DateTimeLength.short,
       ),
       null => icu.DateFormatter.ymd(
-        locale.toX,
+        localeX,
         alignment: alignment,
         yearStyle: yearStyle,
         length: icu.DateTimeLength.short,
@@ -203,7 +258,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       if (_zonedDate != null) {
         return _zonedDate!.formatIso(isoDate, timeZoneX);
       } else if (_zonedTime != null) {
-        return _zonedTime.format(time, timeZoneX);
+        return _zonedTime!.format(time, timeZoneX);
       } else if (_zonedDateTime != null) {
         return _zonedDateTime!.formatIso(isoDate, time, timeZoneX);
       } else {
@@ -249,12 +304,28 @@ extension on DateTime {
 
 extension on DateTimeFormatOptions {
   (icu.DateTimeAlignment?, icu.YearStyle?, icu.TimePrecision?) get toX {
-    return (
-      switch (year) {
+    icu.TimePrecision? timePrecision;
+    if (fractionalSecondDigits != null) {
+      timePrecision = icu.TimePrecision.fromSubsecondDigits(
+        fractionalSecondDigits!,
+      );
+    } else if (minute != null && second == null) {
+      timePrecision = icu.TimePrecision.minute;
+    } else {
+      timePrecision = switch (timeFormatStyle) {
         null => null,
-        TimeStyle.numeric => icu.DateTimeAlignment.auto,
-        TimeStyle.twodigit => icu.DateTimeAlignment.column,
-      },
+        TimeFormatStyle.full => icu.TimePrecision.second,
+        TimeFormatStyle.long => icu.TimePrecision.second,
+        TimeFormatStyle.medium => icu.TimePrecision.second,
+        TimeFormatStyle.short => icu.TimePrecision.minute,
+      };
+    }
+    final dateTimeAlignment =
+        [month, day, hour].any((style) => style == TimeStyle.twodigit)
+            ? icu.DateTimeAlignment.column
+            : icu.DateTimeAlignment.auto;
+    return (
+      dateTimeAlignment,
       switch (dateFormatStyle) {
         null => icu.YearStyle.full,
         TimeFormatStyle.full => icu.YearStyle.auto,
@@ -262,13 +333,7 @@ extension on DateTimeFormatOptions {
         TimeFormatStyle.medium => icu.YearStyle.auto,
         TimeFormatStyle.short => icu.YearStyle.auto,
       },
-      switch (timeFormatStyle) {
-        null => null,
-        TimeFormatStyle.full => icu.TimePrecision.second,
-        TimeFormatStyle.long => icu.TimePrecision.second,
-        TimeFormatStyle.medium => icu.TimePrecision.second,
-        TimeFormatStyle.short => icu.TimePrecision.minute,
-      },
+      timePrecision,
     );
   }
 }
