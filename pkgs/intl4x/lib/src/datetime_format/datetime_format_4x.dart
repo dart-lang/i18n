@@ -15,48 +15,7 @@ DateTimeFormatImpl getDateTimeFormatter4X(
 ) => DateTimeFormat4X(locale, options);
 
 class DateTimeFormat4X extends DateTimeFormatImpl {
-  final icu.DateTimeFormatter? _dateTime;
-  final icu.DateFormatter? _date;
-  final icu.TimeFormatter? _time;
-  icu.ZonedDateTimeFormatter? _zonedDateTime;
-  icu.ZonedDateFormatter? _zonedDate;
-  icu.ZonedTimeFormatter? _zonedTime;
-
-  DateTimeFormat4X(super.locale, super.options)
-    : _dateTime =
-          shouldFormatDate(options) && shouldFormatTime(options)
-              ? _buildDateTime(options, locale)
-              : null,
-      _time =
-          shouldFormatTime(options) && !shouldFormatDate(options)
-              ? _buildTime(options, locale)
-              : null,
-      _date = !shouldFormatTime(options) ? _buildDate(options, locale) : null {
-    if (_time != null) {
-      _zonedTime = _buildZonedTime(options, locale);
-    }
-    if (_date != null) {
-      _zonedDate = _buildZonedDate(options, locale, _date);
-    }
-    if (_dateTime != null) {
-      _zonedDateTime =
-          options.timeFormatStyle != null && options.dateFormatStyle != null
-              ? _buildZonedDateTime(options, locale, _dateTime)
-              : null;
-    }
-  }
-
-  static bool shouldFormatTime(DateTimeFormatOptions options) =>
-      options.timeFormatStyle != null ||
-      options.hour != null ||
-      options.minute != null ||
-      options.second != null;
-
-  static bool shouldFormatDate(DateTimeFormatOptions options) =>
-      options.dateFormatStyle != null ||
-      options.year != null ||
-      options.month != null ||
-      options.day != null;
+  DateTimeFormat4X(super.locale, super.options);
 
   static icu.ZonedDateTimeFormatter? _buildZonedDateTime(
     DateTimeFormatOptions options,
@@ -167,116 +126,87 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     return localeX;
   }
 
-  static icu.DateFormatter? _buildDate(
-    DateTimeFormatOptions options,
-    Locale locale,
+  @override
+  String d(DateTime datetime) {
+    return _dateFormatter(
+      icu.DateFormatter.d,
+      icu.DateTimeLength.short,
+      datetime,
+    );
+  }
+
+  String _dateFormatter(
+    icu.DateFormatter Function(
+      icu.Locale locale, {
+      icu.DateTimeAlignment? alignment,
+      icu.DateTimeLength? length,
+    })
+    f,
+    icu.DateTimeLength length,
+    DateTime datetime,
   ) {
     final (alignment, yearStyle, timePrecision) = options.toX;
-    final dateFormatStyle = options.dateFormatStyle;
     final localeX = setLocaleExtensions(locale, options);
-    if (dateFormatStyle == null &&
-        (options.year != null ||
-            options.month != null ||
-            options.day != null)) {
-      return switch ((options.year, options.month, options.day)) {
-        (null, null, _) => icu.DateFormatter.d(
-          localeX,
-          alignment: alignment,
-          length: icu.DateTimeLength.short,
-        ),
-        (null, _, _) => icu.DateFormatter.md(
-          localeX,
-          alignment: alignment,
-          length: icu.DateTimeLength.short,
-        ),
-        (_, null, null) => icu.DateFormatter.y(
-          localeX,
-          alignment: alignment,
-          length: icu.DateTimeLength.long,
-        ),
-        (_, _, _) => icu.DateFormatter.md(
-          localeX,
-          alignment: alignment,
-          length: icu.DateTimeLength.short,
-        ),
-      };
-    }
-    return switch (dateFormatStyle) {
-      TimeFormatStyle.full => icu.DateFormatter.ymde(
-        localeX,
-        alignment: alignment,
-        yearStyle: yearStyle,
-        length: icu.DateTimeLength.long,
-      ),
-      TimeFormatStyle.long => icu.DateFormatter.ymd(
-        localeX,
-        alignment: alignment,
-        yearStyle: yearStyle,
-        length: icu.DateTimeLength.long,
-      ),
-      TimeFormatStyle.medium => icu.DateFormatter.ymd(
-        localeX,
-        alignment: alignment,
-        yearStyle: yearStyle,
-        length: icu.DateTimeLength.medium,
-      ),
-      TimeFormatStyle.short => icu.DateFormatter.ymd(
-        localeX,
-        alignment: alignment,
-        yearStyle: yearStyle,
-        length: icu.DateTimeLength.short,
-      ),
-      null => icu.DateFormatter.ymd(
-        localeX,
-        alignment: alignment,
-        yearStyle: yearStyle,
-        length: icu.DateTimeLength.short,
-      ),
-    };
+    return f(
+      localeX,
+      alignment: alignment,
+      length: switch (options.dateFormatStyle) {
+        TimeFormatStyle.full => icu.DateTimeLength.long,
+        TimeFormatStyle.long => icu.DateTimeLength.long,
+        TimeFormatStyle.medium => icu.DateTimeLength.medium,
+        TimeFormatStyle.short => icu.DateTimeLength.short,
+        null => length,
+      },
+    ).formatIso(datetime.toX.$1);
+  }
+
+  String _dateTimeFormatter(
+    icu.DateTimeFormatter Function(
+      icu.Locale locale, {
+      icu.DateTimeLength? length,
+      icu.TimePrecision? timePrecision,
+      icu.DateTimeAlignment? alignment,
+      icu.YearStyle? yearStyle,
+    })
+    f,
+    DateTime datetime,
+  ) {
+    final (alignment, yearStyle, timePrecision) = options.toX;
+    final localeX = setLocaleExtensions(locale, options);
+    final (isoDate, time) = datetime.toX;
+    return f(
+      localeX,
+      alignment: alignment,
+      length: icu.DateTimeLength.short,
+    ).formatIso(isoDate, time);
   }
 
   @override
-  String formatImpl(DateTime datetime) {
-    final timeZone = options.timeZone;
-    if (timeZone != null) {
-      assert([_zonedDate, _zonedTime, _zonedDateTime].nonNulls.length == 1);
-      final utcOffset = icu.UtcOffset.fromString(timeZone.offset);
-      final correctedDateTime = datetime.add(
-        Duration(seconds: utcOffset.seconds),
-      );
-      final (isoDate, time) = correctedDateTime.toX;
-      final timeZoneX = icu.IanaParser()
-          .parse(timeZone.name)
-          .withOffset(utcOffset)
-          .atDateTimeIso(isoDate, time);
+  String m(DateTime datetime) =>
+      _dateFormatter(icu.DateFormatter.m, icu.DateTimeLength.short, datetime);
 
-      timeZoneX.setVariant(timeZone);
+  @override
+  String md(DateTime datetime) =>
+      _dateFormatter(icu.DateFormatter.md, icu.DateTimeLength.short, datetime);
 
-      if (_zonedDate != null) {
-        return _zonedDate!.formatIso(isoDate, timeZoneX);
-      } else if (_zonedTime != null) {
-        return _zonedTime!.format(time, timeZoneX);
-      } else if (_zonedDateTime != null) {
-        return _zonedDateTime!.formatIso(isoDate, time, timeZoneX);
-      } else {
-        throw StateError('''
-Either date or time formatting has to be enabled if a timezone is given.''');
-      }
-    } else {
-      assert([_date, _time, _dateTime].nonNulls.length == 1);
-      final (isoDate, time) = datetime.toX;
+  @override
+  String y(DateTime datetime) =>
+      _dateFormatter(icu.DateFormatter.y, icu.DateTimeLength.long, datetime);
 
-      if (_date != null) {
-        return _date.formatIso(isoDate);
-      } else if (_time != null) {
-        return _time.format(time);
-      } else if (_dateTime != null) {
-        return _dateTime.formatIso(isoDate, time);
-      } else {
-        throw StateError('Either date or time formatting has to be enabled.');
-      }
-    }
-  }
+  @override
+  String ymd(DateTime datetime) =>
+      _dateFormatter(icu.DateFormatter.ymd, icu.DateTimeLength.short, datetime);
+
+  @override
+  String ymde(DateTime datetime) => _dateFormatter(
+    icu.DateFormatter.ymde,
+    icu.DateTimeLength.short,
+    datetime,
+  );
+
+  @override
+  String ymdt(DateTime datetime) =>
+      _dateTimeFormatter(icu.DateTimeFormatter.ymdt, datetime);
 }
 
 extension on icu.TimeZoneInfo {
@@ -306,8 +236,8 @@ extension on DateTimeFormatOptions {
       timePrecision = icu.TimePrecision.fromSubsecondDigits(
         fractionalSecondDigits!,
       );
-    } else if (minute != null && second == null) {
-      timePrecision = icu.TimePrecision.minute;
+      // } else if (minute != null && second == null) {
+      //   timePrecision = icu.TimePrecision.minute;
     } else {
       timePrecision = switch (timeFormatStyle) {
         null => null,
@@ -318,7 +248,7 @@ extension on DateTimeFormatOptions {
       };
     }
     final dateTimeAlignment =
-        [month, day, hour].any((style) => style == TimeStyle.twodigit)
+        timestyle == TimeStyle.twodigit
             ? icu.DateTimeAlignment.column
             : icu.DateTimeAlignment.auto;
     return (

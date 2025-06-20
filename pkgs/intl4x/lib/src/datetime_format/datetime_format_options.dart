@@ -28,12 +28,8 @@ class DateTimeFormatOptions {
   final ClockStyle? clockstyle;
   final WeekDayStyle? weekday;
   final EraStyle? era;
-  final TimeStyle? year;
+  final TimeStyle? timestyle;
   final MonthStyle? month;
-  final TimeStyle? day;
-  final TimeStyle? hour;
-  final TimeStyle? minute;
-  final TimeStyle? second;
 
   /// The number of digits used to represent fractions of a second.
   final int? fractionalSecondDigits;
@@ -53,12 +49,8 @@ class DateTimeFormatOptions {
     this.clockstyle,
     this.weekday,
     this.era,
-    this.year,
+    this.timestyle,
     this.month,
-    this.day,
-    this.hour,
-    this.minute,
-    this.second,
     this.fractionalSecondDigits,
     this.formatMatcher = FormatMatcher.bestfit,
     this.localeMatcher = LocaleMatcher.bestfit,
@@ -74,12 +66,8 @@ class DateTimeFormatOptions {
     ClockStyle? clockstyle,
     WeekDayStyle? weekday,
     EraStyle? era,
-    TimeStyle? year,
+    TimeStyle? timestyle,
     MonthStyle? month,
-    TimeStyle? day,
-    TimeStyle? hour,
-    TimeStyle? minute,
-    TimeStyle? second,
     int? fractionalSecondDigits,
     TimeZoneType? timeZoneName,
     FormatMatcher? formatMatcher,
@@ -95,12 +83,8 @@ class DateTimeFormatOptions {
       clockstyle: clockstyle ?? this.clockstyle,
       weekday: weekday ?? this.weekday,
       era: era ?? this.era,
-      year: year ?? this.year,
+      timestyle: timestyle ?? this.timestyle,
       month: month ?? this.month,
-      day: day ?? this.day,
-      hour: hour ?? this.hour,
-      minute: minute ?? this.minute,
-      second: second ?? this.second,
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
       formatMatcher: formatMatcher ?? this.formatMatcher,

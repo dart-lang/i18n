@@ -20,8 +20,6 @@ abstract class DateTimeFormatImpl {
 
   DateTimeFormatImpl(this.locale, this.options);
 
-  String formatImpl(DateTime datetime);
-
   static DateTimeFormatImpl build(
     Locale locale,
     DateTimeFormatOptions options,
@@ -35,4 +33,12 @@ abstract class DateTimeFormatImpl {
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );
+
+  String d(DateTime datetime);
+  String m(DateTime datetime);
+  String y(DateTime datetime);
+  String md(DateTime datetime);
+  String ymd(DateTime datetime);
+  String ymde(DateTime datetime);
+  String ymdt(DateTime datetime);
 }

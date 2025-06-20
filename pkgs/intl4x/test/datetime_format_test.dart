@@ -420,9 +420,9 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(year: TimeStyle.numeric),
+                const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .format(date),
+              .y(date),
           '2025',
         ),
       );
@@ -432,12 +432,9 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  month: MonthStyle.twodigit,
-                  day: TimeStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .md(DateTime.utc(2025, 6, 18)),
           '06/18',
         ),
       );
@@ -449,10 +446,10 @@ void main() {
               .datetimeFormat(
                 const DateTimeFormatOptions(
                   month: MonthStyle.narrow,
-                  day: TimeStyle.numeric,
+                  timestyle: TimeStyle.numeric,
                 ),
               )
-              .format(DateTime.utc(2025, 1, 18)), // January
+              .md(DateTime.utc(2025, 1, 18)), // January
           'J 18',
         ),
       );

@@ -77,10 +77,38 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }
 
   @override
-  String formatImpl(DateTime datetime) => DateTimeFormat(
-    [locale.toLanguageTag().toJS].toJS,
-    options.toJsOptions(),
-  ).format(datetime.toJs());
+  String d(DateTime datetime) => _format(datetime: datetime);
+
+  String _format({
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+    required DateTime datetime,
+  }) {
+    return DateTimeFormat(
+      [locale.toLanguageTag().toJS].toJS,
+      options.toJsOptions(day: day, hour: hour, minute: minute, second: second),
+    ).format(datetime.toJs());
+  }
+
+  @override
+  String m(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String md(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String y(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String ymd(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String ymde(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String ymdt(DateTime datetime) => _format(datetime: datetime);
 }
 
 extension on DateTime {
@@ -89,7 +117,12 @@ extension on DateTime {
 }
 
 extension on DateTimeFormatOptions {
-  JSAny toJsOptions() =>
+  JSAny toJsOptions({
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+  }) =>
       {
         'localeMatcher': localeMatcher.jsName,
         if (dateFormatStyle != null) 'dateStyle': dateFormatStyle!.name,
@@ -103,12 +136,12 @@ extension on DateTimeFormatOptions {
           'hourCycle': clockstyle!.hourStyleExtensionString,
         if (weekday != null) 'weekday': weekday!.name,
         if (era != null) 'era': era!.name,
-        if (year != null) 'year': year!.jsName,
+        if (timestyle != null) 'year': timestyle!.jsName,
         if (month != null) 'month': month!.jsName,
-        if (day != null) 'day': day!.jsName,
-        if (hour != null) 'hour': hour!.jsName,
-        if (minute != null) 'minute': minute!.jsName,
-        if (second != null) 'second': second!.jsName,
+        if (day != null) 'day': day.jsName,
+        if (hour != null) 'hour': hour.jsName,
+        if (minute != null) 'minute': minute.jsName,
+        if (second != null) 'second': second.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
         if (timeZone != null) 'timeZoneName': timeZone!.type.name,

@@ -23,11 +23,19 @@ class DateTimeFormat {
 
   DateTimeFormat(this._impl);
 
-  String format(DateTime datetime) {
+  String d(DateTime datetime) => _format(_impl.d, datetime);
+  String m(DateTime datetime) => _format(_impl.m, datetime);
+  String y(DateTime datetime) => _format(_impl.y, datetime);
+  String md(DateTime datetime) => _format(_impl.md, datetime);
+  String ymd(DateTime datetime) => _format(_impl.ymd, datetime);
+  String ymde(DateTime datetime) => _format(_impl.ymde, datetime);
+  String ymdt(DateTime datetime) => _format(_impl.ymdt, datetime);
+
+  String _format(String Function(DateTime datetime) format, DateTime datetime) {
     if (isInTest) {
       return '$datetime//${_impl.locale}';
     } else {
-      return _impl.formatImpl(datetime.toUtc());
+      return format(datetime.toUtc());
     }
   }
 }
