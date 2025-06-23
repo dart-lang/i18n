@@ -70,7 +70,7 @@ class Intl {
     DisplayNamesImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
-  DateTimeFormat datetimeFormat([
+  DateTimeFormat dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
   ]) => DateTimeFormat(
     DateTimeFormatImpl.build(locale, options, localeMatcher, ecmaPolicy),
