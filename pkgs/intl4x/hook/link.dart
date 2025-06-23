@@ -19,9 +19,14 @@ const recordSymbolId = record_use.Identifier(
   name: '_DiplomatFfiUse',
 );
 
-const timeZoneRecording = record_use.Identifier(
+const timeFormatId = record_use.Identifier(
   importUri: 'package:intl4x/src/datetime_format/datetime_format.dart',
   name: 'DatetimeFormatExt|time',
+);
+
+const ymdFormatId = record_use.Identifier(
+  importUri: 'package:intl4x/src/datetime_format/datetime_format.dart',
+  name: 'DatetimeFormatExt|ymd',
 );
 
 /// Run the linker to turn a static into a treeshaken dynamic library.
@@ -41,16 +46,23 @@ Future<void> main(List<String> args) async {
     final usages = input.usages;
 
     final timeZonesTimeFormat = _usedTimeZonesTimeFormat(usages);
+    final timeZonesDateFormat = _usedTimeZonesDateFormat(usages);
 
     final usedSymbols = usages
         ?.constantsOf(recordSymbolId)
         .map((instance) => instance['symbol'] as String)
         .whereNot(
-          (symbol) => _isUnusedSymbol(
-            symbol,
-            'icu4x_ZonedTimeFormatter_create_',
-            timeZonesTimeFormat,
-          ),
+          (symbol) =>
+              _isUnusedSymbol(
+                symbol,
+                'icu4x_ZonedTimeFormatter_create_',
+                timeZonesTimeFormat,
+              ) ||
+              _isUnusedSymbol(
+                symbol,
+                'icu4x_ZonedDateFormatter_create_',
+                timeZonesDateFormat,
+              ),
         );
 
     print(
@@ -79,7 +91,7 @@ bool _isUnusedSymbol(String symbol, String prefix, Set<String>? usedSymbols) =>
 Set<String>? _usedTimeZonesTimeFormat(record_use.RecordedUsages? usages) =>
     usages
         ?.constArgumentsFor(
-          timeZoneRecording,
+          timeFormatId,
           'String time(DateTime datetime, {TimeZone timeZone})',
         )
         .map(
@@ -102,6 +114,36 @@ Set<String>? _usedTimeZonesTimeFormat(record_use.RecordedUsages? usages) =>
               'icu4x_ZonedTimeFormatter_create_generic_short_mv1',
             TimeZoneType.longGeneric =>
               'icu4x_ZonedTimeFormatter_create_generic_long_mv1',
+          },
+        )
+        .toSet();
+
+Set<String>? _usedTimeZonesDateFormat(record_use.RecordedUsages? usages) =>
+    usages
+        ?.constArgumentsFor(
+          ymdFormatId,
+          'String ymd(DateTime datetime, {TimeZone timeZone})',
+        )
+        .map(
+          (argument) =>
+              ((argument.named['timeZone'] as Map)['type'] as Map)['index']
+                  as int,
+        )
+        .map((index) => TimeZoneType.values[index])
+        .map(
+          (timeZoneType) => switch (timeZoneType) {
+            TimeZoneType.long =>
+              'icu4x_ZonedDateFormatter_create_specific_long_mv1',
+            TimeZoneType.short =>
+              'icu4x_ZonedDateFormatter_create_specific_short_mv1',
+            TimeZoneType.shortOffset =>
+              'icu4x_ZonedDateFormatter_create_localized_offset_short_mv1',
+            TimeZoneType.longOffset =>
+              'icu4x_ZonedDateFormatter_create_localized_offset_long_mv1',
+            TimeZoneType.shortGeneric =>
+              'icu4x_ZonedDateFormatter_create_generic_short_mv1',
+            TimeZoneType.longGeneric =>
+              'icu4x_ZonedDateFormatter_create_generic_long_mv1',
           },
         )
         .toSet();
