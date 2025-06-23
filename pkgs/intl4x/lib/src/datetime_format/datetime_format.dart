@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
+import '../../datetime_format.dart';
 import '../test_checker.dart';
 import 'datetime_format_impl.dart';
 
@@ -23,20 +26,54 @@ class DateTimeFormat {
 
   DateTimeFormat(this._impl);
 
-  String d(DateTime datetime) => _format(_impl.d, datetime);
-  String m(DateTime datetime) => _format(_impl.m, datetime);
-  String y(DateTime datetime) => _format(_impl.y, datetime);
-  String md(DateTime datetime) => _format(_impl.md, datetime);
-  String ymd(DateTime datetime) => _format(_impl.ymd, datetime);
-  String ymde(DateTime datetime) => _format(_impl.ymde, datetime);
-  String ymdt(DateTime datetime) => _format(_impl.ymdt, datetime);
-  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime);
+  String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
+  String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
+  String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
+  String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
 
-  String time(DateTime datetime) => _format(_impl.time, datetime);
+  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
+      DateTimeFormat._ymd(timeZone, datetime, _impl);
 
-  String _format(String Function(DateTime datetime) format, DateTime datetime) {
+  @RecordUse()
+  static String _ymd(
+    TimeZone? timeZone,
+    DateTime datetime,
+    DateTimeFormatImpl impl,
+  ) => _format(
+    (datetime) => impl.ymd(datetime, timeZone: timeZone),
+    datetime,
+    impl,
+  );
+
+  String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
+
+  String ymdt(DateTime datetime) => _format(_impl.ymdt, datetime, _impl);
+
+  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+
+  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
+      _time(timeZone, datetime, _impl);
+
+  @RecordUse()
+  static String _time(
+    TimeZone? timeZone,
+    DateTime datetime,
+    DateTimeFormatImpl impl,
+  ) {
+    return _format(
+      (datetime) => impl.time(datetime, timeZone: timeZone),
+      datetime,
+      impl,
+    );
+  }
+
+  static String _format(
+    String Function(DateTime datetime) format,
+    DateTime datetime,
+    DateTimeFormatImpl impl,
+  ) {
     if (isInTest) {
-      return '$datetime//${_impl.locale}';
+      return '$datetime//${impl.locale}';
     } else {
       return format(datetime.toUtc());
     }

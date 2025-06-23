@@ -38,9 +38,9 @@ abstract class DateTimeFormatImpl {
   String m(DateTime datetime);
   String y(DateTime datetime);
   String md(DateTime datetime);
-  String ymd(DateTime datetime);
+  String ymd(DateTime datetime, {TimeZone? timeZone});
   String ymde(DateTime datetime);
   String ymdt(DateTime datetime);
   String ymdet(DateTime datetime);
-  String time(DateTime datetime);
+  String time(DateTime datetime, {TimeZone? timeZone});
 }

@@ -26,82 +26,69 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.short(name: timeZone, offset: offset),
-              ),
-            )
-            .ymd(date),
-        '12/16/2021, PST',
+        intl.datetimeFormat().ymd(
+          date,
+          timeZone: const TimeZone.short(name: timeZone, offset: offset),
+        ),
+        matches(r'12/16/2021[,]? PST'),
       ),
     );
     testWithFormatting(
       'long',
       () => expect(
-        intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.long(name: timeZone, offset: offset),
-              ),
-            )
-            .ymd(date),
-        '12/16/2021, Pacific Standard Time',
+        intl.datetimeFormat().ymd(
+          date,
+          timeZone: const TimeZone.long(name: timeZone, offset: offset),
+        ),
+        matches(r'12/16/2021[,]? Pacific Standard Time'),
       ),
     );
     testWithFormatting(
       'shortOffset',
       () => expect(
         intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.shortOffset(name: timeZone, offset: offset),
+            .datetimeFormat(const DateTimeFormatOptions())
+            .ymd(
+              date,
+              timeZone: const TimeZone.shortOffset(
+                name: timeZone,
+                offset: offset,
               ),
-            )
-            .ymd(date),
-        '12/16/2021, GMT-8',
+            ),
+        matches(r'12/16/2021[,]? GMT-8'),
       ),
     );
     testWithFormatting(
       'longOffset',
       () => expect(
-        intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.longOffset(name: timeZone, offset: offset),
-              ),
-            )
-            .ymd(date),
-        '12/16/2021, GMT-08:00',
+        intl.datetimeFormat().ymd(
+          date,
+          timeZone: const TimeZone.longOffset(name: timeZone, offset: offset),
+        ),
+        matches(r'12/16/2021[,]? GMT-08:00'),
       ),
     );
     testWithFormatting(
       'shortGeneric',
       () => expect(
-        intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.shortGeneric(name: timeZone, offset: offset),
-              ),
-            )
-            .ymd(date),
-        '12/16/2021, PT',
+        intl.datetimeFormat().ymd(
+          date,
+          timeZone: const TimeZone.shortGeneric(name: timeZone, offset: offset),
+        ),
+        matches(r'12/16/2021[,]? PT'),
       ),
     );
     testWithFormatting(
       'longGeneric',
       () => expect(
-        intl
-            .datetimeFormat(
-              const DateTimeFormatOptions(
-                timeZone: TimeZone.longGeneric(name: timeZone, offset: offset),
-              ),
-            )
-            .ymd(date),
-        '12/16/2021, Pacific Time',
+        intl.datetimeFormat().ymd(
+          date,
+          timeZone: const TimeZone.longGeneric(name: timeZone, offset: offset),
+        ),
+        matches(r'12/16/2021[,]? Pacific Time'),
       ),
     );
-  }, tags: ['icu4xUnimplemented']);
+  });
 
   group('day period', () {
     final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
@@ -557,15 +544,15 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  timeZone: TimeZone.long(
-                    name: 'America/New_York',
-                    offset: '-05:00',
-                  ),
-                  timestyle: TimeStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .time(DateTime.utc(2025, 6, 18, 10, 30, 0)), // 10:30 AM UTC
+              .time(
+                DateTime.utc(2025, 6, 18, 10, 30, 0),
+                timeZone: const TimeZone.long(
+                  name: 'America/New_York',
+                  offset: '-05:00',
+                ),
+              ), // 10:30 AM UTC
           // This should convert to 5:30 AM New York time (UTC-4)
           matches(r'^4:30\sAM Eastern Daylight Time$'),
         ),

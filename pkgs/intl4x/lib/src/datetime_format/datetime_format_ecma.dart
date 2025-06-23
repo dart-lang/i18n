@@ -86,6 +86,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimeStyle? hour,
     TimeStyle? minute,
     TimeStyle? second,
+    TimeZone? timeZone,
     required DateTime datetime,
   }) {
     return DateTimeFormat(
@@ -97,6 +98,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
         hour: hour,
         minute: minute,
         second: second,
+        timeZone: timeZone,
       ),
     ).format(datetime.toJs());
   }
@@ -116,11 +118,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   String y(DateTime datetime) => _format(datetime: datetime, year: _timeStyle);
 
   @override
-  String ymd(DateTime datetime) => _format(
+  String ymd(DateTime datetime, {TimeZone? timeZone}) => _format(
     datetime: datetime,
     year: _timeStyle,
     month: _timeStyle,
     day: _timeStyle,
+    timeZone: timeZone,
   );
 
   @override
@@ -130,12 +133,13 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   String ymdt(DateTime datetime) => _format(datetime: datetime);
 
   @override
-  String time(DateTime datetime) => _format(
+  String time(DateTime datetime, {TimeZone? timeZone}) => _format(
     datetime: datetime,
     year: null,
     hour: _timeStyle,
     minute: _timeStyleOrNull,
     second: null,
+    timeZone: timeZone,
   );
 
   TimeStyle? get _timeStyle =>
@@ -165,6 +169,7 @@ extension on DateTimeFormatOptions {
     TimeStyle? hour,
     TimeStyle? minute,
     TimeStyle? second,
+    TimeZone? timeZone,
   }) =>
       {
         'localeMatcher': localeMatcher.jsName,
@@ -173,10 +178,14 @@ extension on DateTimeFormatOptions {
         if (calendar != null) 'calendar': calendar!.jsName,
         if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
         if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
-        if (timeZone != null) 'timeZone': timeZone!.name,
-        if (clockstyle != null) 'hour12': clockstyle!.is12Hour,
-        if (clockstyle != null)
+        if (timeZone != null) ...{
+          'timeZone': timeZone.name,
+          'timeZoneName': timeZone.type.name,
+        },
+        if (clockstyle != null) ...{
+          'hour12': clockstyle!.is12Hour,
           'hourCycle': clockstyle!.hourStyleExtensionString,
+        },
         if (weekday != null) 'weekday': weekday!.name,
         if (era != null) 'era': era!.name,
         if (year != null) 'year': year.jsName,
@@ -187,7 +196,6 @@ extension on DateTimeFormatOptions {
         if (second != null) 'second': second.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
-        if (timeZone != null) 'timeZoneName': timeZone!.type.name,
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
 }

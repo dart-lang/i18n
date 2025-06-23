@@ -34,7 +34,6 @@ class DateTimeFormatOptions {
   final int? fractionalSecondDigits;
 
   /// The localized representation of the time zone name.
-  final TimeZone? timeZone;
   final FormatMatcher formatMatcher;
   final LocaleMatcher localeMatcher;
 
@@ -44,7 +43,6 @@ class DateTimeFormatOptions {
     this.calendar,
     this.dayPeriod,
     this.numberingSystem,
-    this.timeZone,
     this.clockstyle,
     this.weekday,
     this.era,
@@ -60,13 +58,11 @@ class DateTimeFormatOptions {
     Calendar? calendar,
     DayPeriod? dayPeriod,
     NumberingSystem? numberingSystem,
-    TimeZone? timeZone,
     ClockStyle? clockstyle,
     WeekDayStyle? weekday,
     EraStyle? era,
     TimeStyle? timestyle,
     int? fractionalSecondDigits,
-    TimeZoneType? timeZoneName,
     FormatMatcher? formatMatcher,
     LocaleMatcher? localeMatcher,
   }) {
@@ -76,7 +72,6 @@ class DateTimeFormatOptions {
       calendar: calendar ?? this.calendar,
       dayPeriod: dayPeriod ?? this.dayPeriod,
       numberingSystem: numberingSystem ?? this.numberingSystem,
-      timeZone: timeZone ?? this.timeZone,
       clockstyle: clockstyle ?? this.clockstyle,
       weekday: weekday ?? this.weekday,
       era: era ?? this.era,
