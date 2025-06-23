@@ -23,7 +23,8 @@ final class BidiParagraph implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_BidiParagraph_destroy_mv1));
+  @_DiplomatFfiUse('icu4x_BidiParagraph_destroy_mv1')
+ static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_BidiParagraph_destroy_mv1));
 
   /// Given a paragraph index `n` within the surrounding text, this sets this
   /// object to the paragraph at that index. Returns nothing when out of bounds.

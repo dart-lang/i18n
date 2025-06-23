@@ -26,7 +26,8 @@ final class IanaParserExtended implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_IanaParserExtended_destroy_mv1));
+  @_DiplomatFfiUse('icu4x_IanaParserExtended_destroy_mv1')
+ static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_IanaParserExtended_destroy_mv1));
 
   /// Create a new [IanaParserExtended] using compiled data
   ///

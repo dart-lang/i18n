@@ -23,7 +23,8 @@ final class GraphemeClusterBreakIteratorUtf8 implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_GraphemeClusterBreakIteratorUtf8_destroy_mv1));
+  @_DiplomatFfiUse('icu4x_GraphemeClusterBreakIteratorUtf8_destroy_mv1')
+ static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_GraphemeClusterBreakIteratorUtf8_destroy_mv1));
 
   /// Finds the next breakpoint. Returns -1 if at the end of the string or if the index is
   /// out of range of a 32-bit signed integer.

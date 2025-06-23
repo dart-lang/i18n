@@ -29,7 +29,8 @@ final class EmojiSetData implements ffi.Finalizable {
     }
   }
 
-  static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_EmojiSetData_destroy_mv1));
+  @_DiplomatFfiUse('icu4x_EmojiSetData_destroy_mv1')
+ static final _finalizer = ffi.NativeFinalizer(ffi.Native.addressOf(_icu4x_EmojiSetData_destroy_mv1));
 
   /// Checks whether the string is in the set.
   ///
