@@ -6,7 +6,6 @@ import '../../datetime_format.dart';
 import '../bindings/lib.g.dart' as icu;
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
-import '../utils.dart';
 import 'datetime_format_impl.dart';
 
 DateTimeFormatImpl getDateTimeFormatter4X(
@@ -16,94 +15,6 @@ DateTimeFormatImpl getDateTimeFormatter4X(
 
 class DateTimeFormat4X extends DateTimeFormatImpl {
   DateTimeFormat4X(super.locale, super.options);
-
-  static icu.ZonedDateTimeFormatter? _buildZonedDateTime(
-    DateTimeFormatOptions options,
-    Locale locale,
-    icu.DateTimeFormatter df,
-  ) => options.timeZone
-      ?.map(
-        (timeZone) => switch (timeZone.type) {
-          TimeZoneType.long => icu.ZonedDateTimeFormatter.specificLong,
-          TimeZoneType.short => icu.ZonedDateTimeFormatter.specificShort,
-          TimeZoneType.shortOffset =>
-            icu.ZonedDateTimeFormatter.localizedOffsetShort,
-          TimeZoneType.longOffset =>
-            icu.ZonedDateTimeFormatter.localizedOffsetLong,
-          TimeZoneType.shortGeneric => icu.ZonedDateTimeFormatter.genericShort,
-          TimeZoneType.longGeneric => icu.ZonedDateTimeFormatter.genericLong,
-        },
-      )
-      .map((constr) => constr(locale.toX, df));
-
-  static icu.ZonedDateFormatter? _buildZonedDate(
-    DateTimeFormatOptions options,
-    Locale locale,
-    icu.DateFormatter df,
-  ) => options.timeZone
-      ?.map(
-        (timeZone) => switch (timeZone.type) {
-          TimeZoneType.long => icu.ZonedDateFormatter.specificLong,
-          TimeZoneType.short => icu.ZonedDateFormatter.specificShort,
-          TimeZoneType.shortOffset =>
-            icu.ZonedDateFormatter.localizedOffsetShort,
-          TimeZoneType.longOffset => icu.ZonedDateFormatter.localizedOffsetLong,
-          TimeZoneType.shortGeneric => icu.ZonedDateFormatter.genericShort,
-          TimeZoneType.longGeneric => icu.ZonedDateFormatter.genericLong,
-        },
-      )
-      .map((constructor) => constructor(locale.toX, df));
-
-  static icu.ZonedTimeFormatter? _buildZonedTime(
-    DateTimeFormatOptions options,
-    Locale locale,
-  ) => options.timeZone
-      ?.map(
-        (timeZone) => switch (timeZone.type) {
-          TimeZoneType.long => icu.ZonedTimeFormatter.specificLong,
-          TimeZoneType.short => icu.ZonedTimeFormatter.specificShort,
-          TimeZoneType.shortOffset =>
-            icu.ZonedTimeFormatter.localizedOffsetShort,
-          TimeZoneType.longOffset => icu.ZonedTimeFormatter.localizedOffsetLong,
-          TimeZoneType.shortGeneric => icu.ZonedTimeFormatter.genericShort,
-          TimeZoneType.longGeneric => icu.ZonedTimeFormatter.genericLong,
-        },
-      )
-      .map((constructor) => constructor(locale.toX));
-
-  static icu.TimeFormatter? _buildTime(
-    DateTimeFormatOptions options,
-    Locale locale,
-  ) {
-    final localeX = setLocaleExtensions(locale, options);
-    final (alignment, yearstyle, precision, _) = options.toX;
-    return icu.TimeFormatter(
-      localeX,
-      timePrecision: precision,
-      alignment: icu.DateTimeAlignment.auto,
-      length: icu.DateTimeLength.long,
-    );
-  }
-
-  static icu.DateTimeFormatter? _buildDateTime(
-    DateTimeFormatOptions options,
-    Locale locale,
-  ) {
-    final dateFormatStyle = options.dateFormatStyle;
-    final timeFormatStyle = options.timeFormatStyle;
-
-    final localeX = setLocaleExtensions(locale, options);
-    final (alignment, yearStyle, timePrecision, _) = options.toX;
-    return switch ((dateFormatStyle, timeFormatStyle)) {
-      (_, _) => icu.DateTimeFormatter.ymdt(
-        localeX,
-        alignment: alignment,
-        length: icu.DateTimeLength.short,
-        timePrecision: timePrecision,
-        yearStyle: yearStyle,
-      ),
-    };
-  }
 
   static icu.Locale setLocaleExtensions(
     Locale locale,
@@ -157,13 +68,13 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     f,
     DateTime datetime,
   ) {
-    final (alignment, yearStyle, timePrecision, _) = options.toX;
+    final (alignment, yearStyle, timePrecision, length) = options.toX;
     final localeX = setLocaleExtensions(locale, options);
     final (isoDate, time) = datetime.toX;
     return f(
       localeX,
       alignment: alignment,
-      length: icu.DateTimeLength.short,
+      length: length ?? icu.DateTimeLength.short,
     ).formatIso(isoDate, time);
   }
 
@@ -228,18 +139,10 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       timePrecision: timePrecision,
     ).format(time);
   }
-}
 
-extension on icu.TimeZoneInfo {
-  void setVariant(TimeZone timeZone) {
-    final success = inferVariant(icu.VariantOffsetsCalculator());
-    if (!success) {
-      throw ArgumentError(
-        '''
-The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
-      );
-    }
-  }
+  @override
+  String ymdet(DateTime datetime) =>
+      _dateTimeFormatter(icu.DateTimeFormatter.ymdet, datetime);
 }
 
 extension on DateTime {

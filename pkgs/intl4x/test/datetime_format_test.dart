@@ -101,7 +101,7 @@ void main() {
         '12/16/2021, Pacific Time',
       ),
     );
-  });
+  }, tags: ['icu4xUnimplemented']);
 
   group('day period', () {
     final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
@@ -301,13 +301,13 @@ void main() {
           Intl(locale: const Locale(language: 'ar'))
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  calendar: Calendar.islamic,
+                  calendar: Calendar.islamicCivil,
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
               .ymd(date),
           // Dhu al-Hijjah 12, 1446 AH
-          '22‏/12‏/1446 هـ', // 12/11/1446 AH
+          '21‏/12‏/1446 هـ', // 12/11/1446 AH
         ),
       );
     });
@@ -389,6 +389,7 @@ void main() {
               .time(DateTime.utc(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
+        tags: ['icu4xUnimplemented'],
       );
 
       testWithFormatting(
@@ -405,6 +406,7 @@ void main() {
               .time(DateTime.utc(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
+        tags: ['icu4xUnimplemented'],
       );
     });
 
@@ -568,7 +570,7 @@ void main() {
           matches(r'^4:30\sAM Eastern Daylight Time$'),
         ),
       );
-    });
+    }, tags: ['icu4xUnimplemented']);
 
     group('Locale Specific Behavior', () {
       testWithFormatting(
@@ -589,7 +591,7 @@ void main() {
       );
 
       testWithFormatting(
-        'German locale - full date, medium time, 24-hour clock',
+        'German locale - full date, medium time, 24-hour clock ECMA',
         () => expect(
           Intl(locale: const Locale(language: 'de', region: 'DE'))
               .datetimeFormat(
@@ -599,11 +601,27 @@ void main() {
                   clockstyle: ClockStyle.startZeroIs24Hour,
                 ),
               )
-              .ymdt(date),
-          // Example: Mittwoch, 18. Juni 2025 um 10:30:45 Uhr
+              .ymdet(date),
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
-        tags: ['icu4xUnimplemented'],
+        testOn: 'chrome',
+      );
+
+      testWithFormatting(
+        'German locale - full date, medium time, 24-hour clock ICU4X',
+        () => expect(
+          Intl(locale: const Locale(language: 'de', region: 'DE'))
+              .datetimeFormat(
+                const DateTimeFormatOptions(
+                  dateFormatStyle: DateFormatStyle.full,
+                  timeFormatStyle: TimeFormatStyle.medium,
+                  clockstyle: ClockStyle.startZeroIs24Hour,
+                ),
+              )
+              .ymdet(date),
+          'Mittwoch, 18. Juni 2025, 10:30:45',
+        ),
+        testOn: 'vm',
       );
     });
   });

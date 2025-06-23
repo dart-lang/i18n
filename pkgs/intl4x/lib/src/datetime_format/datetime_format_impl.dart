@@ -41,5 +41,6 @@ abstract class DateTimeFormatImpl {
   String ymd(DateTime datetime);
   String ymde(DateTime datetime);
   String ymdt(DateTime datetime);
+  String ymdet(DateTime datetime);
   String time(DateTime datetime);
 }

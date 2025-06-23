@@ -37,7 +37,6 @@ enum Calendar {
   gregory,
   hebrew,
   indian,
-  islamic,
   islamicUmalqura('islamic-umalqura'),
   islamicTbla('islamic-tbla'),
   islamicCivil('islamic-civil'),
