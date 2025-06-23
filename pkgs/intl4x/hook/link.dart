@@ -40,47 +40,21 @@ Future<void> main(List<String> args) async {
 
     final usages = input.usages;
 
-    final timeZones =
-        usages
-            ?.constArgumentsFor(
-              timeZoneRecording,
-              'String time(DateTime datetime, {TimeZone timeZone})',
-            )
-            .map((argument) {
-              return ((argument.named['timeZone'] as Map)['type']
-                      as Map)['index']
-                  as int;
-            })
-            .map((index) => TimeZoneType.values[index])
-            .map(
-              (timeZoneType) => switch (timeZoneType) {
-                TimeZoneType.long =>
-                  'icu4x_ZonedTimeFormatter_create_specific_long_mv1',
-                TimeZoneType.short =>
-                  'icu4x_ZonedTimeFormatter_create_specific_short_mv1',
-                TimeZoneType.shortOffset =>
-                  'icu4x_ZonedTimeFormatter_create_localized_offset_short_mv1',
-                TimeZoneType.longOffset =>
-                  'icu4x_ZonedTimeFormatter_create_localized_offset_long_mv1',
-                TimeZoneType.shortGeneric =>
-                  'icu4x_ZonedTimeFormatter_create_generic_short_mv1',
-                TimeZoneType.longGeneric =>
-                  'icu4x_ZonedTimeFormatter_create_generic_long_mv1',
-              },
-            )
-            .toSet();
+    final timeZonesTimeFormat = _usedTimeZonesTimeFormat(usages);
 
     final usedSymbols = usages
         ?.constantsOf(recordSymbolId)
         .map((instance) => instance['symbol'] as String)
         .whereNot(
-          (symbol) =>
-              symbol.startsWith('icu4x_ZonedTimeFormatter_create_') &&
-              !(timeZones?.contains(symbol) ?? true),
+          (symbol) => _isUnusedSymbol(
+            symbol,
+            'icu4x_ZonedTimeFormatter_create_',
+            timeZonesTimeFormat,
+          ),
         );
 
     print(
-      '### Using symbols: ${usedSymbols?.join('\n')} \n ### End using symbols',
+      '### Using symbols:\n ${usedSymbols?.join('\n')} \n ### End using symbols',
     );
 
     await CLinker.library(
@@ -98,6 +72,39 @@ Future<void> main(List<String> args) async {
     );
   });
 }
+
+bool _isUnusedSymbol(String symbol, String prefix, Set<String>? usedSymbols) =>
+    symbol.startsWith(prefix) && !(usedSymbols?.contains(symbol) ?? true);
+
+Set<String>? _usedTimeZonesTimeFormat(record_use.RecordedUsages? usages) =>
+    usages
+        ?.constArgumentsFor(
+          timeZoneRecording,
+          'String time(DateTime datetime, {TimeZone timeZone})',
+        )
+        .map(
+          (argument) =>
+              ((argument.named['timeZone'] as Map)['type'] as Map)['index']
+                  as int,
+        )
+        .map((index) => TimeZoneType.values[index])
+        .map(
+          (timeZoneType) => switch (timeZoneType) {
+            TimeZoneType.long =>
+              'icu4x_ZonedTimeFormatter_create_specific_long_mv1',
+            TimeZoneType.short =>
+              'icu4x_ZonedTimeFormatter_create_specific_short_mv1',
+            TimeZoneType.shortOffset =>
+              'icu4x_ZonedTimeFormatter_create_localized_offset_short_mv1',
+            TimeZoneType.longOffset =>
+              'icu4x_ZonedTimeFormatter_create_localized_offset_long_mv1',
+            TimeZoneType.shortGeneric =>
+              'icu4x_ZonedTimeFormatter_create_generic_short_mv1',
+            TimeZoneType.longGeneric =>
+              'icu4x_ZonedTimeFormatter_create_generic_long_mv1',
+          },
+        )
+        .toSet();
 
 extension on LinkInput {
   record_use.RecordedUsages? get usages {
