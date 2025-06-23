@@ -13,7 +13,7 @@ void main() {
     expect(
       Intl(
         locale: const Locale(language: 'en', region: 'US'),
-      ).datetimeFormat().format(DateTime.utc(2012, 12, 20, 3, 0, 0)),
+      ).datetimeFormat().ymd(DateTime.utc(2012, 12, 20, 3, 0, 0)),
       '12/20/2012',
     );
   });
@@ -32,7 +32,7 @@ void main() {
                 timeZone: TimeZone.short(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, PST',
       ),
     );
@@ -45,7 +45,7 @@ void main() {
                 timeZone: TimeZone.long(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, Pacific Standard Time',
       ),
     );
@@ -58,7 +58,7 @@ void main() {
                 timeZone: TimeZone.shortOffset(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, GMT-8',
       ),
     );
@@ -71,7 +71,7 @@ void main() {
                 timeZone: TimeZone.longOffset(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, GMT-08:00',
       ),
     );
@@ -84,7 +84,7 @@ void main() {
                 timeZone: TimeZone.shortGeneric(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, PT',
       ),
     );
@@ -97,7 +97,7 @@ void main() {
                 timeZone: TimeZone.longGeneric(name: timeZone, offset: offset),
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/16/2021, Pacific Time',
       ),
     );
@@ -111,12 +111,11 @@ void main() {
         Intl(locale: const Locale(language: 'en', region: 'GB'))
             .datetimeFormat(
               const DateTimeFormatOptions(
-                hour: TimeStyle.numeric,
                 clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.short,
               ),
             )
-            .format(date),
+            .time(date),
         '4 at night',
       ),
     );
@@ -127,12 +126,11 @@ void main() {
         Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(
               const DateTimeFormatOptions(
-                hour: TimeStyle.numeric,
                 clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.narrow,
               ),
             )
-            .format(date),
+            .time(date),
         '4 mat.',
       ),
     );
@@ -143,12 +141,11 @@ void main() {
         Intl(locale: const Locale(language: 'fr'))
             .datetimeFormat(
               const DateTimeFormatOptions(
-                hour: TimeStyle.numeric,
                 clockstyle: ClockStyle.startOneIs12Hour,
                 dayPeriod: DayPeriod.long,
               ),
             )
-            .format(date),
+            .time(date),
         '4 du matin',
       ),
     );
@@ -165,7 +162,7 @@ void main() {
                 dateFormatStyle: DateFormatStyle.short,
               ),
             )
-            .format(date),
+            .ymd(date),
         '12/17/21',
       ),
     );
@@ -178,7 +175,7 @@ void main() {
                 dateFormatStyle: DateFormatStyle.medium,
               ),
             )
-            .format(date),
+            .ymd(date),
         'Dec 17, 2021',
       ),
     );
@@ -191,7 +188,7 @@ void main() {
                 dateFormatStyle: DateFormatStyle.long,
               ),
             )
-            .format(date),
+            .ymd(date),
         'December 17, 2021',
       ),
     );
@@ -210,7 +207,7 @@ void main() {
                 timeFormatStyle: TimeFormatStyle.short,
               ),
             )
-            .format(date),
+            .time(date),
         matches(r'^4:00\sAM$'),
       ),
     );
@@ -223,7 +220,7 @@ void main() {
                 timeFormatStyle: TimeFormatStyle.medium,
               ),
             )
-            .format(date),
+            .time(date),
         matches(r'^4:00:00\sAM$'),
       ),
     );
@@ -236,7 +233,7 @@ void main() {
                 timeFormatStyle: TimeFormatStyle.long,
               ),
             )
-            .format(date),
+            .time(date),
 
         matches(r'^4:00:00\sAM GMT\+1$'),
       ),
@@ -257,7 +254,7 @@ void main() {
                 dateFormatStyle: DateFormatStyle.short,
               ),
             )
-            .format(date),
+            .ymdt(date),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
@@ -278,7 +275,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(date),
+              .ymd(date),
           '5/23/2025',
         ),
       );
@@ -293,7 +290,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(date),
+              .ymd(date),
           '6/18/7 R',
         ),
       );
@@ -308,7 +305,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(date),
+              .ymd(date),
           // Dhu al-Hijjah 12, 1446 AH
           '22‏/12‏/1446 هـ', // 12/11/1446 AH
         ),
@@ -326,7 +323,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .ymd(DateTime.utc(2025, 6, 18)),
           '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
         ),
       );
@@ -341,7 +338,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .ymd(DateTime.utc(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
       );
@@ -356,7 +353,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .ymd(DateTime.utc(2025, 6, 18)),
           '๖/๑๘/๒๕', // 18/6/25 in Thai numerals
         ),
       );
@@ -369,12 +366,11 @@ void main() {
           intlEnUS
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.twodigit,
+                  timestyle: TimeStyle.twodigit,
                   clockstyle: ClockStyle.startZeroIs24Hour,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 15, 30, 0)),
+              .time(DateTime.utc(2025, 6, 18, 15, 30, 0)),
           '15:30',
         ),
       );
@@ -385,13 +381,12 @@ void main() {
           intlEnUS
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.twodigit,
+                  timestyle: TimeStyle.twodigit,
                   clockstyle: ClockStyle.startOneIs12Hour,
                   dayPeriod: DayPeriod.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 0, 30, 0)),
+              .time(DateTime.utc(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
       );
@@ -402,13 +397,12 @@ void main() {
           intlEnUS
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.twodigit,
+                  timestyle: TimeStyle.twodigit,
                   clockstyle: ClockStyle.startOneIs12Hour,
                   dayPeriod: DayPeriod.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 0, 30, 0)),
+              .time(DateTime.utc(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
       );
@@ -431,11 +425,9 @@ void main() {
         'month - twodigit',
         () => expect(
           intlEnUS
-              .datetimeFormat(
-                const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
-              )
+              .datetimeFormat(const DateTimeFormatOptions())
               .md(DateTime.utc(2025, 6, 18)),
-          '06/18',
+          '6/18',
         ),
       );
 
@@ -444,13 +436,10 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  month: MonthStyle.narrow,
-                  timestyle: TimeStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
               .md(DateTime.utc(2025, 1, 18)), // January
-          'J 18',
+          '1/18',
         ),
       );
 
@@ -459,13 +448,10 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  day: TimeStyle.twodigit,
-                  month: MonthStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .format(DateTime.utc(2025, 6, 8)),
-          '6/08',
+              .md(DateTime.utc(2025, 6, 8)),
+          '06/08',
         ),
       );
 
@@ -474,12 +460,9 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  hour: TimeStyle.twodigit,
-                  minute: TimeStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .format(DateTime.utc(2025, 6, 18, 7, 30, 0)),
+              .time(DateTime.utc(2025, 6, 18, 7, 30, 0)),
           matches(r'7:30\sAM'),
         ),
       );
@@ -489,28 +472,10 @@ void main() {
         () => expect(
           intlEnUS
               .datetimeFormat(
-                const DateTimeFormatOptions(
-                  minute: TimeStyle.twodigit,
-                  hour: TimeStyle.numeric,
-                ),
+                const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .format(DateTime.utc(2025, 6, 18, 7, 5, 0)),
+              .time(DateTime.utc(2025, 6, 18, 7, 5, 0)),
           matches(r'7:05\sAM'),
-        ),
-      );
-
-      testWithFormatting(
-        'second - twodigit',
-        () => expect(
-          intlEnUS
-              .datetimeFormat(
-                const DateTimeFormatOptions(
-                  second: TimeStyle.twodigit,
-                  minute: TimeStyle.numeric,
-                ),
-              )
-              .format(DateTime.utc(2025, 6, 18, 7, 30, 5)),
-          '30:05',
         ),
       );
     });
@@ -522,13 +487,11 @@ void main() {
           intlEnUS
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.numeric,
-                  second: TimeStyle.numeric,
+                  timestyle: TimeStyle.numeric,
                   fractionalSecondDigits: 1,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
+              .time(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
           matches(r'10:30:45.1\sAM'),
         ),
       );
@@ -539,13 +502,11 @@ void main() {
           intlEnUS
               .datetimeFormat(
                 const DateTimeFormatOptions(
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.numeric,
-                  second: TimeStyle.numeric,
+                  timestyle: TimeStyle.numeric,
                   fractionalSecondDigits: 3,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
+              .time(DateTime.utc(2025, 6, 18, 10, 30, 45, 123)),
           matches(r'10:30:45.123\sAM'),
         ),
       );
@@ -562,7 +523,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .ymd(DateTime.utc(2025, 6, 18)),
           '6/18/25',
         ),
       );
@@ -577,7 +538,7 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18)),
+              .ymd(DateTime.utc(2025, 6, 18)),
           '6/18/25',
         ),
       );
@@ -599,11 +560,10 @@ void main() {
                     name: 'America/New_York',
                     offset: '-05:00',
                   ),
-                  hour: TimeStyle.numeric,
-                  minute: TimeStyle.twodigit,
+                  timestyle: TimeStyle.numeric,
                 ),
               )
-              .format(DateTime.utc(2025, 6, 18, 10, 30, 0)), // 10:30 AM UTC
+              .time(DateTime.utc(2025, 6, 18, 10, 30, 0)), // 10:30 AM UTC
           // This should convert to 5:30 AM New York time (UTC-4)
           matches(r'^4:30\sAM Eastern Daylight Time$'),
         ),
@@ -621,7 +581,7 @@ void main() {
                   timeFormatStyle: TimeFormatStyle.short,
                 ),
               )
-              .format(date),
+              .ymdt(date),
           // Example: 18 juin 2025 à 10:30
           matches(r'^18 juin 2025 à 10:30$'),
         ),
@@ -639,8 +599,7 @@ void main() {
                   clockstyle: ClockStyle.startZeroIs24Hour,
                 ),
               )
-              .format(date),
-
+              .ymdt(date),
           // Example: Mittwoch, 18. Juni 2025 um 10:30:45 Uhr
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),

@@ -29,7 +29,6 @@ class DateTimeFormatOptions {
   final WeekDayStyle? weekday;
   final EraStyle? era;
   final TimeStyle? timestyle;
-  final MonthStyle? month;
 
   /// The number of digits used to represent fractions of a second.
   final int? fractionalSecondDigits;
@@ -50,7 +49,6 @@ class DateTimeFormatOptions {
     this.weekday,
     this.era,
     this.timestyle,
-    this.month,
     this.fractionalSecondDigits,
     this.formatMatcher = FormatMatcher.bestfit,
     this.localeMatcher = LocaleMatcher.bestfit,
@@ -67,7 +65,6 @@ class DateTimeFormatOptions {
     WeekDayStyle? weekday,
     EraStyle? era,
     TimeStyle? timestyle,
-    MonthStyle? month,
     int? fractionalSecondDigits,
     TimeZoneType? timeZoneName,
     FormatMatcher? formatMatcher,
@@ -84,7 +81,6 @@ class DateTimeFormatOptions {
       weekday: weekday ?? this.weekday,
       era: era ?? this.era,
       timestyle: timestyle ?? this.timestyle,
-      month: month ?? this.month,
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
       formatMatcher: formatMatcher ?? this.formatMatcher,
@@ -144,20 +140,6 @@ enum FormatMatcher {
   String? get jsName => _jsName ?? name;
 
   const FormatMatcher([this._jsName]);
-}
-
-enum MonthStyle {
-  numeric,
-  twodigit('2-digit'),
-  long,
-  short,
-  narrow;
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const MonthStyle([this._jsName]);
 }
 
 enum TimeStyle {

@@ -76,7 +76,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     Locale locale,
   ) {
     final localeX = setLocaleExtensions(locale, options);
-    final (alignment, yearstyle, precision) = options.toX;
+    final (alignment, yearstyle, precision, _) = options.toX;
     return icu.TimeFormatter(
       localeX,
       timePrecision: precision,
@@ -93,7 +93,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     final timeFormatStyle = options.timeFormatStyle;
 
     final localeX = setLocaleExtensions(locale, options);
-    final (alignment, yearStyle, timePrecision) = options.toX;
+    final (alignment, yearStyle, timePrecision, _) = options.toX;
     return switch ((dateFormatStyle, timeFormatStyle)) {
       (_, _) => icu.DateTimeFormatter.ymdt(
         localeX,
@@ -126,37 +126,23 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     return localeX;
   }
 
-  @override
-  String d(DateTime datetime) {
-    return _dateFormatter(
-      icu.DateFormatter.d,
-      icu.DateTimeLength.short,
-      datetime,
-    );
-  }
-
   String _dateFormatter(
     icu.DateFormatter Function(
       icu.Locale locale, {
       icu.DateTimeAlignment? alignment,
       icu.DateTimeLength? length,
+      icu.YearStyle? yearStyle,
     })
     f,
     icu.DateTimeLength length,
     DateTime datetime,
   ) {
-    final (alignment, yearStyle, timePrecision) = options.toX;
-    final localeX = setLocaleExtensions(locale, options);
+    final (alignment, yearStyle, timePrecision, optionLength) = options.toX;
     return f(
-      localeX,
+      setLocaleExtensions(locale, options),
       alignment: alignment,
-      length: switch (options.dateFormatStyle) {
-        TimeFormatStyle.full => icu.DateTimeLength.long,
-        TimeFormatStyle.long => icu.DateTimeLength.long,
-        TimeFormatStyle.medium => icu.DateTimeLength.medium,
-        TimeFormatStyle.short => icu.DateTimeLength.short,
-        null => length,
-      },
+      length: optionLength ?? length,
+      yearStyle: yearStyle,
     ).formatIso(datetime.toX.$1);
   }
 
@@ -171,7 +157,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     f,
     DateTime datetime,
   ) {
-    final (alignment, yearStyle, timePrecision) = options.toX;
+    final (alignment, yearStyle, timePrecision, _) = options.toX;
     final localeX = setLocaleExtensions(locale, options);
     final (isoDate, time) = datetime.toX;
     return f(
@@ -182,12 +168,34 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 
   @override
-  String m(DateTime datetime) =>
-      _dateFormatter(icu.DateFormatter.m, icu.DateTimeLength.short, datetime);
+  String d(DateTime datetime) {
+    final (alignment, _, _, optionLength) = options.toX;
+    return icu.DateFormatter.d(
+      setLocaleExtensions(locale, options),
+      alignment: alignment,
+      length: optionLength ?? icu.DateTimeLength.short,
+    ).formatIso(datetime.toX.$1);
+  }
 
   @override
-  String md(DateTime datetime) =>
-      _dateFormatter(icu.DateFormatter.md, icu.DateTimeLength.short, datetime);
+  String m(DateTime datetime) {
+    final (alignment, _, _, optionLength) = options.toX;
+    return icu.DateFormatter.m(
+      setLocaleExtensions(locale, options),
+      alignment: alignment,
+      length: optionLength ?? icu.DateTimeLength.short,
+    ).formatIso(datetime.toX.$1);
+  }
+
+  @override
+  String md(DateTime datetime) {
+    final (alignment, _, _, optionLength) = options.toX;
+    return icu.DateFormatter.md(
+      setLocaleExtensions(locale, options),
+      alignment: alignment,
+      length: optionLength ?? icu.DateTimeLength.short,
+    ).formatIso(datetime.toX.$1);
+  }
 
   @override
   String y(DateTime datetime) =>
@@ -207,6 +215,19 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   @override
   String ymdt(DateTime datetime) =>
       _dateTimeFormatter(icu.DateTimeFormatter.ymdt, datetime);
+
+  @override
+  String time(DateTime datetime) {
+    final (alignment, yearStyle, timePrecision, length) = options.toX;
+    final localeX = setLocaleExtensions(locale, options);
+    final (_, time) = datetime.toX;
+    return icu.TimeFormatter(
+      localeX,
+      alignment: alignment,
+      length: length ?? icu.DateTimeLength.short,
+      timePrecision: timePrecision,
+    ).format(time);
+  }
 }
 
 extension on icu.TimeZoneInfo {
@@ -230,17 +251,21 @@ extension on DateTime {
 }
 
 extension on DateTimeFormatOptions {
-  (icu.DateTimeAlignment?, icu.YearStyle?, icu.TimePrecision?) get toX {
+  (
+    icu.DateTimeAlignment?,
+    icu.YearStyle?,
+    icu.TimePrecision?,
+    icu.DateTimeLength?,
+  )
+  get toX {
     icu.TimePrecision? timePrecision;
     if (fractionalSecondDigits != null) {
       timePrecision = icu.TimePrecision.fromSubsecondDigits(
         fractionalSecondDigits!,
       );
-      // } else if (minute != null && second == null) {
-      //   timePrecision = icu.TimePrecision.minute;
     } else {
       timePrecision = switch (timeFormatStyle) {
-        null => null,
+        null => icu.TimePrecision.minute,
         TimeFormatStyle.full => icu.TimePrecision.second,
         TimeFormatStyle.long => icu.TimePrecision.second,
         TimeFormatStyle.medium => icu.TimePrecision.second,
@@ -261,6 +286,13 @@ extension on DateTimeFormatOptions {
         TimeFormatStyle.short => icu.YearStyle.auto,
       },
       timePrecision,
+      switch (dateFormatStyle) {
+        TimeFormatStyle.full => icu.DateTimeLength.long,
+        TimeFormatStyle.long => icu.DateTimeLength.long,
+        TimeFormatStyle.medium => icu.DateTimeLength.medium,
+        TimeFormatStyle.short => icu.DateTimeLength.short,
+        null => null,
+      },
     );
   }
 }

@@ -80,6 +80,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   String d(DateTime datetime) => _format(datetime: datetime);
 
   String _format({
+    TimeStyle? year,
+    TimeStyle? month,
     TimeStyle? day,
     TimeStyle? hour,
     TimeStyle? minute,
@@ -88,7 +90,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) {
     return DateTimeFormat(
       [locale.toLanguageTag().toJS].toJS,
-      options.toJsOptions(day: day, hour: hour, minute: minute, second: second),
+      options.toJsOptions(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second,
+      ),
     ).format(datetime.toJs());
   }
 
@@ -96,19 +105,48 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   String m(DateTime datetime) => _format(datetime: datetime);
 
   @override
-  String md(DateTime datetime) => _format(datetime: datetime);
+  String md(DateTime datetime) => _format(
+    datetime: datetime,
+    year: null,
+    day: _timeStyle,
+    month: _timeStyle,
+  );
 
   @override
-  String y(DateTime datetime) => _format(datetime: datetime);
+  String y(DateTime datetime) => _format(datetime: datetime, year: _timeStyle);
 
   @override
-  String ymd(DateTime datetime) => _format(datetime: datetime);
+  String ymd(DateTime datetime) => _format(
+    datetime: datetime,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+  );
 
   @override
   String ymde(DateTime datetime) => _format(datetime: datetime);
 
   @override
   String ymdt(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String time(DateTime datetime) => _format(
+    datetime: datetime,
+    year: null,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+  );
+
+  TimeStyle? get _timeStyle =>
+      options.dateFormatStyle != null || options.timeFormatStyle != null
+          ? null
+          : (options.timestyle ?? TimeStyle.numeric);
+
+  TimeStyle? get _timeStyleOrNull =>
+      options.dateFormatStyle != null || options.timeFormatStyle != null
+          ? null
+          : options.timestyle;
 }
 
 extension on DateTime {
@@ -118,6 +156,8 @@ extension on DateTime {
 
 extension on DateTimeFormatOptions {
   JSAny toJsOptions({
+    TimeStyle? year,
+    TimeStyle? month,
     TimeStyle? day,
     TimeStyle? hour,
     TimeStyle? minute,
@@ -136,8 +176,8 @@ extension on DateTimeFormatOptions {
           'hourCycle': clockstyle!.hourStyleExtensionString,
         if (weekday != null) 'weekday': weekday!.name,
         if (era != null) 'era': era!.name,
-        if (timestyle != null) 'year': timestyle!.jsName,
-        if (month != null) 'month': month!.jsName,
+        if (year != null) 'year': year.jsName,
+        if (month != null) 'month': month.jsName,
         if (day != null) 'day': day.jsName,
         if (hour != null) 'hour': hour.jsName,
         if (minute != null) 'minute': minute.jsName,

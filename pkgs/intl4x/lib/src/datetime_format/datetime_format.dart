@@ -30,6 +30,7 @@ class DateTimeFormat {
   String ymd(DateTime datetime) => _format(_impl.ymd, datetime);
   String ymde(DateTime datetime) => _format(_impl.ymde, datetime);
   String ymdt(DateTime datetime) => _format(_impl.ymdt, datetime);
+  String time(DateTime datetime) => _format(_impl.time, datetime);
 
   String _format(String Function(DateTime datetime) format, DateTime datetime) {
     if (isInTest) {
