@@ -26,11 +26,7 @@ jobs:
         working-directory: pkgs/intl4x
     strategy:
       matrix:
-        sdk: [dev]
         os: [ubuntu-latest, windows-latest, macos-latest]
-        include:
-          - sdk: dev
-            run-tests: true
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
         with:
@@ -38,7 +34,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: ${{matrix.sdk}}
+          sdk: dev
 
       - run: dart pub get
 
@@ -54,13 +50,16 @@ jobs:
       - run: dart --enable-experiment=native-assets analyze --fatal-infos
 
       - run: dart --enable-experiment=native-assets format --output=none --set-exit-if-changed .
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test
-        if: ${{matrix.run-tests}}
 
       - run: dart --enable-experiment=native-assets test -p chrome
-        if: ${{matrix.run-tests}}
+
+      - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
+        working-directory: pkgs/intl4x/example_native
+
+      - run: ./build/cli/linux_x64/bundle/bin/example_native
+        working-directory: pkgs/intl4x/example_native
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
@@ -87,6 +86,12 @@ jobs:
       - run: dart tool/write_option_file.dart pubspec.yaml fetch
 
       - run: dart --enable-experiment=native-assets test
+
+      - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
+        working-directory: pkgs/intl4x/example_native
+
+      - run: ./build/cli/linux_x64/bundle/bin/example_native
+        working-directory: pkgs/intl4x/example_native
 
   build_local:
     strategy:
@@ -170,3 +175,9 @@ jobs:
       run: |
         cd pkgs/intl4x
         dart --enable-experiment=native-assets test
+
+    - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
+      working-directory: pkgs/intl4x/example_native
+
+    - run: ./build/cli/linux_x64/bundle/bin/example_native
+      working-directory: pkgs/intl4x/example_native
