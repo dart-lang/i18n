@@ -108,7 +108,7 @@ Future<File> buildLib(
     '--no-default-features',
     '--features=${{
       ...cargoFeatures,
-      ...(isNoStd ? ['libc_alloc'] : ['logging', 'simple_logger']),
+      ...(isNoStd ? ['libc_alloc', 'looping_panic_handler'] : ['logging', 'simple_logger']),
     }.join(',')}',
     if (isNoStd) '-Zbuild-std=core,alloc',
     if (buildStatic || isNoStd) ...[
