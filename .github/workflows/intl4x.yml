@@ -58,6 +58,8 @@ jobs:
       - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
         working-directory: pkgs/intl4x/example_native
 
+      - run: tree . -a
+
       - run: ./build/cli/linux_x64/bundle/bin/example_native
         working-directory: pkgs/intl4x/example_native
 
@@ -169,9 +171,6 @@ jobs:
 
     - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
       working-directory: pkgs/intl4x/example_native
-
-    - run: tree . -a
-      working-directory: pkgs/intl4x
 
     - run: ./build/cli/linux_x64/bundle/bin/example_native
       working-directory: pkgs/intl4x/example_native
