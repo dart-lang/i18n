@@ -152,6 +152,9 @@ final class TimeZone {
   final String name;
   final TimeZoneType type;
   final String offset;
+
+  Duration get offsetDuration => _parseTimeZoneOffset(offset);
+
   final bool inferVariant;
 
   const TimeZone.short({required this.name, required this.offset})
@@ -197,4 +200,65 @@ enum TimeZoneType {
 
   /// Example: `Pacific Time`
   longGeneric,
+}
+
+/// Parses a time zone offset string (e.g., "+08:00", "-0530", "+3")
+/// into a [Duration] object.
+///
+/// Supported formats:
+/// - "±hh:mm" (e.g., "+08:00", "-03:30", "09:00")
+/// - "±hhmm" (e.g., "+0800", "-0530", "0900")
+/// - "±hh" (e.g., "+3", "-10", "4")
+///
+/// Returns a [Duration] representing the offset. A positive duration means
+/// the time zone is ahead of UTC, and a negative duration means it's behind.
+///
+/// Throws a [FormatException] if the input string is not in a valid format.
+Duration _parseTimeZoneOffset(String offsetString) {
+  if (offsetString.isEmpty) {
+    throw const FormatException('Offset string cannot be empty.');
+  }
+
+  // Determine the sign
+  bool isNegative;
+  if (offsetString.startsWith('-')) {
+    isNegative = true;
+    offsetString = offsetString.substring(1);
+  } else if (offsetString.startsWith('+')) {
+    isNegative = false;
+    offsetString = offsetString.substring(1);
+  } else {
+    isNegative = false;
+  }
+
+  int? hours;
+  int? minutes;
+  if (offsetString.contains(':')) {
+    // Format: "hh:mm"
+    final parts = offsetString.split(':');
+    hours = int.tryParse(parts[0]);
+    minutes = int.tryParse(parts[1]);
+  } else if (offsetString.length == 4) {
+    // Format: "hhmm"
+    hours = int.tryParse(offsetString.substring(0, 2));
+    minutes = int.tryParse(offsetString.substring(2, 4));
+  } else {
+    // Format: "hh"
+    hours = int.tryParse(offsetString);
+    minutes = 0;
+  }
+
+  if (hours == null || minutes == null) {
+    throw FormatException(
+      'Invalid time zone offset format: $offsetString. Expected ±hh:mm.',
+    );
+  }
+
+  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    throw FormatException('Invalid hours or minutes in offset: $offsetString');
+  }
+
+  final offsetDuration = Duration(hours: hours, minutes: minutes);
+
+  return isNegative ? -offsetDuration : offsetDuration;
 }

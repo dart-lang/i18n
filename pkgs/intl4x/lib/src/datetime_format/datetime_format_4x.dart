@@ -59,10 +59,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
     );
     if (timeZone != null) {
       final utcOffset = icu.UtcOffset.fromString(timeZone.offset);
-      final correctedDateTime = datetime.add(
-        Duration(seconds: utcOffset.seconds),
-      );
-      final (isoDate, time) = correctedDateTime.toX;
+      final (isoDate, time) = datetime.toX;
       final timeZoneX = icu.IanaParser()
           .parse(timeZone.name)
           .withOffset(utcOffset)
