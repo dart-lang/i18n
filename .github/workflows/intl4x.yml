@@ -34,7 +34,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: dev
+          sdk: main
 
       - run: dart pub get
 
@@ -79,7 +79,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          sdk: dev
+          sdk: main
 
       - run: dart pub get
 
@@ -114,7 +114,7 @@ jobs:
     
     - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
       with:
-        sdk: dev
+        sdk: main
 
     - name: Build Linux
       if: matrix.os == 'ubuntu-latest'
