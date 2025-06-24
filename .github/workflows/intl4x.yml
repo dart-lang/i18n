@@ -115,7 +115,8 @@ jobs:
 
     - name: Install Rust toolchains
       run: |
-        rustup toolchain install 1.78
+        rustup toolchain install stable
+        rustup toolchain install nightly
     
     - name: Show the selected Rust toolchain
       run: rustup show
@@ -136,6 +137,7 @@ jobs:
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
+        rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
         mkdir submodules/icu4x/bin
         cd pkgs/intl4x
         dart pub get
@@ -145,6 +147,7 @@ jobs:
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
+        rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
         mkdir submodules/icu4x/bin
         cd pkgs/intl4x
         dart pub get
