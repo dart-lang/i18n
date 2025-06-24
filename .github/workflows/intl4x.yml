@@ -126,7 +126,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart ../../pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
@@ -138,7 +138,8 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        
+        dart ../../pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
@@ -150,7 +151,7 @@ jobs:
         cd ffi/dart
         dart pub get
         cd ../..
-        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features icu_collator,icu_datetime,icu_list,icu_decimal,icu_plurals,experimental_components,compiled_data
+        dart ../../pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --file bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
 
     - name: Run `dart pub get`
       run: |
