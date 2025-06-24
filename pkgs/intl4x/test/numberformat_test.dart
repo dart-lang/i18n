@@ -10,7 +10,7 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+  final intl = Intl(locale: Locale.parse('en-US'));
   group('grouping', () {
     testWithFormatting('always', () {
       final numberFormatOptions = intl.numberFormat(

@@ -10,6 +10,6 @@ Locale findSystemLocale() {
   try {
     return Locale.parse(Platform.localeName);
   } catch (e) {
-    return const Locale(language: 'en', region: 'US');
+    return Locale.parse('en-US');
   }
 }

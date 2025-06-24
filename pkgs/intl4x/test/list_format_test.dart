@@ -11,7 +11,7 @@ import 'utils.dart';
 void main() {
   group('List style options', () {
     final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: Locale.parse('en-US'));
     testWithFormatting('long', () {
       final listFormat = intl.listFormat(
         const ListFormatOptions(style: ListStyle.long),
@@ -34,7 +34,7 @@ void main() {
 
   group('List type options', () {
     final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: Locale.parse('en-US'));
     testWithFormatting('long', () {
       final listFormat = intl.listFormat(
         const ListFormatOptions(type: Type.and),
@@ -57,7 +57,7 @@ void main() {
 
   group('List style and type combinations', () {
     final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: Locale.parse('en-US'));
     testWithFormatting('long', () {
       final formatter = intl.listFormat(
         const ListFormatOptions(style: ListStyle.narrow, type: Type.and),

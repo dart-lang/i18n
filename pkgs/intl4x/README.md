@@ -39,7 +39,7 @@ import 'package:intl4x/number_format.dart';
 void main() {
   final numberFormat = Intl(
     ecmaPolicy: const AlwaysEcma(),
-    locale: const Locale(language: 'en', region: 'US'),
+    locale: Locale.parse('en-US'),
   ).numberFormat(NumberFormatOptions.percent());
 
   print(numberFormat.format(0.5)); // prints 50%

@@ -26,7 +26,7 @@ JSAny generateProperties(Map<String, Object> properties) {
 
 void main() {
   group('Some manual tests', () {
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: Locale.parse('en-US'));
 
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = intl.numberFormat(
@@ -75,9 +75,9 @@ void main() {
 
     final numbers = [3.14, 5, 20000, 3, 4.2214, 3.99999, 20000.0001];
     final locales = [
-      const Locale(language: 'en', region: 'US'),
-      const Locale(language: 'de', region: 'DE'),
-      const Locale(language: 'zh', region: 'TW'),
+      Locale.parse('en-US'),
+      Locale.parse('de-DE'),
+      Locale.parse('zh-TW'),
     ];
     final options = <(Object, NumberFormatOptions, JSAny)>[
       (

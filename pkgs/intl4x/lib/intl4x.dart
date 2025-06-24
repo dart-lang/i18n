@@ -41,7 +41,6 @@ typedef Icu4xKey = String;
 /// ```
 class Intl {
   final EcmaPolicy ecmaPolicy;
-  final List<Locale> supportedLocales;
   final LocaleMatcher localeMatcher;
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
@@ -91,7 +90,6 @@ class Intl {
   Intl._({
     Locale? locale,
     this.ecmaPolicy = defaultPolicy,
-    this.supportedLocales = allLocales,
     this.localeMatcher = LocaleMatcher.lookup,
   }) : locale = locale ?? findSystemLocale();
 
@@ -100,35 +98,19 @@ class Intl {
     EcmaPolicy ecmaPolicy = defaultPolicy,
     List<Locale> includedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-  }) : this._(
-         locale: locale,
-         ecmaPolicy: ecmaPolicy,
-         supportedLocales: includedLocales,
-       );
+  }) : this._(locale: locale, ecmaPolicy: ecmaPolicy);
 
   Intl.excludeLocales({
     Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
-    List<Locale> excludedLocales = const [],
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-  }) : this._(
-         locale: locale,
-         ecmaPolicy: ecmaPolicy,
-         supportedLocales:
-             allLocales
-                 .where((locale) => !excludedLocales.contains(locale))
-                 .toList(),
-       );
+  }) : this._(locale: locale, ecmaPolicy: ecmaPolicy);
 
   Intl({
     Locale? locale,
     EcmaPolicy ecmaPolicy = defaultPolicy,
     LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-  }) : this._(
-         locale: locale,
-         ecmaPolicy: ecmaPolicy,
-         supportedLocales: allLocales,
-       );
+  }) : this._(locale: locale, ecmaPolicy: ecmaPolicy);
 
   Locale locale;
 

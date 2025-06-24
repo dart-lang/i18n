@@ -12,7 +12,7 @@ void main() {
   testWithFormatting('Basic', () {
     expect(
       Intl(
-        locale: const Locale(language: 'en', region: 'US'),
+        locale: Locale.parse('en-US'),
       ).dateTimeFormat().ymd(DateTime(2012, 12, 20, 3, 0, 0)),
       '12/20/2012',
     );
@@ -20,7 +20,7 @@ void main() {
 
   group('timezone', () {
     final date = DateTime(2021, 12, 17, 3, 0, 42);
-    final intl = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intl = Intl(locale: Locale.parse('en-US'));
     const timeZone = 'America/Los_Angeles';
     const offset = '-08:00';
     testWithFormatting(
@@ -95,7 +95,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        Intl(locale: const Locale(language: 'en', region: 'GB'))
+        Intl(locale: Locale.parse('en-GB'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 clockstyle: ClockStyle.startOneIs12Hour,
@@ -110,7 +110,7 @@ void main() {
     testWithFormatting(
       'narrow',
       () => expect(
-        Intl(locale: const Locale(language: 'fr'))
+        Intl(locale: Locale.parse('fr'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 clockstyle: ClockStyle.startOneIs12Hour,
@@ -125,7 +125,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        Intl(locale: const Locale(language: 'fr'))
+        Intl(locale: Locale.parse('fr'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 clockstyle: ClockStyle.startOneIs12Hour,
@@ -143,7 +143,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        Intl(locale: const Locale(language: 'en'))
+        Intl(locale: Locale.parse('en'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 dateFormatStyle: DateFormatStyle.short,
@@ -156,7 +156,7 @@ void main() {
     testWithFormatting(
       'medium',
       () => expect(
-        Intl(locale: const Locale(language: 'en'))
+        Intl(locale: Locale.parse('en'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 dateFormatStyle: DateFormatStyle.medium,
@@ -169,7 +169,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        Intl(locale: const Locale(language: 'en'))
+        Intl(locale: Locale.parse('en'))
             .dateTimeFormat(
               const DateTimeFormatOptions(
                 dateFormatStyle: DateFormatStyle.long,
@@ -183,7 +183,7 @@ void main() {
 
   group('time style', () {
     final date = DateTime(2021, 12, 17, 4, 0, 0);
-    final intl = Intl(locale: const Locale(language: 'en'));
+    final intl = Intl(locale: Locale.parse('en'));
 
     testWithFormatting(
       'short',
@@ -215,7 +215,7 @@ void main() {
 
   group('datetime style', () {
     final date = DateTime(2021, 12, 17, 4, 0, 42);
-    final intl = Intl(locale: const Locale(language: 'en'));
+    final intl = Intl(locale: Locale.parse('en'));
     testWithFormatting(
       'medium short',
       () => expect(
@@ -234,7 +234,7 @@ void main() {
 
   group('individual options', () {
     final date = DateTime(2025, 6, 18, 10, 30, 45, 123);
-    final intlEnUS = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intlEnUS = Intl(locale: Locale.parse('en-US'));
 
     group('calendar', () {
       testWithFormatting(
@@ -270,7 +270,7 @@ void main() {
       testWithFormatting(
         'calendar - islamic',
         () => expect(
-          Intl(locale: const Locale(language: 'ar'))
+          Intl(locale: Locale.parse('ar'))
               .dateTimeFormat(
                 const DateTimeFormatOptions(
                   calendar: Calendar.islamicCivil,
@@ -521,7 +521,7 @@ void main() {
 
   group('combinations of options', () {
     final date = DateTime(2025, 6, 18, 10, 30, 45, 123);
-    final intlEnUS = Intl(locale: const Locale(language: 'en', region: 'US'));
+    final intlEnUS = Intl(locale: Locale.parse('en-US'));
 
     group('Time Zone + Date/Time Components', () {
       testWithFormatting(
@@ -548,7 +548,7 @@ void main() {
       testWithFormatting(
         'French locale - long date, short time',
         () => expect(
-          Intl(locale: const Locale(language: 'fr', region: 'FR'))
+          Intl(locale: Locale.parse('fr-FR'))
               .dateTimeFormat(
                 const DateTimeFormatOptions(
                   dateFormatStyle: DateFormatStyle.long,
@@ -565,7 +565,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ECMA',
         () => expect(
-          Intl(locale: const Locale(language: 'de', region: 'DE'))
+          Intl(locale: Locale.parse('de-DE'))
               .dateTimeFormat(
                 const DateTimeFormatOptions(
                   dateFormatStyle: DateFormatStyle.full,
@@ -582,7 +582,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ICU4X',
         () => expect(
-          Intl(locale: const Locale(language: 'de', region: 'DE'))
+          Intl(locale: Locale.parse('de-DE'))
               .dateTimeFormat(
                 const DateTimeFormatOptions(
                   dateFormatStyle: DateFormatStyle.full,
