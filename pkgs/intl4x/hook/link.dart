@@ -65,9 +65,11 @@ Future<void> main(List<String> args) async {
               ),
         );
 
-    print(
-      '### Using symbols:\n ${usedSymbols?.join('\n')} \n ### End using symbols',
-    );
+    print('''
+### Using symbols:
+${usedSymbols?.join('\n')}
+### End using symbols
+''');
 
     await CLinker.library(
       name: input.packageName,
