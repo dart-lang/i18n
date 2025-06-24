@@ -157,7 +157,6 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
 }
 
 extension on DateTime {
-  // We assume the date is UTC
   Date toJs() => Date(year, month - 1, day, hour, minute, second, millisecond);
 }
 

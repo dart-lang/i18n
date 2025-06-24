@@ -10,8 +10,7 @@ jobs:
     with:
       coverage_web: true
       checkout_submodules: true
-      experiments: native-assets
-      sdk: dev
+      sdk: main
       ignore_license: "**.g.dart,pkgs/intl_translation/example/lib/generated/**,pkgs/intl_translation/test/generate_localized/**,pkgs/intl_translation/test/two_components/**"
       ignore_coverage: "**.g.dart"
       ignore_packages: "submodules"

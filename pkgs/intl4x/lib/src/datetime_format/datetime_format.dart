@@ -45,7 +45,7 @@ class DateTimeFormat {
     if (isInTest) {
       return '$datetime//${impl.locale}';
     } else {
-      return format(datetime.toUtc());
+      return format(datetime);
     }
   }
 }
