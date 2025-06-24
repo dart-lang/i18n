@@ -6,7 +6,6 @@ import 'dart:js_interop';
 
 import '../locale/locale.dart';
 import '../options.dart';
-import '../utils.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
@@ -90,20 +89,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimeZone? timeZone,
     required DateTime datetime,
   }) {
-    final correctedDatetime = (timeZone == null
-            ? datetime
-            : datetime.subtract(timeZone.offsetDuration))
-        .map(
-          (dt) => DateTime.utc(
-            dt.year,
-            dt.month,
-            dt.day,
-            dt.hour,
-            dt.minute,
-            dt.second,
-            dt.millisecond,
-          ),
-        );
+    final correctedDatetime =
+        timeZone == null
+            ? datetime.toJs()
+            : datetime.subtract(timeZone.offsetDuration).toJsUtc();
 
     return DateTimeFormat(
       [locale.toLanguageTag().toJS].toJS,
@@ -116,7 +105,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
         second: second,
         timeZone: timeZone,
       ),
-    ).format(correctedDatetime.toJs(timeZone != null));
+    ).format(correctedDatetime);
   }
 
   @override
@@ -173,10 +162,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
 }
 
 extension on DateTime {
-  Date toJs(bool asUtc) =>
-      asUtc
-          ? Date.fromTimeStamp(millisecondsSinceEpoch)
-          : Date(year, month - 1, day, hour, minute, second, millisecond);
+  Date toJs() => Date(year, month - 1, day, hour, minute, second, millisecond);
+
+  Date toJsUtc() => Date.fromTimeStamp(
+    Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
+  );
 }
 
 extension on DateTimeFormatOptions {

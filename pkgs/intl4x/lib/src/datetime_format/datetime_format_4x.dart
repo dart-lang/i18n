@@ -290,7 +290,6 @@ extension on DateTimeFormatOptions {
       timePrecision = switch (timeFormatStyle) {
         null => icu.TimePrecision.minute,
         TimeFormatStyle.full => icu.TimePrecision.second,
-        TimeFormatStyle.long => icu.TimePrecision.second,
         TimeFormatStyle.medium => icu.TimePrecision.second,
         TimeFormatStyle.short => icu.TimePrecision.minute,
       };
@@ -303,17 +302,17 @@ extension on DateTimeFormatOptions {
       dateTimeAlignment,
       switch (dateFormatStyle) {
         null => icu.YearStyle.full,
-        TimeFormatStyle.full => icu.YearStyle.auto,
-        TimeFormatStyle.long => icu.YearStyle.auto,
-        TimeFormatStyle.medium => icu.YearStyle.auto,
-        TimeFormatStyle.short => icu.YearStyle.auto,
+        DateFormatStyle.full => icu.YearStyle.auto,
+        DateFormatStyle.long => icu.YearStyle.auto,
+        DateFormatStyle.medium => icu.YearStyle.auto,
+        DateFormatStyle.short => icu.YearStyle.auto,
       },
       timePrecision,
       switch (dateFormatStyle) {
-        TimeFormatStyle.full => icu.DateTimeLength.long,
-        TimeFormatStyle.long => icu.DateTimeLength.long,
-        TimeFormatStyle.medium => icu.DateTimeLength.medium,
-        TimeFormatStyle.short => icu.DateTimeLength.short,
+        DateFormatStyle.full => icu.DateTimeLength.long,
+        DateFormatStyle.long => icu.DateTimeLength.long,
+        DateFormatStyle.medium => icu.DateTimeLength.medium,
+        DateFormatStyle.short => icu.DateTimeLength.short,
         null => null,
       },
     );

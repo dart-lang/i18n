@@ -211,21 +211,6 @@ void main() {
         matches(r'^4:00:00\sAM$'),
       ),
     );
-    testWithFormatting(
-      'long',
-      () => expect(
-        intl
-            .dateTimeFormat(
-              const DateTimeFormatOptions(
-                timeFormatStyle: TimeFormatStyle.long,
-              ),
-            )
-            .time(date),
-
-        matches(r'^4:00:00\sAM GMT\+1$'),
-      ),
-      tags: ['icu4xUnimplemented'],
-    );
   });
 
   group('datetime style', () {

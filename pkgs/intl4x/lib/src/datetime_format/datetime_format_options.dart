@@ -7,7 +7,6 @@ import '../options.dart';
 typedef WeekDayStyle = Style;
 typedef DayPeriod = Style;
 typedef EraStyle = Style;
-typedef DateFormatStyle = TimeFormatStyle;
 
 /// DateTime formatting functionality of the browser.
 class DateTimeFormatOptions {
@@ -99,7 +98,9 @@ enum ClockStyle {
   }
 }
 
-enum TimeFormatStyle { full, long, medium, short }
+enum TimeFormatStyle { full, medium, short }
+
+enum DateFormatStyle { full, long, medium, short }
 
 enum NumberingSystem {
   arab,
