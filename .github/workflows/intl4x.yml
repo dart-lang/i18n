@@ -55,6 +55,9 @@ jobs:
 
       - run: dart test -p chrome
 
+      - run: dart pub get
+        working-directory: pkgs/intl4x/example_native
+
       - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
         working-directory: pkgs/intl4x/example_native
 
@@ -88,6 +91,9 @@ jobs:
       - run: dart tool/write_option_file.dart pubspec.yaml fetch
 
       - run: dart test
+
+      - run: dart pub get
+        working-directory: pkgs/intl4x/example_native
 
       - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
         working-directory: pkgs/intl4x/example_native
@@ -168,6 +174,9 @@ jobs:
       run: |
         cd pkgs/intl4x
         dart test
+
+    - run: dart pub get
+      working-directory: pkgs/intl4x/example_native
 
     - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
       working-directory: pkgs/intl4x/example_native
