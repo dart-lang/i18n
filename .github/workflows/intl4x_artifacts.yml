@@ -160,7 +160,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: dart-${{matrix.os}}-${{ matrix.compiletype }}-${{ matrix.compiletype == 'static' && matrix.include_data == true && 'with_data' || '' }}}-libs
+        name: dart-${{matrix.os}}-${{ matrix.compiletype }}-${{ matrix.compiletype == 'static' && matrix.include_data == true && 'with_data' || '' }}-libs
         path: submodules/icu4x/bin
 
   check_hashes:
