@@ -205,7 +205,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'windows-latest'
         run: .\build\cli\windows_x64\bundle\bin\example_native.exe
-        
+
       - name: Print file size and check limit for example_native (Windows)
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'windows-latest'
@@ -242,35 +242,32 @@ jobs:
       with:
         sdk: main
 
+    - name: Prep build
+      run: |
+        (cd pkgs/intl4x && dart pub get)
+        
+        mkdir submodules/icu4x/bin
+
     - name: Build Linux
       if: matrix.os == 'ubuntu-latest'
       run: |
         rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
-        mkdir submodules/icu4x/bin
-        cd pkgs/intl4x
-        dart pub get
 
-        dart lib/src/hook_helpers/build_libs.g.dart --file bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
+        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
 
     - name: Build Mac
       if: matrix.os == 'macos-latest'
       run: |
         rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
-        mkdir submodules/icu4x/bin
-        cd pkgs/intl4x
-        dart pub get
 
-        dart lib/src/hook_helpers/build_libs.g.dart  --file bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
+        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
 
     - name: Build Windows
       if: matrix.os == 'windows-latest'
       run: |
         rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
-        mkdir submodules/icu4x/bin
-        cd pkgs/intl4x
-        dart pub get
 
-        dart lib/src/hook_helpers/build_libs.g.dart --file bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,buffer_provider,experimental,default_components,compiled_data
+        dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
 
     - name: Run `dart pub get`
       run: |
