@@ -87,17 +87,53 @@ jobs:
       - run: tree . -a
         if: matrix.os == 'ubuntu-latest'
 
-      - run: ./build/cli/linux_x64/bundle/bin/example_native
+      - name: Run example_native (Linux)
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'ubuntu-latest'
+        run: ./build/cli/linux_x64/bundle/bin/example_native
+      - name: Print file size and check limit for example_native (Linux)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          FILE_PATH="build/cli/linux_x64/bundle/bin/example_native"
+          FILE_SIZE=$(stat -c %s "$FILE_PATH")
+          echo "Linux executable size: $FILE_SIZE bytes"
+          if [ "$FILE_SIZE" -gt 10485760 ]; then
+            echo "Error: Linux executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          fi
 
-      - run: ./build/cli/macos_arm64/bundle/bin/example_native
+      - name: Run example_native (Mac)
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'macos-latest'
+        run: ./build/cli/macos_arm64/bundle/bin/example_native
+      - name: Print file size and check limit for example_native (Mac)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'macos-latest'
+        run: |
+          FILE_PATH="build/cli/macos_arm64/bundle/bin/example_native"
+          FILE_SIZE=$(stat -f %z "$FILE_PATH")
+          echo "macOS executable size: $FILE_SIZE bytes"
+          if [ "$FILE_SIZE" -gt 10485760 ]; then
+            echo "Error: macOS executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          fi
 
-      - run: ./build/cli/windows_x64/bundle/bin/example_native
+      - name: Run example_native (Windows)
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'windows-latest'
+        run: .\build\cli\windows_x64\bundle\bin\example_native.exe
+      - name: Print file size and check limit for example_native (Windows)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'windows-latest'
+        run: |
+          $filePath = ".\build\cli\windows_x64\bundle\bin\example_native.exe"
+          $fileSize = (Get-Item $filePath).Length
+          Write-Host "Windows executable size: $fileSize bytes"
+          if ($fileSize -gt 10485760) {
+            Write-Host "Error: Windows executable size ($fileSize bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          }
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
@@ -131,8 +167,56 @@ jobs:
       - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
         working-directory: pkgs/intl4x/example_native
 
-      - run: ./build/cli/linux_x64/bundle/bin/example_native
+      - name: Run example_native (Linux)
         working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'ubuntu-latest'
+        run: ./build/cli/linux_x64/bundle/bin/example_native
+
+      - name: Print file size and check limit for example_native (Linux)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          FILE_PATH="build/cli/linux_x64/bundle/bin/example_native"
+          FILE_SIZE=$(stat -c %s "$FILE_PATH")
+          echo "Linux executable size: $FILE_SIZE bytes"
+          if [ "$FILE_SIZE" -gt 10485760 ]; then
+            echo "Error: Linux executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          fi
+
+      - name: Run example_native (Mac)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'macos-latest'
+        run: ./build/cli/macos_arm64/bundle/bin/example_native
+
+      - name: Print file size and check limit for example_native (Mac)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'macos-latest'
+        run: |
+          FILE_PATH="build/cli/macos_arm64/bundle/bin/example_native"
+          FILE_SIZE=$(stat -f %z "$FILE_PATH")
+          echo "macOS executable size: $FILE_SIZE bytes"
+          if [ "$FILE_SIZE" -gt 10485760 ]; then
+            echo "Error: macOS executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          fi
+
+      - name: Run example_native (Windows)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'windows-latest'
+        run: .\build\cli\windows_x64\bundle\bin\example_native.exe
+        
+      - name: Print file size and check limit for example_native (Windows)
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'windows-latest'
+        run: |
+          $filePath = ".\build\cli\windows_x64\bundle\bin\example_native.exe"
+          $fileSize = (Get-Item $filePath).Length
+          Write-Host "Windows executable size: $fileSize bytes"
+          if ($fileSize -gt 10485760) {
+            Write-Host "Error: Windows executable size ($fileSize bytes) exceeds 10MB limit (10485760 bytes)."
+            exit 1
+          }
 
   build_local:
     strategy:
@@ -218,5 +302,53 @@ jobs:
     - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
       working-directory: pkgs/intl4x/example_native
 
-    - run: ./build/cli/linux_x64/bundle/bin/example_native
+    - name: Run example_native (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: ./build/cli/linux_x64/bundle/bin/example_native
+      working-directory: pkgs/intl4x/example_native
+
+    - name: Print file size and check limit for example_native (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        FILE_PATH="build/cli/linux_x64/bundle/bin/example_native"
+        FILE_SIZE=$(stat -c %s "$FILE_PATH")
+        echo "Linux executable size: $FILE_SIZE bytes"
+        if [ "$FILE_SIZE" -gt 10485760 ]; then
+          echo "Error: Linux executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+          exit 1
+        fi
+      working-directory: pkgs/intl4x/example_native
+
+    - name: Run example_native (Mac)
+      if: matrix.os == 'macos-latest'
+      run: ./build/cli/macos_arm64/bundle/bin/example_native
+      working-directory: pkgs/intl4x/example_native
+
+    - name: Print file size and check limit for example_native (Mac)
+      if: matrix.os == 'macos-latest'
+      run: |
+        FILE_PATH="build/cli/macos_arm64/bundle/bin/example_native"
+        FILE_SIZE=$(stat -f %z "$FILE_PATH")
+        echo "macOS executable size: $FILE_SIZE bytes"
+        if [ "$FILE_SIZE" -gt 10485760 ]; then
+          echo "Error: macOS executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
+          exit 1
+        fi
+      working-directory: pkgs/intl4x/example_native
+
+    - name: Run example_native (Windows)
+      if: matrix.os == 'windows-latest'
+      run: .\build\cli\windows_x64\bundle\bin\example_native.exe
+      working-directory: pkgs/intl4x/example_native
+
+    - name: Print file size and check limit for example_native (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        $filePath = ".\build\cli\windows_x64\bundle\bin\example_native.exe"
+        $fileSize = (Get-Item $filePath).Length
+        Write-Host "Windows executable size: $fileSize bytes"
+        if ($fileSize -gt 10485760) {
+          Write-Host "Error: Windows executable size ($fileSize bytes) exceeds 10MB limit (10485760 bytes)."
+          exit 1
+        }
       working-directory: pkgs/intl4x/example_native
