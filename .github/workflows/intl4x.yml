@@ -89,6 +89,15 @@ jobs:
 
       - run: ./build/cli/linux_x64/bundle/bin/example_native
         working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'ubuntu-latest'
+
+      - run: ./build/cli/macos_arm64/bundle/bin/example_native
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'macos-latest'
+
+      - run: ./build/cli/windows_x64/bundle/bin/example_native
+        working-directory: pkgs/intl4x/example_native
+        if: matrix.os == 'windows-latest'
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
