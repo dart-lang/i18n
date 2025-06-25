@@ -89,7 +89,7 @@ jobs:
 
         cargo run -p icu4x-datagen -- --locales modern --markers all --format blob --out bin/full.postcard
 
-        cd provider/datagen # avoid global feature resolution
+        cd provider/icu4x-datagen # avoid global feature resolution
         rustup target add aarch64-unknown-linux-gnu
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-unknown-linux-gnu
         rustup target add riscv64gc-unknown-linux-gnu
@@ -119,7 +119,7 @@ jobs:
     - name: Build Mac data
       if: matrix.os == 'macos-latest' && matrix.compiletype == 'static' && matrix.include_data == false
       run: |
-        cd submodules/icu4x/provider/datagen # avoid global feature resolution
+        cd submodules/icu4x/provider/icu4x-datagen # avoid global feature resolution
         rustup target add aarch64-apple-darwin
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-apple-darwin
         rustup target add x86_64-apple-darwin
@@ -147,7 +147,7 @@ jobs:
     - name: Build Windows data
       if: matrix.os == 'windows-latest' && matrix.compiletype == 'static' && matrix.include_data == false
       run: |
-        cd submodules/icu4x/provider/datagen # avoid global feature resolution
+        cd submodules/icu4x/provider/icu4x-datagen # avoid global feature resolution
         rustup target add aarch64-pc-windows-msvc
         cargo build --release --bin icu4x-datagen --no-default-features --features bin,blob_exporter,blob_input,rayon,experimental_components --target aarch64-pc-windows-msvc
         rustup target add x86_64-pc-windows-msvc
