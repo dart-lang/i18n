@@ -10,7 +10,7 @@ import 'display_names_impl.dart';
 class DisplayNames {
   final DisplayNamesImpl _impl;
 
-  DisplayNames(this._impl);
+  DisplayNames._(this._impl);
 
   String ofDateTime(DateTimeField field) => _of(field, _impl.ofDateTime);
 
@@ -32,3 +32,5 @@ class DisplayNames {
     }
   }
 }
+
+DisplayNames buildDisplayNames(DisplayNamesImpl impl) => DisplayNames._(impl);

@@ -24,7 +24,7 @@ import 'datetime_format_impl.dart';
 class DateTimeFormat {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormat(this._impl);
+  DateTimeFormat._(this._impl);
 
   String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
   String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
@@ -67,3 +67,6 @@ extension DatetimeFormatExt on DateTimeFormat {
         _impl,
       );
 }
+
+DateTimeFormat buildDateTimeFormat(DateTimeFormatImpl impl) =>
+    DateTimeFormat._(impl);

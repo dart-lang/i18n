@@ -5,10 +5,12 @@
 import 'collation.dart';
 import 'display_names.dart';
 import 'number_format.dart';
+import 'src/collation/collation.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_impl.dart';
 import 'src/datetime_format/datetime_format_options.dart';
+import 'src/display_names/display_names.dart';
 import 'src/display_names/display_names_impl.dart';
 import 'src/ecma/ecma_policy.dart';
 import 'src/ecma/ecma_stub.dart' if (dart.library.js) 'src/ecma/ecma_web.dart';
@@ -17,13 +19,14 @@ import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_impl.dart';
 import 'src/list_format/list_format_options.dart';
 import 'src/locale/locale.dart';
+import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_impl.dart';
 import 'src/plural_rules/plural_rules.dart';
 import 'src/plural_rules/plural_rules_impl.dart';
 import 'src/plural_rules/plural_rules_options.dart';
 
 export 'src/locale/locale.dart';
-export 'src/plural_rules/plural_rules.dart';
+export 'src/plural_rules/plural_rules.dart' show PluralCategory, PluralRules;
 
 typedef Icu4xKey = String;
 
@@ -44,38 +47,39 @@ class Intl {
   final LocaleMatcher localeMatcher;
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
-      Collation(
+      buildCollation(
         CollationImpl.build(locale, options, localeMatcher, ecmaPolicy),
       );
 
-  NumberFormat numberFormat([NumberFormatOptions? options]) => NumberFormat(
-    NumberFormatImpl.build(
-      locale,
-      options ?? NumberFormatOptions.custom(),
-      localeMatcher,
-      ecmaPolicy,
-    ),
-  );
+  NumberFormat numberFormat([NumberFormatOptions? options]) =>
+      buildNumberFormat(
+        NumberFormatImpl.build(
+          locale,
+          options ?? NumberFormatOptions.custom(),
+          localeMatcher,
+          ecmaPolicy,
+        ),
+      );
 
   ListFormat listFormat([
     ListFormatOptions options = const ListFormatOptions(),
-  ]) => ListFormat(
+  ]) => buildListFormat(
     ListFormatImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
   DisplayNames displayNames([
     DisplayNamesOptions options = const DisplayNamesOptions(),
-  ]) => DisplayNames(
+  ]) => buildDisplayNames(
     DisplayNamesImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
   DateTimeFormat dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
-  ]) => DateTimeFormat(
+  ]) => buildDateTimeFormat(
     DateTimeFormatImpl.build(locale, options, localeMatcher, ecmaPolicy),
   );
 
-  PluralRules plural([PluralRulesOptions? options]) => PluralRules(
+  PluralRules plural([PluralRulesOptions? options]) => buildPluralRules(
     PluralRulesImpl.build(
       locale,
       options ?? PluralRulesOptions(),

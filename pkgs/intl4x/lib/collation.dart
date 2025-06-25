@@ -2,6 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/collation/collation.dart';
+export 'src/collation/collation.dart' show Collation;
 export 'src/collation/collation_options.dart';
 export 'src/options.dart';
