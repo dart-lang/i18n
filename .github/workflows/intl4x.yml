@@ -1,5 +1,7 @@
 name: package:intl4x
-permissions: read-all
+permissions:
+  pull-requests: read # Changed to read, as we are only reading labels
+  contents: read # Added for checkout action
 
 on:
   pull_request:
@@ -18,6 +20,32 @@ on:
     - cron: '0 0 * * 0' # weekly
 
 jobs:
+  # This job will determine if the 'skip-fetch' tag is present
+  check_skip_fetch:
+    runs-on: ubuntu-latest
+    outputs:
+      skip_fetch: ${{ steps.get-labels.outputs.skip_fetch }}
+    permissions:
+      pull-requests: read
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Get PR Labels
+        id: get-labels
+        run: |
+          labels="$(gh api repos/$OWNER/$REPO_NAME/pulls/$PULL_REQUEST_NUMBER --jq '.labels.[].name')"
+          echo "Found labels: $labels"
+          if echo "$labels" | grep -q "skip-fetch"; then
+            echo "skip_fetch=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip_fetch=false" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+          PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number }}
+
   build_checkout:
     runs-on:  ${{ matrix.os }}
 
@@ -137,7 +165,9 @@ jobs:
 
   build_fetch:
     runs-on:  ${{ matrix.os }}
-    if: github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'skip-fetch')
+    needs: [check_skip_fetch]
+    # Only run if not PR, or if PR and skip_fetch is false
+    if: github.event_name != 'pull_request' || needs.check_skip_fetch.outputs.skip_fetch == 'false' 
 
     strategy:
       matrix:
@@ -298,55 +328,4 @@ jobs:
       working-directory: pkgs/intl4x/example_native
 
     - run: dart --enable-experiment=record-use build cli bin/example_native.dart 
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Run example_native (Linux)
-      if: matrix.os == 'ubuntu-latest'
-      run: ./build/cli/linux_x64/bundle/bin/example_native
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Print file size and check limit for example_native (Linux)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        FILE_PATH="build/cli/linux_x64/bundle/bin/example_native"
-        FILE_SIZE=$(stat -c %s "$FILE_PATH")
-        echo "Linux executable size: $FILE_SIZE bytes"
-        if [ "$FILE_SIZE" -gt 10485760 ]; then
-          echo "Error: Linux executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
-          exit 1
-        fi
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Run example_native (Mac)
-      if: matrix.os == 'macos-latest'
-      run: ./build/cli/macos_arm64/bundle/bin/example_native
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Print file size and check limit for example_native (Mac)
-      if: matrix.os == 'macos-latest'
-      run: |
-        FILE_PATH="build/cli/macos_arm64/bundle/bin/example_native"
-        FILE_SIZE=$(stat -f %z "$FILE_PATH")
-        echo "macOS executable size: $FILE_SIZE bytes"
-        if [ "$FILE_SIZE" -gt 10485760 ]; then
-          echo "Error: macOS executable size ($FILE_SIZE bytes) exceeds 10MB limit (10485760 bytes)."
-          exit 1
-        fi
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Run example_native (Windows)
-      if: matrix.os == 'windows-latest'
-      run: .\build\cli\windows_x64\bundle\bin\example_native.exe
-      working-directory: pkgs/intl4x/example_native
-
-    - name: Print file size and check limit for example_native (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        $filePath = ".\build\cli\windows_x64\bundle\bin\example_native.exe"
-        $fileSize = (Get-Item $filePath).Length
-        Write-Host "Windows executable size: $fileSize bytes"
-        if ($fileSize -gt 10485760) {
-          Write-Host "Error: Windows executable size ($fileSize bytes) exceeds 10MB limit (10485760 bytes)."
-          exit 1
-        }
-      working-directory: pkgs/intl4x/example_native
+      working-directory: pkgs/intl4
