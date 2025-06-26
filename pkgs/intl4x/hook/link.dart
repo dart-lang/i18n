@@ -74,7 +74,7 @@ ${usedSymbols?.join('\n')}
     await CLinker.library(
       name: input.packageName,
       assetName: assetId,
-      sources: [staticLib.file!.path],
+      sources: [staticLib.file!.toFilePath()],
       linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
     ).run(
       input: input,
