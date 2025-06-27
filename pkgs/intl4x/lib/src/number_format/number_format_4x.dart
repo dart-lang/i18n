@@ -19,7 +19,7 @@ class NumberFormat4X extends NumberFormatImpl {
   final icu.DecimalFormatter _formatter;
   NumberFormat4X(Locale4x super.locale, super.options)
     : _formatter = icu.DecimalFormatter.withGroupingStrategy(
-        locale.toX,
+        locale.get4X,
         options.toX,
       );
 

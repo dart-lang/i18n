@@ -146,21 +146,10 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
-class Offset {
-  final Duration duration;
-  final int sign;
-
-  const Offset.negative(this.duration) : sign = -1;
-
-  const Offset.positive(this.duration) : sign = 1;
-
-  int get inSeconds => duration.inSeconds * sign;
-}
-
 final class TimeZone {
   final String name;
   final TimeZoneType type;
-  final Offset offset;
+  final Duration offset;
 
   final bool inferVariant;
 

@@ -56,7 +56,7 @@ void main() {
     final date = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
     const timeZone = 'America/Los_Angeles';
-    const offset = Offset.negative(Duration(hours: 8));
+    const offset = Duration(hours: 8);
     testWithFormatting(
       'short',
       () => expect(
@@ -128,7 +128,7 @@ void main() {
     final date = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
     const timeZone = 'America/Los_Angeles';
-    const offset = Offset.negative(Duration(hours: 8));
+    const offset = Duration(hours: 8);
     testWithFormatting(
       'short',
       () => expect(
@@ -669,7 +669,7 @@ void main() {
                 DateTime(2025, 6, 18, 10, 30, 0),
                 timeZone: const TimeZone.long(
                   name: 'America/New_York',
-                  offset: Offset.negative(Duration(hours: 4)),
+                  offset: Duration(hours: 4),
                 ),
               ),
           matches(r'^10:30\sAM Eastern Daylight Time$'),

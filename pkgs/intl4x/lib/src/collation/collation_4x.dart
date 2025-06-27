@@ -17,7 +17,7 @@ class Collation4X extends CollationImpl {
 
   Collation4X(Locale4x super.locale, super.options)
     : _collator = icu.Collator(
-        locale.toX.clone()..setOptions(options),
+        locale.get4X.clone()..setOptions(options),
         options.toX,
       );
 

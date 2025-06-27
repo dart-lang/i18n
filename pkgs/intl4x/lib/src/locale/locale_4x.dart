@@ -11,7 +11,7 @@ class Locale4x implements Locale {
 
   const Locale4x(this._locale);
 
-  icu.Locale get toX => _locale;
+  icu.Locale get get4X => _locale;
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();

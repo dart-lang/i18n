@@ -30,7 +30,7 @@ class ListFormat4X extends ListFormatImpl {
       Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
-    return constructor(locale.toX, options.style.toX);
+    return constructor(locale.get4X, options.style.toX);
   }
 }
 

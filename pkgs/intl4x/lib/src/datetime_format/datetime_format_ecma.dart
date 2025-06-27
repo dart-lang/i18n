@@ -165,10 +165,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     final correctedDatetime =
         timeZone == null
             ? datetime.toJs()
-            : (timeZone.offset.sign == 1
-                    ? datetime.subtract(timeZone.offset.duration)
-                    : datetime.add(timeZone.offset.duration))
-                .toJsUtc();
+            : datetime.subtract(timeZone.offset).toJsUtc();
 
     return DateTimeFormat(
       [locale.toLanguageTag().toJS].toJS,
