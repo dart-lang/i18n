@@ -40,7 +40,7 @@ abstract class DateTimeFormatImpl {
   String md(DateTime datetime);
   String ymd(DateTime datetime, {TimeZone? timeZone});
   String ymde(DateTime datetime);
-  String ymdt(DateTime datetime);
+  String ymdt(DateTime datetime, {TimeZone? timeZone});
   String ymdet(DateTime datetime);
   String time(DateTime datetime, {TimeZone? timeZone});
 }

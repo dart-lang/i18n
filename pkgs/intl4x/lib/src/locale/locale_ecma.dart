@@ -25,14 +25,5 @@ class LocaleEcma implements Locale {
   LocaleEcma(this._locale);
 
   @override
-  String get language => _locale.language;
-
-  @override
-  String? get region => _locale.region;
-
-  @override
-  String? get script => _locale.script;
-
-  @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
 }

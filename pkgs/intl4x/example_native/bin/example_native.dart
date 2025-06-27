@@ -8,7 +8,10 @@ import 'package:intl4x/datetime_format.dart';
 import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
-  const timeZone = TimeZone.long(name: 'Europe/Paris', offset: '+02:00');
+  const timeZone = TimeZone.long(
+    name: 'Europe/Paris',
+    offset: Offset.positive(Duration(hours: 2)),
+  );
   print(Platform.localeName);
   print(Intl().locale);
   print(Intl().dateTimeFormat().time(DateTime.now(), timeZone: timeZone));

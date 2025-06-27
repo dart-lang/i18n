@@ -77,39 +77,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }
 
   @override
-  String d(DateTime datetime) => _format(datetime: datetime);
-
-  String _format({
-    TimeStyle? year,
-    TimeStyle? month,
-    TimeStyle? day,
-    TimeStyle? hour,
-    TimeStyle? minute,
-    TimeStyle? second,
-    TimeZone? timeZone,
-    required DateTime datetime,
-  }) {
-    final correctedDatetime =
-        timeZone == null
-            ? datetime.toJs()
-            : datetime.subtract(timeZone.offsetDuration).toJsUtc();
-
-    return DateTimeFormat(
-      [locale.toLanguageTag().toJS].toJS,
-      options.toJsOptions(
-        year: year,
-        month: month,
-        day: day,
-        hour: hour,
-        minute: minute,
-        second: second,
-        timeZone: timeZone,
-      ),
-    ).format(correctedDatetime);
-  }
+  String d(DateTime datetime) =>
+      _format(datetime: datetime, year: null, day: _timeStyle, month: null);
 
   @override
-  String m(DateTime datetime) => _format(datetime: datetime);
+  String m(DateTime datetime) =>
+      _format(datetime: datetime, year: null, day: null, month: _timeStyle);
 
   @override
   String md(DateTime datetime) => _format(
@@ -135,7 +108,16 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   String ymde(DateTime datetime) => _format(datetime: datetime);
 
   @override
-  String ymdt(DateTime datetime) => _format(datetime: datetime);
+  String ymdt(DateTime datetime, {TimeZone? timeZone}) => _format(
+    datetime: datetime,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+    timeZone: timeZone,
+  );
 
   @override
   String time(DateTime datetime, {TimeZone? timeZone}) => _format(
@@ -158,7 +140,50 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
           : options.timestyle;
 
   @override
-  String ymdet(DateTime datetime) => _format(datetime: datetime);
+  String ymdet(DateTime datetime) => _format(
+    datetime: datetime,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+    weekday: Style.short,
+  );
+
+  String _format({
+    TimeStyle? year,
+    TimeStyle? month,
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+    TimeZone? timeZone,
+    Style? weekday,
+    required DateTime datetime,
+  }) {
+    final correctedDatetime =
+        timeZone == null
+            ? datetime.toJs()
+            : (timeZone.offset.sign == 1
+                    ? datetime.subtract(timeZone.offset.duration)
+                    : datetime.add(timeZone.offset.duration))
+                .toJsUtc();
+
+    return DateTimeFormat(
+      [locale.toLanguageTag().toJS].toJS,
+      options.toJsOptions(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second,
+        timeZone: timeZone,
+        weekday: weekday,
+      ),
+    ).format(correctedDatetime);
+  }
 }
 
 extension on DateTime {
@@ -178,6 +203,7 @@ extension on DateTimeFormatOptions {
     TimeStyle? minute,
     TimeStyle? second,
     TimeZone? timeZone,
+    Style? weekday,
   }) =>
       {
         'localeMatcher': localeMatcher.jsName,
@@ -194,14 +220,14 @@ extension on DateTimeFormatOptions {
           'hour12': clockstyle!.is12Hour,
           'hourCycle': clockstyle!.hourStyleExtensionString,
         },
-        if (weekday != null) 'weekday': weekday!.name,
-        if (era != null) 'era': era!.name,
-        if (year != null) 'year': year.jsName,
-        if (month != null) 'month': month.jsName,
-        if (day != null) 'day': day.jsName,
-        if (hour != null) 'hour': hour.jsName,
-        if (minute != null) 'minute': minute.jsName,
-        if (second != null) 'second': second.jsName,
+        if (weekday != null && dateFormatStyle == null) 'weekday': weekday.name,
+        if (era != null && dateFormatStyle == null) 'era': era!.name,
+        if (year != null && dateFormatStyle == null) 'year': year.jsName,
+        if (month != null && dateFormatStyle == null) 'month': month.jsName,
+        if (day != null && dateFormatStyle == null) 'day': day.jsName,
+        if (hour != null && timeFormatStyle == null) 'hour': hour.jsName,
+        if (minute != null && timeFormatStyle == null) 'minute': minute.jsName,
+        if (second != null && timeFormatStyle == null) 'second': second.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
         'formatMatcher': formatMatcher.jsName,
@@ -210,6 +236,5 @@ extension on DateTimeFormatOptions {
 
 extension on ClockStyle {
   bool get is12Hour =>
-      this == ClockStyle.startZeroIs12Hour ||
-      this == ClockStyle.startOneIs12Hour;
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }

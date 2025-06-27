@@ -12,13 +12,13 @@ import 'display_names_impl.dart';
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
   DisplayNamesOptions options,
-) => DisplayNames4X(locale, options);
+) => DisplayNames4X(locale as Locale4x, options);
 
 class DisplayNames4X extends DisplayNamesImpl {
   final icu.LocaleDisplayNamesFormatter _formatter;
   final icu.RegionDisplayNames _regionFormatter;
 
-  DisplayNames4X(super.locale, super.options)
+  DisplayNames4X(Locale4x super.locale, super.options)
     : _formatter = icu.LocaleDisplayNamesFormatter(locale.toX, options.toX),
       _regionFormatter = icu.RegionDisplayNames(locale.toX, options.toX);
 
@@ -38,7 +38,7 @@ class DisplayNames4X extends DisplayNamesImpl {
   }
 
   @override
-  String ofLanguage(Locale locale) => _formatter.of(locale.toX);
+  String ofLanguage(Locale locale) => _formatter.of((locale as Locale4x).toX);
 
   @override
   String ofRegion(String regionCode) => _regionFormatter.of(regionCode);

@@ -13,11 +13,11 @@ import 'number_format_options.dart';
 NumberFormatImpl getNumberFormatter4X(
   Locale locale,
   NumberFormatOptions options,
-) => NumberFormat4X(locale, options);
+) => NumberFormat4X(locale as Locale4x, options);
 
 class NumberFormat4X extends NumberFormatImpl {
   final icu.DecimalFormatter _formatter;
-  NumberFormat4X(super.locale, super.options)
+  NumberFormat4X(Locale4x super.locale, super.options)
     : _formatter = icu.DecimalFormatter.withGroupingStrategy(
         locale.toX,
         options.toX,

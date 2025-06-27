@@ -25,7 +25,6 @@ class DateTimeFormatOptions {
 
   /// Whether to use a 12- or 24-hour style clock.
   final ClockStyle? clockstyle;
-  final WeekDayStyle? weekday;
   final EraStyle? era;
   final TimeStyle? timestyle;
 
@@ -43,7 +42,6 @@ class DateTimeFormatOptions {
     this.dayPeriod,
     this.numberingSystem,
     this.clockstyle,
-    this.weekday,
     this.era,
     this.timestyle,
     this.fractionalSecondDigits,
@@ -72,7 +70,6 @@ class DateTimeFormatOptions {
       dayPeriod: dayPeriod ?? this.dayPeriod,
       numberingSystem: numberingSystem ?? this.numberingSystem,
       clockstyle: clockstyle ?? this.clockstyle,
-      weekday: weekday ?? this.weekday,
       era: era ?? this.era,
       timestyle: timestyle ?? this.timestyle,
       fractionalSecondDigits:
@@ -84,16 +81,16 @@ class DateTimeFormatOptions {
 }
 
 enum ClockStyle {
-  startZeroIs12Hour,
-  startOneIs12Hour,
-  startZeroIs24Hour;
+  zeroToEleven,
+  oneToTwelve,
+  zeroToTwentyThree;
 
   String get hourStyleExtensionString {
     // The three possible values are h11, h12, and h23.
     return switch (this) {
-      ClockStyle.startZeroIs12Hour => 'h11',
-      ClockStyle.startOneIs12Hour => 'h12',
-      ClockStyle.startZeroIs24Hour => 'h23',
+      ClockStyle.zeroToEleven => 'h11',
+      ClockStyle.oneToTwelve => 'h12',
+      ClockStyle.zeroToTwentyThree => 'h23',
     };
   }
 }
@@ -149,12 +146,21 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
+class Offset {
+  final Duration duration;
+  final int sign;
+
+  const Offset.negative(this.duration) : sign = -1;
+
+  const Offset.positive(this.duration) : sign = 1;
+
+  int get inSeconds => duration.inSeconds * sign;
+}
+
 final class TimeZone {
   final String name;
   final TimeZoneType type;
-  final String offset;
-
-  Duration get offsetDuration => _parseTimeZoneOffset(offset);
+  final Offset offset;
 
   final bool inferVariant;
 
@@ -201,65 +207,4 @@ enum TimeZoneType {
 
   /// Example: `Pacific Time`
   longGeneric,
-}
-
-/// Parses a time zone offset string (e.g., "+08:00", "-0530", "+3")
-/// into a [Duration] object.
-///
-/// Supported formats:
-/// - "±hh:mm" (e.g., "+08:00", "-03:30", "09:00")
-/// - "±hhmm" (e.g., "+0800", "-0530", "0900")
-/// - "±hh" (e.g., "+3", "-10", "4")
-///
-/// Returns a [Duration] representing the offset. A positive duration means
-/// the time zone is ahead of UTC, and a negative duration means it's behind.
-///
-/// Throws a [FormatException] if the input string is not in a valid format.
-Duration _parseTimeZoneOffset(String offsetString) {
-  if (offsetString.isEmpty) {
-    throw const FormatException('Offset string cannot be empty.');
-  }
-
-  // Determine the sign
-  bool isNegative;
-  if (offsetString.startsWith('-')) {
-    isNegative = true;
-    offsetString = offsetString.substring(1);
-  } else if (offsetString.startsWith('+')) {
-    isNegative = false;
-    offsetString = offsetString.substring(1);
-  } else {
-    isNegative = false;
-  }
-
-  int? hours;
-  int? minutes;
-  if (offsetString.contains(':')) {
-    // Format: "hh:mm"
-    final parts = offsetString.split(':');
-    hours = int.tryParse(parts[0]);
-    minutes = int.tryParse(parts[1]);
-  } else if (offsetString.length == 4) {
-    // Format: "hhmm"
-    hours = int.tryParse(offsetString.substring(0, 2));
-    minutes = int.tryParse(offsetString.substring(2, 4));
-  } else {
-    // Format: "hh"
-    hours = int.tryParse(offsetString);
-    minutes = 0;
-  }
-
-  if (hours == null || minutes == null) {
-    throw FormatException(
-      'Invalid time zone offset format: $offsetString. Expected ±hh:mm.',
-    );
-  }
-
-  if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-    throw FormatException('Invalid hours or minutes in offset: $offsetString');
-  }
-
-  final offsetDuration = Duration(hours: hours, minutes: minutes);
-
-  return isNegative ? -offsetDuration : offsetDuration;
 }

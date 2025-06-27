@@ -9,11 +9,11 @@ import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
 ListFormatImpl getListFormatter4X(Locale locale, ListFormatOptions options) =>
-    ListFormat4X(locale, options);
+    ListFormat4X(locale as Locale4x, options);
 
 class ListFormat4X extends ListFormatImpl {
   final icu.ListFormatter _formatter;
-  ListFormat4X(super.locale, super.options)
+  ListFormat4X(Locale4x super.locale, super.options)
     : _formatter = _getFormatter(locale, options);
 
   @override
@@ -22,7 +22,7 @@ class ListFormat4X extends ListFormatImpl {
   }
 
   static icu.ListFormatter _getFormatter(
-    Locale locale,
+    Locale4x locale,
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {

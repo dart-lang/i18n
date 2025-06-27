@@ -40,7 +40,7 @@ void main() {
     final displayNames = Intl(locale: Locale.parse('en')).displayNames();
 
     expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
-    expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
+    expect(displayNames.ofCalendar(Calendar.gregorian), 'Gregorian Calendar');
     expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
   });
 

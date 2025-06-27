@@ -10,12 +10,12 @@ import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
 PluralRulesImpl getPluralSelect4X(Locale locale, PluralRulesOptions options) =>
-    PluralRules4X(locale, options);
+    PluralRules4X(locale as Locale4x, options);
 
 class PluralRules4X extends PluralRulesImpl {
   final icu.PluralRules _pluralRules;
 
-  PluralRules4X(super.locale, super.options)
+  PluralRules4X(Locale4x super.locale, super.options)
     : _pluralRules = switch (options.type) {
         Type.cardinal => icu.PluralRules.cardinal(locale.toX),
         Type.ordinal => icu.PluralRules.ordinal(locale.toX),

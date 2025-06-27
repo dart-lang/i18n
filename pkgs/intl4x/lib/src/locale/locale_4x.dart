@@ -11,26 +11,10 @@ class Locale4x implements Locale {
 
   const Locale4x(this._locale);
 
-  @override
-  String get language => _locale.language;
-
-  @override
-  String? get region => _locale.region;
-
-  @override
-  String? get script => _locale.script;
+  icu.Locale get toX => _locale;
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
 }
 
 Locale parseLocale(String s) => Locale4x(icu.Locale.fromString(s));
-
-extension Locale4X on Locale {
-  icu.Locale get toX {
-    final icu4xLocale = icu.Locale.unknown()..language = language;
-    if (region != null) icu4xLocale.setRegion(region!);
-    if (script != null) icu4xLocale.setScript(script!);
-    return icu4xLocale;
-  }
-}

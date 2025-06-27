@@ -33,8 +33,6 @@ class DateTimeFormat {
 
   String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
 
-  String ymdt(DateTime datetime) => _format(_impl.ymdt, datetime, _impl);
-
   String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
 
   static String _format(
@@ -51,6 +49,14 @@ class DateTimeFormat {
 }
 
 extension DatetimeFormatExt on DateTimeFormat {
+  @RecordUse()
+  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
+      DateTimeFormat._format(
+        (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
+        datetime,
+        _impl,
+      );
+
   @RecordUse()
   String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
       DateTimeFormat._format(
