@@ -17,7 +17,7 @@ Future<void> main(List<String> args) async {
   await dynamicLibrary.create();
   for (final os in ['linux', 'windows', 'fuchsia', 'android', 'macOS', 'iOS']) {
     for (final architecture in Architecture.values) {
-      for (final libraryType in ['dynamic', 'static']) {
+      for (final libraryType in ['dynamic', 'static', 'static_data']) {
         final target = [os, architecture, libraryType].join('_');
         print('Checking hash for $target');
         final success = await _fetchLibrary(target, httpClient, dynamicLibrary);

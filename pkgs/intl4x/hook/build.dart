@@ -111,12 +111,8 @@ final class FetchMode extends BuildMode {
     final targetOS = input.config.code.targetOS;
     final targetArchitecture = input.config.code.targetArchitecture;
     final libraryType =
-        input.config.buildStatic(treeshake) ? 'static' : 'dynamic';
-    final target = [
-      targetOS,
-      targetArchitecture,
-      libraryType,
-    ].join('_'); //TODO: Add with-data if static
+        input.config.buildStatic(treeshake) ? 'static_data' : 'dynamic';
+    final target = [targetOS, targetArchitecture, libraryType].join('_');
     print('Fetching pre-built binary for $version and $target');
     final dylibRemoteUri = Uri.parse(
       'https://github.com/dart-lang/i18n/releases/download/$version/$target',

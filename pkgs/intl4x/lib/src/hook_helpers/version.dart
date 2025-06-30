@@ -2,4 +2,4 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-const version = 'intl4x-icu-v.0.11.2-artifacts';
+const version = 'intl4x-icu-v.0.12.0-artifacts';
