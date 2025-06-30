@@ -29,6 +29,9 @@ Future<void> main(List<String> args) async {
 
   final pubspecContents = await File(pubspecPath).readAsString();
   final yamlEditor = YamlEditor(pubspecContents);
-  yamlEditor.update(['hook'], {'intl4x': buildOptions.toMap()});
+  yamlEditor.update(
+    ['hooks', 'user_defines'],
+    {'intl4x': buildOptions.toMap()},
+  );
   await File(pubspecPath).writeAsString(yamlEditor.toString());
 }

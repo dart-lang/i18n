@@ -16,5 +16,4 @@ dev_dependencies:
 hooks:
   user_defines:
     intl4x:
-      buildMode: checkout
-      checkoutPath: ../../../submodules/icu4x/
+      buildMode: fetch

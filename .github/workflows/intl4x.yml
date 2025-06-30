@@ -109,6 +109,15 @@ jobs:
       - run: dart pub get
         working-directory: pkgs/intl4x/example_native
 
+      - run: dart tool/write_option_file.dart example_native/pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+        if: matrix.os == 'ubuntu-latest'
+
+      - run: dart tool/write_option_file.dart example_native/pubspec.yaml checkout $(realpath ${{ github.workspace }}/submodules/icu4x)
+        if: matrix.os == 'macos-latest'
+
+      - run: dart tool/write_option_file.dart example_native/pubspec.yaml checkout (Get-Item  ${{ github.workspace }}\submodules\icu4x).FullName -replace '/', '\'
+        if: matrix.os == 'windows-latest'
+
       - run: dart --enable-experiment=record-use build cli bin/example_native.dart
         working-directory: pkgs/intl4x/example_native
 
@@ -171,7 +180,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest] #TODO: Exlude windows-latest until it is resolved upstream
 
     defaults:
       run:
