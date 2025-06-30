@@ -17,24 +17,13 @@ extension type LocaleJS._(JSObject _) implements JSObject {
   external String? get region;
 }
 
-Locale parseLocale(String s) => toLocale(LocaleJS(s));
+Locale parseLocale(String s) => LocaleEcma(LocaleJS(s));
 
-Locale toLocale(LocaleJS parsed) => Locale(
-  language: parsed.language,
-  region: parsed.region,
-  script: parsed.script,
-);
+class LocaleEcma implements Locale {
+  final LocaleJS _locale;
 
-String toLanguageTagImpl(Locale l, [String separator = '-']) =>
-    fromLocale(l).toString();
+  LocaleEcma(this._locale);
 
-LocaleJS fromLocale(Locale l) {
-  final options = {
-    if (l.region != null) 'region': l.region,
-    if (l.script != null) 'script': l.script,
-  };
-  return LocaleJS.constructor(l.language, options.jsify()!);
+  @override
+  String toLanguageTag([String separator = '-']) => _locale.toString();
 }
-
-Locale minimizeImpl(Locale l) => toLocale(fromLocale(l).minimize());
-Locale maximizeImpl(Locale l) => toLocale(fromLocale(l).maximize());

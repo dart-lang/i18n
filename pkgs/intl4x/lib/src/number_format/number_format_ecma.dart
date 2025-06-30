@@ -37,7 +37,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
         ? _NumberFormatECMA(supportedLocales.first, options)
-        : _NumberFormatECMA(const Locale(language: 'en'), options);
+        : _NumberFormatECMA(Locale.parse('en'), options);
   }
 
   static List<Locale> supportedLocalesOf(

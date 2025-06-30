@@ -8,7 +8,7 @@ import 'plural_rules_impl.dart';
 class PluralRules {
   final PluralRulesImpl _pluralRulesImpl;
 
-  const PluralRules(this._pluralRulesImpl);
+  const PluralRules._(this._pluralRulesImpl);
 
   /// Locale-dependant pluralization, for example in English:
   ///
@@ -23,3 +23,5 @@ class PluralRules {
 }
 
 enum PluralCategory { zero, one, two, few, many, other }
+
+PluralRules buildPluralRules(PluralRulesImpl impl) => PluralRules._(impl);

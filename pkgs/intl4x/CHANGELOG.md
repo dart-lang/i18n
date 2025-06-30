@@ -1,3 +1,7 @@
+## 0.12.0
+
+- Update to ICU4X 2.0.
+
 ## 0.11.4
 
 - Remove `native_assets_*` dependencies for `hooks` and `code_assets`.

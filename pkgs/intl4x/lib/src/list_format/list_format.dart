@@ -8,7 +8,7 @@ import 'list_format_impl.dart';
 class ListFormat {
   final ListFormatImpl _listFormatImpl;
 
-  const ListFormat(this._listFormatImpl);
+  const ListFormat._(this._listFormatImpl);
 
   /// Locale-dependant concatenation of lists, for example in `en-US` locale:
   /// ```dart
@@ -22,3 +22,5 @@ class ListFormat {
     }
   }
 }
+
+ListFormat buildListFormat(ListFormatImpl impl) => ListFormat._(impl);

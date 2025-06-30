@@ -10,7 +10,7 @@ import 'utils.dart';
 void main() {
   testWithFormatting('en-US simple', () {
     final numberFormatOptions = Intl(
-      locale: const Locale(language: 'en', region: 'US'),
+      locale: Locale.parse('en-US'),
     ).plural(PluralRulesOptions());
 
     expect(numberFormatOptions.select(0), PluralCategory.other);
@@ -21,7 +21,7 @@ void main() {
 
   testWithFormatting('ar-EG simple', () {
     final numberFormatOptions = Intl(
-      locale: const Locale(language: 'ar', region: 'EG'),
+      locale: Locale.parse('ar-EG'),
     ).plural(PluralRulesOptions());
 
     expect(numberFormatOptions.select(0), PluralCategory.zero);
@@ -33,7 +33,7 @@ void main() {
 
   testWithFormatting('en-US ordinal', () {
     final numberFormatOptions = Intl(
-      locale: const Locale(language: 'en', region: 'US'),
+      locale: Locale.parse('en-US'),
     ).plural(PluralRulesOptions(type: Type.ordinal));
 
     expect(numberFormatOptions.select(0), PluralCategory.other);

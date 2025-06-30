@@ -77,23 +77,131 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }
 
   @override
-  String formatImpl(DateTime datetime) => DateTimeFormat(
-    [locale.toLanguageTag().toJS].toJS,
-    options.toJsOptions(),
-  ).format(datetime.toJs());
+  String d(DateTime datetime) =>
+      _format(datetime: datetime, year: null, day: _timeStyle, month: null);
+
+  @override
+  String m(DateTime datetime) =>
+      _format(datetime: datetime, year: null, day: null, month: _timeStyle);
+
+  @override
+  String md(DateTime datetime) => _format(
+    datetime: datetime,
+    year: null,
+    day: _timeStyle,
+    month: _timeStyle,
+  );
+
+  @override
+  String y(DateTime datetime) => _format(datetime: datetime, year: _timeStyle);
+
+  @override
+  String ymd(DateTime datetime, {TimeZone? timeZone}) => _format(
+    datetime: datetime,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+    timeZone: timeZone,
+  );
+
+  @override
+  String ymde(DateTime datetime) => _format(datetime: datetime);
+
+  @override
+  String ymdt(DateTime datetime, {TimeZone? timeZone}) => _format(
+    datetime: datetime,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+    timeZone: timeZone,
+  );
+
+  @override
+  String time(DateTime datetime, {TimeZone? timeZone}) => _format(
+    datetime: datetime,
+    year: null,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+    timeZone: timeZone,
+  );
+
+  TimeStyle? get _timeStyle =>
+      options.dateFormatStyle != null || options.timeFormatStyle != null
+          ? null
+          : (options.timestyle ?? TimeStyle.numeric);
+
+  TimeStyle? get _timeStyleOrNull =>
+      options.dateFormatStyle != null || options.timeFormatStyle != null
+          ? null
+          : options.timestyle;
+
+  @override
+  String ymdet(DateTime datetime) => _format(
+    datetime: datetime,
+    hour: _timeStyle,
+    minute: _timeStyleOrNull,
+    second: null,
+    year: _timeStyle,
+    month: _timeStyle,
+    day: _timeStyle,
+    weekday: Style.short,
+  );
+
+  String _format({
+    TimeStyle? year,
+    TimeStyle? month,
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+    TimeZone? timeZone,
+    Style? weekday,
+    required DateTime datetime,
+  }) {
+    final correctedDatetime =
+        timeZone == null
+            ? datetime.toJs()
+            : datetime.subtract(timeZone.offset).toJsUtc();
+
+    return DateTimeFormat(
+      [locale.toLanguageTag().toJS].toJS,
+      options.toJsOptions(
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second,
+        timeZone: timeZone,
+        weekday: weekday,
+      ),
+    ).format(correctedDatetime);
+  }
 }
 
 extension on DateTime {
-  Date toJs() =>
-      isUtc
-          ? Date.fromTimeStamp(
-            Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
-          )
-          : Date(year, month - 1, day, hour, minute, second, millisecond);
+  Date toJs() => Date(year, month - 1, day, hour, minute, second, millisecond);
+
+  Date toJsUtc() => Date.fromTimeStamp(
+    Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
+  );
 }
 
 extension on DateTimeFormatOptions {
-  JSAny toJsOptions() =>
+  JSAny toJsOptions({
+    TimeStyle? year,
+    TimeStyle? month,
+    TimeStyle? day,
+    TimeStyle? hour,
+    TimeStyle? minute,
+    TimeStyle? second,
+    TimeZone? timeZone,
+    Style? weekday,
+  }) =>
       {
         'localeMatcher': localeMatcher.jsName,
         if (dateFormatStyle != null) 'dateStyle': dateFormatStyle!.name,
@@ -101,38 +209,29 @@ extension on DateTimeFormatOptions {
         if (calendar != null) 'calendar': calendar!.jsName,
         if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
         if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
-        if (timeZone != null) 'timeZone': timeZone!,
-        if (clockstyle != null) 'hour12': clockstyle!.is12Hour,
-        if (clockstyle != null && clockstyle!.startAtZero != null)
-          'hourCycle': clockstyle!.hourStyleJsString(),
-        if (weekday != null) 'weekday': weekday!.name,
-        if (era != null) 'era': era!.name,
-        if (year != null) 'year': year!.jsName,
-        if (month != null) 'month': month!.jsName,
-        if (day != null) 'day': day!.jsName,
-        if (hour != null) 'hour': hour!.jsName,
-        if (minute != null) 'minute': minute!.jsName,
-        if (second != null) 'second': second!.jsName,
+        if (timeZone != null) ...{
+          'timeZone': timeZone.name,
+          'timeZoneName': timeZone.type.name,
+        },
+        if (clockstyle != null) ...{
+          'hour12': clockstyle!.is12Hour,
+          'hourCycle': clockstyle!.hourStyleExtensionString,
+        },
+        if (weekday != null && dateFormatStyle == null) 'weekday': weekday.name,
+        if (era != null && dateFormatStyle == null) 'era': era!.name,
+        if (year != null && dateFormatStyle == null) 'year': year.jsName,
+        if (month != null && dateFormatStyle == null) 'month': month.jsName,
+        if (day != null && dateFormatStyle == null) 'day': day.jsName,
+        if (hour != null && timeFormatStyle == null) 'hour': hour.jsName,
+        if (minute != null && timeFormatStyle == null) 'minute': minute.jsName,
+        if (second != null && timeFormatStyle == null) 'second': second.jsName,
         if (fractionalSecondDigits != null)
           'fractionalSecondDigits': fractionalSecondDigits!,
-        if (timeZoneName != null) 'timeZoneName': timeZoneName!.name,
         'formatMatcher': formatMatcher.jsName,
       }.jsify()!;
 }
 
 extension on ClockStyle {
-  String hourStyleJsString() {
-    // The four possible values are h11, h12, h23, h24.
-    final firstDigit = is12Hour ? 1 : 2;
-
-    final subtrahend = startAtZero! ? 1 : 0;
-    final secondDigit = firstDigit * 2 - subtrahend;
-
-    /// The cases are
-    /// * firstDigit == 1 && subtrahend == 1  --> h11
-    /// * firstDigit == 1 && subtrahend == 0  --> h12
-    /// * firstDigit == 2 && subtrahend == 1  --> h23
-    /// * firstDigit == 2 && subtrahend == 0  --> h24
-    return 'h$firstDigit$secondDigit';
-  }
+  bool get is12Hour =>
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }

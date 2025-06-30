@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -24,13 +23,11 @@ abstract class NumberFormatImpl {
 
   static NumberFormatImpl build(
     Locale locale,
-    Data data,
     NumberFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) => buildFormatter(
     locale,
-    data,
     options,
     localeMatcher,
     ecmaPolicy,

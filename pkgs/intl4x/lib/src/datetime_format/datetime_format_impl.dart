@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../data.dart';
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -21,21 +20,27 @@ abstract class DateTimeFormatImpl {
 
   DateTimeFormatImpl(this.locale, this.options);
 
-  String formatImpl(DateTime datetime);
-
   static DateTimeFormatImpl build(
     Locale locale,
-    Data data,
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
   ) => buildFormatter(
     locale,
-    data,
     options,
     localeMatcher,
     ecmaPolicy,
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );
+
+  String d(DateTime datetime);
+  String m(DateTime datetime);
+  String y(DateTime datetime);
+  String md(DateTime datetime);
+  String ymd(DateTime datetime, {TimeZone? timeZone});
+  String ymde(DateTime datetime);
+  String ymdt(DateTime datetime, {TimeZone? timeZone});
+  String ymdet(DateTime datetime);
+  String time(DateTime datetime, {TimeZone? timeZone});
 }

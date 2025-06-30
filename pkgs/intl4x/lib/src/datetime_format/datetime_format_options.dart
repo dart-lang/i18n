@@ -7,7 +7,6 @@ import '../options.dart';
 typedef WeekDayStyle = Style;
 typedef DayPeriod = Style;
 typedef EraStyle = Style;
-typedef DateFormatStyle = TimeFormatStyle;
 
 /// DateTime formatting functionality of the browser.
 class DateTimeFormatOptions {
@@ -23,24 +22,16 @@ class DateTimeFormatOptions {
   /// [clockstyle] parameter is true.
   final DayPeriod? dayPeriod;
   final NumberingSystem? numberingSystem;
-  final String? timeZone;
 
   /// Whether to use a 12- or 24-hour style clock.
   final ClockStyle? clockstyle;
-  final WeekDayStyle? weekday;
   final EraStyle? era;
-  final TimeStyle? year;
-  final MonthStyle? month;
-  final TimeStyle? day;
-  final TimeStyle? hour;
-  final TimeStyle? minute;
-  final TimeStyle? second;
+  final TimeStyle? timestyle;
 
   /// The number of digits used to represent fractions of a second.
   final int? fractionalSecondDigits;
 
   /// The localized representation of the time zone name.
-  final TimeZoneName? timeZoneName;
   final FormatMatcher formatMatcher;
   final LocaleMatcher localeMatcher;
 
@@ -50,18 +41,10 @@ class DateTimeFormatOptions {
     this.calendar,
     this.dayPeriod,
     this.numberingSystem,
-    this.timeZone,
     this.clockstyle,
-    this.weekday,
     this.era,
-    this.year,
-    this.month,
-    this.day,
-    this.hour,
-    this.minute,
-    this.second,
+    this.timestyle,
     this.fractionalSecondDigits,
-    this.timeZoneName,
     this.formatMatcher = FormatMatcher.bestfit,
     this.localeMatcher = LocaleMatcher.bestfit,
   });
@@ -72,18 +55,11 @@ class DateTimeFormatOptions {
     Calendar? calendar,
     DayPeriod? dayPeriod,
     NumberingSystem? numberingSystem,
-    String? timeZone,
     ClockStyle? clockstyle,
     WeekDayStyle? weekday,
     EraStyle? era,
-    TimeStyle? year,
-    MonthStyle? month,
-    TimeStyle? day,
-    TimeStyle? hour,
-    TimeStyle? minute,
-    TimeStyle? second,
+    TimeStyle? timestyle,
     int? fractionalSecondDigits,
-    TimeZoneName? timeZoneName,
     FormatMatcher? formatMatcher,
     LocaleMatcher? localeMatcher,
   }) {
@@ -93,33 +69,35 @@ class DateTimeFormatOptions {
       calendar: calendar ?? this.calendar,
       dayPeriod: dayPeriod ?? this.dayPeriod,
       numberingSystem: numberingSystem ?? this.numberingSystem,
-      timeZone: timeZone ?? this.timeZone,
       clockstyle: clockstyle ?? this.clockstyle,
-      weekday: weekday ?? this.weekday,
       era: era ?? this.era,
-      year: year ?? this.year,
-      month: month ?? this.month,
-      day: day ?? this.day,
-      hour: hour ?? this.hour,
-      minute: minute ?? this.minute,
-      second: second ?? this.second,
+      timestyle: timestyle ?? this.timestyle,
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
-      timeZoneName: timeZoneName ?? this.timeZoneName,
       formatMatcher: formatMatcher ?? this.formatMatcher,
       localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }
 
-class ClockStyle {
-  final bool is12Hour;
-  final bool? startAtZero;
+enum ClockStyle {
+  zeroToEleven,
+  oneToTwelve,
+  zeroToTwentyThree;
 
-  const ClockStyle({required this.is12Hour, this.startAtZero});
+  String get hourStyleExtensionString {
+    // The three possible values are h11, h12, and h23.
+    return switch (this) {
+      ClockStyle.zeroToEleven => 'h11',
+      ClockStyle.oneToTwelve => 'h12',
+      ClockStyle.zeroToTwentyThree => 'h23',
+    };
+  }
 }
 
-enum TimeFormatStyle { full, long, medium, short }
+enum TimeFormatStyle { full, medium, short }
+
+enum DateFormatStyle { full, long, medium, short }
 
 enum NumberingSystem {
   arab,
@@ -146,8 +124,6 @@ enum NumberingSystem {
   tibt,
 }
 
-enum HourCycle { h11, h12, h23, h24 }
-
 enum FormatMatcher {
   basic,
   bestfit('best fit');
@@ -157,20 +133,6 @@ enum FormatMatcher {
   String? get jsName => _jsName ?? name;
 
   const FormatMatcher([this._jsName]);
-}
-
-enum MonthStyle {
-  numeric,
-  twodigit('2-digit'),
-  long,
-  short,
-  narrow;
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const MonthStyle([this._jsName]);
 }
 
 enum TimeStyle {
@@ -184,7 +146,39 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
-enum TimeZoneName {
+final class TimeZone {
+  final String name;
+  final TimeZoneType type;
+  final Duration offset;
+
+  final bool inferVariant;
+
+  const TimeZone.short({required this.name, required this.offset})
+    : type = TimeZoneType.short,
+      inferVariant = true;
+
+  const TimeZone.long({required this.name, required this.offset})
+    : type = TimeZoneType.long,
+      inferVariant = true;
+
+  const TimeZone.shortOffset({required this.name, required this.offset})
+    : type = TimeZoneType.shortOffset,
+      inferVariant = true;
+
+  const TimeZone.longOffset({required this.name, required this.offset})
+    : type = TimeZoneType.longOffset,
+      inferVariant = true;
+
+  const TimeZone.shortGeneric({required this.name, required this.offset})
+    : type = TimeZoneType.shortGeneric,
+      inferVariant = false;
+
+  const TimeZone.longGeneric({required this.name, required this.offset})
+    : type = TimeZoneType.longGeneric,
+      inferVariant = false;
+}
+
+enum TimeZoneType {
   /// Example: `Pacific Standard Time`
   long,
 

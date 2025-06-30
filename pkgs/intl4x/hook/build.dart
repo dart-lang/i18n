@@ -112,7 +112,11 @@ final class FetchMode extends BuildMode {
     final targetArchitecture = input.config.code.targetArchitecture;
     final libraryType =
         input.config.buildStatic(treeshake) ? 'static' : 'dynamic';
-    final target = [targetOS, targetArchitecture, libraryType].join('_');
+    final target = [
+      targetOS,
+      targetArchitecture,
+      libraryType,
+    ].join('_'); //TODO: Add with-data if static
     print('Fetching pre-built binary for $version and $target');
     final dylibRemoteUri = Uri.parse(
       'https://github.com/dart-lang/i18n/releases/download/$version/$target',
@@ -208,12 +212,13 @@ final class CheckoutMode extends BuildMode {
           input.config.code.iOS.targetSdk == IOSSdk.iPhoneSimulator,
       Directory.fromUri(checkoutPath!),
       [
-        'icu_collator',
-        'icu_datetime',
-        'icu_list',
-        'icu_decimal',
-        'icu_plurals',
-        'experimental_components',
+        'collator',
+        'datetime',
+        'list',
+        'decimal',
+        'plurals',
+        'buffer_provider',
+        'experimental',
         'default_components',
         'compiled_data',
       ],

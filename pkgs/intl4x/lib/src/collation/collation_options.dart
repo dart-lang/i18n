@@ -8,8 +8,8 @@ class CollationOptions {
   final Usage usage;
   final Sensitivity? sensitivity;
   final bool ignorePunctuation;
-  final bool numeric;
-  final CaseFirst caseFirst;
+  final bool? numeric;
+  final CaseFirst? caseFirst;
   final String? collation;
   final LocaleMatcher localeMatcher;
 
@@ -18,8 +18,8 @@ class CollationOptions {
     this.usage = Usage.sort,
     this.sensitivity,
     this.ignorePunctuation = false,
-    this.numeric = false,
-    this.caseFirst = CaseFirst.localeDependent,
+    this.numeric,
+    this.caseFirst,
     this.collation,
   });
 

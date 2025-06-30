@@ -71,7 +71,7 @@ extension on CollationOptions {
         if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
         'ignorePunctuation': ignorePunctuation,
         'numeric': numeric,
-        'caseFirst': caseFirst.jsName,
+        if (caseFirst != null) 'caseFirst': caseFirst!.jsName,
         if (collation != null) 'collation': collation,
       }.jsify()!;
 }

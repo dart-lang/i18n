@@ -6,11 +6,15 @@ import '../bindings/lib.g.dart' as icu;
 
 import 'locale.dart';
 
-extension Locale4X on Locale {
-  icu.Locale to4X() {
-    final icu4xLocale = icu.Locale.und()..language = language;
-    if (region != null) icu4xLocale.region = region!;
-    if (script != null) icu4xLocale.script = script!;
-    return icu4xLocale;
-  }
+class Locale4x implements Locale {
+  final icu.Locale _locale;
+
+  const Locale4x(this._locale);
+
+  icu.Locale get get4X => _locale;
+
+  @override
+  String toLanguageTag([String separator = '-']) => _locale.toString();
 }
+
+Locale parseLocale(String s) => Locale4x(icu.Locale.fromString(s));
