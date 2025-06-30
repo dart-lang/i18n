@@ -35,11 +35,10 @@ library intl_message;
 import 'dart:convert';
 
 import 'package:analyzer/dart/ast/ast.dart';
-// ignore: implementation_imports
-import 'package:analyzer/src/dart/ast/constant_evaluator.dart';
 
 import 'complex_message.dart';
 import 'composite_message.dart';
+import 'constant_evaluator.dart';
 import 'literal_string_message.dart';
 import 'message_extraction_exception.dart';
 import 'variable_substitution_message.dart';
@@ -74,26 +73,6 @@ abstract class Message {
 
   /// The name of the top-level [MainMessage].
   String get name => parent == null ? '<unnamed>' : parent!.name;
-
-  static final _evaluator = ConstantEvaluator();
-
-  static String? _evaluateAsString(expression) {
-    var result = expression.accept(_evaluator);
-    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
-      return null;
-    } else {
-      return result;
-    }
-  }
-
-  static Map? _evaluateAsMap(Expression expression) {
-    var result = expression.accept(_evaluator);
-    if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! Map) {
-      return null;
-    } else {
-      return result;
-    }
-  }
 
   /// Verify that the args argument matches the method parameters and
   /// isn't, e.g. passing string names instead of the argument values.
@@ -141,7 +120,7 @@ abstract class Message {
   /// for messages with parameters.
   static void checkValidity(
     MethodInvocation node,
-    List arguments,
+    List<Expression> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,
@@ -165,7 +144,7 @@ abstract class Message {
           ' e.g. args: $parameterNames');
     }
 
-    var nameNamedExps = arguments
+    final nameNamedExps = arguments
         .whereType<NamedExpression>()
         .where((arg) => arg.name.label.name == 'name')
         .map((e) => e.expression);
@@ -177,7 +156,7 @@ abstract class Message {
     if (nameNamedExps.isEmpty) {
       if (!hasParameters) {
         // No name supplied, no parameters. Use the message as the name.
-        var name = _evaluateAsString(arguments[0]);
+        var name = evaluateConstString(arguments[0]);
         messageName = name;
         outerName = name;
       } else {
@@ -195,7 +174,7 @@ abstract class Message {
       }
     } else {
       // Name argument is supplied, use it.
-      var name = _evaluateAsString(nameNamedExps.first);
+      var name = evaluateConstString(nameNamedExps.first);
       messageName = name;
       givenName = name;
     }
@@ -227,7 +206,7 @@ abstract class Message {
         .map((each) => each.expression)
         .toList();
     for (var arg in values) {
-      if (_evaluateAsString(arg) == null) {
+      if (evaluateConstString(arg) == null) {
         throw MessageExtractionException(
             'Intl.message arguments must be string literals: $arg');
       }
@@ -245,8 +224,7 @@ abstract class Message {
       if (examples.isNotEmpty) {
         var example = examples.first;
         if (example is SetOrMapLiteral) {
-          var map = _evaluateAsMap(example);
-          if (map == null) {
+          if (evaluateConstStringMap(example) == null) {
             throw MessageExtractionException(
                 'Examples must be a const Map literal.');
           } else if (example.constKeyword == null) {
@@ -369,8 +347,8 @@ abstract class Message {
     return value;
   }
 
-  /// Expand this string out into a printed form. The function [f] will be
+  /// Expand this string out into a printed form. The function [transform] is
   /// applied to any sub-messages, allowing this to be used to generate a form
   /// suitable for a wide variety of translation file formats.
-  String expanded([String Function(dynamic, dynamic) transform]);
+  String expanded([String Function(Message, Object) transform]);
 }

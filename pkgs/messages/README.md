@@ -34,10 +34,9 @@ The `builder` to generate the named methods and data files from the input `arb` 
 The logic for serializing `arb` message files into data files.
 
 ## Example
-Add `package:messages` and `package:messages_builder` to your dependencies:
+Add `package:messages` to your dependencies:
 ```bash
 dart pub add messages
-dart pub add dev:messages_builder
 ```
 
 Given translation message files in two languages:
@@ -68,7 +67,7 @@ This translated file was created by a translator given the reference `en.arb`.
 ```
 you can then run
 
-`dart run build_runner build -d`
+`dart run messages`
 
 This will generate both code to call your messages, as well as data files which will be shipped with your application. You can then use these generated files by importing the generated files:
 

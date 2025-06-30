@@ -10,7 +10,7 @@ import 'display_names_impl.dart';
 class DisplayNames {
   final DisplayNamesImpl _impl;
 
-  DisplayNames(this._impl);
+  DisplayNames._(this._impl);
 
   String ofDateTime(DateTimeField field) => _of(field, _impl.ofDateTime);
 
@@ -24,10 +24,7 @@ class DisplayNames {
 
   String ofCalendar(Calendar calendar) => _of(calendar, _impl.ofCalendar);
 
-  String _of<T>(
-    T object,
-    String Function(T field) implementation,
-  ) {
+  String _of<T>(T object, String Function(T field) implementation) {
     if (isInTest) {
       return '$object//${_impl.locale}';
     } else {
@@ -35,3 +32,5 @@ class DisplayNames {
     }
   }
 }
+
+DisplayNames buildDisplayNames(DisplayNamesImpl impl) => DisplayNames._(impl);

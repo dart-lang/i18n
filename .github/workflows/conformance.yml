@@ -15,11 +15,13 @@ on:
     
 jobs:
     run_all:
+      # disable until fixed upstream
+      if: false 
       runs-on: ubuntu-latest
       steps:
-        - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+        - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
           with:
-            sdk: stable
+            sdk: dev
 
         - uses: actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7
                 
@@ -35,7 +37,7 @@ jobs:
         - name: Download Reference Exec Summary
           if: github.ref != 'refs/heads/main'
           continue-on-error: true
-          uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+          uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
           with:
             name: reference_exec_summary
 
@@ -47,7 +49,7 @@ jobs:
 
         - name: Upload Reference Summary iff on main branch
           if: github.ref == 'refs/heads/main'
-          uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b
+          uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
           with:
             name: reference_exec_summary
             path: conformance/TEMP_DATA/testReports/exec_summary.json

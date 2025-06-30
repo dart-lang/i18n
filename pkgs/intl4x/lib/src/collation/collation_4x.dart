@@ -3,42 +3,56 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
+import '../utils.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
-CollationImpl getCollator4X(
-        Locale locale, Data data, CollationOptions options) =>
-    Collation4X(locale, data, options);
+CollationImpl getCollator4X(Locale locale, CollationOptions options) =>
+    Collation4X(locale as Locale4x, options);
 
 class Collation4X extends CollationImpl {
   final icu.Collator _collator;
 
-  Collation4X(super.locale, Data data, super.options)
-      : _collator = icu.Collator(
-          data.to4X(),
-          locale.to4X(),
-          options.to4xOptions(),
-        );
+  Collation4X(Locale4x super.locale, super.options)
+    : _collator = icu.Collator(
+        locale.get4X.clone()..setOptions(options),
+        options.toX,
+      );
 
   @override
   int compareImpl(String a, String b) => _collator.compare(a, b);
 }
 
-extension on CollationOptions {
-  icu.CollatorOptions to4xOptions() {
-    final icuNumeric =
-        numeric ? icu.CollatorNumeric.on : icu.CollatorNumeric.off;
+const _numericExtensionKey = 'kn';
+final _caseFirstExtensionKey = 'kf';
 
-    final icuCaseFirst = switch (caseFirst) {
-      CaseFirst.upper => icu.CollatorCaseFirst.upperFirst,
-      CaseFirst.lower => icu.CollatorCaseFirst.lowerFirst,
-      CaseFirst.localeDependent => icu.CollatorCaseFirst.off,
+extension on icu.Locale {
+  void setOptions(CollationOptions options) {
+    final icuNumeric = switch (options.numeric) {
+      true => icu.CollatorNumericOrdering.on,
+      false => icu.CollatorNumericOrdering.off,
+      null => null,
     };
+    if (icuNumeric != null &&
+        getUnicodeExtension(_numericExtensionKey) != null) {
+      setUnicodeExtension(_numericExtensionKey, icuNumeric.name);
+    }
 
+    options.caseFirst?.map(
+      (caseFirst) =>
+          setUnicodeExtension(_caseFirstExtensionKey, switch (caseFirst) {
+            CaseFirst.upper => caseFirst.name,
+            CaseFirst.lower => caseFirst.name,
+            CaseFirst.localeDependent => 'false',
+          }),
+    );
+  }
+}
+
+extension on CollationOptions {
+  icu.CollatorOptions get toX {
     final icuStrength = switch (sensitivity) {
       Sensitivity.base => icu.CollatorStrength.primary,
       Sensitivity.accent => icu.CollatorStrength.secondary,
@@ -47,18 +61,19 @@ extension on CollationOptions {
       null => icu.CollatorStrength.tertiary,
     };
 
-    final icuCaseLevel = sensitivity == Sensitivity.caseSensitivity
-        ? icu.CollatorCaseLevel.on
-        : icu.CollatorCaseLevel.off;
+    final icuCaseLevel =
+        sensitivity == Sensitivity.caseSensitivity
+            ? icu.CollatorCaseLevel.on
+            : icu.CollatorCaseLevel.off;
 
     return icu.CollatorOptions(
       strength: icuStrength,
-      numeric: icuNumeric,
-      caseFirst: icuCaseFirst,
       caseLevel: icuCaseLevel,
-      alternateHandling: icu.CollatorAlternateHandling.nonIgnorable,
-      backwardSecondLevel: icu.CollatorBackwardSecondLevel.off,
-      maxVariable: icu.CollatorMaxVariable.auto,
+      alternateHandling:
+          ignorePunctuation
+              ? icu.CollatorAlternateHandling.shifted
+              : icu.CollatorAlternateHandling.nonIgnorable,
+      //TODO(mosum): maxVariable: Not supported in ECMA402
     );
   }
 }

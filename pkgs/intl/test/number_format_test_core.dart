@@ -650,6 +650,17 @@ void runTests(Map<String, num> allTestNumbers) {
       });
     }
   });
+
+  test('Use script', () {
+    expect(
+      NumberFormat.currency(locale: 'zh_Hant_TW').format(12),
+      'TWD12.00',
+    );
+    expect(
+      NumberFormat.currency(locale: 'zh_Hant_CN').format(12),
+      'CNY12.00',
+    );
+  });
 }
 
 String stripExtras(String input) {

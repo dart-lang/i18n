@@ -1,0 +1,19 @@
+name: example_native
+description: A sample application using intl4x.
+
+environment:
+  sdk: ^3.6.0
+
+publish_to: none
+
+dependencies:
+  intl4x:
+    path: ../
+
+dev_dependencies:
+  lints: ^6.0.0
+
+hooks:
+  user_defines:
+    intl4x:
+      buildMode: fetch

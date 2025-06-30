@@ -5,26 +5,25 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import 'generation.dart';
+import '../located_message_file.dart';
 
-class FieldGeneration extends Generation<Field> {
+class FieldGeneration {
   final GenerationOptions options;
-  final Map<String, ({String path, String hasch})> localeToResourceInfo;
-  final String locale;
+  final Iterable<LocatedMessageFile> messageFiles;
+  final String initialLocale;
 
   FieldGeneration(
     this.options,
-    this.localeToResourceInfo,
-    this.locale,
+    this.messageFiles,
+    this.initialLocale,
   );
 
-  @override
   List<Field> generate() {
     final loadingStrategy = Field(
       (fb) {
         final returnType = const Reference('Future<String>').symbol;
         fb
-          ..name = '_fileLoader'
+          ..name = '_assetLoader'
           ..modifier = FieldModifier.final$
           ..type = Reference('$returnType Function(String id)');
       },
@@ -33,7 +32,7 @@ class FieldGeneration extends Generation<Field> {
       (fb) => fb
         ..type = const Reference('String')
         ..name = '_currentLocale'
-        ..assignment = Code("'$locale'"),
+        ..assignment = Code("'$initialLocale'"),
     );
     final messages = Field(
       (fb) => fb
@@ -44,8 +43,9 @@ class FieldGeneration extends Generation<Field> {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = localeToResourceInfo.entries
-            .map((e) => "'${e.key}' : ('${e.value.path}', '${e.value.hasch}')")
+        final paths = messageFiles
+            .map((e) => """
+'${e.locale}' : ('${e.namespacedPath(options.packageName)}', '${e.hash}')""")
             .join(',');
         fb
           ..name = '_dataFiles'

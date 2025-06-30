@@ -5,14 +5,13 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import 'generation.dart';
 
-class ImportGeneration extends Generation<Directive> {
+class ImportGeneration {
   final GenerationOptions options;
+  final Iterable<String> emptyFiles;
 
-  ImportGeneration(this.options);
+  ImportGeneration(this.options, this.emptyFiles);
 
-  @override
   List<Directive> generate() {
     final serializationImports = switch (options.deserialization) {
       DeserializationType.web => [
@@ -26,6 +25,15 @@ class ImportGeneration extends Generation<Directive> {
         ],
       PluralSelectorType.custom => <Directive>[],
     };
-    return [...serializationImports, ...pluralImports];
+
+    final deferredImports = emptyFiles.map((emptyFilePath) {
+      return Directive.importDeferredAs('$emptyFilePath.g.dart', emptyFilePath);
+    });
+
+    return [
+      ...serializationImports,
+      ...pluralImports,
+      ...deferredImports,
+    ];
   }
 }

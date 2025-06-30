@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:analyzer/dart/ast/ast.dart';
+
 import '../complex_message.dart';
 import '../composite_message.dart';
 import '../literal_string_message.dart';
@@ -59,9 +60,9 @@ abstract class SubMessage extends ComplexMessage {
 
   @override
   String expanded(
-      [String Function(dynamic, dynamic) transform = nullTransform]) {
+      [String Function(Message, Object) transform = nullTransform]) {
     String fullMessageForClause(String key) =>
-        '$key{${transform(parent, this[key])}}';
+        '$key{${transform(parent!, this[key])}}';
     var clauses = attributeNames
         .where((key) => this[key] != null)
         .map(fullMessageForClause)

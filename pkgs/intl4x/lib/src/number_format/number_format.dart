@@ -8,7 +8,7 @@ import 'number_format_impl.dart';
 class NumberFormat {
   final NumberFormatImpl _impl;
 
-  NumberFormat(this._impl);
+  NumberFormat._(this._impl);
 
   String format(Object number) {
     if (isInTest) {
@@ -18,3 +18,5 @@ class NumberFormat {
     }
   }
 }
+
+NumberFormat buildNumberFormat(NumberFormatImpl impl) => NumberFormat._(impl);

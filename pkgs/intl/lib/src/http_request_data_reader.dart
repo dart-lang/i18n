@@ -2,39 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// This contains a reader that accesses data using the HttpRequest
-/// facility, and thus works only in the web browser.
+/// This contains a reader that accesses data using the HttpRequest facility,
+/// and thus works only in the web browser.
 library;
 
 import 'dart:async';
-import 'package:http/http.dart';
+import 'dart:js_interop';
+
 import 'intl_helpers.dart';
+import 'web.dart';
 
 class HttpRequestDataReader implements LocaleDataReader {
   /// The base url from which we read the data.
-  String url;
+  final String url;
 
   HttpRequestDataReader(this.url);
 
   @override
   Future<String> read(String locale) {
-    final Client client = Client();
-    return _getString('$url$locale.json', client).timeout(
+    return _getString('$url$locale.json').timeout(
       Duration(seconds: 5),
       onTimeout: () {
-        client.close();
         throw TimeoutException('Timeout while reading $locale');
       },
     );
   }
 
-  Future<String> _getString(String url, Client client) async {
-    final response = await client.get(Uri.parse(url));
+  Future<String> _getString(String url) async {
+    final response = await window.fetch(url.toJS).toDart;
 
-    if ((response.statusCode >= 200 && response.statusCode < 300) ||
-        response.statusCode == 0 ||
-        response.statusCode == 304) {
-      return response.body;
+    if ((response.status >= 200 && response.status < 300) ||
+        response.status == 0 ||
+        response.status == 304) {
+      return (await response.text().toDart).toDart;
     } else {
       throw Exception('Failed to load $url');
     }

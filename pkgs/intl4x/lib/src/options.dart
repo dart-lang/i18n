@@ -32,12 +32,11 @@ enum Calendar {
   chinese,
   coptic,
   dangi,
-  ethioaa,
-  ethiopic,
-  gregory,
+  ethiopianAmeteAlem('ethioaa'),
+  ethiopian('ethiopic'),
+  gregorian('gregory'),
   hebrew,
   indian,
-  islamic,
   islamicUmalqura('islamic-umalqura'),
   islamicTbla('islamic-tbla'),
   islamicCivil('islamic-civil'),
@@ -54,8 +53,4 @@ enum Calendar {
   const Calendar([this._jsName]);
 }
 
-enum Style {
-  narrow,
-  short,
-  long,
-}
+enum Style { narrow, short, long }

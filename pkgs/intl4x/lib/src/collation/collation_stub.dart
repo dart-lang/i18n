@@ -8,5 +8,7 @@ import 'collation_impl.dart';
 
 /// Stub for the conditional import
 CollationImpl? getCollatorECMA(
-        Locale locale, CollationOptions options, LocaleMatcher localeMatcher) =>
-    throw UnimplementedError('Cannot use ECMA outside of web environments.');
+  Locale locale,
+  CollationOptions options,
+  LocaleMatcher localeMatcher,
+) => throw UnimplementedError('Cannot use ECMA outside of web environments.');

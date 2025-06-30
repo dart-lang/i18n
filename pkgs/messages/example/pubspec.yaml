@@ -1,0 +1,29 @@
+name: example
+description: An example on how to use `package:messages`.
+publish_to: none
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  intl: ^0.19.0
+  messages: 
+    path: ../../messages
+
+dev_dependencies:
+  dart_flutter_team_lints: ^3.1.0
+  lints: ^4.0.0
+  messages_builder:
+    path: ../../messages_builder
+  path: ^1.8.3
+  test: ^1.16.0
+
+package_options:
+  messages_builder:
+    generate_methods: true
+    generate_find_by_id: true
+    generate_find_by: integer
+    plural_selector: intl
+    arb_input_folder: assets/l10n/
+    message_output_folder: assets/
+    generated_code_files: lib/

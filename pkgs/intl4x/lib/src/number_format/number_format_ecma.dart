@@ -2,8 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -14,20 +13,18 @@ NumberFormatImpl? getNumberFormatterECMA(
   Locale locale,
   NumberFormatOptions options,
   LocaleMatcher localeMatcher,
-) =>
-    _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
 
 @JS('Intl.NumberFormat')
-class _NumberFormatJS {
-  external factory _NumberFormatJS([List<String> locale, Object options]);
-  external String format(Object num);
-}
+extension type NumberFormat._(JSObject _) implements JSObject {
+  external factory NumberFormat([JSArray<JSString> locale, JSAny options]);
+  external String format(JSAny num);
 
-@JS('Intl.NumberFormat.supportedLocalesOf')
-external List<String> _supportedLocalesOfJS(
-  List<String> listOfLocales, [
-  Object options,
-]);
+  external static JSArray<JSString> supportedLocalesOf(
+    JSArray<JSString> locales, [
+    JSAny options,
+  ]);
+}
 
 class _NumberFormatECMA extends NumberFormatImpl {
   _NumberFormatECMA(super.locale, super.options);
@@ -40,80 +37,75 @@ class _NumberFormatECMA extends NumberFormatImpl {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
     return supportedLocales.isNotEmpty
         ? _NumberFormatECMA(supportedLocales.first, options)
-        : _NumberFormatECMA(const Locale(language: 'en'), options);
+        : _NumberFormatECMA(Locale.parse('en'), options);
   }
 
   static List<Locale> supportedLocalesOf(
     LocaleMatcher localeMatcher,
     Locale locale,
   ) {
-    final o = newObject<Object>();
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    return List<dynamic>.from(
-            _supportedLocalesOfJS([locale.toLanguageTag()], o))
-        .whereType<String>()
-        .map(Locale.parse)
-        .toList();
+    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+    return NumberFormat.supportedLocalesOf(
+      [locale.toLanguageTag().toJS].toJS,
+      o,
+    ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
   @override
   String formatImpl(Object number) {
-    final numberFormatJS = _NumberFormatJS(
-      [locale.toLanguageTag()],
+    final numberFormatJS = NumberFormat(
+      [locale.toLanguageTag().toJS].toJS,
       options.toJsOptions(),
     );
-    return numberFormatJS.format(number);
+    return numberFormatJS.format(number.jsify()!);
   }
 }
 
 extension on NumberFormatOptions {
-  Object toJsOptions() {
-    final o = newObject<Object>();
-    setProperty(o, 'sign', signDisplay.name);
-    if (notation is CompactNotation) {
-      setProperty(o, 'compactDisplay',
-          (notation as CompactNotation).compactDisplay.name);
-    }
+  JSAny toJsOptions() {
+    Map<String, dynamic> styleOptions;
     if (style is CurrencyStyle) {
       final currencyStyle = style as CurrencyStyle;
-      setProperty(o, 'currency', currencyStyle.currency);
-      setProperty(o, 'currencyDisplay', currencyStyle.display.name);
-      setProperty(o, 'currencySign', currencyStyle.sign.name);
-    }
-    setProperty(o, 'localeMatcher', localeMatcher.jsName);
-    setProperty(o, 'notation', notation.name);
-    if (numberingSystem != null) {
-      setProperty(o, 'numberingSystem', numberingSystem);
-    }
-    setProperty(o, 'signDisplay', signDisplay.name);
-    setProperty(o, 'style', style.name);
-    if (style is UnitStyle) {
+      styleOptions = {
+        'currency': currencyStyle.currency,
+        'currencyDisplay': currencyStyle.display.name,
+        'currencySign': currencyStyle.sign.name,
+      };
+    } else if (style is UnitStyle) {
       final unitStyle = style as UnitStyle;
-      setProperty(o, 'unit', unitStyle.unit.jsName);
-      setProperty(o, 'unitDisplay', unitStyle.unitDisplay.name);
+      styleOptions = {
+        'unit': unitStyle.unit.jsName,
+        'unitDisplay': unitStyle.unitDisplay.name,
+      };
+    } else {
+      styleOptions = {};
     }
-    setProperty(o, 'useGrouping', useGrouping.jsName);
-    setProperty(o, 'roundingMode', roundingMode.name);
-    if (digits?.roundingPriority != null) {
-      setProperty(o, 'roundingPriority', digits?.roundingPriority!.name);
-    }
-    if (digits?.roundingIncrement != null) {
-      setProperty(o, 'roundingIncrement', digits?.roundingIncrement!);
-    }
-    setProperty(o, 'minimumIntegerDigits', minimumIntegerDigits);
-    if (digits?.fractionDigits.$1 != null) {
-      setProperty(o, 'minimumFractionDigits', digits?.fractionDigits.$1);
-    }
-    if (digits?.fractionDigits.$2 != null) {
-      setProperty(o, 'maximumFractionDigits', digits?.fractionDigits.$2);
-    }
-    if (digits?.significantDigits.$1 != null) {
-      setProperty(o, 'minimumSignificantDigits', digits?.significantDigits.$1);
-    }
-    if (digits?.significantDigits.$2 != null) {
-      setProperty(o, 'maximumSignificantDigits', digits?.significantDigits.$2);
-    }
-    setProperty(o, 'trailingZeroDisplay', trailingZeroDisplay.name);
-    return o;
+    return {
+      ...styleOptions,
+      'sign': signDisplay.name,
+      if (notation is CompactNotation)
+        'compactDisplay': (notation as CompactNotation).compactDisplay.name,
+      'localeMatcher': localeMatcher.jsName,
+      'notation': notation.name,
+      if (numberingSystem != null) 'numberingSystem': numberingSystem,
+      'signDisplay': signDisplay.name,
+      'style': style.name,
+      'useGrouping': useGrouping.jsName,
+      'roundingMode': roundingMode.name,
+      if (digits?.roundingPriority != null)
+        'roundingPriority': digits?.roundingPriority!.name,
+      if (digits?.roundingIncrement != null)
+        'roundingIncrement': digits?.roundingIncrement!,
+      'minimumIntegerDigits': minimumIntegerDigits,
+      if (digits?.fractionDigits.$1 != null)
+        'minimumFractionDigits': digits?.fractionDigits.$1,
+      if (digits?.fractionDigits.$2 != null)
+        'maximumFractionDigits': digits?.fractionDigits.$2,
+      if (digits?.significantDigits.$1 != null)
+        'minimumSignificantDigits': digits?.significantDigits.$1,
+      if (digits?.significantDigits.$2 != null)
+        'maximumSignificantDigits': digits?.significantDigits.$2,
+      'trailingZeroDisplay': trailingZeroDisplay.name,
+    }.jsify()!;
   }
 }

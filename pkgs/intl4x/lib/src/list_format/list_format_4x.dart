@@ -3,21 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../bindings/lib.g.dart' as icu;
-import '../data.dart';
-import '../data_4x.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
-ListFormatImpl getListFormatter4X(
-        Locale locale, Data data, ListFormatOptions options) =>
-    ListFormat4X(locale, data, options);
+ListFormatImpl getListFormatter4X(Locale locale, ListFormatOptions options) =>
+    ListFormat4X(locale as Locale4x, options);
 
 class ListFormat4X extends ListFormatImpl {
   final icu.ListFormatter _formatter;
-  ListFormat4X(super.locale, Data data, super.options)
-      : _formatter = _getFormatter(locale, data, options);
+  ListFormat4X(Locale4x super.locale, super.options)
+    : _formatter = _getFormatter(locale, options);
 
   @override
   String formatImpl(List<String> list) {
@@ -25,8 +22,7 @@ class ListFormat4X extends ListFormatImpl {
   }
 
   static icu.ListFormatter _getFormatter(
-    Locale locale,
-    Data data,
+    Locale4x locale,
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {
@@ -34,18 +30,14 @@ class ListFormat4X extends ListFormatImpl {
       Type.or => icu.ListFormatter.orWithLength,
       Type.unit => icu.ListFormatter.unitWithLength,
     };
-    return constructor(
-      data.to4X(),
-      locale.to4X(),
-      options.style.to4X(),
-    );
+    return constructor(locale.get4X, options.style.toX);
   }
 }
 
 extension on ListStyle {
-  icu.ListLength to4X() => switch (this) {
-        ListStyle.narrow => icu.ListLength.narrow,
-        ListStyle.short => icu.ListLength.short,
-        ListStyle.long => icu.ListLength.wide,
-      };
+  icu.ListLength get toX => switch (this) {
+    ListStyle.narrow => icu.ListLength.narrow,
+    ListStyle.short => icu.ListLength.short,
+    ListStyle.long => icu.ListLength.wide,
+  };
 }

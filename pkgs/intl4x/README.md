@@ -15,10 +15,10 @@ A lightweight modular library for internationalization (i18n) functionality.
 We're actively iterating on the API for this package (please provide feedback
 via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
-|   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **ICU4X (web/native)**  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+|   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules | Case mapping |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **ICU4X (web/native)**  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 ## Implementation and Goals
 
@@ -39,7 +39,7 @@ import 'package:intl4x/number_format.dart';
 void main() {
   final numberFormat = Intl(
     ecmaPolicy: const AlwaysEcma(),
-    locale: const Locale(language: 'en', region: 'US'),
+    locale: Locale.parse('en-US'),
   ).numberFormat(NumberFormatOptions.percent());
 
   print(numberFormat.format(0.5)); // prints 50%

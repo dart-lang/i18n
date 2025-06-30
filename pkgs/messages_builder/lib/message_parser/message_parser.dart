@@ -4,13 +4,14 @@
 
 import 'package:messages/messages.dart';
 
-import '../message_with_metadata.dart';
+import '../parameterized_message.dart';
+import '../placeholder.dart';
 import 'icu_message_parser.dart';
 import 'plural_parser.dart';
 import 'select_parser.dart';
 
 class MessageParser {
-  static MessageWithMetadata parse(
+  static ParameterizedMessage parse(
     String debugString,
     String fileContents,
     String name, {
@@ -20,7 +21,8 @@ class MessageParser {
     final arguments = <String>[];
     final message =
         parseNode(node, arguments, name, addId) ?? StringMessage('');
-    return MessageWithMetadata(message, arguments, name);
+    final placeholders = arguments.map(Placeholder.new).toList();
+    return ParameterizedMessage(message, name, placeholders);
   }
 
   static Message? parseNode(

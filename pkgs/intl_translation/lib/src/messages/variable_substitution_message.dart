@@ -62,6 +62,6 @@ class VariableSubstitution extends Message {
   String toString() => 'VariableSubstitution(${index ?? _variableName})';
   @override
   String expanded(
-          [String Function(dynamic, dynamic) transform = nullTransform]) =>
-      transform(this, index);
+          [String Function(Message, Object) transform = nullTransform]) =>
+      transform(this, index!);
 }

@@ -119,7 +119,7 @@ class Intl {
   /// and pass the appropriate arguments to it. If provided, [name] must be
   /// globally unique in the program. It must match the enclosing function name,
   /// or if the function is a method of a class, [name] can also be of the form
-  /// <className>_<methodName>, to make it easier to distinguish messages with
+  /// `<className>_<methodName>`, to make it easier to distinguish messages with
   /// the same name but in different classes.
   ///
   /// The [desc] provides a description of the message usage.
@@ -208,7 +208,8 @@ class Intl {
       helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
-  static String shortLocale(String aLocale) => helpers.shortLocale(aLocale);
+  static String shortLocale(String aLocale) =>
+      helpers.languageOnlyLocale(aLocale);
 
   /// Return the name [aLocale] turned into xx_YY where it might possibly be
   /// in the wrong case or with a hyphen instead of an underscore. If
@@ -346,9 +347,6 @@ class Intl {
         return many ?? other;
       case plural_rules.PluralCase.OTHER:
         return other;
-      default:
-        throw ArgumentError.value(
-            howMany, 'howMany', 'Invalid plural argument');
     }
   }
 

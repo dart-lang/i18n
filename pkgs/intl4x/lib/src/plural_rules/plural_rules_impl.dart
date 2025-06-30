@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show ResourceIdentifier;
-
 import '../../ecma_policy.dart';
-import '../data.dart';
+
 import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
@@ -23,21 +21,17 @@ abstract class PluralRulesImpl {
 
   PluralCategory selectImpl(num number);
 
-  @ResourceIdentifier('PluralRules')
   static PluralRulesImpl build(
     Locale locales,
-    Data data,
     PluralRulesOptions options,
     LocaleMatcher localeMatcher,
     EcmaPolicy ecmaPolicy,
-  ) =>
-      buildFormatter(
-        locales,
-        data,
-        options,
-        localeMatcher,
-        ecmaPolicy,
-        getPluralSelectECMA,
-        getPluralSelect4X,
-      );
+  ) => buildFormatter(
+    locales,
+    options,
+    localeMatcher,
+    ecmaPolicy,
+    getPluralSelectECMA,
+    getPluralSelect4X,
+  );
 }

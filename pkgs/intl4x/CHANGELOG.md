@@ -1,4 +1,47 @@
-## 0.9.2-wip
+## 0.12.2
+
+- Add lower- and uppercasing.
+- Use new artifacts from `intl4x-icu-v.0.12.2-artifacts`.
+
+## 0.12.1
+
+- Use new artifacts from `intl4x-icu-v.0.12.0-artifacts`.
+
+## 0.12.0
+
+- Update to ICU4X 2.0.
+
+## 0.11.4
+
+- Remove `native_assets_*` dependencies for `hooks` and `code_assets`.
+
+## 0.11.3
+
+- Use new artifacts from `intl4x-icu-v.0.11.2-artifacts` release.
+
+## 0.11.2
+
+- Use locally modified build_tools.dart for building icu4x libs.
+
+## 0.11.1
+
+- Fix fraction digits parsing and allow no hook options key in the pubspec.
+
+## 0.11.0
+
+- Remove dep on package:js.
+- Introduce link hook.
+
+## 0.10.1
+
+- Upgrade to new artifacts.
+
+## 0.10.0
+
+- Upgrade minimum SDK to `3.6.0-0`.
+- Move hook code to `lib/src/`.
+
+## 0.9.2
 
 - Copy files instead of symlinking, for easier upgrading.
 - Get binaries from Github and check their hashes.

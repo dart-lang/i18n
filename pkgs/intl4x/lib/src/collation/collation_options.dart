@@ -8,8 +8,8 @@ class CollationOptions {
   final Usage usage;
   final Sensitivity? sensitivity;
   final bool ignorePunctuation;
-  final bool numeric;
-  final CaseFirst caseFirst;
+  final bool? numeric;
+  final CaseFirst? caseFirst;
   final String? collation;
   final LocaleMatcher localeMatcher;
 
@@ -18,8 +18,8 @@ class CollationOptions {
     this.usage = Usage.sort,
     this.sensitivity,
     this.ignorePunctuation = false,
-    this.numeric = false,
-    this.caseFirst = CaseFirst.localeDependent,
+    this.numeric,
+    this.caseFirst,
     this.collation,
   });
 
@@ -49,10 +49,7 @@ class CollationOptions {
 ///
 /// Example: For the `de` locale, `['AE', 'Ä']` is the correct order for
 /// [Usage.search], but `['Ä', 'AE']` for [Usage.sort].
-enum Usage {
-  search,
-  sort;
-}
+enum Usage { search, sort }
 
 /// Which differences in the strings should lead to non-zero result values.
 /// The default is [Sensitivity.variant] for usage [Usage.sort]; it's locale

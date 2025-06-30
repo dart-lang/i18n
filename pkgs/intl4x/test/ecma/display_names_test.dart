@@ -14,17 +14,17 @@ import '../utils.dart';
 void main() {
   testWithFormatting('basic', () {
     expect(
-        Intl(locale: const Locale(language: 'en', region: 'US'))
-            .displayNames()
-            .ofLanguage(const Locale(language: 'de', region: 'DE')),
-        'German (Germany)');
+      Intl(
+        locale: Locale.parse('en-US'),
+      ).displayNames().ofLanguage(Locale.parse('de-DE')),
+      'German (Germany)',
+    );
   });
 
   testWithFormatting('languageDisplay', () {
-    String of(DisplayNamesOptions options) =>
-        Intl(locale: const Locale(language: 'en'))
-            .displayNames(options)
-            .ofLanguage(const Locale(language: 'en', region: 'GB'));
+    String of(DisplayNamesOptions options) => Intl(
+      locale: Locale.parse('en'),
+    ).displayNames(options).ofLanguage(Locale.parse('en-GB'));
 
     expect(
       of(const DisplayNamesOptions(languageDisplay: LanguageDisplay.dialect)),
@@ -37,17 +37,15 @@ void main() {
   });
 
   testWithFormatting('calendar', () {
-    final displayNames =
-        Intl(locale: const Locale(language: 'en')).displayNames();
+    final displayNames = Intl(locale: Locale.parse('en')).displayNames();
 
     expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
-    expect(displayNames.ofCalendar(Calendar.gregory), 'Gregorian Calendar');
+    expect(displayNames.ofCalendar(Calendar.gregorian), 'Gregorian Calendar');
     expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
   });
 
   testWithFormatting('dateTimeField', () {
-    final displayNames =
-        Intl(locale: const Locale(language: 'pt')).displayNames();
+    final displayNames = Intl(locale: Locale.parse('pt')).displayNames();
     expect(displayNames.ofDateTime(DateTimeField.era), 'era');
     expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
     expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
@@ -63,27 +61,21 @@ void main() {
 
   testWithFormatting('currency', () {
     expect(
-      Intl(locale: const Locale(language: 'pt'))
-          .displayNames()
-          .ofCurrency('USD'),
+      Intl(locale: Locale.parse('pt')).displayNames().ofCurrency('USD'),
       'Dólar americano',
     );
   });
 
   testWithFormatting('script', () {
     expect(
-      Intl(locale: const Locale(language: 'fr'))
-          .displayNames()
-          .ofScript('Egyp'),
+      Intl(locale: Locale.parse('fr')).displayNames().ofScript('Egyp'),
       'hiéroglyphes égyptiens',
     );
   });
 
   testWithFormatting('region', () {
     expect(
-      Intl(locale: const Locale(language: 'es', region: '419'))
-          .displayNames()
-          .ofRegion('DE'),
+      Intl(locale: Locale.parse('es-419')).displayNames().ofRegion('DE'),
       'Alemania',
     );
   });

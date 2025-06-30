@@ -1,0 +1,14 @@
+{
+  "@@locale": "en_US",
+  "@@context": "shopping_cart",
+  "itemsInCart": "{count, plural, other{{count} items in cart} zero{No items in cart} one{1 item in cart}}",
+  "@itemsInCart": {
+      "description": "itemsInCart",
+      "placeholders": {
+          "count": {
+            "type": "int",
+            "example": "1" 
+          }
+      }
+  }
+}
