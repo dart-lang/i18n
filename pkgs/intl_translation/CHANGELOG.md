@@ -1,6 +1,10 @@
+## 0.21.0-wip
+  * BREAKING CHANGE: Update `dart_style` to `^3.0.0`
+  * Allow analyzer `>=6.3.0 <8.0.0`
+
 ## 0.20.1
   * Add topics to `pubspec.yaml`
-  * Update to `dart_style `2.3.7`. `bin/make_examples_const.dart` and
+  * Update to `dart_style` `2.3.7`. `bin/make_examples_const.dart` and
     `rewrite_intl_messages.dart` will now look for a surrounding
     `.dart_tool/package_config.json` file to infer the language version of the
     files updated by the script.
