@@ -6,7 +6,7 @@
 /// This script uses the extract_messages.dart library to find the Intl.message
 /// calls in the target dart files and produces ARB format output. See
 /// https://code.google.com/p/arb/wiki/ApplicationResourceBundleSpecification
-library extract_to_arb;
+library;
 
 import 'dart:convert';
 import 'dart:io';
@@ -35,38 +35,58 @@ void main(List<String> args) {
   // If this is true, the @@last_modified entry is not output.
   var suppressLastModified = false;
 
-  parser.addFlag('help',
-      abbr: 'h', negatable: false, help: 'Print this usage information.');
+  parser.addFlag(
+    'help',
+    abbr: 'h',
+    negatable: false,
+    help: 'Print this usage information.',
+  );
 
   // If this is true, then treat all warnings as errors.
-  parser.addFlag('suppress-last-modified',
-      callback: (x) => suppressLastModified = x,
-      help: 'Suppress @@last_modified entry.');
-  parser.addFlag('suppress-warnings',
-      defaultsTo: false,
-      callback: (x) => extract.suppressWarnings = x,
-      help: 'Suppress printing of warnings.');
-  parser.addFlag('suppress-meta-data',
-      callback: (x) => suppressMetaData = x,
-      help: 'Suppress writing meta information');
-  parser.addFlag('warnings-are-errors',
-      callback: (x) => extract.warningsAreErrors = x,
-      help: 'Treat all warnings as errors, stop processing ');
-  parser.addFlag('embedded-plurals',
-      defaultsTo: true,
-      callback: (x) => extract.allowEmbeddedPluralsAndGenders = x,
-      help: 'Allow plurals and genders to be embedded as part of a larger '
-          'string, otherwise they must be at the top level.');
+  parser.addFlag(
+    'suppress-last-modified',
+    callback: (x) => suppressLastModified = x,
+    help: 'Suppress @@last_modified entry.',
+  );
+  parser.addFlag(
+    'suppress-warnings',
+    defaultsTo: false,
+    callback: (x) => extract.suppressWarnings = x,
+    help: 'Suppress printing of warnings.',
+  );
+  parser.addFlag(
+    'suppress-meta-data',
+    callback: (x) => suppressMetaData = x,
+    help: 'Suppress writing meta information',
+  );
+  parser.addFlag(
+    'warnings-are-errors',
+    callback: (x) => extract.warningsAreErrors = x,
+    help: 'Treat all warnings as errors, stop processing ',
+  );
+  parser.addFlag(
+    'embedded-plurals',
+    defaultsTo: true,
+    callback: (x) => extract.allowEmbeddedPluralsAndGenders = x,
+    help:
+        'Allow plurals and genders to be embedded as part of a larger '
+        'string, otherwise they must be at the top level.',
+  );
   //TODO(mosuem): All references to the transformer can be removed, but this
   // should happen in a separate PR to help with testing.
-  parser.addFlag('transformer',
-      callback: (x) => transformer = x,
-      help: 'Assume that the transformer is in use, so name and args '
-          "don't need to be specified for messages.");
-  parser.addOption('locale',
-      defaultsTo: null,
-      callback: (value) => locale = value,
-      help: 'Specify the locale set inside the arb file.');
+  parser.addFlag(
+    'transformer',
+    callback: (x) => transformer = x,
+    help:
+        'Assume that the transformer is in use, so name and args '
+        "don't need to be specified for messages.",
+  );
+  parser.addOption(
+    'locale',
+    defaultsTo: null,
+    callback: (value) => locale = value,
+    help: 'Specify the locale set inside the arb file.',
+  );
   parser.addFlag(
     'with-source-text',
     callback: (x) => includeSourceText = x,
@@ -89,7 +109,8 @@ void main(List<String> args) {
   parser.addOption(
     'sources-list-file',
     callback: (value) => sourcesListFile = value,
-    help: 'A file that lists the Dart files to read, one per line.'
+    help:
+        'A file that lists the Dart files to read, one per line.'
         'The paths in the file can be absolute or relative to the '
         'location of this file.',
   );
@@ -121,16 +142,18 @@ void main(List<String> args) {
 
   var dartFiles = <String>[
     ...args.where((x) => x.endsWith('.dart')),
-    ...linesFromFile(sourcesListFile)
+    ...linesFromFile(sourcesListFile),
   ];
   dartFiles
       .map((dartFile) => extract.parseFile(File(dartFile), transformer))
       .expand((parsedFile) => parsedFile.entries)
-      .map((nameToMessage) => toARB(
-            message: nameToMessage.value,
-            includeSourceText: includeSourceText,
-            suppressMetadata: suppressMetaData,
-          ))
+      .map(
+        (nameToMessage) => toARB(
+          message: nameToMessage.value,
+          includeSourceText: includeSourceText,
+          suppressMetadata: suppressMetaData,
+        ),
+      )
       .forEach((message) => allMessages.addAll(message));
   var file = File(path.join(targetDir, outputFilename));
   file.writeAsStringSync(JsonEncoder.withIndent('  ').convert(allMessages));

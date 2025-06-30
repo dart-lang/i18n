@@ -15,8 +15,12 @@ import 'component_messages_all.dart';
 String _message1() => Intl.message('Hello from component', desc: 'hi');
 
 /// Or we can explicitly code our locale.
-String _message2() => Intl.message('Explicit locale',
-    name: '_message2', desc: 'message two', locale: myParticularLocale);
+String _message2() => Intl.message(
+  'Explicit locale',
+  name: '_message2',
+  desc: 'message two',
+  locale: myParticularLocale,
+);
 
 String get myParticularLocale => '${Intl.defaultLocale}_$mySuffix';
 

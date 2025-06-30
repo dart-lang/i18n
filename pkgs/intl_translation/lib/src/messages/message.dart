@@ -30,7 +30,7 @@
 /// from a translation file, parse it into these objects, and they are then
 /// used to generate the code representation above.
 
-library intl_message;
+library;
 
 import 'dart:convert';
 
@@ -84,9 +84,10 @@ abstract class Message {
     if (!identifiers.elements.every((each) => each is SimpleIdentifier)) {
       return false;
     }
-    var names = identifiers.elements
-        .map((each) => (each as SimpleIdentifier).name)
-        .toList();
+    var names =
+        identifiers.elements
+            .map((each) => (each as SimpleIdentifier).name)
+            .toList();
     Map<String, String> both;
     try {
       both = Map.fromIterables(names, parameterNames);
@@ -127,21 +128,23 @@ abstract class Message {
     bool examplesRequired = false,
   }) {
     // If we have parameters, we must specify args and name.
-    var argsNamedExps = arguments
-        .whereType<NamedExpression>()
-        .where((each) => each.name.label.name == 'args');
+    var argsNamedExps = arguments.whereType<NamedExpression>().where(
+      (each) => each.name.label.name == 'args',
+    );
     var args = argsNamedExps.isNotEmpty ? argsNamedExps.first : null;
     var parameterNames = outerArgs.map((x) => x.name!.lexeme).toList();
     var hasParameters = outerArgs.isNotEmpty;
     if (!nameAndArgsGenerated && args == null && hasParameters) {
       throw MessageExtractionException(
-          "The 'args' argument for Intl.message must be specified for "
-          'messages with parameters. Consider using rewrite_intl_messages.dart');
+        "The 'args' argument for Intl.message must be specified for "
+        'messages with parameters. Consider using rewrite_intl_messages.dart',
+      );
     }
     if (!checkArgs(args, parameterNames)) {
       throw MessageExtractionException(
-          "The 'args' argument must match the message arguments,"
-          ' e.g. args: $parameterNames');
+        "The 'args' argument must match the message arguments,"
+        ' e.g. args: $parameterNames',
+      );
     }
 
     final nameNamedExps = arguments
@@ -167,9 +170,10 @@ abstract class Message {
           givenName = outerName;
         } else {
           throw MessageExtractionException(
-              "The 'name' argument for Intl.message must be supplied for "
-              'messages with parameters. Consider using '
-              'rewrite_intl_messages.dart');
+            "The 'name' argument for Intl.message must be supplied for "
+            'messages with parameters. Consider using '
+            'rewrite_intl_messages.dart',
+          );
         }
       }
     } else {
@@ -181,7 +185,8 @@ abstract class Message {
 
     if (messageName == null) {
       throw MessageExtractionException(
-          "The 'name' argument for Intl.message must be a string literal");
+        "The 'name' argument for Intl.message must be a string literal",
+      );
     }
 
     var hasOuterName = outerName != null;
@@ -191,24 +196,27 @@ abstract class Message {
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
     var mapOrListLiteralWithoutParameters =
         (node.parent is ListLiteral || node.parent is MapLiteralEntry) &&
-            !hasParameters;
+        !hasParameters;
     if (!(hasOuterName &&
         (simpleMatch || classMatch || mapOrListLiteralWithoutParameters))) {
       throw MessageExtractionException(
-          "The 'name' argument for Intl.message must match either "
-          'the name of the containing function or <ClassName>_<methodName> ('
-          "was '$givenName' but must be '$outerName'  or '$classPlusMethod')");
+        "The 'name' argument for Intl.message must match either "
+        'the name of the containing function or <ClassName>_<methodName> ('
+        "was '$givenName' but must be '$outerName'  or '$classPlusMethod')",
+      );
     }
 
-    var values = arguments
-        .whereType<NamedExpression>()
-        .where((each) => ['desc', 'name'].contains(each.name.label.name))
-        .map((each) => each.expression)
-        .toList();
+    var values =
+        arguments
+            .whereType<NamedExpression>()
+            .where((each) => ['desc', 'name'].contains(each.name.label.name))
+            .map((each) => each.expression)
+            .toList();
     for (var arg in values) {
       if (evaluateConstString(arg) == null) {
         throw MessageExtractionException(
-            'Intl.message arguments must be string literals: $arg');
+          'Intl.message arguments must be string literals: $arg',
+        );
       }
     }
 
@@ -219,14 +227,16 @@ abstract class Message {
           .map((each) => each.expression);
       if (examples.isEmpty && examplesRequired) {
         throw MessageExtractionException(
-            'Examples must be provided for messages with parameters');
+          'Examples must be provided for messages with parameters',
+        );
       }
       if (examples.isNotEmpty) {
         var example = examples.first;
         if (example is SetOrMapLiteral) {
           if (evaluateConstStringMap(example) == null) {
             throw MessageExtractionException(
-                'Examples must be a const Map literal.');
+              'Examples must be a const Map literal.',
+            );
           } else if (example.constKeyword == null) {
             throw MessageExtractionException('Examples must be const.');
           }
@@ -310,7 +320,7 @@ abstract class Message {
       '\t': r'\t',
       '\v': r'\v',
       '\'': r"\'",
-      r'$': r'\$'
+      r'$': r'\$',
     };
     return escapedBrackets.splitMapJoin(
       '',
