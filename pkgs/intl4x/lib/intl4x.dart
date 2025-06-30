@@ -2,9 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'case_mapping.dart';
 import 'collation.dart';
 import 'display_names.dart';
 import 'number_format.dart';
+import 'src/case_mapping/case_mapping_impl.dart';
 import 'src/collation/collation.dart';
 import 'src/collation/collation_impl.dart';
 import 'src/datetime_format/datetime_format.dart';
@@ -18,7 +20,6 @@ import 'src/find_locale.dart';
 import 'src/list_format/list_format.dart';
 import 'src/list_format/list_format_impl.dart';
 import 'src/list_format/list_format_options.dart';
-import 'src/locale/locale.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_impl.dart';
 import 'src/plural_rules/plural_rules.dart';
@@ -87,6 +88,9 @@ class Intl {
       ecmaPolicy,
     ),
   );
+
+  CaseMapping get caseMapping =>
+      CaseMapping(CaseMappingImpl.build(locale, localeMatcher, ecmaPolicy));
 
   /// Construct an [Intl] instance providing the current [locale] and the
   /// [ecmaPolicy] defining which locales should fall back to the browser
