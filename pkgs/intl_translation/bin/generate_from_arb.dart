@@ -79,7 +79,8 @@ void main(List<String> args) {
     'flutter-import-path',
     callback: (val) => generation.flutterImportPath = val,
     hide: true,
-    help: 'Customize the flutter import path, used for testing. Defaults to '
+    help:
+        'Customize the flutter import path, used for testing. Defaults to '
         'package:flutter.',
   );
   parser.addFlag(
@@ -105,7 +106,8 @@ void main(List<String> args) {
     'use-deferred-loading',
     defaultsTo: true,
     callback: (x) => generation.useDeferredLoading = x,
-    help: 'Generate message code that must be loaded with deferred loading. '
+    help:
+        'Generate message code that must be loaded with deferred loading. '
         'Otherwise, all messages are eagerly loaded.',
   );
   parser.addOption(
@@ -118,21 +120,24 @@ void main(List<String> args) {
   parser.addOption(
     'sources-list-file',
     callback: (value) => sourcesListFile = value,
-    help: 'A file that lists the Dart files to read, one per line. '
+    help:
+        'A file that lists the Dart files to read, one per line. '
         'The paths in the file can be absolute or relative to the '
         'location of this file.',
   );
   parser.addOption(
     'translations-list-file',
     callback: (value) => translationsListFile = value,
-    help: 'A file that lists the translation files to process, one per line. '
+    help:
+        'A file that lists the translation files to process, one per line. '
         'The paths in the file can be absolute or relative to the '
         'location of this file.',
   );
   parser.addFlag(
     'transformer',
     callback: (x) => transformer = x,
-    help: 'Assume that the transformer is in use, so name and args '
+    help:
+        'Assume that the transformer is in use, so name and args '
         "don't need to be specified for messages.",
   );
 
@@ -270,16 +275,17 @@ void generateLocaleFile(
   MessageGeneration generation,
   Map<String, List<MainMessage>> messages,
 ) {
-  var translations = localeData
-      .expand((jsonTranslations) {
-        return jsonTranslations.entries.map((e) {
-          var id = e.key;
-          var messageData = e.value;
-          return recreateIntlObjects(id, messageData, messages);
-        });
-      })
-      .whereType<TranslatedMessage>()
-      .toList();
+  var translations =
+      localeData
+          .expand((jsonTranslations) {
+            return jsonTranslations.entries.map((e) {
+              var id = e.key;
+              var messageData = e.value;
+              return recreateIntlObjects(id, messageData, messages);
+            });
+          })
+          .whereType<TranslatedMessage>()
+          .toList();
   generation.generateIndividualMessageFile(locale, translations, targetDir);
 }
 
