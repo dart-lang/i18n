@@ -11,7 +11,7 @@ platforms:
   ios:
   linux:
   macos:
-  windows:
+  # windows: TODO: Disabled until upstream bug is fixed.
 
 topics:
   - i18n
