@@ -293,21 +293,21 @@ jobs:
         run: |
           rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
 
-          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
+          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/linux_x64 --os linux --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,default_components,experimental,compiled_data
 
       - name: Build Mac
         if: matrix.os == 'macos-latest'
         run: |
           rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
 
-          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
+          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_arm64 --os macos --architecture arm64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,default_components,experimental,compiled_data
 
       - name: Build Windows
         if: matrix.os == 'windows-latest'
         run: |
           rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
 
-          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,experimental,compiled_data
+          dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_x64 --os windows --architecture x64 --compile_type dynamic --cargo_features collator,datetime,list,decimal,plurals,default_components,experimental,compiled_data
 
       - name: Run `dart pub get`
         run: |
