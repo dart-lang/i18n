@@ -9,7 +9,7 @@ export 'src/collation/collation_options.dart';
 export 'src/options.dart';
 
 extension CollationExt on String {
-  /// Compare two strings in a locale-dependant manner.
+  /// Compare two strings in a locale-dependent manner.
   ///
   /// For more options, use [Intl.collation] directly.
   int compareLocale(String other, {Locale? locale}) =>
