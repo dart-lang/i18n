@@ -215,7 +215,7 @@ final class CheckoutMode extends BuildMode {
         'plurals',
         'buffer_provider',
         'experimental',
-        'default_components',
+        'casemap',
         'compiled_data',
       ],
     );
