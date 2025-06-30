@@ -1,6 +1,7 @@
-## 0.12.2-wip
+## 0.12.2
 
 - Add lower- and uppercasing.
+- Use new artifacts from `intl4x-icu-v.0.12.2-artifacts`.
 
 ## 0.12.1
 

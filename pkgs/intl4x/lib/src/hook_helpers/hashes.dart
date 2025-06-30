@@ -11,93 +11,93 @@ import 'package:code_assets/code_assets.dart' show Architecture, OS;
 
 const fileHashes = <(OS, Architecture, String), String>{
   (OS.linux, Architecture.arm, 'dynamic'):
-      '02fa85557cdbf8a6dc9144b612ff3860db278c27ddeffd1add9783c32c4d6e5e',
+      '33ad56648fffda232995dddc6182ab31deea173f5c8cdac1bc84fb9636437803',
   (OS.linux, Architecture.arm, 'static'):
-      'f399c2b023b065d120261ed2c74fd272f64448cf5e969523769e9bff10cb2c4b',
+      '5422aaf811610530eff609034da16654d91714af0c203d498b81807365a020c2',
   (OS.linux, Architecture.arm, 'static_data'):
-      '895db975e0267c940490efa8161b2e8f7e5b28cb992a07b51ea1e3380c206626',
+      '4330bce3e93d40b339647c44bc794e019659f1429f72a101a7b809150cc3479b',
   (OS.linux, Architecture.arm64, 'dynamic'):
-      'c3d5790fce3a87f523a26451fc0207fd364fd3101a1d473da0670c95dbc8370b',
+      'a2e2a730d339d12d5742d6f32b17e09425059ee14ef1c484d2c07b7bad7f238d',
   (OS.linux, Architecture.arm64, 'static'):
-      'f0967eb7f30afa50eb26e82d392e2eb6a51786c9ace95509497fdcd7c01494e1',
+      '50c066434acea3794f68019f0367b5143840cb50633f7ab350c696a0f429dcdc',
   (OS.linux, Architecture.arm64, 'static_data'):
-      'e3cf0a5ac2218e0c4e9a71877e9bccfcf6a746bcd0dbe537d34e6df9e8248fa6',
+      '80ad7e3a3d8bb4d8a1610b51f273b8eefc739e208cab1c75028cde4596678e2d',
   (OS.linux, Architecture.riscv64, 'dynamic'):
-      'd003808cf7d8ce26d1bd9cbe61cc1a1de32575fe843a5ad5ebcdf6de792b3202',
+      '6a925bbab9fbf7a4f82247ac2c48fb901713cdddc8716e4da467de248018151f',
   (OS.linux, Architecture.riscv64, 'static'):
-      'f1b192dde2ddbfb2438b47d9824de320bd22f1b89cc83c837320538f68d05071',
+      '4b3f556edfbf3526b0c001036ca025b9d3cc0c6eca5a3c3062ccf9b74a13fc86',
   (OS.linux, Architecture.riscv64, 'static_data'):
-      '2b950eb7c68ca1eb609235a6893983ac6ca74743027ebdaecb749a329ac3d84a',
+      '37a92ab9b41a0e2eca1b7f6bbfebc5e8596c3d22962fb9f45ae43ac2068a460e',
   (OS.linux, Architecture.x64, 'dynamic'):
-      'f49468498f9e2ea2c80d1dccca40cefa3e077ba98c7eea5cb97bc8fa30fc3f70',
+      '3f2d43d12d835e336689d44f537123c4c7dea9ea076e7d225e8e60c5b2b10a04',
   (OS.linux, Architecture.x64, 'static'):
-      '3f66ec621505266e8550f30c1b34f9b191dede865d2cc2b30bdfe726a9fdf71b',
+      'e8ba6fd6c60da35dad820a0e705507f2172db3f85d6649b2e101acadafa4f514',
   (OS.linux, Architecture.x64, 'static_data'):
-      'ee831a88ccc995d2c057a31f82a050def2f8984bde24a173a5e51e2785765ee7',
+      '8f1985f70157184e74e1f54cdf597c0650829a7a488129fcf55f562def42a119',
   (OS.windows, Architecture.arm64, 'dynamic'):
-      '230ff791b7bc8e9eda33fbcd1b1e1f21790a4a58c3f71d69b635353de5afae75',
+      '0766cd4887b84be7b56123ebe8b37c4c60049b6bb04c9719dd0b720e1d795c88',
   (OS.windows, Architecture.arm64, 'static'):
-      'ea61dfae52865f9cffecc8bb9e7b6e5aa99eb8085d1d2e47d6772433931aeb3c',
+      'beacece18baa12402517ffcc9a63cac6d7e5d146806f3e21f440a404130250b2',
   (OS.windows, Architecture.arm64, 'static_data'):
-      '2195de4bdcbf065839847c59a4c94df50bc67511b00fa54a2f032853290c82d2',
+      '7a39d9e5776727196b2e28e3a13038b28e47530202a1cd817165d3a072444b49',
   (OS.windows, Architecture.ia32, 'dynamic'):
-      '22cacafa7e5328eb030910b7f22dfbde8e2d68e1b8cf9223f5c1f1e1d5f801d0',
+      '8d34978f381a76db94a706ea27e71856acdff28d248c68966afb1881e9b9c3c3',
   (OS.windows, Architecture.ia32, 'static'):
-      '1e2eb4191dd255d4d6f819052b07a6db16000e96e8e5f52d174af7f7afb405a0',
+      '80d90330f943ef626cca83225f68d8644b6ed3ff681142b8b273607179f49bb0',
   (OS.windows, Architecture.ia32, 'static_data'):
-      '7aa63e52b00b5952a2a7433274ebec70119bb19e632ead98fb99a65dbb597e6f',
+      'bff56a759faa8b1a750a7df11dad3b19ec59532abbeef519d80c628cbd8108f9',
   (OS.windows, Architecture.x64, 'dynamic'):
-      '95a99f278578184015aaeff1cb8edfd5b0da02dcd83b4768c0cdeb4ba3f97e89',
+      '96877e3d28eec45e25ee59040026391085f95318958725706368a5d0a9b7e34c',
   (OS.windows, Architecture.x64, 'static'):
-      'a58044e0f722188994f6a4221fd31c9dd7c80f1d6639ed616a045b6c7bf4211d',
+      '96241ab8b5cbe3b345d6ec4ff2897d865686ec6b314faecbf7b13499d1695e22',
   (OS.windows, Architecture.x64, 'static_data'):
-      '2091ce374817306729096fc2447a20b8da36fc1f7527d8c2e37d84ea32bd8f03',
+      'f92fdf2ebe0dbb6e5ae2d656f5a260d4ae3685acfd6100430116ad9ffac16a1d',
   (OS.android, Architecture.arm, 'dynamic'):
-      '558fb05cbd064f2da74270d2668fb138bbd5e24df3a84db3db02a48a37b9a2f3',
+      '5d45a8e310c748030a74cff0883855f33c8a20cc089f247e1768c5d29a67454e',
   (OS.android, Architecture.arm, 'static'):
-      '78c0f9b798918b6bef814f42a479a37ccd7f25c92843d6db58a8b1a33cbc6030',
+      '2051f77297132f6a7ee33c2c44cd94320d1ba5d774f0feef5efef8dbe7e8edd6',
   (OS.android, Architecture.arm, 'static_data'):
-      '22cf32c5416b20f68bb9d82e6613ba9db5e8a9a7a7c32070903ff0b94ce4fa1a',
+      'a455bb2d75c621c2974ded1b0b9d1c909f4cfb5c83d0d4cc0e4ad699a161db45',
   (OS.android, Architecture.arm64, 'dynamic'):
-      '21540da76bd332bc12a9243972204d4953bb987dbd5f768788d5937f2fbfd82a',
+      'e678bfeb7b11094be5546411d76a7f8d3ccd8ee2f871d43197c44714fe24f689',
   (OS.android, Architecture.arm64, 'static'):
-      '8dfeef96c9e1f42b3b9698327d2813ccf070b332e5550dd566c39fbf2000b894',
+      '6a42207caa146bf42caf8e2ecc33ea7b29ea2d530fa19b18bdd59bd3e0d52757',
   (OS.android, Architecture.arm64, 'static_data'):
-      '0da802c359a7f541f747e863dd671076af7747b6b430d5500eedfe300ed7153b',
+      'f1f93f5a9fe24e52f00b31831d9591233b3b21f5fdfa212509f8d6d12331c4d8',
   (OS.android, Architecture.ia32, 'dynamic'):
-      'c89d646e0bd6b8170ed9f09ee7d2f08456cb63739ef5096d2adbd4b8ff077b30',
+      '14bfb64ae4474af442932c4e257ee411865e7a2b76dbf51a32db8b2e1052948b',
   (OS.android, Architecture.ia32, 'static'):
-      '9dedb281cc0cbb3c28f8ea23335bbbce80332274e9328464f920aa3522b2906c',
+      '25c346ee6cdf44c0e3198f94b044b96c2fb946076ff225c5e82c431c4f5d2dc9',
   (OS.android, Architecture.ia32, 'static_data'):
-      '0dfd143a9e42d7291ea7d375e96e62e979f6f64ee0ce465bdfa61c114e26c98a',
+      '18d204732ed3b3810b733dd8f714d8b89d6cc2285c131e97b69f45692608242c',
   (OS.android, Architecture.x64, 'dynamic'):
-      'd781cb7e376ddce56bccddb869ea1159b58e879507456e570e4ae559dfa823a7',
+      'dc42195906431fb70cfc6fe8ad2641b43bf3961cc4f472db00042bd3c1461207',
   (OS.android, Architecture.x64, 'static'):
-      '85fb0475c06d098c1825a25092fbfae16cd1bb4a9b7536e2dffdd0b09c6a6132',
+      '7eac855a8732a2bfaac46857bfd1d3612173dab98de7a2f1595c890a7b24a109',
   (OS.android, Architecture.x64, 'static_data'):
-      'de2833d49461399397eaef9a7197b8add17e073af0b40708e9dc6bb11aa05f19',
+      '6e5612f474d0c68097c58da2d9ba9c935f691d4a47c12221cddeed8d53a8dfab',
   (OS.macOS, Architecture.arm64, 'dynamic'):
-      '00cd1afeb3162ec81459e64b92eb63a6e774b93b2ff2f11584830eb61f02f35b',
+      '859b68ca539e4e00fb6577caa104fdfc787ecdaeba5cec71661f5c1087259449',
   (OS.macOS, Architecture.arm64, 'static'):
-      '024f4ebc095f4cd77a4091f99ba43bab490a05c152da93fddfd22af2c172ed05',
+      '1e0a2dce3f6bea225bbc2289df6bb23afa9b54a991c3787aa986456817d8e4be',
   (OS.macOS, Architecture.arm64, 'static_data'):
-      'f33bcd57216d030e26ef8eb9a3e7024cc8a39b46ca71ac65108fb2d6c951590e',
+      'af1e1fedba96f83ebb9c62d1af549ccc3292399c4cfa906d5521e015ef653410',
   (OS.macOS, Architecture.x64, 'dynamic'):
-      '19668c9fdf88f801767c6c4bff1695ce5c7da11cc140d7f4d8c850c54d505008',
+      '698a7ab358c4425708a5664695b3c52d5a5dbe95851e8b948a6a4a19d0dd8ebe',
   (OS.macOS, Architecture.x64, 'static'):
-      '2027f82e834e88ae81bf2c4321ea013dd55cf803488dd54b0fe7a6847f5d763b',
+      '69067391fd4415a2c20644b8d1862d834431b54a36bbc00ea2edaa41b761a8aa',
   (OS.macOS, Architecture.x64, 'static_data'):
-      '05a61f31ee40bdba8ec5359a1823aea9fa64402c921850f8dae373b081e68c16',
+      'cf6e287b730fcab6132dcdae69f63b243b2403f632bee4cbfc1c8b82c76f4224',
   (OS.iOS, Architecture.arm64, 'dynamic'):
-      '27ffbba024b00b1681fa7d6849b841370df91433b59313b61834e7f7359a7bc6',
+      '680af0aaac298d7cebab795ab2d52a67842f676a4a8e290c0faa222f28fb589f',
   (OS.iOS, Architecture.arm64, 'static'):
-      '38014474a256fb5849701717324dcef5532efb6a92632f26a040725fdd059372',
+      '45b17b9125b10fd89e70829cfa84762755e362fc25e7da66d420696ebb0443d1',
   (OS.iOS, Architecture.arm64, 'static_data'):
-      'b5adedf18926ea176f49a4b9c9882608f0c0c0c05bc4bc227a8f2b356d7e5e22',
+      '8919e441ff2a8aa525331f665ccbc652de1dd704db9c890740750a17df12265b',
   (OS.iOS, Architecture.x64, 'dynamic'):
-      '3697bd7466e6e608cb20950cb9c5e35c0ead9a793cc100bb395f9faaf0d0de30',
+      '00ba73555d2fb1dc12f33e7c5f4f75547277239cb943ceb00ad1ff66964d9c3b',
   (OS.iOS, Architecture.x64, 'static'):
-      'a111c309c21802cfc983aae8c50f98a9feee8325e30a36129bb706f00a79f97c',
+      'd57ba6626129f5d4b5804cadab02a7948429bb41720d14cdf43ab4c786b1d4bc',
   (OS.iOS, Architecture.x64, 'static_data'):
-      '8e95564ea7e4f7d22c6b8f0c67e10006e4d9114aaf07f0c573bba676751caed3',
+      '495e0b22b6f95ba6a71449dd030d40e304033d9a1aef6421d97b52f486e35a2c',
 };
