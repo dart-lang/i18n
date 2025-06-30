@@ -24,8 +24,14 @@ class Plural extends SubMessage {
   @override
   List<String> get attributeNames => ['=0', '=1', '=2', 'few', 'many', 'other'];
   @override
-  List<String> get codeAttributeNames =>
-      ['zero', 'one', 'two', 'few', 'many', 'other'];
+  List<String> get codeAttributeNames => [
+    'zero',
+    'one',
+    'two',
+    'few',
+    'many',
+    'other',
+  ];
 
   /// The node will have the attribute names as strings, so we translate
   /// between those and the fields of the class.

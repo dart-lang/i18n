@@ -9,7 +9,7 @@
 ///
 /// An example of usage can be found
 /// in test/message_extract/generate_from_json.dart
-library generate_localized;
+library;
 
 import 'dart:convert';
 import 'dart:io';
@@ -80,14 +80,19 @@ class MessageGeneration {
 
   /// Generate a file <[generated_file_prefix]>_messages_<[locale]>.dart
   /// for the [translations] in [locale] and put it in [targetDir].
-  void generateIndividualMessageFile(String basicLocale,
-      Iterable<TranslatedMessage> translations, String targetDir) {
+  void generateIndividualMessageFile(
+    String basicLocale,
+    Iterable<TranslatedMessage> translations,
+    String targetDir,
+  ) {
     final content = contentForLocale(basicLocale, translations);
 
     // To preserve compatibility, we don't use the canonical version of the
     // locale in the file name.
     final filename = path.join(
-        targetDir, '${generatedFilePrefix}messages_$basicLocale.dart');
+      targetDir,
+      '${generatedFilePrefix}messages_$basicLocale.dart',
+    );
     File(filename).writeAsStringSync(content);
   }
 
@@ -103,16 +108,20 @@ class MessageGeneration {
     // Exclude messages with no translation and translations with no matching
     // original message (e.g. if we're using some messages from a larger
     // catalog)
-    var usableTranslations = translations
-        .where((translation) => translation.originalMessages.isNotEmpty)
-        .toList();
+    var usableTranslations =
+        translations
+            .where((translation) => translation.originalMessages.isNotEmpty)
+            .toList();
     for (var translation in usableTranslations) {
       for (var original in translation.originalMessages) {
         original.addTranslation(locale, translation.message);
       }
     }
-    usableTranslations.sort((a, b) =>
-        a.originalMessages.first.name.compareTo(b.originalMessages.first.name));
+    usableTranslations.sort(
+      (a, b) => a.originalMessages.first.name.compareTo(
+        b.originalMessages.first.name,
+      ),
+    );
 
     writeTranslations(usableTranslations, locale);
 
@@ -133,7 +142,8 @@ class MessageGeneration {
         output
           ..write('  ')
           ..write(
-              original.toCodeForLocale(locale, _methodNameFor(original.name)))
+            original.toCodeForLocale(locale, _methodNameFor(original.name)),
+          )
           ..write('\n\n');
       }
     }
@@ -146,8 +156,11 @@ class MessageGeneration {
             .toSet()
             .toList()
           ..sort((a, b) => a.name.compareTo(b.name)))
-        .map((original) => "    '${Message.escapeString(original.name)}'"
-            ': ${_mapReference(original, locale)}')
+        .map(
+          (original) =>
+              "    '${Message.escapeString(original.name)}'"
+              ': ${_mapReference(original, locale)}',
+        )
         .join(',\n');
     output
       ..write(names)
@@ -165,7 +178,7 @@ class MessageGeneration {
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
-  static Map<String, dynamic> _notInlinedMessages(_) => {
+  static Map<String, dynamic> _notInlinedMessages(Object? _) => {
   ''';
   }
 
@@ -237,18 +250,22 @@ ${releaseMode ? overrideLookup() : ''}''';
     output.write('Map<String, LibraryLoader> _deferredLibraries = {\n');
     for (var rawLocale in allLocales) {
       var locale = Intl.canonicalizedLocale(rawLocale);
-      var loadOperation = (useDeferredLoading)
-          ? "  '$locale': ${libraryName(locale)}.loadLibrary,\n"
-          : "  '$locale': () => Future.value(null),\n";
+      var loadOperation =
+          (useDeferredLoading)
+              ? "  '$locale': ${libraryName(locale)}.loadLibrary,\n"
+              : "  '$locale': () => Future.value(null),\n";
       output.write(loadOperation);
     }
     output.write('};\n');
-    output.write('\nMessageLookupByLibrary? _findExact(String localeName) {\n'
-        '  switch (localeName) {\n');
+    output.write(
+      '\nMessageLookupByLibrary? _findExact(String localeName) {\n'
+      '  switch (localeName) {\n',
+    );
     for (var rawLocale in allLocales) {
       var locale = Intl.canonicalizedLocale(rawLocale);
       output.write(
-          "    case '$locale':\n      return ${libraryName(locale)}.messages;\n");
+        "    case '$locale':\n      return ${libraryName(locale)}.messages;\n",
+      );
     }
     output.write(localesClosing);
     return output.toString();
@@ -320,12 +337,16 @@ MessageLookupByLibrary? _findGeneratedMessagesFor(String locale) {
     clearOutput();
     output.write(mainPrologue);
     if (flutter) {
-      output.write("export '${generatedFilePrefix}messages_flutter.dart'\n"
-          "  if (dart.library.js) '${generatedFilePrefix}messages_all_locales.dart'\n"
-          '  show initializeMessages;\n\n');
+      output.write(
+        "export '${generatedFilePrefix}messages_flutter.dart'\n"
+        "  if (dart.library.js) '${generatedFilePrefix}messages_all_locales.dart'\n"
+        '  show initializeMessages;\n\n',
+      );
     } else {
-      output.write("export '${generatedFilePrefix}messages_all_locales.dart'\n"
-          '  show initializeMessages;\n\n');
+      output.write(
+        "export '${generatedFilePrefix}messages_all_locales.dart'\n"
+        '  show initializeMessages;\n\n',
+      );
     }
     output.write(closing);
     return output.toString();
@@ -367,7 +388,9 @@ import '${generatedFilePrefix}messages_all.dart' show evaluateJsonTemplate;
 
   @override
   void writeTranslations(
-      Iterable<TranslatedMessage> usableTranslations, String locale);
+    Iterable<TranslatedMessage> usableTranslations,
+    String locale,
+  );
 
   @override
   String get mainPrologue => """${super.mainPrologue}
@@ -581,11 +604,12 @@ class JsonMessageGeneration extends DataMapMessageGeneration {
 ''');
 
     output.write('  static final messageText = ');
-    var messages = usableTranslations
-        .expand((translation) => translation.originalMessages);
+    var messages = usableTranslations.expand(
+      (translation) => translation.originalMessages,
+    );
     var map = <String, dynamic>{
       for (var original in messages)
-        original.name: original.toJsonForLocale(locale)
+        original.name: original.toJsonForLocale(locale),
     };
     var jsonEncoded = JsonEncoder().convert(map);
     output.write(_embedInLiteral(jsonEncoded));
@@ -602,16 +626,19 @@ import 'dart:collection';
 
   @override
   void writeTranslations(
-      Iterable<TranslatedMessage> usableTranslations, String locale) {
+    Iterable<TranslatedMessage> usableTranslations,
+    String locale,
+  ) {
     output.write('''
   Map<String, dynamic> get messages => _constMessages;
 ''');
 
-    var messages = usableTranslations
-        .expand((translation) => translation.originalMessages);
+    var messages = usableTranslations.expand(
+      (translation) => translation.originalMessages,
+    );
     var map = <String, dynamic>{
       for (var original in messages)
-        original.name: original.toJsonForLocale(locale)
+        original.name: original.toJsonForLocale(locale),
     };
 
     output.write('  static const _constMessages = ');
@@ -726,9 +753,10 @@ class TranslatedMessage {
 
   /// For backward compatibility, we still have the originalMessage API.
   MainMessage get originalMessage => originalMessages.first;
-  set originalMessage(MainMessage m) => originalMessages
-    ..clear()
-    ..add(m);
+  set originalMessage(MainMessage m) =>
+      originalMessages
+        ..clear()
+        ..add(m);
 
   TranslatedMessage(this.id, this.translated, this.originalMessages);
 
@@ -776,8 +804,10 @@ int _methodNameCounter = 0;
 /// for their translated versions.
 Map<String, String> _internalMethodNames = {};
 
-/// Generate a Dart method name of the form "m<number>".
+/// Generate a Dart method name of the form "m`<number>`".
 String _methodNameFor(String name) {
   return _internalMethodNames.putIfAbsent(
-      name, () => 'm${_methodNameCounter++}');
+    name,
+    () => 'm${_methodNameCounter++}',
+  );
 }

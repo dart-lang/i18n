@@ -28,18 +28,14 @@ Constant? evaluate(Expression expression) {
 }
 
 String? evaluateConstString(Expression expression) => switch (expression) {
-      SimpleStringLiteral() => expression.value,
-      AdjacentStrings() => _checkChildren(expression.strings)?.join(),
-      _ => null,
-    };
+  SimpleStringLiteral() => expression.value,
+  AdjacentStrings() => _checkChildren(expression.strings)?.join(),
+  _ => null,
+};
 
 Iterable<String>? _checkChildren(Iterable<StringLiteral> strings) {
-  final constExpressions = strings.map(
-    (string) => evaluateConstString(string),
-  );
-  return constExpressions.any(
-    (string) => string == null,
-  )
+  final constExpressions = strings.map((string) => evaluateConstString(string));
+  return constExpressions.any((string) => string == null)
       ? null
       : constExpressions.whereType();
 }
@@ -48,17 +44,18 @@ Constant<Map>? evaluateConstStringMap(SetOrMapLiteral map) {
   if (!map.isConst) {
     return null;
   }
-  if (map.elements.any(
-    (element) => element is! MapLiteralEntry,
-  )) {
+  if (map.elements.any((element) => element is! MapLiteralEntry)) {
     return null;
   }
   final evaluatedEntries = map.elements.whereType<MapLiteralEntry>().map(
-        (literalEntry) =>
-            (evaluate(literalEntry.key), evaluate(literalEntry.value)),
-      );
-  if (evaluatedEntries
-      .any((element) => element.$1 == null || element.$2 == null)) {
+    (literalEntry) => (
+      evaluate(literalEntry.key),
+      evaluate(literalEntry.value),
+    ),
+  );
+  if (evaluatedEntries.any(
+    (element) => element.$1 == null || element.$2 == null,
+  )) {
     return null;
   }
   var extractedValues = evaluatedEntries.map(
@@ -67,7 +64,9 @@ Constant<Map>? evaluateConstStringMap(SetOrMapLiteral map) {
   if (extractedValues.any((element) => element.key is! String)) {
     return null;
   }
-  return Constant(Map<String, dynamic>.fromEntries(extractedValues.map(
-    (e) => MapEntry(e.key as String, e.value),
-  )));
+  return Constant(
+    Map<String, dynamic>.fromEntries(
+      extractedValues.map((e) => MapEntry(e.key as String, e.value)),
+    ),
+  );
 }
