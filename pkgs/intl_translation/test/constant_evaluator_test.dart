@@ -37,7 +37,7 @@ void main() {
       expect(evaluate(_parseExpression('true') as BooleanLiteral)!.value, true);
       expect(
           evaluate(_parseExpression(
-                  " const {'modelsCount' : ['1', '1,000', '22,000']}"))!
+                  "const {'modelsCount' : ['1', '1,000', '22,000']}"))!
               .value,
           {
             'modelsCount': ['1', '1,000', '22,000']
