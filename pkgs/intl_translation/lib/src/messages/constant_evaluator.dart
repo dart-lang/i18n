@@ -23,8 +23,41 @@ Constant? evaluate(Expression expression) {
     BooleanLiteral() => Constant(expression.value),
     NullLiteral() => Constant(null),
     SetOrMapLiteral() => evaluateConstStringMap(expression),
+    PrefixExpression() => evaluatePrefixed(expression),
+    ListLiteral() => evaluateListLiteral(expression),
     _ => null,
   };
+}
+
+Constant<Iterable<Object?>>? evaluateListLiteral(ListLiteral list) {
+  if (!list.isConst) {
+    return null;
+  }
+  if (list.elements.any(
+    (element) => element is! Expression,
+  )) {
+    return null;
+  }
+  final evaluatedElements = list.elements.whereType<Expression>().map(
+        (element) => evaluate(element)?.value,
+      );
+  if (evaluatedElements.any((element) => element == null)) {
+    return null;
+  }
+  return Constant(evaluatedElements);
+}
+
+Constant<num>? evaluatePrefixed(PrefixExpression expression) {
+  final operator = expression.operator;
+  if (operator.lexeme != '-') {
+    return null;
+  }
+  final constant = evaluate(expression.operand);
+  final numValue = constant?.value;
+  if (numValue is! num) {
+    return null;
+  }
+  return Constant(-1 * numValue);
 }
 
 String? evaluateConstString(Expression expression) => switch (expression) {

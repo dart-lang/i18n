@@ -32,8 +32,24 @@ void main() {
           evaluate(_parseExpression('"hello"') as SimpleStringLiteral)!.value,
           'hello');
       expect(evaluate(_parseExpression('42') as IntegerLiteral)!.value, 42);
+      expect(evaluate(_parseExpression('-20'))?.value, -20);
       expect(evaluate(_parseExpression('3.14') as DoubleLiteral)!.value, 3.14);
       expect(evaluate(_parseExpression('true') as BooleanLiteral)!.value, true);
+      expect(
+          evaluate(_parseExpression(
+                  "const {'modelsCount' : ['1', '1,000', '22,000']}"))!
+              .value,
+          {
+            'modelsCount': ['1', '1,000', '22,000']
+          });
+      expect(
+          evaluate(_parseExpression(
+                  "const {'qualityLevel' : ['1', '2', '-10'], 'renderTime' : ['33.33', '12.54', '60.34']}"))!
+              .value,
+          {
+            'qualityLevel': ['1', '2', '-10'],
+            'renderTime': ['33.33', '12.54', '60.34']
+          });
       expect(evaluate(_parseExpression('null') as NullLiteral)!.value, isNull);
     });
 
