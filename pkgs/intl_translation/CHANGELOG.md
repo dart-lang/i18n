@@ -2,6 +2,7 @@
   * BREAKING CHANGE: Update `dart_style` to `^3.0.0`
   * Allow analyzer `>=6.3.0 <8.0.0`
   * Throw if the main argument in plurals and selects does not match the argument list.
+  * Fix constant evaluator.
 
 ## 0.20.1
   * Add topics to `pubspec.yaml`
