@@ -11,7 +11,7 @@ platforms:
   ios:
   linux:
   macos:
-  # windows: TODO: Disabled until upstream bug is fixed.
+  windows:
 
 topics:
   - i18n
@@ -42,4 +42,3 @@ hooks:
     intl4x:
       buildMode: checkout
       checkoutPath: ../../submodules/icu4x/
-

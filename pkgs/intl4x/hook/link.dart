@@ -5,7 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:code_assets/code_assets.dart' show LinkInputCodeAssets;
+import 'package:code_assets/code_assets.dart'
+    show HookConfigCodeConfig, LinkInputCodeAssets, OS;
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:hooks/hooks.dart' show LinkInput, link;
 import 'package:intl4x/datetime_format.dart';
@@ -71,11 +72,18 @@ ${usedSymbols?.join('\n')}
 ### End using symbols
 ''');
 
+    final isWindows = input.config.code.targetOS == OS.windows;
+    final windowsFlags = isWindows ? _createWindowsFlags(usedSymbols) : null;
+
     await CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.toFilePath()],
-      linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
+      libraries: isWindows ? ['MSVCRT', 'ws2_32', 'userenv', 'ntdll'] : [],
+      linkerOptions: LinkerOptions.treeshake(
+        symbols: usedSymbols,
+        flags: windowsFlags,
+      ),
     ).run(
       input: input,
       output: output,
@@ -85,6 +93,30 @@ ${usedSymbols?.join('\n')}
             ..onRecord.listen((record) => print(record.message)),
     );
   });
+}
+
+Iterable<String> _createWindowsFlags(Iterable<String>? usedSymbols) {
+  final symbolsFile =
+      usedSymbols != null
+          ? File.fromUri(
+            Directory.systemTemp.createTempSync().uri.resolve('MyDLL.def'),
+          )
+          : null;
+
+  symbolsFile
+    ?..createSync()
+    ..writeAsStringSync('''
+LIBRARY MyDLL
+EXPORTS
+${usedSymbols!.map((s) => '    $s').join('\n')}      
+''');
+  return [
+    // '/DEFAULTLIB:MSVCRT.lib',
+    // 'ws2_32.lib',
+    // 'userenv.lib',
+    // 'ntdll.lib',
+    if (symbolsFile != null) '/DEF:${symbolsFile.path}',
+  ];
 }
 
 bool _isUnusedSymbol(String symbol, String prefix, Set<String>? usedSymbols) =>
