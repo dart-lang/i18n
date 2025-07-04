@@ -199,7 +199,9 @@ jobs:
 
       - run: dart pub get
 
-      - run: dart tool/write_option_file.dart pubspec.yaml fetch
+      - run: |
+          dart tool/write_option_file.dart pubspec.yaml fetch
+          dart tool/write_option_file.dart example_native/pubspec.yaml fetch
 
       - run: dart test
 
@@ -287,8 +289,6 @@ jobs:
       - name: Prep build
         run: |
           (cd pkgs/intl4x && dart pub get)
-
-          mkdir submodules/icu4x/bin
 
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
