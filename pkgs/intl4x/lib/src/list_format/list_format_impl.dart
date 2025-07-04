@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../ecma_policy.dart';
-import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
@@ -23,12 +21,10 @@ abstract class ListFormatImpl {
     Locale locales,
     ListFormatOptions options,
     LocaleMatcher localeMatcher,
-    EcmaPolicy ecmaPolicy,
   ) => buildFormatter(
     locales,
     options,
     localeMatcher,
-    ecmaPolicy,
     getListFormatterECMA,
     getListFormatter4X,
   );

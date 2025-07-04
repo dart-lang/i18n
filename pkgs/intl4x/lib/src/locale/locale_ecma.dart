@@ -26,4 +26,7 @@ class LocaleEcma implements Locale {
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
+
+  @override
+  String toString() => toLanguageTag();
 }

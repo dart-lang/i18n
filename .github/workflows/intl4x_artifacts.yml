@@ -71,8 +71,6 @@ jobs:
         rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
         (cd pkgs/intl4x && dart pub get)
         
-        mkdir submodules/icu4x/bin
-        
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_arm_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os android --architecture arm --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_arm64_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os android --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/android_ia32_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os android --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
@@ -109,8 +107,6 @@ jobs:
         
         (cd pkgs/intl4x && dart pub get)
 
-        mkdir submodules/icu4x/bin
-        
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/ios_arm64_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os ios --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/ios_x64_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os ios --architecture x64 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/macos_arm64_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os macos --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
@@ -137,8 +133,6 @@ jobs:
         pushd pkgs/intl4x
         dart pub get
         popd
-        
-        mkdir submodules/icu4x/bin
         
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_arm64_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os windows --architecture arm64 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}
         dart pkgs/intl4x/lib/src/hook_helpers/build_libs.g.dart --working_directory submodules/icu4x --file submodules/icu4x/bin/windows_ia32_${{ matrix.compiletype }}${{ env.FILENAME_SUFFIX }} --os windows --architecture ia32 --compile_type ${{ matrix.compiletype }} --cargo_features collator,datetime,list,decimal,plurals,casemap,experimental${{ env.DATA }}

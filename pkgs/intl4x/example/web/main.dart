@@ -2,13 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/ecma_policy.dart';
 import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 
 void main() {
-  var intl = Intl(ecmaPolicy: const AlwaysEcma());
-  String nf(num number) => intl
+  String nf(num number) => Intl()
       .numberFormat(NumberFormatOptions.custom(
         style: CurrencyStyle(currency: 'USD'),
         digits: const Digits.withFractionDigits(minimum: 0, maximum: 2),
