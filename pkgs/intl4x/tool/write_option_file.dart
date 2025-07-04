@@ -17,11 +17,11 @@ Future<void> main(List<String> args) async {
   final buildOptions = switch (buildMode) {
     BuildModeEnum.local => BuildOptions(
       buildMode: buildMode,
-      localDylibPath: Uri.parse(pathString!),
+      localDylibPath: Uri.file(pathString!),
     ),
     BuildModeEnum.checkout => BuildOptions(
       buildMode: buildMode,
-      checkoutPath: Uri.parse(pathString!),
+      checkoutPath: Uri.directory(pathString!),
     ),
     BuildModeEnum.fetch => BuildOptions(buildMode: buildMode),
   };
