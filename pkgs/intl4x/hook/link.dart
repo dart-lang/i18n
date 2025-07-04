@@ -5,7 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:code_assets/code_assets.dart' show LinkInputCodeAssets;
+import 'package:code_assets/code_assets.dart'
+    show HookConfigCodeConfig, LinkInputCodeAssets, OS;
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:hooks/hooks.dart' show LinkInput, link;
 import 'package:intl4x/datetime_format.dart';
@@ -79,13 +80,14 @@ ${usedSymbols?.join('\n')}
 ### End using symbols
 ''');
 
-    final windowsFlags =
-        Platform.isWindows ? _createWindowsFlags(usedSymbols) : null;
+    final isWindows = input.config.code.targetOS == OS.windows;
+    final windowsFlags = isWindows ? _createWindowsFlags(usedSymbols) : null;
 
     await CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.toFilePath()],
+      libraries: isWindows ? ['MSVCRT', 'ws2_32', 'userenv', 'ntdll'] : [],
       linkerOptions: LinkerOptions.treeshake(
         symbols: usedSymbols,
         flags: windowsFlags,
@@ -117,10 +119,10 @@ EXPORTS
 ${usedSymbols!.map((s) => '    $s').join('\n')}      
 ''');
   return [
-    '/DEFAULTLIB:MSVCRT.lib',
-    'ws2_32.lib',
-    'userenv.lib',
-    'ntdll.lib',
+    // '/DEFAULTLIB:MSVCRT.lib',
+    // 'ws2_32.lib',
+    // 'userenv.lib',
+    // 'ntdll.lib',
     if (symbolsFile != null) '/DEF:${symbolsFile.path}',
   ];
 }
