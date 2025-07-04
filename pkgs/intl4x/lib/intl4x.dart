@@ -43,8 +43,32 @@ typedef Icu4xKey = String;
 class Intl {
   final LocaleMatcher localeMatcher;
 
+  Locale locale;
+
+  /// Construct an [Intl] instance providing the current [locale].
+  Intl({Locale? locale, this.localeMatcher = LocaleMatcher.lookup})
+    : locale = locale ?? findSystemLocale();
+
+  CaseMapping get caseMapping =>
+      CaseMapping(CaseMappingImpl.build(locale, localeMatcher));
+
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       buildCollation(CollationImpl.build(locale, options, localeMatcher));
+
+  DateTimeFormat dateTimeFormat([
+    DateTimeFormatOptions options = const DateTimeFormatOptions(),
+  ]) => buildDateTimeFormat(
+    DateTimeFormatImpl.build(locale, options, localeMatcher),
+  );
+
+  DisplayNames displayNames([
+    DisplayNamesOptions options = const DisplayNamesOptions(),
+  ]) =>
+      buildDisplayNames(DisplayNamesImpl.build(locale, options, localeMatcher));
+
+  ListFormat listFormat([
+    ListFormatOptions options = const ListFormatOptions(),
+  ]) => buildListFormat(ListFormatImpl.build(locale, options, localeMatcher));
 
   NumberFormat numberFormat([NumberFormatOptions? options]) =>
       buildNumberFormat(
@@ -55,21 +79,6 @@ class Intl {
         ),
       );
 
-  ListFormat listFormat([
-    ListFormatOptions options = const ListFormatOptions(),
-  ]) => buildListFormat(ListFormatImpl.build(locale, options, localeMatcher));
-
-  DisplayNames displayNames([
-    DisplayNamesOptions options = const DisplayNamesOptions(),
-  ]) =>
-      buildDisplayNames(DisplayNamesImpl.build(locale, options, localeMatcher));
-
-  DateTimeFormat dateTimeFormat([
-    DateTimeFormatOptions options = const DateTimeFormatOptions(),
-  ]) => buildDateTimeFormat(
-    DateTimeFormatImpl.build(locale, options, localeMatcher),
-  );
-
   PluralRules plural([PluralRulesOptions? options]) => buildPluralRules(
     PluralRulesImpl.build(
       locale,
@@ -77,27 +86,4 @@ class Intl {
       localeMatcher,
     ),
   );
-
-  CaseMapping get caseMapping =>
-      CaseMapping(CaseMappingImpl.build(locale, localeMatcher));
-
-  /// Construct an [Intl] instance providing the current [locale].
-  Intl._({Locale? locale, this.localeMatcher = LocaleMatcher.lookup})
-    : locale = locale ?? findSystemLocale();
-
-  Intl.includeLocales({
-    Locale? locale,
-    List<Locale> includedLocales = const [],
-    LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-  }) : this._(locale: locale);
-
-  Intl.excludeLocales({
-    Locale? locale,
-    LocaleMatcher localeMatcher = LocaleMatcher.lookup,
-  }) : this._(locale: locale);
-
-  Intl({Locale? locale, LocaleMatcher localeMatcher = LocaleMatcher.lookup})
-    : this._(locale: locale);
-
-  Locale locale;
 }
