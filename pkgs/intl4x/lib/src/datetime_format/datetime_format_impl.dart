@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
@@ -24,12 +23,10 @@ abstract class DateTimeFormatImpl {
     Locale locale,
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
-    EcmaPolicy ecmaPolicy,
   ) => buildFormatter(
     locale,
     options,
     localeMatcher,
-    ecmaPolicy,
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );

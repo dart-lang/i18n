@@ -25,7 +25,7 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 * Wraps around [ICU4X](https://github.com/unicode-org/icu4x) on native or web
   platforms.
 * Wraps around the built-in browser functionalities on the web.
-    * Select which locales you want to use the browser for through an `EcmaPolicy`.
+    * Select which locales you want to use the browser for through an ``.
 
 ## Example
 
@@ -38,7 +38,7 @@ import 'package:intl4x/number_format.dart';
 
 void main() {
   final numberFormat = Intl(
-    ecmaPolicy: const AlwaysEcma(),
+    : const AlwaysEcma(),
     locale: Locale.parse('en-US'),
   ).numberFormat(NumberFormatOptions.percent());
 
