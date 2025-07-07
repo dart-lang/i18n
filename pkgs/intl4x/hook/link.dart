@@ -5,7 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:code_assets/code_assets.dart' show LinkInputCodeAssets;
+import 'package:code_assets/code_assets.dart'
+    show HookConfigCodeConfig, LinkInputCodeAssets, OS;
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:hooks/hooks.dart' show LinkInput, link;
 import 'package:intl4x/datetime_format.dart';
@@ -83,6 +84,13 @@ ${usedSymbols?.join('\n')}
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.toFilePath()],
+      libraries:
+          // On Windows, icu4x.lib is lacking /DEFAULTLIB directives to advise
+          // the linker on what libraries to link against. To make up for that,
+          // the libraries used have to be provided to the linker explicitly.
+          input.config.code.targetOS == OS.windows
+              ? const ['MSVCRT', 'ws2_32', 'userenv', 'ntdll']
+              : const [],
       linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
     ).run(
       input: input,

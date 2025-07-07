@@ -11,7 +11,7 @@ platforms:
   ios:
   linux:
   macos:
-  # windows: TODO: Disabled until upstream bug is fixed.
+  windows:
 
 topics:
   - i18n
@@ -28,7 +28,7 @@ dependencies:
   hooks: ^0.19.5
   logging: ^1.3.0
   meta: ^1.17.0
-  native_toolchain_c: ^0.16.6
+  native_toolchain_c: ^0.16.7
   path: ^1.9.1
   record_use: ^0.4.1
 
@@ -42,4 +42,3 @@ hooks:
     intl4x:
       buildMode: checkout
       checkoutPath: ../../submodules/icu4x/
-
