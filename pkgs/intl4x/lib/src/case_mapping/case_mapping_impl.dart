@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../ecma_policy.dart';
-import '../ecma/ecma_policy.dart';
 import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
@@ -18,16 +16,12 @@ abstract class CaseMappingImpl {
   String toLowerCase(String input);
   String toUpperCase(String input);
 
-  static CaseMappingImpl build(
-    Locale locales,
-    LocaleMatcher localeMatcher,
-    EcmaPolicy ecmaPolicy,
-  ) => buildFormatter(
-    locales,
-    null,
-    localeMatcher,
-    ecmaPolicy,
-    getCaseMappingECMA,
-    getCaseMapping4X,
-  );
+  static CaseMappingImpl build(Locale locales, LocaleMatcher localeMatcher) =>
+      buildFormatter(
+        locales,
+        null,
+        localeMatcher,
+        getCaseMappingECMA,
+        getCaseMapping4X,
+      );
 }
