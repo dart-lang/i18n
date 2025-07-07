@@ -85,7 +85,7 @@ ${usedSymbols?.join('\n')}
       assetName: assetId,
       sources: [staticLib.file!.toFilePath()],
       libraries:
-          // On Windows, icu4x.lib is lacking /DEFAULTLIB directives to advice
+          // On Windows, icu4x.lib is lacking /DEFAULTLIB directives to advise
           // the linker on what libraries to link against. To make up for that,
           // the libraries used have to be provided to the linker explicitly.
           input.config.code.targetOS == OS.windows
