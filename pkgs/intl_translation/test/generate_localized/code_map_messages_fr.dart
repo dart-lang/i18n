@@ -2,7 +2,7 @@
 // This is a library that provides messages for a fr locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
-// @dart=2.12
+
 // Ignore issues from commonly used lints in this file.
 // ignore_for_file:unnecessary_brace_in_string_interps
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
@@ -19,18 +19,18 @@ import 'dart:collection';
 
 final messages = MessageLookup();
 
-typedef String? MessageIfAbsent(
-    String? messageStr, List<Object>? args);
+typedef String? MessageIfAbsent(String? messageStr, List<Object>? args);
 
 class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'fr';
 
-
   String? evaluateMessage(dynamic translation, List<dynamic> args) {
     return evaluateJsonTemplate(translation, args);
   }
-  Map<String, dynamic> get messages => _constMessages;
-  static const _constMessages = <String, Object?>{"Hello from application":<Object?>["Bonjour de l'application"]};
 
+  Map<String, dynamic> get messages => _constMessages;
+  static const _constMessages = <String, Object?>{
+    "Hello from application": "Bonjour de l'application"
+  };
 }

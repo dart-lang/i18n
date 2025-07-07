@@ -137,13 +137,6 @@ class PluralAndGenderVisitor extends SimpleAstVisitor<void> {
       extraction.warnings.add(errString);
     }
 
-    if (!message.arguments.contains(message.mainArgument)) {
-      throw Exception(
-          'Argument `${message.mainArgument}` could not be found in '
-          '${message.arguments} while processing $node. The parent argument '
-          'name must match the one in the `Intl.` call.');
-    }
-
     return message;
   }
 }
