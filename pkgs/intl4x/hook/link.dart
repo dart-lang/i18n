@@ -80,18 +80,18 @@ ${usedSymbols?.join('\n')}
 ### End using symbols
 ''');
 
-    final isWindows = input.config.code.targetOS == OS.windows;
-    final windowsFlags = isWindows ? _createWindowsFlags(usedSymbols) : null;
-
     await CLinker.library(
       name: input.packageName,
       assetName: assetId,
       sources: [staticLib.file!.toFilePath()],
-      libraries: isWindows ? ['MSVCRT', 'ws2_32', 'userenv', 'ntdll'] : [],
-      linkerOptions: LinkerOptions.treeshake(
-        symbols: usedSymbols,
-        flags: windowsFlags,
-      ),
+      libraries:
+          // On Windows, icu4x.lib is lacking /DEFAULTLIB directives to advice
+          // the linker on what libraries to link against. To make up for that,
+          // the libraries used have to be provided to the linker explicitly.
+          input.config.code.targetOS == OS.windows
+              ? const ['MSVCRT', 'ws2_32', 'userenv', 'ntdll']
+              : const [],
+      linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
     ).run(
       input: input,
       output: output,
@@ -101,30 +101,6 @@ ${usedSymbols?.join('\n')}
             ..onRecord.listen((record) => print(record.message)),
     );
   });
-}
-
-Iterable<String> _createWindowsFlags(Iterable<String>? usedSymbols) {
-  final symbolsFile =
-      usedSymbols != null
-          ? File.fromUri(
-            Directory.systemTemp.createTempSync().uri.resolve('MyDLL.def'),
-          )
-          : null;
-
-  symbolsFile
-    ?..createSync()
-    ..writeAsStringSync('''
-LIBRARY MyDLL
-EXPORTS
-${usedSymbols!.map((s) => '    $s').join('\n')}      
-''');
-  return [
-    // '/DEFAULTLIB:MSVCRT.lib',
-    // 'ws2_32.lib',
-    // 'userenv.lib',
-    // 'ntdll.lib',
-    if (symbolsFile != null) '/DEF:${symbolsFile.path}',
-  ];
 }
 
 bool _isUnusedSymbol(String symbol, String prefix, Set<String>? usedSymbols) =>
