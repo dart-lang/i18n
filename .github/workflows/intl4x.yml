@@ -134,7 +134,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'ubuntu-latest'
         run: |
-          FILE_PATH="build/cli/linux_x64/bundle/bin/lib/libintl4x.so"
+          FILE_PATH="build/cli/linux_x64/bundle/lib/libintl4x.so"
           FILE_SIZE=$(stat -c %s "$FILE_PATH")
           echo "Linux executable size: $FILE_SIZE bytes"
           if [ "$FILE_SIZE" -gt 10485760 ]; then
@@ -221,7 +221,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'ubuntu-latest'
         run: |
-          FILE_PATH="build/cli/linux_x64/bundle/bin/example_native"
+          FILE_PATH="build/cli/linux_x64/bundle/lib/libintl4x.so"
           FILE_SIZE=$(stat -c %s "$FILE_PATH")
           echo "Linux executable size: $FILE_SIZE bytes"
           if [ "$FILE_SIZE" -gt 10485760 ]; then
@@ -239,7 +239,7 @@ jobs:
         # skip until https://github.com/dart-lang/i18n/issues/989 issue is resolved
         if: matrix.os == 'macos-latest' && false
         run: |
-          FILE_PATH="build/cli/macos_arm64/bundle/bin/example_native"
+          FILE_PATH="build/cli/macos_arm64/bundle/lib/example_native"
           FILE_SIZE=$(stat -f %z "$FILE_PATH")
           echo "macOS executable size: $FILE_SIZE bytes"
           if [ "$FILE_SIZE" -gt 10485760 ]; then
@@ -256,7 +256,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'windows-latest'
         run: |
-          $filePath = ".\build\cli\windows_x64\bundle\bin\example_native.exe"
+          $filePath = ".\build\cli\windows_x64\bundle\lib\libintl4x.dll"
           $fileSize = (Get-Item $filePath).Length
           Write-Host "Windows executable size: $fileSize bytes"
           if ($fileSize -gt 10485760) {
