@@ -4,10 +4,9 @@
 
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
-// ignore: implementation_imports
-import 'package:analyzer/src/dart/ast/constant_evaluator.dart';
 
 import '../extract_messages.dart';
+import '../src/messages/constant_evaluator.dart';
 import '../src/messages/main_message.dart';
 import '../src/messages/message.dart';
 import '../src/messages/message_extraction_exception.dart';
@@ -288,10 +287,8 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     for (var namedExpr in arguments.whereType<NamedExpression>()) {
       var name = namedExpr.name.label.name;
       var exp = namedExpr.expression;
-      var basicValue = exp.accept(ConstantEvaluator());
-      var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT
-          ? exp.toString()
-          : basicValue;
+      var constant = evaluate(exp);
+      var value = constant == null ? exp.toString() : constant.value;
       setAttribute(message, name, value);
     }
     // We only rewrite messages with parameters, otherwise we use the literal
