@@ -16,8 +16,3 @@ const timeZoneIdentifier = record_use.Identifier(
   importUri: 'package:intl4x/src/datetime_format/datetime_format_options.dart',
   name: 'TimeZone',
 );
-
-const diplomatFfiUseIdentifier = record_use.Identifier(
-  importUri: 'package:intl4x/src/bindings/lib.g.dart',
-  name: '_DiplomatFfiUse',
-);

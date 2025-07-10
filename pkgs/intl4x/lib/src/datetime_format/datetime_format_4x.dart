@@ -2,8 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:icu4x/icu4x.dart' as icu;
+
 import '../../datetime_format.dart';
-import '../bindings/lib.g.dart' as icu;
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import '../utils.dart';
