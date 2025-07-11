@@ -32,7 +32,6 @@ class SelectParser {
       cases.firstWhere((element) => element.key == 'other').value,
       caseMap,
       arguments.indexOf(identifier),
-      id,
     );
   }
 }
