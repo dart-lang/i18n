@@ -2009,6 +2009,24 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       PERCENT_PATTERN: '%#,##0',
       CURRENCY_PATTERN: '\u00A4#,##0.00',
       DEF_CURRENCY_CODE: 'TRY'),
+  // Number formatting symbols for locale tk.
+  "tk": new NumberSymbols(
+      NAME: "tk",
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PERCENT: '%',
+      ZERO_DIGIT: '0',
+      PLUS_SIGN: '+',
+      MINUS_SIGN: '-',
+      EXP_SYMBOL: 'E',
+      PERMILL: '\u2030',
+      INFINITY: '\u221E',
+      NAN: 'NaN',
+      DECIMAL_PATTERN: '#,##0.###',
+      SCIENTIFIC_PATTERN: '#E0',
+      PERCENT_PATTERN: '%#,##0',
+      CURRENCY_PATTERN: '\u00A4#,##0.00',
+      DEF_CURRENCY_CODE: 'TMT'),
   // Number formatting symbols for locale uk.
   "uk": new NumberSymbols(
       NAME: "uk",
@@ -5003,6 +5021,23 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
     6: {'other': '\u00A40M'},
     9: {'other': '\u00A40B'},
     12: {'other': '\u00A40T'},
+  }),
+  // Compact number symbols for locale tk.
+  "tk": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
+    3: {'other': '0\u00A0M'},
+    6: {'other': '0\u00A0Mn'},
+    9: {'other': '0\u00A0Mr'},
+    12: {'other': '0\u00A0Tn'},
+  }, COMPACT_DECIMAL_LONG_PATTERN: const {
+    3: {'other': '0 müň'},
+    6: {'other': '0 milýon'},
+    9: {'other': '0 milýar'},
+    12: {'other': '0 trilýon'},
+  }, COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
+    3: {'other': '0\u00A0M\u00A0\u00A4'},
+    6: {'other': '0\u00A0Mn\u00A0\u00A4'},
+    9: {'other': '0\u00A0Mr\u00A0\u00A4'},
+    12: {'other': '0\u00A0Tn\u00A0\u00A4'},
   }),
   // Compact number symbols for locale tl.
   "tl": new CompactNumberSymbols(COMPACT_DECIMAL_SHORT_PATTERN: const {
