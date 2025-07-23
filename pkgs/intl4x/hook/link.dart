@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hooks/hooks.dart' show LinkInput, link;
-import 'package:icu4x/hook.dart' show treeshakeLibrary;
+import 'package:icu4x/hook.dart' show SymbolKeeper;
 import 'package:intl4x/datetime_format.dart';
 import 'package:record_use/record_use.dart' as record_use;
 
@@ -34,15 +34,15 @@ Future<void> main(List<String> args) async {
       'String ymdt(DateTime datetime, {TimeZone timeZone})',
       'ZonedDateTimeFormatter',
     );
-    return treeshakeLibrary(
-      input,
-      output,
-      symbolsToKeep: {
+
+    output.registerSymbolsToBeKept(input.packageName, {
+      if (timeZonesTimeFormat != null)
         'icu4x_ZonedTimeFormatter_create_': timeZonesTimeFormat,
+      if (timeZonesDateFormat != null)
         'icu4x_ZonedDateFormatter_create_': timeZonesDateFormat,
+      if (timeZonesDateTimeFormat != null)
         'icu4x_ZonedDateTimeFormatter_create_': timeZonesDateTimeFormat,
-      },
-    );
+    });
   });
 }
 

@@ -18,4 +18,13 @@ hooks:
     icu4x:
       buildMode: checkout
       checkoutPath: ../../../submodules/icu4x/
-      packageWithLinker: intl4x
+
+dependency_overrides:
+  code_assets: 
+    path: ../../../../native/pkgs/code_assets
+  hooks:
+    path: ../../../../native/pkgs/hooks
+  native_toolchain_c: 
+    path: ../../../../native/pkgs/native_toolchain_c
+  icu4x:
+    path: ../../../../icu4x/ffi/dart/
