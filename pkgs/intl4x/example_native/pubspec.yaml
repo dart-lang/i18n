@@ -18,7 +18,6 @@ hooks:
     icu4x:
       buildMode: local
       localPath: ../../../../icu4x/bin/linux_x64
-      treeshake: true
 
 dependency_overrides:
   code_assets: 
