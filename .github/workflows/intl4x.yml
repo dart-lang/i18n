@@ -148,8 +148,7 @@ jobs:
         run: ./build/cli/macos_arm64/bundle/bin/example_native
       - name: Print file size and check limit for example_native (Mac)
         working-directory: pkgs/intl4x/example_native
-        # skip until https://github.com/dart-lang/i18n/issues/989 issue is resolved
-        if: matrix.os == 'macos-latest' && false 
+        if: matrix.os == 'macos-latest'
         run: |
           FILE_PATH="build/cli/macos_arm64/bundle/lib/libintl4x.dylib"
           FILE_SIZE=$(stat -f %z "$FILE_PATH")
@@ -236,8 +235,7 @@ jobs:
 
       - name: Print file size and check limit for example_native (Mac)
         working-directory: pkgs/intl4x/example_native
-        # skip until https://github.com/dart-lang/i18n/issues/989 issue is resolved
-        if: matrix.os == 'macos-latest' && false
+        if: matrix.os == 'macos-latest'
         run: |
           FILE_PATH="build/cli/macos_arm64/bundle/lib/example_native"
           FILE_SIZE=$(stat -f %z "$FILE_PATH")
