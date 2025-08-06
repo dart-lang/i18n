@@ -146,6 +146,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'macos-latest'
         run: ./build/cli/macos_arm64/bundle/bin/example_native
+
       - name: Print file size and check limit for example_native (Mac)
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'macos-latest'
@@ -237,7 +238,7 @@ jobs:
         working-directory: pkgs/intl4x/example_native
         if: matrix.os == 'macos-latest'
         run: |
-          FILE_PATH="build/cli/macos_arm64/bundle/lib/example_native"
+          FILE_PATH="build/cli/macos_arm64/bundle/lib/libintl4x.dylib"
           FILE_SIZE=$(stat -f %z "$FILE_PATH")
           echo "macOS executable size: $FILE_SIZE bytes"
           if [ "$FILE_SIZE" -gt 10485760 ]; then
