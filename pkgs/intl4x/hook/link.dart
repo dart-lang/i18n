@@ -91,7 +91,7 @@ ${usedSymbols?.join('\n')}
           input.config.code.targetOS == OS.windows
               ? const ['MSVCRT', 'ws2_32', 'userenv', 'ntdll']
               : const [],
-      linkerOptions: LinkerOptions.treeshake(symbols: usedSymbols),
+      linkerOptions: LinkerOptions.treeshake(symbolsToKeep: usedSymbols),
     ).run(
       input: input,
       output: output,

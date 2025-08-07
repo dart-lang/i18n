@@ -4,6 +4,7 @@
 - Removing `EcmaPolicy`, fixing Locale printing, and other small clean-ups.
 - Update to `native_toolchain_c` v0.16.7.
 - Make package compatible to run on Windows again.
+- Update to `native_toolchain_c` v0.17.1.
 
 ## 0.12.2
 
