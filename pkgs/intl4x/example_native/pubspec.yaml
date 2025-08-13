@@ -16,6 +16,6 @@ dev_dependencies:
 dependency_overrides:
   icu4x:
     git: 
-      url: git@github.com:unicode-org/icu4x.git
+      url: https://github.com/unicode-org/icu4x.git
       ref: 4cf74f7e0905b64275f487bf86c06e71bb8dd749
       path: ffi/dart
