@@ -21,7 +21,7 @@ on:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
-  build_checkout:
+  build:
     runs-on: ${{ matrix.os }}
 
     defaults:
@@ -38,29 +38,6 @@ jobs:
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
           sdk: main
-
-      - name: Install Rust toolchains
-        run: |
-          rustup toolchain install stable
-          rustup toolchain install nightly
-
-      - name: Show the selected Rust toolchain
-        run: rustup show
-
-      - name: Set up toolchain for Linux
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          rustup component add rust-src --toolchain nightly-x86_64-unknown-linux-gnu
-
-      - name: Set up toolchain for Mac
-        if: matrix.os == 'macos-latest'
-        run: |
-          rustup component add rust-src --toolchain nightly-aarch64-apple-darwin
-
-      - name: Set up toolchain for Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          rustup component add rust-src --toolchain nightly-x86_64-pc-windows-msvc
 
       - run: dart pub get
 
