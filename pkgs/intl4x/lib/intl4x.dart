@@ -6,6 +6,7 @@ import 'case_mapping.dart';
 import 'collation.dart';
 import 'display_names.dart';
 import 'number_format.dart';
+import 'src/case_mapping/case_mapping.dart' show buildCaseMapping;
 import 'src/case_mapping/case_mapping_impl.dart';
 import 'src/collation/collation.dart';
 import 'src/collation/collation_impl.dart';
@@ -50,7 +51,7 @@ class Intl {
     : locale = locale ?? findSystemLocale();
 
   CaseMapping get caseMapping =>
-      CaseMapping(CaseMappingImpl.build(locale, localeMatcher));
+      buildCaseMapping(CaseMappingImpl.build(locale, localeMatcher));
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       buildCollation(CollationImpl.build(locale, options, localeMatcher));

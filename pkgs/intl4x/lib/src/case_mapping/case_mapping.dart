@@ -13,7 +13,7 @@ import 'case_mapping_impl.dart';
 class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
-  const CaseMapping(this._caseMappingImpl);
+  const CaseMapping._(this._caseMappingImpl);
 
   String toLowerCase(String input) {
     if (isInTest) {
@@ -31,3 +31,6 @@ class CaseMapping {
     }
   }
 }
+
+CaseMapping buildCaseMapping(CaseMappingImpl collationImpl) =>
+    CaseMapping._(collationImpl);
