@@ -4,6 +4,7 @@ description: >-
 version: 0.13.0-wip
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aintl4x
+publish_to: none
 
 platforms:
   web:
