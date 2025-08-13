@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../display_names.dart';
-import '../bindings/lib.g.dart' as icu;
+import 'package:icu4x/icu4x.dart' as icu;
 
+import '../../display_names.dart';
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'display_names_impl.dart';
