@@ -13,3 +13,7 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.0.0
+
+dependency_overrides:
+  icu4x:
+    path: ../../../submodules/icu4x/ffi/dart/

@@ -4,7 +4,6 @@ description: >-
 version: 0.13.0-wip
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aintl4x
-publish_to: none
 
 platforms:
   web:
@@ -22,8 +21,7 @@ environment:
 
 dependencies:
   hooks: ^0.20.0
-  icu4x:
-    path: ../../submodules/icu4x/ffi/dart/
+  icu4x: ^2.0.0-dev.0
   meta: ^1.17.0
   record_use: ^0.4.1
 
@@ -39,3 +37,7 @@ hooks:
     icu4x:
       buildMode: checkout
       checkoutPath: ../../submodules/icu4x/
+
+dependency_overrides:
+  icu4x:
+    path: ../../submodules/icu4x/ffi/dart/
