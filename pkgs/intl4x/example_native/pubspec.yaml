@@ -18,3 +18,7 @@ hooks:
     icu4x:
       buildMode: checkout
       checkoutPath: ../../../submodules/icu4x/
+
+dependency_overrides:
+  icu4x:
+    path: ../../../submodules/icu4x/ffi/dart/
