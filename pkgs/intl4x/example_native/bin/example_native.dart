@@ -11,5 +11,5 @@ void main(List<String> arguments) {
     offset: Duration(hours: 2),
   );
   print(Intl().locale.toString());
-  print(Intl().dateTimeFormat().time(DateTime.now(), timeZone: timeZone));
+  print(Intl().dateTimeFormat().d().format(DateTime.now()));
 }

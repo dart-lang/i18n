@@ -19,26 +19,6 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
 
   icu.Locale get localeX => (super.locale as Locale4x).get4X;
 
-  static icu.Locale setLocaleExtensions(
-    icu.Locale locale,
-    DateTimeFormatOptions options,
-  ) {
-    final l = locale.clone();
-    final calendar = options.calendar;
-    if (calendar != null) {
-      l.setUnicodeExtension('ca', calendar.jsName);
-    }
-    final clockStyle = options.clockstyle;
-    if (clockStyle != null) {
-      l.setUnicodeExtension('hc', clockStyle.hourStyleExtensionString);
-    }
-    final numberingSystem = options.numberingSystem;
-    if (numberingSystem != null) {
-      l.setUnicodeExtension('nu', numberingSystem.name);
-    }
-    return l;
-  }
-
   String _dateFormatter(
     icu.DateFormatter Function(
       icu.Locale locale, {
@@ -137,13 +117,10 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 
   @override
-  String d(DateTime datetime) {
-    final (alignment, _, _, optionLength) = options.toX();
-    return icu.DateFormatter.d(
-      setLocaleExtensions(localeX, options),
-      alignment: alignment,
-      length: optionLength ?? icu.DateTimeLength.short,
-    ).formatIso(datetime.toX.$1);
+  DateFormatterImpl d() {
+    final (alignment, _, _, length) = options.toX();
+    final locale = setLocaleExtensions(localeX, options);
+    return DateFormatterX.d(this, locale, options, alignment, length);
   }
 
   @override
@@ -282,6 +259,27 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 }
 
+class DateFormatterX extends DateFormatterImpl {
+  final icu.DateFormatter formatter;
+
+  DateFormatterX.d(
+    DateTimeFormatImpl impl,
+    icu.Locale localeX,
+    DateTimeFormatOptions options,
+    icu.DateTimeAlignment? alignment,
+    icu.DateTimeLength? length,
+  ) : formatter = icu.DateFormatter.d(
+        setLocaleExtensions(localeX, options),
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      super.d(impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      formatter.formatIso(datetime.toX.$1);
+}
+
 extension on icu.TimeZoneInfo {
   void setVariant(TimeZone timeZone) {
     final success = inferVariant(icu.VariantOffsetsCalculator());
@@ -351,4 +349,24 @@ extension on DateTimeFormatOptions {
       },
     );
   }
+}
+
+icu.Locale setLocaleExtensions(
+  icu.Locale locale,
+  DateTimeFormatOptions options,
+) {
+  final l = locale.clone();
+  final calendar = options.calendar;
+  if (calendar != null) {
+    l.setUnicodeExtension('ca', calendar.jsName);
+  }
+  final clockStyle = options.clockstyle;
+  if (clockStyle != null) {
+    l.setUnicodeExtension('hc', clockStyle.hourStyleExtensionString);
+  }
+  final numberingSystem = options.numberingSystem;
+  if (numberingSystem != null) {
+    l.setUnicodeExtension('nu', numberingSystem.name);
+  }
+  return l;
 }

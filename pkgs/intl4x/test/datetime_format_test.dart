@@ -14,7 +14,7 @@ void main() {
     final dateTime = DateTime(2012, 12, 20, 3, 0, 0);
     testWithFormatting(
       'd',
-      () => expect(intl.dateTimeFormat().d(dateTime), '20'),
+      () => expect(intl.dateTimeFormat().d().format(dateTime), '20'),
     );
     testWithFormatting(
       'm',

@@ -21,12 +21,12 @@ import 'datetime_format_impl.dart';
 ///     ))
 ///     .format(date); // Output: '4 mat.'
 /// ```
-class DateTimeFormat {
+class DateTimeFormatBuilder {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormat._(this._impl);
+  DateTimeFormatBuilder._(this._impl);
 
-  String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
+  DateFormatter d() => _impl.d();
   String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
   String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
   String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
@@ -34,45 +34,48 @@ class DateTimeFormat {
   String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
 
   String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+}
 
-  static String _format(
-    String Function(DateTime datetime) format,
-    DateTime datetime,
-    DateTimeFormatImpl impl,
-  ) {
-    if (isInTest) {
-      return '$datetime//${impl.locale}';
-    } else {
-      return format(datetime);
-    }
+abstract class DateFormatter {
+  DateFormatter.d();
+
+  String format(DateTime datetime);
+}
+
+String _format(
+  String Function(DateTime datetime) format,
+  DateTime datetime,
+  DateTimeFormatImpl impl,
+) {
+  if (isInTest) {
+    return '$datetime//${impl.locale}';
+  } else {
+    return format(datetime);
   }
 }
 
-extension DatetimeFormatExt on DateTimeFormat {
+extension DatetimeFormatExt on DateTimeFormatBuilder {
   @RecordUse()
-  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
+  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
+    (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
+    datetime,
+    _impl,
+  );
 
   @RecordUse()
-  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymd(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
+  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
+    (datetime) => _impl.ymd(datetime, timeZone: timeZone),
+    datetime,
+    _impl,
+  );
 
   @RecordUse()
-  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.time(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
+  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
+    (datetime) => _impl.time(datetime, timeZone: timeZone),
+    datetime,
+    _impl,
+  );
 }
 
-DateTimeFormat buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormat._(impl);
+DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
+    DateTimeFormatBuilder._(impl);

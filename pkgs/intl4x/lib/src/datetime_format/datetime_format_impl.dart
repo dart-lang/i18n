@@ -3,7 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
+import '../test_checker.dart' show isInTest;
 import '../utils.dart';
+import 'datetime_format.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js) 'datetime_format_ecma.dart';
@@ -29,7 +31,7 @@ abstract class DateTimeFormatImpl {
     getDateTimeFormatter4X,
   );
 
-  String d(DateTime datetime);
+  DateFormatterImpl d();
   String m(DateTime datetime);
   String y(DateTime datetime);
   String md(DateTime datetime);
@@ -38,4 +40,27 @@ abstract class DateTimeFormatImpl {
   String ymdt(DateTime datetime, {TimeZone? timeZone});
   String ymdet(DateTime datetime);
   String time(DateTime datetime, {TimeZone? timeZone});
+}
+
+abstract class DateFormatterImpl implements DateFormatter {
+  final DateTimeFormatImpl _impl;
+
+  DateFormatterImpl.d(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+
+  String formatInternal(DateTime datetime);
+}
+
+String _format(
+  String Function(DateTime datetime) format,
+  DateTime datetime,
+  DateTimeFormatImpl impl,
+) {
+  if (isInTest) {
+    return '$datetime//${impl.locale}';
+  } else {
+    return format(datetime);
+  }
 }

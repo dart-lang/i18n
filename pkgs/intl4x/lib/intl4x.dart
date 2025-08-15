@@ -53,7 +53,7 @@ class Intl {
   Collation collation([CollationOptions options = const CollationOptions()]) =>
       buildCollation(CollationImpl.build(locale, options));
 
-  DateTimeFormat dateTimeFormat([
+  DateTimeFormatBuilder dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
   ]) => buildDateTimeFormat(DateTimeFormatImpl.build(locale, options));
 

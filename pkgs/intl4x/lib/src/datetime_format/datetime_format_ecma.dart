@@ -70,12 +70,18 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }
 
   @override
-  String d(DateTime datetime) =>
-      _format(datetime: datetime, year: null, day: _timeStyle, month: null);
+  DateFormatterImpl d() =>
+      DateFormatterECMA.d(this, _timeStyle, locale, options);
 
   @override
-  String m(DateTime datetime) =>
-      _format(datetime: datetime, year: null, day: null, month: _timeStyle);
+  String m(DateTime datetime) => _format(
+    datetime: datetime,
+    year: null,
+    day: null,
+    month: _timeStyle,
+    locale: locale,
+    options: options,
+  );
 
   @override
   String md(DateTime datetime) => _format(
@@ -83,10 +89,17 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     year: null,
     day: _timeStyle,
     month: _timeStyle,
+    locale: locale,
+    options: options,
   );
 
   @override
-  String y(DateTime datetime) => _format(datetime: datetime, year: _timeStyle);
+  String y(DateTime datetime) => _format(
+    datetime: datetime,
+    year: _timeStyle,
+    locale: locale,
+    options: options,
+  );
 
   @override
   String ymd(DateTime datetime, {TimeZone? timeZone}) => _format(
@@ -95,10 +108,13 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     month: _timeStyle,
     day: _timeStyle,
     timeZone: timeZone,
+    locale: locale,
+    options: options,
   );
 
   @override
-  String ymde(DateTime datetime) => _format(datetime: datetime);
+  String ymde(DateTime datetime) =>
+      _format(datetime: datetime, locale: locale, options: options);
 
   @override
   String ymdt(DateTime datetime, {TimeZone? timeZone}) => _format(
@@ -110,6 +126,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     month: _timeStyle,
     day: _timeStyle,
     timeZone: timeZone,
+    locale: locale,
+    options: options,
   );
 
   @override
@@ -120,6 +138,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     minute: _timeStyleOrNull,
     second: null,
     timeZone: timeZone,
+    locale: locale,
+    options: options,
   );
 
   TimeStyle? get _timeStyle =>
@@ -142,37 +162,63 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     month: _timeStyle,
     day: _timeStyle,
     weekday: Style.short,
+    locale: locale,
+    options: options,
   );
+}
 
-  String _format({
-    TimeStyle? year,
-    TimeStyle? month,
-    TimeStyle? day,
-    TimeStyle? hour,
-    TimeStyle? minute,
-    TimeStyle? second,
-    TimeZone? timeZone,
-    Style? weekday,
-    required DateTime datetime,
-  }) {
-    final correctedDatetime =
-        timeZone == null
-            ? datetime.toJs()
-            : datetime.subtract(timeZone.offset).toJsUtc();
+String _format({
+  TimeStyle? year,
+  TimeStyle? month,
+  TimeStyle? day,
+  TimeStyle? hour,
+  TimeStyle? minute,
+  TimeStyle? second,
+  TimeZone? timeZone,
+  Style? weekday,
+  required DateTime datetime,
+  required Locale locale,
+  required DateTimeFormatOptions options,
+}) {
+  final correctedDatetime =
+      timeZone == null
+          ? datetime.toJs()
+          : datetime.subtract(timeZone.offset).toJsUtc();
 
-    return DateTimeFormat(
-      [locale.toLanguageTag().toJS].toJS,
-      options.toJsOptions(
-        year: year,
-        month: month,
-        day: day,
-        hour: hour,
-        minute: minute,
-        second: second,
-        timeZone: timeZone,
-        weekday: weekday,
-      ),
-    ).format(correctedDatetime);
+  return DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    options.toJsOptions(
+      year: year,
+      month: month,
+      day: day,
+      hour: hour,
+      minute: minute,
+      second: second,
+      timeZone: timeZone,
+      weekday: weekday,
+    ),
+  ).format(correctedDatetime);
+}
+
+class DateFormatterECMA extends DateFormatterImpl {
+  final TimeStyle? timeStyle;
+
+  final Locale locale;
+  final DateTimeFormatOptions options;
+
+  DateFormatterECMA.d(super.impl, this.timeStyle, this.locale, this.options)
+    : super.d();
+
+  @override
+  String formatInternal(DateTime datetime) {
+    return _format(
+      datetime: datetime,
+      year: null,
+      day: timeStyle,
+      month: null,
+      locale: locale,
+      options: options,
+    );
   }
 }
 
