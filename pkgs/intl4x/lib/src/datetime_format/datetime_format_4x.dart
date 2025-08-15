@@ -7,6 +7,7 @@ import '../bindings/lib.g.dart' as icu;
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import '../utils.dart';
+import 'datetime_format.dart';
 import 'datetime_format_impl.dart';
 
 DateTimeFormatImpl getDateTimeFormatter4X(
@@ -261,10 +262,12 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
 
 class DateFormatterX extends DateFormatterImpl {
   final icu.DateFormatter formatter;
+  final DateTimeFormatImpl impl;
+  final icu.Locale localeX;
 
   DateFormatterX.d(
-    DateTimeFormatImpl impl,
-    icu.Locale localeX,
+    this.impl,
+    this.localeX,
     DateTimeFormatOptions options,
     icu.DateTimeAlignment? alignment,
     icu.DateTimeLength? length,
@@ -273,11 +276,55 @@ class DateFormatterX extends DateFormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
       ),
-      super.d(impl);
+      super(impl);
 
   @override
   String formatInternal(DateTime datetime) =>
       formatter.formatIso(datetime.toX.$1);
+
+  @override
+  DateFormatterZoned withTimezoneShort(TimeZone timeZone) =>
+      DateFormatterZonedX.short(this, timeZone);
+
+  @override
+  DateFormatterZoned withTimezoneLong(TimeZone timeZone) =>
+      DateFormatterZonedX.long(this, timeZone);
+}
+
+class DateFormatterZonedX extends DateFormatterZonedImpl {
+  final DateFormatterX dateFormatter;
+  final icu.ZonedDateFormatter formatter;
+  final TimeZone timeZone;
+
+  DateFormatterZonedX.short(this.dateFormatter, this.timeZone)
+    : formatter = icu.ZonedDateFormatter.specificShort(
+        dateFormatter.localeX,
+        dateFormatter.formatter,
+      ),
+      super(dateFormatter.impl);
+
+  DateFormatterZonedX.long(this.dateFormatter, this.timeZone)
+    : formatter = icu.ZonedDateFormatter.specificLong(
+        dateFormatter.localeX,
+        dateFormatter.formatter,
+      ),
+      super(dateFormatter.impl);
+
+  @override
+  String formatInternal(DateTime datetime) {
+    final utcOffset = icu.UtcOffset.fromSeconds(timeZone.offset.inSeconds);
+    final correctedDateTime = datetime.add(
+      Duration(seconds: utcOffset.seconds),
+    );
+    final (isoDate, time) = correctedDateTime.toX;
+    final timeZoneX = icu.IanaParser()
+        .parse(timeZone.name)
+        .withOffset(utcOffset)
+        .atDateTimeIso(isoDate, time);
+
+    timeZoneX.setVariant(timeZone);
+    return formatter.formatIso(isoDate, timeZoneX);
+  }
 }
 
 extension on icu.TimeZoneInfo {

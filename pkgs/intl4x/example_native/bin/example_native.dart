@@ -12,4 +12,9 @@ void main(List<String> arguments) {
   );
   print(Intl().locale.toString());
   print(Intl().dateTimeFormat().d().format(DateTime.now()));
+  print(Intl()
+      .dateTimeFormat()
+      .d()
+      .withTimezoneLong(timeZone)
+      .format(DateTime.now()));
 }

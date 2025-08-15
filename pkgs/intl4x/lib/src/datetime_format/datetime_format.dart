@@ -36,11 +36,16 @@ class DateTimeFormatBuilder {
   String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
 }
 
-abstract class DateFormatter {
-  DateFormatter.d();
-
+abstract class Formatter {
   String format(DateTime datetime);
 }
+
+abstract class DateFormatter extends Formatter {
+  DateFormatterZoned withTimezoneShort(TimeZone timeZone);
+  DateFormatterZoned withTimezoneLong(TimeZone timeZone);
+}
+
+abstract class DateFormatterZoned extends Formatter {}
 
 String _format(
   String Function(DateTime datetime) format,

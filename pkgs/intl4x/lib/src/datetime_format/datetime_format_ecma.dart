@@ -6,6 +6,7 @@ import 'dart:js_interop';
 
 import '../locale/locale.dart';
 import '../options.dart';
+import 'datetime_format.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
@@ -207,7 +208,7 @@ class DateFormatterECMA extends DateFormatterImpl {
   final DateTimeFormatOptions options;
 
   DateFormatterECMA.d(super.impl, this.timeStyle, this.locale, this.options)
-    : super.d();
+    : super();
 
   @override
   String formatInternal(DateTime datetime) {
@@ -219,6 +220,18 @@ class DateFormatterECMA extends DateFormatterImpl {
       locale: locale,
       options: options,
     );
+  }
+
+  @override
+  DateFormatterZoned withTimezoneLong(TimeZone timeZone) {
+    // TODO: implement withTimezoneLong
+    throw UnimplementedError();
+  }
+
+  @override
+  DateFormatterZoned withTimezoneShort(TimeZone timeZone) {
+    // TODO: implement withTimezoneShort
+    throw UnimplementedError();
   }
 }
 

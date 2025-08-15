@@ -42,15 +42,27 @@ abstract class DateTimeFormatImpl {
   String time(DateTime datetime, {TimeZone? timeZone});
 }
 
-abstract class DateFormatterImpl implements DateFormatter {
+abstract class FormatterImpl {
+  String formatInternal(DateTime datetime);
+}
+
+abstract class DateFormatterImpl implements DateFormatter, FormatterImpl {
   final DateTimeFormatImpl _impl;
 
-  DateFormatterImpl.d(this._impl);
+  DateFormatterImpl(this._impl);
 
   @override
   String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+}
 
-  String formatInternal(DateTime datetime);
+abstract class DateFormatterZonedImpl
+    implements DateFormatterZoned, FormatterImpl {
+  final DateTimeFormatImpl _impl;
+
+  DateFormatterZonedImpl(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
 }
 
 String _format(
