@@ -35,7 +35,6 @@ class DateTimeFormatOptions {
 
   /// The localized representation of the time zone name.
   final FormatMatcher formatMatcher;
-  final LocaleMatcher localeMatcher;
 
   const DateTimeFormatOptions({
     this.dateFormatStyle,
@@ -48,7 +47,6 @@ class DateTimeFormatOptions {
     this.timestyle,
     this.fractionalSecondDigits,
     this.formatMatcher = FormatMatcher.bestfit,
-    this.localeMatcher = LocaleMatcher.bestfit,
   });
 
   DateTimeFormatOptions copyWith({
@@ -63,7 +61,6 @@ class DateTimeFormatOptions {
     TimeStyle? timestyle,
     int? fractionalSecondDigits,
     FormatMatcher? formatMatcher,
-    LocaleMatcher? localeMatcher,
   }) {
     return DateTimeFormatOptions(
       dateFormatStyle: dateFormatStyle ?? this.dateFormatStyle,
@@ -77,7 +74,6 @@ class DateTimeFormatOptions {
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
       formatMatcher: formatMatcher ?? this.formatMatcher,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }

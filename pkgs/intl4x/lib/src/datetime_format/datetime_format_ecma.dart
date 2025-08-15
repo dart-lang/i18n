@@ -12,8 +12,7 @@ import 'datetime_format_options.dart';
 DateTimeFormatImpl? getDateTimeFormatterECMA(
   Locale locale,
   DateTimeFormatOptions options,
-  LocaleMatcher localeMatcher,
-) => _DateTimeFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _DateTimeFormatECMA.tryToBuild(locale, options);
 
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
@@ -57,22 +56,16 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   static DateTimeFormatImpl? tryToBuild(
     Locale locale,
     DateTimeFormatOptions options,
-    LocaleMatcher localeMatcher,
   ) {
-    final supportedLocales = supportedLocalesOf(localeMatcher, locale);
+    final supportedLocales = supportedLocalesOf(locale);
     return supportedLocales.isNotEmpty
         ? _DateTimeFormatECMA(supportedLocales.first, options)
         : null; //TODO: Add support to force return an instance instead of null.
   }
 
-  static List<Locale> supportedLocalesOf(
-    LocaleMatcher localeMatcher,
-    Locale locale,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return DateTimeFormat.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -203,7 +196,6 @@ extension on DateTimeFormatOptions {
     Style? weekday,
   }) =>
       {
-        'localeMatcher': localeMatcher.jsName,
         if (dateFormatStyle != null) 'dateStyle': dateFormatStyle!.name,
         if (timeFormatStyle != null) 'timeStyle': timeFormatStyle!.name,
         if (calendar != null) 'calendar': calendar!.jsName,

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
@@ -22,11 +21,10 @@ abstract class DateTimeFormatImpl {
   static DateTimeFormatImpl build(
     Locale locale,
     DateTimeFormatOptions options,
-    LocaleMatcher localeMatcher,
   ) => buildFormatter(
     locale,
     options,
-    localeMatcher,
+
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );

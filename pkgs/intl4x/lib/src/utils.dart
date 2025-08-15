@@ -4,19 +4,15 @@
 
 import 'ecma/ecma_native.dart' if (dart.library.js) 'ecma/ecma_web.dart';
 import 'locale/locale.dart';
-import 'options.dart';
 
 T buildFormatter<T, Options>(
   Locale locale,
   Options options,
-  LocaleMatcher localeMatcher,
-  T? Function(Locale locales, Options options, LocaleMatcher localeMatcher)
-  builderECMA,
+  T? Function(Locale locales, Options options) builderECMA,
   T Function(Locale locales, Options options) builder4X,
 ) {
   return useBrowser
-      ? builderECMA(locale, options, localeMatcher) ??
-          builder4X(locale, options)
+      ? builderECMA(locale, options) ?? builder4X(locale, options)
       : builder4X(locale, options);
 }
 

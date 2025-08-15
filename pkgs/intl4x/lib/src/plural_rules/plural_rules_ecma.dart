@@ -5,7 +5,6 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
@@ -13,8 +12,7 @@ import 'plural_rules_options.dart';
 PluralRulesImpl? getPluralSelectECMA(
   Locale locale,
   PluralRulesOptions options,
-  LocaleMatcher localeMatcher,
-) => _PluralRulesECMA.tryToBuild(locale, options, localeMatcher);
+) => _PluralRulesECMA.tryToBuild(locale, options);
 
 @JS('Intl.PluralRules')
 extension type PluralRules._(JSObject _) implements JSObject {
@@ -33,22 +31,16 @@ class _PluralRulesECMA extends PluralRulesImpl {
   static PluralRulesImpl? tryToBuild(
     Locale locale,
     PluralRulesOptions options,
-    LocaleMatcher localeMatcher,
   ) {
-    final supportedLocales = supportedLocalesOf(locale, localeMatcher);
+    final supportedLocales = supportedLocalesOf(locale);
     return supportedLocales.isNotEmpty
         ? _PluralRulesECMA(supportedLocales.first, options)
         : null;
   }
 
-  static List<Locale> supportedLocalesOf(
-    Locale locale,
-    LocaleMatcher localeMatcher,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return PluralRules.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -67,7 +59,6 @@ class _PluralRulesECMA extends PluralRulesImpl {
 extension on PluralRulesOptions {
   JSAny toJsOptions() {
     return {
-      'localeMatcher': localeMatcher.jsName,
       'type': type.name,
       'roundingMode': roundingMode.name,
       if (digits?.roundingPriority != null)

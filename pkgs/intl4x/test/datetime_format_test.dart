@@ -620,7 +620,7 @@ void main() {
       );
     });
 
-    group('formatMatcher and localeMatcher', () {
+    group('formatMatcher', () {
       testWithFormatting(
         'formatMatcher - basic',
         () => expect(
@@ -628,21 +628,6 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(
                   formatMatcher: FormatMatcher.basic,
-                  dateFormatStyle: DateFormatStyle.short,
-                ),
-              )
-              .ymd(DateTime(2025, 6, 18)),
-          '6/18/25',
-        ),
-      );
-
-      testWithFormatting(
-        'localeMatcher - lookup',
-        () => expect(
-          Intl(locale: Locale.parse('en-US'))
-              .dateTimeFormat(
-                const DateTimeFormatOptions(
-                  localeMatcher: LocaleMatcher.lookup,
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
