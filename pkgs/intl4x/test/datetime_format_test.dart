@@ -18,19 +18,19 @@ void main() {
     );
     testWithFormatting(
       'm',
-      () => expect(intl.dateTimeFormat().m(dateTime), '12'),
+      () => expect(intl.dateTimeFormat().m().format(dateTime), '12'),
     );
     testWithFormatting(
       'y',
-      () => expect(intl.dateTimeFormat().y(dateTime), '2012'),
+      () => expect(intl.dateTimeFormat().y().format(dateTime), '2012'),
     );
     testWithFormatting(
       'md',
-      () => expect(intl.dateTimeFormat().md(dateTime), '12/20'),
+      () => expect(intl.dateTimeFormat().md().format(dateTime), '12/20'),
     );
     testWithFormatting(
       'ymd',
-      () => expect(intl.dateTimeFormat().ymd(dateTime), '12/20/2012'),
+      () => expect(intl.dateTimeFormat().ymd().format(dateTime), '12/20/2012'),
     );
     testWithFormatting(
       'ymdt',
@@ -60,20 +60,26 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        intl.dateTimeFormat().ymd(
-          date,
-          timeZone: const TimeZone.short(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymd()
+            .withTimezoneShort(
+              const TimeZone.short(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? PST'),
       ),
     );
     testWithFormatting(
       'long',
       () => expect(
-        intl.dateTimeFormat().ymd(
-          date,
-          timeZone: const TimeZone.long(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymd()
+            .withTimezoneLong(
+              const TimeZone.long(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? Pacific Standard Time'),
       ),
     );
@@ -82,43 +88,50 @@ void main() {
       () => expect(
         intl
             .dateTimeFormat(const DateTimeFormatOptions())
-            .ymd(
-              date,
-              timeZone: const TimeZone.shortOffset(
-                name: timeZone,
-                offset: offset,
-              ),
-            ),
+            .ymd()
+            .withTimeZoneShortOffset(
+              const TimeZone.shortOffset(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? GMT-8'),
       ),
     );
     testWithFormatting(
       'longOffset',
       () => expect(
-        intl.dateTimeFormat().ymd(
-          date,
-          timeZone: const TimeZone.longOffset(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymd()
+            .withTimeZoneLongOffset(
+              const TimeZone.longOffset(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? GMT-08:00'),
       ),
     );
     testWithFormatting(
       'shortGeneric',
       () => expect(
-        intl.dateTimeFormat().ymd(
-          date,
-          timeZone: const TimeZone.shortGeneric(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymd()
+            .withTimeZoneShortGeneric(
+              const TimeZone.shortGeneric(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? PT'),
       ),
     );
     testWithFormatting(
       'longGeneric',
       () => expect(
-        intl.dateTimeFormat().ymd(
-          date,
-          timeZone: const TimeZone.longGeneric(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymd()
+            .withTimeZoneLongGeneric(
+              const TimeZone.longGeneric(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? Pacific Time'),
       ),
     );
@@ -255,7 +268,8 @@ void main() {
                 dateFormatStyle: DateFormatStyle.short,
               ),
             )
-            .ymd(date),
+            .ymd()
+            .format(date),
         '12/17/21',
       ),
     );
@@ -268,7 +282,8 @@ void main() {
                 dateFormatStyle: DateFormatStyle.medium,
               ),
             )
-            .ymd(date),
+            .ymd()
+            .format(date),
         'Dec 17, 2021',
       ),
     );
@@ -281,7 +296,8 @@ void main() {
                 dateFormatStyle: DateFormatStyle.long,
               ),
             )
-            .ymd(date),
+            .ymd()
+            .format(date),
         'December 17, 2021',
       ),
     );
@@ -352,7 +368,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(date),
+              .ymd()
+              .format(date),
           '5/23/2025',
         ),
       );
@@ -367,7 +384,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(date),
+              .ymd()
+              .format(date),
           '6/18/7 R',
         ),
       );
@@ -382,7 +400,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(date),
+              .ymd()
+              .format(date),
           // Dhu al-Hijjah 12, 1446 AH
           '21‏/12‏/1446 هـ', // 12/11/1446 AH
         ),
@@ -400,7 +419,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(DateTime(2025, 6, 18)),
+              .ymd()
+              .format(DateTime(2025, 6, 18)),
           '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
         ),
       );
@@ -415,7 +435,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(DateTime(2025, 6, 18)),
+              .ymd()
+              .format(DateTime(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
       );
@@ -429,7 +450,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(DateTime(2025, 6, 18)),
+              .ymd()
+              .format(DateTime(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
       );
@@ -444,7 +466,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(DateTime(2025, 6, 18)),
+              .ymd()
+              .format(DateTime(2025, 6, 18)),
           '๖/๑๘/๒๕', // 18/6/25 in Thai numerals
         ),
       );
@@ -524,7 +547,8 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .y(date),
+              .y()
+              .format(date),
           '2025',
         ),
       );
@@ -534,7 +558,8 @@ void main() {
         () => expect(
           Intl(locale: Locale.parse('en-US'))
               .dateTimeFormat(const DateTimeFormatOptions())
-              .md(DateTime(2025, 6, 18)),
+              .md()
+              .format(DateTime(2025, 6, 18)),
           '6/18',
         ),
       );
@@ -546,7 +571,8 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .md(DateTime(2025, 1, 18)), // January
+              .md()
+              .format(DateTime(2025, 1, 18)), // January
           '1/18',
         ),
       );
@@ -558,7 +584,8 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .md(DateTime(2025, 6, 8)),
+              .md()
+              .format(DateTime(2025, 6, 8)),
           '06/08',
         ),
       );
@@ -631,7 +658,8 @@ void main() {
                   dateFormatStyle: DateFormatStyle.short,
                 ),
               )
-              .ymd(DateTime(2025, 6, 18)),
+              .ymd()
+              .format(DateTime(2025, 6, 18)),
           '6/18/25',
         ),
       );

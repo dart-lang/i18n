@@ -32,11 +32,12 @@ abstract class DateTimeFormatImpl {
   );
 
   DateFormatterImpl d();
-  String m(DateTime datetime);
-  String y(DateTime datetime);
-  String md(DateTime datetime);
-  String ymd(DateTime datetime, {TimeZone? timeZone});
-  String ymde(DateTime datetime);
+  DateFormatterImpl m();
+  DateFormatterImpl y();
+  DateFormatterImpl md();
+  DateFormatterImpl ymd();
+  DateFormatterImpl ymde();
+
   String ymdt(DateTime datetime, {TimeZone? timeZone});
   String ymdet(DateTime datetime);
   String time(DateTime datetime, {TimeZone? timeZone});

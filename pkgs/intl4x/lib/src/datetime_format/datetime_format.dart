@@ -27,11 +27,11 @@ class DateTimeFormatBuilder {
   DateTimeFormatBuilder._(this._impl);
 
   DateFormatter d() => _impl.d();
-  String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
-  String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
-  String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
-
-  String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
+  DateFormatter m() => _impl.m();
+  DateFormatter y() => _impl.y();
+  DateFormatter md() => _impl.md();
+  DateFormatter ymd() => _impl.ymd();
+  DateFormatter ymde() => _impl.ymde();
 
   String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
 }
@@ -43,6 +43,10 @@ abstract class Formatter {
 abstract class DateFormatter extends Formatter {
   DateFormatterZoned withTimezoneShort(TimeZone timeZone);
   DateFormatterZoned withTimezoneLong(TimeZone timeZone);
+  DateFormatterZoned withTimeZoneShortOffset(TimeZone timeZone);
+  DateFormatterZoned withTimeZoneLongOffset(TimeZone timeZone);
+  DateFormatterZoned withTimeZoneShortGeneric(TimeZone timeZone);
+  DateFormatterZoned withTimeZoneLongGeneric(TimeZone timeZone);
 }
 
 abstract class DateFormatterZoned extends Formatter {}
@@ -63,13 +67,6 @@ extension DatetimeFormatExt on DateTimeFormatBuilder {
   @RecordUse()
   String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
     (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-    datetime,
-    _impl,
-  );
-
-  @RecordUse()
-  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
-    (datetime) => _impl.ymd(datetime, timeZone: timeZone),
     datetime,
     _impl,
   );

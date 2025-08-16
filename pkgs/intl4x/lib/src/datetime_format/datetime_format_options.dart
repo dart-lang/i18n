@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show RecordUse;
-
 import '../options.dart';
 
 typedef WeekDayStyle = Style;
@@ -144,7 +142,6 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
-@RecordUse()
 final class TimeZone {
   final String name;
   final TimeZoneType type;
