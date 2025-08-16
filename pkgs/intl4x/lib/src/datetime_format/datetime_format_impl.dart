@@ -37,10 +37,10 @@ abstract class DateTimeFormatImpl {
   DateFormatterImpl md();
   DateFormatterImpl ymd();
   DateFormatterImpl ymde();
+  DateTimeFormatterImpl ymdt();
+  DateTimeFormatterImpl ymdet();
 
-  String ymdt(DateTime datetime, {TimeZone? timeZone});
-  String ymdet(DateTime datetime);
-  String time(DateTime datetime, {TimeZone? timeZone});
+  TimeFormatterImpl time();
 }
 
 abstract class FormatterImpl {
@@ -61,6 +61,45 @@ abstract class DateFormatterZonedImpl
   final DateTimeFormatImpl _impl;
 
   DateFormatterZonedImpl(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+}
+
+abstract class DateTimeFormatterImpl
+    implements DateTimeFormatter, FormatterImpl {
+  final DateTimeFormatImpl _impl;
+
+  DateTimeFormatterImpl(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+}
+
+abstract class DateTimeFormatterZonedImpl
+    implements DateTimeFormatterZoned, FormatterImpl {
+  final DateTimeFormatImpl _impl;
+
+  DateTimeFormatterZonedImpl(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+}
+
+abstract class TimeFormatterImpl implements TimeFormatter, FormatterImpl {
+  final DateTimeFormatImpl _impl;
+
+  TimeFormatterImpl(this._impl);
+
+  @override
+  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+}
+
+abstract class TimeFormatterZonedImpl
+    implements TimeFormatterZoned, FormatterImpl {
+  final DateTimeFormatImpl _impl;
+
+  TimeFormatterZonedImpl(this._impl);
 
   @override
   String format(DateTime datetime) => _format(formatInternal, datetime, _impl);

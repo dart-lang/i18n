@@ -35,20 +35,23 @@ void main() {
     testWithFormatting(
       'ymdt',
       () => expect(
-        intl.dateTimeFormat().ymdt(dateTime),
+        intl.dateTimeFormat().ymdt().format(dateTime),
         matches(r'12/20/2012[,]? 3\sAM'),
       ),
     );
     testWithFormatting(
       'ymdet',
       () => expect(
-        intl.dateTimeFormat().ymdet(dateTime),
+        intl.dateTimeFormat().ymdet().format(dateTime),
         matches(r'Thu, 12/20/2012[,]? 3\sAM'),
       ),
     );
     testWithFormatting(
       'time',
-      () => expect(intl.dateTimeFormat().time(dateTime), matches(r'3\sAM')),
+      () => expect(
+        intl.dateTimeFormat().time().format(dateTime),
+        matches(r'3\sAM'),
+      ),
     );
   });
 
@@ -145,20 +148,26 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        intl.dateTimeFormat().ymdt(
-          date,
-          timeZone: const TimeZone.short(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymdt()
+            .withTimezoneShort(
+              const TimeZone.short(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM PST'),
       ),
     );
     testWithFormatting(
       'long',
       () => expect(
-        intl.dateTimeFormat().ymdt(
-          date,
-          timeZone: const TimeZone.long(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymdt()
+            .withTimezoneLong(
+              const TimeZone.long(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM Pacific Standard Time'),
       ),
     );
@@ -167,43 +176,50 @@ void main() {
       () => expect(
         intl
             .dateTimeFormat(const DateTimeFormatOptions())
-            .ymdt(
-              date,
-              timeZone: const TimeZone.shortOffset(
-                name: timeZone,
-                offset: offset,
-              ),
-            ),
+            .ymdt()
+            .withTimeZoneShortOffset(
+              const TimeZone.shortOffset(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM GMT-8'),
       ),
     );
     testWithFormatting(
       'longOffset',
       () => expect(
-        intl.dateTimeFormat().ymdt(
-          date,
-          timeZone: const TimeZone.longOffset(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymdt()
+            .withTimeZoneLongOffset(
+              const TimeZone.longOffset(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM GMT-08:00'),
       ),
     );
     testWithFormatting(
       'shortGeneric',
       () => expect(
-        intl.dateTimeFormat().ymdt(
-          date,
-          timeZone: const TimeZone.shortGeneric(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymdt()
+            .withTimeZoneShortGeneric(
+              const TimeZone.shortGeneric(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM PT'),
       ),
     );
     testWithFormatting(
       'longGeneric',
       () => expect(
-        intl.dateTimeFormat().ymdt(
-          date,
-          timeZone: const TimeZone.longGeneric(name: timeZone, offset: offset),
-        ),
+        intl
+            .dateTimeFormat()
+            .ymdt()
+            .withTimeZoneLongGeneric(
+              const TimeZone.longGeneric(name: timeZone, offset: offset),
+            )
+            .format(date),
         matches(r'12/17/2021[,]? 3\sAM Pacific Time'),
       ),
     );
@@ -221,7 +237,8 @@ void main() {
                 dayPeriod: DayPeriod.short,
               ),
             )
-            .time(date),
+            .time()
+            .format(date),
         '4 at night',
       ),
     );
@@ -236,7 +253,8 @@ void main() {
                 dayPeriod: DayPeriod.narrow,
               ),
             )
-            .time(date),
+            .time()
+            .format(date),
         '4 mat.',
       ),
     );
@@ -251,7 +269,8 @@ void main() {
                 dayPeriod: DayPeriod.long,
               ),
             )
-            .time(date),
+            .time()
+            .format(date),
         '4 du matin',
       ),
     );
@@ -316,7 +335,8 @@ void main() {
                 timeFormatStyle: TimeFormatStyle.short,
               ),
             )
-            .time(date),
+            .time()
+            .format(date),
         matches(r'^4:00\sAM$'),
       ),
     );
@@ -329,7 +349,8 @@ void main() {
                 timeFormatStyle: TimeFormatStyle.medium,
               ),
             )
-            .time(date),
+            .time()
+            .format(date),
         matches(r'^4:00:00\sAM$'),
       ),
     );
@@ -348,7 +369,8 @@ void main() {
                 dateFormatStyle: DateFormatStyle.short,
               ),
             )
-            .ymdt(date),
+            .ymdt()
+            .format(date),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
@@ -484,7 +506,8 @@ void main() {
                   clockstyle: ClockStyle.zeroToTwentyThree,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 15, 30, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 15, 30, 0)),
           '15:30',
         ),
       );
@@ -499,7 +522,8 @@ void main() {
                   clockstyle: ClockStyle.zeroToEleven,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 15, 30, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 15, 30, 0)),
           matches(r'03:30\sPM'),
         ),
       );
@@ -515,7 +539,8 @@ void main() {
                   dayPeriod: DayPeriod.short,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 0, 30, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
         tags: ['icu4xUnimplemented'],
@@ -532,7 +557,8 @@ void main() {
                   dayPeriod: DayPeriod.short,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 0, 30, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
         ),
         tags: ['icu4xUnimplemented'],
@@ -597,7 +623,8 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .time(DateTime(2025, 6, 18, 7, 30, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 7, 30, 0)),
           matches(r'7:30\sAM'),
         ),
       );
@@ -609,7 +636,8 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
               )
-              .time(DateTime(2025, 6, 18, 7, 5, 0)),
+              .time()
+              .format(DateTime(2025, 6, 18, 7, 5, 0)),
           matches(r'7:05\sAM'),
         ),
       );
@@ -626,7 +654,8 @@ void main() {
                   fractionalSecondDigits: 1,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 10, 30, 45, 123)),
+              .time()
+              .format(DateTime(2025, 6, 18, 10, 30, 45, 123)),
           matches(r'10:30:45.1\sAM'),
         ),
       );
@@ -641,7 +670,8 @@ void main() {
                   fractionalSecondDigits: 3,
                 ),
               )
-              .time(DateTime(2025, 6, 18, 10, 30, 45, 123)),
+              .time()
+              .format(DateTime(2025, 6, 18, 10, 30, 45, 123)),
           matches(r'10:30:45.123\sAM'),
         ),
       );
@@ -678,13 +708,14 @@ void main() {
               .dateTimeFormat(
                 const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
               )
-              .time(
-                DateTime(2025, 6, 18, 10, 30, 0),
-                timeZone: const TimeZone.long(
+              .time()
+              .withTimezoneLong(
+                const TimeZone.long(
                   name: 'America/New_York',
                   offset: Duration(hours: -4),
                 ),
-              ),
+              )
+              .format(DateTime(2025, 6, 18, 10, 30, 0)),
           matches(r'^10:30\sAM Eastern Daylight Time$'),
         ),
       );
@@ -701,7 +732,8 @@ void main() {
                   timeFormatStyle: TimeFormatStyle.short,
                 ),
               )
-              .ymdt(date),
+              .ymdt()
+              .format(date),
           // Example: 18 juin 2025 à 10:30
           matches(r'^18 juin 2025 à 10:30$'),
         ),
@@ -719,10 +751,10 @@ void main() {
                   clockstyle: ClockStyle.zeroToTwentyThree,
                 ),
               )
-              .ymdet(date),
+              .ymdet()
+              .format(date),
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
-        testOn: 'chrome',
       );
 
       testWithFormatting(
@@ -736,10 +768,10 @@ void main() {
                   clockstyle: ClockStyle.zeroToTwentyThree,
                 ),
               )
-              .ymdet(date),
+              .ymdet()
+              .format(date),
           'Mittwoch, 18. Juni 2025, 10:30:45',
         ),
-        testOn: 'vm',
       );
     });
   });

@@ -115,20 +115,6 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       DateFormatterECMA(this, DateTimeJSOptions(), locale, options);
 
   // @override
-  // String ymdt(DateTime datetime, {TimeZone? timeZone}) => _format(
-  //   datetime: datetime,
-  //   hour: _timeStyle,
-  //   minute: _timeStyleOrNull,
-  //   second: null,
-  //   year: _timeStyle,
-  //   month: _timeStyle,
-  //   day: _timeStyle,
-  //   timeZone: timeZone,
-  //   locale: locale,
-  //   options: options,
-  // );
-
-  // @override
   // String time(DateTime datetime, {TimeZone? timeZone}) => _format(
   //   datetime: datetime,
   //   year: null,
@@ -136,20 +122,6 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   //   minute: _timeStyleOrNull,
   //   second: null,
   //   timeZone: timeZone,
-  //   locale: locale,
-  //   options: options,
-  // );
-
-  // @override
-  // String ymdet(DateTime datetime) => _format(
-  //   datetime: datetime,
-  //   hour: _timeStyle,
-  //   minute: _timeStyleOrNull,
-  //   second: null,
-  //   year: _timeStyle,
-  //   month: _timeStyle,
-  //   day: _timeStyle,
-  //   weekday: Style.short,
   //   locale: locale,
   //   options: options,
   // );
@@ -165,22 +137,36 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
           : options.timestyle;
 
   @override
-  String time(DateTime datetime, {TimeZone? timeZone}) {
-    // TODO: implement time
-    throw UnimplementedError();
-  }
+  TimeFormatterImpl time() => throw UnimplementedError();
 
   @override
-  String ymdet(DateTime datetime) {
-    // TODO: implement ymdet
-    throw UnimplementedError();
-  }
+  DateTimeFormatterImpl ymdt() => DateTimeFormatterECMA(
+    this,
+    DateTimeJSOptions(
+      hour: _timeStyle,
+      minute: _timeStyleOrNull,
+      year: _timeStyle,
+      month: _timeStyle,
+      day: _timeStyle,
+    ),
+    locale,
+    options,
+  );
 
   @override
-  String ymdt(DateTime datetime, {TimeZone? timeZone}) {
-    // TODO: implement ymdt
-    throw UnimplementedError();
-  }
+  DateTimeFormatterImpl ymdet() => DateTimeFormatterECMA(
+    this,
+    DateTimeJSOptions(
+      hour: _timeStyle,
+      minute: _timeStyleOrNull,
+      year: _timeStyle,
+      month: _timeStyle,
+      day: _timeStyle,
+      weekday: Style.short,
+    ),
+    locale,
+    options,
+  );
 }
 
 class DateFormatterECMA extends DateFormatterImpl {
@@ -233,6 +219,72 @@ class DateFormatterZonedECMA extends DateFormatterZonedImpl {
   final DateTimeFormat dateTimeFormat;
 
   DateFormatterZonedECMA(this.timeZone, this.timeZoneType, this.formatter)
+    : dateTimeFormat = DateTimeFormat(
+        [formatter.locale.toLanguageTag().toJS].toJS,
+        formatter.options.toJsOptions(
+          formatter.optionsJS.copyWith(
+            timeZone: timeZone,
+            timeZoneType: timeZoneType,
+          ),
+        ),
+      ),
+      super(formatter.impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      dateTimeFormat.format(datetime.subtract(timeZone.offset).toJsUtc());
+}
+
+class DateTimeFormatterECMA extends DateTimeFormatterImpl {
+  final Locale locale;
+  final DateTimeFormatOptions options;
+  final DateTimeJSOptions optionsJS;
+  final DateTimeFormatImpl impl;
+  final DateTimeFormat dateTimeFormat;
+
+  DateTimeFormatterECMA(this.impl, this.optionsJS, this.locale, this.options)
+    : dateTimeFormat = DateTimeFormat(
+        [locale.toLanguageTag().toJS].toJS,
+        options.toJsOptions(optionsJS),
+      ),
+      super(impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      dateTimeFormat.format(datetime.toJs());
+
+  @override
+  DateTimeFormatterZoned withTimezoneLong(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.long, this);
+
+  @override
+  DateTimeFormatterZoned withTimezoneShort(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.short, this);
+
+  @override
+  DateTimeFormatterZoned withTimeZoneLongGeneric(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.longGeneric, this);
+
+  @override
+  DateTimeFormatterZoned withTimeZoneLongOffset(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.longOffset, this);
+
+  @override
+  DateTimeFormatterZoned withTimeZoneShortGeneric(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.shortGeneric, this);
+
+  @override
+  DateTimeFormatterZoned withTimeZoneShortOffset(TimeZone timeZone) =>
+      DateTimeFormatterZonedECMA(timeZone, TimeZoneType.shortOffset, this);
+}
+
+class DateTimeFormatterZonedECMA extends DateTimeFormatterZonedImpl {
+  final TimeZone timeZone;
+  final DateTimeFormatterECMA formatter;
+  final TimeZoneType timeZoneType;
+  final DateTimeFormat dateTimeFormat;
+
+  DateTimeFormatterZonedECMA(this.timeZone, this.timeZoneType, this.formatter)
     : dateTimeFormat = DateTimeFormat(
         [formatter.locale.toLanguageTag().toJS].toJS,
         formatter.options.toJsOptions(

@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import '../../datetime_format.dart';
-import '../test_checker.dart';
 import 'datetime_format_impl.dart';
 
 /// `DateTime` formatting, for example:
@@ -32,8 +29,9 @@ class DateTimeFormatBuilder {
   DateFormatter md() => _impl.md();
   DateFormatter ymd() => _impl.ymd();
   DateFormatter ymde() => _impl.ymde();
-
-  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+  DateTimeFormatter ymdt() => _impl.ymdt();
+  DateTimeFormatter ymdet() => _impl.ymdet();
+  TimeFormatter time() => _impl.time();
 }
 
 abstract class Formatter {
@@ -51,33 +49,27 @@ abstract class DateFormatter extends Formatter {
 
 abstract class DateFormatterZoned extends Formatter {}
 
-String _format(
-  String Function(DateTime datetime) format,
-  DateTime datetime,
-  DateTimeFormatImpl impl,
-) {
-  if (isInTest) {
-    return '$datetime//${impl.locale}';
-  } else {
-    return format(datetime);
-  }
+abstract class DateTimeFormatter extends Formatter {
+  DateTimeFormatterZoned withTimezoneShort(TimeZone timeZone);
+  DateTimeFormatterZoned withTimezoneLong(TimeZone timeZone);
+  DateTimeFormatterZoned withTimeZoneShortOffset(TimeZone timeZone);
+  DateTimeFormatterZoned withTimeZoneLongOffset(TimeZone timeZone);
+  DateTimeFormatterZoned withTimeZoneShortGeneric(TimeZone timeZone);
+  DateTimeFormatterZoned withTimeZoneLongGeneric(TimeZone timeZone);
 }
 
-extension DatetimeFormatExt on DateTimeFormatBuilder {
-  @RecordUse()
-  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
-    (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-    datetime,
-    _impl,
-  );
+abstract class DateTimeFormatterZoned extends Formatter {}
 
-  @RecordUse()
-  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) => _format(
-    (datetime) => _impl.time(datetime, timeZone: timeZone),
-    datetime,
-    _impl,
-  );
+abstract class TimeFormatter extends Formatter {
+  TimeFormatterZoned withTimezoneShort(TimeZone timeZone);
+  TimeFormatterZoned withTimezoneLong(TimeZone timeZone);
+  TimeFormatterZoned withTimeZoneShortOffset(TimeZone timeZone);
+  TimeFormatterZoned withTimeZoneLongOffset(TimeZone timeZone);
+  TimeFormatterZoned withTimeZoneShortGeneric(TimeZone timeZone);
+  TimeFormatterZoned withTimeZoneLongGeneric(TimeZone timeZone);
 }
+
+abstract class TimeFormatterZoned extends Formatter {}
 
 DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
     DateTimeFormatBuilder._(impl);
