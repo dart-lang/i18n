@@ -77,7 +77,7 @@ abstract class Message {
 
   static final _evaluator = ConstantEvaluator();
 
-  static String? _evaluateAsString(expression) {
+  static String? _evaluateAsString(Expression expression) {
     var result = expression.accept(_evaluator);
     if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
       return null;
@@ -142,7 +142,7 @@ abstract class Message {
   /// for messages with parameters.
   static void checkValidity(
     MethodInvocation node,
-    List arguments,
+    List<Expression> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,

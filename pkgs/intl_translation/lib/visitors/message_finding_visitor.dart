@@ -298,9 +298,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       var name = namedExpr.name.label.name;
       var exp = namedExpr.expression;
       var basicValue = exp.accept(ConstantEvaluator());
-      var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT
-          ? exp.toString()
-          : basicValue;
+      var value =
+          basicValue == ConstantEvaluator.NOT_A_CONSTANT
+              ? exp.toString()
+              : basicValue;
       setAttribute(message, name, value);
     }
     // We only rewrite messages with parameters, otherwise we use the literal
