@@ -117,10 +117,9 @@ class _ParserUtil {
   }
 
   /// Match a simple string
-  At<LiteralString>? matchString(int at, String t) =>
-      input.startsWith(t, at)
-          ? At(LiteralString(t, null), at + t.length)
-          : null;
+  At<LiteralString>? matchString(int at, String t) => input.startsWith(t, at)
+      ? At(LiteralString(t, null), at + t.length)
+      : null;
 
   /// Match any of the given keywords
   At<LiteralString>? asKeywords(Map<String, RegExp> keywordsToRegex, int at) {
@@ -136,13 +135,9 @@ class _ParserUtil {
   }
 
   /// Parse whitespace
-  At<LiteralString> trimAt(int at) =>
-      at < input.length
-          ? At(
-            LiteralString(input),
-            RegExp(r'\s*').matchAsPrefix(input, at)!.end,
-          )
-          : At(LiteralString(''), at);
+  At<LiteralString> trimAt(int at) => at < input.length
+      ? At(LiteralString(input), RegExp(r'\s*').matchAsPrefix(input, at)!.end)
+      : At(LiteralString(''), at);
 
   Pattern matchUnescaped(String curly) => RegExp("(?:^|''|[^'])($curly)");
 
@@ -293,18 +288,19 @@ class _ParserUtil {
 
   At<CompositeMessage>? genderClause(int at) {
     return oneOrMore(
-      (s1) => and([
-        (s) => trimAt(s),
-        (s) => genderKeyword(s),
-        (s) => openCurly(s),
-        (s) => interiorText(s),
-        (s) => closeCurly(s),
-        (s) => trimAt(s),
-      ], s1)?.mapResult((compMsg) {
-        var genderKeyword = compMsg.pieces[1] as LiteralString;
-        var interiorText = compMsg.pieces[3];
-        return PairMessage(genderKeyword, interiorText);
-      }),
+      (s1) =>
+          and([
+            (s) => trimAt(s),
+            (s) => genderKeyword(s),
+            (s) => openCurly(s),
+            (s) => interiorText(s),
+            (s) => closeCurly(s),
+            (s) => trimAt(s),
+          ], s1)?.mapResult((compMsg) {
+            var genderKeyword = compMsg.pieces[1] as LiteralString;
+            var interiorText = compMsg.pieces[3];
+            return PairMessage(genderKeyword, interiorText);
+          }),
       at,
     );
   }
@@ -327,16 +323,17 @@ class _ParserUtil {
 
   At<CompositeMessage>? selectClause(int at) {
     return oneOrMore(
-      (s1) => and([
-        (s) => id(s),
-        (s) => openCurly(s),
-        (s) => interiorText(s),
-        (s) => closeCurly(s),
-      ], s1)?.mapResult((compMsg) {
-        var id = compMsg.pieces[0] as LiteralString;
-        var interiorText = compMsg.pieces[2];
-        return PairMessage(id, interiorText);
-      }),
+      (s1) =>
+          and([
+            (s) => id(s),
+            (s) => openCurly(s),
+            (s) => interiorText(s),
+            (s) => closeCurly(s),
+          ], s1)?.mapResult((compMsg) {
+            var id = compMsg.pieces[0] as LiteralString;
+            var interiorText = compMsg.pieces[2];
+            return PairMessage(id, interiorText);
+          }),
       at,
     );
   }

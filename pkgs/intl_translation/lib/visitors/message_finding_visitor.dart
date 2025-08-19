@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: deprecated_member_use
+
 import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/dart/ast/visitor.dart';
 // ignore: implementation_imports
@@ -135,10 +137,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     // We don't support names in list declarations,
     // e.g. String first, second = Intl.message(...);
     setFields(
-      name:
-          node.fields.variables.length == 1
-              ? node.fields.variables.first.name.lexeme
-              : null,
+      name: node.fields.variables.length == 1
+          ? node.fields.variables.first.name.lexeme
+          : null,
       documentation: node.documentationComment,
     );
     super.visitFieldDeclaration(node);
@@ -152,10 +153,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     // We don't support names in list declarations,
     // e.g. String first, second = Intl.message(...);
     setFields(
-      name:
-          node.variables.variables.length == 1
-              ? node.variables.variables.first.name.lexeme
-              : null,
+      name: node.variables.variables.length == 1
+          ? node.variables.variables.first.name.lexeme
+          : null,
       documentation: node.documentationComment,
     );
     super.visitTopLevelVariableDeclaration(node);
@@ -298,10 +298,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       var name = namedExpr.name.label.name;
       var exp = namedExpr.expression;
       var basicValue = exp.accept(ConstantEvaluator());
-      var value =
-          basicValue == ConstantEvaluator.NOT_A_CONSTANT
-              ? exp.toString()
-              : basicValue;
+      var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT
+          ? exp.toString()
+          : basicValue;
       setAttribute(message, name, value);
     }
     // We only rewrite messages with parameters, otherwise we use the literal

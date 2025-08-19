@@ -67,12 +67,17 @@ class YouveGotMessages {
   String nested(List people, String place) {
     var names = people.map((x) => x.name).join(', ');
     var number = people.length;
-    var combinedGender =
-        people.every((x) => x.gender == 'female') ? 'female' : 'other';
+    var combinedGender = people.every((x) => x.gender == 'female')
+        ? 'female'
+        : 'other';
     if (number == 0) combinedGender = 'other';
 
     String nestedMessage(names, number, combinedGender, place) => Intl.message(
-      '''${Intl.gender(combinedGender, other: '${Intl.plural(number, zero: "Personne n'est allé au $place", one: "$names est allé au $place", other: "$names sont allés au $place")}', female: '${Intl.plural(number, one: "$names est allée au $place", other: "$names sont allées au $place")}')}''',
+      '''${Intl.gender(
+        combinedGender,
+        other: '${Intl.plural(number, zero: "Personne n'est allé au $place", one: "$names est allé au $place", other: "$names sont allés au $place")}',
+        female: '${Intl.plural(number, one: "$names est allée au $place", other: "$names sont allées au $place")}',
+      )}''',
       desc: 'Nested message example',
       name: 'nestedMessage',
       args: [names, number, combinedGender, place],

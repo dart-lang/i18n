@@ -158,11 +158,10 @@ void main() {
 
 /// Helper function to parse a single expression from a string
 Expression _parseExpression(String code) {
-  final unit =
-      parseString(
-        content: 'var x = $code;',
-        featureSet: FeatureSet.latestLanguageVersion(),
-      ).unit;
+  final unit = parseString(
+    content: 'var x = $code;',
+    featureSet: FeatureSet.latestLanguageVersion(),
+  ).unit;
 
   final variableDeclaration =
       unit.declarations.first as TopLevelVariableDeclaration;

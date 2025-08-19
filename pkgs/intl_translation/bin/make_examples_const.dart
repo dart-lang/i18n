@@ -10,6 +10,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:intl_translation/src/language_version.dart';
 import 'package:intl_translation/src/message_rewriter.dart';
 import 'package:intl_translation/src/messages/main_message.dart';
 
@@ -37,7 +38,10 @@ Future<void> main(List<String> args) async {
       print('Writing new source to $outputFile');
       var out = File(outputFile);
 
-      var formatter = DartFormatter();
+      var languageVersion =
+          (await findPackageLanguageVersion(file)) ??
+          DartFormatter.latestLanguageVersion;
+      var formatter = DartFormatter(languageVersion: languageVersion);
 
       out.writeAsStringSync(formatter.format(newSource));
     }

@@ -38,10 +38,9 @@ final vmArgs = Platform.executableArguments;
 /// [tempDir].
 String get tempDir => _tempDir ?? (_tempDir = _createTempDir());
 String? _tempDir;
-String _createTempDir() =>
-    useLocalDirectory
-        ? '.'
-        : Directory.systemTemp.createTempSync('message_extraction_test').path;
+String _createTempDir() => useLocalDirectory
+    ? '.'
+    : Directory.systemTemp.createTempSync('message_extraction_test').path;
 
 bool useLocalDirectory = false;
 
@@ -133,11 +132,10 @@ Future<ProcessResult> run(
 ) {
   // If there's a failure in one of the sub-programs, print its output.
   checkResult(previousResult);
-  var filesInTheRightDirectory =
-      filenames
-          .map((x) => asTempDirPath(x))
-          .map((x) => path.normalize(x!))
-          .toList();
+  var filesInTheRightDirectory = filenames
+      .map((x) => asTempDirPath(x))
+      .map((x) => path.normalize(x!))
+      .toList();
   // Inject the script argument --output-dir in between the script and its
   // arguments.
   var args = <String>[

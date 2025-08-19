@@ -129,9 +129,10 @@ class MessageExtraction {
       throwIfDiagnostics: false,
     );
 
-    final errors = List.of(result.errors)..removeWhere(
-      (e) => ignoredErrorCodes.contains(e.errorCode.name.toLowerCase()),
-    );
+    final errors = List.of(result.errors)
+      ..removeWhere(
+        (e) => ignoredErrorCodes.contains(e.diagnosticCode.name.toLowerCase()),
+      );
     if (errors.isNotEmpty) {
       print('Error in parsing $origin, no messages extracted.');
       throw ArgumentError('Parsing errors in $origin');

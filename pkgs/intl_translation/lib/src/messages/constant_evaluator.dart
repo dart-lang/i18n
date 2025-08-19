@@ -48,10 +48,8 @@ Constant<Map>? evaluateConstStringMap(SetOrMapLiteral map) {
     return null;
   }
   final evaluatedEntries = map.elements.whereType<MapLiteralEntry>().map(
-    (literalEntry) => (
-      evaluate(literalEntry.key),
-      evaluate(literalEntry.value),
-    ),
+    (literalEntry) =>
+        (evaluate(literalEntry.key), evaluate(literalEntry.value)),
   );
   if (evaluatedEntries.any(
     (element) => element.$1 == null || element.$2 == null,

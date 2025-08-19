@@ -30,6 +30,8 @@
 /// from a translation file, parse it into these objects, and they are then
 /// used to generate the code representation above.
 
+// ignore_for_file: deprecated_member_use
+
 library;
 
 import 'dart:convert';
@@ -105,10 +107,9 @@ abstract class Message {
     if (!identifiers.elements.every((each) => each is SimpleIdentifier)) {
       return false;
     }
-    var names =
-        identifiers.elements
-            .map((each) => (each as SimpleIdentifier).name)
-            .toList();
+    var names = identifiers.elements
+        .map((each) => (each as SimpleIdentifier).name)
+        .toList();
     Map<String, String> both;
     try {
       both = Map.fromIterables(names, parameterNames);
@@ -227,12 +228,11 @@ abstract class Message {
       );
     }
 
-    var values =
-        arguments
-            .whereType<NamedExpression>()
-            .where((each) => ['desc', 'name'].contains(each.name.label.name))
-            .map((each) => each.expression)
-            .toList();
+    var values = arguments
+        .whereType<NamedExpression>()
+        .where((each) => ['desc', 'name'].contains(each.name.label.name))
+        .map((each) => each.expression)
+        .toList();
     for (var arg in values) {
       if (_evaluateAsString(arg) == null) {
         throw MessageExtractionException(

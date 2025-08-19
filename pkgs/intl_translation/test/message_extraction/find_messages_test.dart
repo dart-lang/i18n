@@ -226,8 +226,8 @@ String message(String string) =>
 
     test('are resolved with custom merger', () {
       final messageExtraction = MessageExtraction();
-      messageExtraction.mergeMessages =
-          (m1, m2) => m1..description = '${m1.description}/${m2.description}';
+      messageExtraction.mergeMessages = (m1, m2) =>
+          m1..description = '${m1.description}/${m2.description}';
       final messages = findMessages(
         '''
       final msg1 = Intl.message('hello there', desc: 'abc');

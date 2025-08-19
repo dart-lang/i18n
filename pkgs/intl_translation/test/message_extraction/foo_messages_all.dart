@@ -4,8 +4,7 @@
 
 library;
 
-Future<bool> initializeMessages(_) =>
-    throw UnimplementedError(
-      'This entire file is only here to make the static'
-      ' analysis happy. It will be generated during actual tests.',
-    );
+Future<bool> initializeMessages(_) => throw UnimplementedError(
+  'This entire file is only here to make the static'
+  ' analysis happy. It will be generated during actual tests.',
+);

@@ -275,17 +275,16 @@ void generateLocaleFile(
   MessageGeneration generation,
   Map<String, List<MainMessage>> messages,
 ) {
-  var translations =
-      localeData
-          .expand((jsonTranslations) {
-            return jsonTranslations.entries.map((e) {
-              var id = e.key;
-              var messageData = e.value;
-              return recreateIntlObjects(id, messageData, messages);
-            });
-          })
-          .whereType<TranslatedMessage>()
-          .toList();
+  var translations = localeData
+      .expand((jsonTranslations) {
+        return jsonTranslations.entries.map((e) {
+          var id = e.key;
+          var messageData = e.value;
+          return recreateIntlObjects(id, messageData, messages);
+        });
+      })
+      .whereType<TranslatedMessage>()
+      .toList();
   generation.generateIndividualMessageFile(locale, translations, targetDir);
 }
 
