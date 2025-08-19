@@ -24,7 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final Map<String, dynamic> messages =
       _notInlinedMessages(_notInlinedMessages);
 
-  static Map<String, dynamic> _notInlinedMessages(_) => {
+  static Map<String, dynamic> _notInlinedMessages(Object? _) => {
         'Hello from component':
             MessageLookupByLibrary.simpleMessage('Bonjour du composant'),
         '_message2': MessageLookupByLibrary.simpleMessage('Locale explicite')

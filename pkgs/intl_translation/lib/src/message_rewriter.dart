@@ -17,11 +17,15 @@ import 'messages/main_message.dart';
 ///
 /// Return the modified source code. If there are errors parsing, list
 /// [sourceName] in the error message.
-String rewriteMessages(String source, String sourceName,
-    {bool useStringSubstitution = false}) {
+String rewriteMessages(
+  String source,
+  String sourceName, {
+  bool useStringSubstitution = false,
+}) {
   var messages = findMessages(source, sourceName);
-  messages
-      .sort((a, b) => a.sourcePosition?.compareTo(b.sourcePosition ?? 0) ?? 0);
+  messages.sort(
+    (a, b) => a.sourcePosition?.compareTo(b.sourcePosition ?? 0) ?? 0,
+  );
 
   int? start = 0;
   var newSource = StringBuffer();
@@ -50,7 +54,10 @@ void rewriteRegenerating(StringBuffer newSource, MainMessage message) {
 }
 
 void rewriteWithStringSubstitution(
-    StringBuffer newSource, String source, MainMessage message) {
+  StringBuffer newSource,
+  String source,
+  MainMessage message,
+) {
   var sourcePosition = message.sourcePosition;
   if (sourcePosition != null) {
     var originalSource = source.substring(sourcePosition, message.endPosition);
@@ -77,8 +84,11 @@ final RegExp argsCheck = RegExp('[\\n,]\\s+args:');
 /// Find all the messages in the [source] text.
 ///
 /// Report errors as coming from [sourceName]
-List<MainMessage> findMessages(String source, String sourceName,
-    [MessageExtraction? extraction]) {
+List<MainMessage> findMessages(
+  String source,
+  String sourceName, [
+  MessageExtraction? extraction,
+]) {
   extraction = extraction ?? MessageExtraction();
   try {
     var result = parseString(content: source);
@@ -88,16 +98,14 @@ List<MainMessage> findMessages(String source, String sourceName,
     }
     extraction.root = result.unit;
   } on ArgumentError catch (e) {
-    extraction
-        .onMessage('Error in parsing $sourceName, no messages extracted.');
+    extraction.onMessage(
+      'Error in parsing $sourceName, no messages extracted.',
+    );
     extraction.onMessage('  $e');
     return [];
   }
   extraction.origin = sourceName;
-  var visitor = MessageFindingVisitor(
-    extraction,
-    generateNameAndArgs: true,
-  );
+  var visitor = MessageFindingVisitor(extraction, generateNameAndArgs: true);
   extraction.root.accept(visitor);
   return visitor.messages.values.toList();
 }

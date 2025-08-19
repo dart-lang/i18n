@@ -17,7 +17,7 @@
 /// Note that this does not understand how to follow part directives, so it
 /// has to explicitly be given all the files that it needs. A typical use case
 /// is to run it on all .dart files in a directory.
-library extract_messages;
+library;
 
 import 'dart:io';
 
@@ -117,10 +117,7 @@ class MessageExtraction {
     } else {
       return {};
     }
-    var visitor = MessageFindingVisitor(
-      this,
-      generateNameAndArgs: transformer,
-    );
+    var visitor = MessageFindingVisitor(this, generateNameAndArgs: transformer);
     root.accept(visitor);
     return visitor.messages;
   }
@@ -132,9 +129,9 @@ class MessageExtraction {
       throwIfDiagnostics: false,
     );
 
-    final errors = List.of(result.errors)
-      ..removeWhere(
-          (e) => ignoredErrorCodes.contains(e.errorCode.name.toLowerCase()));
+    final errors = List.of(result.errors)..removeWhere(
+      (e) => ignoredErrorCodes.contains(e.errorCode.name.toLowerCase()),
+    );
     if (errors.isNotEmpty) {
       print('Error in parsing $origin, no messages extracted.');
       throw ArgumentError('Parsing errors in $origin');

@@ -63,13 +63,15 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   void _checkValidity(MethodInvocation node) {
     if (parameters == null) {
       throw MessageExtractionException(
-          'Calls to Intl must be inside a method, field declaration or '
-          'top level declaration.');
+        'Calls to Intl must be inside a method, field declaration or '
+        'top level declaration.',
+      );
     }
     // The containing function cannot have named parameters.
     if (parameters!.any((each) => each.isNamed)) {
       throw MessageExtractionException(
-          'Named parameters on message functions are not supported.');
+        'Named parameters on message functions are not supported.',
+      );
     }
     var arguments = node.argumentList.arguments;
     var methodName = node.methodName.name;
@@ -133,9 +135,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     // We don't support names in list declarations,
     // e.g. String first, second = Intl.message(...);
     setFields(
-      name: node.fields.variables.length == 1
-          ? node.fields.variables.first.name.lexeme
-          : null,
+      name:
+          node.fields.variables.length == 1
+              ? node.fields.variables.first.name.lexeme
+              : null,
       documentation: node.documentationComment,
     );
     super.visitFieldDeclaration(node);
@@ -149,9 +152,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     // We don't support names in list declarations,
     // e.g. String first, second = Intl.message(...);
     setFields(
-      name: node.variables.variables.length == 1
-          ? node.variables.variables.first.name.lexeme
-          : null,
+      name:
+          node.variables.variables.length == 1
+              ? node.variables.variables.first.name.lexeme
+              : null,
       documentation: node.documentationComment,
     );
     super.visitTopLevelVariableDeclaration(node);
@@ -195,13 +199,16 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
       _extractMessage(node);
     } on MessageExtractionException catch (e) {
       if (!extraction.suppressWarnings) {
-        var errString = (StringBuffer()
-              ..write('Skipping invalid Intl.message invocation\n    <$node>\n')
-              ..writeAll([
-                '    reason: ${e.message}\n',
-                extraction.reportErrorLocation(node)
-              ]))
-            .toString();
+        var errString =
+            (StringBuffer()
+                  ..write(
+                    'Skipping invalid Intl.message invocation\n    <$node>\n',
+                  )
+                  ..writeAll([
+                    '    reason: ${e.message}\n',
+                    extraction.reportErrorLocation(node),
+                  ]))
+                .toString();
         extraction.warnings.add(errString);
         extraction.onMessage(errString);
       }
@@ -254,8 +261,10 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         includeExamples: false,
       );
       if (existingCode != messageCode) {
-        throw MessageExtractionException('WARNING: Duplicate message name:\n'
-            "'${message.name}' occurs more than once in ${extraction.origin}");
+        throw MessageExtractionException(
+          'WARNING: Duplicate message name:\n'
+          "'${message.name}' occurs more than once in ${extraction.origin}",
+        );
       }
     } else if (!message.skip) {
       messages[message.name] = message;
@@ -271,7 +280,7 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     MethodInvocation node,
     MainMessage? Function(MainMessage message, List<AstNode> arguments) extract,
     void Function(MainMessage message, String fieldName, Object? fieldValue)
-        setAttribute,
+    setAttribute,
   ) {
     var message = MainMessage(
       sourcePosition: node.offset,
@@ -321,17 +330,15 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     MainMessage message,
     AstNode node,
   ) {
-    var interpolation = InterpolationVisitor(
-      message,
-      extraction,
-    );
+    var interpolation = InterpolationVisitor(message, extraction);
     node.accept(interpolation);
     if (interpolation.pieces.any((x) => x is Plural || x is Gender) &&
         !extraction.allowEmbeddedPluralsAndGenders) {
       if (interpolation.pieces.whereType<String>().any((x) => x.isNotEmpty)) {
         throw MessageExtractionException(
-            'Plural and gender expressions must be at the top level, '
-            'they cannot be embedded in larger string literals.\n');
+          'Plural and gender expressions must be at the top level, '
+          'they cannot be embedded in larger string literals.\n',
+        );
       }
     }
     return interpolation.pieces.cast<Object>();
@@ -342,7 +349,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
   /// and the parameters to the Intl.message call.
   MainMessage? messageFromIntlMessageCall(MethodInvocation node) {
     MainMessage? extractFromIntlCall(
-        MainMessage message, List<AstNode> arguments) {
+      MainMessage message,
+      List<AstNode> arguments,
+    ) {
       try {
         // The pieces of the message, either literal strings, or integers
         // representing the index of the argument to be substituted.
@@ -352,10 +361,11 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
         );
         message.addPieces(extracted);
       } on MessageExtractionException catch (e) {
-        var errString = (StringBuffer()
-              ..writeAll(['Error ', e, '\nProcessing <', node, '>\n'])
-              ..write(extraction.reportErrorLocation(node)))
-            .toString();
+        var errString =
+            (StringBuffer()
+                  ..writeAll(['Error ', e, '\nProcessing <', node, '>\n'])
+                  ..write(extraction.reportErrorLocation(node)))
+                .toString();
         extraction.onMessage(errString);
         extraction.warnings.add(errString);
         return null;

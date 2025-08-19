@@ -18,8 +18,10 @@ Future<void> main(List<String> args) async {
   var parser = ArgParser();
   var rest = parser.parse(args).rest;
   if (rest.isEmpty) {
-    print('Accepts Dart file paths and rewrites the examples to be const '
-        'in Intl.message calls.');
+    print(
+      'Accepts Dart file paths and rewrites the examples to be const '
+      'in Intl.message calls.',
+    );
     print('Usage: make_examples_const [options] [file.dart]...');
     print(parser.usage);
     exit(0);
@@ -36,7 +38,8 @@ Future<void> main(List<String> args) async {
       print('Writing new source to $outputFile');
       var out = File(outputFile);
 
-      var languageVersion = (await findPackageLanguageVersion(file)) ??
+      var languageVersion =
+          (await findPackageLanguageVersion(file)) ??
           DartFormatter.latestLanguageVersion;
       var formatter = DartFormatter(languageVersion: languageVersion);
 
@@ -52,8 +55,9 @@ Future<void> main(List<String> args) async {
 /// [sourceName] in the error message.
 String rewriteMessages(String source, String sourceName) {
   var messages = findMessages(source, sourceName);
-  messages
-      .sort((a, b) => a.sourcePosition?.compareTo(b.sourcePosition ?? 0) ?? 0);
+  messages.sort(
+    (a, b) => a.sourcePosition?.compareTo(b.sourcePosition ?? 0) ?? 0,
+  );
   int? start = 0;
   var newSource = StringBuffer();
   for (var message in messages) {
@@ -76,7 +80,9 @@ void rewrite(StringBuffer newSource, String source, MainMessage message) {
       newSource.write(originalSource);
     } else {
       var modifiedSource = originalSource.replaceFirst(
-          examples.group(1)!, '${examples.group(1)}const');
+        examples.group(1)!,
+        '${examples.group(1)}const',
+      );
       newSource.write(modifiedSource);
     }
   }

@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library message_extraction_test;
+library;
 
 import 'dart:convert';
 import 'dart:io';
@@ -39,9 +38,10 @@ final vmArgs = Platform.executableArguments;
 /// [tempDir].
 String get tempDir => _tempDir ?? (_tempDir = _createTempDir());
 String? _tempDir;
-String _createTempDir() => useLocalDirectory
-    ? '.'
-    : Directory.systemTemp.createTempSync('message_extraction_test').path;
+String _createTempDir() =>
+    useLocalDirectory
+        ? '.'
+        : Directory.systemTemp.createTempSync('message_extraction_test').path;
 
 bool useLocalDirectory = false;
 
@@ -69,8 +69,7 @@ void main() {
   setUp(copyFilesToTempDirectory);
   tearDown(deleteGeneratedFiles);
 
-  test(
-      'Test round trip message extraction, translation, code generation, '
+  test('Test round trip message extraction, translation, code generation, '
       'and printing', () {
     var makeSureWeVerify = expectAsync1(runAndVerify);
     return extractMessages(null)
@@ -129,23 +128,30 @@ void deleteGeneratedFiles() {
 /// are in dir() and need to be qualified in case that's not our working
 /// directory.
 Future<ProcessResult> run(
-    ProcessResult? previousResult, List<String?> filenames) {
+  ProcessResult? previousResult,
+  List<String?> filenames,
+) {
   // If there's a failure in one of the sub-programs, print its output.
   checkResult(previousResult);
-  var filesInTheRightDirectory = filenames
-      .map((x) => asTempDirPath(x))
-      .map((x) => path.normalize(x!))
-      .toList();
+  var filesInTheRightDirectory =
+      filenames
+          .map((x) => asTempDirPath(x))
+          .map((x) => path.normalize(x!))
+          .toList();
   // Inject the script argument --output-dir in between the script and its
   // arguments.
   var args = <String>[
     ...vmArgs,
     filesInTheRightDirectory.first,
     '--output-dir=$tempDir',
-    ...filesInTheRightDirectory.skip(1)
+    ...filesInTheRightDirectory.skip(1),
   ];
-  var result = Process.run(Platform.executable, args,
-      stdoutEncoding: Utf8Codec(), stderrEncoding: Utf8Codec());
+  var result = Process.run(
+    Platform.executable,
+    args,
+    stdoutEncoding: Utf8Codec(),
+    stderrEncoding: Utf8Codec(),
+  );
   return result;
 }
 
@@ -167,29 +173,29 @@ Future<ProcessResult> extractMessages(ProcessResult? previousResult) =>
       asTestDirPath('../../bin/extract_to_arb.dart'),
       '--suppress-warnings',
       '--sources-list-file',
-      'dart_list.txt'
+      'dart_list.txt',
     ]);
 
 Future<ProcessResult> generateTranslationFiles(ProcessResult previousResult) =>
     run(previousResult, [
       asTestDirPath('make_hardcoded_translation.dart'),
-      'intl_messages.arb'
+      'intl_messages.arb',
     ]);
 
 Future<ProcessResult> generateCodeFromTranslation(
-        ProcessResult previousResult) =>
-    run(previousResult, [
-      asTestDirPath('../../bin/generate_from_arb.dart'),
-      deferredLoadArg,
-      '--${useJson ? '' : 'no-'}json',
-      '--${useFlutterLocaleSplit ? '' : 'no-'}flutter',
-      '--flutter-import-path=.', // Mocks package:flutter/services.dart
-      '--generated-file-prefix=foo_',
-      '--sources-list-file',
-      'dart_list.txt',
-      '--translations-list-file',
-      'arb_list.txt',
-    ]);
+  ProcessResult previousResult,
+) => run(previousResult, [
+  asTestDirPath('../../bin/generate_from_arb.dart'),
+  deferredLoadArg,
+  '--${useJson ? '' : 'no-'}json',
+  '--${useFlutterLocaleSplit ? '' : 'no-'}flutter',
+  '--flutter-import-path=.', // Mocks package:flutter/services.dart
+  '--generated-file-prefix=foo_',
+  '--sources-list-file',
+  'dart_list.txt',
+  '--translations-list-file',
+  'arb_list.txt',
+]);
 
 Future<ProcessResult> runAndVerify(ProcessResult previousResult) {
   return run(previousResult, ['run_and_verify.dart', 'intl_messages.arb']);
