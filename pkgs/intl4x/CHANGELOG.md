@@ -1,4 +1,4 @@
-## 0.13.0-wip
+## 0.13.0
 
 - Add examples of extensions to `List` and `DateTime` formatting.
 - Removing `EcmaPolicy`, fixing Locale printing, and other small clean-ups.
