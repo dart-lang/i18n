@@ -8,7 +8,6 @@ jobs:
   health:
     uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
     with:
-      coverage_web: true
       sdk: main
       ignore_license: "**.g.dart,pkgs/intl_translation/example/lib/generated/**,pkgs/intl_translation/test/generate_localized/**,pkgs/intl_translation/test/two_components/**"
       ignore_coverage: "**.g.dart"
