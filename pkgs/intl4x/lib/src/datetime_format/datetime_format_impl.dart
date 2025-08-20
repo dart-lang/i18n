@@ -9,7 +9,7 @@ import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js_interop) 'datetime_format_ecma.dart';
 import 'datetime_format_stub_4x.dart'
-    if (dart.library.io) 'datetime_format_4x.dart';
+    if (dart.library.ffi) 'datetime_format_4x.dart';
 
 /// This is an intermediate to defer to the actual implementations of
 /// datetime formatting.

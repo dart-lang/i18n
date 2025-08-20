@@ -7,7 +7,7 @@ import '../options.dart';
 import '../utils.dart';
 import 'case_mapping_stub.dart'
     if (dart.library.js_interop) 'case_mapping_ecma.dart';
-import 'case_mapping_stub_4x.dart' if (dart.library.io) 'case_mapping_4x.dart';
+import 'case_mapping_stub_4x.dart' if (dart.library.ffi) 'case_mapping_4x.dart';
 
 abstract class CaseMappingImpl {
   final Locale locale;
