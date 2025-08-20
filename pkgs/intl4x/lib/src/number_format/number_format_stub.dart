@@ -7,7 +7,7 @@ import '../locale/locale.dart';
 import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
-NumberFormatImpl? getNumberFormatterECMA(
+NumberFormatImpl getNumberFormatterECMA(
   Locale locale,
   NumberFormatOptions options,
   LocaleMatcher localeMatcher,

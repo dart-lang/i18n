@@ -12,7 +12,7 @@ import '../options.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
-CollationImpl? getCollatorECMA(
+CollationImpl getCollatorECMA(
   Locale locale,
   CollationOptions options,
   LocaleMatcher localeMatcher,
@@ -31,15 +31,16 @@ extension type Collator._(JSObject _) implements JSObject {
 class CollationECMA extends CollationImpl {
   CollationECMA(super.locale, super.options);
 
-  static CollationImpl? tryToBuild(
+  static CollationImpl tryToBuild(
     Locale locale,
     CollationOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
-    return supportedLocales.isNotEmpty
-        ? CollationECMA(supportedLocales.first, options)
-        : null;
+    return CollationECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(

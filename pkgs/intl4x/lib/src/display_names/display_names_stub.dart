@@ -6,7 +6,7 @@ import '../../display_names.dart';
 import '../locale/locale.dart';
 import 'display_names_impl.dart';
 
-DisplayNamesImpl? getDisplayNamesECMA(
+DisplayNamesImpl getDisplayNamesECMA(
   Locale locales,
   DisplayNamesOptions options,
   LocaleMatcher localeMatcher,

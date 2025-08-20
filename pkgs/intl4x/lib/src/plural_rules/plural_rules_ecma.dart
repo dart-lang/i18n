@@ -10,7 +10,7 @@ import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
-PluralRulesImpl? getPluralSelectECMA(
+PluralRulesImpl getPluralSelectECMA(
   Locale locale,
   PluralRulesOptions options,
   LocaleMatcher localeMatcher,
@@ -30,15 +30,16 @@ extension type PluralRules._(JSObject _) implements JSObject {
 class _PluralRulesECMA extends PluralRulesImpl {
   _PluralRulesECMA(super.locale, super.options);
 
-  static PluralRulesImpl? tryToBuild(
+  static PluralRulesImpl tryToBuild(
     Locale locale,
     PluralRulesOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(locale, localeMatcher);
-    return supportedLocales.isNotEmpty
-        ? _PluralRulesECMA(supportedLocales.first, options)
-        : null;
+    return _PluralRulesECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(
