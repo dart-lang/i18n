@@ -52,13 +52,12 @@ class CollationECMA extends CollationImpl {
 }
 
 extension on CollationOptions {
-  JSAny toJsOptions() =>
-      {
-        'usage': usage.name,
-        if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
-        'ignorePunctuation': ignorePunctuation,
-        'numeric': numeric,
-        if (caseFirst != null) 'caseFirst': caseFirst!.jsName,
-        if (collation != null) 'collation': collation,
-      }.jsify()!;
+  JSAny toJsOptions() => {
+    'usage': usage.name,
+    if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
+    'ignorePunctuation': ignorePunctuation,
+    'numeric': numeric,
+    if (caseFirst != null) 'caseFirst': caseFirst!.jsName,
+    if (collation != null) 'collation': collation,
+  }.jsify()!;
 }

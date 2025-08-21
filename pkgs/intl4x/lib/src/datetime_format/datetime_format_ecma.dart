@@ -143,10 +143,9 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   TimeStyle? _timeStyle(
     TimeFormatStyle? timeStyle,
     DateFormatStyle? dateStyle,
-  ) =>
-      dateStyle != null || timeStyle != null
-          ? null
-          : (options.timestyle ?? TimeStyle.numeric);
+  ) => dateStyle != null || timeStyle != null
+      ? null
+      : (options.timestyle ?? TimeStyle.numeric);
 
   TimeStyle? _timeStyleOrNull(
     TimeFormatStyle? timeStyle,

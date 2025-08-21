@@ -51,16 +51,15 @@ extension on record_use.RecordedUsages {
     record_use.Identifier id,
     String signature,
     String formatterName,
-  ) =>
-      constArgumentsFor(id, signature)
-          .map(
-            (argument) =>
-                ((argument.named['timeZone'] as Map)['type'] as Map)['index']
-                    as int,
-          )
-          .map((index) => TimeZoneType.values[index])
-          .map((timeZoneType) => timeZoneType.icuSymbol(formatterName))
-          .toSet();
+  ) => constArgumentsFor(id, signature)
+      .map(
+        (argument) =>
+            ((argument.named['timeZone'] as Map)['type'] as Map)['index']
+                as int,
+      )
+      .map((index) => TimeZoneType.values[index])
+      .map((timeZoneType) => timeZoneType.icuSymbol(formatterName))
+      .toSet();
 }
 
 extension on LinkInput {

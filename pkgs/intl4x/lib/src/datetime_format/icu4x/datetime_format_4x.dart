@@ -120,10 +120,9 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   @override
   FormatterImpl t({TimeFormatStyle? style}) {
     final (alignment, _, timePrecision, length) = options.toX(
-      timePrecisionDefault:
-          options.timestyle == TimeStyle.twodigit
-              ? icu.TimePrecision.minute
-              : null,
+      timePrecisionDefault: options.timestyle == TimeStyle.twodigit
+          ? icu.TimePrecision.minute
+          : null,
       timeStyle: style,
     );
     final locale = setLocaleExtensions(localeX, options);
@@ -182,10 +181,9 @@ extension on DateTimeFormatOptions {
         TimeFormatStyle.short => icu.TimePrecision.minute,
       };
     }
-    final dateTimeAlignment =
-        timestyle == TimeStyle.twodigit
-            ? icu.DateTimeAlignment.column
-            : icu.DateTimeAlignment.auto;
+    final dateTimeAlignment = timestyle == TimeStyle.twodigit
+        ? icu.DateTimeAlignment.column
+        : icu.DateTimeAlignment.auto;
     return (
       dateTimeAlignment,
       switch (dateStyle) {

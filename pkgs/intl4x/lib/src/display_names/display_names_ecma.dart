@@ -77,11 +77,10 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
 }
 
 extension on DisplayNamesOptions {
-  JSAny toJsOptions(DisplayType type) =>
-      {
-        'style': style.name,
-        'type': type.name,
-        'languageDisplay': languageDisplay.name,
-        'fallback': fallback.name,
-      }.jsify()!;
+  JSAny toJsOptions(DisplayType type) => {
+    'style': style.name,
+    'type': type.name,
+    'languageDisplay': languageDisplay.name,
+    'fallback': fallback.name,
+  }.jsify()!;
 }
