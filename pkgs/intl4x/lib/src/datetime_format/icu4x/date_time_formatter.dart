@@ -139,9 +139,6 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
   @override
   String formatInternal(DateTime datetime) {
     final utcOffset = icu.UtcOffset.fromSeconds(timeZone.offset.inSeconds);
-    // final correctedDateTime = datetime.add(
-    //   Duration(seconds: utcOffset.seconds),
-    // );
     final (isoDate, time) = datetime.toX;
     final timeZoneX = icu.IanaParser()
         .parse(timeZone.name)

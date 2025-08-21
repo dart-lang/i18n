@@ -12,7 +12,6 @@ import 'collation_stub_4x.dart' if (dart.library.ffi) 'collation_4x.dart';
 /// Separated into a class to not clutter the public API with implementation
 /// details.
 abstract class CollationImpl {
-  /// The current locale, selected by the
   final Locale locale;
   final CollationOptions options;
 

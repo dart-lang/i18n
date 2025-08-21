@@ -342,26 +342,18 @@ void main() {
     final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
 
     group('calendar', () {
-      testWithFormatting('calendar - chinese', () {
-        final intl = Intl(locale: Locale.parse('en-US'));
-        print(
-          intl
-              .dateTimeFormat(
-                const DateTimeFormatOptions(calendar: Calendar.chinese),
-              )
-              .ymd(dateStyle: DateFormatStyle.full)
-              .format(dateTime),
-        );
-        return expect(
-          intl
+      testWithFormatting(
+        'calendar - chinese',
+        () => expect(
+          Intl(locale: Locale.parse('en-US'))
               .dateTimeFormat(
                 const DateTimeFormatOptions(calendar: Calendar.chinese),
               )
               .ymd(dateStyle: DateFormatStyle.short)
               .format(dateTime),
           '5/23/2025',
-        );
-      });
+        ),
+      );
 
       testWithFormatting(
         'calendar - japanese',

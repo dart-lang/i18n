@@ -363,41 +363,36 @@ extension on DateTimeFormatOptions {
     DateTimeJSOptions options,
     TimeFormatStyle? timeStyle,
     DateFormatStyle? dateStyle,
-  ) {
-    print('dateStyle: $dateStyle, timeStyle: $timeStyle');
-    return {
-      if (dateStyle != null) 'dateStyle': dateStyle.name,
-      if (timeStyle != null) 'timeStyle': timeStyle.name,
-      if (calendar != null) 'calendar': calendar!.jsName,
-      if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
-      if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
-      if (options.timeZone != null) ...{
-        'timeZone': options.timeZone!.name,
-        'timeZoneName': options.timeZoneType!.name,
-      },
-      if (clockstyle != null) ...{
-        'hour12': clockstyle!.is12Hour,
-        'hourCycle': clockstyle!.hourStyleExtensionString,
-      },
-      if (options.weekday != null && dateStyle == null)
-        'weekday': options.weekday!.name,
-      if (era != null && dateStyle == null) 'era': era!.name,
-      if (options.year != null && dateStyle == null)
-        'year': options.year!.jsName,
-      if (options.month != null && dateStyle == null)
-        'month': options.month!.jsName,
-      if (options.day != null && dateStyle == null) 'day': options.day!.jsName,
-      if (options.hour != null && timeStyle == null)
-        'hour': options.hour!.jsName,
-      if (options.minute != null && timeStyle == null)
-        'minute': options.minute!.jsName,
-      if (options.second != null && timeStyle == null)
-        'second': options.second!.jsName,
-      if (fractionalSecondDigits != null)
-        'fractionalSecondDigits': fractionalSecondDigits!,
-      'formatMatcher': formatMatcher.jsName,
-    }.jsify()!;
-  }
+  ) => {
+    if (dateStyle != null) 'dateStyle': dateStyle.name,
+    if (timeStyle != null) 'timeStyle': timeStyle.name,
+    if (calendar != null) 'calendar': calendar!.jsName,
+    if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
+    if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
+    if (options.timeZone != null) ...{
+      'timeZone': options.timeZone!.name,
+      'timeZoneName': options.timeZoneType!.name,
+    },
+    if (clockstyle != null) ...{
+      'hour12': clockstyle!.is12Hour,
+      'hourCycle': clockstyle!.hourStyleExtensionString,
+    },
+    if (options.weekday != null && dateStyle == null)
+      'weekday': options.weekday!.name,
+    if (era != null && dateStyle == null) 'era': era!.name,
+    if (options.year != null && dateStyle == null) 'year': options.year!.jsName,
+    if (options.month != null && dateStyle == null)
+      'month': options.month!.jsName,
+    if (options.day != null && dateStyle == null) 'day': options.day!.jsName,
+    if (options.hour != null && timeStyle == null) 'hour': options.hour!.jsName,
+    if (options.minute != null && timeStyle == null)
+      'minute': options.minute!.jsName,
+    if (options.second != null && timeStyle == null)
+      'second': options.second!.jsName,
+    if (fractionalSecondDigits != null)
+      'fractionalSecondDigits': fractionalSecondDigits!,
+    'formatMatcher': formatMatcher.jsName,
+  }.jsify()!;
 }
 
 extension on ClockStyle {

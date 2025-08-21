@@ -59,10 +59,12 @@ class DateTimeFormatBuilder {
   TimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }
 
+/// A base class for formatters that can format a [DateTime] into a string.
 abstract class Formatter {
   String format(DateTime datetime);
 }
 
+/// A [Formatter] which can also handle time zones.
 abstract class FormatterWithTimeZones extends Formatter {
   ZonedFormatter withTimeZoneShort(TimeZone timeZone);
   ZonedFormatter withTimeZoneLong(TimeZone timeZone);
