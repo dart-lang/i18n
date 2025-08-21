@@ -35,7 +35,7 @@ jobs:
         with:
           sdk: main
 
-      - run: dart pub get
+      - run: dart pub get --example
 
       - run: dart analyze --fatal-infos
 
@@ -44,9 +44,6 @@ jobs:
       - run: dart test
 
       - run: dart test -p chrome
-
-      - run: dart pub get
-        working-directory: pkgs/intl4x/example
 
       - run: dart --enable-experiment=record-use build cli bin/example.dart
         working-directory: pkgs/intl4x/example
