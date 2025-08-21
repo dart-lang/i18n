@@ -20,6 +20,9 @@ import 'package:path/path.dart' as path;
 import 'src/messages/main_message.dart';
 import 'src/messages/message.dart';
 
+export 'src/messages/main_message.dart' show MainMessage;
+export 'src/messages/message.dart' show Message;
+
 class MessageGeneration {
   /// If the import path following package: is something else, modify the
   /// [intlImportPath] variable to change the import directives in the generated

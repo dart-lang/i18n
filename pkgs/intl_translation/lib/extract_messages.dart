@@ -28,6 +28,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'src/messages/main_message.dart';
 import 'visitors/message_finding_visitor.dart';
 
+export 'src/messages/main_message.dart' show MainMessage;
+
 /// A function that takes a message and does something useful with it.
 typedef OnMessage = void Function(String message);
 
