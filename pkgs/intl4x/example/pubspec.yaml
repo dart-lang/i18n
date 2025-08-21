@@ -1,4 +1,4 @@
-name: example_native
+name: example
 description: A sample application using intl4x.
 
 environment:
