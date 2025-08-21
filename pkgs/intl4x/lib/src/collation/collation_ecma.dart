@@ -8,15 +8,11 @@ library;
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
-CollationImpl getCollatorECMA(
-  Locale locale,
-  CollationOptions options,
-  LocaleMatcher localeMatcher,
-) => CollationECMA.tryToBuild(locale, options, localeMatcher);
+CollationImpl getCollatorECMA(Locale locale, CollationOptions options) =>
+    CollationECMA.tryToBuild(locale, options);
 
 extension type Collator._(JSObject _) implements JSObject {
   external Collator([JSArray<JSString> locales, JSAny options]);
@@ -31,26 +27,17 @@ extension type Collator._(JSObject _) implements JSObject {
 class CollationECMA extends CollationImpl {
   CollationECMA(super.locale, super.options);
 
-  static CollationImpl tryToBuild(
-    Locale locale,
-    CollationOptions options,
-    LocaleMatcher localeMatcher,
-  ) {
-    final supportedLocales = supportedLocalesOf(localeMatcher, locale);
+  static CollationImpl tryToBuild(Locale locale, CollationOptions options) {
+    final supportedLocales = supportedLocalesOf(locale);
     return CollationECMA(
       supportedLocales.firstOrNull ?? Locale.parse('und'),
       options,
     );
   }
 
-  static List<Locale> supportedLocalesOf(
-    LocaleMatcher localeMatcher,
-    Locale locale,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return Collator.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -67,7 +54,6 @@ class CollationECMA extends CollationImpl {
 extension on CollationOptions {
   JSAny toJsOptions() =>
       {
-        'localeMatcher': localeMatcher.jsName,
         'usage': usage.name,
         if (sensitivity != null) 'sensitivity': sensitivity!.jsName,
         'ignorePunctuation': ignorePunctuation,

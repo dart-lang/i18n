@@ -9,5 +9,4 @@ import 'plural_rules_impl.dart';
 PluralRulesImpl getPluralSelectECMA(
   Locale locale,
   PluralRulesOptions options,
-  LocaleMatcher localeMatcher,
 ) => throw UnimplementedError('Cannot use ECMA outside of web environments.');

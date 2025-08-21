@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import '../../datetime_format.dart';
-import '../test_checker.dart';
 import 'datetime_format_impl.dart';
 
 /// `DateTime` formatting, for example:
@@ -21,58 +18,67 @@ import 'datetime_format_impl.dart';
 ///     ))
 ///     .format(date); // Output: '4 mat.'
 /// ```
-class DateTimeFormat {
+class DateTimeFormatBuilder {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormat._(this._impl);
+  DateTimeFormatBuilder._(this._impl);
 
-  String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
-  String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
-  String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
-  String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
+  DateFormatter d({DateFormatStyle? dateStyle}) =>
+      _impl.d(dateStyle: dateStyle);
 
-  String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
+  DateFormatter m({DateFormatStyle? dateStyle}) =>
+      _impl.m(dateStyle: dateStyle);
 
-  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+  DateFormatter y({DateFormatStyle? dateStyle}) =>
+      _impl.y(dateStyle: dateStyle);
 
-  static String _format(
-    String Function(DateTime datetime) format,
-    DateTime datetime,
-    DateTimeFormatImpl impl,
-  ) {
-    if (isInTest) {
-      return '$datetime//${impl.locale}';
-    } else {
-      return format(datetime);
-    }
-  }
+  DateFormatter md({DateFormatStyle? dateStyle}) =>
+      _impl.md(dateStyle: dateStyle);
+
+  DateFormatter ymd({DateFormatStyle? dateStyle}) =>
+      _impl.ymd(dateStyle: dateStyle);
+
+  DateFormatter ymde({DateFormatStyle? dateStyle}) =>
+      _impl.ymde(dateStyle: dateStyle);
+
+  DateTimeFormatter mdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+  }) => _impl.mdt(timeStyle: timeStyle, dateStyle: dateStyle);
+
+  DateTimeFormatter ymdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+  }) => _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle);
+
+  DateTimeFormatter ymdet({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+  }) => _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle);
+
+  TimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }
 
-extension DatetimeFormatExt on DateTimeFormat {
-  @RecordUse()
-  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymd(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.time(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
+abstract class Formatter {
+  String format(DateTime datetime);
 }
 
-DateTimeFormat buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormat._(impl);
+abstract class FormatterWithTimeZones extends Formatter {
+  ZonedFormatter withTimeZoneShort(TimeZone timeZone);
+  ZonedFormatter withTimeZoneLong(TimeZone timeZone);
+  ZonedFormatter withTimeZoneShortOffset(TimeZone timeZone);
+  ZonedFormatter withTimeZoneLongOffset(TimeZone timeZone);
+  ZonedFormatter withTimeZoneShortGeneric(TimeZone timeZone);
+  ZonedFormatter withTimeZoneLongGeneric(TimeZone timeZone);
+}
+
+abstract class DateFormatter extends FormatterWithTimeZones {}
+
+abstract class ZonedFormatter extends Formatter {}
+
+abstract class DateTimeFormatter extends FormatterWithTimeZones {}
+
+abstract class TimeFormatter extends FormatterWithTimeZones {}
+
+DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
+    DateTimeFormatBuilder._(impl);

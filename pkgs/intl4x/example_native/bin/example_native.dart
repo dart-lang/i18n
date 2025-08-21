@@ -6,10 +6,15 @@ import 'package:intl4x/datetime_format.dart';
 import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
-  const timeZone = TimeZone.long(
+  const timeZone = TimeZone(
     name: 'Europe/Paris',
     offset: Duration(hours: 2),
   );
   print(Intl().locale.toString());
-  print(Intl().dateTimeFormat().time(DateTime.now(), timeZone: timeZone));
+  print(Intl().dateTimeFormat().d().format(DateTime.now()));
+  print(Intl(locale: Locale.parse('en'))
+      .dateTimeFormat()
+      .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
+      .withTimeZoneLong(timeZone)
+      .format(DateTime.parse('2024-07-01T08:50:07Z')));
 }

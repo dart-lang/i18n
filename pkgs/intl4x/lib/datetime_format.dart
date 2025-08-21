@@ -3,6 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/datetime_format/datetime_format.dart'
-    show DateTimeFormat, DatetimeFormatExt;
+    show
+        DateFormatter,
+        DateTimeFormatBuilder,
+        DateTimeFormatter,
+        Formatter,
+        FormatterWithTimeZones,
+        TimeFormatter,
+        ZonedFormatter;
 export 'src/datetime_format/datetime_format_options.dart';
 export 'src/options.dart';
