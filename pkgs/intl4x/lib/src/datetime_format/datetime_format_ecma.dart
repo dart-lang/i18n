@@ -9,7 +9,7 @@ import '../options.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
-DateTimeFormatImpl? getDateTimeFormatterECMA(
+DateTimeFormatImpl getDateTimeFormatterECMA(
   Locale locale,
   DateTimeFormatOptions options,
   LocaleMatcher localeMatcher,
@@ -54,15 +54,16 @@ extension type Date._(JSObject _) implements JSObject {
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
   _DateTimeFormatECMA(super.locale, super.options);
 
-  static DateTimeFormatImpl? tryToBuild(
+  static DateTimeFormatImpl tryToBuild(
     Locale locale,
     DateTimeFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
-    return supportedLocales.isNotEmpty
-        ? _DateTimeFormatECMA(supportedLocales.first, options)
-        : null; //TODO: Add support to force return an instance instead of null.
+    return _DateTimeFormatECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(

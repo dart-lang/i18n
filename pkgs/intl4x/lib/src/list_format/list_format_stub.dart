@@ -6,7 +6,7 @@ import '../../list_format.dart';
 import '../locale/locale.dart';
 import 'list_format_impl.dart';
 
-ListFormatImpl? getListFormatterECMA(
+ListFormatImpl getListFormatterECMA(
   Locale locale,
   ListFormatOptions options,
   LocaleMatcher localeMatcher,

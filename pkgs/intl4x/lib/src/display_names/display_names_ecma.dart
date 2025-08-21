@@ -9,7 +9,7 @@ import '../options.dart';
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 
-DisplayNamesImpl? getDisplayNamesECMA(
+DisplayNamesImpl getDisplayNamesECMA(
   Locale locale,
   DisplayNamesOptions options,
   LocaleMatcher localeMatcher,
@@ -29,15 +29,16 @@ extension type DisplayNames._(JSObject _) implements JSObject {
 class _DisplayNamesECMA extends DisplayNamesImpl {
   _DisplayNamesECMA(super.locale, super.options);
 
-  static DisplayNamesImpl? tryToBuild(
+  static DisplayNamesImpl tryToBuild(
     Locale locale,
     DisplayNamesOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
-    return supportedLocales.isNotEmpty
-        ? _DisplayNamesECMA(supportedLocales.first, options)
-        : null; //TODO: Add support to force return an instance instead of null.
+    return _DisplayNamesECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(

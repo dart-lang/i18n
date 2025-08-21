@@ -9,7 +9,7 @@ import '../options.dart';
 import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
-NumberFormatImpl? getNumberFormatterECMA(
+NumberFormatImpl getNumberFormatterECMA(
   Locale locale,
   NumberFormatOptions options,
   LocaleMatcher localeMatcher,
@@ -29,15 +29,16 @@ extension type NumberFormat._(JSObject _) implements JSObject {
 class _NumberFormatECMA extends NumberFormatImpl {
   _NumberFormatECMA(super.locale, super.options);
 
-  static NumberFormatImpl? tryToBuild(
+  static NumberFormatImpl tryToBuild(
     Locale locale,
     NumberFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(localeMatcher, locale);
-    return supportedLocales.isNotEmpty
-        ? _NumberFormatECMA(supportedLocales.first, options)
-        : _NumberFormatECMA(Locale.parse('en'), options);
+    return _NumberFormatECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(

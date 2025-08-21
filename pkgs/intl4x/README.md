@@ -45,3 +45,12 @@ void main() {
   print(numberFormat.format(0.5)); // prints 50%
 }
 ```
+
+## Installation
+
+The easiest setup is 
+```
+dart pub add intl4x
+dart run ...
+```
+This will download the binaries from Github

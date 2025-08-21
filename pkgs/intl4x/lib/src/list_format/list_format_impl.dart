@@ -6,8 +6,9 @@ import '../locale/locale.dart';
 import '../options.dart';
 import '../utils.dart';
 import 'list_format_options.dart';
-import 'list_format_stub.dart' if (dart.library.js) 'list_format_ecma.dart';
-import 'list_format_stub_4x.dart' if (dart.library.io) 'list_format_4x.dart';
+import 'list_format_stub.dart'
+    if (dart.library.js_interop) 'list_format_ecma.dart';
+import 'list_format_stub_4x.dart' if (dart.library.ffi) 'list_format_4x.dart';
 
 abstract class ListFormatImpl {
   final Locale locale;

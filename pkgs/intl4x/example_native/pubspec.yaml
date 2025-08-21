@@ -13,8 +13,3 @@ dependencies:
 dev_dependencies:
   lints: ^6.0.0
 
-hooks:
-  user_defines:
-    intl4x:
-      buildMode: checkout
-      checkoutPath: ../../../submodules/icu4x/

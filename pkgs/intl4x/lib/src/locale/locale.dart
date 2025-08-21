@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'locale_4x.dart' if (dart.library.js) 'locale_ecma.dart';
+import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
 
 /// Representing a Unicode locale identifier. It is composed of the primary
 /// `language` subtag for the locale, the `region` (also referred to as

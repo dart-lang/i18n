@@ -9,7 +9,7 @@ import '../options.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
-ListFormatImpl? getListFormatterECMA(
+ListFormatImpl getListFormatterECMA(
   Locale locale,
   ListFormatOptions options,
   LocaleMatcher localeMatcher,
@@ -29,15 +29,16 @@ extension type ListFormat._(JSObject _) implements JSObject {
 class _ListFormatECMA extends ListFormatImpl {
   _ListFormatECMA(super.locale, super.options);
 
-  static ListFormatImpl? tryToBuild(
+  static ListFormatImpl tryToBuild(
     Locale locale,
     ListFormatOptions options,
     LocaleMatcher localeMatcher,
   ) {
     final supportedLocales = supportedLocalesOf(locale, localeMatcher);
-    return supportedLocales.isNotEmpty
-        ? _ListFormatECMA(supportedLocales.first, options)
-        : null;
+    return _ListFormatECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
   static List<Locale> supportedLocalesOf(

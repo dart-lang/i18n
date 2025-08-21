@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'ecma/ecma_native.dart' if (dart.library.js) 'ecma/ecma_web.dart';
+import 'ecma/ecma_native.dart'
+    if (dart.library.js_interop) 'ecma/ecma_web.dart';
 import 'locale/locale.dart';
 import 'options.dart';
 
@@ -10,13 +11,12 @@ T buildFormatter<T, Options>(
   Locale locale,
   Options options,
   LocaleMatcher localeMatcher,
-  T? Function(Locale locales, Options options, LocaleMatcher localeMatcher)
+  T Function(Locale locales, Options options, LocaleMatcher localeMatcher)
   builderECMA,
   T Function(Locale locales, Options options) builder4X,
 ) {
   return useBrowser
-      ? builderECMA(locale, options, localeMatcher) ??
-          builder4X(locale, options)
+      ? builderECMA(locale, options, localeMatcher)
       : builder4X(locale, options);
 }
 
