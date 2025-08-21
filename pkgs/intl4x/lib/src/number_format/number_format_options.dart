@@ -12,8 +12,8 @@ typedef UnitDisplay = Style;
 class NumberFormatOptions {
   final FormatStyle style;
   final String? currency;
+
   //General options
-  final LocaleMatcher localeMatcher;
   final SignDisplay signDisplay;
   final Notation notation;
   final Grouping useGrouping;
@@ -23,12 +23,9 @@ class NumberFormatOptions {
   final int minimumIntegerDigits;
   final Digits? digits;
 
-  NumberFormatOptions.custom(
-  //General options
-  {
+  NumberFormatOptions.custom({
     this.style = const DecimalStyle(),
     this.currency,
-    this.localeMatcher = LocaleMatcher.bestfit,
     this.signDisplay = SignDisplay.auto,
     this.notation = const StandardNotation(),
     this.useGrouping = Grouping.auto,
@@ -40,8 +37,6 @@ class NumberFormatOptions {
   }) : digits = getDigits(style, digits);
 
   factory NumberFormatOptions.percent({
-    //General options
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
@@ -53,7 +48,6 @@ class NumberFormatOptions {
   }) {
     return NumberFormatOptions.custom(
       style: const PercentStyle(),
-      localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
       useGrouping: useGrouping,
@@ -68,7 +62,6 @@ class NumberFormatOptions {
     required Unit unit,
     UnitDisplay unitDisplay = UnitDisplay.short,
     //General options
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
@@ -80,7 +73,6 @@ class NumberFormatOptions {
   }) {
     return NumberFormatOptions.custom(
       style: UnitStyle(unit: unit, unitDisplay: unitDisplay),
-      localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
       useGrouping: useGrouping,
@@ -97,7 +89,6 @@ class NumberFormatOptions {
     CurrencyDisplay currencyDisplay = CurrencyDisplay.symbol,
     CurrencySign currencySign = CurrencySign.standard,
     //General options
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
@@ -114,7 +105,6 @@ class NumberFormatOptions {
         display: currencyDisplay,
         sign: currencySign,
       ),
-      localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: notation,
       useGrouping: useGrouping,
@@ -130,7 +120,6 @@ class NumberFormatOptions {
     CompactDisplay compactDisplay = CompactDisplay.short,
     //General options
     FormatStyle style = const DecimalStyle(),
-    LocaleMatcher localeMatcher = LocaleMatcher.bestfit,
     SignDisplay signDisplay = SignDisplay.auto,
     Grouping useGrouping = Grouping.auto,
     String? numberingSystem,
@@ -141,7 +130,6 @@ class NumberFormatOptions {
   }) {
     return NumberFormatOptions.custom(
       style: style,
-      localeMatcher: localeMatcher,
       signDisplay: signDisplay,
       notation: CompactNotation(compactDisplay: compactDisplay),
       useGrouping: useGrouping,
@@ -193,7 +181,6 @@ class NumberFormatOptions {
   NumberFormatOptions copyWith({
     FormatStyle? style,
     String? currency,
-    LocaleMatcher? localeMatcher,
     SignDisplay? signDisplay,
     Notation? notation,
     Grouping? useGrouping,
@@ -206,7 +193,6 @@ class NumberFormatOptions {
     return NumberFormatOptions.custom(
       style: style ?? this.style,
       currency: currency ?? this.currency,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
       signDisplay: signDisplay ?? this.signDisplay,
       notation: notation ?? this.notation,
       useGrouping: useGrouping ?? this.useGrouping,

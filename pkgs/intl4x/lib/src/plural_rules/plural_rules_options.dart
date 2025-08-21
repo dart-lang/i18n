@@ -13,15 +13,12 @@ class PluralRulesOptions {
   final int minimumIntegerDigits;
   final TrailingZeroDisplay trailingZeroDisplay;
 
-  final LocaleMatcher localeMatcher;
-
   PluralRulesOptions({
     this.type = Type.cardinal,
     Digits? digits,
     this.roundingMode = RoundingMode.halfExpand,
     this.minimumIntegerDigits = 1,
     this.trailingZeroDisplay = TrailingZeroDisplay.auto,
-    this.localeMatcher = LocaleMatcher.bestfit,
   }) : digits = NumberFormatOptions.getDigits(const DecimalStyle(), digits);
 
   PluralRulesOptions copyWith({
@@ -30,7 +27,6 @@ class PluralRulesOptions {
     RoundingMode? roundingMode,
     int? minimumIntegerDigits,
     TrailingZeroDisplay? trailingZeroDisplay,
-    LocaleMatcher? localeMatcher,
   }) {
     return PluralRulesOptions(
       type: type ?? this.type,
@@ -38,7 +34,6 @@ class PluralRulesOptions {
       roundingMode: roundingMode ?? this.roundingMode,
       minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
       trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }

@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
-
 class CollationOptions {
   final Usage usage;
   final Sensitivity? sensitivity;
@@ -11,10 +9,8 @@ class CollationOptions {
   final bool? numeric;
   final CaseFirst? caseFirst;
   final String? collation;
-  final LocaleMatcher localeMatcher;
 
   const CollationOptions({
-    this.localeMatcher = LocaleMatcher.bestfit,
     this.usage = Usage.sort,
     this.sensitivity,
     this.ignorePunctuation = false,
@@ -30,7 +26,6 @@ class CollationOptions {
     bool? numeric,
     CaseFirst? caseFirst,
     String? collation,
-    LocaleMatcher? localeMatcher,
   }) {
     return CollationOptions(
       usage: usage ?? this.usage,
@@ -39,7 +34,6 @@ class CollationOptions {
       numeric: numeric ?? this.numeric,
       caseFirst: caseFirst ?? this.caseFirst,
       collation: collation ?? this.collation,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }

@@ -5,10 +5,9 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'case_mapping_impl.dart';
 
-CaseMappingImpl getCaseMappingECMA(Locale locale, Null _, LocaleMatcher _) =>
+CaseMappingImpl getCaseMappingECMA(Locale locale, Null _) =>
     _CaseMappingECMA.tryToBuild(locale);
 
 extension on JSString {

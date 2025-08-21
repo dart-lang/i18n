@@ -38,6 +38,7 @@ class NumberFormat4X extends NumberFormatImpl {
       final String s => icu.Decimal.fromString(s),
       Object() => icu.Decimal.fromString(number.toString()),
     };
+    fixedDecimal.applySignDisplay(options.signDisplay.toX);
     return _constructDouble(fixedDecimal);
   }
 
@@ -110,6 +111,16 @@ class NumberFormat4X extends NumberFormatImpl {
     };
     fixedDecimal.roundWithMode(maxSignificantPosition, mode);
   }
+}
+
+extension on SignDisplay {
+  icu.DecimalSignDisplay get toX => switch (this) {
+    SignDisplay.always => icu.DecimalSignDisplay.always,
+    SignDisplay.never => icu.DecimalSignDisplay.never,
+    SignDisplay.auto => icu.DecimalSignDisplay.auto,
+    SignDisplay.exceptZero => icu.DecimalSignDisplay.exceptZero,
+    SignDisplay.negative => icu.DecimalSignDisplay.negative,
+  };
 }
 
 extension on NumberFormatOptions {

@@ -17,7 +17,7 @@ topics:
   - i18n
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.8.0
 
 dependencies:
   hooks: ^0.20.0

@@ -35,7 +35,7 @@ jobs:
         with:
           sdk: main
 
-      - run: dart pub get
+      - run: dart pub get --example
 
       - run: dart analyze --fatal-infos
 
@@ -45,22 +45,19 @@ jobs:
 
       - run: dart test -p chrome
 
-      - run: dart pub get
-        working-directory: pkgs/intl4x/example_native
-
-      - run: dart --enable-experiment=record-use build cli bin/example_native.dart
-        working-directory: pkgs/intl4x/example_native
+      - run: dart --enable-experiment=record-use build cli bin/example.dart
+        working-directory: pkgs/intl4x/example
 
       - run: tree . -a
         if: matrix.os == 'ubuntu-latest'
 
-      - name: Run example_native (Linux)
-        working-directory: pkgs/intl4x/example_native
+      - name: Run example (Linux)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'ubuntu-latest'
-        run: ./build/cli/linux_x64/bundle/bin/example_native
+        run: ./build/cli/linux_x64/bundle/bin/example
 
-      - name: Print file size and check limit for example_native (Linux)
-        working-directory: pkgs/intl4x/example_native
+      - name: Print file size and check limit for example (Linux)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'ubuntu-latest'
         run: |
           FILE_PATH="build/cli/linux_x64/bundle/lib/libicu4x.so"
@@ -71,13 +68,13 @@ jobs:
             exit 1
           fi
 
-      - name: Run example_native (Mac)
-        working-directory: pkgs/intl4x/example_native
+      - name: Run example (Mac)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'macos-latest'
-        run: ./build/cli/macos_arm64/bundle/bin/example_native
+        run: ./build/cli/macos_arm64/bundle/bin/example
 
-      - name: Print file size and check limit for example_native (Mac)
-        working-directory: pkgs/intl4x/example_native
+      - name: Print file size and check limit for example (Mac)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'macos-latest'
         run: |
           FILE_PATH="build/cli/macos_arm64/bundle/lib/libicu4x.dylib"
@@ -88,12 +85,12 @@ jobs:
             exit 1
           fi
 
-      - name: Run example_native (Windows)
-        working-directory: pkgs/intl4x/example_native
+      - name: Run example (Windows)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'windows-latest'
-        run: .\build\cli\windows_x64\bundle\bin\example_native.exe
-      - name: Print file size and check limit for example_native (Windows)
-        working-directory: pkgs/intl4x/example_native
+        run: .\build\cli\windows_x64\bundle\bin\example.exe
+      - name: Print file size and check limit for example (Windows)
+        working-directory: pkgs/intl4x/example
         if: matrix.os == 'windows-latest'
         run: |
           $filePath = ".\build\cli\windows_x64\bundle\lib\icu4x.dll"

@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'number_format_options.dart';
 import 'number_format_stub.dart'
@@ -21,15 +20,11 @@ abstract class NumberFormatImpl {
 
   String formatImpl(Object number);
 
-  static NumberFormatImpl build(
-    Locale locale,
-    NumberFormatOptions options,
-    LocaleMatcher localeMatcher,
-  ) => buildFormatter(
-    locale,
-    options,
-    localeMatcher,
-    getNumberFormatterECMA,
-    getNumberFormatter4X,
-  );
+  static NumberFormatImpl build(Locale locale, NumberFormatOptions options) =>
+      buildFormatter(
+        locale,
+        options,
+        getNumberFormatterECMA,
+        getNumberFormatter4X,
+      );
 }

@@ -61,18 +61,16 @@ extension on CollationOptions {
       null => icu.CollatorStrength.tertiary,
     };
 
-    final icuCaseLevel =
-        sensitivity == Sensitivity.caseSensitivity
-            ? icu.CollatorCaseLevel.on
-            : icu.CollatorCaseLevel.off;
+    final icuCaseLevel = sensitivity == Sensitivity.caseSensitivity
+        ? icu.CollatorCaseLevel.on
+        : icu.CollatorCaseLevel.off;
 
     return icu.CollatorOptions(
       strength: icuStrength,
       caseLevel: icuCaseLevel,
-      alternateHandling:
-          ignorePunctuation
-              ? icu.CollatorAlternateHandling.shifted
-              : icu.CollatorAlternateHandling.nonIgnorable,
+      alternateHandling: ignorePunctuation
+          ? icu.CollatorAlternateHandling.shifted
+          : icu.CollatorAlternateHandling.nonIgnorable,
       //TODO(mosum): maxVariable: Not supported in ECMA402
     );
   }

@@ -122,18 +122,17 @@ void main() {
 
   testWithFormatting('RoundingMode', () {
     for (final roundingMode in RoundingMode.values) {
-      final expectation =
-          switch (roundingMode) {
-            RoundingMode.ceil => [2.3, 2.3, 2.3, -2.2, -2.2, -2.2],
-            RoundingMode.floor => [2.2, 2.2, 2.2, -2.3, -2.3, -2.3],
-            RoundingMode.expand => [2.3, 2.3, 2.3, -2.3, -2.3, -2.3],
-            RoundingMode.trunc => [2.2, 2.2, 2.2, -2.2, -2.2, -2.2],
-            RoundingMode.halfCeil => [2.2, 2.3, 2.3, -2.2, -2.2, -2.3],
-            RoundingMode.halfFloor => [2.2, 2.2, 2.3, -2.2, -2.3, -2.3],
-            RoundingMode.halfExpand => [2.2, 2.3, 2.3, -2.2, -2.3, -2.3],
-            RoundingMode.halfTrunc => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
-            RoundingMode.halfEven => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
-          }.map((e) => e.toString()).toList();
+      final expectation = switch (roundingMode) {
+        RoundingMode.ceil => [2.3, 2.3, 2.3, -2.2, -2.2, -2.2],
+        RoundingMode.floor => [2.2, 2.2, 2.2, -2.3, -2.3, -2.3],
+        RoundingMode.expand => [2.3, 2.3, 2.3, -2.3, -2.3, -2.3],
+        RoundingMode.trunc => [2.2, 2.2, 2.2, -2.2, -2.2, -2.2],
+        RoundingMode.halfCeil => [2.2, 2.3, 2.3, -2.2, -2.2, -2.3],
+        RoundingMode.halfFloor => [2.2, 2.2, 2.3, -2.2, -2.3, -2.3],
+        RoundingMode.halfExpand => [2.2, 2.3, 2.3, -2.2, -2.3, -2.3],
+        RoundingMode.halfTrunc => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
+        RoundingMode.halfEven => [2.2, 2.2, 2.3, -2.2, -2.2, -2.3],
+      }.map((e) => e.toString()).toList();
       String formatter(Object number) => intl
           .numberFormat(
             NumberFormatOptions.custom(

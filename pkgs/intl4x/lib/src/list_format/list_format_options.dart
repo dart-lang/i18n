@@ -15,23 +15,13 @@ class ListFormatOptions {
   /// * short: "A, B, C".
   /// * narrow: "A B C".
   final ListStyle style;
-  final LocaleMatcher localeMatcher;
 
-  const ListFormatOptions({
-    this.type = Type.and,
-    this.style = ListStyle.long,
-    this.localeMatcher = LocaleMatcher.bestfit,
-  });
+  const ListFormatOptions({this.type = Type.and, this.style = ListStyle.long});
 
-  ListFormatOptions copyWith({
-    Type? type,
-    ListStyle? style,
-    LocaleMatcher? localeMatcher,
-  }) {
+  ListFormatOptions copyWith({Type? type, ListStyle? style}) {
     return ListFormatOptions(
       type: type ?? this.type,
       style: style ?? this.style,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }

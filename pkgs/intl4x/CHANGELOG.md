@@ -6,6 +6,7 @@
 - Make package compatible to run on Windows again.
 - Update to `native_toolchain_c` v0.17.1.
 - Move logic to package:icu4x.
+- Switch `DateTime` formatting API and more clean-ups.
 
 ## 0.12.2
 

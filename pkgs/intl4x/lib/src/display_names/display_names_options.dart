@@ -9,26 +9,22 @@ class DisplayNamesOptions {
   final Style style;
   final LanguageDisplay languageDisplay;
   final Fallback fallback;
-  final LocaleMatcher localeMatcher;
 
   const DisplayNamesOptions({
     this.style = Style.long,
     this.languageDisplay = LanguageDisplay.dialect,
     this.fallback = Fallback.code,
-    this.localeMatcher = LocaleMatcher.bestfit,
   });
 
   DisplayNamesOptions copyWith({
     Style? style,
     LanguageDisplay? languageDisplay,
     Fallback? fallback,
-    LocaleMatcher? localeMatcher,
   }) {
     return DisplayNamesOptions(
       style: style ?? this.style,
       languageDisplay: languageDisplay ?? this.languageDisplay,
       fallback: fallback ?? this.fallback,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
     );
   }
 }

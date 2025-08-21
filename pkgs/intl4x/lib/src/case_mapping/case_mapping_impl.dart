@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'case_mapping_stub.dart'
     if (dart.library.js_interop) 'case_mapping_ecma.dart';
@@ -17,12 +16,6 @@ abstract class CaseMappingImpl {
   String toLowerCase(String input);
   String toUpperCase(String input);
 
-  static CaseMappingImpl build(Locale locales, LocaleMatcher localeMatcher) =>
-      buildFormatter(
-        locales,
-        null,
-        localeMatcher,
-        getCaseMappingECMA,
-        getCaseMapping4X,
-      );
+  static CaseMappingImpl build(Locale locales) =>
+      buildFormatter(locales, null, getCaseMappingECMA, getCaseMapping4X);
 }
