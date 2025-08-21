@@ -1,1 +1,2 @@
-An example on how to use `package:intl4x` in a browser context.
+A sample command-line application with an entrypoint in `bin/`, library code
+in `lib/`, and example unit test in `test/`.
