@@ -33,8 +33,9 @@ Map<String, dynamic> toARB({
 
   // Return a version of the message string with ICU parameters
   // "{variable}" rather than Dart interpolations "$variable".
-  out[message.name] = message
-      .expanded((msg, chunk) => turnInterpolationIntoICUForm(msg, chunk));
+  out[message.name] = message.expanded(
+    (msg, chunk) => turnInterpolationIntoICUForm(msg, chunk),
+  );
 
   if (!suppressMetadata) {
     var arbMetadataForMessage = arbMetadata(message);
@@ -83,17 +84,18 @@ String turnInterpolationIntoICUForm(
   } else if (chunk is int && chunk >= 0 && chunk < message.arguments.length) {
     return '{${message.arguments[chunk]}}';
   } else if (chunk is SubMessage) {
-    return chunk.expanded((message, chunk) => turnInterpolationIntoICUForm(
-          message,
-          chunk,
-          shouldEscapeICU: true,
-        ));
+    return chunk.expanded(
+      (message, chunk) =>
+          turnInterpolationIntoICUForm(message, chunk, shouldEscapeICU: true),
+    );
   } else if (chunk is Message) {
-    return chunk.expanded((message, chunk) => turnInterpolationIntoICUForm(
-          message,
-          chunk,
-          shouldEscapeICU: shouldEscapeICU,
-        ));
+    return chunk.expanded(
+      (message, chunk) => turnInterpolationIntoICUForm(
+        message,
+        chunk,
+        shouldEscapeICU: shouldEscapeICU,
+      ),
+    );
   }
   throw FormatException('Illegal interpolation: $chunk');
 }

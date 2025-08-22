@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library verify_messages;
+library;
 
 import 'print_to_list.dart';
 
@@ -23,9 +23,11 @@ void verifyResult() {
   verify('Printing messages for en_US');
   verify('This is a message');
   verify('Another message with parameter hello');
-  verify('Characters that need escaping, e.g slashes \\ dollars \${ '
-      '(curly braces are ok) and xml reserved characters <& and '
-      'quotes " parameters 1, 2, and 3');
+  verify(
+    'Characters that need escaping, e.g slashes \\ dollars \${ '
+    '(curly braces are ok) and xml reserved characters <& and '
+    'quotes " parameters 1, 2, and 3',
+  );
   verify('This string extends across multiple lines.');
   verify('1, b, [c, d]');
   verify('"So-called"');
@@ -99,16 +101,20 @@ void verifyResult() {
   verify('Printing messages for fr');
   verify("Il s'agit d'un message");
   verify('Un autre message avec un seul paramètre hello');
-  verify('Caractères qui doivent être échapper, par exemple barres \\ '
-      'dollars \${ (les accolades sont ok), et xml/html réservés <& et '
-      'des citations " '
-      'avec quelques paramètres ainsi 1, 2, et 3');
+  verify(
+    'Caractères qui doivent être échapper, par exemple barres \\ '
+    'dollars \${ (les accolades sont ok), et xml/html réservés <& et '
+    'des citations " '
+    'avec quelques paramètres ainsi 1, 2, et 3',
+  );
   verify('Cette message prend plusiers lignes.');
   verify('1, b, [c, d]');
   verify('"Soi-disant"');
   verify('Cette chaîne est toujours traduit');
-  verify("L'interpolation est délicate quand elle se termine une "
-      'phrase comme this.');
+  verify(
+    "L'interpolation est délicate quand elle se termine une "
+    'phrase comme this.',
+  );
   verify("Cela vient d'une méthode");
   verify("Cette méthode n'est pas un lambda");
   verify("Cela vient d'une méthode statique");
@@ -179,17 +185,22 @@ void verifyResult() {
   verify('Printing messages for de_DE');
   verify('Dies ist eine Nachricht');
   verify('Eine weitere Meldung mit dem Parameter hello');
-  verify('Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar '
-      '\${ (geschweiften Klammern sind ok) und xml reservierte Zeichen <& und '
-      'Zitate " Parameter 1, 2 und 3');
-  verify('Dieser String erstreckt sich über mehrere '
-      'Zeilen erstrecken.');
+  verify(
+    'Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar '
+    '\${ (geschweiften Klammern sind ok) und xml reservierte Zeichen <& und '
+    'Zitate " Parameter 1, 2 und 3',
+  );
+  verify(
+    'Dieser String erstreckt sich über mehrere '
+    'Zeilen erstrecken.',
+  );
   verify('1, b, [c, d]');
   verify('"Sogenannt"');
   // This is correct, the message is forced to French, even in a German locale.
   verify('Cette chaîne est toujours traduit');
   verify(
-      'Interpolation ist schwierig, wenn es einen Satz wie dieser endet this.');
+    'Interpolation ist schwierig, wenn es einen Satz wie dieser endet this.',
+  );
   verify('Dies ergibt sich aus einer Methode');
   verify('Diese Methode ist nicht eine Lambda');
   verify('Dies ergibt sich aus einer statischen Methode');

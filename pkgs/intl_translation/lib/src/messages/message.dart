@@ -30,7 +30,9 @@
 /// from a translation file, parse it into these objects, and they are then
 /// used to generate the code representation above.
 
-library intl_message;
+// ignore_for_file: deprecated_member_use
+
+library;
 
 import 'dart:convert';
 
@@ -77,7 +79,7 @@ abstract class Message {
 
   static final _evaluator = ConstantEvaluator();
 
-  static String? _evaluateAsString(expression) {
+  static String? _evaluateAsString(Expression expression) {
     var result = expression.accept(_evaluator);
     if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
       return null;
@@ -141,28 +143,30 @@ abstract class Message {
   /// for messages with parameters.
   static void checkValidity(
     MethodInvocation node,
-    List arguments,
+    List<Expression> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,
     bool examplesRequired = false,
   }) {
     // If we have parameters, we must specify args and name.
-    var argsNamedExps = arguments
-        .whereType<NamedExpression>()
-        .where((each) => each.name.label.name == 'args');
+    var argsNamedExps = arguments.whereType<NamedExpression>().where(
+      (each) => each.name.label.name == 'args',
+    );
     var args = argsNamedExps.isNotEmpty ? argsNamedExps.first : null;
     var parameterNames = outerArgs.map((x) => x.name!.lexeme).toList();
     var hasParameters = outerArgs.isNotEmpty;
     if (!nameAndArgsGenerated && args == null && hasParameters) {
       throw MessageExtractionException(
-          "The 'args' argument for Intl.message must be specified for "
-          'messages with parameters. Consider using rewrite_intl_messages.dart');
+        "The 'args' argument for Intl.message must be specified for "
+        'messages with parameters. Consider using rewrite_intl_messages.dart',
+      );
     }
     if (!checkArgs(args, parameterNames)) {
       throw MessageExtractionException(
-          "The 'args' argument must match the message arguments,"
-          ' e.g. args: $parameterNames');
+        "The 'args' argument must match the message arguments,"
+        ' e.g. args: $parameterNames',
+      );
     }
 
     var nameNamedExps = arguments
@@ -188,9 +192,10 @@ abstract class Message {
           givenName = outerName;
         } else {
           throw MessageExtractionException(
-              "The 'name' argument for Intl.message must be supplied for "
-              'messages with parameters. Consider using '
-              'rewrite_intl_messages.dart');
+            "The 'name' argument for Intl.message must be supplied for "
+            'messages with parameters. Consider using '
+            'rewrite_intl_messages.dart',
+          );
         }
       }
     } else {
@@ -202,7 +207,8 @@ abstract class Message {
 
     if (messageName == null) {
       throw MessageExtractionException(
-          "The 'name' argument for Intl.message must be a string literal");
+        "The 'name' argument for Intl.message must be a string literal",
+      );
     }
 
     var hasOuterName = outerName != null;
@@ -212,13 +218,14 @@ abstract class Message {
     var classMatch = classPlusMethod != null && (givenName == classPlusMethod);
     var mapOrListLiteralWithoutParameters =
         (node.parent is ListLiteral || node.parent is MapLiteralEntry) &&
-            !hasParameters;
+        !hasParameters;
     if (!(hasOuterName &&
         (simpleMatch || classMatch || mapOrListLiteralWithoutParameters))) {
       throw MessageExtractionException(
-          "The 'name' argument for Intl.message must match either "
-          'the name of the containing function or <ClassName>_<methodName> ('
-          "was '$givenName' but must be '$outerName'  or '$classPlusMethod')");
+        "The 'name' argument for Intl.message must match either "
+        'the name of the containing function or <ClassName>_<methodName> ('
+        "was '$givenName' but must be '$outerName'  or '$classPlusMethod')",
+      );
     }
 
     var values = arguments
@@ -229,7 +236,8 @@ abstract class Message {
     for (var arg in values) {
       if (_evaluateAsString(arg) == null) {
         throw MessageExtractionException(
-            'Intl.message arguments must be string literals: $arg');
+          'Intl.message arguments must be string literals: $arg',
+        );
       }
     }
 
@@ -240,7 +248,8 @@ abstract class Message {
           .map((each) => each.expression);
       if (examples.isEmpty && examplesRequired) {
         throw MessageExtractionException(
-            'Examples must be provided for messages with parameters');
+          'Examples must be provided for messages with parameters',
+        );
       }
       if (examples.isNotEmpty) {
         var example = examples.first;
@@ -248,7 +257,8 @@ abstract class Message {
           var map = _evaluateAsMap(example);
           if (map == null) {
             throw MessageExtractionException(
-                'Examples must be a const Map literal.');
+              'Examples must be a const Map literal.',
+            );
           } else if (example.constKeyword == null) {
             throw MessageExtractionException('Examples must be const.');
           }
@@ -332,7 +342,7 @@ abstract class Message {
       '\t': r'\t',
       '\v': r'\v',
       '\'': r"\'",
-      r'$': r'\$'
+      r'$': r'\$',
     };
     return escapedBrackets.splitMapJoin(
       '',

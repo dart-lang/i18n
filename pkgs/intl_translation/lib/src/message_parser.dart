@@ -4,7 +4,7 @@
 
 /// Contains a parser for ICU format plural/gender/select format for localized
 /// messages. See extract_to_arb.dart and make_hardcoded_translation.dart.
-library message_parser;
+library;
 
 import 'messages/composite_message.dart';
 import 'messages/literal_string_message.dart';
@@ -67,22 +67,19 @@ class _ParserUtil {
     'two',
     'few',
     'many',
-    'other'
+    'other',
   ];
   static final Map<String, RegExp> pluralKeywordsToRegex = {
-    for (var v in pluralKeywords) v: RegExp('\\s*$v\\s*')
+    for (var v in pluralKeywords) v: RegExp('\\s*$v\\s*'),
   };
   static final List<String> genderKeywords = ['female', 'male', 'other'];
   static final Map<String, RegExp> genderKeywordsToRegex = {
-    for (var v in genderKeywords) v: RegExp('\\s*$v\\s*')
+    for (var v in genderKeywords) v: RegExp('\\s*$v\\s*'),
   };
 
   /// Corresponds to a [+] operator in a regex, matching at least one occurrence
   /// of the [callable].
-  static At<CompositeMessage>? oneOrMore(
-    At? Function(int s) callable,
-    int at,
-  ) {
+  static At<CompositeMessage>? oneOrMore(At? Function(int s) callable, int at) {
     var newAt = -1;
     var results = <At>[];
     while (newAt != at) {
@@ -157,7 +154,8 @@ class _ParserUtil {
 
   At<LiteralString>? icuEscapedText(int at) {
     if (at < input.length) {
-      var match = quotedBracketOpen.matchAsPrefix(input, at) ??
+      var match =
+          quotedBracketOpen.matchAsPrefix(input, at) ??
           quotedBracketClose.matchAsPrefix(input, at) ??
           doubleQuotes.matchAsPrefix(input, at);
       if (match != null) {
@@ -178,12 +176,12 @@ class _ParserUtil {
   }
 
   At<LiteralString>? messageText(int at) {
-    return oneOrMore((s) => icuEscapedText(s) ?? icuText(s), at)
-        ?.mapResult((compMsg) {
-      return LiteralString(compMsg.pieces
-          .whereType<LiteralString>()
-          .map((e) => e.string)
-          .join());
+    return oneOrMore((s) => icuEscapedText(s) ?? icuText(s), at)?.mapResult((
+      compMsg,
+    ) {
+      return LiteralString(
+        compMsg.pieces.whereType<LiteralString>().map((e) => e.string).join(),
+      );
     });
   }
 
@@ -249,28 +247,22 @@ class _ParserUtil {
   }
 
   At<LiteralString>? preface(int at) {
-    return and(
-      [
-        (s) => openCurly(s),
-        (s) => id(s),
-        (s) => comma(s),
-      ],
-      at,
-    )?.mapResult((compMsg) => compMsg.pieces[1] as LiteralString);
+    return and([
+      (s) => openCurly(s),
+      (s) => id(s),
+      (s) => comma(s),
+    ], at)?.mapResult((compMsg) => compMsg.pieces[1] as LiteralString);
   }
 
   At<PairMessage<LiteralString, Message>>? pluralClausePairs(int at) {
-    return and(
-      [
-        (s) => trimAt(s),
-        (s) => asKeywords(pluralKeywordsToRegex, s),
-        (s) => openCurly(s),
-        (s) => interiorText(s),
-        (s) => closeCurly(s),
-        (s) => trimAt(s),
-      ],
-      at,
-    )?.mapResult((compMsg) {
+    return and([
+      (s) => trimAt(s),
+      (s) => asKeywords(pluralKeywordsToRegex, s),
+      (s) => openCurly(s),
+      (s) => interiorText(s),
+      (s) => closeCurly(s),
+      (s) => trimAt(s),
+    ], at)?.mapResult((compMsg) {
       var pluralKeyword = compMsg.pieces[1] as LiteralString;
       var interiorText = compMsg.pieces[3];
       return PairMessage<LiteralString, Message>(pluralKeyword, interiorText);
@@ -278,16 +270,13 @@ class _ParserUtil {
   }
 
   At<Plural>? intlPlural(int at) {
-    return and(
-      [
-        (s) => preface(s),
-        (s) => matchString(s, 'plural'),
-        (s) => comma(s),
-        (s) => oneOrMore((s1) => pluralClausePairs(s1), s),
-        (s) => closeCurly(s),
-      ],
-      at,
-    )?.mapResult((compMsg) {
+    return and([
+      (s) => preface(s),
+      (s) => matchString(s, 'plural'),
+      (s) => comma(s),
+      (s) => oneOrMore((s1) => pluralClausePairs(s1), s),
+      (s) => closeCurly(s),
+    ], at)?.mapResult((compMsg) {
       var preface = compMsg.pieces[0] as LiteralString;
       var pluralClause = compMsg.pieces[3] as CompositeMessage;
       return Plural.from(preface.string, pluralClause.pieces, null);
@@ -299,36 +288,31 @@ class _ParserUtil {
 
   At<CompositeMessage>? genderClause(int at) {
     return oneOrMore(
-      (s1) => and(
-        [
-          (s) => trimAt(s),
-          (s) => genderKeyword(s),
-          (s) => openCurly(s),
-          (s) => interiorText(s),
-          (s) => closeCurly(s),
-          (s) => trimAt(s),
-        ],
-        s1,
-      )?.mapResult((compMsg) {
-        var genderKeyword = compMsg.pieces[1] as LiteralString;
-        var interiorText = compMsg.pieces[3];
-        return PairMessage(genderKeyword, interiorText);
-      }),
+      (s1) =>
+          and([
+            (s) => trimAt(s),
+            (s) => genderKeyword(s),
+            (s) => openCurly(s),
+            (s) => interiorText(s),
+            (s) => closeCurly(s),
+            (s) => trimAt(s),
+          ], s1)?.mapResult((compMsg) {
+            var genderKeyword = compMsg.pieces[1] as LiteralString;
+            var interiorText = compMsg.pieces[3];
+            return PairMessage(genderKeyword, interiorText);
+          }),
       at,
     );
   }
 
   At<Gender>? intlGender(int at) {
-    return and(
-      [
-        (s) => preface(s),
-        (s) => selectLiteral(s),
-        (s) => comma(s),
-        (s) => genderClause(s),
-        (s) => closeCurly(s),
-      ],
-      at,
-    )?.mapResult((compMsg) {
+    return and([
+      (s) => preface(s),
+      (s) => selectLiteral(s),
+      (s) => comma(s),
+      (s) => genderClause(s),
+      (s) => closeCurly(s),
+    ], at)?.mapResult((compMsg) {
       var preface = compMsg.pieces[0] as LiteralString;
       var genderClause = (compMsg.pieces[3] as CompositeMessage);
       return Gender.from(preface.string, genderClause.pieces, null);
@@ -339,34 +323,29 @@ class _ParserUtil {
 
   At<CompositeMessage>? selectClause(int at) {
     return oneOrMore(
-      (s1) => and(
-        [
-          (s) => id(s),
-          (s) => openCurly(s),
-          (s) => interiorText(s),
-          (s) => closeCurly(s),
-        ],
-        s1,
-      )?.mapResult((compMsg) {
-        var id = compMsg.pieces[0] as LiteralString;
-        var interiorText = compMsg.pieces[2];
-        return PairMessage(id, interiorText);
-      }),
+      (s1) =>
+          and([
+            (s) => id(s),
+            (s) => openCurly(s),
+            (s) => interiorText(s),
+            (s) => closeCurly(s),
+          ], s1)?.mapResult((compMsg) {
+            var id = compMsg.pieces[0] as LiteralString;
+            var interiorText = compMsg.pieces[2];
+            return PairMessage(id, interiorText);
+          }),
       at,
     );
   }
 
   At<Select>? intlSelect(int at) {
-    return and(
-      [
-        (s) => preface(s),
-        (s) => selectLiteral(s),
-        (s) => comma(s),
-        (s) => selectClause(s),
-        (s) => closeCurly(s),
-      ],
-      at,
-    )?.mapResult((compMsg) {
+    return and([
+      (s) => preface(s),
+      (s) => selectLiteral(s),
+      (s) => comma(s),
+      (s) => selectClause(s),
+      (s) => closeCurly(s),
+    ], at)?.mapResult((compMsg) {
       var preface = compMsg.pieces[0] as LiteralString;
       var selectClause = compMsg.pieces[3] as CompositeMessage;
       return Select.from(preface.string, selectClause.pieces, null);
@@ -391,14 +370,11 @@ class _ParserUtil {
   At<LiteralString> empty(int at) => At(LiteralString(''), at);
 
   At<VariableSubstitution>? parameter(int at) {
-    return and(
-      [
-        (s) => openCurly(s),
-        (s) => id(s),
-        (s) => closeCurly(s),
-      ],
-      at,
-    )?.mapResult((compMsg) {
+    return and([
+      (s) => openCurly(s),
+      (s) => id(s),
+      (s) => closeCurly(s),
+    ], at)?.mapResult((compMsg) {
       var id = (compMsg.pieces[1] as LiteralString);
       return VariableSubstitution.named(id.string);
     });
