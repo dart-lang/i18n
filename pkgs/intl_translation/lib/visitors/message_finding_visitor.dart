@@ -10,7 +10,6 @@ import 'package:analyzer/dart/ast/visitor.dart';
 import 'package:analyzer/src/dart/ast/constant_evaluator.dart';
 
 import '../extract_messages.dart';
-import '../src/messages/main_message.dart';
 import '../src/messages/message.dart';
 import '../src/messages/message_extraction_exception.dart';
 import '../src/messages/submessages/gender.dart';

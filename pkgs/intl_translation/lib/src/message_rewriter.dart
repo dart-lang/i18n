@@ -10,7 +10,6 @@ import 'package:analyzer/dart/analysis/utilities.dart';
 
 import '../extract_messages.dart';
 import '../visitors/message_finding_visitor.dart';
-import 'messages/main_message.dart';
 
 /// Rewrite all Intl.message/plural/etc. calls in [source], adding "name"
 /// and "args" parameters if they are not provided.

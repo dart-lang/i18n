@@ -27,7 +27,6 @@ import 'package:intl_translation/generate_localized.dart';
 import 'package:intl_translation/src/directory_utils.dart';
 import 'package:intl_translation/src/message_parser.dart';
 import 'package:intl_translation/src/messages/literal_string_message.dart';
-import 'package:intl_translation/src/messages/main_message.dart';
 import 'package:path/path.dart' as path;
 
 const jsonDecoder = JsonCodec();
