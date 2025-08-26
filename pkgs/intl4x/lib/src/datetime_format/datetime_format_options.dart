@@ -147,7 +147,7 @@ enum TimeZoneType {
   /// Example: `GMT-8`
   shortOffset,
 
-  /// Example: `GMT-0800`
+  /// Example: `GMT-08:00`
   longOffset,
 
   /// Example: `PT`

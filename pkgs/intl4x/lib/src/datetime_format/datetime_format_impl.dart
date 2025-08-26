@@ -5,7 +5,6 @@
 import '../locale/locale.dart';
 import '../test_checker.dart' show isInTest;
 import '../utils.dart';
-import 'datetime_format.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
     if (dart.library.js_interop) 'datetime_format_ecma.dart';
@@ -60,7 +59,7 @@ abstract class FormatterZonedImpl implements ZonedFormatter {
   }
 }
 
-abstract class FormatterImpl extends AbstractDateTimeFormatter
+abstract class FormatterImpl extends _AbstractDateTimeFormatter
     implements DateTimeFormatter, TimeFormatter, DateFormatter {
   final DateTimeFormatImpl _impl;
 
@@ -76,4 +75,35 @@ abstract class FormatterImpl extends AbstractDateTimeFormatter
       return formatInternal(datetime);
     }
   }
+}
+
+sealed class DateFormatter extends _AbstractDateTimeFormatter
+    with _ZoneableFormatter {}
+
+sealed class ZonedFormatter extends _AbstractZonedDateTimeFormatter {}
+
+sealed class DateTimeFormatter extends _AbstractDateTimeFormatter
+    with _ZoneableFormatter {}
+
+sealed class TimeFormatter extends _AbstractDateTimeFormatter
+    with _ZoneableFormatter {}
+
+/// A base class for formatters that can format a [DateTime] into a string.
+sealed class _AbstractDateTimeFormatter {
+  String format(DateTime datetime);
+}
+
+/// A base class for formatters that can format a [DateTime] into a string.
+sealed class _AbstractZonedDateTimeFormatter {
+  String format(DateTime datetime, TimeZone timeZone);
+}
+
+/// A [_AbstractDateTimeFormatter] which can also handle time zones.
+mixin _ZoneableFormatter {
+  ZonedFormatter withTimeZoneShort();
+  ZonedFormatter withTimeZoneLong();
+  ZonedFormatter withTimeZoneShortOffset();
+  ZonedFormatter withTimeZoneLongOffset();
+  ZonedFormatter withTimeZoneShortGeneric();
+  ZonedFormatter withTimeZoneLongGeneric();
 }

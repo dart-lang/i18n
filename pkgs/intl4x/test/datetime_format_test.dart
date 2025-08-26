@@ -56,24 +56,25 @@ void main() {
   group('timezone', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = 'America/Los_Angeles';
-    const offset = Duration(hours: -8);
-    testWithFormatting(
-      'short',
-      () => expect(
+    const timeZone = TimeZone(
+      name: 'America/Los_Angeles',
+      offset: Duration(hours: -8),
+    );
+    testWithFormatting('short', () {
+      return expect(
         intl.dateTimeFormat().ymd().withTimeZoneShort().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? PST'),
-      ),
-    );
+      );
+    });
     testWithFormatting(
       'long',
       () => expect(
         intl.dateTimeFormat().ymd().withTimeZoneLong().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? Pacific Standard Time'),
       ),
@@ -85,7 +86,7 @@ void main() {
             .dateTimeFormat(const DateTimeFormatOptions())
             .ymd()
             .withTimeZoneShortOffset()
-            .format(dateTime, const TimeZone(name: timeZone, offset: offset)),
+            .format(dateTime, timeZone),
         matches(r'12/17/2021[,]? GMT-8'),
       ),
     );
@@ -94,7 +95,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymd().withTimeZoneLongOffset().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? GMT-08:00'),
       ),
@@ -104,7 +105,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymd().withTimeZoneShortGeneric().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? PT'),
       ),
@@ -114,7 +115,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? Pacific Time'),
       ),
@@ -124,14 +125,16 @@ void main() {
   group('timezone', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = 'America/Los_Angeles';
-    const offset = Duration(hours: -8);
+    const timeZone = TimeZone(
+      name: 'America/Los_Angeles',
+      offset: Duration(hours: -8),
+    );
     testWithFormatting(
       'short',
       () => expect(
         intl.dateTimeFormat().ymdt().withTimeZoneShort().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? 3\sAM PST'),
       ),
@@ -141,7 +144,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymdt().withTimeZoneLong().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? 3\sAM Pacific Standard Time'),
       ),
@@ -153,7 +156,7 @@ void main() {
             .dateTimeFormat(const DateTimeFormatOptions())
             .ymdt()
             .withTimeZoneShortOffset()
-            .format(dateTime, const TimeZone(name: timeZone, offset: offset)),
+            .format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM GMT-8'),
       ),
     );
@@ -162,7 +165,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymdt().withTimeZoneLongOffset().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? 3\sAM GMT-08:00'),
       ),
@@ -172,7 +175,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymdt().withTimeZoneShortGeneric().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? 3\sAM PT'),
       ),
@@ -182,7 +185,7 @@ void main() {
       () => expect(
         intl.dateTimeFormat().ymdt().withTimeZoneLongGeneric().format(
           dateTime,
-          const TimeZone(name: timeZone, offset: offset),
+          timeZone,
         ),
         matches(r'12/17/2021[,]? 3\sAM Pacific Time'),
       ),
