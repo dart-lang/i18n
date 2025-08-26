@@ -93,7 +93,7 @@ sealed class _AbstractDateTimeFormatter {
   String format(DateTime datetime);
 }
 
-/// A base class for formatters that can format a [DateTime] into a string.
+/// A base class for formatters that can format a [DateTime] and [TimeZone] into a string.
 sealed class _AbstractZonedDateTimeFormatter {
   String format(DateTime datetime, TimeZone timeZone);
 }
