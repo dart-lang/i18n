@@ -130,18 +130,6 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 }
 
-extension VariantSetting on icu.TimeZoneInfo {
-  void setVariant(TimeZone timeZone) {
-    final success = inferVariant(icu.VariantOffsetsCalculator());
-    if (!success) {
-      throw ArgumentError(
-        '''
-The variant of ${timeZone.name} with offset ${timeZone.offset} could not be inferred''',
-      );
-    }
-  }
-}
-
 extension DateToICU4X on DateTime {
   (icu.IsoDate, icu.Time) get toX {
     final isoDate = icu.IsoDate(year, month, day);

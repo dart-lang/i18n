@@ -7,8 +7,6 @@ export 'src/datetime_format/datetime_format.dart'
         DateFormatter,
         DateTimeFormatBuilder,
         DateTimeFormatter,
-        Formatter,
-        FormatterWithTimeZones,
         TimeFormatter,
         ZonedFormatter;
 export 'src/datetime_format/datetime_format_options.dart';

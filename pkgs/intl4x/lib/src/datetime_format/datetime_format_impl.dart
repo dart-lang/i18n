@@ -42,44 +42,38 @@ abstract class DateTimeFormatImpl {
   FormatterImpl t({TimeFormatStyle? style});
 }
 
-abstract class InternalFormatterImpl {
-  String formatInternal(DateTime datetime);
-}
-
-abstract class FormatterZonedImpl
-    implements ZonedFormatter, InternalFormatterImpl {
+abstract class FormatterZonedImpl implements ZonedFormatter {
   final DateTimeFormatImpl _impl;
-  final TimeZone timeZone;
   final TimeZoneType timeZoneType;
 
-  FormatterZonedImpl(this._impl, this.timeZone, this.timeZoneType);
+  String formatInternal(DateTime datetime, TimeZone timeZone);
+
+  FormatterZonedImpl(this._impl, this.timeZoneType);
 
   @override
-  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
+  String format(DateTime datetime, TimeZone timeZone) {
+    if (isInTest) {
+      return '$datetime//${_impl.locale}';
+    } else {
+      return formatInternal(datetime, timeZone);
+    }
+  }
 }
 
-abstract class FormatterImpl
-    implements
-        DateTimeFormatter,
-        TimeFormatter,
-        DateFormatter,
-        InternalFormatterImpl {
+abstract class FormatterImpl extends AbstractDateTimeFormatter
+    implements DateTimeFormatter, TimeFormatter, DateFormatter {
   final DateTimeFormatImpl _impl;
 
   FormatterImpl(this._impl);
 
-  @override
-  String format(DateTime datetime) => _format(formatInternal, datetime, _impl);
-}
+  String formatInternal(DateTime datetime);
 
-String _format(
-  String Function(DateTime datetime) format,
-  DateTime datetime,
-  DateTimeFormatImpl impl,
-) {
-  if (isInTest) {
-    return '$datetime//${impl.locale}';
-  } else {
-    return format(datetime);
+  @override
+  String format(DateTime datetime) {
+    if (isInTest) {
+      return '$datetime//${_impl.locale}';
+    } else {
+      return formatInternal(datetime);
+    }
   }
 }

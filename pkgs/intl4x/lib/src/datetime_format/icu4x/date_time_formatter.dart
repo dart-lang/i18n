@@ -66,78 +66,76 @@ class DateTimeFormatterX extends FormatterImpl {
   }
 
   @override
-  ZonedFormatter withTimeZoneShort(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.short(this, timeZone);
+  ZonedFormatter withTimeZoneShort() => DateTimeFormatterZonedX.short(this);
 
   @override
-  ZonedFormatter withTimeZoneLong(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.long(this, timeZone);
+  ZonedFormatter withTimeZoneLong() => DateTimeFormatterZonedX.long(this);
 
   @override
-  ZonedFormatter withTimeZoneShortOffset(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.shortOffset(this, timeZone);
+  ZonedFormatter withTimeZoneShortOffset() =>
+      DateTimeFormatterZonedX.shortOffset(this);
 
   @override
-  ZonedFormatter withTimeZoneLongOffset(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.longOffset(this, timeZone);
+  ZonedFormatter withTimeZoneLongOffset() =>
+      DateTimeFormatterZonedX.longOffset(this);
 
   @override
-  ZonedFormatter withTimeZoneShortGeneric(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.shortGeneric(this, timeZone);
+  ZonedFormatter withTimeZoneShortGeneric() =>
+      DateTimeFormatterZonedX.shortGeneric(this);
 
   @override
-  ZonedFormatter withTimeZoneLongGeneric(TimeZone timeZone) =>
-      DateTimeFormatterZonedX.longGeneric(this, timeZone);
+  ZonedFormatter withTimeZoneLongGeneric() =>
+      DateTimeFormatterZonedX.longGeneric(this);
 }
 
 class DateTimeFormatterZonedX extends FormatterZonedImpl {
   final DateTimeFormatterX dateFormatter;
   final icu.ZonedDateTimeFormatter formatter;
 
-  DateTimeFormatterZonedX.short(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.short(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.specificShort(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.short);
+      super(dateFormatter.impl, TimeZoneType.short);
 
-  DateTimeFormatterZonedX.long(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.long(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.specificLong(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.long);
+      super(dateFormatter.impl, TimeZoneType.long);
 
-  DateTimeFormatterZonedX.shortOffset(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.shortOffset(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.localizedOffsetShort(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.shortOffset);
+      super(dateFormatter.impl, TimeZoneType.shortOffset);
 
-  DateTimeFormatterZonedX.longOffset(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.longOffset(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.localizedOffsetLong(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.longOffset);
+      super(dateFormatter.impl, TimeZoneType.longOffset);
 
-  DateTimeFormatterZonedX.shortGeneric(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.shortGeneric(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.genericShort(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.shortGeneric);
+      super(dateFormatter.impl, TimeZoneType.shortGeneric);
 
-  DateTimeFormatterZonedX.longGeneric(this.dateFormatter, TimeZone timeZone)
+  DateTimeFormatterZonedX.longGeneric(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.genericLong(
         dateFormatter.localeX,
         dateFormatter.formatter,
       ),
-      super(dateFormatter.impl, timeZone, TimeZoneType.longGeneric);
+      super(dateFormatter.impl, TimeZoneType.longGeneric);
 
   @override
-  String formatInternal(DateTime datetime) {
+  String formatInternal(DateTime datetime, TimeZone timeZone) {
     final utcOffset = icu.UtcOffset.fromSeconds(timeZone.offset.inSeconds);
     final (isoDate, time) = datetime.toX;
     final timeZoneX = icu.IanaParser()
@@ -145,9 +143,6 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
         .withOffset(utcOffset)
         .atDateTimeIso(isoDate, time);
 
-    if (timeZoneType.inferVariant) {
-      timeZoneX.setVariant(timeZone);
-    }
     return formatter.formatIso(isoDate, time, timeZoneX);
   }
 }

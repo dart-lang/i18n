@@ -139,24 +139,20 @@ final class TimeZone {
 
 enum TimeZoneType {
   /// Example: `Pacific Standard Time`
-  long(true),
+  long,
 
   /// Example: `PST`
-  short(true),
+  short,
 
   /// Example: `GMT-8`
-  shortOffset(true),
+  shortOffset,
 
   /// Example: `GMT-0800`
-  longOffset(true),
+  longOffset,
 
   /// Example: `PT`
-  shortGeneric(false),
+  shortGeneric,
 
   /// Example: `Pacific Time`
-  longGeneric(false);
-
-  final bool inferVariant;
-
-  const TimeZoneType(this.inferVariant);
+  longGeneric,
 }
