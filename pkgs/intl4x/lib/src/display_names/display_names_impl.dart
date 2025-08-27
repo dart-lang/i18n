@@ -31,15 +31,6 @@ abstract class DisplayNamesImpl {
 
   String ofCalendar(Calendar calendar);
 
-  static DisplayNamesImpl build(
-    Locale locale,
-    DisplayNamesOptions options,
-    LocaleMatcher localeMatcher,
-  ) => buildFormatter(
-    locale,
-    options,
-    localeMatcher,
-    getDisplayNamesECMA,
-    getDisplayNames4X,
-  );
+  static DisplayNamesImpl build(Locale locale, DisplayNamesOptions options) =>
+      buildFormatter(locale, options, getDisplayNamesECMA, getDisplayNames4X);
 }

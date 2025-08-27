@@ -12,8 +12,7 @@ import 'display_names_options.dart';
 DisplayNamesImpl getDisplayNamesECMA(
   Locale locale,
   DisplayNamesOptions options,
-  LocaleMatcher localeMatcher,
-) => _DisplayNamesECMA.tryToBuild(locale, options, localeMatcher);
+) => _DisplayNamesECMA.tryToBuild(locale, options);
 
 @JS('Intl.DisplayNames')
 extension type DisplayNames._(JSObject _) implements JSObject {
@@ -32,23 +31,17 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
   static DisplayNamesImpl tryToBuild(
     Locale locale,
     DisplayNamesOptions options,
-    LocaleMatcher localeMatcher,
   ) {
-    final supportedLocales = supportedLocalesOf(localeMatcher, locale);
+    final supportedLocales = supportedLocalesOf(locale);
     return _DisplayNamesECMA(
       supportedLocales.firstOrNull ?? Locale.parse('und'),
       options,
     );
   }
 
-  static List<Locale> supportedLocalesOf(
-    LocaleMatcher localeMatcher,
-    Locale locale,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return DisplayNames.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -84,12 +77,10 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
 }
 
 extension on DisplayNamesOptions {
-  JSAny toJsOptions(DisplayType type) =>
-      {
-        'localeMatcher': localeMatcher.jsName,
-        'style': style.name,
-        'type': type.name,
-        'languageDisplay': languageDisplay.name,
-        'fallback': fallback.name,
-      }.jsify()!;
+  JSAny toJsOptions(DisplayType type) => {
+    'style': style.name,
+    'type': type.name,
+    'languageDisplay': languageDisplay.name,
+    'fallback': fallback.name,
+  }.jsify()!;
 }

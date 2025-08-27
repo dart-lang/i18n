@@ -5,15 +5,13 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'number_format_impl.dart';
 import 'number_format_options.dart';
 
 NumberFormatImpl getNumberFormatterECMA(
   Locale locale,
   NumberFormatOptions options,
-  LocaleMatcher localeMatcher,
-) => _NumberFormatECMA.tryToBuild(locale, options, localeMatcher);
+) => _NumberFormatECMA.tryToBuild(locale, options);
 
 @JS('Intl.NumberFormat')
 extension type NumberFormat._(JSObject _) implements JSObject {
@@ -32,23 +30,17 @@ class _NumberFormatECMA extends NumberFormatImpl {
   static NumberFormatImpl tryToBuild(
     Locale locale,
     NumberFormatOptions options,
-    LocaleMatcher localeMatcher,
   ) {
-    final supportedLocales = supportedLocalesOf(localeMatcher, locale);
+    final supportedLocales = supportedLocalesOf(locale);
     return _NumberFormatECMA(
       supportedLocales.firstOrNull ?? Locale.parse('und'),
       options,
     );
   }
 
-  static List<Locale> supportedLocalesOf(
-    LocaleMatcher localeMatcher,
-    Locale locale,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return NumberFormat.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -86,7 +78,6 @@ extension on NumberFormatOptions {
       'sign': signDisplay.name,
       if (notation is CompactNotation)
         'compactDisplay': (notation as CompactNotation).compactDisplay.name,
-      'localeMatcher': localeMatcher.jsName,
       'notation': notation.name,
       if (numberingSystem != null) 'numberingSystem': numberingSystem,
       'signDisplay': signDisplay.name,

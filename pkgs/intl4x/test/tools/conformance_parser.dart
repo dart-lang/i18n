@@ -59,14 +59,15 @@ String? compareToReference(
 }
 
 String? shouldFail(Info info, Info referenceInfo) {
-  final moreErrors =
-      info.error > referenceInfo.error ? 'Too many new errors' : null;
-  final moreFailing =
-      info.failing > referenceInfo.failing ? 'Too many new failing' : null;
-  final moreUnsupported =
-      info.unsupported > referenceInfo.unsupported
-          ? 'Too many new unsupported'
-          : null;
+  final moreErrors = info.error > referenceInfo.error
+      ? 'Too many new errors'
+      : null;
+  final moreFailing = info.failing > referenceInfo.failing
+      ? 'Too many new failing'
+      : null;
+  final moreUnsupported = info.unsupported > referenceInfo.unsupported
+      ? 'Too many new unsupported'
+      : null;
   return moreErrors ?? moreFailing ?? moreUnsupported;
 }
 
@@ -96,10 +97,9 @@ Map<String, dynamic> getJson(String pathToCurrent, String exec) {
   final decoded = jsonDecode(currentStr) as Map<String, dynamic>;
 
   return decoded.map((key, value) {
-    final list =
-        (value as List)
-            .where((element) => (element as Map)['exec'] == exec)
-            .toList();
+    final list = (value as List)
+        .where((element) => (element as Map)['exec'] == exec)
+        .toList();
     return MapEntry(key, list);
   });
 }
