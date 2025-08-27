@@ -87,27 +87,27 @@ class FormatterECMA extends FormatterImpl {
       dateTimeFormat.format(datetime.js);
 
   @override
-  ZonedFormatter withTimeZoneLong() =>
+  ZonedDateTimeFormatter withTimeZoneLong() =>
       FormatterZonedECMA(TimeZoneType.long, this);
 
   @override
-  ZonedFormatter withTimeZoneLongGeneric() =>
+  ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
       FormatterZonedECMA(TimeZoneType.longGeneric, this);
 
   @override
-  ZonedFormatter withTimeZoneLongOffset() =>
+  ZonedDateTimeFormatter withTimeZoneLongOffset() =>
       FormatterZonedECMA(TimeZoneType.longOffset, this);
 
   @override
-  ZonedFormatter withTimeZoneShort() =>
+  ZonedDateTimeFormatter withTimeZoneShort() =>
       FormatterZonedECMA(TimeZoneType.short, this);
 
   @override
-  ZonedFormatter withTimeZoneShortGeneric() =>
+  ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
       FormatterZonedECMA(TimeZoneType.shortGeneric, this);
 
   @override
-  ZonedFormatter withTimeZoneShortOffset() =>
+  ZonedDateTimeFormatter withTimeZoneShortOffset() =>
       FormatterZonedECMA(TimeZoneType.shortOffset, this);
 }
 

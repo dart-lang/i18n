@@ -23,22 +23,22 @@ class DateTimeFormatBuilder {
 
   DateTimeFormatBuilder._(this._impl);
 
-  DateFormatter d({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter d({DateFormatStyle? dateStyle}) =>
       _impl.d(dateStyle: dateStyle);
 
-  DateFormatter m({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter m({DateFormatStyle? dateStyle}) =>
       _impl.m(dateStyle: dateStyle);
 
-  DateFormatter y({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter y({DateFormatStyle? dateStyle}) =>
       _impl.y(dateStyle: dateStyle);
 
-  DateFormatter md({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter md({DateFormatStyle? dateStyle}) =>
       _impl.md(dateStyle: dateStyle);
 
-  DateFormatter ymd({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter ymd({DateFormatStyle? dateStyle}) =>
       _impl.ymd(dateStyle: dateStyle);
 
-  DateFormatter ymde({DateFormatStyle? dateStyle}) =>
+  DateTimeFormatter ymde({DateFormatStyle? dateStyle}) =>
       _impl.ymde(dateStyle: dateStyle);
 
   DateTimeFormatter mdt({
@@ -56,7 +56,7 @@ class DateTimeFormatBuilder {
     TimeFormatStyle? timeStyle,
   }) => _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle);
 
-  TimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
+  DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }
 
 DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>

@@ -41,7 +41,25 @@ abstract class DateTimeFormatImpl {
   FormatterImpl t({TimeFormatStyle? style});
 }
 
-abstract class FormatterZonedImpl implements ZonedFormatter {
+abstract class FormatterImpl extends _AbstractDateTimeFormatter
+    implements DateTimeFormatter {
+  final DateTimeFormatImpl _impl;
+
+  FormatterImpl(this._impl);
+
+  String formatInternal(DateTime datetime);
+
+  @override
+  String format(DateTime datetime) {
+    if (isInTest) {
+      return '$datetime//${_impl.locale}';
+    } else {
+      return formatInternal(datetime);
+    }
+  }
+}
+
+abstract class FormatterZonedImpl implements ZonedDateTimeFormatter {
   final DateTimeFormatImpl _impl;
   final TimeZoneType timeZoneType;
 
@@ -59,51 +77,28 @@ abstract class FormatterZonedImpl implements ZonedFormatter {
   }
 }
 
-abstract class FormatterImpl extends _AbstractDateTimeFormatter
-    implements DateTimeFormatter, TimeFormatter, DateFormatter {
-  final DateTimeFormatImpl _impl;
-
-  FormatterImpl(this._impl);
-
-  String formatInternal(DateTime datetime);
-
-  @override
-  String format(DateTime datetime) {
-    if (isInTest) {
-      return '$datetime//${_impl.locale}';
-    } else {
-      return formatInternal(datetime);
-    }
-  }
-}
-
-sealed class DateFormatter extends _AbstractDateTimeFormatter
-    with _ZoneableFormatter {}
-
-sealed class ZonedFormatter extends _AbstractZonedDateTimeFormatter {}
-
 sealed class DateTimeFormatter extends _AbstractDateTimeFormatter
     with _ZoneableFormatter {}
 
-sealed class TimeFormatter extends _AbstractDateTimeFormatter
-    with _ZoneableFormatter {}
+sealed class ZonedDateTimeFormatter extends _AbstractZonedDateTimeFormatter {}
 
 /// A base class for formatters that can format a [DateTime] into a string.
 sealed class _AbstractDateTimeFormatter {
   String format(DateTime datetime);
 }
 
-/// A base class for formatters that can format a [DateTime] and [TimeZone] into a string.
+/// A base class for formatters that can format a [DateTime] and [TimeZone] into
+/// a string.
 sealed class _AbstractZonedDateTimeFormatter {
   String format(DateTime datetime, TimeZone timeZone);
 }
 
 /// A [_AbstractDateTimeFormatter] which can also handle time zones.
 mixin _ZoneableFormatter {
-  ZonedFormatter withTimeZoneShort();
-  ZonedFormatter withTimeZoneLong();
-  ZonedFormatter withTimeZoneShortOffset();
-  ZonedFormatter withTimeZoneLongOffset();
-  ZonedFormatter withTimeZoneShortGeneric();
-  ZonedFormatter withTimeZoneLongGeneric();
+  ZonedDateTimeFormatter withTimeZoneShort();
+  ZonedDateTimeFormatter withTimeZoneLong();
+  ZonedDateTimeFormatter withTimeZoneShortOffset();
+  ZonedDateTimeFormatter withTimeZoneLongOffset();
+  ZonedDateTimeFormatter withTimeZoneShortGeneric();
+  ZonedDateTimeFormatter withTimeZoneLongGeneric();
 }

@@ -4,6 +4,6 @@
 
 export 'src/datetime_format/datetime_format.dart' show DateTimeFormatBuilder;
 export 'src/datetime_format/datetime_format_impl.dart'
-    show DateFormatter, DateTimeFormatter, TimeFormatter, ZonedFormatter;
+    show DateTimeFormatter, ZonedDateTimeFormatter;
 export 'src/datetime_format/datetime_format_options.dart';
 export 'src/options.dart';
