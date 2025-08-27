@@ -3,10 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
 /// A test for message extraction and code generation not using deferred
 /// loading for the generated code.
-library message_extraction_no_deferred_test;
+library;
 
 import 'package:test/test.dart';
 
