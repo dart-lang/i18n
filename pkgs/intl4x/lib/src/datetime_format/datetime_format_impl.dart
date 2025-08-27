@@ -41,8 +41,7 @@ abstract class DateTimeFormatImpl {
   FormatterImpl t({TimeFormatStyle? style});
 }
 
-abstract class FormatterImpl extends _AbstractDateTimeFormatter
-    implements DateTimeFormatter {
+abstract class FormatterImpl extends DateTimeFormatter {
   final DateTimeFormatImpl _impl;
 
   FormatterImpl(this._impl);
@@ -59,7 +58,7 @@ abstract class FormatterImpl extends _AbstractDateTimeFormatter
   }
 }
 
-abstract class FormatterZonedImpl implements ZonedDateTimeFormatter {
+abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
   final DateTimeFormatImpl _impl;
   final TimeZoneType timeZoneType;
 
@@ -77,28 +76,20 @@ abstract class FormatterZonedImpl implements ZonedDateTimeFormatter {
   }
 }
 
-sealed class DateTimeFormatter extends _AbstractDateTimeFormatter
-    with _ZoneableFormatter {}
-
-sealed class ZonedDateTimeFormatter extends _AbstractZonedDateTimeFormatter {}
-
 /// A base class for formatters that can format a [DateTime] into a string.
-sealed class _AbstractDateTimeFormatter {
+sealed class DateTimeFormatter {
   String format(DateTime datetime);
-}
 
-/// A base class for formatters that can format a [DateTime] and [TimeZone] into
-/// a string.
-sealed class _AbstractZonedDateTimeFormatter {
-  String format(DateTime datetime, TimeZone timeZone);
-}
-
-/// A [_AbstractDateTimeFormatter] which can also handle time zones.
-mixin _ZoneableFormatter {
   ZonedDateTimeFormatter withTimeZoneShort();
   ZonedDateTimeFormatter withTimeZoneLong();
   ZonedDateTimeFormatter withTimeZoneShortOffset();
   ZonedDateTimeFormatter withTimeZoneLongOffset();
   ZonedDateTimeFormatter withTimeZoneShortGeneric();
   ZonedDateTimeFormatter withTimeZoneLongGeneric();
+}
+
+/// A base class for formatters that can format a [DateTime] and [TimeZone] into
+/// a string.
+sealed class ZonedDateTimeFormatter {
+  String format(DateTime datetime, TimeZone timeZone);
 }
