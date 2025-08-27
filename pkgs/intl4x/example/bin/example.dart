@@ -13,7 +13,7 @@ void main(List<String> arguments) {
 
   print(Intl().dateTimeFormat().d().format(DateTime.now()));
 
-  ZonedDateTimeFormatter withTimeZoneLong = Intl(locale: Locale.parse('en'))
+  final withTimeZoneLong = Intl(locale: Locale.parse('en'))
       .dateTimeFormat()
       .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
       .withTimeZoneLong();
