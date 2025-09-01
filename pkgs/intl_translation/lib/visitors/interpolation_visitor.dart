@@ -68,9 +68,10 @@ class InterpolationVisitor extends SimpleAstVisitor {
     node.accept(visitor);
     if (!visitor.foundPluralOrGender) {
       throw MessageExtractionException(
-          'Only simple identifiers and Intl.plural/gender/select expressions '
-          'are allowed in message '
-          'interpolation expressions.\nError at $node');
+        'Only simple identifiers and Intl.plural/gender/select expressions '
+        'are allowed in message '
+        'interpolation expressions.\nError at $node',
+      );
     }
   }
 
@@ -78,7 +79,8 @@ class InterpolationVisitor extends SimpleAstVisitor {
     var index = arguments.indexOf(node.expression.toString());
     if (index == -1) {
       throw MessageExtractionException(
-          'Cannot find argument ${node.expression}');
+        'Cannot find argument ${node.expression}',
+      );
     }
     pieces.add(index);
   }
