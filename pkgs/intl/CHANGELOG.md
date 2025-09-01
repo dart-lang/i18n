@@ -5,6 +5,8 @@
  * Fix parsing of locale strings containing script codes in `verifiedLocale`.
    For example, `zh-Hans-CN` would have been previously parsed as `zh`, but is
    now parsed as `zh_CN`.
+ * Typed all DateFormat constructors as requiring a String? locale instead of a dynamic, 
+   as it would throw with any other type
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
