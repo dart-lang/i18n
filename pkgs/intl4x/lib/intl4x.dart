@@ -42,49 +42,35 @@ typedef Icu4xKey = String;
 /// print(numberFormat.percent().format(0.5)); //prints 50%
 /// ```
 class Intl {
-  final LocaleMatcher localeMatcher;
-
   Locale locale;
 
   /// Construct an [Intl] instance providing the current [locale].
-  Intl({Locale? locale, this.localeMatcher = LocaleMatcher.lookup})
-    : locale = locale ?? findSystemLocale();
+  Intl({Locale? locale}) : locale = locale ?? findSystemLocale();
 
   CaseMapping get caseMapping =>
-      buildCaseMapping(CaseMappingImpl.build(locale, localeMatcher));
+      buildCaseMapping(CaseMappingImpl.build(locale));
 
   Collation collation([CollationOptions options = const CollationOptions()]) =>
-      buildCollation(CollationImpl.build(locale, options, localeMatcher));
+      buildCollation(CollationImpl.build(locale, options));
 
-  DateTimeFormat dateTimeFormat([
+  DateTimeFormatBuilder dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
-  ]) => buildDateTimeFormat(
-    DateTimeFormatImpl.build(locale, options, localeMatcher),
-  );
+  ]) => buildDateTimeFormat(DateTimeFormatImpl.build(locale, options));
 
   DisplayNames displayNames([
     DisplayNamesOptions options = const DisplayNamesOptions(),
-  ]) =>
-      buildDisplayNames(DisplayNamesImpl.build(locale, options, localeMatcher));
+  ]) => buildDisplayNames(DisplayNamesImpl.build(locale, options));
 
   ListFormat listFormat([
     ListFormatOptions options = const ListFormatOptions(),
-  ]) => buildListFormat(ListFormatImpl.build(locale, options, localeMatcher));
+  ]) => buildListFormat(ListFormatImpl.build(locale, options));
 
   NumberFormat numberFormat([NumberFormatOptions? options]) =>
       buildNumberFormat(
-        NumberFormatImpl.build(
-          locale,
-          options ?? NumberFormatOptions.custom(),
-          localeMatcher,
-        ),
+        NumberFormatImpl.build(locale, options ?? NumberFormatOptions.custom()),
       );
 
   PluralRules plural([PluralRulesOptions? options]) => buildPluralRules(
-    PluralRulesImpl.build(
-      locale,
-      options ?? PluralRulesOptions(),
-      localeMatcher,
-    ),
+    PluralRulesImpl.build(locale, options ?? PluralRulesOptions()),
   );
 }

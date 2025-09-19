@@ -5,15 +5,11 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'list_format_impl.dart';
 import 'list_format_options.dart';
 
-ListFormatImpl? getListFormatterECMA(
-  Locale locale,
-  ListFormatOptions options,
-  LocaleMatcher localeMatcher,
-) => _ListFormatECMA.tryToBuild(locale, options, localeMatcher);
+ListFormatImpl getListFormatterECMA(Locale locale, ListFormatOptions options) =>
+    _ListFormatECMA.tryToBuild(locale, options);
 
 @JS('Intl.ListFormat')
 extension type ListFormat._(JSObject _) implements JSObject {
@@ -29,25 +25,17 @@ extension type ListFormat._(JSObject _) implements JSObject {
 class _ListFormatECMA extends ListFormatImpl {
   _ListFormatECMA(super.locale, super.options);
 
-  static ListFormatImpl? tryToBuild(
-    Locale locale,
-    ListFormatOptions options,
-    LocaleMatcher localeMatcher,
-  ) {
-    final supportedLocales = supportedLocalesOf(locale, localeMatcher);
-    return supportedLocales.isNotEmpty
-        ? _ListFormatECMA(supportedLocales.first, options)
-        : null;
+  static ListFormatImpl tryToBuild(Locale locale, ListFormatOptions options) {
+    final supportedLocales = supportedLocalesOf(locale);
+    return _ListFormatECMA(
+      supportedLocales.firstOrNull ?? Locale.parse('und'),
+      options,
+    );
   }
 
-  static List<Locale> supportedLocalesOf(
-    Locale locale,
-    LocaleMatcher localeMatcher,
-  ) {
-    final o = {'localeMatcher': localeMatcher.jsName}.jsify()!;
+  static List<Locale> supportedLocalesOf(Locale locale) {
     return ListFormat.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
-      o,
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
@@ -61,10 +49,5 @@ class _ListFormatECMA extends ListFormatImpl {
 }
 
 extension on ListFormatOptions {
-  JSAny toJsOptions() =>
-      {
-        'localeMatcher': localeMatcher.jsName,
-        'type': type.jsName,
-        'style': style.name,
-      }.jsify()!;
+  JSAny toJsOptions() => {'type': type.jsName, 'style': style.name}.jsify()!;
 }

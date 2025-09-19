@@ -1,10 +1,12 @@
-## 0.13.0-wip
+## 0.13.0
 
 - Add examples of extensions to `List` and `DateTime` formatting.
 - Removing `EcmaPolicy`, fixing Locale printing, and other small clean-ups.
 - Update to `native_toolchain_c` v0.16.7.
 - Make package compatible to run on Windows again.
 - Update to `native_toolchain_c` v0.17.1.
+- Move logic to package:icu4x.
+- Switch `DateTime` formatting API and more clean-ups.
 
 ## 0.12.2
 
