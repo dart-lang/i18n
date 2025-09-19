@@ -94,45 +94,48 @@ class PluralAndGenderVisitor extends SimpleAstVisitor<void> {
         break;
       default:
         throw MessageExtractionException(
-            'Invalid plural/gender/select message ${node.methodName.name} '
-            'in $node');
+          'Invalid plural/gender/select message ${node.methodName.name} '
+          'in $node',
+        );
     }
     message.parent = parent;
 
     var buildNotJustCollectErrors = true;
     arguments.forEach((key, Expression value) {
       try {
-        var interpolation = InterpolationVisitor(
-          message,
-          extraction,
-        );
+        var interpolation = InterpolationVisitor(message, extraction);
         value.accept(interpolation);
         if (buildNotJustCollectErrors) {
           message[key] = interpolation.pieces;
         }
       } on MessageExtractionException catch (e) {
         buildNotJustCollectErrors = false;
-        var errString = (StringBuffer()
-              ..writeAll(['Error ', e, '\nProcessing <', node, '>'])
-              ..write(extraction.reportErrorLocation(node)))
-            .toString();
+        var errString =
+            (StringBuffer()
+                  ..writeAll(['Error ', e, '\nProcessing <', node, '>'])
+                  ..write(extraction.reportErrorLocation(node)))
+                .toString();
         extraction.onMessage(errString);
         extraction.warnings.add(errString);
       }
     });
-    var mainArg = node.argumentList.arguments
-        .firstWhere((each) => each is! NamedExpression);
+    var mainArg = node.argumentList.arguments.firstWhere(
+      (each) => each is! NamedExpression,
+    );
     if (mainArg is SimpleStringLiteral) {
       message.mainArgument = mainArg.toString();
     } else if (mainArg is SimpleIdentifier) {
       message.mainArgument = mainArg.name;
     } else {
-      var errString = (StringBuffer()
-            ..write('Error (Invalid argument to plural/gender/select, '
-                'must be simple variable reference) '
-                '\nProcessing <$node>')
-            ..write(extraction.reportErrorLocation(node)))
-          .toString();
+      var errString =
+          (StringBuffer()
+                ..write(
+                  'Error (Invalid argument to plural/gender/select, '
+                  'must be simple variable reference) '
+                  '\nProcessing <$node>',
+                )
+                ..write(extraction.reportErrorLocation(node)))
+              .toString();
       extraction.onMessage(errString);
       extraction.warnings.add(errString);
     }

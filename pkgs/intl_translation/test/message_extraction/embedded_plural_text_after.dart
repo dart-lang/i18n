@@ -4,12 +4,13 @@
 
 /// A test library that should fail because there is a plural with text
 /// following the plural expression.
-library embedded_plural_text_after;
+library;
 
 import 'package:intl/intl.dart';
 
 String embeddedPlural2(num n) => Intl.message(
-    "${Intl.plural(n, zero: 'none', one: 'one', other: 'some')} plus text.",
-    name: 'embeddedPlural2',
-    desc: 'An embedded plural',
-    args: [n]);
+  "${Intl.plural(n, zero: 'none', one: 'one', other: 'some')} plus text.",
+  name: 'embeddedPlural2',
+  desc: 'An embedded plural',
+  args: [n],
+);

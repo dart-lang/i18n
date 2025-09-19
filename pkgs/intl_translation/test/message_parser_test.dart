@@ -14,8 +14,10 @@ import 'package:test/test.dart';
 
 void main() {
   test('Test escaping', () {
-    testEscaping(r"interessant (fr): '<>{}= +-_$()&^%$#@!~`'",
-        r"interessant (fr): \'<>{}= +-_\$()&^%\$#@!~`\'");
+    testEscaping(
+      r"interessant (fr): '<>{}= +-_$()&^%$#@!~`'",
+      r"interessant (fr): \'<>{}= +-_\$()&^%\$#@!~`\'",
+    );
     testEscaping('Escapes: \n\r\f\b\t\v.', r'Escapes: \n\r\f\b\t\v.');
     testEscaping("te'{st'}", 'te{st}');
     testEscaping("'{st'}te", '{st}te');
@@ -31,15 +33,11 @@ void main() {
     var input =
         '''{gender_of_host, select, female {test} male {test2} other {test3}}''';
     var parsedMessage = MessageParser(input).pluralGenderSelectParse();
-    Message expectedMessage = Gender.from(
-      'gender_of_host',
-      [
-        ['female', 'test'],
-        ['male', 'test2'],
-        ['other', 'test3'],
-      ],
-      null,
-    );
+    Message expectedMessage = Gender.from('gender_of_host', [
+      ['female', 'test'],
+      ['male', 'test2'],
+      ['other', 'test3'],
+    ], null);
     expect(parsedMessage.toCode(), expectedMessage.toCode());
   });
 
@@ -50,16 +48,12 @@ void main() {
       =2 {Anna invites Bob and one other person to her party.}
       other {Anna invites Bob and 2 other people to her party.}}''';
     var parsedMessage = MessageParser(input).pluralGenderSelectParse();
-    Message expectedMessage = Plural.from(
-      'num_guests',
-      [
-        ['=0', 'Anna does not give a party.'],
-        ['=1', 'Anna invites Bob to her party.'],
-        ['=2', 'Anna invites Bob and one other person to her party.'],
-        ['other', 'Anna invites Bob and 2 other people to her party.'],
-      ],
-      null,
-    );
+    Message expectedMessage = Plural.from('num_guests', [
+      ['=0', 'Anna does not give a party.'],
+      ['=1', 'Anna invites Bob to her party.'],
+      ['=2', 'Anna invites Bob and one other person to her party.'],
+      ['other', 'Anna invites Bob and 2 other people to her party.'],
+    ], null);
     expect(parsedMessage.toCode(), expectedMessage.toCode());
   });
 
@@ -68,14 +62,10 @@ void main() {
       type1 {Anna does not give a party.}
       type2 {Anna invites Bob to her party.}}''';
     var parsedMessage = MessageParser(input).pluralGenderSelectParse();
-    Message expectedMessage = Select.from(
-      'selector',
-      [
-        ['type1', 'Anna does not give a party.'],
-        ['type2', 'Anna invites Bob to her party.'],
-      ],
-      null,
-    );
+    Message expectedMessage = Select.from('selector', [
+      ['type1', 'Anna does not give a party.'],
+      ['type2', 'Anna invites Bob to her party.'],
+    ], null);
     expect(parsedMessage.toCode(), expectedMessage.toCode());
   });
 
@@ -86,54 +76,42 @@ void main() {
       =2 {{host} invites {guest} and one other person to her party.}
       other {{host} invites {guest} and # other people to her party.}}''';
     var parsedMessage = MessageParser(input).pluralGenderSelectParse();
-    Message expectedMessage = Plural.from(
-      'num_guests',
+    Message expectedMessage = Plural.from('num_guests', [
       [
-        [
-          '=0',
-          CompositeMessage(
-            [
-              VariableSubstitution.named('host'),
-              LiteralString(' does not give a party.'),
-            ],
-          )
-        ],
-        [
-          '=1',
-          CompositeMessage(
-            [
-              VariableSubstitution.named('host'),
-              LiteralString(' invites '),
-              VariableSubstitution.named('guest'),
-              LiteralString(' to her party.'),
-            ],
-          )
-        ],
-        [
-          '=2',
-          CompositeMessage(
-            [
-              VariableSubstitution.named('host'),
-              LiteralString(' invites '),
-              VariableSubstitution.named('guest'),
-              LiteralString(' and one other person to her party.'),
-            ],
-          )
-        ],
-        [
-          'other',
-          CompositeMessage(
-            [
-              VariableSubstitution.named('host'),
-              LiteralString(' invites '),
-              VariableSubstitution.named('guest'),
-              LiteralString(' and # other people to her party.'),
-            ],
-          )
-        ],
+        '=0',
+        CompositeMessage([
+          VariableSubstitution.named('host'),
+          LiteralString(' does not give a party.'),
+        ]),
       ],
-      null,
-    );
+      [
+        '=1',
+        CompositeMessage([
+          VariableSubstitution.named('host'),
+          LiteralString(' invites '),
+          VariableSubstitution.named('guest'),
+          LiteralString(' to her party.'),
+        ]),
+      ],
+      [
+        '=2',
+        CompositeMessage([
+          VariableSubstitution.named('host'),
+          LiteralString(' invites '),
+          VariableSubstitution.named('guest'),
+          LiteralString(' and one other person to her party.'),
+        ]),
+      ],
+      [
+        'other',
+        CompositeMessage([
+          VariableSubstitution.named('host'),
+          LiteralString(' invites '),
+          VariableSubstitution.named('guest'),
+          LiteralString(' and # other people to her party.'),
+        ]),
+      ],
+    ], null);
     expect(parsedMessage.toCode(), expectedMessage.toCode());
   });
 }
