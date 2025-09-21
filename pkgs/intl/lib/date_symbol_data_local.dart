@@ -954,6 +954,167 @@ Map<String, DateSymbols> dateTimeSymbolMap() => {
           FIRSTDAYOFWEEK: 5,
           WEEKENDRANGE: const [4, 5],
           FIRSTWEEKCUTOFFDAY: 4),
+      // Date/time formatting symbols for locale ar_TN.
+      "ar_TN": new DateSymbols(
+          NAME: "ar_TN",
+          ERAS: const ['ق.م', 'م'],
+          ERANAMES: const ['قبل الميلاد', 'ميلادي'],
+          NARROWMONTHS: const [
+            'ج',
+            'ف',
+            'م',
+            'أ',
+            'م',
+            'ج',
+            'ج',
+            'أ',
+            'س',
+            'أ',
+            'ن',
+            'د'
+          ],
+          STANDALONENARROWMONTHS: const [
+            'ج',
+            'ف',
+            'م',
+            'أ',
+            'م',
+            'ج',
+            'ج',
+            'أ',
+            'س',
+            'أ',
+            'ن',
+            'د'
+          ],
+          MONTHS: const [
+            'جانفي',
+            'فيفري',
+            'مارس',
+            'أفريل',
+            'ماي',
+            'جوان',
+            'جويلية',
+            'أوت',
+            'سبتمبر',
+            'أكتوبر',
+            'نوفمبر',
+            'ديسمبر'
+          ],
+          STANDALONEMONTHS: const [
+            'جانفي',
+            'فيفري',
+            'مارس',
+            'أفريل',
+            'ماي',
+            'جوان',
+            'جويلية',
+            'أوت',
+            'سبتمبر',
+            'أكتوبر',
+            'نوفمبر',
+            'ديسمبر'
+          ],
+          SHORTMONTHS: const [
+            'جانفي',
+            'فيفري',
+            'مارس',
+            'أفريل',
+            'ماي',
+            'جوان',
+            'جويلية',
+            'أوت',
+            'سبتمبر',
+            'أكتوبر',
+            'نوفمبر',
+            'ديسمبر'
+          ],
+          STANDALONESHORTMONTHS: const [
+            'جانفي',
+            'فيفري',
+            'مارس',
+            'أفريل',
+            'ماي',
+            'جوان',
+            'جويلية',
+            'أوت',
+            'سبتمبر',
+            'أكتوبر',
+            'نوفمبر',
+            'ديسمبر'
+          ],
+          WEEKDAYS: const [
+            'الأحد',
+            'الاثنين',
+            'الثلاثاء',
+            'الأربعاء',
+            'الخميس',
+            'الجمعة',
+            'السبت'
+          ],
+          STANDALONEWEEKDAYS: const [
+            'الأحد',
+            'الاثنين',
+            'الثلاثاء',
+            'الأربعاء',
+            'الخميس',
+            'الجمعة',
+            'السبت'
+          ],
+          SHORTWEEKDAYS: const [
+            'الأحد',
+            'الاثنين',
+            'الثلاثاء',
+            'الأربعاء',
+            'الخميس',
+            'الجمعة',
+            'السبت'
+          ],
+          STANDALONESHORTWEEKDAYS: const [
+            'الأحد',
+            'الاثنين',
+            'الثلاثاء',
+            'الأربعاء',
+            'الخميس',
+            'الجمعة',
+            'السبت'
+          ],
+          NARROWWEEKDAYS: const ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+          STANDALONENARROWWEEKDAYS: const ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
+          SHORTQUARTERS: const [
+            'الثلاثية الأولى',
+            'الثلاثية الثانية',
+            'الثلاثية الثالثة',
+            'الثلاثية الرابعة'
+          ],
+          QUARTERS: const [
+            'الثلاثية الأولى',
+            'الثلاثية الثانية',
+            'الثلاثية الثالثة',
+            'الثلاثية الرابعة'
+          ],
+          AMPMS: const ['ص', 'م'],
+          DATEFORMATS: const [
+            'EEEE، d MMMM y',
+            'd MMMM y',
+            'dd‏/MM‏/y',
+            'd‏/M‏/y'
+          ],
+          TIMEFORMATS: const [
+            'h:mm:ss a zzzz',
+            'h:mm:ss a z',
+            'h:mm:ss a',
+            'h:mm a'
+          ],
+          DATETIMEFORMATS: const [
+            '{1}، {0}',
+            '{1}، {0}',
+            '{1}، {0}',
+            '{1}، {0}'
+          ],
+          FIRSTDAYOFWEEK: 5,
+          WEEKENDRANGE: const [4, 5],
+          FIRSTWEEKCUTOFFDAY: 4),
       // Date/time formatting symbols for locale as.
       "as": new DateSymbols(
           NAME: "as",

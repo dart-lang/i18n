@@ -501,6 +501,7 @@ final pluralRules = {
   'ar': _ar_rule,
   'ar_DZ': _ar_rule,
   'ar_EG': _ar_rule,
+  'ar_TN': _ar_rule,
   'as': _am_rule,
   'az': _af_rule,
   'be': _be_rule,
