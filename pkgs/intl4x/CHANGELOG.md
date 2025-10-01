@@ -1,3 +1,7 @@
+## 0.13.1
+
+- Fix casemapping on the web.
+
 ## 0.13.0
 
 - Add examples of extensions to `List` and `DateTime` formatting.
