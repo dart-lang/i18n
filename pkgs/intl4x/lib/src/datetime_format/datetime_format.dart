@@ -29,17 +29,17 @@ class DateTimeFormatBuilder {
   DateTimeFormatter m({DateFormatStyle? dateStyle}) =>
       _impl.m(dateStyle: dateStyle);
 
-  DateTimeFormatter y({DateFormatStyle? dateStyle}) =>
-      _impl.y(dateStyle: dateStyle);
+  DateTimeFormatter y({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.y(dateStyle: dateStyle, withEra: withEra);
 
   DateTimeFormatter md({DateFormatStyle? dateStyle}) =>
       _impl.md(dateStyle: dateStyle);
 
-  DateTimeFormatter ymd({DateFormatStyle? dateStyle}) =>
-      _impl.ymd(dateStyle: dateStyle);
+  DateTimeFormatter ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.ymd(dateStyle: dateStyle, withEra: withEra);
 
-  DateTimeFormatter ymde({DateFormatStyle? dateStyle}) =>
-      _impl.ymde(dateStyle: dateStyle);
+  DateTimeFormatter ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.ymde(dateStyle: dateStyle, withEra: withEra);
 
   DateTimeFormatter mdt({
     DateFormatStyle? dateStyle,
@@ -49,12 +49,16 @@ class DateTimeFormatBuilder {
   DateTimeFormatter ymdt({
     DateFormatStyle? dateStyle,
     TimeFormatStyle? timeStyle,
-  }) => _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle);
+    bool withEra = false,
+  }) =>
+      _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
 
   DateTimeFormatter ymdet({
     DateFormatStyle? dateStyle,
     TimeFormatStyle? timeStyle,
-  }) => _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle);
+    bool withEra = false,
+  }) =>
+      _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
 
   DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }

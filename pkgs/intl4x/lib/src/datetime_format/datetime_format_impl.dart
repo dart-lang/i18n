@@ -31,13 +31,21 @@ abstract class DateTimeFormatImpl {
 
   FormatterImpl d({DateFormatStyle? dateStyle});
   FormatterImpl m({DateFormatStyle? dateStyle});
-  FormatterImpl y({DateFormatStyle? dateStyle});
+  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra});
   FormatterImpl md({DateFormatStyle? dateStyle});
-  FormatterImpl ymd({DateFormatStyle? dateStyle});
-  FormatterImpl ymde({DateFormatStyle? dateStyle});
+  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra});
+  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra});
   FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
-  FormatterImpl ymdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
-  FormatterImpl ymdet({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
+  FormatterImpl ymdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra,
+  });
+  FormatterImpl ymdet({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra,
+  });
   FormatterImpl t({TimeFormatStyle? style});
 }
 

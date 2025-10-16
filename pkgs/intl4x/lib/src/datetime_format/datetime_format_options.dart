@@ -6,7 +6,6 @@ import '../options.dart';
 
 typedef WeekDayStyle = Style;
 typedef DayPeriod = Style;
-typedef EraStyle = Style;
 
 /// DateTime formatting functionality of the browser.
 class DateTimeFormatOptions {
@@ -19,7 +18,6 @@ class DateTimeFormatOptions {
 
   /// Whether to use a 12- or 24-hour style clock.
   final ClockStyle? clockstyle;
-  final EraStyle? era;
   final TimeStyle? timestyle;
 
   /// The number of digits used to represent fractions of a second.
@@ -33,7 +31,6 @@ class DateTimeFormatOptions {
     this.dayPeriod,
     this.numberingSystem,
     this.clockstyle,
-    this.era,
     this.timestyle,
     this.fractionalSecondDigits,
     this.formatMatcher = FormatMatcher.bestfit,
@@ -45,7 +42,6 @@ class DateTimeFormatOptions {
     NumberingSystem? numberingSystem,
     ClockStyle? clockstyle,
     WeekDayStyle? weekday,
-    EraStyle? era,
     TimeStyle? timestyle,
     int? fractionalSecondDigits,
     FormatMatcher? formatMatcher,
@@ -55,7 +51,6 @@ class DateTimeFormatOptions {
       dayPeriod: dayPeriod ?? this.dayPeriod,
       numberingSystem: numberingSystem ?? this.numberingSystem,
       clockstyle: clockstyle ?? this.clockstyle,
-      era: era ?? this.era,
       timestyle: timestyle ?? this.timestyle,
       fractionalSecondDigits:
           fractionalSecondDigits ?? this.fractionalSecondDigits,
