@@ -3,6 +3,7 @@ permissions:
   pull-requests: read # Changed to read, as we are only reading labels
   contents: read # Added for checkout action
   pages: write # For the dart doc page job
+  id-token: write
 
 on:
   pull_request:
