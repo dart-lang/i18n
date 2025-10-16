@@ -1,3 +1,7 @@
+## 0.13.2
+
+- Add `withEra`.
+
 ## 0.13.1
 
 - Fix casemapping on the web.
