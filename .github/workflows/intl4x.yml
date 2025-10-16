@@ -104,7 +104,10 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
-    working-directory: pkgs/intl4x
+
+    defaults:
+      run:
+        working-directory: pkgs/intl4x
     steps:
       - name: Checkout Repository
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
