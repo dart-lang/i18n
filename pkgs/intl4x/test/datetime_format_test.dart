@@ -670,10 +670,8 @@ void main() {
                 timeStyle: TimeFormatStyle.short,
               )
               .format(dateTime),
-          // Example: 18 juin 2025 à 10:30
           matches(r'^18 juin 2025 à 10:30$'),
         ),
-        tags: ['icu4xUnimplemented'],
       );
 
       testWithFormatting(
@@ -692,7 +690,6 @@ void main() {
               .format(dateTime),
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
-        tags: ['icu4xUnimplemented'],
       );
 
       testWithFormatting(
@@ -709,9 +706,8 @@ void main() {
                 timeStyle: TimeFormatStyle.medium,
               )
               .format(dateTime),
-          'Mittwoch, 18. Juni 2025, 10:30:45',
+          'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
-        testOn: 'vm',
       );
     });
   });
