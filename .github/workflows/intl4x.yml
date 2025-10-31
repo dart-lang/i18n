@@ -104,6 +104,7 @@ jobs:
           }
 
   docs:
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
 
     defaults:
@@ -130,6 +131,7 @@ jobs:
           path: pkgs/intl4x/doc/api/
 
   deploy:
+    if: ${{ github.event_name == 'push' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
