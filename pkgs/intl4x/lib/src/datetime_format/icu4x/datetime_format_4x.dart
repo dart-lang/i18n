@@ -44,22 +44,31 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 
   @override
-  FormatterImpl y({DateFormatStyle? dateStyle}) {
-    final (alignment, yearStyle, _, length) = options.toX(dateStyle: dateStyle);
+  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra = false}) {
+    final (alignment, yearStyle, _, length) = options.toX(
+      dateStyle: dateStyle,
+      withEra: withEra,
+    );
     final locale = setLocaleExtensions(localeX, options);
     return DateFormatterX.y(this, locale, alignment, length, yearStyle);
   }
 
   @override
-  FormatterImpl ymd({DateFormatStyle? dateStyle}) {
-    final (alignment, yearStyle, _, length) = options.toX(dateStyle: dateStyle);
+  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra = false}) {
+    final (alignment, yearStyle, _, length) = options.toX(
+      dateStyle: dateStyle,
+      withEra: withEra,
+    );
     final locale = setLocaleExtensions(localeX, options);
     return DateFormatterX.ymd(this, locale, alignment, length, yearStyle);
   }
 
   @override
-  FormatterImpl ymde({DateFormatStyle? dateStyle}) {
-    final (alignment, yearStyle, _, length) = options.toX(dateStyle: dateStyle);
+  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra = false}) {
+    final (alignment, yearStyle, _, length) = options.toX(
+      dateStyle: dateStyle,
+      withEra: withEra,
+    );
     final locale = setLocaleExtensions(localeX, options);
     return DateFormatterX.ymde(this, locale, alignment, length, yearStyle);
   }
@@ -81,10 +90,15 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   }
 
   @override
-  FormatterImpl ymdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle}) {
+  FormatterImpl ymdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra = false,
+  }) {
     final (alignment, yearStyle, timePrecision, length) = options.toX(
       timeStyle: timeStyle,
       dateStyle: dateStyle,
+      withEra: withEra,
     );
     final locale = setLocaleExtensions(localeX, options);
     return DateTimeFormatterX.ymdt(
@@ -101,10 +115,12 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   FormatterImpl ymdet({
     DateFormatStyle? dateStyle,
     TimeFormatStyle? timeStyle,
+    bool withEra = false,
   }) {
     final (alignment, yearStyle, timePrecision, length) = options.toX(
       timeStyle: timeStyle,
       dateStyle: dateStyle,
+      withEra: withEra,
     );
     final locale = setLocaleExtensions(localeX, options);
     return DateTimeFormatterX.ymdet(
@@ -154,6 +170,7 @@ extension on DateTimeFormatOptions {
     icu.TimePrecision? timePrecisionDefault,
     TimeFormatStyle? timeStyle,
     DateFormatStyle? dateStyle,
+    bool withEra = false,
   }) {
     icu.TimePrecision? timePrecision;
     if (fractionalSecondDigits != null) {
@@ -174,12 +191,13 @@ extension on DateTimeFormatOptions {
         : icu.DateTimeAlignment.auto;
     return (
       dateTimeAlignment,
-      switch (dateStyle) {
-        null => icu.YearStyle.full,
-        DateFormatStyle.full => icu.YearStyle.auto,
-        DateFormatStyle.long => icu.YearStyle.auto,
-        DateFormatStyle.medium => icu.YearStyle.auto,
-        DateFormatStyle.short => icu.YearStyle.auto,
+      switch ((withEra, dateStyle)) {
+        (true, _) => icu.YearStyle.withEra,
+        (_, null) => icu.YearStyle.full,
+        (_, DateFormatStyle.full) => icu.YearStyle.auto,
+        (_, DateFormatStyle.long) => icu.YearStyle.auto,
+        (_, DateFormatStyle.medium) => icu.YearStyle.auto,
+        (_, DateFormatStyle.short) => icu.YearStyle.auto,
       },
       timePrecision,
       switch (dateStyle) {

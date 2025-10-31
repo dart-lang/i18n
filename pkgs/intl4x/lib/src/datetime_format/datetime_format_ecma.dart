@@ -68,17 +68,19 @@ class FormatterECMA extends FormatterImpl {
   final DateTimeFormat dateTimeFormat;
   final TimeFormatStyle? timeStyle;
   final DateFormatStyle? dateStyle;
+  final bool withEra;
 
   FormatterECMA(
     this.impl,
     this.optionsJS,
     this.locale,
     this.options, {
-    required this.timeStyle,
-    required this.dateStyle,
+    this.timeStyle,
+    this.dateStyle,
+    required this.withEra,
   }) : dateTimeFormat = DateTimeFormat(
          [locale.toLanguageTag().toJS].toJS,
-         options.toJsMap(optionsJS, timeStyle, dateStyle),
+         options.toJsMap(optionsJS, timeStyle, dateStyle, withEra),
        ),
        super(impl);
 
@@ -132,6 +134,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
         ),
         formatter.timeStyle,
         formatter.dateStyle,
+        formatter.withEra,
       ),
     );
   }
@@ -172,6 +175,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: null,
     dateStyle: dateStyle,
+    withEra: false,
   );
 
   @override
@@ -186,6 +190,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: null,
     dateStyle: dateStyle,
+    withEra: false,
   );
 
   @override
@@ -200,6 +205,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: null,
     dateStyle: dateStyle,
+    withEra: false,
   );
 
   @override
@@ -213,46 +219,54 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: style,
     dateStyle: null,
+    withEra: false,
   );
 
   @override
-  FormatterImpl y({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(year: _timeStyle(null, dateStyle)),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-  );
+  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      FormatterECMA(
+        this,
+        DateTimeJSOptions(year: _timeStyle(null, dateStyle)),
+        locale,
+        options,
+        timeStyle: null,
+        dateStyle: dateStyle,
+        withEra: withEra,
+      );
 
   @override
-  FormatterImpl ymd({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(
-      year: _timeStyle(null, dateStyle),
-      month: _timeStyle(null, dateStyle),
-      day: _timeStyle(null, dateStyle),
-    ),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-  );
+  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      FormatterECMA(
+        this,
+        DateTimeJSOptions(
+          year: _timeStyle(null, dateStyle),
+          month: _timeStyle(null, dateStyle),
+          day: _timeStyle(null, dateStyle),
+        ),
+        locale,
+        options,
+        timeStyle: null,
+        dateStyle: dateStyle,
+        withEra: withEra,
+      );
 
   @override
-  FormatterImpl ymde({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-  );
+  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      FormatterECMA(
+        this,
+        DateTimeJSOptions(),
+        locale,
+        options,
+        timeStyle: null,
+        dateStyle: dateStyle,
+        withEra: withEra,
+      );
 
   @override
   FormatterImpl ymdet({
     DateFormatStyle? dateStyle,
     TimeFormatStyle? timeStyle,
+    bool withEra = false,
   }) => FormatterECMA(
     this,
     DateTimeJSOptions(
@@ -267,6 +281,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: timeStyle,
     dateStyle: dateStyle,
+    withEra: withEra,
   );
 
   @override
@@ -283,12 +298,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
         options,
         timeStyle: timeStyle,
         dateStyle: dateStyle,
+        withEra: false,
       );
 
   @override
   FormatterImpl ymdt({
     DateFormatStyle? dateStyle,
     TimeFormatStyle? timeStyle,
+    bool withEra = false,
   }) => FormatterECMA(
     this,
     DateTimeJSOptions(
@@ -302,6 +319,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     options,
     timeStyle: timeStyle,
     dateStyle: dateStyle,
+    withEra: withEra,
   );
 
   static List<Locale> supportedLocalesOf(Locale locale) {
@@ -371,6 +389,7 @@ extension on DateTimeFormatOptions {
     DateTimeJSOptions options,
     TimeFormatStyle? timeStyle,
     DateFormatStyle? dateStyle,
+    bool withEra,
   ) => {
     if (dateStyle != null) 'dateStyle': dateStyle.name,
     if (timeStyle != null) 'timeStyle': timeStyle.name,
@@ -387,7 +406,7 @@ extension on DateTimeFormatOptions {
     },
     if (options.weekday != null && dateStyle == null)
       'weekday': options.weekday!.name,
-    if (era != null && dateStyle == null) 'era': era!.name,
+    if (withEra && dateStyle == null) 'era': Style.short.name,
     if (options.year != null && dateStyle == null) 'year': options.year!.jsName,
     if (options.month != null && dateStyle == null)
       'month': options.month!.jsName,
