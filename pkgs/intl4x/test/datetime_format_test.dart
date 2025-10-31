@@ -60,6 +60,7 @@ void main() {
       name: 'America/Los_Angeles',
       offset: Duration(hours: -8),
     );
+
     testWithFormatting('short', () {
       return expect(
         intl.dateTimeFormat().ymd().withTimeZoneShort().format(
@@ -69,6 +70,18 @@ void main() {
         matches(r'12/17/2021[,]? PST'),
       );
     });
+
+    testWithFormatting('short with era', () {
+      return expect(
+        intl
+            .dateTimeFormat()
+            .ymd(withEra: true)
+            .withTimeZoneShort()
+            .format(dateTime, timeZone),
+        matches(r'12/17/2021 AD[,]? PST'),
+      );
+    });
+
     testWithFormatting(
       'long',
       () => expect(
@@ -79,6 +92,7 @@ void main() {
         matches(r'12/17/2021[,]? Pacific Standard Time'),
       ),
     );
+
     testWithFormatting(
       'shortOffset',
       () => expect(
@@ -90,6 +104,7 @@ void main() {
         matches(r'12/17/2021[,]? GMT-8'),
       ),
     );
+
     testWithFormatting(
       'longOffset',
       () => expect(
@@ -100,6 +115,7 @@ void main() {
         matches(r'12/17/2021[,]? GMT-08:00'),
       ),
     );
+
     testWithFormatting(
       'shortGeneric',
       () => expect(
@@ -110,6 +126,7 @@ void main() {
         matches(r'12/17/2021[,]? PT'),
       ),
     );
+
     testWithFormatting(
       'longGeneric',
       () => expect(

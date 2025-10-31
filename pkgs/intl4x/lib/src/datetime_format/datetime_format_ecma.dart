@@ -389,7 +389,7 @@ extension on DateTimeFormatOptions {
     DateTimeJSOptions options,
     TimeFormatStyle? timeStyle,
     DateFormatStyle? dateStyle,
-    bool? withEra,
+    bool withEra,
   ) => {
     if (dateStyle != null) 'dateStyle': dateStyle.name,
     if (timeStyle != null) 'timeStyle': timeStyle.name,
@@ -406,7 +406,7 @@ extension on DateTimeFormatOptions {
     },
     if (options.weekday != null && dateStyle == null)
       'weekday': options.weekday!.name,
-    if (withEra != null && dateStyle == null) 'era': Style.short.name,
+    if (withEra && dateStyle == null) 'era': Style.short.name,
     if (options.year != null && dateStyle == null) 'year': options.year!.jsName,
     if (options.month != null && dateStyle == null)
       'month': options.month!.jsName,
