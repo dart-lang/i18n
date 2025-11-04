@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 Future<void> main(List<String> arguments) async {
   // These examples were all run with locale en_US.
 
-  String? locale = 'de';
+  String? locale = 'en_US';
   await initializeDateFormatting(locale);
   final numberFormatters = [
     NumberFormat.compact(locale: locale), // 2M
