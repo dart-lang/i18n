@@ -127,9 +127,8 @@ enum TimeStyle {
 
 final class TimeZone {
   final String name;
-  final Duration offset;
 
-  const TimeZone({required this.name, required this.offset});
+  const TimeZone({required this.name});
 }
 
 enum TimeZoneType {

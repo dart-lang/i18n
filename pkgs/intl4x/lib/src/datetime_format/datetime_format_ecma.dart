@@ -4,6 +4,9 @@
 
 import 'dart:js_interop';
 
+import 'package:timezone/data/latest.dart' as tzdata;
+import 'package:timezone/timezone.dart' as tz;
+
 import '../locale/locale.dart';
 import '../options.dart';
 import 'datetime_format_impl.dart';
@@ -140,12 +143,22 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   }
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) =>
-      createDateTimeFormat(
-        formatter,
-        timeZoneType,
-        timeZone,
-      ).format(datetime.subtract(timeZone.offset).jsUtc);
+  String formatInternal(DateTime datetime, TimeZone timeZone) {
+    if (!tz.timeZoneDatabase.isInitialized) {
+      tzdata.initializeTimeZones();
+    }
+
+    final location = tz.timeZoneDatabase.locations[timeZone.name];
+    final offset = location != null
+        ? tz.TZDateTime.from(datetime, location).timeZoneOffset
+        : Duration.zero;
+
+    return createDateTimeFormat(
+      formatter,
+      timeZoneType,
+      timeZone,
+    ).format(datetime.subtract(offset).jsUtc);
+  }
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {

@@ -56,10 +56,7 @@ void main() {
   group('timezone', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = TimeZone(
-      name: 'America/Los_Angeles',
-      offset: Duration(hours: -8),
-    );
+    const timeZone = TimeZone(name: 'America/Los_Angeles');
 
     testWithFormatting('short', () {
       return expect(
@@ -142,10 +139,7 @@ void main() {
   group('timezone', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = TimeZone(
-      name: 'America/Los_Angeles',
-      offset: Duration(hours: -8),
-    );
+    const timeZone = TimeZone(name: 'America/Los_Angeles');
     testWithFormatting(
       'short',
       () => expect(
@@ -649,10 +643,7 @@ void main() {
               .withTimeZoneLong()
               .format(
                 DateTime(2025, 6, 18, 10, 30, 0),
-                const TimeZone(
-                  name: 'America/New_York',
-                  offset: Duration(hours: -4),
-                ),
+                const TimeZone(name: 'America/New_York'),
               ),
           matches(r'^10:30\sAM Eastern Daylight Time$'),
         ),
