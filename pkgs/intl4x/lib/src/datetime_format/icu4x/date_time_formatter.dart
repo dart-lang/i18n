@@ -139,17 +139,17 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
       super(dateFormatter.impl, TimeZoneType.longGeneric);
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) {
+  String formatInternal(DateTime datetime, String timeZone) {
     final (isoDate, time) = datetime.toX;
 
     if (!tz.timeZoneDatabase.isInitialized) {
       tzdata.initializeTimeZones();
     }
 
-    final location = tz.timeZoneDatabase.locations[timeZone.name];
+    final location = tz.timeZoneDatabase.locations[timeZone];
     final timeZoneX = location != null
         ? icu.IanaParser()
-              .parse(timeZone.name)
+              .parse(timeZone)
               .withOffset(
                 icu.UtcOffset.fromSeconds(
                   tz.TZDateTime.from(

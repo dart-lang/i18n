@@ -70,12 +70,12 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
   final DateTimeFormatImpl _impl;
   final TimeZoneType timeZoneType;
 
-  String formatInternal(DateTime datetime, TimeZone timeZone);
+  String formatInternal(DateTime datetime, String timeZone);
 
   FormatterZonedImpl(this._impl, this.timeZoneType);
 
   @override
-  String format(DateTime datetime, TimeZone timeZone) {
+  String format(DateTime datetime, String timeZone) {
     if (isInTest) {
       return '$datetime//${_impl.locale}';
     } else {
@@ -96,8 +96,8 @@ sealed class DateTimeFormatter {
   ZonedDateTimeFormatter withTimeZoneLongGeneric();
 }
 
-/// A base class for formatters that can format a [DateTime] and [TimeZone] into
-/// a string.
+/// A base class for formatters that can format a [DateTime] and a time zone
+/// into a string.
 sealed class ZonedDateTimeFormatter {
-  String format(DateTime datetime, TimeZone timeZone);
+  String format(DateTime datetime, String timeZone);
 }

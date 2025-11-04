@@ -125,12 +125,6 @@ enum TimeStyle {
   const TimeStyle([this._jsName]);
 }
 
-final class TimeZone {
-  final String name;
-
-  const TimeZone({required this.name});
-}
-
 enum TimeZoneType {
   /// Example: `Pacific Standard Time`
   long,
