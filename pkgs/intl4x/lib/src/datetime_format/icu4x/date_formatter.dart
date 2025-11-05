@@ -3,8 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:icu4x/icu4x.dart' as icu;
-import 'package:timezone/data/latest.dart';
-import 'package:timezone/timezone.dart' show getLocation;
 
 import '../../../datetime_format.dart';
 import '../datetime_format_impl.dart';

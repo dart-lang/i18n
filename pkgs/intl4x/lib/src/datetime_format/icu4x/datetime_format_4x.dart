@@ -240,6 +240,18 @@ icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {
   return timeZoneX;
 }
 
+icu.UtcOffset offsetFromTimeZone(String timeZone, DateTime datetime) {
+  if (!timeZonesInitialized) {
+    initializeTimeZones();
+    timeZonesInitialized = true;
+  }
+  final location = getLocation(timeZone);
+  final utcOffset = icu.UtcOffset.fromSeconds(
+    location.timeZone(datetime.millisecondsSinceEpoch).offset ~/ 1000,
+  );
+  return utcOffset;
+}
+
 icu.Locale setLocaleExtensions(
   icu.Locale locale,
   DateTimeFormatOptions options,
