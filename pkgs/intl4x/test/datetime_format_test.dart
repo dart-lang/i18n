@@ -136,6 +136,28 @@ void main() {
     );
 
     testWithFormatting(
+      'fixed timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(
+          dateTime,
+          'Etc/GMT+8',
+        ),
+        matches(r'12/17/2021[,]? GMT-08:00'),
+      ),
+    );
+
+    testWithFormatting(
+      'fixed timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneShort().format(
+          dateTime,
+          'Etc/GMT+8',
+        ),
+        matches(r'12/17/2021[,]? GMT-8'),
+      ),
+    );
+
+    testWithFormatting(
       'invalid timezone',
       () => expect(
         intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(

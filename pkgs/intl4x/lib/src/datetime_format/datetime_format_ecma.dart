@@ -159,7 +159,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
       // to construct a localized 'UTC+?'
       final parts = createDateTimeFormat(
         formatter,
-        timeZoneType,
+        TimeZoneType.shortOffset,
         'UTC',
       ).formatToParts(datetime.jsUtc).toDart;
       return parts
