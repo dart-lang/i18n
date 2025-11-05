@@ -148,7 +148,7 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
     }
     final location = getLocation(timeZone);
     final utcOffset = icu.UtcOffset.fromSeconds(
-      location.currentTimeZone.offset ~/ 1000,
+      location.timeZone(datetime.millisecondsSinceEpoch).offset ~/ 1000,
     );
     final (isoDate, time) = datetime.toX;
     final timeZoneX = icu.IanaParser()

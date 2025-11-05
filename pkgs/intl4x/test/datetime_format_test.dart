@@ -641,7 +641,7 @@ void main() {
               )
               .t()
               .withTimeZoneLong()
-              .format(DateTime(2025, 6, 18, 10, 30, 0), 'America/New_York'),
+              .format(DateTime.utc(2025, 6, 18, 10, 30, 0), 'America/New_York'),
           matches(r'^10:30\sAM Eastern Daylight Time$'),
         ),
       );

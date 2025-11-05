@@ -148,7 +148,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
         formatter,
         timeZoneType,
         timeZone,
-      ).format(datetime.subtract(offsetForTimeZone(timeZone)).jsUtc);
+      ).format(datetime.subtract(offsetForTimeZone(datetime, timeZone)).jsUtc);
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
@@ -368,25 +368,25 @@ extension type Date._(JSObject _) implements JSObject {
   );
 }
 
-Duration offsetForTimeZone(String iana) => DateTimeFormat(
+Duration offsetForTimeZone(DateTime datetime, String iana) => DateTimeFormat(
   ['en'.toJS].toJS,
   {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
-).timeZoneName;
+).timeZoneName(datetime.js);
 
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
   external factory DateTimeFormat([JSArray<JSString> locale, JSAny options]);
-  external String format(JSAny num);
+  external String format(Date num);
 
   external static JSArray<JSString> supportedLocalesOf(
     JSArray listOfLocales, [
     JSAny options,
   ]);
 
-  external JSArray<JSObject> formatToParts();
+  external JSArray<JSObject> formatToParts(JSAny num);
 
-  Duration get timeZoneName {
-    final timezoneNameObject = formatToParts().toDart.firstWhereOrNull(
+  Duration timeZoneName(Date date) {
+    final timezoneNameObject = formatToParts(date).toDart.firstWhereOrNull(
       (part) => part.getProperty('type'.toJS) == 'timeZoneName'.toJS,
     );
     final timezoneString =
