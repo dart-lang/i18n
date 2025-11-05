@@ -4,7 +4,7 @@
 
 import 'package:icu4x/icu4x.dart' as icu;
 import 'package:timezone/data/latest.dart' show initializeTimeZones;
-import 'package:timezone/timezone.dart' show getLocation;
+import 'package:timezone/timezone.dart' show TZDateTime, timeZoneDatabase;
 
 import '../../../datetime_format.dart';
 import '../../locale/locale.dart';
@@ -213,18 +213,31 @@ extension on DateTimeFormatOptions {
   }
 }
 
-bool timeZonesInitialized = false;
-
-icu.UtcOffset offsetFromTimeZone(String timeZone, DateTime datetime) {
-  if (!timeZonesInitialized) {
+icu.TimeZoneInfo offsetFromTimeZone(String timeZone, DateTime datetime) {
+  if (!timeZoneDatabase.isInitialized) {
     initializeTimeZones();
-    timeZonesInitialized = true;
   }
-  final location = getLocation(timeZone);
-  final utcOffset = icu.UtcOffset.fromSeconds(
-    location.timeZone(datetime.millisecondsSinceEpoch).offset ~/ 1000,
-  );
-  return utcOffset;
+  final location = timeZoneDatabase.locations[timeZone];
+  final timeZoneX = location != null
+      ? icu.IanaParser()
+            .parse(timeZone)
+            .withOffset(
+              icu.UtcOffset.fromSeconds(
+                TZDateTime(
+                  location,
+                  datetime.year,
+                  datetime.month,
+                  datetime.day,
+                  datetime.hour,
+                  datetime.minute,
+                  datetime.second,
+                  datetime.millisecond,
+                  datetime.microsecond,
+                ).timeZoneOffset.inSeconds,
+              ),
+            )
+      : icu.TimeZone.unknown().withoutOffset();
+  return timeZoneX;
 }
 
 icu.Locale setLocaleExtensions(

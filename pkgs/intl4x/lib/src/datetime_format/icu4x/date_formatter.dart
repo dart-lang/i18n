@@ -167,12 +167,8 @@ class DateFormatterZonedX extends FormatterZonedImpl {
 
   @override
   String formatInternal(DateTime datetime, String timeZone) {
-    final utcOffset = offsetFromTimeZone(timeZone, datetime);
+    final timeZoneX = offsetFromTimeZone(timeZone, datetime);
     final (isoDate, time) = datetime.toX;
-    final timeZoneX = icu.IanaParser()
-        .parse(timeZone)
-        .withOffset(utcOffset)
-        .atDateTimeIso(isoDate, time);
 
     return formatter.formatIso(isoDate, timeZoneX);
   }

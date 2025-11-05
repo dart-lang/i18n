@@ -53,7 +53,7 @@ void main() {
     );
   });
 
-  group('timezone', () {
+  group('timezone ymd', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
     const timeZone = 'America/Los_Angeles';
@@ -134,9 +134,20 @@ void main() {
         matches(r'12/17/2021[,]? Pacific Time'),
       ),
     );
+
+    testWithFormatting(
+      'invalid timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(
+          dateTime,
+          'invalidTimeZoneString',
+        ),
+        matches(r'12/17/2021[,]? Pacific Time'),
+      ),
+    );
   });
 
-  group('timezone', () {
+  group('timezone ymdt', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
     const timeZone = 'America/Los_Angeles';

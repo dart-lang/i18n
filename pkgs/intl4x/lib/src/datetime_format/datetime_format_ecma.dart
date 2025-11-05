@@ -143,12 +143,23 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   }
 
   @override
-  String formatInternal(DateTime datetime, String timeZone) =>
-      createDateTimeFormat(
-        formatter,
-        timeZoneType,
-        timeZone,
-      ).format(datetime.subtract(offsetForTimeZone(datetime, timeZone)).jsUtc);
+  String formatInternal(DateTime datetime, String timeZone) {
+    DateTime? adjustedDateTime;
+    try {
+      adjustedDateTime = datetime.subtract(
+        offsetForTimeZone(datetime, timeZone),
+      );
+    } catch (e) {
+      adjustedDateTime = datetime;
+      timeZone = 'Etc/Unknown';
+    }
+    final format = createDateTimeFormat(
+      formatter,
+      timeZoneType,
+      timeZone,
+    ).format(adjustedDateTime.jsUtc);
+    return format;
+  }
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
@@ -368,10 +379,13 @@ extension type Date._(JSObject _) implements JSObject {
   );
 }
 
-Duration offsetForTimeZone(DateTime datetime, String iana) => DateTimeFormat(
-  ['en'.toJS].toJS,
-  {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
-).timeZoneName(datetime.js);
+Duration offsetForTimeZone(DateTime datetime, String iana) {
+  final timeZoneName = DateTimeFormat(
+    ['en'.toJS].toJS,
+    {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
+  ).timeZoneName(datetime.js);
+  return parseTimeZoneOffset(timeZoneName);
+}
 
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
@@ -385,24 +399,22 @@ extension type DateTimeFormat._(JSObject _) implements JSObject {
 
   external JSArray<JSObject> formatToParts(JSAny num);
 
-  Duration timeZoneName(Date date) {
+  String? timeZoneName(Date date) {
     final timezoneNameObject = formatToParts(date).toDart.firstWhereOrNull(
       (part) => part.getProperty('type'.toJS) == 'timeZoneName'.toJS,
     );
-    final timezoneString =
-        (timezoneNameObject?.getProperty('value'.toJS) as JSString?)?.toDart;
-    return parseTimeZoneOffset(timezoneString);
+    return (timezoneNameObject?.getProperty('value'.toJS) as JSString?)?.toDart;
   }
 }
 
-final _prefix = RegExp(r'^(UTC|GMT)');
-final _offsetRegex = RegExp(r'^([+\-\u2212])(\d{2}):?(\d{2})$');
+final _partPrefix = RegExp(r'(UTC|GMT)');
+final _offsetRegex = RegExp(r'([+\-\u2212])(\d{2}):?(\d{2})$');
 
 Duration parseTimeZoneOffset(String? offsetString) {
-  final normalizedOffset = offsetString
-      ?.toUpperCase()
-      .replaceFirst(_prefix, '')
-      .trim();
+  final normalizedOffset = offsetString?.toUpperCase().replaceFirst(
+    _partPrefix,
+    '',
+  );
 
   if (normalizedOffset == null ||
       normalizedOffset.isEmpty ||
