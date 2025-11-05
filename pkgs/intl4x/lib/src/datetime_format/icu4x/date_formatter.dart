@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:icu4x/icu4x.dart' as icu;
+import 'package:timezone/data/latest.dart';
+import 'package:timezone/timezone.dart' show getLocation;
 
 import '../../../datetime_format.dart';
 import '../datetime_format_impl.dart';
@@ -121,6 +123,8 @@ class DateFormatterX extends FormatterImpl {
 class DateFormatterZonedX extends FormatterZonedImpl {
   final DateFormatterX dateFormatter;
   final icu.ZonedDateFormatter formatter;
+
+  bool isInitialized = false;
 
   DateFormatterZonedX.short(this.dateFormatter)
     : formatter = icu.ZonedDateFormatter.specificShort(
