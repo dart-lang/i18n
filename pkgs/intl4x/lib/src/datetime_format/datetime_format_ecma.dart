@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:js_interop';
-import 'dart:js_interop_unsafe';
 
 import 'package:collection/collection.dart' show IterableExtension;
 
@@ -144,21 +143,34 @@ class FormatterZonedECMA extends FormatterZonedImpl {
 
   @override
   String formatInternal(DateTime datetime, String timeZone) {
-    DateTime? adjustedDateTime;
     try {
-      adjustedDateTime = datetime.subtract(
+      // ECMA will interpret this as UTC time and convert it
+      // into the time zone, we need to invert that change.
+      final adjustedDateTime = datetime.subtract(
         offsetForTimeZone(datetime, timeZone),
       );
+      return createDateTimeFormat(
+        formatter,
+        timeZoneType,
+        timeZone,
+      ).format(adjustedDateTime.jsUtc);
     } catch (e) {
-      adjustedDateTime = datetime;
-      timeZone = 'Etc/Unknown';
+      // Unknown timezone. Format with UTC and append '+?'
+      // to construct a localized 'UTC+?'
+      final parts = createDateTimeFormat(
+        formatter,
+        timeZoneType,
+        'UTC',
+      ).formatToParts(datetime.jsUtc).toDart;
+      return parts
+          .map(Part._)
+          .map(
+            (part) => part.isTimezoneName
+                ? '${part.value.split('+')[0]}+?'
+                : part.value,
+          )
+          .join();
     }
-    final format = createDateTimeFormat(
-      formatter,
-      timeZoneType,
-      timeZone,
-    ).format(adjustedDateTime.jsUtc);
-    return format;
   }
 }
 
@@ -400,11 +412,19 @@ extension type DateTimeFormat._(JSObject _) implements JSObject {
   external JSArray<JSObject> formatToParts(JSAny num);
 
   String? timeZoneName(Date date) {
-    final timezoneNameObject = formatToParts(date).toDart.firstWhereOrNull(
-      (part) => part.getProperty('type'.toJS) == 'timeZoneName'.toJS,
-    );
-    return (timezoneNameObject?.getProperty('value'.toJS) as JSString?)?.toDart;
+    final timezoneNameObject = formatToParts(
+      date,
+    ).toDart.map(Part._).firstWhereOrNull((part) => part.isTimezoneName);
+    return timezoneNameObject?.value;
   }
+}
+
+@JS()
+extension type Part._(JSObject _) implements JSObject {
+  external String get type;
+  external String get value;
+
+  bool get isTimezoneName => type == 'timeZoneName';
 }
 
 final _partPrefix = RegExp(r'(UTC|GMT)');

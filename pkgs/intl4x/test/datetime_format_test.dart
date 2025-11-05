@@ -142,7 +142,7 @@ void main() {
           dateTime,
           'invalidTimeZoneString',
         ),
-        matches(r'12/17/2021[,]? Pacific Time'),
+        matches(r'12/17/2021[,]? GMT+?'),
       ),
     );
   });

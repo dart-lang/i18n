@@ -120,7 +120,7 @@ class TimeFormatterZonedX extends FormatterZonedImpl {
 
   @override
   String formatInternal(DateTime datetime, String timeZone) {
-    final timeZoneX = offsetFromTimeZone(timeZone, datetime);
+    final timeZoneX = timeZoneToX(timeZone, datetime);
     final (isoDate, time) = datetime.toX;
     return formatter.format(time, timeZoneX);
   }

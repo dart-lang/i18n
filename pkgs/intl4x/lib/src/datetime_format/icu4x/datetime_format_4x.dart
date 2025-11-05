@@ -213,7 +213,7 @@ extension on DateTimeFormatOptions {
   }
 }
 
-icu.TimeZoneInfo offsetFromTimeZone(String timeZone, DateTime datetime) {
+icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {
   if (!timeZoneDatabase.isInitialized) {
     initializeTimeZones();
   }
