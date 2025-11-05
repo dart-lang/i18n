@@ -3,6 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+
+import 'package:collection/collection.dart' show IterableExtension;
 
 import '../locale/locale.dart';
 import '../options.dart';
@@ -365,6 +368,11 @@ extension type Date._(JSObject _) implements JSObject {
   );
 }
 
+Duration getTimeZone(String iana) => DateTimeFormat(
+  ['en'.toJS].toJS,
+  {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
+).timeZoneName;
+
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
   external factory DateTimeFormat([JSArray<JSString> locale, JSAny options]);
@@ -374,6 +382,45 @@ extension type DateTimeFormat._(JSObject _) implements JSObject {
     JSArray listOfLocales, [
     JSAny options,
   ]);
+
+  external JSArray<JSObject> formatToParts();
+
+  Duration get timeZoneName {
+    final timezoneNameObject = formatToParts().toDart.firstWhereOrNull(
+      (part) => part.getProperty('type'.toJS) == 'timeZoneName'.toJS,
+    );
+    final timezoneString =
+        (timezoneNameObject?.getProperty('value'.toJS) as JSString?)?.toDart;
+    return parseTimeZoneOffset(timezoneString);
+  }
+}
+
+final _prefix = RegExp(r'^(UTC|GMT)');
+final _offsetRegex = RegExp(r'^([+\-\u2212])(\d{2}):?(\d{2})$');
+
+Duration parseTimeZoneOffset(String? offsetString) {
+  final normalizedOffset = offsetString
+      ?.toUpperCase()
+      .replaceFirst(_prefix, '')
+      .trim();
+
+  if (normalizedOffset == null ||
+      normalizedOffset.isEmpty ||
+      normalizedOffset.toUpperCase() == 'Z') {
+    return Duration.zero;
+  }
+
+  final Match? match = _offsetRegex.firstMatch(normalizedOffset);
+
+  if (match == null) {
+    throw ArgumentError('Invalid time zone offset format: "$offsetString"');
+  }
+
+  final sign = match.group(1)! == '-' ? -1 : 1;
+  final hours = int.parse(match.group(2)!);
+  final minutes = int.parse(match.group(3)!);
+
+  return Duration(minutes: minutes, hours: hours) * sign;
 }
 
 extension on DateTime {
