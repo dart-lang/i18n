@@ -65,7 +65,6 @@ class TimeFormatterX extends FormatterImpl {
 class TimeFormatterZonedX extends FormatterZonedImpl {
   final TimeFormatterX timeFormatter;
   final icu.ZonedTimeFormatter formatter;
-  bool isInitialized = false;
 
   TimeFormatterZonedX.short(this.timeFormatter)
     : formatter = icu.ZonedTimeFormatter.specificShort(

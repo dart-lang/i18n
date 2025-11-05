@@ -124,8 +124,6 @@ class DateFormatterZonedX extends FormatterZonedImpl {
   final DateFormatterX dateFormatter;
   final icu.ZonedDateFormatter formatter;
 
-  bool isInitialized = false;
-
   DateFormatterZonedX.short(this.dateFormatter)
     : formatter = icu.ZonedDateFormatter.specificShort(
         dateFormatter.localeX,
