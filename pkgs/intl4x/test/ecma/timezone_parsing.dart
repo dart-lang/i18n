@@ -14,6 +14,15 @@ const Duration zeroOffset = Duration.zero;
 final DateTime julyDate = DateTime.utc(2025, 7, 15, 12);
 final DateTime januaryDate = DateTime.utc(2025, 1, 15, 12);
 
+final DateTime kSummerDate = DateTime.utc(2025, 7, 15, 12);
+final DateTime kWinterDate = DateTime.utc(2025, 1, 15, 12);
+
+const Duration kParisStandardOffset = Duration(hours: 1);
+const Duration kNewYorkStandardOffset = Duration(hours: -5);
+
+const Duration kParisDaylightOffset = Duration(hours: 2);
+const Duration kNewYorkDaylightOffset = Duration(hours: -4);
+
 void main() {
   group('getTimeZone IANA to Duration (Standard Offsets)', () {
     test('should return zero duration for UTC/GMT IANA zones', () {
