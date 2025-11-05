@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:icu4x/icu4x.dart' as icu;
+import 'package:timezone/data/latest.dart';
+import 'package:timezone/timezone.dart' show getLocation;
 
 import '../../../datetime_format.dart';
 import '../datetime_format_impl.dart';
@@ -122,6 +124,8 @@ class DateFormatterZonedX extends FormatterZonedImpl {
   final DateFormatterX dateFormatter;
   final icu.ZonedDateFormatter formatter;
 
+  bool isInitialized = false;
+
   DateFormatterZonedX.short(this.dateFormatter)
     : formatter = icu.ZonedDateFormatter.specificShort(
         dateFormatter.localeX,
@@ -166,11 +170,18 @@ class DateFormatterZonedX extends FormatterZonedImpl {
       super(dateFormatter.impl, TimeZoneType.longGeneric);
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) {
-    final utcOffset = icu.UtcOffset.fromSeconds(timeZone.offset.inSeconds);
+  String formatInternal(DateTime datetime, String timeZone) {
+    if (!isInitialized) {
+      initializeTimeZones();
+      isInitialized = true;
+    }
+    final location = getLocation(timeZone);
+    final utcOffset = icu.UtcOffset.fromSeconds(
+      location.currentTimeZone.offset ~/ 1000,
+    );
     final (isoDate, time) = datetime.toX;
     final timeZoneX = icu.IanaParser()
-        .parse(timeZone.name)
+        .parse(timeZone)
         .withOffset(utcOffset)
         .atDateTimeIso(isoDate, time);
 

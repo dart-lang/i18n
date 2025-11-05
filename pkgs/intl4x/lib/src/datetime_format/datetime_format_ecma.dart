@@ -24,7 +24,7 @@ class DateTimeJSOptions {
   final TimeStyle? hour;
   final TimeStyle? minute;
   final TimeStyle? second;
-  final TimeZone? timeZone;
+  final String? timeZone;
   final TimeZoneType? timeZoneType;
   final Style? weekday;
 
@@ -47,7 +47,7 @@ class DateTimeJSOptions {
     TimeStyle? hour,
     TimeStyle? minute,
     TimeStyle? second,
-    TimeZone? timeZone,
+    String? timeZone,
     TimeZoneType? timeZoneType,
     Style? weekday,
   }) => DateTimeJSOptions(
@@ -125,7 +125,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   static DateTimeFormat createDateTimeFormat(
     FormatterECMA formatter,
     TimeZoneType timeZoneType,
-    TimeZone timeZone,
+    String timeZone,
   ) {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
     return DateTimeFormat(
@@ -143,12 +143,12 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   }
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) =>
+  String formatInternal(DateTime datetime, String timeZone) =>
       createDateTimeFormat(
         formatter,
         timeZoneType,
         timeZone,
-      ).format(datetime.subtract(timeZone.offset).jsUtc);
+      ).format(datetime.subtract(offsetForTimeZone(timeZone)).jsUtc);
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
@@ -368,7 +368,7 @@ extension type Date._(JSObject _) implements JSObject {
   );
 }
 
-Duration getTimeZone(String iana) => DateTimeFormat(
+Duration offsetForTimeZone(String iana) => DateTimeFormat(
   ['en'.toJS].toJS,
   {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
 ).timeZoneName;
@@ -444,7 +444,7 @@ extension on DateTimeFormatOptions {
     if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
     if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
     if (options.timeZone != null) ...{
-      'timeZone': options.timeZone!.name,
+      'timeZone': options.timeZone,
       'timeZoneName': options.timeZoneType!.name,
     },
     if (clockstyle != null) ...{

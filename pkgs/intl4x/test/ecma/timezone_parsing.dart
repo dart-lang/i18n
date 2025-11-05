@@ -6,7 +6,7 @@
 library;
 
 import 'package:intl4x/src/datetime_format/datetime_format_ecma.dart'
-    show getTimeZone;
+    show offsetForTimeZone;
 import 'package:test/test.dart';
 
 const Duration kZeroOffset = Duration.zero;
@@ -21,54 +21,54 @@ const Duration kHonoluluOffset = Duration(hours: -10);
 void main() {
   group('getTimeZone IANA to Duration (Standard Offsets)', () {
     test('should return zero duration for UTC/GMT IANA zones', () {
-      expect(getTimeZone('UTC'), equals(kZeroOffset));
-      expect(getTimeZone('GMT'), equals(kZeroOffset));
-      expect(getTimeZone('Africa/Monrovia'), equals(kZeroOffset));
+      expect(offsetForTimeZone('UTC'), equals(kZeroOffset));
+      expect(offsetForTimeZone('GMT'), equals(kZeroOffset));
+      expect(offsetForTimeZone('Africa/Monrovia'), equals(kZeroOffset));
     });
 
     test('should correctly parse Europe/Paris (+01:00)', () {
-      expect(getTimeZone('Europe/Paris'), isA<Duration>());
+      expect(offsetForTimeZone('Europe/Paris'), isA<Duration>());
     });
 
     test('should correctly parse Africa/Cairo (+02:00)', () {
-      expect(getTimeZone('Africa/Cairo'), isA<Duration>());
+      expect(offsetForTimeZone('Africa/Cairo'), isA<Duration>());
     });
 
     test('should correctly parse Africa/Nairobi (+03:00) - No DST', () {
-      expect(getTimeZone('Africa/Nairobi'), equals(kNairobiOffset));
+      expect(offsetForTimeZone('Africa/Nairobi'), equals(kNairobiOffset));
     });
 
     test('should correctly parse Asia/Dubai (+04:00) - No DST', () {
-      expect(getTimeZone('Asia/Dubai'), equals(kDubaiOffset));
+      expect(offsetForTimeZone('Asia/Dubai'), equals(kDubaiOffset));
     });
 
     test('should correctly parse Asia/Kolkata (+05:30) - Half hour offset', () {
-      expect(getTimeZone('Asia/Kolkata'), equals(kKolkataOffset));
+      expect(offsetForTimeZone('Asia/Kolkata'), equals(kKolkataOffset));
     });
 
     test('should correctly parse Asia/Tokyo (+09:00) - No DST', () {
-      expect(getTimeZone('Asia/Tokyo'), equals(kTokyoOffset));
+      expect(offsetForTimeZone('Asia/Tokyo'), equals(kTokyoOffset));
     });
 
     test('should correctly parse America/New_York (-05:00)', () {
-      expect(getTimeZone('America/New_York'), isA<Duration>());
+      expect(offsetForTimeZone('America/New_York'), isA<Duration>());
     });
 
     test('should correctly parse America/Phoenix (-07:00) - No DST', () {
-      expect(getTimeZone('America/Phoenix'), equals(kPhoenixOffset));
+      expect(offsetForTimeZone('America/Phoenix'), equals(kPhoenixOffset));
     });
 
     test('should correctly parse Pacific/Honolulu (-10:00) - No DST', () {
-      expect(getTimeZone('Pacific/Honolulu'), equals(kHonoluluOffset));
+      expect(offsetForTimeZone('Pacific/Honolulu'), equals(kHonoluluOffset));
     });
 
     test('should throw an error for an invalid/non-existent IANA string', () {
       expect(
-        () => getTimeZone('Invalid/TimeZone'),
+        () => offsetForTimeZone('Invalid/TimeZone'),
         throwsA(isA<ArgumentError>()),
       );
-      expect(() => getTimeZone('iana'), throwsA(isA<ArgumentError>()));
-      expect(() => getTimeZone(''), throwsA(isA<ArgumentError>()));
+      expect(() => offsetForTimeZone('iana'), throwsA(isA<ArgumentError>()));
+      expect(() => offsetForTimeZone(''), throwsA(isA<ArgumentError>()));
     });
   });
 }

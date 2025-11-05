@@ -4,6 +4,8 @@
 
 import 'package:icu4x/icu4x.dart' as icu;
 
+import 'package:timezone/data/latest.dart';
+import 'package:timezone/timezone.dart';
 import '../../../datetime_format.dart';
 import '../datetime_format_impl.dart';
 import 'datetime_format_4x.dart';
@@ -63,6 +65,7 @@ class TimeFormatterX extends FormatterImpl {
 class TimeFormatterZonedX extends FormatterZonedImpl {
   final TimeFormatterX timeFormatter;
   final icu.ZonedTimeFormatter formatter;
+  bool isInitialized = false;
 
   TimeFormatterZonedX.short(this.timeFormatter)
     : formatter = icu.ZonedTimeFormatter.specificShort(
@@ -119,11 +122,18 @@ class TimeFormatterZonedX extends FormatterZonedImpl {
       super(timeFormatter.impl, TimeZoneType.longGeneric);
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) {
-    final utcOffset = icu.UtcOffset.fromSeconds(timeZone.offset.inSeconds);
+  String formatInternal(DateTime datetime, String timeZone) {
+    if (!isInitialized) {
+      initializeTimeZones();
+      isInitialized = true;
+    }
+    final location = getLocation(timeZone);
+    final utcOffset = icu.UtcOffset.fromSeconds(
+      location.currentTimeZone.offset ~/ 1000,
+    );
     final (isoDate, time) = datetime.toX;
     final timeZoneX = icu.IanaParser()
-        .parse(timeZone.name)
+        .parse(timeZone)
         .withOffset(utcOffset)
         .atDateTimeIso(isoDate, time);
     return formatter.format(time, timeZoneX);
