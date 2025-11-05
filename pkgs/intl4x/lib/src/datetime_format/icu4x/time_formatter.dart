@@ -65,7 +65,6 @@ class TimeFormatterX extends FormatterImpl {
 class TimeFormatterZonedX extends FormatterZonedImpl {
   final TimeFormatterX timeFormatter;
   final icu.ZonedTimeFormatter formatter;
-  bool isInitialized = false;
 
   TimeFormatterZonedX.short(this.timeFormatter)
     : formatter = icu.ZonedTimeFormatter.specificShort(
@@ -123,9 +122,9 @@ class TimeFormatterZonedX extends FormatterZonedImpl {
 
   @override
   String formatInternal(DateTime datetime, String timeZone) {
-    if (!isInitialized) {
+    if (!timeZonesInitialized) {
       initializeTimeZones();
-      isInitialized = true;
+      timeZonesInitialized = true;
     }
     final location = getLocation(timeZone);
     final utcOffset = icu.UtcOffset.fromSeconds(

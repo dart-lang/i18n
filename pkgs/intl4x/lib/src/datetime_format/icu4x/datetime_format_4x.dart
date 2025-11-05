@@ -211,6 +211,8 @@ extension on DateTimeFormatOptions {
   }
 }
 
+bool timeZonesInitialized = false;
+
 icu.Locale setLocaleExtensions(
   icu.Locale locale,
   DateTimeFormatOptions options,

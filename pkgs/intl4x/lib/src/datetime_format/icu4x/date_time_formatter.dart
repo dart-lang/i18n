@@ -96,8 +96,6 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
   final DateTimeFormatterX dateFormatter;
   final icu.ZonedDateTimeFormatter formatter;
 
-  bool isInitialized = false;
-
   DateTimeFormatterZonedX.short(this.dateFormatter)
     : formatter = icu.ZonedDateTimeFormatter.specificShort(
         dateFormatter.localeX,
@@ -142,9 +140,9 @@ class DateTimeFormatterZonedX extends FormatterZonedImpl {
 
   @override
   String formatInternal(DateTime datetime, String timeZone) {
-    if (!isInitialized) {
+    if (!timeZonesInitialized) {
       initializeTimeZones();
-      isInitialized = true;
+      timeZonesInitialized = true;
     }
     final location = getLocation(timeZone);
     final utcOffset = icu.UtcOffset.fromSeconds(
