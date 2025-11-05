@@ -1,3 +1,7 @@
+## 0.13.3
+
+- Change timezone API, adding a dependency on package:timezone.
+
 ## 0.13.2
 
 - Add `withEra`.
