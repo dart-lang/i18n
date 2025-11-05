@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:icu4x/icu4x.dart' as icu;
+import 'package:timezone/data/latest.dart' show initializeTimeZones;
+import 'package:timezone/timezone.dart' show getLocation;
 
 import '../../../datetime_format.dart';
 import '../../locale/locale.dart';
@@ -212,6 +214,18 @@ extension on DateTimeFormatOptions {
 }
 
 bool timeZonesInitialized = false;
+
+icu.UtcOffset offsetFromTimeZone(String timeZone, DateTime datetime) {
+  if (!timeZonesInitialized) {
+    initializeTimeZones();
+    timeZonesInitialized = true;
+  }
+  final location = getLocation(timeZone);
+  final utcOffset = icu.UtcOffset.fromSeconds(
+    location.timeZone(datetime.millisecondsSinceEpoch).offset ~/ 1000,
+  );
+  return utcOffset;
+}
 
 icu.Locale setLocaleExtensions(
   icu.Locale locale,
