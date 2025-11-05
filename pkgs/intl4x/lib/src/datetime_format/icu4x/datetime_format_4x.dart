@@ -243,13 +243,28 @@ icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {
 icu.UtcOffset offsetFromTimeZone(String timeZone, DateTime datetime) {
   if (!timeZonesInitialized) {
     initializeTimeZones();
-    timeZonesInitialized = true;
   }
-  final location = getLocation(timeZone);
-  final utcOffset = icu.UtcOffset.fromSeconds(
-    location.timeZone(datetime.millisecondsSinceEpoch).offset ~/ 1000,
-  );
-  return utcOffset;
+  final location = timeZoneDatabase.locations[timeZone];
+  final timeZoneX = location != null
+      ? icu.IanaParser()
+            .parse(timeZone)
+            .withOffset(
+              icu.UtcOffset.fromSeconds(
+                TZDateTime(
+                  location,
+                  datetime.year,
+                  datetime.month,
+                  datetime.day,
+                  datetime.hour,
+                  datetime.minute,
+                  datetime.second,
+                  datetime.millisecond,
+                  datetime.microsecond,
+                ).timeZoneOffset.inSeconds,
+              ),
+            )
+      : icu.TimeZone.unknown().withoutOffset();
+  return timeZoneX;
 }
 
 icu.Locale setLocaleExtensions(
