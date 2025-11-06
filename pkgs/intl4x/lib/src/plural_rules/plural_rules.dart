@@ -2,13 +2,20 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../plural_rules.dart' show PluralRulesOptions;
+import '../find_locale.dart';
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'plural_rules_impl.dart';
 
 class PluralRules {
   final PluralRulesImpl _pluralRulesImpl;
 
-  const PluralRules._(this._pluralRulesImpl);
+  PluralRules({Locale? locale, PluralRulesOptions? options})
+    : _pluralRulesImpl = PluralRulesImpl.build(
+        locale ?? findSystemLocale(),
+        options ?? PluralRulesOptions(),
+      );
 
   /// Locale-dependant pluralization, for example in English:
   ///
@@ -23,5 +30,3 @@ class PluralRules {
 }
 
 enum PluralCategory { zero, one, two, few, many, other }
-
-PluralRules buildPluralRules(PluralRulesImpl impl) => PluralRules._(impl);

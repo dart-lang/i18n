@@ -13,9 +13,6 @@ import 'src/display_names/display_names_impl.dart';
 import 'src/find_locale.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_impl.dart';
-import 'src/plural_rules/plural_rules.dart';
-import 'src/plural_rules/plural_rules_impl.dart';
-import 'src/plural_rules/plural_rules_options.dart';
 
 export 'src/locale/locale.dart';
 export 'src/plural_rules/plural_rules.dart' show PluralCategory, PluralRules;
@@ -51,8 +48,4 @@ class Intl {
       buildNumberFormat(
         NumberFormatImpl.build(locale, options ?? NumberFormatOptions.custom()),
       );
-
-  PluralRules plural([PluralRulesOptions? options]) => buildPluralRules(
-    PluralRulesImpl.build(locale, options ?? PluralRulesOptions()),
-  );
 }
