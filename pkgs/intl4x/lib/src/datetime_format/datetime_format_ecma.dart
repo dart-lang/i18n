@@ -6,8 +6,6 @@ import 'dart:js_interop';
 
 import 'package:collection/collection.dart' show IterableExtension;
 
-import 'package:collection/collection.dart' show IterableExtension;
-
 import '../locale/locale.dart';
 import '../options.dart';
 import 'datetime_format_impl.dart';
