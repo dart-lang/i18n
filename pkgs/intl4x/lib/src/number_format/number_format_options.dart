@@ -17,7 +17,7 @@ class NumberFormatOptions {
   final SignDisplay signDisplay;
   final Notation notation;
   final Grouping useGrouping;
-  final String? numberingSystem;
+  final NumberingSystem? numberingSystem;
   final RoundingMode roundingMode;
   final TrailingZeroDisplay trailingZeroDisplay;
   final int minimumIntegerDigits;
@@ -40,7 +40,7 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
@@ -65,7 +65,7 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
@@ -92,7 +92,7 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
@@ -122,7 +122,7 @@ class NumberFormatOptions {
     FormatStyle style = const DecimalStyle(),
     SignDisplay signDisplay = SignDisplay.auto,
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
@@ -184,7 +184,7 @@ class NumberFormatOptions {
     SignDisplay? signDisplay,
     Notation? notation,
     Grouping? useGrouping,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode? roundingMode,
     TrailingZeroDisplay? trailingZeroDisplay,
     int? minimumIntegerDigits,

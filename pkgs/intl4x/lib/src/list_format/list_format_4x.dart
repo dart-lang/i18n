@@ -26,9 +26,9 @@ class ListFormat4X extends ListFormatImpl {
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {
-      Type.and => icu.ListFormatter.andWithLength,
-      Type.or => icu.ListFormatter.orWithLength,
-      Type.unit => icu.ListFormatter.unitWithLength,
+      ListType.and => icu.ListFormatter.andWithLength,
+      ListType.or => icu.ListFormatter.orWithLength,
+      ListType.unit => icu.ListFormatter.unitWithLength,
     };
     return constructor(locale.get4X, options.style.toX);
   }

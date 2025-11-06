@@ -7,7 +7,7 @@ import '../options.dart';
 typedef ListStyle = Style;
 
 class ListFormatOptions {
-  final Type type;
+  final ListType type;
 
   /// Indicates the grouping style (for example, whether list separators and
   /// conjunctions are included).
@@ -16,9 +16,12 @@ class ListFormatOptions {
   /// * narrow: "A B C".
   final ListStyle style;
 
-  const ListFormatOptions({this.type = Type.and, this.style = ListStyle.long});
+  const ListFormatOptions({
+    this.type = ListType.and,
+    this.style = ListStyle.long,
+  });
 
-  ListFormatOptions copyWith({Type? type, ListStyle? style}) {
+  ListFormatOptions copyWith({ListType? type, ListStyle? style}) {
     return ListFormatOptions(
       type: type ?? this.type,
       style: style ?? this.style,
@@ -27,7 +30,7 @@ class ListFormatOptions {
 }
 
 /// Indicates the type of grouping.
-enum Type {
+enum ListType {
   /// For "and"-based grouping of the list items: "A, B, and C".
   and('conjunction'),
 
@@ -41,5 +44,5 @@ enum Type {
 
   final String? _jsName;
 
-  const Type([this._jsName]);
+  const ListType([this._jsName]);
 }

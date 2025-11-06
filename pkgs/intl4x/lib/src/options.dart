@@ -26,4 +26,29 @@ enum Calendar {
   const Calendar([this._jsName]);
 }
 
+enum NumberingSystem {
+  arab,
+  arabext,
+  bali,
+  beng,
+  deva,
+  fullwide,
+  gujr,
+  guru,
+  hanidec,
+  khmr,
+  knda,
+  laoo,
+  latn,
+  limb,
+  mlym,
+  mong,
+  mymr,
+  orya,
+  tamldec,
+  telu,
+  thai,
+  tibt,
+}
+
 enum Style { narrow, short, long }

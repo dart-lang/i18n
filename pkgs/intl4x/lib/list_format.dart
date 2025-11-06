@@ -12,31 +12,31 @@ export 'src/options.dart';
 extension ListFormatIntl4x on List<String> {
   /// Join a list in a locale-dependent manner using `and`-based grouping.
   ///
-  /// Example: "A, B, and C". See also [Type.and].
+  /// Example: "A, B, and C". See also [ListType.and].
   ///
   /// For more options, use [ListFormat] directly.
   String joinAnd({Locale? locale}) => ListFormat(
     locale: locale,
-    options: const ListFormatOptions(type: Type.and),
+    options: const ListFormatOptions(type: ListType.and),
   ).format(this);
 
   /// Join a list in a locale-dependent manner using `or`-based grouping.
   ///
-  /// Example: "A, B, or C". See also [Type.or].
+  /// Example: "A, B, or C". See also [ListType.or].
   ///
   /// For more options, use [ListFormat] directly.
   String joinOr({Locale? locale}) => ListFormat(
     locale: locale,
-    options: const ListFormatOptions(type: Type.or),
+    options: const ListFormatOptions(type: ListType.or),
   ).format(this);
 
   /// Join a list in a locale-dependent manner using unit-based grouping.
   ///
-  /// Example: "A, B, C". See also [Type.unit].
+  /// Example: "A, B, C". See also [ListType.unit].
   ///
   /// For more options, use [ListFormat] directly.
   String joinUnit({Locale? locale}) => ListFormat(
     locale: locale,
-    options: const ListFormatOptions(type: Type.unit),
+    options: const ListFormatOptions(type: ListType.unit),
   ).format(this);
 }

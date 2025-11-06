@@ -7,14 +7,14 @@ import '../../number_format.dart';
 typedef ListStyle = Style;
 
 class PluralRulesOptions {
-  final Type type;
+  final PluralType type;
   final Digits? digits;
   final RoundingMode roundingMode;
   final int minimumIntegerDigits;
   final TrailingZeroDisplay trailingZeroDisplay;
 
   PluralRulesOptions({
-    this.type = Type.cardinal,
+    this.type = PluralType.cardinal,
     Digits? digits,
     this.roundingMode = RoundingMode.halfExpand,
     this.minimumIntegerDigits = 1,
@@ -22,7 +22,7 @@ class PluralRulesOptions {
   }) : digits = NumberFormatOptions.getDigits(const DecimalStyle(), digits);
 
   PluralRulesOptions copyWith({
-    Type? type,
+    PluralType? type,
     Digits? digits,
     RoundingMode? roundingMode,
     int? minimumIntegerDigits,
@@ -39,7 +39,7 @@ class PluralRulesOptions {
 }
 
 /// The number type to use.
-enum Type {
+enum PluralType {
   /// For cardinal numbers (referring to the quantity of things): One, two,
   /// three, four, five, etc.
   cardinal,

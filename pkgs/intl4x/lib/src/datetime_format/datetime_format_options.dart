@@ -78,31 +78,6 @@ enum TimeFormatStyle { full, long, medium, short }
 
 enum DateFormatStyle { full, long, medium, short }
 
-enum NumberingSystem {
-  arab,
-  arabext,
-  bali,
-  beng,
-  deva,
-  fullwide,
-  gujr,
-  guru,
-  hanidec,
-  khmr,
-  knda,
-  laoo,
-  latn,
-  limb,
-  mlym,
-  mong,
-  mymr,
-  orya,
-  tamldec,
-  telu,
-  thai,
-  tibt,
-}
-
 enum FormatMatcher {
   basic,
   bestfit('best fit');

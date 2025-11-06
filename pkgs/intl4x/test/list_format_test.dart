@@ -38,21 +38,21 @@ void main() {
     testWithFormatting('long', () {
       final listFormat = ListFormat(
         locale: enUS,
-        options: const ListFormatOptions(type: Type.and),
+        options: const ListFormatOptions(type: ListType.and),
       );
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
       final listFormat = ListFormat(
         locale: enUS,
-        options: const ListFormatOptions(type: Type.or),
+        options: const ListFormatOptions(type: ListType.or),
       );
       expect(listFormat.format(list), 'A, B, or C');
     });
     testWithFormatting('narrow', () {
       final listFormat = ListFormat(
         locale: enUS,
-        options: const ListFormatOptions(type: Type.unit),
+        options: const ListFormatOptions(type: ListType.unit),
       );
       expect(listFormat.format(list), 'A, B, C');
     });
@@ -64,7 +64,7 @@ void main() {
         locale: enUS,
         options: const ListFormatOptions(
           style: ListStyle.narrow,
-          type: Type.and,
+          type: ListType.and,
         ),
       );
       expect(formatter.format(list), 'A, B, C');
@@ -74,7 +74,7 @@ void main() {
         locale: enUS,
         options: const ListFormatOptions(
           style: ListStyle.short,
-          type: Type.unit,
+          type: ListType.unit,
         ),
       );
       expect(formatter.format(list), 'A, B, C');
