@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../datetime_format.dart';
+import '../find_locale.dart';
+import '../locale/locale.dart' show Locale;
 import 'datetime_format_impl.dart';
 
 /// `DateTime` formatting, for example:
@@ -21,7 +23,10 @@ import 'datetime_format_impl.dart';
 class DateTimeFormatBuilder {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormatBuilder._(this._impl);
+  DateTimeFormatBuilder({
+    Locale? locale,
+    DateTimeFormatOptions options = const DateTimeFormatOptions(),
+  }) : _impl = DateTimeFormatImpl.build(locale ?? findSystemLocale(), options);
 
   DateTimeFormatter d({DateFormatStyle? dateStyle}) =>
       _impl.d(dateStyle: dateStyle);
@@ -62,6 +67,3 @@ class DateTimeFormatBuilder {
 
   DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }
-
-DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormatBuilder._(impl);

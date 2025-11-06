@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../find_locale.dart';
 import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
 
 /// Representing a Unicode locale identifier. It is composed of the primary
@@ -16,6 +17,8 @@ abstract class Locale {
 
   /// Parse a language tag by calling to web/ICU4X functionalities.
   static Locale parse(String s) => parseLocale(s);
+
+  static Locale get system => findSystemLocale();
 
   @override
   String toString() => toLanguageTag();

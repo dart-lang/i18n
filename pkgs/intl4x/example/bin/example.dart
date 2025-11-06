@@ -9,12 +9,11 @@ void main(List<String> arguments) {
   final timeZone = 'Europe/Paris';
   final dateTime = DateTime.parse('2024-07-01T08:50:07');
 
-  print(Intl().locale.toString());
+  print(Locale.system);
 
-  print(Intl().dateTimeFormat().d().format(DateTime.now()));
+  print(DateTimeFormatBuilder().d().format(DateTime.now()));
 
-  final withTimeZoneLong = Intl(locale: Locale.parse('en'))
-      .dateTimeFormat()
+  final withTimeZoneLong = DateTimeFormatBuilder(locale: Locale.parse('en'))
       .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
       .withTimeZoneLong();
   print(withTimeZoneLong.format(dateTime, timeZone));

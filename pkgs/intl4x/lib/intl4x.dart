@@ -2,16 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'case_mapping.dart';
-import 'src/datetime_format/datetime_format.dart';
-import 'src/datetime_format/datetime_format_impl.dart';
-import 'src/datetime_format/datetime_format_options.dart';
-import 'src/find_locale.dart';
-
 export 'src/locale/locale.dart';
 export 'src/plural_rules/plural_rules.dart' show PluralCategory, PluralRules;
-
-typedef Icu4xKey = String;
 
 /// The main class for all i18n calls, containing references to other
 /// functions such as
@@ -24,13 +16,3 @@ typedef Icu4xKey = String;
 /// ).numberFormat;
 /// print(numberFormat.percent().format(0.5)); //prints 50%
 /// ```
-class Intl {
-  Locale locale;
-
-  /// Construct an [Intl] instance providing the current [locale].
-  Intl({Locale? locale}) : locale = locale ?? findSystemLocale();
-
-  DateTimeFormatBuilder dateTimeFormat([
-    DateTimeFormatOptions options = const DateTimeFormatOptions(),
-  ]) => buildDateTimeFormat(DateTimeFormatImpl.build(locale, options));
-}
