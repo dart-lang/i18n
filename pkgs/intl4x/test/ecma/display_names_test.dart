@@ -14,17 +14,18 @@ import '../utils.dart';
 void main() {
   testWithFormatting('basic', () {
     expect(
-      Intl(
+      DisplayNames(
         locale: Locale.parse('en-US'),
-      ).displayNames().ofLanguage(Locale.parse('de-DE')),
+      ).ofLanguage(Locale.parse('de-DE')),
       'German (Germany)',
     );
   });
 
   testWithFormatting('languageDisplay', () {
-    String of(DisplayNamesOptions options) => Intl(
+    String of(DisplayNamesOptions options) => DisplayNames(
       locale: Locale.parse('en'),
-    ).displayNames(options).ofLanguage(Locale.parse('en-GB'));
+      options: options,
+    ).ofLanguage(Locale.parse('en-GB'));
 
     expect(
       of(const DisplayNamesOptions(languageDisplay: LanguageDisplay.dialect)),
@@ -37,7 +38,7 @@ void main() {
   });
 
   testWithFormatting('calendar', () {
-    final displayNames = Intl(locale: Locale.parse('en')).displayNames();
+    final displayNames = DisplayNames(locale: Locale.parse('en'));
 
     expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
     expect(displayNames.ofCalendar(Calendar.gregorian), 'Gregorian Calendar');
@@ -45,7 +46,7 @@ void main() {
   });
 
   testWithFormatting('dateTimeField', () {
-    final displayNames = Intl(locale: Locale.parse('pt')).displayNames();
+    final displayNames = DisplayNames(locale: Locale.parse('pt'));
     expect(displayNames.ofDateTime(DateTimeField.era), 'era');
     expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
     expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
@@ -61,21 +62,21 @@ void main() {
 
   testWithFormatting('currency', () {
     expect(
-      Intl(locale: Locale.parse('pt')).displayNames().ofCurrency('USD'),
+      DisplayNames(locale: Locale.parse('pt')).ofCurrency('USD'),
       'Dólar americano',
     );
   });
 
   testWithFormatting('script', () {
     expect(
-      Intl(locale: Locale.parse('fr')).displayNames().ofScript('Egyp'),
+      DisplayNames(locale: Locale.parse('fr')).ofScript('Egyp'),
       'hiéroglyphes égyptiens',
     );
   });
 
   testWithFormatting('region', () {
     expect(
-      Intl(locale: Locale.parse('es-419')).displayNames().ofRegion('DE'),
+      DisplayNames(locale: Locale.parse('es-419')).ofRegion('DE'),
       'Alemania',
     );
   });

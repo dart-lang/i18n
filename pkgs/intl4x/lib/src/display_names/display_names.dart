@@ -3,14 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../display_names.dart';
-import '../locale/locale.dart';
+import '../find_locale.dart' show findSystemLocale;
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'display_names_impl.dart';
 
 class DisplayNames {
   final DisplayNamesImpl _impl;
 
-  DisplayNames._(this._impl);
+  DisplayNames({
+    Locale? locale,
+    DisplayNamesOptions options = const DisplayNamesOptions(),
+  }) : _impl = DisplayNamesImpl.build(locale ?? findSystemLocale(), options);
 
   String ofDateTime(DateTimeField field) => _of(field, _impl.ofDateTime);
 
@@ -32,5 +36,3 @@ class DisplayNames {
     }
   }
 }
-
-DisplayNames buildDisplayNames(DisplayNamesImpl impl) => DisplayNames._(impl);

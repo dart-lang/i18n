@@ -3,13 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'case_mapping.dart';
-import 'display_names.dart';
 import 'number_format.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_impl.dart';
 import 'src/datetime_format/datetime_format_options.dart';
-import 'src/display_names/display_names.dart';
-import 'src/display_names/display_names_impl.dart';
 import 'src/find_locale.dart';
 import 'src/number_format/number_format.dart';
 import 'src/number_format/number_format_impl.dart';
@@ -39,10 +36,6 @@ class Intl {
   DateTimeFormatBuilder dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
   ]) => buildDateTimeFormat(DateTimeFormatImpl.build(locale, options));
-
-  DisplayNames displayNames([
-    DisplayNamesOptions options = const DisplayNamesOptions(),
-  ]) => buildDisplayNames(DisplayNamesImpl.build(locale, options));
 
   NumberFormat numberFormat([NumberFormatOptions? options]) =>
       buildNumberFormat(
