@@ -394,7 +394,7 @@ extension type Date._(JSObject _) implements JSObject {
 Duration offsetForTimeZone(DateTime datetime, String iana) {
   final timeZoneName = DateTimeFormat(
     ['en'.toJS].toJS,
-    {'timeZoneName': 'longOffset', 'timeZone': iana}.jsify()!,
+    {'timeZoneName': TimeZoneType.longOffset.name, 'timeZone': iana}.jsify()!,
   ).timeZoneName(datetime.js);
   return parseTimeZoneOffset(timeZoneName);
 }
@@ -427,32 +427,27 @@ extension type Part._(JSObject _) implements JSObject {
   bool get isTimezoneName => type == 'timeZoneName';
 }
 
-final _partPrefix = RegExp(r'(UTC|GMT)');
-final _offsetRegex = RegExp(r'([+\-\u2212])(\d{2}):?(\d{2})$');
+final _offsetRegex = RegExp(
+  r'([+\-\u2212])(\d{2}):?(\d{2})(?:(?::?)(\d{2}))?$',
+);
 
 Duration parseTimeZoneOffset(String? offsetString) {
-  final normalizedOffset = offsetString?.toUpperCase().replaceFirst(
-    _partPrefix,
-    '',
-  );
-
-  if (normalizedOffset == null ||
-      normalizedOffset.isEmpty ||
-      normalizedOffset.toUpperCase() == 'Z') {
+  if (offsetString == null || offsetString == 'UTC' || offsetString == 'GMT') {
     return Duration.zero;
   }
 
-  final Match? match = _offsetRegex.firstMatch(normalizedOffset);
+  final Match? match = _offsetRegex.firstMatch(offsetString);
 
   if (match == null) {
     throw ArgumentError('Invalid time zone offset format: "$offsetString"');
   }
 
-  final sign = match.group(1)! == '-' ? -1 : 1;
+  final sign = (match.group(1)! == '-' || match.group(1)! == '\u2212') ? -1 : 1;
   final hours = int.parse(match.group(2)!);
   final minutes = int.parse(match.group(3)!);
+  final seconds = int.parse(match.group(4) ?? '0');
 
-  return Duration(minutes: minutes, hours: hours) * sign;
+  return Duration(hours: hours, minutes: minutes, seconds: seconds) * sign;
 }
 
 extension on DateTime {

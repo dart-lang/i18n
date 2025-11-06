@@ -7,7 +7,7 @@ import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
   final timeZone = 'Europe/Paris';
-  final dateTime = DateTime.parse('2024-07-01T08:50:07Z');
+  final dateTime = DateTime.parse('2024-07-01T08:50:07');
 
   print(Intl().locale.toString());
 
