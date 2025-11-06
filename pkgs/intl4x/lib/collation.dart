@@ -3,10 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'collation.dart' show Collation;
-import 'intl4x.dart';
+import 'src/locale/locale.dart' show Locale;
 
 export 'src/collation/collation.dart' show Collation;
 export 'src/collation/collation_options.dart';
+export 'src/locale/locale.dart' show Locale;
 export 'src/options.dart';
 
 extension CollationExt on String {

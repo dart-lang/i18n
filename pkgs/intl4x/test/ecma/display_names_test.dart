@@ -6,7 +6,6 @@
 library;
 
 import 'package:intl4x/display_names.dart';
-import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';

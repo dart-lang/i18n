@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:intl4x/datetime_format.dart';
-import 'package:intl4x/intl4x.dart';
 import 'package:test/test.dart';
 
 import 'utils.dart';

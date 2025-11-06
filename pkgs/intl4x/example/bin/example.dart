@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:intl4x/datetime_format.dart';
-import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
   final timeZone = 'Europe/Paris';

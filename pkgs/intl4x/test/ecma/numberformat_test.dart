@@ -8,7 +8,6 @@ library;
 import 'dart:js_interop';
 import 'dart:math';
 
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 

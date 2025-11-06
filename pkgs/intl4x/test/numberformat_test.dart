@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:collection/collection.dart';
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 

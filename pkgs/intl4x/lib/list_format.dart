@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'intl4x.dart';
 import 'list_format.dart';
 
 export 'src/list_format/list_format.dart' show ListFormat;
 export 'src/list_format/list_format_options.dart';
+export 'src/locale/locale.dart' show Locale;
 export 'src/options.dart';
 
 extension ListFormatIntl4x on List<String> {
