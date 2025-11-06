@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../find_locale.dart' show findSystemLocale;
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'case_mapping_impl.dart';
 
@@ -14,6 +16,9 @@ class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
   const CaseMapping._(this._caseMappingImpl);
+
+  CaseMapping({Locale? locale})
+    : _caseMappingImpl = CaseMappingImpl.build(locale ?? findSystemLocale());
 
   String toLowerCase(String input) {
     if (isInTest) {
