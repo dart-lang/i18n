@@ -3,6 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:icu4x/icu4x.dart' as icu;
+import 'package:timezone/data/latest_all.dart' show initializeTimeZones;
+import 'package:timezone/timezone.dart' show TZDateTime, timeZoneDatabase;
 
 import '../../../datetime_format.dart';
 import '../../locale/locale.dart';
@@ -209,6 +211,33 @@ extension on DateTimeFormatOptions {
       },
     );
   }
+}
+
+icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {
+  if (!timeZoneDatabase.isInitialized) {
+    initializeTimeZones();
+  }
+  final location = timeZoneDatabase.locations[timeZone];
+  final timeZoneX = location != null
+      ? icu.IanaParser()
+            .parse(timeZone)
+            .withOffset(
+              icu.UtcOffset.fromSeconds(
+                TZDateTime(
+                  location,
+                  datetime.year,
+                  datetime.month,
+                  datetime.day,
+                  datetime.hour,
+                  datetime.minute,
+                  datetime.second,
+                  datetime.millisecond,
+                  datetime.microsecond,
+                ).timeZoneOffset.inSeconds,
+              ),
+            )
+      : icu.TimeZone.unknown().withoutOffset();
+  return timeZoneX;
 }
 
 icu.Locale setLocaleExtensions(

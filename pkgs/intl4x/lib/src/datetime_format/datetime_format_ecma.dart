@@ -4,6 +4,8 @@
 
 import 'dart:js_interop';
 
+import 'package:collection/collection.dart' show IterableExtension;
+
 import '../locale/locale.dart';
 import '../options.dart';
 import 'datetime_format_impl.dart';
@@ -21,7 +23,7 @@ class DateTimeJSOptions {
   final TimeStyle? hour;
   final TimeStyle? minute;
   final TimeStyle? second;
-  final TimeZone? timeZone;
+  final String? timeZone;
   final TimeZoneType? timeZoneType;
   final Style? weekday;
 
@@ -44,7 +46,7 @@ class DateTimeJSOptions {
     TimeStyle? hour,
     TimeStyle? minute,
     TimeStyle? second,
-    TimeZone? timeZone,
+    String? timeZone,
     TimeZoneType? timeZoneType,
     Style? weekday,
   }) => DateTimeJSOptions(
@@ -122,7 +124,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   static DateTimeFormat createDateTimeFormat(
     FormatterECMA formatter,
     TimeZoneType timeZoneType,
-    TimeZone timeZone,
+    String timeZone,
   ) {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
     return DateTimeFormat(
@@ -140,12 +142,36 @@ class FormatterZonedECMA extends FormatterZonedImpl {
   }
 
   @override
-  String formatInternal(DateTime datetime, TimeZone timeZone) =>
-      createDateTimeFormat(
+  String formatInternal(DateTime datetime, String timeZone) {
+    try {
+      // ECMA will interpret this as UTC time and convert it
+      // into the time zone, we need to invert that change.
+      final adjustedDateTime = datetime.subtract(
+        offsetForTimeZone(datetime, timeZone),
+      );
+      return createDateTimeFormat(
         formatter,
         timeZoneType,
         timeZone,
-      ).format(datetime.subtract(timeZone.offset).jsUtc);
+      ).format(adjustedDateTime.jsUtc);
+    } catch (e) {
+      // Unknown timezone. Format with UTC and append '+?'
+      // to construct a localized 'UTC+?'
+      final parts = createDateTimeFormat(
+        formatter,
+        TimeZoneType.shortOffset,
+        'UTC',
+      ).formatToParts(datetime.jsUtc).toDart;
+      return parts
+          .map(Part._)
+          .map(
+            (part) => part.isTimezoneName
+                ? '${part.value.split('+')[0]}+?'
+                : part.value,
+          )
+          .join();
+    }
+  }
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
@@ -365,15 +391,63 @@ extension type Date._(JSObject _) implements JSObject {
   );
 }
 
+Duration offsetForTimeZone(DateTime datetime, String iana) {
+  final timeZoneName = DateTimeFormat(
+    ['en'.toJS].toJS,
+    {'timeZoneName': TimeZoneType.longOffset.name, 'timeZone': iana}.jsify()!,
+  ).timeZoneName(datetime.js);
+  return parseTimeZoneOffset(timeZoneName);
+}
+
 @JS('Intl.DateTimeFormat')
 extension type DateTimeFormat._(JSObject _) implements JSObject {
   external factory DateTimeFormat([JSArray<JSString> locale, JSAny options]);
-  external String format(JSAny num);
+  external String format(Date num);
 
   external static JSArray<JSString> supportedLocalesOf(
     JSArray listOfLocales, [
     JSAny options,
   ]);
+
+  external JSArray<JSObject> formatToParts(JSAny num);
+
+  String? timeZoneName(Date date) {
+    final timezoneNameObject = formatToParts(
+      date,
+    ).toDart.map(Part._).firstWhereOrNull((part) => part.isTimezoneName);
+    return timezoneNameObject?.value;
+  }
+}
+
+@JS()
+extension type Part._(JSObject _) implements JSObject {
+  external String get type;
+  external String get value;
+
+  bool get isTimezoneName => type == 'timeZoneName';
+}
+
+final _offsetRegex = RegExp(
+  r'([+\-\u2212])(\d{2}):?(\d{2})(?:(?::?)(\d{2}))?$',
+);
+
+Duration parseTimeZoneOffset(String? offsetString) {
+  if (offsetString == null || offsetString == 'UTC' || offsetString == 'GMT') {
+    return Duration.zero;
+  }
+
+  final Match? match = _offsetRegex.firstMatch(offsetString);
+
+  if (match == null) {
+    throw ArgumentError('Invalid time zone offset format: "$offsetString"');
+  }
+
+  final sign = (match.group(1)! == '-' || match.group(1)! == '\u2212') ? -1 : 1;
+  final hours = int.parse(match.group(2)!);
+  final minutes = int.parse(match.group(3)!);
+  final seconds = int.parse(match.group(4) ?? '0');
+
+  return Duration(hours: hours, minutes: minutes, seconds: seconds) * sign;
 }
 
 extension on DateTime {
@@ -397,7 +471,7 @@ extension on DateTimeFormatOptions {
     if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
     if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
     if (options.timeZone != null) ...{
-      'timeZone': options.timeZone!.name,
+      'timeZone': options.timeZone,
       'timeZoneName': options.timeZoneType!.name,
     },
     if (clockstyle != null) ...{

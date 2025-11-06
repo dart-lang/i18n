@@ -53,13 +53,10 @@ void main() {
     );
   });
 
-  group('timezone', () {
+  group('timezone ymd', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = TimeZone(
-      name: 'America/Los_Angeles',
-      offset: Duration(hours: -8),
-    );
+    const timeZone = 'America/Los_Angeles';
 
     testWithFormatting('short', () {
       return expect(
@@ -137,15 +134,45 @@ void main() {
         matches(r'12/17/2021[,]? Pacific Time'),
       ),
     );
+
+    testWithFormatting(
+      'fixed timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(
+          dateTime,
+          'Etc/GMT+8',
+        ),
+        matches(r'12/17/2021[,]? GMT-08:00'),
+      ),
+    );
+
+    testWithFormatting(
+      'fixed timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneShort().format(
+          dateTime,
+          'Etc/GMT+8',
+        ),
+        matches(r'12/17/2021[,]? GMT-8'),
+      ),
+    );
+
+    testWithFormatting(
+      'invalid timezone',
+      () => expect(
+        intl.dateTimeFormat().ymd().withTimeZoneLongGeneric().format(
+          dateTime,
+          'invalidTimeZoneString',
+        ),
+        matches(r'12/17/2021[,]? GMT+?'),
+      ),
+    );
   });
 
-  group('timezone', () {
+  group('timezone ymdt', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
     final intl = Intl(locale: Locale.parse('en-US'));
-    const timeZone = TimeZone(
-      name: 'America/Los_Angeles',
-      offset: Duration(hours: -8),
-    );
+    const timeZone = 'America/Los_Angeles';
     testWithFormatting(
       'short',
       () => expect(
@@ -647,13 +674,7 @@ void main() {
               )
               .t()
               .withTimeZoneLong()
-              .format(
-                DateTime(2025, 6, 18, 10, 30, 0),
-                const TimeZone(
-                  name: 'America/New_York',
-                  offset: Duration(hours: -4),
-                ),
-              ),
+              .format(DateTime.utc(2025, 6, 18, 10, 30, 0), 'America/New_York'),
           matches(r'^10:30\sAM Eastern Daylight Time$'),
         ),
       );
