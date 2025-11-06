@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../number_format.dart' show NumberFormatOptions;
 import '../find_locale.dart';
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'number_format_impl.dart';
+import 'number_format_options.dart';
 
 class NumberFormat {
   final NumberFormatImpl _impl;

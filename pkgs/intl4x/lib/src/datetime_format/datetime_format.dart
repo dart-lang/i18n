@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../datetime_format.dart';
 import '../find_locale.dart';
 import '../locale/locale.dart' show Locale;
 import 'datetime_format_impl.dart';
+import 'datetime_format_options.dart';
 
 /// `DateTime` formatting, for example:
 ///

@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../plural_rules.dart' show PluralRulesOptions;
 import '../find_locale.dart';
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'plural_rules_impl.dart';
+import 'plural_rules_options.dart';
 
 class PluralRules {
   final PluralRulesImpl _pluralRulesImpl;

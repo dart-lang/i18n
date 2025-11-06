@@ -7,7 +7,6 @@ import 'package:timezone/data/latest_all.dart' show initializeTimeZones;
 import 'package:timezone/timezone.dart' show TZDateTime, timeZoneDatabase;
 
 import '../../../datetime_format.dart';
-import '../../locale/locale.dart';
 import '../../locale/locale_4x.dart';
 import '../datetime_format_impl.dart';
 import 'date_formatter.dart';

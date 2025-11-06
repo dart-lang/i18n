@@ -52,43 +52,6 @@ void main() {
     expect(languageWith(LanguageDisplay.standard), 'English (United Kingdom)');
   });
 
-  testWithFormatting('calendar', () {
-    final displayNames = DisplayNames(locale: Locale.parse('en'));
-
-    expect(displayNames.ofCalendar(Calendar.roc), 'Minguo Calendar');
-    expect(displayNames.ofCalendar(Calendar.gregorian), 'Gregorian Calendar');
-    expect(displayNames.ofCalendar(Calendar.chinese), 'Chinese Calendar');
-  }, tags: ['icu4xUnimplemented']);
-
-  testWithFormatting('dateTimeField', () {
-    final displayNames = DisplayNames(locale: Locale.parse('pt'));
-    expect(displayNames.ofDateTime(DateTimeField.era), 'era');
-    expect(displayNames.ofDateTime(DateTimeField.year), 'ano');
-    expect(displayNames.ofDateTime(DateTimeField.month), 'mês');
-    expect(displayNames.ofDateTime(DateTimeField.quarter), 'trimestre');
-    expect(displayNames.ofDateTime(DateTimeField.weekOfYear), 'semana');
-    expect(displayNames.ofDateTime(DateTimeField.weekday), 'dia da semana');
-    expect(displayNames.ofDateTime(DateTimeField.dayPeriod), 'AM/PM');
-    expect(displayNames.ofDateTime(DateTimeField.day), 'dia');
-    expect(displayNames.ofDateTime(DateTimeField.hour), 'hora');
-    expect(displayNames.ofDateTime(DateTimeField.minute), 'minuto');
-    expect(displayNames.ofDateTime(DateTimeField.second), 'segundo');
-  }, tags: ['icu4xUnimplemented']);
-
-  testWithFormatting('currency', () {
-    expect(
-      DisplayNames(locale: Locale.parse('pt')).ofCurrency('USD'),
-      'Dólar americano',
-    );
-  }, tags: ['icu4xUnimplemented']);
-
-  testWithFormatting('script', () {
-    expect(
-      DisplayNames(locale: Locale.parse('fr')).ofScript('Egyp'),
-      'hiéroglyphes égyptiens',
-    );
-  }, tags: ['icu4xUnimplemented']);
-
   testWithFormatting('region', () {
     String regionNames(Locale locale, String region) =>
         DisplayNames(locale: locale).ofRegion(region);

@@ -349,7 +349,9 @@ void main() {
         () => expect(
           DateTimeFormat(
             locale: Locale.parse('en-US'),
-            options: const DateTimeFormatOptions(calendar: Calendar.chinese),
+            options: const DateTimeFormatOptions(
+              calendar: Calendar.traditionalChinese,
+            ),
           ).ymd(dateStyle: DateFormatStyle.short).format(dateTime),
           '5/23/2025',
         ),
@@ -371,9 +373,7 @@ void main() {
         () => expect(
           DateTimeFormat(
             locale: Locale.parse('ar'),
-            options: const DateTimeFormatOptions(
-              calendar: Calendar.islamicCivil,
-            ),
+            options: const DateTimeFormatOptions(calendar: Calendar.hijriCivil),
           ).ymd(dateStyle: DateFormatStyle.short).format(dateTime),
           // Dhu al-Hijjah 12, 1446 AH
           '21‏/12‏/1446 هـ', // 12/11/1446 AH

@@ -4,7 +4,6 @@
 
 import '../../display_names.dart';
 
-import '../locale/locale.dart';
 import 'display_names_impl.dart';
 
 DisplayNamesImpl getDisplayNames4X(

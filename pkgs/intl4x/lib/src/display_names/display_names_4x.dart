@@ -5,7 +5,6 @@
 import 'package:icu4x/icu4x.dart' as icu;
 
 import '../../display_names.dart';
-import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import 'display_names_impl.dart';
 
@@ -23,30 +22,10 @@ class DisplayNames4X extends DisplayNamesImpl {
       _regionFormatter = icu.RegionDisplayNames(locale.get4X, options.toX);
 
   @override
-  String ofCalendar(Calendar calendar) {
-    throw UnsupportedError('Not supported by ICU4X yet.');
-  }
-
-  @override
-  String ofCurrency(String currencyCode) {
-    throw UnsupportedError('Not supported by ICU4X yet.');
-  }
-
-  @override
-  String ofDateTime(DateTimeField field) {
-    throw UnsupportedError('Not supported by ICU4X yet.');
-  }
-
-  @override
   String ofLanguage(Locale locale) => _formatter.of((locale as Locale4x).get4X);
 
   @override
   String ofRegion(String regionCode) => _regionFormatter.of(regionCode);
-
-  @override
-  String ofScript(String scriptCode) {
-    throw UnsupportedError('Not supported by ICU4X yet.');
-  }
 }
 
 extension on DisplayNamesOptions {

@@ -2,11 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../list_format.dart' show ListFormatOptions;
 import '../find_locale.dart' show findSystemLocale;
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'list_format_impl.dart';
+import 'list_format_options.dart';
 
 class ListFormat {
   final ListFormatImpl _listFormatImpl;
