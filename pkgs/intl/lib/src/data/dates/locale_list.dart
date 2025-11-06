@@ -113,6 +113,7 @@ final availableLocalesForDateFormatting = const [
   'ta',
   'te',
   'th',
+  'tk',
   'tl',
   'tr',
   'uk',
