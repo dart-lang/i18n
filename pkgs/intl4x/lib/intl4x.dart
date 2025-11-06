@@ -3,11 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'case_mapping.dart';
-import 'collation.dart';
 import 'display_names.dart';
 import 'number_format.dart';
-import 'src/collation/collation.dart';
-import 'src/collation/collation_impl.dart';
 import 'src/datetime_format/datetime_format.dart';
 import 'src/datetime_format/datetime_format_impl.dart';
 import 'src/datetime_format/datetime_format_options.dart';
@@ -44,9 +41,6 @@ class Intl {
 
   /// Construct an [Intl] instance providing the current [locale].
   Intl({Locale? locale}) : locale = locale ?? findSystemLocale();
-
-  Collation collation([CollationOptions options = const CollationOptions()]) =>
-      buildCollation(CollationImpl.build(locale, options));
 
   DateTimeFormatBuilder dateTimeFormat([
     DateTimeFormatOptions options = const DateTimeFormatOptions(),

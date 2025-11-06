@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../find_locale.dart' show findSystemLocale;
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
@@ -9,7 +11,13 @@ import 'collation_options.dart';
 class Collation {
   final CollationImpl _collationImpl;
 
-  const Collation._(this._collationImpl);
+  Collation({
+    Locale? locale,
+    CollationOptions options = const CollationOptions(),
+  }) : _collationImpl = CollationImpl.build(
+         locale ?? findSystemLocale(),
+         options,
+       );
 
   /// Compare two strings in a locale-dependant manner.
   ///
@@ -28,6 +36,3 @@ class Collation {
     }
   }
 }
-
-Collation buildCollation(CollationImpl collationImpl) =>
-    Collation._(collationImpl);

@@ -15,8 +15,6 @@ import 'case_mapping_impl.dart';
 class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
-  const CaseMapping._(this._caseMappingImpl);
-
   CaseMapping({Locale? locale})
     : _caseMappingImpl = CaseMappingImpl.build(locale ?? findSystemLocale());
 
@@ -36,6 +34,3 @@ class CaseMapping {
     }
   }
 }
-
-CaseMapping buildCaseMapping(CaseMappingImpl collationImpl) =>
-    CaseMapping._(collationImpl);
