@@ -20,10 +20,10 @@ import 'datetime_format_impl.dart';
 ///     ))
 ///     .format(date); // Output: '4 mat.'
 /// ```
-class DateTimeFormatBuilder {
+class DateTimeFormat {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormatBuilder({
+  DateTimeFormat({
     Locale? locale,
     DateTimeFormatOptions options = const DateTimeFormatOptions(),
   }) : _impl = DateTimeFormatImpl.build(locale ?? findSystemLocale(), options);

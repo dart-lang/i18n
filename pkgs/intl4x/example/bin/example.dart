@@ -11,9 +11,9 @@ void main(List<String> arguments) {
 
   print(Locale.system);
 
-  print(DateTimeFormatBuilder().d().format(DateTime.now()));
+  print(DateTimeFormat().d().format(DateTime.now()));
 
-  final withTimeZoneLong = DateTimeFormatBuilder(locale: Locale.parse('en'))
+  final withTimeZoneLong = DateTimeFormat(locale: Locale.parse('en'))
       .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
       .withTimeZoneLong();
   print(withTimeZoneLong.format(dateTime, timeZone));

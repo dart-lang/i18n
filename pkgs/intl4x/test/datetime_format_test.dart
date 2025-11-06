@@ -9,9 +9,7 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  final dateTimeFormatBuilder = DateTimeFormatBuilder(
-    locale: Locale.parse('en-US'),
-  );
+  final dateTimeFormatBuilder = DateTimeFormat(locale: Locale.parse('en-US'));
   group('Basic', () {
     final dateTime = DateTime(2012, 12, 20, 3, 0, 0);
     testWithFormatting(
@@ -237,7 +235,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        DateTimeFormatBuilder(
+        DateTimeFormat(
           locale: Locale.parse('en-GB'),
           options: const DateTimeFormatOptions(
             clockstyle: ClockStyle.oneToTwelve,
@@ -251,7 +249,7 @@ void main() {
     testWithFormatting(
       'narrow',
       () => expect(
-        DateTimeFormatBuilder(
+        DateTimeFormat(
           locale: Locale.parse('fr'),
           options: const DateTimeFormatOptions(
             clockstyle: ClockStyle.oneToTwelve,
@@ -265,7 +263,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        DateTimeFormatBuilder(
+        DateTimeFormat(
           locale: Locale.parse('fr'),
           options: const DateTimeFormatOptions(
             clockstyle: ClockStyle.oneToTwelve,
@@ -350,7 +348,7 @@ void main() {
       testWithFormatting(
         'calendar - chinese',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(calendar: Calendar.chinese),
           ).ymd(dateStyle: DateFormatStyle.short).format(dateTime),
@@ -361,7 +359,7 @@ void main() {
       testWithFormatting(
         'calendar - japanese',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(calendar: Calendar.japanese),
           ).ymd(dateStyle: DateFormatStyle.short).format(dateTime),
@@ -372,7 +370,7 @@ void main() {
       testWithFormatting(
         'calendar - islamic',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('ar'),
             options: const DateTimeFormatOptions(
               calendar: Calendar.islamicCivil,
@@ -388,7 +386,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - arab',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               numberingSystem: NumberingSystem.arab,
@@ -401,7 +399,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - devanagari',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               numberingSystem: NumberingSystem.deva,
@@ -414,7 +412,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - devanagari in locale',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US-u-nu-deva'),
           ).ymd(dateStyle: DateFormatStyle.short).format(DateTime(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
@@ -424,7 +422,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - thai',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               numberingSystem: NumberingSystem.thai,
@@ -439,7 +437,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 24-hour',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.twodigit,
@@ -453,7 +451,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.twodigit,
@@ -467,7 +465,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour, startAtZero true (0 AM)',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.twodigit,
@@ -483,7 +481,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour, startAtZero false (12 AM)',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.twodigit,
@@ -501,7 +499,7 @@ void main() {
       testWithFormatting(
         'year - numeric',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
           ).y().format(dateTime),
@@ -520,7 +518,7 @@ void main() {
       testWithFormatting(
         'month - narrow',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
           ).md().format(DateTime(2025, 1, 18)), // January
@@ -531,7 +529,7 @@ void main() {
       testWithFormatting(
         'day - twodigit',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
           ).md().format(DateTime(2025, 6, 8)),
@@ -542,7 +540,7 @@ void main() {
       testWithFormatting(
         'hour - twodigit',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
           ).t().format(DateTime(2025, 6, 18, 7, 30, 0)),
@@ -553,7 +551,7 @@ void main() {
       testWithFormatting(
         'minute - twodigit',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.twodigit),
           ).t().format(DateTime(2025, 6, 18, 7, 5, 0)),
@@ -566,7 +564,7 @@ void main() {
       testWithFormatting(
         'fractionalSecondDigits - 1 digit',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.numeric,
@@ -580,7 +578,7 @@ void main() {
       testWithFormatting(
         'fractionalSecondDigits - 3 digits',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               timestyle: TimeStyle.numeric,
@@ -596,7 +594,7 @@ void main() {
       testWithFormatting(
         'formatMatcher - basic',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(
               formatMatcher: FormatMatcher.basic,
@@ -615,7 +613,7 @@ void main() {
       testWithFormatting(
         'timeZone long + hour numeric + minute twodigit',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
             locale: Locale.parse('en-US'),
             options: const DateTimeFormatOptions(timestyle: TimeStyle.numeric),
           ).t().withTimeZoneLong().format(
@@ -631,7 +629,7 @@ void main() {
       testWithFormatting(
         'French locale - long date, short time',
         () => expect(
-          DateTimeFormatBuilder(locale: Locale.parse('fr-FR'))
+          DateTimeFormat(locale: Locale.parse('fr-FR'))
               .ymdt(
                 dateStyle: DateFormatStyle.long,
                 timeStyle: TimeFormatStyle.short,
@@ -644,7 +642,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ECMA',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
                 locale: Locale.parse('de-DE'),
                 options: const DateTimeFormatOptions(
                   clockstyle: ClockStyle.zeroToTwentyThree,
@@ -662,7 +660,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ICU4X',
         () => expect(
-          DateTimeFormatBuilder(
+          DateTimeFormat(
                 locale: Locale.parse('de-DE'),
                 options: const DateTimeFormatOptions(
                   clockstyle: ClockStyle.zeroToTwentyThree,
