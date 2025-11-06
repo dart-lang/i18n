@@ -11,35 +11,35 @@ import 'utils.dart';
 void main() {
   test('Does not compare in tests', () {
     final unsorted = ['Z', 'a', 'z', 'ä'];
-    final collationGerman = Intl(locale: Locale.parse('de-DE')).collation();
+    final collationGerman = Collation(locale: Locale.parse('de-DE'));
     expect(unsorted..sort(collationGerman.compare), orderedEquals(unsorted));
   });
 
   testWithFormatting('Simple EN', () {
     final list = ['A', 'B', 'C'];
-    final intl = Intl(locale: Locale.parse('en-US'));
-    final collation = intl.collation();
+    final collation = Collation(locale: Locale.parse('en-US'));
     expect(list..sort(collation.compare), orderedEquals(list));
   });
 
   testWithFormatting('Simple DE', () {
     final list = ['Z', 'a', 'z', 'ä'];
     final expected = ['a', 'ä', 'z', 'Z'];
-    final collationGerman = Intl(locale: Locale.parse('de-DE')).collation();
+    final collationGerman = Collation(locale: Locale.parse('de-DE'));
     expect(list..sort(collationGerman.compare), orderedEquals(expected));
   });
 
   testWithFormatting('Search vs. Sort', () {
-    final intl = Intl(locale: Locale.parse('de'));
     final list = ['AE', 'Ä'];
 
-    final searchCollation = intl.collation(
-      const CollationOptions(usage: Usage.search),
+    final searchCollation = Collation(
+      locale: Locale.parse('de'),
+      options: const CollationOptions(usage: Usage.search),
     );
     expect(list..sort(searchCollation.compare), orderedEquals(list));
 
-    final sortCollation = intl.collation(
-      const CollationOptions(usage: Usage.sort),
+    final sortCollation = Collation(
+      locale: Locale.parse('de'),
+      options: const CollationOptions(usage: Usage.sort),
     );
     expect(
       list..sort(sortCollation.compare),

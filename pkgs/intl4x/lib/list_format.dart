@@ -14,26 +14,29 @@ extension ListFormatIntl4x on List<String> {
   ///
   /// Example: "A, B, and C". See also [Type.and].
   ///
-  /// For more options, use [Intl.listFormat] directly.
-  String joinAnd({Locale? locale}) => Intl(
+  /// For more options, use [ListFormat] directly.
+  String joinAnd({Locale? locale}) => ListFormat(
     locale: locale,
-  ).listFormat(const ListFormatOptions(type: Type.and)).format(this);
+    options: const ListFormatOptions(type: Type.and),
+  ).format(this);
 
   /// Join a list in a locale-dependent manner using `or`-based grouping.
   ///
   /// Example: "A, B, or C". See also [Type.or].
   ///
-  /// For more options, use [Intl.listFormat] directly.
-  String joinOr({Locale? locale}) => Intl(
+  /// For more options, use [ListFormat] directly.
+  String joinOr({Locale? locale}) => ListFormat(
     locale: locale,
-  ).listFormat(const ListFormatOptions(type: Type.or)).format(this);
+    options: const ListFormatOptions(type: Type.or),
+  ).format(this);
 
   /// Join a list in a locale-dependent manner using unit-based grouping.
   ///
   /// Example: "A, B, C". See also [Type.unit].
   ///
-  /// For more options, use [Intl.listFormat] directly.
-  String joinUnit({Locale? locale}) => Intl(
+  /// For more options, use [ListFormat] directly.
+  String joinUnit({Locale? locale}) => ListFormat(
     locale: locale,
-  ).listFormat(const ListFormatOptions(type: Type.unit)).format(this);
+    options: const ListFormatOptions(type: Type.unit),
+  ).format(this);
 }

@@ -2,13 +2,22 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../list_format.dart' show ListFormatOptions;
+import '../find_locale.dart' show findSystemLocale;
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'list_format_impl.dart';
 
 class ListFormat {
   final ListFormatImpl _listFormatImpl;
 
-  const ListFormat._(this._listFormatImpl);
+  ListFormat({
+    Locale? locale,
+    ListFormatOptions options = const ListFormatOptions(),
+  }) : _listFormatImpl = ListFormatImpl.build(
+         locale ?? findSystemLocale(),
+         options,
+       );
 
   /// Locale-dependant concatenation of lists, for example in `en-US` locale:
   /// ```dart
@@ -22,5 +31,3 @@ class ListFormat {
     }
   }
 }
-
-ListFormat buildListFormat(ListFormatImpl impl) => ListFormat._(impl);
