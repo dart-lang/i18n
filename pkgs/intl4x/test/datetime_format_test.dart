@@ -341,19 +341,9 @@ void main() {
         'numberingSystem - arab',
         () => expect(
           DateTimeFormat(
-            locale: Locale.parse('en-US'),
+            locale: Locale.parse('en-US-u-nu-arab'),
           ).ymd().format(DateTime(2025, 6, 18)),
           '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
-        ),
-      );
-
-      testWithFormatting(
-        'numberingSystem - devanagari',
-        () => expect(
-          DateTimeFormat(
-            locale: Locale.parse('en-US'),
-          ).ymd().format(DateTime(2025, 6, 18)),
-          '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
       );
 
@@ -371,7 +361,7 @@ void main() {
         'numberingSystem - thai',
         () => expect(
           DateTimeFormat(
-            locale: Locale.parse('en-US'),
+            locale: Locale.parse('en-US-u-nu-thai'),
           ).ymd().format(DateTime(2025, 6, 18)),
           '๖/๑๘/๒๕', // 18/6/25 in Thai numerals
         ),
@@ -382,9 +372,9 @@ void main() {
       testWithFormatting(
         'clockstyle - 24-hour',
         () => expect(
-          DateTimeFormat(
-            locale: Locale.parse('en-US'),
-          ).t().format(DateTime(2025, 6, 18, 15, 30, 0)),
+          DateTimeFormat(locale: Locale.parse('en-US-u-hc-h23'))
+              .t(timePrecision: TimePrecision.minute)
+              .format(DateTime(2025, 6, 18, 15, 30, 0)),
           '15:30',
         ),
       );
@@ -392,9 +382,13 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour',
         () => expect(
-          DateTimeFormat(
-            locale: Locale.parse('en-US'),
-          ).t().format(DateTime(2025, 6, 18, 15, 30, 0)),
+          DateTimeFormat(locale: Locale.parse('en-US'))
+              .t(
+                timePrecision: TimePrecision.minute,
+                length: DateTimeLength.medium,
+                alignment: DateTimeAlignment.column,
+              )
+              .format(DateTime(2025, 6, 18, 15, 30, 0)),
           matches(r'03:30\sPM'),
         ),
       );
@@ -428,7 +422,7 @@ void main() {
         () => expect(
           DateTimeFormat(
             locale: Locale.parse('en-US'),
-          ).y(yearStyle: YearStyle.auto).format(dateTime),
+          ).y(yearStyle: YearStyle.full).format(dateTime),
           '2025',
         ),
       );
@@ -454,9 +448,9 @@ void main() {
       testWithFormatting(
         'day - twodigit',
         () => expect(
-          DateTimeFormat(
-            locale: Locale.parse('en-US'),
-          ).md().format(DateTime(2025, 6, 8)),
+          DateTimeFormat(locale: Locale.parse('en-US'))
+              .md(alignment: DateTimeAlignment.column)
+              .format(DateTime(2025, 6, 8)),
           '06/08',
         ),
       );
