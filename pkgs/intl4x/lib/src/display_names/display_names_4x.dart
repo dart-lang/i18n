@@ -4,9 +4,11 @@
 
 import 'package:icu4x/icu4x.dart' as icu;
 
-import '../../display_names.dart';
+import '../locale/locale.dart' show Locale;
 import '../locale/locale_4x.dart';
+import '../options.dart' show Style;
 import 'display_names_impl.dart';
+import 'display_names_options.dart';
 
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
