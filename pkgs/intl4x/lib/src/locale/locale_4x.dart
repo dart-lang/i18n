@@ -4,6 +4,7 @@
 
 import 'package:icu4x/icu4x.dart' as icu;
 
+import '../options.dart' show Calendar, NumberingSystem;
 import 'locale.dart';
 
 class Locale4x implements Locale {
@@ -18,6 +19,14 @@ class Locale4x implements Locale {
 
   @override
   String toString() => toLanguageTag();
+
+  @override
+  Locale withCalendar(Calendar calendar) =>
+      Locale4x(_locale.clone()..setUnicodeExtension('ca', calendar.jsName));
+
+  @override
+  Locale withNumberingSystem(NumberingSystem system) =>
+      Locale4x(_locale.clone()..setUnicodeExtension('nu', system.name));
 }
 
 Locale parseLocale(String s) => Locale4x(icu.Locale.fromString(s));

@@ -4,6 +4,7 @@
 
 import 'dart:js_interop';
 
+import '../options.dart';
 import 'locale.dart';
 
 @JS('Intl.Locale')
@@ -29,4 +30,20 @@ class LocaleEcma implements Locale {
 
   @override
   String toString() => toLanguageTag();
+
+  @override
+  Locale withCalendar(Calendar calendar) => LocaleEcma(
+    LocaleJS.constructor(
+      _locale.toString(),
+      {'calendar': calendar.jsName}.jsify()!,
+    ),
+  );
+
+  @override
+  Locale withNumberingSystem(NumberingSystem system) => LocaleEcma(
+    LocaleJS.constructor(
+      _locale.toString(),
+      {'numberingSystem': system.name}.jsify()!,
+    ),
+  );
 }

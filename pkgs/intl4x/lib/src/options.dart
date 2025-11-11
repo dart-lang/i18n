@@ -4,9 +4,9 @@
 
 enum Calendar {
   buddhist,
-  traditionalChinese,
+  traditionalChinese('chinese'),
   coptic,
-  traditionalKorean,
+  traditionalKorean('dangi'),
   ethiopianAmeteAlem('ethioaa'),
   ethiopian('ethiopic'),
   gregorian('gregory'),
@@ -17,7 +17,7 @@ enum Calendar {
   hijriCivil('islamic-civil'),
   japanese,
   persian,
-  minguo;
+  minguo('roc');
 
   String get jsName => _jsName ?? name;
 
