@@ -13,138 +13,120 @@ import 'date_formatter.dart';
 import 'date_time_formatter.dart';
 import 'time_formatter.dart';
 
-DateTimeFormatImpl getDateTimeFormatter4X(
-  Locale locale,
-  DateTimeFormatOptions options,
-) => DateTimeFormat4X(locale as Locale4x, options);
+DateTimeFormatImpl getDateTimeFormatter4X(Locale locale, Null options) =>
+    DateTimeFormat4X(locale as Locale4x);
 
 class DateTimeFormat4X extends DateTimeFormatImpl {
-  DateTimeFormat4X(Locale4x super.locale, super.options);
+  DateTimeFormat4X(Locale4x super.locale);
 
   icu.Locale get localeX => (super.locale as Locale4x).get4X;
 
   @override
-  FormatterImpl d({DateFormatStyle? dateStyle}) {
-    final (alignment, _, _, length) = options.toX(dateStyle: dateStyle);
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.d(this, locale, alignment, length);
-  }
+  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      DateFormatterX.d(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl m({DateFormatStyle? dateStyle}) {
-    final (alignment, _, _, length) = options.toX(dateStyle: dateStyle);
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.m(this, locale, alignment, length);
-  }
+  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      DateFormatterX.m(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl md({DateFormatStyle? dateStyle}) {
-    final (alignment, _, _, length) = options.toX(dateStyle: dateStyle);
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.md(this, locale, alignment, length);
-  }
+  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      DateFormatterX.md(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra = false}) {
-    final (alignment, yearStyle, _, length) = options.toX(
-      dateStyle: dateStyle,
-      withEra: withEra,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.y(this, locale, alignment, length, yearStyle);
-  }
+  FormatterImpl y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateFormatterX.y(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    yearStyle?.toX,
+  );
 
   @override
-  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra = false}) {
-    final (alignment, yearStyle, _, length) = options.toX(
-      dateStyle: dateStyle,
-      withEra: withEra,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.ymd(this, locale, alignment, length, yearStyle);
-  }
+  FormatterImpl ymd({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateFormatterX.ymd(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    yearStyle?.toX,
+  );
 
   @override
-  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra = false}) {
-    final (alignment, yearStyle, _, length) = options.toX(
-      dateStyle: dateStyle,
-      withEra: withEra,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateFormatterX.ymde(this, locale, alignment, length, yearStyle);
-  }
+  FormatterImpl ymde({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateFormatterX.ymde(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    yearStyle?.toX,
+  );
 
   @override
-  FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle}) {
-    final (alignment, _, timePrecision, length) = options.toX(
-      timeStyle: timeStyle,
-      dateStyle: dateStyle,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateTimeFormatterX.mdt(
-      this,
-      locale,
-      alignment,
-      length,
-      timePrecision,
-    );
-  }
+  FormatterImpl mdt({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => DateTimeFormatterX.mdt(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    timePrecision?.toX,
+  );
 
   @override
   FormatterImpl ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) {
-    final (alignment, yearStyle, timePrecision, length) = options.toX(
-      timeStyle: timeStyle,
-      dateStyle: dateStyle,
-      withEra: withEra,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateTimeFormatterX.ymdt(
-      this,
-      locale,
-      alignment,
-      length,
-      timePrecision,
-      yearStyle,
-    );
-  }
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatterX.ymdt(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    timePrecision?.toX,
+    yearStyle?.toX,
+  );
 
   @override
   FormatterImpl ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) {
-    final (alignment, yearStyle, timePrecision, length) = options.toX(
-      timeStyle: timeStyle,
-      dateStyle: dateStyle,
-      withEra: withEra,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return DateTimeFormatterX.ymdet(
-      this,
-      locale,
-      alignment,
-      length,
-      timePrecision,
-      yearStyle,
-    );
-  }
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatterX.ymdet(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    timePrecision?.toX,
+    yearStyle?.toX,
+  );
 
   @override
-  FormatterImpl t({TimeFormatStyle? style}) {
-    final (alignment, _, timePrecision, length) = options.toX(
-      timePrecisionDefault: options.timestyle == TimeStyle.twodigit
-          ? icu.TimePrecision.minute
-          : null,
-      timeStyle: style,
-    );
-    final locale = setLocaleExtensions(localeX, options);
-    return TimeFormatterX.t(this, locale, timePrecision, alignment, length);
-  }
+  FormatterImpl t({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => TimeFormatterX.t(
+    this,
+    localeX,
+    timePrecision?.toX,
+    alignment?.toX,
+    length?.toX,
+  );
 }
 
 extension DateToICU4X on DateTime {
@@ -160,55 +142,52 @@ extension DateToICU4X on DateTime {
   }
 }
 
-extension on DateTimeFormatOptions {
-  (
-    icu.DateTimeAlignment?,
-    icu.YearStyle?,
-    icu.TimePrecision?,
-    icu.DateTimeLength?,
-  )
-  toX({
-    icu.TimePrecision? timePrecisionDefault,
-    TimeFormatStyle? timeStyle,
-    DateFormatStyle? dateStyle,
-    bool withEra = false,
-  }) {
-    icu.TimePrecision? timePrecision;
-    if (fractionalSecondDigits != null) {
-      timePrecision = icu.TimePrecision.fromSubsecondDigits(
-        fractionalSecondDigits!,
-      );
-    } else {
-      timePrecision = switch (timeStyle) {
-        null => timePrecisionDefault ?? icu.TimePrecision.hour,
-        TimeFormatStyle.full => icu.TimePrecision.second,
-        TimeFormatStyle.long => icu.TimePrecision.second,
-        TimeFormatStyle.medium => icu.TimePrecision.second,
-        TimeFormatStyle.short => icu.TimePrecision.minute,
-      };
-    }
-    final dateTimeAlignment = timestyle == TimeStyle.twodigit
-        ? icu.DateTimeAlignment.column
-        : icu.DateTimeAlignment.auto;
-    return (
-      dateTimeAlignment,
-      switch ((withEra, dateStyle)) {
-        (true, _) => icu.YearStyle.withEra,
-        (_, null) => icu.YearStyle.full,
-        (_, DateFormatStyle.full) => icu.YearStyle.auto,
-        (_, DateFormatStyle.long) => icu.YearStyle.auto,
-        (_, DateFormatStyle.medium) => icu.YearStyle.auto,
-        (_, DateFormatStyle.short) => icu.YearStyle.auto,
-      },
-      timePrecision,
-      switch (dateStyle) {
-        DateFormatStyle.full => icu.DateTimeLength.long,
-        DateFormatStyle.long => icu.DateTimeLength.long,
-        DateFormatStyle.medium => icu.DateTimeLength.medium,
-        DateFormatStyle.short => icu.DateTimeLength.short,
-        null => null,
-      },
-    );
+extension on DateTimeLength {
+  icu.DateTimeLength get toX {
+    return switch (this) {
+      DateTimeLength.long => icu.DateTimeLength.long,
+      DateTimeLength.medium => icu.DateTimeLength.medium,
+      DateTimeLength.short => icu.DateTimeLength.short,
+    };
+  }
+}
+
+extension on TimePrecision {
+  icu.TimePrecision get toX {
+    return switch (this) {
+      TimePrecision.hour => icu.TimePrecision.hour,
+      TimePrecision.minute => icu.TimePrecision.minute,
+      TimePrecision.minuteOptional => icu.TimePrecision.minuteOptional,
+      TimePrecision.second => icu.TimePrecision.second,
+      TimePrecision.subsecond1 => icu.TimePrecision.subsecond1,
+      TimePrecision.subsecond2 => icu.TimePrecision.subsecond2,
+      TimePrecision.subsecond3 => icu.TimePrecision.subsecond3,
+      TimePrecision.subsecond4 => icu.TimePrecision.subsecond4,
+      TimePrecision.subsecond5 => icu.TimePrecision.subsecond5,
+      TimePrecision.subsecond6 => icu.TimePrecision.subsecond6,
+      TimePrecision.subsecond7 => icu.TimePrecision.subsecond7,
+      TimePrecision.subsecond8 => icu.TimePrecision.subsecond8,
+      TimePrecision.subsecond9 => icu.TimePrecision.subsecond9,
+    };
+  }
+}
+
+extension on YearStyle {
+  icu.YearStyle get toX {
+    return switch (this) {
+      YearStyle.auto => icu.YearStyle.auto,
+      YearStyle.full => icu.YearStyle.full,
+      YearStyle.withEra => icu.YearStyle.withEra,
+    };
+  }
+}
+
+extension on DateTimeAlignment {
+  icu.DateTimeAlignment get toX {
+    return switch (this) {
+      DateTimeAlignment.auto => icu.DateTimeAlignment.auto,
+      DateTimeAlignment.column => icu.DateTimeAlignment.column,
+    };
   }
 }
 
@@ -237,24 +216,4 @@ icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {
             )
       : icu.TimeZone.unknown().withoutOffset();
   return timeZoneX;
-}
-
-icu.Locale setLocaleExtensions(
-  icu.Locale locale,
-  DateTimeFormatOptions options,
-) {
-  final l = locale.clone();
-  final calendar = options.calendar;
-  if (calendar != null) {
-    l.setUnicodeExtension('ca', calendar.jsName);
-  }
-  final clockStyle = options.clockstyle;
-  if (clockStyle != null) {
-    l.setUnicodeExtension('hc', clockStyle.hourStyleExtensionString);
-  }
-  final numberingSystem = options.numberingSystem;
-  if (numberingSystem != null) {
-    l.setUnicodeExtension('nu', numberingSystem.name);
-  }
-  return l;
 }

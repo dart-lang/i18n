@@ -4,9 +4,6 @@
 
 import '../locale/locale.dart';
 import 'datetime_format_impl.dart';
-import 'datetime_format_options.dart';
 
-DateTimeFormatImpl getDateTimeFormatter4X(
-  Locale locale,
-  DateTimeFormatOptions options,
-) => throw UnimplementedError('Cannot use ICU4X in web environments.');
+DateTimeFormatImpl getDateTimeFormatter4X(Locale locale, Null options) =>
+    throw UnimplementedError('Cannot use ICU4X in web environments.');

@@ -2,103 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
+enum YearStyle { auto, full, withEra }
 
-typedef WeekDayStyle = Style;
-typedef DayPeriod = Style;
+enum TimePrecision {
+  hour,
 
-/// DateTime formatting functionality of the browser.
-class DateTimeFormatOptions {
-  final Calendar? calendar;
+  minute,
 
-  /// The formatting style used for day periods - only used when the
-  /// [clockstyle] parameter is true.
-  final DayPeriod? dayPeriod;
-  final NumberingSystem? numberingSystem;
+  minuteOptional,
 
-  /// Whether to use a 12- or 24-hour style clock.
-  final ClockStyle? clockstyle;
-  final TimeStyle? timestyle;
+  second,
 
-  /// The number of digits used to represent fractions of a second.
-  final int? fractionalSecondDigits;
+  subsecond1,
 
-  /// The localized representation of the time zone name.
-  final FormatMatcher formatMatcher;
+  subsecond2,
 
-  const DateTimeFormatOptions({
-    this.calendar,
-    this.dayPeriod,
-    this.numberingSystem,
-    this.clockstyle,
-    this.timestyle,
-    this.fractionalSecondDigits,
-    this.formatMatcher = FormatMatcher.bestfit,
-  });
+  subsecond3,
 
-  DateTimeFormatOptions copyWith({
-    Calendar? calendar,
-    DayPeriod? dayPeriod,
-    NumberingSystem? numberingSystem,
-    ClockStyle? clockstyle,
-    WeekDayStyle? weekday,
-    TimeStyle? timestyle,
-    int? fractionalSecondDigits,
-    FormatMatcher? formatMatcher,
-  }) {
-    return DateTimeFormatOptions(
-      calendar: calendar ?? this.calendar,
-      dayPeriod: dayPeriod ?? this.dayPeriod,
-      numberingSystem: numberingSystem ?? this.numberingSystem,
-      clockstyle: clockstyle ?? this.clockstyle,
-      timestyle: timestyle ?? this.timestyle,
-      fractionalSecondDigits:
-          fractionalSecondDigits ?? this.fractionalSecondDigits,
-      formatMatcher: formatMatcher ?? this.formatMatcher,
-    );
-  }
+  subsecond4,
+
+  subsecond5,
+
+  subsecond6,
+
+  subsecond7,
+
+  subsecond8,
+
+  subsecond9,
 }
 
-enum ClockStyle {
-  zeroToEleven,
-  oneToTwelve,
-  zeroToTwentyThree;
+enum DateTimeAlignment { auto, column }
 
-  String get hourStyleExtensionString {
-    // The three possible values are h11, h12, and h23.
-    return switch (this) {
-      ClockStyle.zeroToEleven => 'h11',
-      ClockStyle.oneToTwelve => 'h12',
-      ClockStyle.zeroToTwentyThree => 'h23',
-    };
-  }
-}
-
-enum TimeFormatStyle { full, long, medium, short }
-
-enum DateFormatStyle { full, long, medium, short }
-
-enum FormatMatcher {
-  basic,
-  bestfit('best fit');
-
-  final String? _jsName;
-
-  String? get jsName => _jsName ?? name;
-
-  const FormatMatcher([this._jsName]);
-}
-
-enum TimeStyle {
-  numeric,
-  twodigit('2-digit');
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const TimeStyle([this._jsName]);
-}
+enum DateTimeLength { long, medium, short }
 
 enum TimeZoneType {
   /// Example: `Pacific Standard Time`

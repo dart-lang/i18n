@@ -23,47 +23,79 @@ import 'datetime_format_options.dart';
 class DateTimeFormat {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormat({
-    Locale? locale,
-    DateTimeFormatOptions options = const DateTimeFormatOptions(),
-  }) : _impl = DateTimeFormatImpl.build(locale ?? findSystemLocale(), options);
+  DateTimeFormat({Locale? locale})
+    : _impl = DateTimeFormatImpl.build(locale ?? findSystemLocale());
 
-  DateTimeFormatter d({DateFormatStyle? dateStyle}) =>
-      _impl.d(dateStyle: dateStyle);
+  DateTimeFormatter d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      _impl.d(alignment: alignment, length: length);
 
-  DateTimeFormatter m({DateFormatStyle? dateStyle}) =>
-      _impl.m(dateStyle: dateStyle);
+  DateTimeFormatter m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      _impl.m(alignment: alignment, length: length);
 
-  DateTimeFormatter y({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.y(dateStyle: dateStyle, withEra: withEra);
+  DateTimeFormatter md({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => _impl.md(alignment: alignment, length: length);
 
-  DateTimeFormatter md({DateFormatStyle? dateStyle}) =>
-      _impl.md(dateStyle: dateStyle);
+  DateTimeFormatter y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => _impl.y(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  DateTimeFormatter ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.ymd(dateStyle: dateStyle, withEra: withEra);
+  DateTimeFormatter ymd({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => _impl.ymd(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  DateTimeFormatter ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.ymde(dateStyle: dateStyle, withEra: withEra);
+  DateTimeFormatter ymde({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => _impl.ymde(alignment: alignment, length: length, yearStyle: yearStyle);
 
   DateTimeFormatter mdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-  }) => _impl.mdt(timeStyle: timeStyle, dateStyle: dateStyle);
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => _impl.mdt(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+  );
 
   DateTimeFormatter ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) =>
-      _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => _impl.ymdt(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
 
   DateTimeFormatter ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) =>
-      _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => _impl.ymdet(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
 
-  DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
+  DateTimeFormatter t({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => _impl.t(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+  );
 }

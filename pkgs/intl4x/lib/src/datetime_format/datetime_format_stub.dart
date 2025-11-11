@@ -5,7 +5,5 @@
 import '../../datetime_format.dart';
 import 'datetime_format_impl.dart';
 
-DateTimeFormatImpl getDateTimeFormatterECMA(
-  Locale locales,
-  DateTimeFormatOptions options,
-) => throw UnimplementedError('Cannot use ECMA outside of web environments.');
+DateTimeFormatImpl getDateTimeFormatterECMA(Locale locales, Null options) =>
+    throw UnimplementedError('Cannot use ECMA outside of web environments.');

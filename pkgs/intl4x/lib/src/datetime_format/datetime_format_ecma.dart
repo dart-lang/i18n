@@ -11,23 +11,25 @@ import '../options.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
-DateTimeFormatImpl getDateTimeFormatterECMA(
-  Locale locale,
-  DateTimeFormatOptions options,
-) => _DateTimeFormatECMA.tryToBuild(locale, options);
+DateTimeFormatImpl getDateTimeFormatterECMA(Locale locale, Null options) =>
+    _DateTimeFormatECMA.tryToBuild(locale);
 
-class DateTimeJSOptions {
-  final TimeStyle? year;
-  final TimeStyle? month;
-  final TimeStyle? day;
-  final TimeStyle? hour;
-  final TimeStyle? minute;
-  final TimeStyle? second;
+class _DateTimeJSOptions {
+  final DateTimeLength? year;
+  final DateTimeLength? month;
+  final DateTimeLength? day;
+  final DateTimeLength? hour;
+  final DateTimeLength? minute;
+  final DateTimeLength? second;
   final String? timeZone;
   final TimeZoneType? timeZoneType;
   final Style? weekday;
 
-  DateTimeJSOptions({
+  _DateTimeJSOptions.from({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
     this.year,
     this.month,
     this.day,
@@ -37,54 +39,81 @@ class DateTimeJSOptions {
     this.timeZone,
     this.timeZoneType,
     this.weekday,
-  });
+  }) {}
 
-  DateTimeJSOptions copyWith({
-    TimeStyle? year,
-    TimeStyle? month,
-    TimeStyle? day,
-    TimeStyle? hour,
-    TimeStyle? minute,
-    TimeStyle? second,
-    String? timeZone,
-    TimeZoneType? timeZoneType,
-    Style? weekday,
-  }) => DateTimeJSOptions(
-    day: day ?? this.day,
-    hour: hour ?? this.hour,
-    minute: minute ?? this.minute,
-    month: month ?? this.month,
-    second: second ?? this.second,
-    timeZone: timeZone ?? this.timeZone,
-    timeZoneType: timeZoneType ?? this.timeZoneType,
-    weekday: weekday ?? this.weekday,
-    year: year ?? this.year,
-  );
+  JSAny get toJS => {
+    // if (dateStyle != null) 'dateStyle': dateStyle.name,
+    // if (timeStyle != null) 'timeStyle': timeStyle.name,
+    // if (calendar != null) 'calendar': calendar!.jsName,
+    // if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
+    // if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
+    // if (options.timeZone != null) ...{
+    //   'timeZone': options.timeZone,
+    //   'timeZoneName': options.timeZoneType!.name,
+    // },
+    // if (clockstyle != null) ...{
+    //   'hour12': clockstyle!.is12Hour,
+    //   'hourCycle': clockstyle!.hourStyleExtensionString,
+    // },
+    // if (options.weekday != null && dateStyle == null)
+    //   'weekday': options.weekday!.name,
+    // if (withEra && dateStyle == null) 'era': Style.short.name,
+    // if (options.year != null && dateStyle == null) 'year': options.year!.jsName,
+    // if (options.month != null && dateStyle == null)
+    //   'month': options.month!.jsName,
+    // if (options.day != null && dateStyle == null) 'day': options.day!.jsName,
+    // if (options.hour != null && timeStyle == null) 'hour': options.hour!.jsName,
+    // if (options.minute != null && timeStyle == null)
+    //   'minute': options.minute!.jsName,
+    // if (options.second != null && timeStyle == null)
+    //   'second': options.second!.jsName,
+    // if (fractionalSecondDigits != null)
+    //   'fractionalSecondDigits': fractionalSecondDigits!,
+    // 'formatMatcher': formatMatcher.jsName,
+  }.jsify()!;
+
+  bool get is12Hour =>
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
+}
+
+enum ClockStyle {
+  zeroToEleven,
+  oneToTwelve,
+  zeroToTwentyThree;
+
+  String get hourStyleExtensionString {
+    // The three possible values are h11, h12, and h23.
+    return switch (this) {
+      ClockStyle.zeroToEleven => 'h11',
+      ClockStyle.oneToTwelve => 'h12',
+      ClockStyle.zeroToTwentyThree => 'h23',
+    };
+  }
+}
+
+enum _TimeStyle {
+  numeric,
+  twodigit('2-digit');
+
+  String get jsName => _jsName ?? name;
+
+  final String? _jsName;
+
+  const _TimeStyle([this._jsName]);
 }
 
 class FormatterECMA extends FormatterImpl {
   final Locale locale;
-  final DateTimeFormatOptions options;
-  final DateTimeJSOptions optionsJS;
+  final _DateTimeJSOptions _optionsJS;
   final DateTimeFormatImpl impl;
   final DateTimeFormat dateTimeFormat;
-  final TimeFormatStyle? timeStyle;
-  final DateFormatStyle? dateStyle;
-  final bool withEra;
 
-  FormatterECMA(
-    this.impl,
-    this.optionsJS,
-    this.locale,
-    this.options, {
-    this.timeStyle,
-    this.dateStyle,
-    required this.withEra,
-  }) : dateTimeFormat = DateTimeFormat(
-         [locale.toLanguageTag().toJS].toJS,
-         options.toJsMap(optionsJS, timeStyle, dateStyle, withEra),
-       ),
-       super(impl);
+  FormatterECMA._(this.impl, this._optionsJS, this.locale)
+    : dateTimeFormat = DateTimeFormat(
+        [locale.toLanguageTag().toJS].toJS,
+        _optionsJS.toJS,
+      ),
+      super(impl);
 
   @override
   String formatInternal(DateTime datetime) =>
@@ -127,18 +156,7 @@ class FormatterZonedECMA extends FormatterZonedImpl {
     String timeZone,
   ) {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
-    return DateTimeFormat(
-      localeJS,
-      formatter.options.toJsMap(
-        formatter.optionsJS.copyWith(
-          timeZone: timeZone,
-          timeZoneType: timeZoneType,
-        ),
-        formatter.timeStyle,
-        formatter.dateStyle,
-        formatter.withEra,
-      ),
-    );
+    return DateTimeFormat(localeJS, formatter._optionsJS.toJS);
   }
 
   @override
@@ -175,177 +193,139 @@ class FormatterZonedECMA extends FormatterZonedImpl {
 }
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
-  _DateTimeFormatECMA(super.locale, super.options);
-
-  TimeStyle? _timeStyle(
-    TimeFormatStyle? timeStyle,
-    DateFormatStyle? dateStyle,
-  ) => dateStyle != null || timeStyle != null
-      ? null
-      : (options.timestyle ?? TimeStyle.numeric);
-
-  TimeStyle? _timeStyleOrNull(
-    TimeFormatStyle? timeStyle,
-    DateFormatStyle? dateStyle,
-  ) => dateStyle != null || timeStyle != null ? null : options.timestyle;
+  _DateTimeFormatECMA(super.locale);
 
   @override
-  FormatterImpl d({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(
-      year: null,
-      day: _timeStyle(null, dateStyle),
-      month: null,
-    ),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-    withEra: false,
-  );
-
-  @override
-  FormatterImpl m({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(
-      year: null,
-      day: null,
-      month: _timeStyle(null, dateStyle),
-    ),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-    withEra: false,
-  );
-
-  @override
-  FormatterImpl md({DateFormatStyle? dateStyle}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(
-      year: null,
-      day: _timeStyle(null, dateStyle),
-      month: _timeStyle(null, dateStyle),
-    ),
-    locale,
-    options,
-    timeStyle: null,
-    dateStyle: dateStyle,
-    withEra: false,
-  );
-
-  @override
-  FormatterImpl t({TimeFormatStyle? style}) => FormatterECMA(
-    this,
-    DateTimeJSOptions(
-      hour: _timeStyle(style, null),
-      minute: _timeStyleOrNull(style, null),
-    ),
-    locale,
-    options,
-    timeStyle: style,
-    dateStyle: null,
-    withEra: false,
-  );
-
-  @override
-  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      FormatterECMA(
+  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      FormatterECMA._(
         this,
-        DateTimeJSOptions(year: _timeStyle(null, dateStyle)),
+        _DateTimeJSOptions.from(alignment: alignment, length: length),
         locale,
-        options,
-        timeStyle: null,
-        dateStyle: dateStyle,
-        withEra: withEra,
       );
 
   @override
-  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      FormatterECMA(
+  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      FormatterECMA._(
         this,
-        DateTimeJSOptions(
-          year: _timeStyle(null, dateStyle),
-          month: _timeStyle(null, dateStyle),
-          day: _timeStyle(null, dateStyle),
-        ),
+        _DateTimeJSOptions.from(alignment: alignment, length: length),
         locale,
-        options,
-        timeStyle: null,
-        dateStyle: dateStyle,
-        withEra: withEra,
       );
 
   @override
-  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      FormatterECMA(
+  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      FormatterECMA._(
         this,
-        DateTimeJSOptions(),
+        _DateTimeJSOptions.from(alignment: alignment, length: length),
         locale,
-        options,
-        timeStyle: null,
-        dateStyle: dateStyle,
-        withEra: withEra,
       );
+
+  @override
+  FormatterImpl t({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      timePrecision: timePrecision,
+    ),
+    locale,
+  );
+
+  @override
+  FormatterImpl y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+    locale,
+  );
+
+  @override
+  FormatterImpl ymd({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+    locale,
+  );
+
+  @override
+  FormatterImpl ymde({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+    locale,
+  );
 
   @override
   FormatterImpl ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) => FormatterECMA(
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => FormatterECMA._(
     this,
-    DateTimeJSOptions(
-      hour: _timeStyle(timeStyle, dateStyle),
-      minute: _timeStyleOrNull(timeStyle, dateStyle),
-      year: _timeStyle(timeStyle, dateStyle),
-      month: _timeStyle(timeStyle, dateStyle),
-      day: _timeStyle(timeStyle, dateStyle),
-      weekday: Style.short,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+      timePrecision: timePrecision,
     ),
     locale,
-    options,
-    timeStyle: timeStyle,
-    dateStyle: dateStyle,
-    withEra: withEra,
   );
 
   @override
-  FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle}) =>
-      FormatterECMA(
-        this,
-        DateTimeJSOptions(
-          hour: _timeStyle(timeStyle, dateStyle),
-          minute: _timeStyleOrNull(timeStyle, dateStyle),
-          month: _timeStyle(timeStyle, dateStyle),
-          day: _timeStyle(timeStyle, dateStyle),
-        ),
-        locale,
-        options,
-        timeStyle: timeStyle,
-        dateStyle: dateStyle,
-        withEra: false,
-      );
+  FormatterImpl mdt({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      timePrecision: timePrecision,
+    ),
+    locale,
+  );
 
   @override
   FormatterImpl ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) => FormatterECMA(
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => FormatterECMA._(
     this,
-    DateTimeJSOptions(
-      hour: _timeStyle(timeStyle, dateStyle),
-      minute: _timeStyleOrNull(timeStyle, dateStyle),
-      year: _timeStyle(timeStyle, dateStyle),
-      month: _timeStyle(timeStyle, dateStyle),
-      day: _timeStyle(timeStyle, dateStyle),
+    _DateTimeJSOptions.from(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+      timePrecision: timePrecision,
     ),
     locale,
-    options,
-    timeStyle: timeStyle,
-    dateStyle: dateStyle,
-    withEra: withEra,
   );
 
   static List<Locale> supportedLocalesOf(Locale locale) {
@@ -354,14 +334,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     ).toDart.whereType<String>().map(Locale.parse).toList();
   }
 
-  static DateTimeFormatImpl tryToBuild(
-    Locale locale,
-    DateTimeFormatOptions options,
-  ) {
+  static DateTimeFormatImpl tryToBuild(Locale locale) {
     final supportedLocales = supportedLocalesOf(locale);
     return _DateTimeFormatECMA(
       supportedLocales.firstOrNull ?? Locale.parse('und'),
-      options,
     );
   }
 }
@@ -456,47 +432,4 @@ extension on DateTime {
   Date get jsUtc => Date.fromTimeStamp(
     Date.UTC(year, month - 1, day, hour, minute, second, millisecond),
   );
-}
-
-extension on DateTimeFormatOptions {
-  JSAny toJsMap(
-    DateTimeJSOptions options,
-    TimeFormatStyle? timeStyle,
-    DateFormatStyle? dateStyle,
-    bool withEra,
-  ) => {
-    if (dateStyle != null) 'dateStyle': dateStyle.name,
-    if (timeStyle != null) 'timeStyle': timeStyle.name,
-    if (calendar != null) 'calendar': calendar!.jsName,
-    if (dayPeriod != null) 'dayPeriod': dayPeriod!.name,
-    if (numberingSystem != null) 'numberingSystem': numberingSystem!.name,
-    if (options.timeZone != null) ...{
-      'timeZone': options.timeZone,
-      'timeZoneName': options.timeZoneType!.name,
-    },
-    if (clockstyle != null) ...{
-      'hour12': clockstyle!.is12Hour,
-      'hourCycle': clockstyle!.hourStyleExtensionString,
-    },
-    if (options.weekday != null && dateStyle == null)
-      'weekday': options.weekday!.name,
-    if (withEra && dateStyle == null) 'era': Style.short.name,
-    if (options.year != null && dateStyle == null) 'year': options.year!.jsName,
-    if (options.month != null && dateStyle == null)
-      'month': options.month!.jsName,
-    if (options.day != null && dateStyle == null) 'day': options.day!.jsName,
-    if (options.hour != null && timeStyle == null) 'hour': options.hour!.jsName,
-    if (options.minute != null && timeStyle == null)
-      'minute': options.minute!.jsName,
-    if (options.second != null && timeStyle == null)
-      'second': options.second!.jsName,
-    if (fractionalSecondDigits != null)
-      'fractionalSecondDigits': fractionalSecondDigits!,
-    'formatMatcher': formatMatcher.jsName,
-  }.jsify()!;
-}
-
-extension on ClockStyle {
-  bool get is12Hour =>
-      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }
