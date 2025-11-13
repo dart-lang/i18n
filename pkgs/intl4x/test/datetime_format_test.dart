@@ -582,14 +582,16 @@ void main() {
   group('all options ymdet', () {
     final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
     final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
-
-    testWithFormatting(
-      'German locale - full date, medium time, 24-hour clock ICU4X3',
-      () {
-        for (final precision in [...TimePrecision.values, null]) {
-          for (final length in [...DateTimeLength.values, null]) {
-            for (final alignment in [...DateTimeAlignment.values, null]) {
-              for (final yearStyle in [...YearStyle.values, null]) {
+    for (final precision in [...TimePrecision.values, null]) {
+      for (final length in [...DateTimeLength.values, null]) {
+        for (final alignment in [...DateTimeAlignment.values, null]) {
+          for (final yearStyle in [
+            ...YearStyle.values,
+            null,
+          ]..removeWhere((element) => element == YearStyle.withEra)) {
+            testWithFormatting(
+              '($precision, $length, $alignment, $yearStyle)',
+              () {
                 final format = dateTimeFormat
                     .ymdet(
                       length: length,
@@ -598,17 +600,19 @@ void main() {
                       yearStyle: yearStyle,
                     )
                     .format(dateTime);
-                print(
-                  '($precision, $length, $alignment, $yearStyle): \'$format\',',
+                expect(
+                  format,
+                  ymdetOptions[(precision, length, alignment, yearStyle)],
                 );
-              }
-            }
+              },
+            );
           }
         }
-      },
-    );
+      }
+    }
   });
-  group('all options ymdet', () {
+
+  group('all options ymdt', () {
     final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
     final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
     for (final precision in [...TimePrecision.values, null]) {
@@ -622,7 +626,7 @@ void main() {
               '($precision, $length, $alignment, $yearStyle)',
               () {
                 final format = dateTimeFormat
-                    .ymdet(
+                    .ymdt(
                       length: length,
                       timePrecision: precision,
                       alignment: alignment,
