@@ -55,3 +55,21 @@ enum TimeZoneType {
   /// Example: `Pacific Time`
   longGeneric,
 }
+
+enum ClockStyle {
+  zeroToEleven,
+  oneToTwelve,
+  zeroToTwentyThree;
+
+  String get hourStyleExtensionString {
+    // The three possible values are h11, h12, and h23.
+    return switch (this) {
+      ClockStyle.zeroToEleven => 'h11',
+      ClockStyle.oneToTwelve => 'h12',
+      ClockStyle.zeroToTwentyThree => 'h23',
+    };
+  }
+
+  bool get is12Hour =>
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
+}

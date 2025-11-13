@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../datetime_format/datetime_format_options.dart' show ClockStyle;
 import '../find_locale.dart';
 import '../options.dart' show Calendar, NumberingSystem;
 import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
@@ -21,6 +22,7 @@ abstract class Locale {
 
   Locale withCalendar(Calendar calendar);
   Locale withNumberingSystem(NumberingSystem system);
+  Locale withHourCycle(ClockStyle clockStyle);
 
   static Locale get system => findSystemLocale();
 

@@ -8,70 +8,80 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
-  final dateTimeFormatBuilder = DateTimeFormat(locale: Locale.parse('en-US'));
+  final formatBuilder = DateTimeFormat(locale: Locale.parse('en-US'));
   group('Basic', () {
     final dateTime = DateTime(2012, 12, 20, 3, 0, 0);
     testWithFormatting(
       'd',
-      () => expect(dateTimeFormatBuilder.d().format(dateTime), '20'),
+      () => expect(formatBuilder.d().format(dateTime), '20'),
     );
     testWithFormatting(
       'm',
-      () => expect(dateTimeFormatBuilder.m().format(dateTime), '12'),
+      () => expect(formatBuilder.m().format(dateTime), '12'),
     );
     testWithFormatting(
       'y',
-      () => expect(dateTimeFormatBuilder.y().format(dateTime), '2012'),
+      () => expect(
+        formatBuilder.y(yearStyle: YearStyle.full).format(dateTime),
+        '2012',
+      ),
     );
     testWithFormatting(
       'md',
-      () => expect(dateTimeFormatBuilder.md().format(dateTime), '12/20'),
+      () => expect(formatBuilder.md().format(dateTime), '12/20'),
     );
     testWithFormatting(
       'ymd',
-      () => expect(dateTimeFormatBuilder.ymd().format(dateTime), '12/20/2012'),
+      () => expect(
+        formatBuilder.ymd(yearStyle: YearStyle.full).format(dateTime),
+        '12/20/2012',
+      ),
     );
     testWithFormatting(
       'ymdt',
       () => expect(
-        dateTimeFormatBuilder.ymdt().format(dateTime),
+        formatBuilder
+            .ymdt(timePrecision: TimePrecision.hour, yearStyle: YearStyle.full)
+            .format(dateTime),
         matches(r'12/20/2012[,]? 3\sAM'),
       ),
     );
     testWithFormatting(
       'ymdet',
       () => expect(
-        dateTimeFormatBuilder.ymdet().format(dateTime),
+        formatBuilder
+            .ymdet(timePrecision: TimePrecision.hour, yearStyle: YearStyle.full)
+            .format(dateTime),
         matches(r'Thu, 12/20/2012[,]? 3\sAM'),
       ),
     );
     testWithFormatting(
       'time',
-      () =>
-          expect(dateTimeFormatBuilder.t().format(dateTime), matches(r'3\sAM')),
+      () => expect(
+        formatBuilder.t(timePrecision: TimePrecision.hour).format(dateTime),
+        matches(r'3\sAM'),
+      ),
     );
   });
 
   group('timezone ymd', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
+    final ymd = formatBuilder.ymd(yearStyle: YearStyle.full);
     const timeZone = 'America/Los_Angeles';
 
     testWithFormatting('short', () {
       return expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneShort().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? PST'),
       );
     });
 
     testWithFormatting('short with era', () {
       return expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneShort().format(
-          dateTime,
-          timeZone,
-        ),
+        formatBuilder
+            .ymd(yearStyle: YearStyle.withEra)
+            .withTimeZoneShort()
+            .format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
       );
     });
@@ -79,10 +89,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneLong().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneLong().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? Pacific Standard Time'),
       ),
     );
@@ -90,10 +97,7 @@ void main() {
     testWithFormatting(
       'shortOffset',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneShortOffset().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneShortOffset().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? GMT-8'),
       ),
     );
@@ -101,10 +105,7 @@ void main() {
     testWithFormatting(
       'longOffset',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneLongOffset().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneLongOffset().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? GMT-08:00'),
       ),
     );
@@ -112,10 +113,7 @@ void main() {
     testWithFormatting(
       'shortGeneric',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneShortGeneric().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneShortGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? PT'),
       ),
     );
@@ -123,20 +121,14 @@ void main() {
     testWithFormatting(
       'longGeneric',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneLongGeneric().format(
-          dateTime,
-          timeZone,
-        ),
+        ymd.withTimeZoneLongGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? Pacific Time'),
       ),
     );
 
     testWithFormatting('fixed timezone', () {
       return expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneLongGeneric().format(
-          dateTime,
-          'Etc/GMT+8',
-        ),
+        ymd.withTimeZoneLongGeneric().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-08:00'),
       );
     });
@@ -144,89 +136,67 @@ void main() {
     testWithFormatting(
       'fixed timezone',
       () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneShort().format(
-          dateTime,
-          'Etc/GMT+8',
-        ),
+        ymd.withTimeZoneShort().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-8'),
       ),
     );
 
-    testWithFormatting(
-      'invalid timezone',
-      () => expect(
-        dateTimeFormatBuilder.ymd().withTimeZoneLongGeneric().format(
-          dateTime,
-          'invalidTimeZoneString',
-        ),
+    testWithFormatting('invalid timezone', () {
+      return expect(
+        ymd.withTimeZoneLongGeneric().format(dateTime, 'invalidTimeZoneString'),
         matches(r'12/17/2021[,]? GMT+?'),
-      ),
-    );
+      );
+    });
   });
 
   group('timezone ymdt', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
+    final ymdt = formatBuilder.ymdt(
+      timePrecision: TimePrecision.hour,
+      yearStyle: YearStyle.full,
+    );
     const timeZone = 'America/Los_Angeles';
     testWithFormatting(
       'short',
       () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneShort().format(
-          dateTime,
-          timeZone,
-        ),
+        ymdt.withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM PST'),
       ),
     );
     testWithFormatting(
       'long',
       () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneLong().format(
-          dateTime,
-          timeZone,
-        ),
+        ymdt.withTimeZoneLong().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM Pacific Standard Time'),
       ),
     );
     testWithFormatting(
       'shortOffset',
       () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneShortOffset().format(
-          dateTime,
-          timeZone,
-        ),
+        ymdt.withTimeZoneShortOffset().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM GMT-8'),
       ),
     );
     testWithFormatting(
       'longOffset',
       () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneLongOffset().format(
-          dateTime,
-          timeZone,
-        ),
+        ymdt.withTimeZoneLongOffset().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM GMT-08:00'),
       ),
     );
     testWithFormatting(
       'shortGeneric',
       () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneShortGeneric().format(
-          dateTime,
-          timeZone,
-        ),
+        ymdt.withTimeZoneShortGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM PT'),
       ),
     );
-    testWithFormatting(
-      'longGeneric',
-      () => expect(
-        dateTimeFormatBuilder.ymdt().withTimeZoneLongGeneric().format(
-          dateTime,
-          timeZone,
-        ),
+    testWithFormatting('longGeneric', () {
+      return expect(
+        ymdt.withTimeZoneLongGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM Pacific Time'),
-      ),
-    );
+      );
+    });
   });
 
   group('day period', () {
@@ -260,17 +230,22 @@ void main() {
     final dateTime = DateTime(2021, 12, 17, 4, 0, 42);
     testWithFormatting(
       'short',
-      () => expect(dateTimeFormatBuilder.ymd().format(dateTime), '12/17/21'),
+      () => expect(
+        formatBuilder.ymd(length: DateTimeLength.short).format(dateTime),
+        '12/17/21',
+      ),
     );
     testWithFormatting(
       'medium',
-      () =>
-          expect(dateTimeFormatBuilder.ymd().format(dateTime), 'Dec 17, 2021'),
+      () => expect(
+        formatBuilder.ymd(length: DateTimeLength.medium).format(dateTime),
+        'Dec 17, 2021',
+      ),
     );
     testWithFormatting(
       'long',
       () => expect(
-        dateTimeFormatBuilder.ymd().format(dateTime),
+        formatBuilder.ymd(length: DateTimeLength.long).format(dateTime),
         'December 17, 2021',
       ),
     );
@@ -282,16 +257,14 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        dateTimeFormatBuilder.t().format(dateTime),
+        formatBuilder.t(timePrecision: TimePrecision.minute).format(dateTime),
         matches(r'^4:00\sAM$'),
       ),
     );
     testWithFormatting(
       'medium',
-      () => expect(
-        dateTimeFormatBuilder.t().format(dateTime),
-        matches(r'^4:00:00\sAM$'),
-      ),
+      () =>
+          expect(formatBuilder.t().format(dateTime), matches(r'^4:00:00\sAM$')),
     );
   });
 
@@ -300,7 +273,7 @@ void main() {
     testWithFormatting(
       'medium short',
       () => expect(
-        dateTimeFormatBuilder.ymdt().format(dateTime),
+        formatBuilder.ymdt().format(dateTime),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
@@ -313,7 +286,11 @@ void main() {
       testWithFormatting(
         'calendar - chinese',
         () => expect(
-          DateTimeFormat(locale: Locale.parse('en-US')).ymd().format(dateTime),
+          DateTimeFormat(
+            locale: Locale.parse(
+              'en-US',
+            ).withCalendar(Calendar.traditionalChinese),
+          ).ymd().format(dateTime),
           '5/23/2025',
         ),
       );
@@ -321,7 +298,9 @@ void main() {
       testWithFormatting(
         'calendar - japanese',
         () => expect(
-          DateTimeFormat(locale: Locale.parse('en-US')).ymd().format(dateTime),
+          DateTimeFormat(
+            locale: Locale.parse('en-US').withCalendar(Calendar.japanese),
+          ).ymd().format(dateTime),
           '6/18/7 R',
         ),
       );
@@ -329,7 +308,9 @@ void main() {
       testWithFormatting(
         'calendar - islamic',
         () => expect(
-          DateTimeFormat(locale: Locale.parse('ar')).ymd().format(dateTime),
+          DateTimeFormat(
+            locale: Locale.parse('ar').withCalendar(Calendar.hijriCivil),
+          ).ymd().format(dateTime),
           // Dhu al-Hijjah 12, 1446 AH
           '21‏/12‏/1446 هـ', // 12/11/1446 AH
         ),
@@ -341,7 +322,9 @@ void main() {
         'numberingSystem - arab',
         () => expect(
           DateTimeFormat(
-            locale: Locale.parse('en-US-u-nu-arab'),
+            locale: Locale.parse(
+              'en-US',
+            ).withNumberingSystem(NumberingSystem.arab),
           ).ymd().format(DateTime(2025, 6, 18)),
           '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
         ),
@@ -351,7 +334,9 @@ void main() {
         'numberingSystem - devanagari in locale',
         () => expect(
           DateTimeFormat(
-            locale: Locale.parse('en-US-u-nu-deva'),
+            locale: Locale.parse(
+              'en-US',
+            ).withNumberingSystem(NumberingSystem.deva),
           ).ymd().format(DateTime(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
@@ -361,7 +346,9 @@ void main() {
         'numberingSystem - thai',
         () => expect(
           DateTimeFormat(
-            locale: Locale.parse('en-US-u-nu-thai'),
+            locale: Locale.parse(
+              'en-US',
+            ).withNumberingSystem(NumberingSystem.thai),
           ).ymd().format(DateTime(2025, 6, 18)),
           '๖/๑๘/๒๕', // 18/6/25 in Thai numerals
         ),
@@ -372,7 +359,11 @@ void main() {
       testWithFormatting(
         'clockstyle - 24-hour',
         () => expect(
-          DateTimeFormat(locale: Locale.parse('en-US-u-hc-h23'))
+          DateTimeFormat(
+                locale: Locale.parse(
+                  'en-US',
+                ).withHourCycle(ClockStyle.zeroToTwentyThree),
+              )
               .t(timePrecision: TimePrecision.minute)
               .format(DateTime(2025, 6, 18, 15, 30, 0)),
           '15:30',
@@ -429,10 +420,7 @@ void main() {
 
       testWithFormatting(
         'month - twodigit',
-        () => expect(
-          dateTimeFormatBuilder.md().format(DateTime(2025, 6, 18)),
-          '6/18',
-        ),
+        () => expect(formatBuilder.md().format(DateTime(2025, 6, 18)), '6/18'),
       );
 
       testWithFormatting(
