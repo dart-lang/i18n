@@ -21,12 +21,10 @@ class ListFormatOptions {
     this.style = ListStyle.long,
   });
 
-  ListFormatOptions copyWith({ListType? type, ListStyle? style}) {
-    return ListFormatOptions(
+  ListFormatOptions copyWith({ListType? type, ListStyle? style}) => ListFormatOptions(
       type: type ?? this.type,
       style: style ?? this.style,
     );
-  }
 }
 
 /// Indicates the type of grouping.

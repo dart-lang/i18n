@@ -310,11 +310,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     locale,
   );
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return DateTimeFormat.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      DateTimeFormat.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   static DateTimeFormatImpl tryToBuild(Locale locale) {
     final supportedLocales = supportedLocalesOf(locale);

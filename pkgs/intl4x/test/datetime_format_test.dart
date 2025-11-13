@@ -69,22 +69,18 @@ void main() {
     final ymd = formatBuilder.ymd(yearStyle: YearStyle.full);
     const timeZone = 'America/Los_Angeles';
 
-    testWithFormatting('short', () {
-      return expect(
+    testWithFormatting('short', () => expect(
         ymd.withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? PST'),
-      );
-    });
+      ));
 
-    testWithFormatting('short with era', () {
-      return expect(
+    testWithFormatting('short with era', () => expect(
         formatBuilder
             .ymd(yearStyle: YearStyle.withEra)
             .withTimeZoneShort()
             .format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
-      );
-    });
+      ));
 
     testWithFormatting(
       'long',
@@ -126,12 +122,10 @@ void main() {
       ),
     );
 
-    testWithFormatting('fixed timezone', () {
-      return expect(
+    testWithFormatting('fixed timezone', () => expect(
         ymd.withTimeZoneLongGeneric().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-08:00'),
-      );
-    });
+      ));
 
     testWithFormatting(
       'fixed timezone',
@@ -141,12 +135,10 @@ void main() {
       ),
     );
 
-    testWithFormatting('invalid timezone', () {
-      return expect(
+    testWithFormatting('invalid timezone', () => expect(
         ymd.withTimeZoneLongGeneric().format(dateTime, 'invalidTimeZoneString'),
         matches(r'12/17/2021[,]? GMT+?'),
-      );
-    });
+      ));
   });
 
   group('timezone ymdt', () {
@@ -191,12 +183,10 @@ void main() {
         matches(r'12/17/2021[,]? 3\sAM PT'),
       ),
     );
-    testWithFormatting('longGeneric', () {
-      return expect(
+    testWithFormatting('longGeneric', () => expect(
         ymdt.withTimeZoneLongGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM Pacific Time'),
-      );
-    });
+      ));
   });
 
   group('day period', () {

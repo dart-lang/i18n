@@ -19,9 +19,7 @@ extension type NumberFormatJS._(JSObject _) implements JSObject {
   external String format(JSAny num);
 }
 
-JSAny generateProperties(Map<String, Object> properties) {
-  return properties.jsify()!;
-}
+JSAny generateProperties(Map<String, Object> properties) => properties.jsify()!;
 
 void main() {
   group('Some manual tests', () {
@@ -109,8 +107,7 @@ void main() {
 
     List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
       int length,
-    ) {
-      return List.generate(
+    ) => List.generate(
         length,
         (index) => (
           numbers[random.nextInt(numbers.length)],
@@ -118,7 +115,6 @@ void main() {
           options[random.nextInt(options.length)],
         ),
       ).toSet().toList();
-    }
 
     for (final (number, locale, (desc, options, object)) in selectIndicesFrom(
       1000,

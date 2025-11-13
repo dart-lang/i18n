@@ -38,11 +38,9 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return DisplayNames.supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(Locale locale) => DisplayNames.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
     ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
 
   String of(DisplayNamesOptions options, DisplayType type, String jsName) =>
       DisplayNames(

@@ -17,9 +17,7 @@ class ListFormat4X extends ListFormatImpl {
     : _formatter = _getFormatter(locale, options);
 
   @override
-  String formatImpl(List<String> list) {
-    return _formatter.format(list);
-  }
+  String formatImpl(List<String> list) => _formatter.format(list);
 
   static icu.ListFormatter _getFormatter(
     Locale4x locale,

@@ -7,3 +7,4 @@ linter:
     - prefer_final_locals
     - prefer_relative_imports
     - unnecessary_parenthesis
+    - prefer_expression_function_bodies

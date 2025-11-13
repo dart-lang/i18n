@@ -33,19 +33,15 @@ class _ListFormatECMA extends ListFormatImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return ListFormat.supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(Locale locale) => ListFormat.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
     ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
 
   @override
-  String formatImpl(List<String> list) {
-    return ListFormat(
+  String formatImpl(List<String> list) => ListFormat(
       [locale.toLanguageTag().toJS].toJS,
       options.toJsOptions(),
     ).format(list.map((e) => e.toJS).toList().toJS);
-  }
 }
 
 extension on ListFormatOptions {

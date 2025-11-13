@@ -27,15 +27,13 @@ class PluralRulesOptions {
     RoundingMode? roundingMode,
     int? minimumIntegerDigits,
     TrailingZeroDisplay? trailingZeroDisplay,
-  }) {
-    return PluralRulesOptions(
+  }) => PluralRulesOptions(
       type: type ?? this.type,
       digits: digits ?? this.digits,
       roundingMode: roundingMode ?? this.roundingMode,
       minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
       trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
     );
-  }
 }
 
 /// The number type to use.

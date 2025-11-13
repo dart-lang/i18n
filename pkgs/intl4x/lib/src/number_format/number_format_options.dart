@@ -45,8 +45,7 @@ class NumberFormatOptions {
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
       style: const PercentStyle(),
       signDisplay: signDisplay,
       notation: notation,
@@ -56,7 +55,6 @@ class NumberFormatOptions {
       trailingZeroDisplay: trailingZeroDisplay,
       minimumIntegerDigits: minimumIntegerDigits,
     );
-  }
 
   factory NumberFormatOptions.unit({
     required Unit unit,
@@ -70,8 +68,7 @@ class NumberFormatOptions {
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
       style: UnitStyle(unit: unit, unitDisplay: unitDisplay),
       signDisplay: signDisplay,
       notation: notation,
@@ -82,7 +79,6 @@ class NumberFormatOptions {
       minimumIntegerDigits: minimumIntegerDigits,
       digits: digits,
     );
-  }
 
   factory NumberFormatOptions.currency({
     required String currency,
@@ -97,8 +93,7 @@ class NumberFormatOptions {
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
       currency: currency,
       style: CurrencyStyle(
         currency: currency,
@@ -114,7 +109,6 @@ class NumberFormatOptions {
       minimumIntegerDigits: minimumIntegerDigits,
       digits: digits,
     );
-  }
 
   factory NumberFormatOptions.compact({
     CompactDisplay compactDisplay = CompactDisplay.short,
@@ -127,8 +121,7 @@ class NumberFormatOptions {
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
       style: style,
       signDisplay: signDisplay,
       notation: CompactNotation(compactDisplay: compactDisplay),
@@ -139,7 +132,6 @@ class NumberFormatOptions {
       minimumIntegerDigits: minimumIntegerDigits,
       digits: digits,
     );
-  }
 
   static Digits? getDigits(FormatStyle style, Digits? digits) {
     final fractionDigits = digits?.fractionDigits;
@@ -189,8 +181,7 @@ class NumberFormatOptions {
     TrailingZeroDisplay? trailingZeroDisplay,
     int? minimumIntegerDigits,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
       style: style ?? this.style,
       currency: currency ?? this.currency,
       signDisplay: signDisplay ?? this.signDisplay,
@@ -202,7 +193,6 @@ class NumberFormatOptions {
       minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
       digits: digits ?? this.digits,
     );
-  }
 }
 
 /// Control how many fraction digits to use in number formatting.

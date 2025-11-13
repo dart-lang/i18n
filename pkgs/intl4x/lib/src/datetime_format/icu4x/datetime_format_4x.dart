@@ -143,18 +143,15 @@ extension DateToICU4X on DateTime {
 }
 
 extension on DateTimeLength {
-  icu.DateTimeLength get toX {
-    return switch (this) {
+  icu.DateTimeLength get toX => switch (this) {
       DateTimeLength.long => icu.DateTimeLength.long,
       DateTimeLength.medium => icu.DateTimeLength.medium,
       DateTimeLength.short => icu.DateTimeLength.short,
     };
-  }
 }
 
 extension on TimePrecision {
-  icu.TimePrecision get toX {
-    return switch (this) {
+  icu.TimePrecision get toX => switch (this) {
       TimePrecision.hour => icu.TimePrecision.hour,
       TimePrecision.minute => icu.TimePrecision.minute,
       TimePrecision.minuteOptional => icu.TimePrecision.minuteOptional,
@@ -169,26 +166,21 @@ extension on TimePrecision {
       TimePrecision.subsecond8 => icu.TimePrecision.subsecond8,
       TimePrecision.subsecond9 => icu.TimePrecision.subsecond9,
     };
-  }
 }
 
 extension on YearStyle {
-  icu.YearStyle get toX {
-    return switch (this) {
+  icu.YearStyle get toX => switch (this) {
       YearStyle.auto => icu.YearStyle.auto,
       YearStyle.full => icu.YearStyle.full,
       YearStyle.withEra => icu.YearStyle.withEra,
     };
-  }
 }
 
 extension on DateTimeAlignment {
-  icu.DateTimeAlignment get toX {
-    return switch (this) {
+  icu.DateTimeAlignment get toX => switch (this) {
       DateTimeAlignment.auto => icu.DateTimeAlignment.auto,
       DateTimeAlignment.column => icu.DateTimeAlignment.column,
     };
-  }
 }
 
 icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {

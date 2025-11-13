@@ -36,11 +36,9 @@ class _PluralRulesECMA extends PluralRulesImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return PluralRules.supportedLocalesOf(
+  static List<Locale> supportedLocalesOf(Locale locale) => PluralRules.supportedLocalesOf(
       [locale.toLanguageTag().toJS].toJS,
     ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
 
   @override
   PluralCategory selectImpl(num number) {
@@ -55,8 +53,7 @@ class _PluralRulesECMA extends PluralRulesImpl {
 }
 
 extension on PluralRulesOptions {
-  JSAny toJsOptions() {
-    return {
+  JSAny toJsOptions() => {
       'type': type.name,
       'roundingMode': roundingMode.name,
       if (digits?.roundingPriority != null)
@@ -74,5 +71,4 @@ extension on PluralRulesOptions {
         'maximumSignificantDigits': digits?.significantDigits.$2,
       'trailingZeroDisplay': trailingZeroDisplay.name,
     }.jsify()!;
-  }
 }

@@ -20,13 +20,11 @@ class DisplayNamesOptions {
     Style? style,
     LanguageDisplay? languageDisplay,
     Fallback? fallback,
-  }) {
-    return DisplayNamesOptions(
+  }) => DisplayNamesOptions(
       style: style ?? this.style,
       languageDisplay: languageDisplay ?? this.languageDisplay,
       fallback: fallback ?? this.fallback,
     );
-  }
 }
 
 enum DisplayType { calendar, currency, dateTimeField, language, region, script }
