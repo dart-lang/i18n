@@ -265,7 +265,6 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
       month: _monthStyle(length: length),
@@ -282,7 +281,6 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
       month: _monthStyle(length: length),

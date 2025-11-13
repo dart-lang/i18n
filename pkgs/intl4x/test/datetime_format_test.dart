@@ -674,6 +674,7 @@ void testFormatter(
                   length: length,
                   alignment: alignment,
                   yearStyle: yearStyle,
+                  timePrecision: precision,
                 ).format(dateTime);
                 expect(
                   format,
