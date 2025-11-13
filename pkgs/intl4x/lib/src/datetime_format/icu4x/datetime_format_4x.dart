@@ -144,43 +144,37 @@ extension DateToICU4X on DateTime {
 
 extension on DateTimeLength {
   icu.DateTimeLength get toX => switch (this) {
-      DateTimeLength.long => icu.DateTimeLength.long,
-      DateTimeLength.medium => icu.DateTimeLength.medium,
-      DateTimeLength.short => icu.DateTimeLength.short,
-    };
+    DateTimeLength.long => icu.DateTimeLength.long,
+    DateTimeLength.medium => icu.DateTimeLength.medium,
+    DateTimeLength.short => icu.DateTimeLength.short,
+  };
 }
 
 extension on TimePrecision {
   icu.TimePrecision get toX => switch (this) {
-      TimePrecision.hour => icu.TimePrecision.hour,
-      TimePrecision.minute => icu.TimePrecision.minute,
-      TimePrecision.minuteOptional => icu.TimePrecision.minuteOptional,
-      TimePrecision.second => icu.TimePrecision.second,
-      TimePrecision.subsecond1 => icu.TimePrecision.subsecond1,
-      TimePrecision.subsecond2 => icu.TimePrecision.subsecond2,
-      TimePrecision.subsecond3 => icu.TimePrecision.subsecond3,
-      TimePrecision.subsecond4 => icu.TimePrecision.subsecond4,
-      TimePrecision.subsecond5 => icu.TimePrecision.subsecond5,
-      TimePrecision.subsecond6 => icu.TimePrecision.subsecond6,
-      TimePrecision.subsecond7 => icu.TimePrecision.subsecond7,
-      TimePrecision.subsecond8 => icu.TimePrecision.subsecond8,
-      TimePrecision.subsecond9 => icu.TimePrecision.subsecond9,
-    };
+    TimePrecision.hour => icu.TimePrecision.hour,
+    TimePrecision.minute => icu.TimePrecision.minute,
+    TimePrecision.minuteOptional => icu.TimePrecision.minuteOptional,
+    TimePrecision.second => icu.TimePrecision.second,
+    TimePrecision.subsecond1 => icu.TimePrecision.subsecond1,
+    TimePrecision.subsecond2 => icu.TimePrecision.subsecond2,
+    TimePrecision.subsecond3 => icu.TimePrecision.subsecond3,
+  };
 }
 
 extension on YearStyle {
   icu.YearStyle get toX => switch (this) {
-      YearStyle.auto => icu.YearStyle.auto,
-      YearStyle.full => icu.YearStyle.full,
-      YearStyle.withEra => icu.YearStyle.withEra,
-    };
+    YearStyle.auto => icu.YearStyle.auto,
+    YearStyle.full => icu.YearStyle.full,
+    YearStyle.withEra => icu.YearStyle.withEra,
+  };
 }
 
 extension on DateTimeAlignment {
   icu.DateTimeAlignment get toX => switch (this) {
-      DateTimeAlignment.auto => icu.DateTimeAlignment.auto,
-      DateTimeAlignment.column => icu.DateTimeAlignment.column,
-    };
+    DateTimeAlignment.auto => icu.DateTimeAlignment.auto,
+    DateTimeAlignment.column => icu.DateTimeAlignment.column,
+  };
 }
 
 icu.TimeZoneInfo timeZoneToX(String timeZone, DateTime datetime) {

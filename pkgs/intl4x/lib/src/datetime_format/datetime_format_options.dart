@@ -6,30 +6,28 @@ enum YearStyle { auto, full, withEra }
 
 enum TimePrecision {
   hour,
-
   minute,
-
   minuteOptional,
-
   second,
-
   subsecond1,
-
   subsecond2,
-
   subsecond3,
+  // subsecond4,
+  // subsecond5,
+  // subsecond6,
+  // subsecond7,
+  // subsecond8,
+  // subsecond9,
+}
 
-  subsecond4,
+extension EnumComparisonOperators on TimePrecision {
+  bool operator <(TimePrecision other) => index < other.index;
 
-  subsecond5,
+  bool operator <=(TimePrecision other) => index <= other.index;
 
-  subsecond6,
+  bool operator >(TimePrecision other) => index > other.index;
 
-  subsecond7,
-
-  subsecond8,
-
-  subsecond9,
+  bool operator >=(TimePrecision other) => index >= other.index;
 }
 
 enum DateTimeAlignment { auto, column }
@@ -61,14 +59,12 @@ enum ClockStyle {
   oneToTwelve,
   zeroToTwentyThree;
 
-  String get hourStyleExtensionString {
-    // The three possible values are h11, h12, and h23.
-    return switch (this) {
-      ClockStyle.zeroToEleven => 'h11',
-      ClockStyle.oneToTwelve => 'h12',
-      ClockStyle.zeroToTwentyThree => 'h23',
-    };
-  }
+  // The three possible values are h11, h12, and h23.
+  String get hourStyleExtensionString => switch (this) {
+    ClockStyle.zeroToEleven => 'h11',
+    ClockStyle.oneToTwelve => 'h12',
+    ClockStyle.zeroToTwentyThree => 'h23',
+  };
 
   bool get is12Hour =>
       this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;

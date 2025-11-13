@@ -5,6 +5,7 @@
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
+import 'datetime_format_conformance_data/ymdet.dart';
 import 'utils.dart';
 
 void main() {
@@ -69,18 +70,24 @@ void main() {
     final ymd = formatBuilder.ymd(yearStyle: YearStyle.full);
     const timeZone = 'America/Los_Angeles';
 
-    testWithFormatting('short', () => expect(
+    testWithFormatting(
+      'short',
+      () => expect(
         ymd.withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? PST'),
-      ));
+      ),
+    );
 
-    testWithFormatting('short with era', () => expect(
+    testWithFormatting(
+      'short with era',
+      () => expect(
         formatBuilder
             .ymd(yearStyle: YearStyle.withEra)
             .withTimeZoneShort()
             .format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
-      ));
+      ),
+    );
 
     testWithFormatting(
       'long',
@@ -122,10 +129,13 @@ void main() {
       ),
     );
 
-    testWithFormatting('fixed timezone', () => expect(
+    testWithFormatting(
+      'fixed timezone',
+      () => expect(
         ymd.withTimeZoneLongGeneric().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-08:00'),
-      ));
+      ),
+    );
 
     testWithFormatting(
       'fixed timezone',
@@ -135,10 +145,13 @@ void main() {
       ),
     );
 
-    testWithFormatting('invalid timezone', () => expect(
+    testWithFormatting(
+      'invalid timezone',
+      () => expect(
         ymd.withTimeZoneLongGeneric().format(dateTime, 'invalidTimeZoneString'),
         matches(r'12/17/2021[,]? GMT+?'),
-      ));
+      ),
+    );
   });
 
   group('timezone ymdt', () {
@@ -183,10 +196,13 @@ void main() {
         matches(r'12/17/2021[,]? 3\sAM PT'),
       ),
     );
-    testWithFormatting('longGeneric', () => expect(
+    testWithFormatting(
+      'longGeneric',
+      () => expect(
         ymdt.withTimeZoneLongGeneric().format(dateTime, timeZone),
         matches(r'12/17/2021[,]? 3\sAM Pacific Time'),
-      ));
+      ),
+    );
   });
 
   group('day period', () {
@@ -538,6 +554,90 @@ void main() {
           'Mittwoch, 18. Juni 2025 um 10:30:45',
         ),
       );
+      testWithFormatting(
+        'German locale - full date, medium time, 24-hour clock ICU4X2',
+        () => expect(
+          DateTimeFormat(locale: Locale.parse('de-DE'))
+              .ymdet(
+                length: DateTimeLength.long,
+                timePrecision: TimePrecision.hour,
+              )
+              .format(dateTime),
+          'Mittwoch, 18. Juni 2025 um 10 Uhr',
+        ),
+      );
+
+      testWithFormatting(
+        'German locale - full date, medium time, 24-hour clock ICU4X3',
+        () => expect(
+          DateTimeFormat(
+            locale: Locale.parse('de-DE'),
+          ).ymdet(length: DateTimeLength.short).format(dateTime),
+          'Mi., 18.06.25, 10:30:45',
+        ),
+      );
     });
+  });
+
+  group('all options ymdet', () {
+    final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
+    final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
+
+    testWithFormatting(
+      'German locale - full date, medium time, 24-hour clock ICU4X3',
+      () {
+        for (final precision in [...TimePrecision.values, null]) {
+          for (final length in [...DateTimeLength.values, null]) {
+            for (final alignment in [...DateTimeAlignment.values, null]) {
+              for (final yearStyle in [...YearStyle.values, null]) {
+                final format = dateTimeFormat
+                    .ymdet(
+                      length: length,
+                      timePrecision: precision,
+                      alignment: alignment,
+                      yearStyle: yearStyle,
+                    )
+                    .format(dateTime);
+                print(
+                  '($precision, $length, $alignment, $yearStyle): \'$format\',',
+                );
+              }
+            }
+          }
+        }
+      },
+    );
+  });
+  group('all options ymdet', () {
+    final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
+    final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
+    for (final precision in [...TimePrecision.values, null]) {
+      for (final length in [...DateTimeLength.values, null]) {
+        for (final alignment in [...DateTimeAlignment.values, null]) {
+          for (final yearStyle in [
+            ...YearStyle.values,
+            null,
+          ]..removeWhere((element) => element == YearStyle.withEra)) {
+            testWithFormatting(
+              '($precision, $length, $alignment, $yearStyle)',
+              () {
+                final format = dateTimeFormat
+                    .ymdet(
+                      length: length,
+                      timePrecision: precision,
+                      alignment: alignment,
+                      yearStyle: yearStyle,
+                    )
+                    .format(dateTime);
+                expect(
+                  format,
+                  ymdetOptions[(precision, length, alignment, yearStyle)],
+                );
+              },
+            );
+          }
+        }
+      }
+    }
   });
 }
