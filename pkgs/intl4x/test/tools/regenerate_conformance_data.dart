@@ -45,7 +45,7 @@ void main() {
   );
   writeFor(
     'y',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.y(
       alignment: alignment,
       length: length,
       yearStyle: yearStyle,
@@ -53,35 +53,26 @@ void main() {
   );
   writeFor(
     't',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.t(
       alignment: alignment,
       length: length,
-      yearStyle: yearStyle,
+      timePrecision: timePrecision,
     ),
   );
   writeFor(
     'md',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({alignment, length, timePrecision, yearStyle}) =>
+        dateTimeFormat.md(alignment: alignment, length: length),
   );
   writeFor(
     'm',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({alignment, length, timePrecision, yearStyle}) =>
+        dateTimeFormat.m(alignment: alignment, length: length),
   );
   writeFor(
     'd',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({alignment, length, timePrecision, yearStyle}) =>
+        dateTimeFormat.d(alignment: alignment, length: length),
   );
 }
 
