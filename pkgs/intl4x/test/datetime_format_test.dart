@@ -5,7 +5,10 @@
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
+import 'datetime_format_conformance_data/mdt.dart' show mdtOptions;
+import 'datetime_format_conformance_data/ymde.dart' show ymdeOptions;
 import 'datetime_format_conformance_data/ymdet.dart';
+import 'datetime_format_conformance_data/ymdt.dart' show ymdtOptions;
 import 'utils.dart';
 
 void main() {
@@ -635,7 +638,71 @@ void main() {
                     .format(dateTime);
                 expect(
                   format,
-                  ymdetOptions[(precision, length, alignment, yearStyle)],
+                  ymdtOptions[(precision, length, alignment, yearStyle)],
+                );
+              },
+            );
+          }
+        }
+      }
+    }
+  });
+
+  group('all options mdt', () {
+    final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
+    final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
+    for (final precision in [...TimePrecision.values, null]) {
+      for (final length in [...DateTimeLength.values, null]) {
+        for (final alignment in [...DateTimeAlignment.values, null]) {
+          for (final yearStyle in [
+            ...YearStyle.values,
+            null,
+          ]..removeWhere((element) => element == YearStyle.withEra)) {
+            testWithFormatting(
+              '($precision, $length, $alignment, $yearStyle)',
+              () {
+                final format = dateTimeFormat
+                    .mdt(
+                      length: length,
+                      timePrecision: precision,
+                      alignment: alignment,
+                    )
+                    .format(dateTime);
+                expect(
+                  format,
+                  mdtOptions[(precision, length, alignment, yearStyle)],
+                );
+              },
+            );
+          }
+        }
+      }
+    }
+  });
+
+  group('all options ymde', () {
+    final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
+    final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
+    for (final precision in [...TimePrecision.values, null]) {
+      for (final length in [...DateTimeLength.values, null]) {
+        for (final alignment in [...DateTimeAlignment.values, null]) {
+          for (final yearStyle in [
+            ...YearStyle.values,
+            null,
+          ]..removeWhere((element) => element == YearStyle.withEra)) {
+            testWithFormatting(
+              '($precision, $length, $alignment, $yearStyle)',
+              () {
+                final format = dateTimeFormat
+                    .ymde(
+                      length: length,
+                      alignment: alignment,
+                      yearStyle: yearStyle,
+                    )
+                    .format(dateTime);
+                expect(
+                  format,
+                  ymdeOptions[(precision, length, alignment, yearStyle)],
                 );
               },
             );

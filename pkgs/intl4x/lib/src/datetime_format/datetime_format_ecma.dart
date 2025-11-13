@@ -200,21 +200,11 @@ class FormatterZonedECMA extends FormatterZonedImpl {
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
   _DateTimeFormatECMA(super.locale);
 
-  _TimeStyle? _timeStyle({TimePrecision? precision}) => _TimeStyle.numeric;
-  _MonthStyle _monthStyle({DateTimeLength? length}) => switch (length) {
-    null => _MonthStyle.twodigit,
-    DateTimeLength.long => _MonthStyle.long,
-    DateTimeLength.medium => _MonthStyle.twodigit,
-    DateTimeLength.short => _MonthStyle.twodigit,
-  };
-
-  _TimeStyle? _timeStyleOrNull() => null;
-
   @override
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(year: null, day: _timeStyle(), month: null),
+        _DateTimeJSOptions.from(day: _TimeStyle.numeric),
         locale,
       );
 
@@ -222,7 +212,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(year: null, day: null, month: _monthStyle()),
+        _DateTimeJSOptions.from(month: _monthStyle(length: length)),
         locale,
       );
 
@@ -231,9 +221,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       _FormatterECMA._(
         this,
         _DateTimeJSOptions.from(
-          year: null,
-          day: _timeStyle(),
-          month: _monthStyle(),
+          month: _monthStyle(length: length),
+          day: _TimeStyle.numeric,
         ),
         locale,
       );
@@ -246,9 +235,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      year: null,
-      day: _timeStyle(),
-      month: _monthStyle(),
+      hour: _TimeStyle.numeric,
+      minute: _style(timePrecision, TimePrecision.minute),
+      second: _style(timePrecision, TimePrecision.second),
+      fractionalSecondDigits: _fractionalSeconds(timePrecision),
     ),
     locale,
   );
@@ -260,7 +250,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(year: _timeStyle()),
+    _DateTimeJSOptions.from(
+      year: _yearStyle(length, alignment, yearStyle),
+      yearStyle: yearStyle,
+    ),
     locale,
   );
 
@@ -272,9 +265,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      year: _timeStyle(),
-      month: _monthStyle(),
-      day: _timeStyle(),
+      hour: _TimeStyle.numeric,
+      year: _yearStyle(length, alignment, yearStyle),
+      yearStyle: yearStyle,
+      month: _monthStyle(length: length),
+      day: _TimeStyle.numeric,
     ),
     locale,
   );
@@ -287,9 +282,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      year: _timeStyle(),
-      month: _monthStyle(),
-      day: _timeStyle(),
+      hour: _TimeStyle.numeric,
+      year: _yearStyle(length, alignment, yearStyle),
+      yearStyle: yearStyle,
+      month: _monthStyle(length: length),
+      day: _TimeStyle.numeric,
+      weekday: _weekday(length),
     ),
     locale,
   );
@@ -302,10 +300,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _timeStyle(),
-      minute: _timeStyleOrNull(),
-      month: _monthStyle(),
-      day: _timeStyle(),
+      hour: _TimeStyle.numeric,
+      minute: _style(timePrecision, TimePrecision.minute),
+      second: _style(timePrecision, TimePrecision.second),
+      fractionalSecondDigits: _fractionalSeconds(timePrecision),
+      month: _monthStyle(length: length),
+      day: _TimeStyle.numeric,
     ),
     locale,
   );
@@ -319,11 +319,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _timeStyle(),
-      minute: _timeStyleOrNull(),
-      year: _timeStyle(),
-      month: _monthStyle(),
-      day: _timeStyle(),
+      hour: _TimeStyle.numeric,
+      minute: _style(timePrecision, TimePrecision.minute),
+      second: _style(timePrecision, TimePrecision.second),
+      year: _yearStyle(length, alignment, yearStyle),
+      fractionalSecondDigits: _fractionalSeconds(timePrecision),
+      yearStyle: yearStyle,
+      month: _monthStyle(length: length),
+      day: _TimeStyle.numeric,
     ),
     locale,
   );
@@ -338,31 +341,48 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     this,
     _DateTimeJSOptions.from(
       hour: _TimeStyle.numeric,
-      minute: timePrecision != null
-          ? (timePrecision >= TimePrecision.minute ? _TimeStyle.numeric : null)
-          : _TimeStyle.numeric,
-      second: timePrecision != null
-          ? (timePrecision >= TimePrecision.second ? _TimeStyle.numeric : null)
-          : _TimeStyle.numeric,
-      year: switch ((length, alignment, yearStyle)) {
-        (_, _, YearStyle.full) => _TimeStyle.numeric,
-        (DateTimeLength.medium, _, _) => _TimeStyle.numeric,
-        (DateTimeLength.long, _, _) => _TimeStyle.numeric,
-        (_, _, _) => _TimeStyle.twodigit,
-      },
-      fractionalSecondDigits: switch (timePrecision) {
-        TimePrecision.subsecond1 => 1,
-        TimePrecision.subsecond2 => 2,
-        TimePrecision.subsecond3 => 3,
-        _ => null,
-      },
+      minute: _style(timePrecision, TimePrecision.minute),
+      second: _style(timePrecision, TimePrecision.second),
+      year: _yearStyle(length, alignment, yearStyle),
+      fractionalSecondDigits: _fractionalSeconds(timePrecision),
       yearStyle: yearStyle,
       month: _monthStyle(length: length),
-      day: _timeStyle(),
+      day: _TimeStyle.numeric,
       weekday: _weekday(length),
     ),
     locale,
   );
+
+  _MonthStyle _monthStyle({DateTimeLength? length}) => switch (length) {
+    null => _MonthStyle.twodigit,
+    DateTimeLength.long => _MonthStyle.long,
+    DateTimeLength.medium => _MonthStyle.twodigit,
+    DateTimeLength.short => _MonthStyle.twodigit,
+  };
+
+  int? _fractionalSeconds(TimePrecision? timePrecision) =>
+      switch (timePrecision) {
+        TimePrecision.subsecond1 => 1,
+        TimePrecision.subsecond2 => 2,
+        TimePrecision.subsecond3 => 3,
+        _ => null,
+      };
+
+  _TimeStyle _yearStyle(
+    DateTimeLength? length,
+    DateTimeAlignment? alignment,
+    YearStyle? yearStyle,
+  ) => switch ((length, alignment, yearStyle)) {
+    (_, _, YearStyle.full) => _TimeStyle.numeric,
+    (DateTimeLength.medium, _, _) => _TimeStyle.numeric,
+    (DateTimeLength.long, _, _) => _TimeStyle.numeric,
+    (_, _, _) => _TimeStyle.twodigit,
+  };
+
+  _TimeStyle? _style(TimePrecision? timePrecision, TimePrecision second) =>
+      timePrecision != null
+      ? (timePrecision >= second ? _TimeStyle.numeric : null)
+      : _TimeStyle.numeric;
 
   static List<Locale> supportedLocalesOf(Locale locale) =>
       _DateTimeFormat.supportedLocalesOf(

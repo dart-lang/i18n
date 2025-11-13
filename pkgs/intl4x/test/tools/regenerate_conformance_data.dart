@@ -8,9 +8,81 @@ import 'package:dart_style/dart_style.dart';
 import 'package:intl4x/datetime_format.dart';
 
 void main() {
-  final dateTimeFormat = DateTimeFormat(locale: Locale.parse('en-US'));
+  final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
   writeFor('ymdet', dateTimeFormat.ymdet);
   writeFor('ymdt', dateTimeFormat.ymdt);
+  writeFor(
+    'mdt',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.mdt(
+      alignment: alignment,
+      length: length,
+      timePrecision: timePrecision,
+    ),
+  );
+  writeFor(
+    'ymde',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'ymd',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymd(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'ymde',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'y',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    't',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'md',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'm',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
+  writeFor(
+    'd',
+    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
+      alignment: alignment,
+      length: length,
+      yearStyle: yearStyle,
+    ),
+  );
 }
 
 void writeFor(
@@ -29,7 +101,7 @@ void writeFor(
   final lengthValues = [...DateTimeLength.values, null];
   final alignmentValues = [...DateTimeAlignment.values, null];
   final yearStyleValues = [...YearStyle.values, null];
-  final dt = DateTime(2025, 6, 18, 10, 0, 0, 0);
+  final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
 
   code.writeln('''
 // Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
@@ -54,7 +126,7 @@ final ${type}Options = {
             timePrecision: precision,
             alignment: alignment,
             yearStyle: yearStyle,
-          ).format(dt);
+          ).format(dateTime);
 
           String keyString;
 
@@ -82,8 +154,10 @@ final ${type}Options = {
   ).format(code.toString());
 
   final path = 'test/datetime_format_conformance_data/$type.dart';
+  final file = File(path);
   try {
-    File(path).writeAsStringSync(formattedCode);
+    file.createSync();
+    file.writeAsStringSync(formattedCode);
     print('Successfully generated map content and wrote to $path');
   } catch (e) {
     print('Error writing to file $path: $e');

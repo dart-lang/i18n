@@ -13,1344 +13,1340 @@ final ymdtOptions = {
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10 AM',
+  ): '18. Juni 2025 n. Chr. um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10 AM',
+  ): '18. Juni 2025 n. Chr. um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, DateTimeAlignment.column, null):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10 AM',
+      '18. Juni 2025 n. Chr. um 10 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10 AM',
-  (TimePrecision.hour, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025 n. Chr., 10 Uhr',
+  (TimePrecision.hour, DateTimeLength.medium, null, null): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10 AM',
+  ): '18.06.25, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10 Uhr',
   (TimePrecision.hour, DateTimeLength.short, DateTimeAlignment.auto, null):
-      '6/18/25, 10 AM',
+      '18.06.25, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10 AM',
+  ): '18.06.25, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10 AM',
+  ): '18.06.2025, 10 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10 Uhr',
   (TimePrecision.hour, DateTimeLength.short, DateTimeAlignment.column, null):
-      '06/18/25, 10 AM',
+      '18.06.25, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10 AM',
+      '18.06.25, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10 AM',
-  (TimePrecision.hour, DateTimeLength.short, null, null): '6/18/25, 10 AM',
+      '18.06.2025 n. Chr., 10 Uhr',
+  (TimePrecision.hour, DateTimeLength.short, null, null): '18.06.25, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10 AM',
+      '18.06.25, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10 AM',
-  (TimePrecision.hour, null, DateTimeAlignment.auto, null): '6/18/25, 10 AM',
+      '18.06.2025 n. Chr., 10 Uhr',
+  (TimePrecision.hour, null, DateTimeAlignment.auto, null): '18.06.25, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10 AM',
+      '18.06.25, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10 AM',
+      '18.06.2025, 10 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10 AM',
-  (TimePrecision.hour, null, DateTimeAlignment.column, null): '06/18/25, 10 AM',
-  (TimePrecision.hour, null, null, YearStyle.auto): '6/18/25, 10 AM',
-  (TimePrecision.hour, null, null, YearStyle.full): '6/18/2025, 10 AM',
-  (TimePrecision.hour, null, null, YearStyle.withEra): '6/18/2025 AD, 10 AM',
-  (TimePrecision.hour, null, null, null): '6/18/25, 10 AM',
+      '18.06.2025 n. Chr., 10 Uhr',
+  (TimePrecision.hour, null, DateTimeAlignment.column, null):
+      '18.06.25, 10 Uhr',
+  (TimePrecision.hour, null, null, YearStyle.auto): '18.06.25, 10 Uhr',
+  (TimePrecision.hour, null, null, YearStyle.full): '18.06.2025, 10 Uhr',
+  (TimePrecision.hour, null, null, YearStyle.withEra):
+      '18.06.2025 n. Chr., 10 Uhr',
+  (TimePrecision.hour, null, null, null): '18.06.25, 10 Uhr',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30',
   (TimePrecision.minute, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00 AM',
+      '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30',
   (TimePrecision.minute, DateTimeLength.long, DateTimeAlignment.column, null):
-      'June 18, 2025 at 10:00 AM',
+      '18. Juni 2025 um 10:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00 AM',
+      '18. Juni 2025 um 10:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00 AM',
+      '18. Juni 2025 um 10:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00 AM',
+      '18. Juni 2025 n. Chr. um 10:30',
   (TimePrecision.minute, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10:00 AM',
+      '18. Juni 2025 um 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Jun 18, 2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Jun 18, 2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00 AM',
+      '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10:00 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10:00 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, DateTimeLength.short, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00 AM',
+      '18.06.25, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10:00 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10:00 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10:00 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, DateTimeLength.short, DateTimeAlignment.column, null):
-      '06/18/25, 10:00 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10:00 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00 AM',
-  (TimePrecision.minute, DateTimeLength.short, null, null): '6/18/25, 10:00 AM',
+      '18.06.2025 n. Chr., 10:30',
+  (TimePrecision.minute, DateTimeLength.short, null, null): '18.06.25, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00 AM',
-  (TimePrecision.minute, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00 AM',
+      '18.06.2025 n. Chr., 10:30',
+  (TimePrecision.minute, null, DateTimeAlignment.auto, null): '18.06.25, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00 AM',
+      '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, null):
-      '06/18/25, 10:00 AM',
-  (TimePrecision.minute, null, null, YearStyle.auto): '6/18/25, 10:00 AM',
-  (TimePrecision.minute, null, null, YearStyle.full): '6/18/2025, 10:00 AM',
+      '18.06.25, 10:30',
+  (TimePrecision.minute, null, null, YearStyle.auto): '18.06.25, 10:30',
+  (TimePrecision.minute, null, null, YearStyle.full): '18.06.2025, 10:30',
   (TimePrecision.minute, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00 AM',
-  (TimePrecision.minute, null, null, null): '6/18/25, 10:00 AM',
+      '18.06.2025 n. Chr., 10:30',
+  (TimePrecision.minute, null, null, null): '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     null,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'June 18, 2025 at 10 AM',
+  ): '18. Juni 2025 um 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10 AM',
+      '18. Juni 2025 n. Chr. um 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10 AM',
+      '18. Juni 2025 um 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Jun 18, 2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     null,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10 AM',
+      '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): '6/18/25, 10 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): '06/18/25, 10 AM',
+  ): '18.06.25, 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10 AM',
+      '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, null):
-      '6/18/25, 10 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10 AM',
+      '18.06.25, 10:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10 AM',
+      '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10 AM',
+      '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10 AM',
+  ): '18.06.25, 10:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10 AM',
+  ): '18.06.2025, 10:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10 AM',
+  ): '18.06.2025 n. Chr., 10:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.column, null):
-      '06/18/25, 10 AM',
-  (TimePrecision.minuteOptional, null, null, YearStyle.auto): '6/18/25, 10 AM',
+      '18.06.25, 10:30',
+  (TimePrecision.minuteOptional, null, null, YearStyle.auto): '18.06.25, 10:30',
   (TimePrecision.minuteOptional, null, null, YearStyle.full):
-      '6/18/2025, 10 AM',
+      '18.06.2025, 10:30',
   (TimePrecision.minuteOptional, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10 AM',
-  (TimePrecision.minuteOptional, null, null, null): '6/18/25, 10 AM',
+      '18.06.2025 n. Chr., 10:30',
+  (TimePrecision.minuteOptional, null, null, null): '18.06.25, 10:30',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00 AM',
+  ): '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00 AM',
+  ): '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00 AM',
+  ): '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00 AM',
+  ): '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, DateTimeAlignment.column, null):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45',
   (TimePrecision.second, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10:00:00 AM',
+  ): '18.06.25, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10:00:00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.short, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10:00:00 AM',
+  ): '18.06.25, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10:00:00 AM',
+  ): '18.06.2025, 10:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10:00:00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.short, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, DateTimeLength.short, null, null):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00 AM',
-  (TimePrecision.second, null, null, YearStyle.auto): '6/18/25, 10:00:00 AM',
-  (TimePrecision.second, null, null, YearStyle.full): '6/18/2025, 10:00:00 AM',
+      '18.06.25, 10:30:45',
+  (TimePrecision.second, null, null, YearStyle.auto): '18.06.25, 10:30:45',
+  (TimePrecision.second, null, null, YearStyle.full): '18.06.2025, 10:30:45',
   (TimePrecision.second, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
-  (TimePrecision.second, null, null, null): '6/18/25, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
+  (TimePrecision.second, null, null, null): '18.06.25, 10:30:45',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.0 AM',
+  ): '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.0 AM',
+  ): '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.0 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00:00.0 AM',
+      '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.0 AM',
+  ): '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.0 AM',
+  ): '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.0 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'June 18, 2025 at 10:00:00.0 AM',
+  ): '18. Juni 2025 um 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00:00.0 AM',
+      '18. Juni 2025 um 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00:00.0 AM',
+      '18. Juni 2025 um 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00.0 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10:00:00.0 AM',
+      '18. Juni 2025 um 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.0 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.0 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Jun 18, 2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00.0 AM',
+      '18.06.2025 n. Chr., 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10:00:00.0 AM',
+  ): '18.06.25, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10:00:00.0 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): '6/18/25, 10:00:00.0 AM',
+  ): '18.06.25, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10:00:00.0 AM',
+  ): '18.06.25, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10:00:00.0 AM',
+  ): '18.06.2025, 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10:00:00.0 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): '06/18/25, 10:00:00.0 AM',
+  ): '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.0 AM',
+      '18.06.2025 n. Chr., 10:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, null):
-      '6/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.0 AM',
+      '18.06.2025 n. Chr., 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00.0 AM',
+      '18.06.2025 n. Chr., 10:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.auto):
-      '6/18/25, 10:00:00.0 AM',
+      '18.06.25, 10:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.full):
-      '6/18/2025, 10:00:00.0 AM',
+      '18.06.2025, 10:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.0 AM',
-  (TimePrecision.subsecond1, null, null, null): '6/18/25, 10:00:00.0 AM',
+      '18.06.2025 n. Chr., 10:30:45,1',
+  (TimePrecision.subsecond1, null, null, null): '18.06.25, 10:30:45,1',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.00 AM',
+  ): '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.00 AM',
+  ): '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00:00.00 AM',
+      '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.00 AM',
+  ): '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.00 AM',
+  ): '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.00 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'June 18, 2025 at 10:00:00.00 AM',
+  ): '18. Juni 2025 um 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00:00.00 AM',
+      '18. Juni 2025 um 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00:00.00 AM',
+      '18. Juni 2025 um 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00.00 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10:00:00.00 AM',
+      '18. Juni 2025 um 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Jun 18, 2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00.00 AM',
+      '18.06.2025 n. Chr., 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10:00:00.00 AM',
+  ): '18.06.25, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10:00:00.00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): '6/18/25, 10:00:00.00 AM',
+  ): '18.06.25, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10:00:00.00 AM',
+  ): '18.06.25, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10:00:00.00 AM',
+  ): '18.06.2025, 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10:00:00.00 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): '06/18/25, 10:00:00.00 AM',
+  ): '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.00 AM',
+      '18.06.2025 n. Chr., 10:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, null):
-      '6/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.00 AM',
+      '18.06.2025 n. Chr., 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00.00 AM',
+      '18.06.2025 n. Chr., 10:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.auto):
-      '6/18/25, 10:00:00.00 AM',
+      '18.06.25, 10:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.full):
-      '6/18/2025, 10:00:00.00 AM',
+      '18.06.2025, 10:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.00 AM',
-  (TimePrecision.subsecond2, null, null, null): '6/18/25, 10:00:00.00 AM',
+      '18.06.2025 n. Chr., 10:30:45,12',
+  (TimePrecision.subsecond2, null, null, null): '18.06.25, 10:30:45,12',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.000 AM',
+  ): '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.000 AM',
+  ): '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.000 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00:00.000 AM',
+      '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'June 18, 2025 at 10:00:00.000 AM',
+  ): '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'June 18, 2025 at 10:00:00.000 AM',
+  ): '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'June 18, 2025 AD at 10:00:00.000 AM',
+  ): '18. Juni 2025 n. Chr. um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'June 18, 2025 at 10:00:00.000 AM',
+  ): '18. Juni 2025 um 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00:00.000 AM',
+      '18. Juni 2025 um 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00:00.000 AM',
+      '18. Juni 2025 um 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00.000 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, null):
-      'June 18, 2025 at 10:00:00.000 AM',
+      '18. Juni 2025 um 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.000 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Jun 18, 2025 AD, 10:00:00.000 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Jun 18, 2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00.000 AM',
+      '18.06.2025 n. Chr., 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, null):
-      'Jun 18, 2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): '6/18/25, 10:00:00.000 AM',
+  ): '18.06.25, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): '6/18/2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): '6/18/2025 AD, 10:00:00.000 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): '6/18/25, 10:00:00.000 AM',
+  ): '18.06.25, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): '06/18/25, 10:00:00.000 AM',
+  ): '18.06.25, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): '06/18/2025, 10:00:00.000 AM',
+  ): '18.06.2025, 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): '06/18/2025 AD, 10:00:00.000 AM',
+  ): '18.06.2025 n. Chr., 10:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): '06/18/25, 10:00:00.000 AM',
+  ): '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.auto):
-      '6/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.full):
-      '6/18/2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.000 AM',
+      '18.06.2025 n. Chr., 10:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, null):
-      '6/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.000 AM',
+      '18.06.2025 n. Chr., 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00.000 AM',
+      '18.06.2025 n. Chr., 10:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.auto):
-      '6/18/25, 10:00:00.000 AM',
+      '18.06.25, 10:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.full):
-      '6/18/2025, 10:00:00.000 AM',
+      '18.06.2025, 10:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00.000 AM',
-  (TimePrecision.subsecond3, null, null, null): '6/18/25, 10:00:00.000 AM',
+      '18.06.2025 n. Chr., 10:30:45,123',
+  (TimePrecision.subsecond3, null, null, null): '18.06.25, 10:30:45,123',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.auto):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.full):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.auto):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.full):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, null):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, null, YearStyle.auto):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, null, YearStyle.full):
-      'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.long, null, YearStyle.withEra):
-      'June 18, 2025 AD at 10:00:00 AM',
-  (null, DateTimeLength.long, null, null): 'June 18, 2025 at 10:00:00 AM',
+      '18. Juni 2025 n. Chr. um 10:30:45',
+  (null, DateTimeLength.long, null, null): '18. Juni 2025 um 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.full):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.full):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Jun 18, 2025, 10:00:00 AM',
-  (null, DateTimeLength.medium, null, YearStyle.auto):
-      'Jun 18, 2025, 10:00:00 AM',
-  (null, DateTimeLength.medium, null, YearStyle.full):
-      'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
+  (null, DateTimeLength.medium, null, YearStyle.auto): '18.06.2025, 10:30:45',
+  (null, DateTimeLength.medium, null, YearStyle.full): '18.06.2025, 10:30:45',
   (null, DateTimeLength.medium, null, YearStyle.withEra):
-      'Jun 18, 2025 AD, 10:00:00 AM',
-  (null, DateTimeLength.medium, null, null): 'Jun 18, 2025, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
+  (null, DateTimeLength.medium, null, null): '18.06.2025, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.auto):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, null):
-      '6/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00 AM',
+      '18.06.25, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, null):
-      '06/18/25, 10:00:00 AM',
-  (null, DateTimeLength.short, null, YearStyle.auto): '6/18/25, 10:00:00 AM',
-  (null, DateTimeLength.short, null, YearStyle.full): '6/18/2025, 10:00:00 AM',
+      '18.06.25, 10:30:45',
+  (null, DateTimeLength.short, null, YearStyle.auto): '18.06.25, 10:30:45',
+  (null, DateTimeLength.short, null, YearStyle.full): '18.06.2025, 10:30:45',
   (null, DateTimeLength.short, null, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
-  (null, DateTimeLength.short, null, null): '6/18/25, 10:00:00 AM',
-  (null, null, DateTimeAlignment.auto, YearStyle.auto): '6/18/25, 10:00:00 AM',
-  (null, null, DateTimeAlignment.auto, YearStyle.full):
-      '6/18/2025, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
+  (null, DateTimeLength.short, null, null): '18.06.25, 10:30:45',
+  (null, null, DateTimeAlignment.auto, YearStyle.auto): '18.06.25, 10:30:45',
+  (null, null, DateTimeAlignment.auto, YearStyle.full): '18.06.2025, 10:30:45',
   (null, null, DateTimeAlignment.auto, YearStyle.withEra):
-      '6/18/2025 AD, 10:00:00 AM',
-  (null, null, DateTimeAlignment.auto, null): '6/18/25, 10:00:00 AM',
-  (null, null, DateTimeAlignment.column, YearStyle.auto):
-      '06/18/25, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
+  (null, null, DateTimeAlignment.auto, null): '18.06.25, 10:30:45',
+  (null, null, DateTimeAlignment.column, YearStyle.auto): '18.06.25, 10:30:45',
   (null, null, DateTimeAlignment.column, YearStyle.full):
-      '06/18/2025, 10:00:00 AM',
+      '18.06.2025, 10:30:45',
   (null, null, DateTimeAlignment.column, YearStyle.withEra):
-      '06/18/2025 AD, 10:00:00 AM',
-  (null, null, DateTimeAlignment.column, null): '06/18/25, 10:00:00 AM',
-  (null, null, null, YearStyle.auto): '6/18/25, 10:00:00 AM',
-  (null, null, null, YearStyle.full): '6/18/2025, 10:00:00 AM',
-  (null, null, null, YearStyle.withEra): '6/18/2025 AD, 10:00:00 AM',
-  (null, null, null, null): '6/18/25, 10:00:00 AM',
+      '18.06.2025 n. Chr., 10:30:45',
+  (null, null, DateTimeAlignment.column, null): '18.06.25, 10:30:45',
+  (null, null, null, YearStyle.auto): '18.06.25, 10:30:45',
+  (null, null, null, YearStyle.full): '18.06.2025, 10:30:45',
+  (null, null, null, YearStyle.withEra): '18.06.2025 n. Chr., 10:30:45',
+  (null, null, null, null): '18.06.25, 10:30:45',
 };
