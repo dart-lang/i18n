@@ -3,18 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:intl4x/datetime_format.dart';
-import 'package:intl4x/intl4x.dart';
 
 void main(List<String> arguments) {
   final timeZone = 'Europe/Paris';
   final dateTime = DateTime.parse('2024-07-01T08:50:07');
 
-  print(Intl().locale.toString());
+  print(Locale.system);
 
-  print(Intl().dateTimeFormat().d().format(DateTime.now()));
+  print(DateTimeFormat().d().format(DateTime.now()));
 
-  final withTimeZoneLong = Intl(locale: Locale.parse('en'))
-      .dateTimeFormat()
+  final withTimeZoneLong = DateTimeFormat(locale: Locale.parse('en'))
       .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
       .withTimeZoneLong();
   print(withTimeZoneLong.format(dateTime, timeZone));

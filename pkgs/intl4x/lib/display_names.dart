@@ -4,4 +4,5 @@
 
 export 'src/display_names/display_names.dart' show DisplayNames;
 export 'src/display_names/display_names_options.dart';
+export 'src/locale/locale.dart' show Locale;
 export 'src/options.dart';

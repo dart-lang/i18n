@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../plural_rules.dart';
-import '../locale/locale.dart';
 import 'plural_rules_impl.dart';
 
 PluralRulesImpl getPluralSelectECMA(

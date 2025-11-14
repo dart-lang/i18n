@@ -4,7 +4,6 @@
 
 import '../../plural_rules.dart';
 
-import '../locale/locale.dart';
 import 'plural_rules_impl.dart';
 
 PluralRulesImpl getPluralSelect4X(Locale locale, PluralRulesOptions options) =>

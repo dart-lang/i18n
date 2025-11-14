@@ -26,8 +26,7 @@ class CollationOptions {
     bool? numeric,
     CaseFirst? caseFirst,
     String? collation,
-  }) {
-    return CollationOptions(
+  }) => CollationOptions(
       usage: usage ?? this.usage,
       sensitivity: sensitivity ?? this.sensitivity,
       ignorePunctuation: ignorePunctuation ?? this.ignorePunctuation,
@@ -35,7 +34,6 @@ class CollationOptions {
       caseFirst: caseFirst ?? this.caseFirst,
       collation: collation ?? this.collation,
     );
-  }
 }
 
 /// Whether to use collation for searching for strings in an array, or rather

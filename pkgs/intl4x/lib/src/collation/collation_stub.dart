@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../collation.dart';
-import '../locale/locale.dart';
 import 'collation_impl.dart';
 
 /// Stub for the conditional import

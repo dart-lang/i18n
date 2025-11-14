@@ -2,128 +2,31 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
+enum YearStyle { auto, full, withEra }
 
-typedef WeekDayStyle = Style;
-typedef DayPeriod = Style;
-
-/// DateTime formatting functionality of the browser.
-class DateTimeFormatOptions {
-  final Calendar? calendar;
-
-  /// The formatting style used for day periods - only used when the
-  /// [clockstyle] parameter is true.
-  final DayPeriod? dayPeriod;
-  final NumberingSystem? numberingSystem;
-
-  /// Whether to use a 12- or 24-hour style clock.
-  final ClockStyle? clockstyle;
-  final TimeStyle? timestyle;
-
-  /// The number of digits used to represent fractions of a second.
-  final int? fractionalSecondDigits;
-
-  /// The localized representation of the time zone name.
-  final FormatMatcher formatMatcher;
-
-  const DateTimeFormatOptions({
-    this.calendar,
-    this.dayPeriod,
-    this.numberingSystem,
-    this.clockstyle,
-    this.timestyle,
-    this.fractionalSecondDigits,
-    this.formatMatcher = FormatMatcher.bestfit,
-  });
-
-  DateTimeFormatOptions copyWith({
-    Calendar? calendar,
-    DayPeriod? dayPeriod,
-    NumberingSystem? numberingSystem,
-    ClockStyle? clockstyle,
-    WeekDayStyle? weekday,
-    TimeStyle? timestyle,
-    int? fractionalSecondDigits,
-    FormatMatcher? formatMatcher,
-  }) {
-    return DateTimeFormatOptions(
-      calendar: calendar ?? this.calendar,
-      dayPeriod: dayPeriod ?? this.dayPeriod,
-      numberingSystem: numberingSystem ?? this.numberingSystem,
-      clockstyle: clockstyle ?? this.clockstyle,
-      timestyle: timestyle ?? this.timestyle,
-      fractionalSecondDigits:
-          fractionalSecondDigits ?? this.fractionalSecondDigits,
-      formatMatcher: formatMatcher ?? this.formatMatcher,
-    );
-  }
+enum TimePrecision {
+  hour,
+  minute,
+  minuteOptional,
+  second,
+  subsecond1,
+  subsecond2,
+  subsecond3,
 }
 
-enum ClockStyle {
-  zeroToEleven,
-  oneToTwelve,
-  zeroToTwentyThree;
+extension EnumComparisonOperators on TimePrecision {
+  bool operator <(TimePrecision other) => index < other.index;
 
-  String get hourStyleExtensionString {
-    // The three possible values are h11, h12, and h23.
-    return switch (this) {
-      ClockStyle.zeroToEleven => 'h11',
-      ClockStyle.oneToTwelve => 'h12',
-      ClockStyle.zeroToTwentyThree => 'h23',
-    };
-  }
+  bool operator <=(TimePrecision other) => index <= other.index;
+
+  bool operator >(TimePrecision other) => index > other.index;
+
+  bool operator >=(TimePrecision other) => index >= other.index;
 }
 
-enum TimeFormatStyle { full, long, medium, short }
+enum DateTimeAlignment { auto, column }
 
-enum DateFormatStyle { full, long, medium, short }
-
-enum NumberingSystem {
-  arab,
-  arabext,
-  bali,
-  beng,
-  deva,
-  fullwide,
-  gujr,
-  guru,
-  hanidec,
-  khmr,
-  knda,
-  laoo,
-  latn,
-  limb,
-  mlym,
-  mong,
-  mymr,
-  orya,
-  tamldec,
-  telu,
-  thai,
-  tibt,
-}
-
-enum FormatMatcher {
-  basic,
-  bestfit('best fit');
-
-  final String? _jsName;
-
-  String? get jsName => _jsName ?? name;
-
-  const FormatMatcher([this._jsName]);
-}
-
-enum TimeStyle {
-  numeric,
-  twodigit('2-digit');
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const TimeStyle([this._jsName]);
-}
+enum DateTimeLength { long, medium, short }
 
 enum TimeZoneType {
   /// Example: `Pacific Standard Time`
@@ -143,4 +46,20 @@ enum TimeZoneType {
 
   /// Example: `Pacific Time`
   longGeneric,
+}
+
+enum ClockStyle {
+  zeroToEleven,
+  oneToTwelve,
+  zeroToTwentyThree;
+
+  // The three possible values are h11, h12, and h23.
+  String get hourStyleExtensionString => switch (this) {
+    ClockStyle.zeroToEleven => 'h11',
+    ClockStyle.oneToTwelve => 'h12',
+    ClockStyle.zeroToTwentyThree => 'h23',
+  };
+
+  bool get is12Hour =>
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }

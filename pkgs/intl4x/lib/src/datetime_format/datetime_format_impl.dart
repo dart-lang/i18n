@@ -15,38 +15,59 @@ import 'datetime_format_stub_4x.dart'
 /// datetime formatting.
 abstract class DateTimeFormatImpl {
   final Locale locale;
-  final DateTimeFormatOptions options;
 
-  DateTimeFormatImpl(this.locale, this.options);
+  DateTimeFormatImpl(this.locale);
 
-  static DateTimeFormatImpl build(
-    Locale locale,
-    DateTimeFormatOptions options,
-  ) => buildFormatter(
+  static DateTimeFormatImpl build(Locale locale) => buildFormatter(
     locale,
-    options,
+    null,
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );
 
-  FormatterImpl d({DateFormatStyle? dateStyle});
-  FormatterImpl m({DateFormatStyle? dateStyle});
-  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl md({DateFormatStyle? dateStyle});
-  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
+  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
+
+  FormatterImpl y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+  FormatterImpl ymd({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+  FormatterImpl ymde({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+
+  FormatterImpl mdt({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  });
   FormatterImpl ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
   });
   FormatterImpl ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
   });
-  FormatterImpl t({TimeFormatStyle? style});
+
+  FormatterImpl t({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  });
 }
 
 abstract class FormatterImpl extends DateTimeFormatter {

@@ -8,29 +8,25 @@ library;
 import 'dart:js_interop';
 import 'dart:math';
 
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 
 import '../utils.dart';
 
 @JS('Intl.NumberFormat')
-extension type NumberFormat._(JSObject _) implements JSObject {
-  external factory NumberFormat([JSArray<JSString> locale, JSAny options]);
+extension type NumberFormatJS._(JSObject _) implements JSObject {
+  external factory NumberFormatJS([JSArray<JSString> locale, JSAny options]);
   external String format(JSAny num);
 }
 
-JSAny generateProperties(Map<String, Object> properties) {
-  return properties.jsify()!;
-}
+JSAny generateProperties(Map<String, Object> properties) => properties.jsify()!;
 
 void main() {
   group('Some manual tests', () {
-    final intl = Intl(locale: Locale.parse('en-US'));
-
     testWithFormatting('significantDigits', () {
-      final numberFormatOptions = intl.numberFormat(
-        NumberFormatOptions.custom(
+      final numberFormatOptions = NumberFormat(
+        locale: Locale.parse('en-US'),
+        options: NumberFormatOptions.custom(
           digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
         ),
       );
@@ -42,27 +38,32 @@ void main() {
     });
 
     testWithFormatting('fractionDigits', () {
-      String formatter(Object number) => intl
-          .numberFormat(
-            NumberFormatOptions.custom(
-              minimumIntegerDigits: 3,
-              digits: const Digits.withFractionDigits(minimum: 4),
-            ),
-          )
-          .format(number);
+      String formatter(Object number) => NumberFormat(
+        locale: Locale.parse('en-US'),
+        options: NumberFormatOptions.custom(
+          minimumIntegerDigits: 3,
+          digits: const Digits.withFractionDigits(minimum: 4),
+        ),
+      ).format(number);
       expect(formatter(4.33), '004.3300');
     });
 
     testWithFormatting('percent', () {
       expect(
-        intl.numberFormat(NumberFormatOptions.percent()).format(4.33),
+        NumberFormat(
+          locale: Locale.parse('en-US'),
+          options: NumberFormatOptions.percent(),
+        ).format(4.33),
         '433%',
       );
     });
 
     testWithFormatting('compact', () {
       expect(
-        intl.numberFormat(NumberFormatOptions.compact()).format(4.33),
+        NumberFormat(
+          locale: Locale.parse('en-US'),
+          options: NumberFormatOptions.compact(),
+        ).format(4.33),
         '4.3',
       );
     });
@@ -106,8 +107,7 @@ void main() {
 
     List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
       int length,
-    ) {
-      return List.generate(
+    ) => List.generate(
         length,
         (index) => (
           numbers[random.nextInt(numbers.length)],
@@ -115,18 +115,18 @@ void main() {
           options[random.nextInt(options.length)],
         ),
       ).toSet().toList();
-    }
 
     for (final (number, locale, (desc, options, object)) in selectIndicesFrom(
       1000,
     )) {
-      final jsFormat = NumberFormat(
+      final jsFormat = NumberFormatJS(
         [locale.toLanguageTag().toJS].toJS,
         object,
       ).format(number.toJS);
-      final dartFormat = Intl(
+      final dartFormat = NumberFormat(
         locale: locale,
-      ).numberFormat(options).format(number);
+        options: options,
+      ).format(number);
       expect(
         dartFormat,
         jsFormat,

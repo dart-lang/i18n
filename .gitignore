@@ -18,3 +18,5 @@ pkgs/intl/test/number_format_compact_google3_icu_test.dart
 pkgs/intl/update_from_cldr_data.sh
 
 .vscode
+
+doc/

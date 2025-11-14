@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../display_names.dart';
-import '../locale/locale.dart';
 import 'display_names_impl.dart';
 
 DisplayNamesImpl getDisplayNamesECMA(

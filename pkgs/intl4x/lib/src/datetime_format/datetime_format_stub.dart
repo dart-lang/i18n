@@ -3,10 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../datetime_format.dart';
-import '../locale/locale.dart';
 import 'datetime_format_impl.dart';
 
-DateTimeFormatImpl getDateTimeFormatterECMA(
-  Locale locales,
-  DateTimeFormatOptions options,
-) => throw UnimplementedError('Cannot use ECMA outside of web environments.');
+DateTimeFormatImpl getDateTimeFormatterECMA(Locale locales, Null options) =>
+    throw UnimplementedError('Cannot use ECMA outside of web environments.');
