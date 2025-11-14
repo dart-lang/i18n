@@ -126,33 +126,33 @@ class _FormatterECMA extends FormatterImpl {
 
   @override
   ZonedDateTimeFormatter withTimeZoneLong() =>
-      FormatterZonedECMA(TimeZoneType.long, this);
+      _FormatterZonedECMA(TimeZoneType.long, this);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
-      FormatterZonedECMA(TimeZoneType.longGeneric, this);
+      _FormatterZonedECMA(TimeZoneType.longGeneric, this);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLongOffset() =>
-      FormatterZonedECMA(TimeZoneType.longOffset, this);
+      _FormatterZonedECMA(TimeZoneType.longOffset, this);
 
   @override
   ZonedDateTimeFormatter withTimeZoneShort() =>
-      FormatterZonedECMA(TimeZoneType.short, this);
+      _FormatterZonedECMA(TimeZoneType.short, this);
 
   @override
   ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
-      FormatterZonedECMA(TimeZoneType.shortGeneric, this);
+      _FormatterZonedECMA(TimeZoneType.shortGeneric, this);
 
   @override
   ZonedDateTimeFormatter withTimeZoneShortOffset() =>
-      FormatterZonedECMA(TimeZoneType.shortOffset, this);
+      _FormatterZonedECMA(TimeZoneType.shortOffset, this);
 }
 
-class FormatterZonedECMA extends FormatterZonedImpl {
+class _FormatterZonedECMA extends FormatterZonedImpl {
   final _FormatterECMA formatter;
 
-  FormatterZonedECMA(TimeZoneType timeZoneType, this.formatter)
+  _FormatterZonedECMA(TimeZoneType timeZoneType, this.formatter)
     : super(formatter.impl, timeZoneType);
 
   static _DateTimeFormat createDateTimeFormat(
@@ -204,7 +204,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(day: _TimeStyle.numeric),
+        _DateTimeJSOptions.from(day: _dayStyleD(alignment)),
         locale,
       );
 
@@ -212,7 +212,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(month: _monthStyle(length: length)),
+        _DateTimeJSOptions.from(month: _monthStyleM(alignment, length)),
         locale,
       );
 
@@ -221,8 +221,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       _FormatterECMA._(
         this,
         _DateTimeJSOptions.from(
-          month: _monthStyle(length: length),
-          day: _TimeStyle.numeric,
+          month: _monthStyle(alignment, length),
+          day: _dayStyle(alignment, length),
         ),
         locale,
       );
@@ -267,8 +267,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
-      month: _monthStyle(length: length),
-      day: _TimeStyle.numeric,
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
     ),
     locale,
   );
@@ -283,8 +283,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
-      month: _monthStyle(length: length),
-      day: _TimeStyle.numeric,
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
       weekday: _weekday(length),
     ),
     locale,
@@ -302,8 +302,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       minute: _style(timePrecision, TimePrecision.minute),
       second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
-      month: _monthStyle(length: length),
-      day: _TimeStyle.numeric,
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
     ),
     locale,
   );
@@ -323,8 +323,8 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       yearStyle: yearStyle,
-      month: _monthStyle(length: length),
-      day: _TimeStyle.numeric,
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
     ),
     locale,
   );
@@ -344,18 +344,41 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       yearStyle: yearStyle,
-      month: _monthStyle(length: length),
-      day: _TimeStyle.numeric,
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
       weekday: _weekday(length),
     ),
     locale,
   );
 
-  _MonthStyle _monthStyle({DateTimeLength? length}) => switch (length) {
-    null => _MonthStyle.twodigit,
-    DateTimeLength.long => _MonthStyle.long,
-    DateTimeLength.medium => _MonthStyle.twodigit,
-    DateTimeLength.short => _MonthStyle.twodigit,
+  _TimeStyle _dayStyleD(DateTimeAlignment? alignment) => switch (alignment) {
+    DateTimeAlignment.column => _TimeStyle.twodigit,
+    _ => _TimeStyle.numeric,
+  };
+
+  _TimeStyle _dayStyle(DateTimeAlignment? alignment, DateTimeLength? length) =>
+      switch ((alignment, length)) {
+        (DateTimeAlignment.column, _) => _TimeStyle.twodigit,
+        (_, DateTimeLength.long) => _TimeStyle.numeric,
+        _ => _TimeStyle.twodigit,
+      };
+
+  _MonthStyle _monthStyleM(
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  ) => switch ((alignment, length)) {
+    (_, DateTimeLength.medium) => _MonthStyle.short,
+    (_, DateTimeLength.long) => _MonthStyle.long,
+    (DateTimeAlignment.column, _) => _MonthStyle.twodigit,
+    _ => _MonthStyle.numeric,
+  };
+
+  _MonthStyle _monthStyle(
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  ) => switch ((alignment, length)) {
+    (_, DateTimeLength.long) => _MonthStyle.long,
+    _ => _MonthStyle.twodigit,
   };
 
   int? _fractionalSeconds(TimePrecision? timePrecision) =>
@@ -377,10 +400,10 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     (_, _, _) => _TimeStyle.twodigit,
   };
 
-  _TimeStyle? _style(TimePrecision? timePrecision, TimePrecision second) =>
-      timePrecision != null
-      ? (timePrecision >= second ? _TimeStyle.numeric : null)
-      : _TimeStyle.numeric;
+  _TimeStyle? _style(TimePrecision? timePrecision, TimePrecision standard) =>
+      timePrecision == null || timePrecision >= standard
+      ? _TimeStyle.numeric
+      : null;
 
   static List<Locale> supportedLocalesOf(Locale locale) =>
       _DateTimeFormat.supportedLocalesOf(

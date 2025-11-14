@@ -92,7 +92,7 @@ void writeFor(
   final lengthValues = [...DateTimeLength.values, null];
   final alignmentValues = [...DateTimeAlignment.values, null];
   final yearStyleValues = [...YearStyle.values, null];
-  final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
+  final dateTime = DateTime(2025, 6, 8, 14, 30, 45, 123);
 
   code.writeln('''
 // Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file

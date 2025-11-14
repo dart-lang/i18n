@@ -12,12 +12,6 @@ enum TimePrecision {
   subsecond1,
   subsecond2,
   subsecond3,
-  // subsecond4,
-  // subsecond5,
-  // subsecond6,
-  // subsecond7,
-  // subsecond8,
-  // subsecond9,
 }
 
 extension EnumComparisonOperators on TimePrecision {

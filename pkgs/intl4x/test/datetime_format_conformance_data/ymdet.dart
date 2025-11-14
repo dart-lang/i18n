@@ -13,1354 +13,1353 @@ final ymdetOptions = {
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10 Uhr',
+  ): 'Sonntag, 8. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10 Uhr',
+  ): 'Sonntag, 8. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10 Uhr',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10 Uhr',
+      'Sonntag, 8. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10 Uhr',
+  ): 'Sonntag, 08. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10 Uhr',
+  ): 'Sonntag, 08. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10 Uhr',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, DateTimeAlignment.column, null):
-      'Mittwoch, 18. Juni 2025 um 10 Uhr',
+      'Sonntag, 08. Juni 2025 um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10 Uhr',
+      'Sonntag, 8. Juni 2025 um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10 Uhr',
+      'Sonntag, 8. Juni 2025 um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10 Uhr',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14 Uhr',
   (TimePrecision.hour, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10 Uhr',
+      'Sonntag, 8. Juni 2025 um 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10 Uhr',
+  ): 'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10 Uhr',
+  ): 'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10 Uhr',
+      'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10 Uhr',
+  ): 'So., 08.06.25, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10 Uhr',
+  ): 'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10 Uhr',
+  ): 'So., 08.06.25, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10 Uhr',
+  ): 'So., 08.06.2025, 14 Uhr',
   (
     TimePrecision.hour,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10 Uhr',
+  ): 'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10 Uhr',
+      'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10 Uhr',
+      'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10 Uhr',
+      'So., 08.06.2025 n. Chr., 14 Uhr',
   (TimePrecision.hour, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10 Uhr',
-  (TimePrecision.hour, null, null, YearStyle.auto): 'Mi., 18.06.25, 10 Uhr',
-  (TimePrecision.hour, null, null, YearStyle.full): 'Mi., 18.06.2025, 10 Uhr',
+      'So., 08.06.25, 14 Uhr',
+  (TimePrecision.hour, null, null, YearStyle.auto): 'So., 08.06.25, 14 Uhr',
+  (TimePrecision.hour, null, null, YearStyle.full): 'So., 08.06.2025, 14 Uhr',
   (TimePrecision.hour, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10 Uhr',
-  (TimePrecision.hour, null, null, null): 'Mi., 18.06.25, 10 Uhr',
+      'So., 08.06.2025 n. Chr., 14 Uhr',
+  (TimePrecision.hour, null, null, null): 'So., 08.06.25, 14 Uhr',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30',
   (TimePrecision.minute, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 08. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 08. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30',
   (TimePrecision.minute, DateTimeLength.long, DateTimeAlignment.column, null):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 08. Juni 2025 um 14:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (TimePrecision.minute, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30',
   (TimePrecision.minute, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.short, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minute,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.short, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minute, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30',
-  (TimePrecision.minute, null, null, YearStyle.auto): 'Mi., 18.06.25, 10:30',
-  (TimePrecision.minute, null, null, YearStyle.full): 'Mi., 18.06.2025, 10:30',
+      'So., 08.06.25, 14:30',
+  (TimePrecision.minute, null, null, YearStyle.auto): 'So., 08.06.25, 14:30',
+  (TimePrecision.minute, null, null, YearStyle.full): 'So., 08.06.2025, 14:30',
   (TimePrecision.minute, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
-  (TimePrecision.minute, null, null, null): 'Mi., 18.06.25, 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
+  (TimePrecision.minute, null, null, null): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     null,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 08. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 08. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30',
+  ): 'Sonntag, 08. Juni 2025 um 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30',
+      'Sonntag, 8. Juni 2025 um 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.medium,
     null,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (
     TimePrecision.minuteOptional,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minuteOptional, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30',
+  ): 'So., 08.06.25, 14:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30',
+  ): 'So., 08.06.2025, 14:30',
   (
     TimePrecision.minuteOptional,
     null,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30',
+  ): 'So., 08.06.2025 n. Chr., 14:30',
   (TimePrecision.minuteOptional, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, null, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30',
+      'So., 08.06.25, 14:30',
   (TimePrecision.minuteOptional, null, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30',
+      'So., 08.06.2025, 14:30',
   (TimePrecision.minuteOptional, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30',
-  (TimePrecision.minuteOptional, null, null, null): 'Mi., 18.06.25, 10:30',
+      'So., 08.06.2025 n. Chr., 14:30',
+  (TimePrecision.minuteOptional, null, null, null): 'So., 08.06.25, 14:30',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, DateTimeAlignment.column, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 08. Juni 2025 um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45',
   (TimePrecision.second, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45',
+  ): 'So., 08.06.25, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.short, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45',
+  ): 'So., 08.06.25, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45',
+  ): 'So., 08.06.2025, 14:30:45',
   (
     TimePrecision.second,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.short, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (TimePrecision.second, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45',
-  (TimePrecision.second, null, null, YearStyle.auto): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
+  (TimePrecision.second, null, null, YearStyle.auto): 'So., 08.06.25, 14:30:45',
   (TimePrecision.second, null, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (TimePrecision.second, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (TimePrecision.second, null, null, null): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
+  (TimePrecision.second, null, null, null): 'So., 08.06.25, 14:30:45',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,1',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+      'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,1',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+      'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+      'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,1',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,1',
+      'Sonntag, 8. Juni 2025 um 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+      'So., 08.06.2025 n. Chr., 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,1',
+  ): 'So., 08.06.25, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,1',
+  ): 'So., 08.06.25, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,1',
+  ): 'So., 08.06.25, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,1',
+  ): 'So., 08.06.2025, 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,1',
   (
     TimePrecision.subsecond1,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,1',
+  ): 'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+      'So., 08.06.2025 n. Chr., 14:30:45,1',
   (TimePrecision.subsecond1, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+      'So., 08.06.2025 n. Chr., 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,1',
+      'So., 08.06.2025 n. Chr., 14:30:45,1',
   (TimePrecision.subsecond1, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.25, 14:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,1',
+      'So., 08.06.2025, 14:30:45,1',
   (TimePrecision.subsecond1, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,1',
-  (TimePrecision.subsecond1, null, null, null): 'Mi., 18.06.25, 10:30:45,1',
+      'So., 08.06.2025 n. Chr., 14:30:45,1',
+  (TimePrecision.subsecond1, null, null, null): 'So., 08.06.25, 14:30:45,1',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,12',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+      'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,12',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+      'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+      'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,12',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,12',
+      'Sonntag, 8. Juni 2025 um 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+      'So., 08.06.2025 n. Chr., 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,12',
+  ): 'So., 08.06.25, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,12',
+  ): 'So., 08.06.25, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,12',
+  ): 'So., 08.06.25, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,12',
+  ): 'So., 08.06.2025, 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,12',
   (
     TimePrecision.subsecond2,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,12',
+  ): 'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+      'So., 08.06.2025 n. Chr., 14:30:45,12',
   (TimePrecision.subsecond2, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+      'So., 08.06.2025 n. Chr., 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,12',
+      'So., 08.06.2025 n. Chr., 14:30:45,12',
   (TimePrecision.subsecond2, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.25, 14:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,12',
+      'So., 08.06.2025, 14:30:45,12',
   (TimePrecision.subsecond2, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,12',
-  (TimePrecision.subsecond2, null, null, null): 'Mi., 18.06.25, 10:30:45,12',
+      'So., 08.06.2025 n. Chr., 14:30:45,12',
+  (TimePrecision.subsecond2, null, null, null): 'So., 08.06.25, 14:30:45,12',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+  ): 'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,123',
+  ): 'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+      'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,123',
+  ): 'Sonntag, 08. Juni 2025 n. Chr. um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.long,
     DateTimeAlignment.column,
     null,
-  ): 'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+  ): 'Sonntag, 08. Juni 2025 um 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+      'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+      'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45,123',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45,123',
+      'Sonntag, 8. Juni 2025 um 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.medium,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+      'So., 08.06.2025 n. Chr., 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.medium, null, null):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,123',
+  ): 'So., 08.06.25, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.auto,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,123',
+  ): 'So., 08.06.25, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.auto,
-  ): 'Mi., 18.06.25, 10:30:45,123',
+  ): 'So., 08.06.25, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.full,
-  ): 'Mi., 18.06.2025, 10:30:45,123',
+  ): 'So., 08.06.2025, 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     YearStyle.withEra,
-  ): 'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+  ): 'So., 08.06.2025 n. Chr., 14:30:45,123',
   (
     TimePrecision.subsecond3,
     DateTimeLength.short,
     DateTimeAlignment.column,
     null,
-  ): 'Mi., 18.06.25, 10:30:45,123',
+  ): 'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+      'So., 08.06.2025 n. Chr., 14:30:45,123',
   (TimePrecision.subsecond3, DateTimeLength.short, null, null):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+      'So., 08.06.2025 n. Chr., 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,123',
+      'So., 08.06.2025 n. Chr., 14:30:45,123',
   (TimePrecision.subsecond3, null, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.25, 14:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45,123',
+      'So., 08.06.2025, 14:30:45,123',
   (TimePrecision.subsecond3, null, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45,123',
-  (TimePrecision.subsecond3, null, null, null): 'Mi., 18.06.25, 10:30:45,123',
+      'So., 08.06.2025 n. Chr., 14:30:45,123',
+  (TimePrecision.subsecond3, null, null, null): 'So., 08.06.25, 14:30:45,123',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.auto, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 08. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 08. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
+      'Sonntag, 08. Juni 2025 n. Chr. um 14:30:45',
   (null, DateTimeLength.long, DateTimeAlignment.column, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 08. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, null, YearStyle.auto):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, null, YearStyle.full):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.long, null, YearStyle.withEra):
-      'Mittwoch, 18. Juni 2025 n. Chr. um 10:30:45',
-  (null, DateTimeLength.long, null, null):
-      'Mittwoch, 18. Juni 2025 um 10:30:45',
+      'Sonntag, 8. Juni 2025 n. Chr. um 14:30:45',
+  (null, DateTimeLength.long, null, null): 'Sonntag, 8. Juni 2025 um 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.auto, null):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (null, DateTimeLength.medium, DateTimeAlignment.column, null):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, null, YearStyle.auto):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.medium, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (null, DateTimeLength.medium, null, null): 'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
+  (null, DateTimeLength.medium, null, null): 'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.auto, null):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
   (null, DateTimeLength.short, DateTimeAlignment.column, null):
-      'Mi., 18.06.25, 10:30:45',
-  (null, DateTimeLength.short, null, YearStyle.auto): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
+  (null, DateTimeLength.short, null, YearStyle.auto): 'So., 08.06.25, 14:30:45',
   (null, DateTimeLength.short, null, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, DateTimeLength.short, null, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (null, DateTimeLength.short, null, null): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
+  (null, DateTimeLength.short, null, null): 'So., 08.06.25, 14:30:45',
   (null, null, DateTimeAlignment.auto, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (null, null, DateTimeAlignment.auto, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, null, DateTimeAlignment.auto, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (null, null, DateTimeAlignment.auto, null): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
+  (null, null, DateTimeAlignment.auto, null): 'So., 08.06.25, 14:30:45',
   (null, null, DateTimeAlignment.column, YearStyle.auto):
-      'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.25, 14:30:45',
   (null, null, DateTimeAlignment.column, YearStyle.full):
-      'Mi., 18.06.2025, 10:30:45',
+      'So., 08.06.2025, 14:30:45',
   (null, null, DateTimeAlignment.column, YearStyle.withEra):
-      'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (null, null, DateTimeAlignment.column, null): 'Mi., 18.06.25, 10:30:45',
-  (null, null, null, YearStyle.auto): 'Mi., 18.06.25, 10:30:45',
-  (null, null, null, YearStyle.full): 'Mi., 18.06.2025, 10:30:45',
-  (null, null, null, YearStyle.withEra): 'Mi., 18.06.2025 n. Chr., 10:30:45',
-  (null, null, null, null): 'Mi., 18.06.25, 10:30:45',
+      'So., 08.06.2025 n. Chr., 14:30:45',
+  (null, null, DateTimeAlignment.column, null): 'So., 08.06.25, 14:30:45',
+  (null, null, null, YearStyle.auto): 'So., 08.06.25, 14:30:45',
+  (null, null, null, YearStyle.full): 'So., 08.06.2025, 14:30:45',
+  (null, null, null, YearStyle.withEra): 'So., 08.06.2025 n. Chr., 14:30:45',
+  (null, null, null, null): 'So., 08.06.25, 14:30:45',
 };
