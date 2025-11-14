@@ -235,7 +235,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
+      hour: _dayStyleD(alignment),
       minute: _style(timePrecision, TimePrecision.minute),
       second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
@@ -298,7 +298,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
+      hour: _dayStyleD(alignment),
       minute: _style(timePrecision, TimePrecision.minute),
       second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
@@ -317,7 +317,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
+      hour: _dayStyleD(alignment),
       minute: _style(timePrecision, TimePrecision.minute),
       second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
@@ -338,7 +338,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   }) => _FormatterECMA._(
     this,
     _DateTimeJSOptions.from(
-      hour: _TimeStyle.numeric,
+      hour: _dayStyleD(alignment),
       minute: _style(timePrecision, TimePrecision.minute),
       second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
@@ -360,7 +360,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       switch ((alignment, length)) {
         (DateTimeAlignment.column, _) => _TimeStyle.twodigit,
         (_, DateTimeLength.long) => _TimeStyle.numeric,
-        _ => _TimeStyle.twodigit,
+        _ => _TimeStyle.numeric,
       };
 
   _MonthStyle _monthStyleM(
@@ -378,7 +378,9 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     DateTimeLength? length,
   ) => switch ((alignment, length)) {
     (_, DateTimeLength.long) => _MonthStyle.long,
-    _ => _MonthStyle.twodigit,
+    (_, DateTimeLength.medium) => _MonthStyle.short,
+    (DateTimeAlignment.column, _) => _MonthStyle.twodigit,
+    _ => _MonthStyle.numeric,
   };
 
   int? _fractionalSeconds(TimePrecision? timePrecision) =>

@@ -8,83 +8,104 @@ import 'package:dart_style/dart_style.dart';
 import 'package:intl4x/datetime_format.dart';
 
 void main() {
-  final dateTimeFormat = DateTimeFormat(locale: Locale.parse('de-DE'));
-  writeFor('ymdet', dateTimeFormat.ymdet);
-  writeFor('ymdt', dateTimeFormat.ymdt);
+  final localeString = ['en-US', 'de-DE'];
+  writeFor('ymdet', DateTimeFormat.ymdet, localeString);
+  writeFor('ymdt', DateTimeFormat.ymdt, localeString);
   writeFor(
     'mdt',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.mdt(
-      alignment: alignment,
-      length: length,
-      timePrecision: timePrecision,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.mdt(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          timePrecision: timePrecision,
+        ),
+    localeString,
   );
   writeFor(
     'ymde',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.ymde(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          yearStyle: yearStyle,
+        ),
+    localeString,
   );
   writeFor(
     'ymd',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymd(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.ymd(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          yearStyle: yearStyle,
+        ),
+    localeString,
   );
   writeFor(
     'ymde',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.ymde(
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.ymde(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          yearStyle: yearStyle,
+        ),
+    localeString,
   );
   writeFor(
     'y',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.y(
+    ({locale, alignment, length, timePrecision, yearStyle}) => DateTimeFormat.y(
+      locale: locale,
       alignment: alignment,
       length: length,
       yearStyle: yearStyle,
     ),
+    localeString,
   );
   writeFor(
     't',
-    ({alignment, length, timePrecision, yearStyle}) => dateTimeFormat.t(
+    ({locale, alignment, length, timePrecision, yearStyle}) => DateTimeFormat.t(
+      locale: locale,
       alignment: alignment,
       length: length,
       timePrecision: timePrecision,
     ),
+    localeString,
   );
   writeFor(
     'md',
-    ({alignment, length, timePrecision, yearStyle}) =>
-        dateTimeFormat.md(alignment: alignment, length: length),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.md(locale: locale, alignment: alignment, length: length),
+    localeString,
   );
   writeFor(
     'm',
-    ({alignment, length, timePrecision, yearStyle}) =>
-        dateTimeFormat.m(alignment: alignment, length: length),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.m(locale: locale, alignment: alignment, length: length),
+    localeString,
   );
   writeFor(
     'd',
-    ({alignment, length, timePrecision, yearStyle}) =>
-        dateTimeFormat.d(alignment: alignment, length: length),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.d(locale: locale, alignment: alignment, length: length),
+    localeString,
   );
 }
 
 void writeFor(
   String type,
   DateTimeFormatter Function({
+    Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
   })
-  ymdet,
+  formatter,
+  List<String> localeString,
 ) {
   final code = StringBuffer();
 
@@ -107,36 +128,42 @@ import 'package:intl4x/datetime_format.dart';
 final ${type}Options = {
 ''');
 
-  for (final precision in precisionValues) {
-    for (final length in lengthValues) {
-      for (final alignment in alignmentValues) {
-        for (final yearStyle in yearStyleValues) {
-          // Generate the formatted string for the current combination
-          final format = ymdet(
-            length: length,
-            timePrecision: precision,
-            alignment: alignment,
-            yearStyle: yearStyle,
-          ).format(dateTime);
+  for (final locale in localeString) {
+    code.writeln("'$locale': {");
 
-          String keyString;
+    for (final precision in precisionValues) {
+      for (final length in lengthValues) {
+        for (final alignment in alignmentValues) {
+          for (final yearStyle in yearStyleValues) {
+            // Generate the formatted string for the current combination
+            final format = formatter(
+              locale: Locale.parse(locale),
+              length: length,
+              timePrecision: precision,
+              alignment: alignment,
+              yearStyle: yearStyle,
+            ).format(dateTime);
 
-          // Format the key to be multiline for non-null values for readability
-          if (precision != null &&
-              length != null &&
-              alignment != null &&
-              yearStyle != null) {
-            keyString = '''
+            String keyString;
+
+            // Format the key to be multiline for non-null values for readability
+            if (precision != null &&
+                length != null &&
+                alignment != null &&
+                yearStyle != null) {
+              keyString = '''
 (\n    $precision,\n    $length,\n    $alignment,\n    $yearStyle,\n  )''';
-          } else {
-            // Keep null value combinations on a single line
-            keyString = '($precision, $length, $alignment, $yearStyle)';
-          }
+            } else {
+              // Keep null value combinations on a single line
+              keyString = '($precision, $length, $alignment, $yearStyle)';
+            }
 
-          code.writeln('$keyString: \'$format\',');
+            code.writeln('$keyString: \'$format\',');
+          }
         }
       }
     }
+    code.writeln('},');
   }
   code.writeln('};');
 
@@ -144,7 +171,7 @@ final ${type}Options = {
     languageVersion: DartFormatter.latestLanguageVersion,
   ).format(code.toString());
 
-  final path = 'test/datetime_format_conformance_data/$type.dart';
+  final path = 'test/datetime_format_conformance_data/$type.g.dart';
   final file = File(path);
   try {
     file.createSync();
