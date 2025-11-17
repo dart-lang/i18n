@@ -28,21 +28,29 @@ String? evaluateJsonTemplate(dynamic input, List<dynamic> args) {
   if (messageName == 'Intl.plural') {
     var howMany = args[template[1] as int] as num;
     return evaluateJsonTemplate(
-        Intl.pluralLogic(howMany,
-            zero: template[2],
-            one: template[3],
-            two: template[4],
-            few: template[5],
-            many: template[6],
-            other: template[7]),
-        args);
+      Intl.pluralLogic(
+        howMany,
+        zero: template[2],
+        one: template[3],
+        two: template[4],
+        few: template[5],
+        many: template[6],
+        other: template[7],
+      ),
+      args,
+    );
   }
   if (messageName == 'Intl.gender') {
     var gender = args[template[1] as int] as String;
     return evaluateJsonTemplate(
-        Intl.genderLogic(gender,
-            female: template[2], male: template[3], other: template[4]),
-        args);
+      Intl.genderLogic(
+        gender,
+        female: template[2],
+        male: template[3],
+        other: template[4],
+      ),
+      args,
+    );
   }
   if (messageName == 'Intl.select') {
     var select = args[template[1] as int] as Object;

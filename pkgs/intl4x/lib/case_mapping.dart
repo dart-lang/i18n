@@ -4,7 +4,7 @@
 
 import 'intl4x.dart';
 
-export 'src/case_mapping/case_mapping.dart';
+export 'src/case_mapping/case_mapping.dart' show CaseMapping;
 export 'src/locale/locale.dart';
 
 extension CaseMappingWithIntl4X on String {

@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
 import '../../datetime_format.dart';
-import '../test_checker.dart';
 import 'datetime_format_impl.dart';
 
 /// `DateTime` formatting, for example:
@@ -21,58 +18,50 @@ import 'datetime_format_impl.dart';
 ///     ))
 ///     .format(date); // Output: '4 mat.'
 /// ```
-class DateTimeFormat {
+class DateTimeFormatBuilder {
   final DateTimeFormatImpl _impl;
 
-  DateTimeFormat._(this._impl);
+  DateTimeFormatBuilder._(this._impl);
 
-  String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
-  String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
-  String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
-  String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
+  DateTimeFormatter d({DateFormatStyle? dateStyle}) =>
+      _impl.d(dateStyle: dateStyle);
 
-  String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
+  DateTimeFormatter m({DateFormatStyle? dateStyle}) =>
+      _impl.m(dateStyle: dateStyle);
 
-  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+  DateTimeFormatter y({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.y(dateStyle: dateStyle, withEra: withEra);
 
-  static String _format(
-    String Function(DateTime datetime) format,
-    DateTime datetime,
-    DateTimeFormatImpl impl,
-  ) {
-    if (isInTest) {
-      return '$datetime//${impl.locale}';
-    } else {
-      return format(datetime);
-    }
-  }
+  DateTimeFormatter md({DateFormatStyle? dateStyle}) =>
+      _impl.md(dateStyle: dateStyle);
+
+  DateTimeFormatter ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.ymd(dateStyle: dateStyle, withEra: withEra);
+
+  DateTimeFormatter ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
+      _impl.ymde(dateStyle: dateStyle, withEra: withEra);
+
+  DateTimeFormatter mdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+  }) => _impl.mdt(timeStyle: timeStyle, dateStyle: dateStyle);
+
+  DateTimeFormatter ymdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra = false,
+  }) =>
+      _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
+
+  DateTimeFormatter ymdet({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra = false,
+  }) =>
+      _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
+
+  DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
 }
 
-extension DatetimeFormatExt on DateTimeFormat {
-  @RecordUse()
-  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymd(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.time(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-}
-
-DateTimeFormat buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormat._(impl);
+DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
+    DateTimeFormatBuilder._(impl);

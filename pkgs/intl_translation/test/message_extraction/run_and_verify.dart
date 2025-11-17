@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-library verify_and_run;
+library;
 
 import 'dart:convert';
 import 'dart:io';
@@ -22,8 +22,9 @@ void main(List<String> args) async {
 
   // Messages with skipExtraction set should not be extracted
   var fileArgs = args.where((x) => x.contains('.arb'));
-  var messages = jsonDecode(File(fileArgs.first).readAsStringSync())
-      as Map<String, dynamic>;
+  var messages =
+      jsonDecode(File(fileArgs.first).readAsStringSync())
+          as Map<String, dynamic>;
   messages.forEach((name, _) {
     // Assume any name with 'skip' in it should not have been extracted.
     if (name.contains('skip')) {

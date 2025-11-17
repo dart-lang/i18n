@@ -3,13 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
+import '../test_checker.dart' show isInTest;
 import '../utils.dart';
 import 'datetime_format_options.dart';
 import 'datetime_format_stub.dart'
-    if (dart.library.js) 'datetime_format_ecma.dart';
+    if (dart.library.js_interop) 'datetime_format_ecma.dart';
 import 'datetime_format_stub_4x.dart'
-    if (dart.library.io) 'datetime_format_4x.dart';
+    if (dart.library.ffi) 'icu4x/datetime_format_4x.dart';
 
 /// This is an intermediate to defer to the actual implementations of
 /// datetime formatting.
@@ -22,22 +22,82 @@ abstract class DateTimeFormatImpl {
   static DateTimeFormatImpl build(
     Locale locale,
     DateTimeFormatOptions options,
-    LocaleMatcher localeMatcher,
   ) => buildFormatter(
     locale,
     options,
-    localeMatcher,
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );
 
-  String d(DateTime datetime);
-  String m(DateTime datetime);
-  String y(DateTime datetime);
-  String md(DateTime datetime);
-  String ymd(DateTime datetime, {TimeZone? timeZone});
-  String ymde(DateTime datetime);
-  String ymdt(DateTime datetime, {TimeZone? timeZone});
-  String ymdet(DateTime datetime);
-  String time(DateTime datetime, {TimeZone? timeZone});
+  FormatterImpl d({DateFormatStyle? dateStyle});
+  FormatterImpl m({DateFormatStyle? dateStyle});
+  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra});
+  FormatterImpl md({DateFormatStyle? dateStyle});
+  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra});
+  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra});
+  FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
+  FormatterImpl ymdt({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra,
+  });
+  FormatterImpl ymdet({
+    DateFormatStyle? dateStyle,
+    TimeFormatStyle? timeStyle,
+    bool withEra,
+  });
+  FormatterImpl t({TimeFormatStyle? style});
+}
+
+abstract class FormatterImpl extends DateTimeFormatter {
+  final DateTimeFormatImpl _impl;
+
+  FormatterImpl(this._impl);
+
+  String formatInternal(DateTime datetime);
+
+  @override
+  String format(DateTime datetime) {
+    if (isInTest) {
+      return '$datetime//${_impl.locale}';
+    } else {
+      return formatInternal(datetime);
+    }
+  }
+}
+
+abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
+  final DateTimeFormatImpl _impl;
+  final TimeZoneType timeZoneType;
+
+  String formatInternal(DateTime datetime, String timeZone);
+
+  FormatterZonedImpl(this._impl, this.timeZoneType);
+
+  @override
+  String format(DateTime datetime, String timeZone) {
+    if (isInTest) {
+      return '$datetime//${_impl.locale}';
+    } else {
+      return formatInternal(datetime, timeZone);
+    }
+  }
+}
+
+/// A base class for formatters that can format a [DateTime] into a string.
+sealed class DateTimeFormatter {
+  String format(DateTime datetime);
+
+  ZonedDateTimeFormatter withTimeZoneShort();
+  ZonedDateTimeFormatter withTimeZoneLong();
+  ZonedDateTimeFormatter withTimeZoneShortOffset();
+  ZonedDateTimeFormatter withTimeZoneLongOffset();
+  ZonedDateTimeFormatter withTimeZoneShortGeneric();
+  ZonedDateTimeFormatter withTimeZoneLongGeneric();
+}
+
+/// A base class for formatters that can format a [DateTime] and time zone
+/// string into a string.
+sealed class ZonedDateTimeFormatter {
+  String format(DateTime datetime, String timeZone);
 }

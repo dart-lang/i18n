@@ -33,9 +33,10 @@ class VariableSubstitution extends Message {
         .indexOf(_variableNameUpper!);
     if (_index == -1) {
       throw ArgumentError(
-          "Cannot find parameter named '$_variableNameUpper' in "
-          "message named '$name'. Available "
-          'parameters are $arguments');
+        "Cannot find parameter named '$_variableNameUpper' in "
+        "message named '$name'. Available "
+        'parameters are $arguments',
+      );
     }
     return _index;
   }
@@ -61,7 +62,7 @@ class VariableSubstitution extends Message {
   @override
   String toString() => 'VariableSubstitution(${index ?? _variableName})';
   @override
-  String expanded(
-          [String Function(Message, Object) transform = nullTransform]) =>
-      transform(this, index!);
+  String expanded([
+    String Function(Message, Object) transform = nullTransform,
+  ]) => transform(this, index!);
 }

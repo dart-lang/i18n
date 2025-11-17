@@ -17,7 +17,7 @@
 /// Note that this does not understand how to follow part directives, so it
 /// has to explicitly be given all the files that it needs. A typical use case
 /// is to run it on all .dart files in a directory.
-library extract_messages;
+library;
 
 import 'dart:io';
 
@@ -27,6 +27,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 
 import 'src/messages/main_message.dart';
 import 'visitors/message_finding_visitor.dart';
+
+export 'src/messages/main_message.dart' show MainMessage;
 
 /// A function that takes a message and does something useful with it.
 typedef OnMessage = void Function(String message);
@@ -117,10 +119,7 @@ class MessageExtraction {
     } else {
       return {};
     }
-    var visitor = MessageFindingVisitor(
-      this,
-      generateNameAndArgs: transformer,
-    );
+    var visitor = MessageFindingVisitor(this, generateNameAndArgs: transformer);
     root.accept(visitor);
     return visitor.messages;
   }
@@ -134,7 +133,8 @@ class MessageExtraction {
 
     final errors = List.of(result.errors)
       ..removeWhere(
-          (e) => ignoredErrorCodes.contains(e.errorCode.name.toLowerCase()));
+        (e) => ignoredErrorCodes.contains(e.diagnosticCode.name.toLowerCase()),
+      );
     if (errors.isNotEmpty) {
       print('Error in parsing $origin, no messages extracted.');
       throw ArgumentError('Parsing errors in $origin');

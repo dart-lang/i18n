@@ -31,6 +31,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   Map<String, dynamic> get messages => _constMessages;
   static const _constMessages = <String, Object?>{
-    "Hello from application": "Bonjour de l'application"
+    "Hello from application": <Object?>["Bonjour de l'application"],
   };
 }

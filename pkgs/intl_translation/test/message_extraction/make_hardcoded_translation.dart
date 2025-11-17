@@ -24,9 +24,11 @@ Map<String, String> french = {
   'alwaysTranslated': 'Cette chaîne est toujours traduit',
   'message1': "Il s'agit d'un message",
   '"So-called"': '"Soi-disant"',
-  'trickyInterpolation': r"L'interpolation est délicate "
+  'trickyInterpolation':
+      r"L'interpolation est délicate "
       r'quand elle se termine une phrase comme {s}.',
-  'message3': 'Caractères qui doivent être échapper, par exemple barres \\ '
+  'message3':
+      'Caractères qui doivent être échapper, par exemple barres \\ '
       'dollars \${ (les accolades sont ok), et xml/html réservés <& et '
       'des citations " '
       'avec quelques paramètres ainsi {a}, {b}, et {c}',
@@ -39,13 +41,16 @@ Map<String, String> french = {
   'differentNameSameContents': 'Bonjour tout le monde',
   'rentToBePaid': 'loyer',
   'rentAsVerb': 'louer',
-  'plurals': "{num,plural, =0{Est-ce que nulle est pluriel?}=1{C'est singulier}"
+  'plurals':
+      "{num,plural, =0{Est-ce que nulle est pluriel?}=1{C'est singulier}"
       "other{C'est pluriel ({num}).}}",
-  'whereTheyWentMessage': '{gender,select, male{{name} est allé à sa {place}}'
+  'whereTheyWentMessage':
+      '{gender,select, male{{name} est allé à sa {place}}'
       'female{{name} est allée à sa {place}}other{{name}'
       ' est allé à sa {place}}}',
   // Gratuitously different translation for testing. Ignoring gender of place.
-  'nestedMessage': '{combinedGender,select, '
+  'nestedMessage':
+      '{combinedGender,select, '
       'other{'
       '{number,plural, '
       "=0{Personne n'avait allé à la {place}}"
@@ -62,13 +67,17 @@ Map<String, String> french = {
       '}',
   'outerPlural': '{n,plural, =0{rien}=1{un}other{quelques-uns}}',
   'outerGender': '{g,select, male {homme} female {femme} other {autre}}',
-  'pluralThatFailsParsing': '{noOfThings,plural, '
+  'pluralThatFailsParsing':
+      '{noOfThings,plural, '
       '=1{1 chose:}other{{noOfThings} choses:}}',
-  'nestedOuter': '{number,plural, other{'
+  'nestedOuter':
+      '{number,plural, other{'
       '{gen,select, male{{number} homme}other{{number} autre}}}}',
-  'outerSelect': '{currency,select, CDN{{amount} dollars Canadiens}'
+  'outerSelect':
+      '{currency,select, CDN{{amount} dollars Canadiens}'
       'other{{amount} certaine devise ou autre.}}}',
-  'nestedSelect': '{currency,select, CDN{{amount,plural, '
+  'nestedSelect':
+      '{currency,select, CDN{{amount,plural, '
       '=1{{amount} dollar Canadien}'
       'other{{amount} dollars Canadiens}}}'
       "other{N'importe quoi}"
@@ -104,9 +113,11 @@ Map<String, String> german = {
   'alwaysTranslated': 'Diese Zeichenkette wird immer übersetzt',
   'message1': 'Dies ist eine Nachricht',
   '"So-called"': '"Sogenannt"',
-  'trickyInterpolation': r'Interpolation ist schwierig, wenn es einen Satz '
+  'trickyInterpolation':
+      r'Interpolation ist schwierig, wenn es einen Satz '
       'wie dieser endet {s}.',
-  'message3': 'Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar '
+  'message3':
+      'Zeichen, die Flucht benötigen, zB Schrägstriche \\ Dollar '
       '\${ (geschweiften Klammern sind ok) und xml reservierte Zeichen <& und '
       'Zitate " Parameter {a}, {b} und {c}',
   'YouveGotMessages_method': 'Dies ergibt sich aus einer Methode',
@@ -120,13 +131,16 @@ Map<String, String> german = {
   'differentNameSameContents': 'Hallo Welt',
   'rentToBePaid': 'Miete',
   'rentAsVerb': 'mieten',
-  'plurals': '{num,plural, =0{Ist Null Plural?}=1{Dies ist einmalig}'
+  'plurals':
+      '{num,plural, =0{Ist Null Plural?}=1{Dies ist einmalig}'
       'other{Dies ist Plural ({num}).}}',
-  'whereTheyWentMessage': '{gender,select, male{{name} ging zu seinem {place}}'
+  'whereTheyWentMessage':
+      '{gender,select, male{{name} ging zu seinem {place}}'
       'female{{name} ging zu ihrem {place}}other{{name} ging zu seinem {place}}}',
   //Note that we're only using the gender of the people. The gender of the
   //place also matters, but we're not dealing with that here.
-  'nestedMessage': '{combinedGender,select, '
+  'nestedMessage':
+      '{combinedGender,select, '
       'other{'
       '{number,plural, '
       '=0{Niemand ging zu {place}}'
@@ -143,13 +157,17 @@ Map<String, String> german = {
       '}',
   'outerPlural': '{n,plural, =0{Null}=1{ein}other{einige}}',
   'outerGender': '{g,select, male{Mann}female{Frau}other{andere}}',
-  'pluralThatFailsParsing': '{noOfThings,plural, '
+  'pluralThatFailsParsing':
+      '{noOfThings,plural, '
       '=1{eins:}other{{noOfThings} Dinge:}}',
-  'nestedOuter': '{number,plural, other{'
+  'nestedOuter':
+      '{number,plural, other{'
       '{gen,select, male{{number} Mann}other{{number} andere}}}}',
-  'outerSelect': '{currency,select, CDN{{amount} Kanadischen dollar}'
+  'outerSelect':
+      '{currency,select, CDN{{amount} Kanadischen dollar}'
       'other{{amount} einige Währung oder anderen.}}}',
-  'nestedSelect': '{currency,select, CDN{{amount,plural, '
+  'nestedSelect':
+      '{currency,select, CDN{{amount,plural, '
       '=1{{amount} Kanadischer dollar}'
       'other{{amount} Kanadischen dollar}}}'
       'other{whatever}'
@@ -177,8 +195,12 @@ const jsonCodec = JsonCodec();
 
 /// Generate a translated json version from [originals] in [locale] looking
 /// up the translations in [translations].
-void translate(Map originals, String locale, Map translations,
-    [String? filename]) {
+void translate(
+  Map originals,
+  String locale,
+  Map translations, [
+  String? filename,
+]) {
   var translated = {'_locale': locale};
   originals.forEach((name, text) {
     if (translations[name] != null) {
@@ -191,13 +213,18 @@ void translate(Map originals, String locale, Map translations,
 
 void main(List<String> args) {
   if (args.isEmpty) {
-    print('Usage: make_hardcoded_translation [--output-dir=<dir>] '
-        '[originalFile.arb]');
+    print(
+      'Usage: make_hardcoded_translation [--output-dir=<dir>] '
+      '[originalFile.arb]',
+    );
     exit(0);
   }
   var parser = ArgParser();
-  parser.addOption('output-dir',
-      defaultsTo: '.', callback: (value) => targetDir = value);
+  parser.addOption(
+    'output-dir',
+    defaultsTo: '.',
+    callback: (value) => targetDir = value,
+  );
   parser.parse(args);
 
   var fileArgs = args.where((x) => x.contains('.arb'));

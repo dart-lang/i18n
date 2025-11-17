@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../bindings/lib.g.dart' as icu;
+import 'package:icu4x/icu4x.dart' as icu;
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
 import '../utils.dart';
@@ -61,18 +61,16 @@ extension on CollationOptions {
       null => icu.CollatorStrength.tertiary,
     };
 
-    final icuCaseLevel =
-        sensitivity == Sensitivity.caseSensitivity
-            ? icu.CollatorCaseLevel.on
-            : icu.CollatorCaseLevel.off;
+    final icuCaseLevel = sensitivity == Sensitivity.caseSensitivity
+        ? icu.CollatorCaseLevel.on
+        : icu.CollatorCaseLevel.off;
 
     return icu.CollatorOptions(
       strength: icuStrength,
       caseLevel: icuCaseLevel,
-      alternateHandling:
-          ignorePunctuation
-              ? icu.CollatorAlternateHandling.shifted
-              : icu.CollatorAlternateHandling.nonIgnorable,
+      alternateHandling: ignorePunctuation
+          ? icu.CollatorAlternateHandling.shifted
+          : icu.CollatorAlternateHandling.nonIgnorable,
       //TODO(mosum): maxVariable: Not supported in ECMA402
     );
   }

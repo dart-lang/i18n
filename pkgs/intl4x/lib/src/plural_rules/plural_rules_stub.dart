@@ -6,8 +6,7 @@ import '../../plural_rules.dart';
 import '../locale/locale.dart';
 import 'plural_rules_impl.dart';
 
-PluralRulesImpl? getPluralSelectECMA(
+PluralRulesImpl getPluralSelectECMA(
   Locale locale,
   PluralRulesOptions options,
-  LocaleMatcher localeMatcher,
 ) => throw UnimplementedError('Cannot use ECMA outside of web environments.');

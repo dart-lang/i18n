@@ -1,7 +1,7 @@
 name: intl4x
 description: >-
   A lightweight modular library for internationalization (i18n) functionality.
-version: 0.13.0-wip
+version: 0.14.0
 repository: https://github.com/dart-lang/i18n/tree/main/pkgs/intl4x
 issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aintl4x
 
@@ -17,28 +17,17 @@ topics:
   - i18n
 
 environment:
-  sdk: ^3.7.0
+  sdk: ^3.9.3
 
 dependencies:
-  args: ^2.7.0
-  code_assets: ^0.19.4
   collection: ^1.19.1
-  crypto: ^3.0.6
-  ffi: ^2.1.4
-  hooks: ^0.19.5
-  logging: ^1.3.0
+  hooks: ^0.20.4
+  icu4x: ^2.1.0-dev.0
   meta: ^1.17.0
-  native_toolchain_c: ^0.16.7
-  path: ^1.9.1
-  record_use: ^0.4.1
+  record_use: ^0.4.2
+  timezone: ^0.10.1
 
 dev_dependencies:
+  args: ^2.7.0
   dart_flutter_team_lints: ^3.5.2
-  test: ^1.26.2
-  yaml_edit: ^2.2.2
-
-hooks:
-  user_defines:
-    intl4x:
-      buildMode: checkout
-      checkoutPath: ../../submodules/icu4x/
+  test: ^1.26.3
