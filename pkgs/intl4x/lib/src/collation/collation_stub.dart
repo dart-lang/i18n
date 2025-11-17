@@ -4,6 +4,7 @@
 
 import '../../collation.dart';
 import 'collation_impl.dart';
+import 'collation_options.dart';
 
 /// Stub for the conditional import
 CollationImpl getCollatorECMA(Locale locale, CollationOptions options) =>

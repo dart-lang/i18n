@@ -6,7 +6,8 @@ import 'collation.dart' show Collation;
 import 'src/locale/locale.dart' show Locale;
 
 export 'src/collation/collation.dart' show Collation;
-export 'src/collation/collation_options.dart';
+export 'src/collation/collation_options.dart'
+    show CaseFirst, Sensitivity, Usage;
 export 'src/locale/locale.dart' show Locale;
 export 'src/options.dart';
 

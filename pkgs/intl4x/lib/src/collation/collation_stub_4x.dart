@@ -5,6 +5,7 @@
 import '../../collation.dart';
 
 import 'collation_impl.dart';
+import 'collation_options.dart';
 
 /// Stub for the conditional import
 CollationImpl getCollator4X(Locale locale, CollationOptions options) =>

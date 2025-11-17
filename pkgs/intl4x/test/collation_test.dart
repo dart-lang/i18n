@@ -26,19 +26,26 @@ void main() {
     final collationGerman = Collation(locale: Locale.parse('de-DE'));
     expect(list..sort(collationGerman.compare), orderedEquals(expected));
   });
+  testWithFormatting('Numeric', () {
+    expect(
+      ['0', '1', '10', '2']
+        ..sort(Collation(locale: Locale.parse('en-US'), numeric: true).compare),
+      orderedEquals(['0', '1', '2', '10']),
+    );
+  });
 
   testWithFormatting('Search vs. Sort', () {
     final list = ['AE', 'Ä'];
 
     final searchCollation = Collation(
       locale: Locale.parse('de'),
-      options: const CollationOptions(usage: Usage.search),
+      usage: Usage.search,
     );
     expect(list..sort(searchCollation.compare), orderedEquals(list));
 
     final sortCollation = Collation(
       locale: Locale.parse('de'),
-      options: const CollationOptions(usage: Usage.sort),
+      usage: Usage.sort,
     );
     expect(
       list..sort(sortCollation.compare),

@@ -13,10 +13,22 @@ class Collation {
 
   Collation({
     Locale? locale,
-    CollationOptions options = const CollationOptions(),
+    Usage usage = Usage.sort,
+    Sensitivity? sensitivity,
+    bool ignorePunctuation = false,
+    bool? numeric,
+    CaseFirst? caseFirst,
+    String? collation,
   }) : _collationImpl = CollationImpl.build(
          locale ?? findSystemLocale(),
-         options,
+         CollationOptions(
+           usage: usage,
+           sensitivity: sensitivity,
+           ignorePunctuation: ignorePunctuation,
+           numeric: numeric,
+           caseFirst: caseFirst,
+           collation: collation,
+         ),
        );
 
   /// Compare two strings in a locale-dependant manner.
