@@ -96,7 +96,8 @@ enum _TimeStyle {
 enum _MonthStyle {
   numeric,
   twodigit('2-digit'),
-  narrow,
+  // this is unused
+  // narrow,
   short,
   long;
 
@@ -470,10 +471,7 @@ extension type _DateTimeFormat._(JSObject _) implements JSObject {
   ]);
   external String format(Date num);
 
-  external static JSArray<JSString> supportedLocalesOf(
-    JSArray listOfLocales, [
-    JSAny options,
-  ]);
+  external static JSArray<JSString> supportedLocalesOf(JSArray listOfLocales);
 
   external JSArray<JSObject> formatToParts(JSAny num);
 
