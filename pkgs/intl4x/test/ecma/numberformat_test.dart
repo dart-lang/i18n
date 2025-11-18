@@ -26,9 +26,7 @@ void main() {
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
-        ),
+        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
       );
 
       expect(numberFormatOptions.format(3), '3');
@@ -40,30 +38,22 @@ void main() {
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          minimumIntegerDigits: 3,
-          digits: const Digits.withFractionDigits(minimum: 4),
-        ),
+        minimumIntegerDigits: 3,
+        digits: const Digits.withFractionDigits(minimum: 4),
       ).format(number);
       expect(formatter(4.33), '004.3300');
     });
 
     testWithFormatting('percent', () {
       expect(
-        NumberFormat(
-          locale: Locale.parse('en-US'),
-          options: NumberFormatOptions.percent(),
-        ).format(4.33),
+        NumberFormat.percent(locale: Locale.parse('en-US')).format(4.33),
         '433%',
       );
     });
 
     testWithFormatting('compact', () {
       expect(
-        NumberFormat(
-          locale: Locale.parse('en-US'),
-          options: NumberFormatOptions.compact(),
-        ).format(4.33),
+        NumberFormat.compact(locale: Locale.parse('en-US')).format(4.33),
         '4.3',
       );
     });
@@ -80,34 +70,32 @@ void main() {
       Locale.parse('de-DE'),
       Locale.parse('zh-TW'),
     ];
-    final options = <(Object, NumberFormatOptions, JSAny)>[
+    final options = <(Object, NumberFormat Function(Locale locale), JSAny)>[
       (
         {'minimumFractionDigits': 2},
-        NumberFormatOptions.custom(
-          digits: const Digits.withFractionDigits(minimum: 2),
-        ),
+        (locale) =>
+            NumberFormat(digits: const Digits.withFractionDigits(minimum: 2)),
         generateProperties({'minimumFractionDigits': 2}),
       ),
       (
         'useGrouping',
-        NumberFormatOptions.custom(useGrouping: Grouping.always),
+        (locale) => NumberFormat(useGrouping: Grouping.always),
         generateProperties({'useGrouping': true}),
       ),
       (
         'USD',
-        NumberFormatOptions.currency(currency: 'USD'),
+        (locale) => NumberFormat.currency(currency: 'USD'),
         generateProperties({'style': 'currency', 'currency': 'USD'}),
       ),
       (
         'percent',
-        NumberFormatOptions.percent(),
+        (locale) => NumberFormat.percent(),
         generateProperties({'style': 'percent'}),
       ),
     ];
 
-    List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
-      int length,
-    ) => List.generate(
+    List<(num, Locale, (Object, NumberFormat Function(Locale locale), JSAny))>
+    selectIndicesFrom(int length) => List.generate(
       length,
       (index) => (
         numbers[random.nextInt(numbers.length)],
@@ -116,17 +104,14 @@ void main() {
       ),
     ).toSet().toList();
 
-    for (final (number, locale, (desc, options, object)) in selectIndicesFrom(
+    for (final (number, locale, (desc, formatter, object)) in selectIndicesFrom(
       1000,
     )) {
       final jsFormat = NumberFormatJS(
         [locale.toLanguageTag().toJS].toJS,
         object,
       ).format(number.toJS);
-      final dartFormat = NumberFormat(
-        locale: locale,
-        options: options,
-      ).format(number);
+      final dartFormat = formatter(locale).format(number);
       expect(
         dartFormat,
         jsFormat,

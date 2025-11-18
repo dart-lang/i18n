@@ -13,7 +13,7 @@ void main() {
     testWithFormatting('always', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(useGrouping: Grouping.always),
+        useGrouping: Grouping.always,
       );
       expect(numberFormatOptions.format(1000), '1,000');
       expect(numberFormatOptions.format(10000), '10,000');
@@ -22,7 +22,7 @@ void main() {
     testWithFormatting('never', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(useGrouping: Grouping.never),
+        useGrouping: Grouping.never,
       );
       expect(numberFormatOptions.format(1000), '1000');
       expect(numberFormatOptions.format(10000), '10000');
@@ -31,7 +31,7 @@ void main() {
     testWithFormatting('auto', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(useGrouping: Grouping.auto),
+        useGrouping: Grouping.auto,
       );
       expect(numberFormatOptions.format(1000), '1,000');
       expect(numberFormatOptions.format(10000), '10,000');
@@ -40,7 +40,7 @@ void main() {
     testWithFormatting('min2', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(useGrouping: Grouping.min2),
+        useGrouping: Grouping.min2,
       );
       expect(numberFormatOptions.format(1000), '1000');
       expect(numberFormatOptions.format(10000), '10,000');
@@ -51,10 +51,8 @@ void main() {
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          minimumIntegerDigits: 5,
-          useGrouping: Grouping.never,
-        ),
+        minimumIntegerDigits: 5,
+        useGrouping: Grouping.never,
       ).format(number);
       expect(formatter(540), '00540');
     });
@@ -62,10 +60,8 @@ void main() {
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          digits: const Digits.withSignificantDigits(maximum: 1),
-          useGrouping: Grouping.never,
-        ),
+        digits: const Digits.withSignificantDigits(maximum: 1),
+        useGrouping: Grouping.never,
       ).format(number);
       expect(formatter(540), '500');
     });
@@ -73,9 +69,7 @@ void main() {
     testWithFormatting('significantDigits', () {
       final numberFormatOptions = NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
-        ),
+        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
       );
 
       expect(numberFormatOptions.format(3), '3');
@@ -87,10 +81,8 @@ void main() {
     testWithFormatting('fractionDigits min', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          minimumIntegerDigits: 3,
-          digits: const Digits.withFractionDigits(minimum: 4),
-        ),
+        minimumIntegerDigits: 3,
+        digits: const Digits.withFractionDigits(minimum: 4),
       ).format(number);
       expect(formatter(4.33), '004.3300');
     });
@@ -98,10 +90,8 @@ void main() {
     testWithFormatting('fractionDigits max', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          minimumIntegerDigits: 3,
-          digits: const Digits.withFractionDigits(maximum: 1),
-        ),
+        minimumIntegerDigits: 3,
+        digits: const Digits.withFractionDigits(maximum: 1),
       ).format(number);
       expect(formatter(4.33), '004.3');
     });
@@ -109,10 +99,8 @@ void main() {
     testWithFormatting('fractionDigits min < max', () {
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          minimumIntegerDigits: 3,
-          digits: const Digits.withFractionDigits(minimum: 4, maximum: 6),
-        ),
+        minimumIntegerDigits: 3,
+        digits: const Digits.withFractionDigits(minimum: 4, maximum: 6),
       ).format(number);
       expect(formatter(4.33), '004.3300');
     });
@@ -133,10 +121,8 @@ void main() {
       }.map((e) => e.toString()).toList();
       String formatter(Object number) => NumberFormat(
         locale: Locale.parse('en-US'),
-        options: NumberFormatOptions.custom(
-          roundingMode: roundingMode,
-          digits: const Digits.withSignificantDigits(maximum: 2),
-        ),
+        roundingMode: roundingMode,
+        digits: const Digits.withSignificantDigits(maximum: 2),
       ).format(number);
       final inputs = [2.23, 2.25, 2.28, -2.23, -2.25, -2.28];
       for (final pairs in IterableZip([inputs, expectation])) {
@@ -153,7 +139,7 @@ void main() {
   group('RoundingPriority', () {
     String formatter(Object number, Digits digits) => NumberFormat(
       locale: Locale.parse('en-US'),
-      options: NumberFormatOptions.custom(digits: digits),
+      digits: digits,
     ).format(number);
     testWithFormatting('lessPrecision', () {
       expect(

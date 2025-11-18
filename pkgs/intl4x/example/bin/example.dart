@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:intl4x/datetime_format.dart';
+import 'package:intl4x/number_format.dart';
 
 void main(List<String> arguments) {
   final timeZone = 'Europe/Paris';
@@ -10,7 +11,7 @@ void main(List<String> arguments) {
 
   print(Locale.system);
 
-  print(DateTimeFormat.d().format(DateTime.now()));
+  print(NumberFormat.compact().format(3.14));
 
   final withTimeZoneLong = DateTimeFormat.ymdt(
     locale: Locale.parse('en'),
