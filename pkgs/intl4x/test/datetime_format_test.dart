@@ -153,7 +153,7 @@ void main() {
     );
 
     testWithFormatting(
-      'fixed timezone',
+      'fixed timezone long generic',
       () => expect(
         ymd.withTimeZoneLongGeneric().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-08:00'),
@@ -161,7 +161,7 @@ void main() {
     );
 
     testWithFormatting(
-      'fixed timezone',
+      'fixed timezone short',
       () => expect(
         ymd.withTimeZoneShort().format(dateTime, 'Etc/GMT+8'),
         matches(r'12/17/2021[,]? GMT-8'),

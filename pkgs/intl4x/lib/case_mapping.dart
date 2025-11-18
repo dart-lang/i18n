@@ -7,7 +7,6 @@ import 'src/locale/locale.dart' show Locale;
 
 export 'src/case_mapping/case_mapping.dart' show CaseMapping;
 export 'src/locale/locale.dart' show Locale;
-export 'src/locale/locale.dart';
 
 extension CaseMappingWithIntl4X on String {
   String toLocaleLowerCase(Locale locale) =>

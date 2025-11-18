@@ -10,14 +10,21 @@ import 'case_mapping_impl.dart';
 /// A locale-sensitive case mapper for transforming strings.
 ///
 /// This class provides methods to convert strings to lowercase or uppercase
-/// based on the current locale. During testing, the input is returned
-/// unchanged.
+/// based on the current locale.
+///
+/// Caution: During testing, the input is returned unchanged.
 class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
+  /// Constructs a [CaseMapping] instance for the given [locale].
+  ///
+  /// If [locale] is not provided, the system's locale is used.
   CaseMapping({Locale? locale})
     : _caseMappingImpl = CaseMappingImpl.build(locale ?? findSystemLocale());
 
+  /// Lowercases the given [input].
+  ///
+  /// This is done using the locale from the constructor.
   String toLowerCase(String input) {
     if (isInTest) {
       return input;
@@ -26,6 +33,9 @@ class CaseMapping {
     }
   }
 
+  /// Uppercases the given [input].
+  ///
+  /// This is done using the locale from the constructor.
   String toUpperCase(String input) {
     if (isInTest) {
       return input;

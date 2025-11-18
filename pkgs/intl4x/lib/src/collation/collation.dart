@@ -40,6 +40,13 @@ class Collation {
   /// alphbetically, but by their value. The
   /// [CollationOptions.caseFirst] parameter sets if upper or lowercase letters
   /// should take preference.
+  ///
+  /// The return value is according to the [Comparable] interface.
+  ///
+  /// Example:
+  /// ```dart
+  /// ['a', 'ä', 'à'].sort(Collation().compare);
+  /// ```
   int compare(String a, String b) {
     if (isInTest) {
       return a.compareTo(b);

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'collation.dart' show Collation;
+import 'src/collation/collation.dart' show Collation;
 import 'src/locale/locale.dart' show Locale;
 
 export 'src/collation/collation.dart' show Collation;
