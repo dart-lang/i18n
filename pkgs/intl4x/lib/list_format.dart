@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'list_format.dart';
+import 'src/list_format/list_format.dart';
+import 'src/list_format/list_format_options.dart';
+import 'src/locale/locale.dart' show Locale;
 
 export 'src/list_format/list_format.dart' show ListFormat;
 export 'src/list_format/list_format_options.dart' show ListStyle, ListType;
