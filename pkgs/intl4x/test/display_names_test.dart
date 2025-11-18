@@ -18,41 +18,41 @@ void main() {
   });
 
   group('language', () {
-    String languageOf(Locale locale, Locale language) =>
+    String ofLanguage(Locale locale, Locale language) =>
         DisplayNames(locale: locale, style: Style.long).ofLanguage(language);
     final en = Locale.parse('en');
     final fr = Locale.parse('fr');
     final de = Locale.parse('de');
     final zh = Locale.parse('zh-Hant');
     testWithFormatting('French', () {
-      expect(languageOf(en, fr), 'French');
+      expect(ofLanguage(en, fr), 'French');
     });
     testWithFormatting('German', () {
-      expect(languageOf(en, de), 'German');
+      expect(ofLanguage(en, de), 'German');
     });
     testWithFormatting('French Canada', () {
-      expect(languageOf(en, Locale.parse('fr-CA')), 'Canadian French');
+      expect(ofLanguage(en, Locale.parse('fr-CA')), 'Canadian French');
     });
     testWithFormatting('Trad Chinese', () {
-      expect(languageOf(en, zh), 'Traditional Mandarin Chinese');
+      expect(ofLanguage(en, zh), 'Traditional Mandarin Chinese');
     }, tags: ['ecmaUnsupported']);
     testWithFormatting('US English', () {
-      expect(languageOf(en, Locale.parse('en-US')), 'American English');
+      expect(ofLanguage(en, Locale.parse('en-US')), 'American English');
     });
     testWithFormatting('Taiwan Chinese', () {
       expect(
-        languageOf(en, Locale.parse('zh-TW')),
+        ofLanguage(en, Locale.parse('zh-TW')),
         'Mandarin Chinese (Taiwan)',
       );
     }, tags: ['ecmaUnsupported']);
     testWithFormatting('French Chinese', () {
-      expect(languageOf(zh, fr), '法文');
+      expect(ofLanguage(zh, fr), '法文');
     });
     testWithFormatting('Chinese', () {
-      expect(languageOf(zh, Locale.parse('zh')), '中文');
+      expect(ofLanguage(zh, Locale.parse('zh')), '中文');
     });
     testWithFormatting('German chinese', () {
-      expect(languageOf(zh, de), '德文');
+      expect(ofLanguage(zh, de), '德文');
     });
   });
 

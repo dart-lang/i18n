@@ -6,7 +6,6 @@ import 'package:icu4x/icu4x.dart' as icu;
 
 import '../locale/locale.dart' show Locale;
 import '../locale/locale_4x.dart';
-import '../options.dart' show Style;
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 
@@ -15,6 +14,7 @@ DisplayNamesImpl getDisplayNames4X(
   DisplayNamesOptions options,
 ) => DisplayNames4X(locale as Locale4x, options);
 
+//TODO(mosum): get more display names from icu4x, some are not exported yet.
 class DisplayNames4X extends DisplayNamesImpl {
   final icu.LocaleDisplayNamesFormatter _formatter;
   final icu.RegionDisplayNames _regionFormatter;
