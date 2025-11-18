@@ -12,48 +12,30 @@ void main() {
   final enUS = Locale.parse('en-US');
   group('List style options', () {
     testWithFormatting('long', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(style: ListStyle.long),
-      );
+      final listFormat = ListFormat(locale: enUS, style: ListStyle.long);
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(style: ListStyle.short),
-      );
+      final listFormat = ListFormat(locale: enUS, style: ListStyle.short);
       expect(listFormat.format(list), 'A, B, & C');
     });
     testWithFormatting('narrow', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(style: ListStyle.narrow),
-      );
+      final listFormat = ListFormat(locale: enUS, style: ListStyle.narrow);
       expect(listFormat.format(list), 'A, B, C');
     });
   });
 
   group('List type options', () {
     testWithFormatting('long', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(type: ListType.and),
-      );
+      final listFormat = ListFormat(locale: enUS, type: ListType.and);
       expect(listFormat.format(list), 'A, B, and C');
     });
     testWithFormatting('short', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(type: ListType.or),
-      );
+      final listFormat = ListFormat(locale: enUS, type: ListType.or);
       expect(listFormat.format(list), 'A, B, or C');
     });
     testWithFormatting('narrow', () {
-      final listFormat = ListFormat(
-        locale: enUS,
-        options: const ListFormatOptions(type: ListType.unit),
-      );
+      final listFormat = ListFormat(locale: enUS, type: ListType.unit);
       expect(listFormat.format(list), 'A, B, C');
     });
   });
@@ -62,20 +44,16 @@ void main() {
     testWithFormatting('long', () {
       final formatter = ListFormat(
         locale: enUS,
-        options: const ListFormatOptions(
-          style: ListStyle.narrow,
-          type: ListType.and,
-        ),
+        style: ListStyle.narrow,
+        type: ListType.and,
       );
       expect(formatter.format(list), 'A, B, C');
     });
     testWithFormatting('short', () {
       final formatter = ListFormat(
         locale: enUS,
-        options: const ListFormatOptions(
-          style: ListStyle.short,
-          type: ListType.unit,
-        ),
+        style: ListStyle.short,
+        type: ListType.unit,
       );
       expect(formatter.format(list), 'A, B, C');
     });

@@ -13,10 +13,11 @@ class ListFormat {
 
   ListFormat({
     Locale? locale,
-    ListFormatOptions options = const ListFormatOptions(),
+    ListType type = ListType.and,
+    ListStyle style = ListStyle.long,
   }) : _listFormatImpl = ListFormatImpl.build(
          locale ?? findSystemLocale(),
-         options,
+         ListFormatOptions(type: type, style: style),
        );
 
   /// Locale-dependant concatenation of lists, for example in `en-US` locale:

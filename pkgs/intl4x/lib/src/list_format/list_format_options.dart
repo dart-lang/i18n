@@ -16,15 +16,7 @@ class ListFormatOptions {
   /// * narrow: "A B C".
   final ListStyle style;
 
-  const ListFormatOptions({
-    this.type = ListType.and,
-    this.style = ListStyle.long,
-  });
-
-  ListFormatOptions copyWith({ListType? type, ListStyle? style}) => ListFormatOptions(
-      type: type ?? this.type,
-      style: style ?? this.style,
-    );
+  const ListFormatOptions({required this.type, required this.style});
 }
 
 /// Indicates the type of grouping.

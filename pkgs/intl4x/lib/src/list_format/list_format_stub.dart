@@ -4,6 +4,7 @@
 
 import '../../list_format.dart';
 import 'list_format_impl.dart';
+import 'list_format_options.dart';
 
 ListFormatImpl getListFormatterECMA(Locale locale, ListFormatOptions options) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');
