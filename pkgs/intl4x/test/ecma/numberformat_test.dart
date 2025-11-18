@@ -108,13 +108,13 @@ void main() {
     List<(num, Locale, (Object, NumberFormatOptions, JSAny))> selectIndicesFrom(
       int length,
     ) => List.generate(
-        length,
-        (index) => (
-          numbers[random.nextInt(numbers.length)],
-          locales[random.nextInt(locales.length)],
-          options[random.nextInt(options.length)],
-        ),
-      ).toSet().toList();
+      length,
+      (index) => (
+        numbers[random.nextInt(numbers.length)],
+        locales[random.nextInt(locales.length)],
+        options[random.nextInt(options.length)],
+      ),
+    ).toSet().toList();
 
     for (final (number, locale, (desc, options, object)) in selectIndicesFrom(
       1000,

@@ -2,13 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../number_format.dart'
-    show
-        DecimalStyle,
-        Digits,
-        NumberFormatOptions,
-        RoundingMode,
-        TrailingZeroDisplay;
+import '../number_format/number_format_options.dart';
 
 export '../../number_format.dart'
     show Digits, RoundingMode, TrailingZeroDisplay;

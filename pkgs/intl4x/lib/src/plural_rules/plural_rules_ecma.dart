@@ -36,9 +36,10 @@ class _PluralRulesECMA extends PluralRulesImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) => PluralRules.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      PluralRules.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   @override
   PluralCategory selectImpl(num number) {
@@ -54,21 +55,21 @@ class _PluralRulesECMA extends PluralRulesImpl {
 
 extension on PluralRulesOptions {
   JSAny toJsOptions() => {
-      'type': type.name,
-      'roundingMode': roundingMode.name,
-      if (digits?.roundingPriority != null)
-        'roundingPriority': digits?.roundingPriority!.name,
-      if (digits?.roundingIncrement != null)
-        'roundingIncrement': digits?.roundingIncrement!,
-      'minimumIntegerDigits': minimumIntegerDigits,
-      if (digits?.fractionDigits.$1 != null)
-        'minimumFractionDigits': digits?.fractionDigits.$1,
-      if (digits?.fractionDigits.$2 != null)
-        'maximumFractionDigits': digits?.fractionDigits.$2,
-      if (digits?.significantDigits.$1 != null)
-        'minimumSignificantDigits': digits?.significantDigits.$1,
-      if (digits?.significantDigits.$2 != null)
-        'maximumSignificantDigits': digits?.significantDigits.$2,
-      'trailingZeroDisplay': trailingZeroDisplay.name,
-    }.jsify()!;
+    'type': type.name,
+    'roundingMode': roundingMode.name,
+    if (digits?.roundingPriority != null)
+      'roundingPriority': digits?.roundingPriority!.name,
+    if (digits?.roundingIncrement != null)
+      'roundingIncrement': digits?.roundingIncrement!,
+    'minimumIntegerDigits': minimumIntegerDigits,
+    if (digits?.fractionDigits.$1 != null)
+      'minimumFractionDigits': digits?.fractionDigits.$1,
+    if (digits?.fractionDigits.$2 != null)
+      'maximumFractionDigits': digits?.fractionDigits.$2,
+    if (digits?.significantDigits.$1 != null)
+      'minimumSignificantDigits': digits?.significantDigits.$1,
+    if (digits?.significantDigits.$2 != null)
+      'maximumSignificantDigits': digits?.significantDigits.$2,
+    'trailingZeroDisplay': trailingZeroDisplay.name,
+  }.jsify()!;
 }

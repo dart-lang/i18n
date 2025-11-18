@@ -38,9 +38,10 @@ class _NumberFormatECMA extends NumberFormatImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) => NumberFormat.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      NumberFormat.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   @override
   String formatImpl(Object number) {

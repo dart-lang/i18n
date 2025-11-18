@@ -35,9 +35,10 @@ class CollationECMA extends CollationImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) => Collator.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      Collator.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   @override
   int compareImpl(String a, String b) {

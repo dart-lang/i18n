@@ -7,7 +7,6 @@ import 'list_format.dart';
 export 'src/list_format/list_format.dart' show ListFormat;
 export 'src/list_format/list_format_options.dart' show ListStyle, ListType;
 export 'src/locale/locale.dart' show Locale;
-export 'src/options.dart';
 
 extension ListFormatIntl4x on List<String> {
   /// Join a list in a locale-dependent manner using `and`-based grouping.
