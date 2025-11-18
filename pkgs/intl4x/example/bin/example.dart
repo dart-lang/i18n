@@ -10,10 +10,11 @@ void main(List<String> arguments) {
 
   print(Locale.system);
 
-  print(DateTimeFormat().d().format(DateTime.now()));
+  print(DateTimeFormat.d().format(DateTime.now()));
 
-  final withTimeZoneLong = DateTimeFormat(locale: Locale.parse('en'))
-      .ymdt(dateStyle: DateFormatStyle.full, timeStyle: TimeFormatStyle.short)
-      .withTimeZoneLong();
+  final withTimeZoneLong = DateTimeFormat.ymdt(
+    locale: Locale.parse('en'),
+    length: DateTimeLength.long,
+  ).withTimeZoneLong();
   print(withTimeZoneLong.format(dateTime, timeZone));
 }
