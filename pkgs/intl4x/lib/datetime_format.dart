@@ -7,12 +7,13 @@ export 'src/datetime_format/datetime_format_impl.dart'
     show DateTimeFormatter, ZonedDateTimeFormatter;
 export 'src/datetime_format/datetime_format_options.dart'
     show
+        Calendar,
         ClockStyle,
         DateTimeAlignment,
         DateTimeLength,
         EnumComparisonOperators,
+        NumberingSystem,
         TimePrecision,
         TimeZoneType,
         YearStyle;
 export 'src/locale/locale.dart' show Locale;
-export 'src/options.dart';

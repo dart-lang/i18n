@@ -9,7 +9,6 @@ export 'src/collation/collation.dart' show Collation;
 export 'src/collation/collation_options.dart'
     show CaseFirst, Sensitivity, Usage;
 export 'src/locale/locale.dart' show Locale;
-export 'src/options.dart';
 
 extension CollationExt on String {
   /// Compare two strings in a locale-dependent manner.

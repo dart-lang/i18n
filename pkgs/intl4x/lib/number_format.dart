@@ -29,4 +29,3 @@ export 'src/number_format/number_format_options.dart'
         Unit,
         UnitDisplay,
         UnitStyle;
-export 'src/options.dart';

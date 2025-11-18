@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../options.dart' show Style;
-export '../options.dart' show Style;
+export '../options.dart' show Calendar, Style;
 
-/// Display names options for the browser.
 class DisplayNamesOptions {
   final Style style;
   final LanguageDisplay languageDisplay;
