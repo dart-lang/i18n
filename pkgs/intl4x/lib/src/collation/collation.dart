@@ -8,9 +8,33 @@ import '../test_checker.dart';
 import 'collation_impl.dart';
 import 'collation_options.dart';
 
+/// Provides locale-sensitive string comparison.
 class Collation {
   final CollationImpl _collationImpl;
 
+  /// Creates a new locale-sensitive string comparator.
+  ///
+  /// The comparison rules are configured using the provided parameters:
+  ///
+  /// * [locale]: The specific locale to use for comparison. If `null`, the
+  ///   system's current locale is determined used.
+  /// * [usage]: Specifies the primary intent for the comparison, either for
+  ///   sorting a list or for searching within text (e.g., ignoring accents).
+  ///   Defaults to [Usage.sort].
+  /// * [sensitivity]: Determines the level of difference required for strings
+  ///   to be considered unequal. For example, controlling whether only
+  ///   base letters, accents, or case are considered. If `null`, the default
+  ///   for the locale is used.
+  /// * [ignorePunctuation]: If `true`, punctuation characters are ignored
+  ///   during comparison. Defaults to `false`.
+  /// * [numeric]: If `true`, treats sequences of digits as numerical values
+  ///   for comparison (e.g., '10' comes after '2'). If `null`, the default
+  ///   for the locale is used.
+  /// * [caseFirst]: Specifies if upper- or lowercase letters should be
+  ///   sorted first. If `null`, the default for the locale is used.
+  /// * [collation]: A specific collation algorithm to use (e.g., 'phonebook'
+  ///   or 'dictionary'). If `null`, the default collation for the locale is
+  ///   used.
   Collation({
     Locale? locale,
     Usage usage = Usage.sort,
