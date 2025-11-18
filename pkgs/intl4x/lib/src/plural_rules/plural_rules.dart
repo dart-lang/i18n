@@ -11,11 +11,23 @@ import 'plural_rules_options.dart';
 class PluralRules {
   final PluralRulesImpl _pluralRulesImpl;
 
-  PluralRules({Locale? locale, PluralRulesOptions? options})
-    : _pluralRulesImpl = PluralRulesImpl.build(
-        locale ?? findSystemLocale(),
-        options ?? PluralRulesOptions(),
-      );
+  PluralRules({
+    Locale? locale,
+    PluralType type = PluralType.cardinal,
+    Digits? digits,
+    RoundingMode roundingMode = RoundingMode.halfExpand,
+    int minimumIntegerDigits = 1,
+    TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
+  }) : _pluralRulesImpl = PluralRulesImpl.build(
+         locale ?? findSystemLocale(),
+         PluralRulesOptions(
+           digits: digits,
+           minimumIntegerDigits: minimumIntegerDigits,
+           roundingMode: roundingMode,
+           trailingZeroDisplay: trailingZeroDisplay,
+           type: type,
+         ),
+       );
 
   /// Locale-dependant pluralization, for example in English:
   ///

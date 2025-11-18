@@ -29,7 +29,7 @@ void main() {
   testWithFormatting('en-US ordinal', () {
     final numberFormatOptions = PluralRules(
       locale: Locale.parse('en-US'),
-      options: PluralRulesOptions(type: PluralType.ordinal),
+      type: PluralType.ordinal,
     );
 
     expect(numberFormatOptions.select(0), PluralCategory.other);

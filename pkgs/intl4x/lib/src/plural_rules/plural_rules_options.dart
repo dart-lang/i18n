@@ -2,9 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../number_format.dart';
+import '../../number_format.dart'
+    show
+        DecimalStyle,
+        Digits,
+        NumberFormatOptions,
+        RoundingMode,
+        TrailingZeroDisplay;
 
-typedef ListStyle = Style;
+export '../../number_format.dart'
+    show Digits, RoundingMode, TrailingZeroDisplay;
 
 class PluralRulesOptions {
   final PluralType type;
@@ -28,12 +35,12 @@ class PluralRulesOptions {
     int? minimumIntegerDigits,
     TrailingZeroDisplay? trailingZeroDisplay,
   }) => PluralRulesOptions(
-      type: type ?? this.type,
-      digits: digits ?? this.digits,
-      roundingMode: roundingMode ?? this.roundingMode,
-      minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
-      trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
-    );
+    type: type ?? this.type,
+    digits: digits ?? this.digits,
+    roundingMode: roundingMode ?? this.roundingMode,
+    minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
+    trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
+  );
 }
 
 /// The number type to use.
