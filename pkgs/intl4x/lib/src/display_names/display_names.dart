@@ -8,9 +8,24 @@ import '../test_checker.dart';
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 
+/// Provides localized names for languages, regions, scripts, and currencies.
+///
+/// This class uses the specified locale and options to format codes (like 'en',
+///  'US') into human-readable strings (like 'English', 'United States').
 class DisplayNames {
   final DisplayNamesImpl _impl;
 
+  /// Creates a new display name formatter configured for a specific locale.
+  ///
+  /// * [locale]: The locale whose language is used to format the names. If
+  ///   `null`, the system's current locale is used.
+  /// * [style]: The desired length of the name, e.g., [Style.long] ('United
+  ///   States') or [Style.short] ('US'). Defaults to [Style.long].
+  /// * [languageDisplay]: Controls how language names are displayed, e.g.,
+  ///   including the dialect or region. Defaults to [LanguageDisplay.dialect].
+  /// * [fallback]: Specifies the behavior if a display name is not available
+  ///   for a code. Defaults to [Fallback.code], which returns the input code
+  ///   itself.
   DisplayNames({
     Locale? locale,
     Style style = Style.long,
@@ -25,8 +40,25 @@ class DisplayNames {
          ),
        );
 
+  /// Returns the localized display name for a given language [locale].
+  ///
+  /// The resulting name is formatted according to the options configured in the
+  /// constructor.
+  ///
+  /// Example:
+  /// ```dart
+  /// DisplayNames(locale: Locale.parse('es')).ofLanguage(Locale.parse('en'));
+  /// ```
+  /// might return "inglés".
   String ofLanguage(Locale locale) => _of(locale, _impl.ofLanguage);
 
+  /// Returns the localized display name for a given **region** code.
+  ///
+  /// Example:
+  /// ```dart
+  /// DisplayNames(locale: Locale.parse('fr')).ofRegion('DE')
+  /// ```
+  /// might return "Allemagne".
   String ofRegion(String regionCode) => _of(regionCode, _impl.ofRegion);
 
   String _of<T>(T object, String Function(T field) implementation) {

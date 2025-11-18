@@ -441,6 +441,7 @@ extension type Date._(JSObject _) implements JSObject {
 
   external factory Date.fromTimeStamp(int timeStamp);
 
+  // UTC is the JS name for this method.
   // ignore: non_constant_identifier_names
   external static int UTC(
     int year,

@@ -135,7 +135,6 @@ final ${type}Options = {
       for (final length in lengthValues) {
         for (final alignment in alignmentValues) {
           for (final yearStyle in yearStyleValues) {
-            // Generate the formatted string for the current combination
             final format = formatter(
               locale: Locale.parse(locale),
               length: length,
@@ -146,7 +145,6 @@ final ${type}Options = {
 
             String keyString;
 
-            // Format the key to be multiline for non-null values for readability
             if (precision != null &&
                 length != null &&
                 alignment != null &&
@@ -154,7 +152,6 @@ final ${type}Options = {
               keyString = '''
 (\n    $precision,\n    $length,\n    $alignment,\n    $yearStyle,\n  )''';
             } else {
-              // Keep null value combinations on a single line
               keyString = '($precision, $length, $alignment, $yearStyle)';
             }
 
