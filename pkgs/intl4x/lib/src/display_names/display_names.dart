@@ -6,15 +6,24 @@ import '../find_locale.dart' show findSystemLocale;
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'display_names_impl.dart';
-import 'display_names_options.dart' show DisplayNamesOptions;
+import 'display_names_options.dart';
 
 class DisplayNames {
   final DisplayNamesImpl _impl;
 
   DisplayNames({
     Locale? locale,
-    DisplayNamesOptions options = const DisplayNamesOptions(),
-  }) : _impl = DisplayNamesImpl.build(locale ?? findSystemLocale(), options);
+    Style style = Style.long,
+    LanguageDisplay languageDisplay = LanguageDisplay.dialect,
+    Fallback fallback = Fallback.code,
+  }) : _impl = DisplayNamesImpl.build(
+         locale ?? findSystemLocale(),
+         DisplayNamesOptions(
+           style: style,
+           languageDisplay: languageDisplay,
+           fallback: fallback,
+         ),
+       );
 
   String ofLanguage(Locale locale) => _of(locale, _impl.ofLanguage);
 

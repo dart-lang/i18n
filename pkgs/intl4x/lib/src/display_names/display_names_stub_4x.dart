@@ -5,6 +5,7 @@
 import '../../display_names.dart';
 
 import 'display_names_impl.dart';
+import 'display_names_options.dart';
 
 DisplayNamesImpl getDisplayNames4X(
   Locale locale,
