@@ -15,16 +15,6 @@ DateTimeFormatImpl getDateTimeFormatterECMA(Locale locale, Null options) =>
     _DateTimeFormatECMA.tryToBuild(locale);
 
 extension type _DateTimeJSOptions(JSAny _options) {
-  // final DateTimeLength? year;
-  // final DateTimeLength? month;
-  // final DateTimeLength? day;
-  // final DateTimeLength? hour;
-  // final DateTimeLength? minute;
-  // final DateTimeLength? second;
-  // final String? timeZone;
-  // final TimeZoneType? timeZoneType;
-  // final Style? weekday;
-
   _DateTimeJSOptions.from({
     YearStyle? yearStyle,
     _TimeStyle? year,
@@ -78,7 +68,6 @@ extension type _DateTimeJSOptions(JSAny _options) {
     if (second != null) 'second': second.jsName,
     if (fractionalSecondDigits != null)
       'fractionalSecondDigits': fractionalSecondDigits,
-    //  'formatMatcher': formatMatcher.jsName,
   }.jsify()!;
 }
 
