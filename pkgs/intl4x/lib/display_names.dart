@@ -37,5 +37,5 @@ import 'display_names.dart';
 
 export 'src/display_names/display_names.dart' show DisplayNames;
 export 'src/display_names/display_names_options.dart'
-    show DateTimeField, DisplayType, Fallback, LanguageDisplay, Style;
+    show DisplayType, Fallback, LanguageDisplay, Style;
 export 'src/locale/locale.dart' show Locale;

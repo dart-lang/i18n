@@ -32,17 +32,3 @@ enum DisplayType { calendar, currency, dateTimeField, language, region, script }
 enum LanguageDisplay { dialect, standard }
 
 enum Fallback { code, none }
-
-enum DateTimeField {
-  era,
-  year,
-  month,
-  quarter,
-  weekOfYear,
-  weekday,
-  dayPeriod,
-  day,
-  hour,
-  minute,
-  second,
-}

@@ -13,9 +13,9 @@ void main(List<String> arguments) {
 
   print(NumberFormat.compact().format(3.14));
 
-  final withTimeZoneLong = DateTimeFormat.ymdt(
+  final formatter = DateTimeFormat.ymdt(
     locale: Locale.parse('en'),
     length: DateTimeLength.long,
   ).withTimeZoneLong();
-  print(withTimeZoneLong.format(dateTime, timeZone));
+  print(formatter.format(dateTime, timeZone));
 }

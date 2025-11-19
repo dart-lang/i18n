@@ -11,14 +11,8 @@ import 'datetime_format_options.dart';
 ///
 /// ```dart
 /// final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
-/// Intl(locale: Locale.parse('fr'))
-///     .datetimeFormat(const DateTimeFormatOptions(
-///       hour: TimeRepresentation.numeric,
-///       hourCycle: HourCycle.h12,
-///       dayPeriod: DayPeriod.narrow,
-///       timeZone: 'UTC',
-///     ))
-///     .format(date); // Output: '4 mat.'
+/// DateTimeFormat.t(locale: Locale.parse('fr'))
+///   .format(dateTime); // Output: '4 mat.'
 /// ```
 class DateTimeFormat {
   static DateTimeFormatter d({
