@@ -18,13 +18,13 @@ import 'datetime_format_conformance_data/ymdt.g.dart';
 import 'utils.dart';
 
 void main() {
-  testFormatter('ymdet', ymdetOptions, DateTimeFormat.ymdet);
-  testFormatter('ymdt', ymdtOptions, DateTimeFormat.ymdt);
+  testFormatter('ymdet', ymdetOptions, DateTimeFormat.yearMonthDayWeekdayTime);
+  testFormatter('ymdt', ymdtOptions, DateTimeFormat.yearMonthDayTime);
   testFormatter(
     'ymde',
     ymdeOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.ymde(
+        DateTimeFormat.yearMonthDayWeekday(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -35,7 +35,7 @@ void main() {
     'ymd',
     ymdOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -46,7 +46,7 @@ void main() {
     'mdt',
     mdtOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.mdt(
+        DateTimeFormat.monthDayTime(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -57,29 +57,42 @@ void main() {
     'md',
     mdOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.md(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.monthDay(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
   );
   testFormatter(
     'm',
     mOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.m(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.month(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
   );
   testFormatter(
     'd',
     dOptions,
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.d(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.day(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
   );
   testFormatter(
     't',
     tOptions,
-    ({locale, alignment, length, timePrecision, yearStyle}) => DateTimeFormat.t(
-      locale: locale,
-      alignment: alignment,
-      length: length,
-      timePrecision: timePrecision,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.time(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          timePrecision: timePrecision,
+        ),
   );
 }
 

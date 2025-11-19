@@ -13,7 +13,7 @@ void main(List<String> arguments) {
 
   print(NumberFormat.compact().format(3.14));
 
-  final formatter = DateTimeFormat.ymdt(
+  final formatter = DateTimeFormat.yearMonthDayTime(
     locale: Locale.parse('en'),
     length: DateTimeLength.long,
   ).withTimeZoneLong();

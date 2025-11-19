@@ -9,12 +9,12 @@ import 'package:intl4x/datetime_format.dart';
 
 void main() {
   final localeString = ['en-US', 'de-DE'];
-  writeFor('ymdet', DateTimeFormat.ymdet, localeString);
-  writeFor('ymdt', DateTimeFormat.ymdt, localeString);
+  writeFor('ymdet', DateTimeFormat.yearMonthDayWeekdayTime, localeString);
+  writeFor('ymdt', DateTimeFormat.yearMonthDayTime, localeString);
   writeFor(
     'mdt',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.mdt(
+        DateTimeFormat.monthDayTime(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -25,7 +25,7 @@ void main() {
   writeFor(
     'ymde',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.ymde(
+        DateTimeFormat.yearMonthDayWeekday(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -36,7 +36,7 @@ void main() {
   writeFor(
     'ymd',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -47,7 +47,7 @@ void main() {
   writeFor(
     'ymde',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.ymde(
+        DateTimeFormat.yearMonthDayWeekday(
           locale: locale,
           alignment: alignment,
           length: length,
@@ -57,40 +57,54 @@ void main() {
   );
   writeFor(
     'y',
-    ({locale, alignment, length, timePrecision, yearStyle}) => DateTimeFormat.y(
-      locale: locale,
-      alignment: alignment,
-      length: length,
-      yearStyle: yearStyle,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.year(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          yearStyle: yearStyle,
+        ),
     localeString,
   );
   writeFor(
     't',
-    ({locale, alignment, length, timePrecision, yearStyle}) => DateTimeFormat.t(
-      locale: locale,
-      alignment: alignment,
-      length: length,
-      timePrecision: timePrecision,
-    ),
+    ({locale, alignment, length, timePrecision, yearStyle}) =>
+        DateTimeFormat.time(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+          timePrecision: timePrecision,
+        ),
     localeString,
   );
   writeFor(
     'md',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.md(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.monthDay(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
     localeString,
   );
   writeFor(
     'm',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.m(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.month(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
     localeString,
   );
   writeFor(
     'd',
     ({locale, alignment, length, timePrecision, yearStyle}) =>
-        DateTimeFormat.d(locale: locale, alignment: alignment, length: length),
+        DateTimeFormat.day(
+          locale: locale,
+          alignment: alignment,
+          length: length,
+        ),
     localeString,
   );
 }

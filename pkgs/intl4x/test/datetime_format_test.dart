@@ -13,21 +13,21 @@ void main() {
     testWithFormatting(
       'd',
       () => expect(
-        DateTimeFormat.d(locale: Locale.parse('en-US')).format(dateTime),
+        DateTimeFormat.day(locale: Locale.parse('en-US')).format(dateTime),
         '20',
       ),
     );
     testWithFormatting(
       'm',
       () => expect(
-        DateTimeFormat.m(locale: Locale.parse('en-US')).format(dateTime),
+        DateTimeFormat.month(locale: Locale.parse('en-US')).format(dateTime),
         '12',
       ),
     );
     testWithFormatting(
       'y',
       () => expect(
-        DateTimeFormat.y(
+        DateTimeFormat.year(
           locale: Locale.parse('en-US'),
           yearStyle: YearStyle.full,
         ).format(dateTime),
@@ -37,14 +37,14 @@ void main() {
     testWithFormatting(
       'md',
       () => expect(
-        DateTimeFormat.md(locale: Locale.parse('en-US')).format(dateTime),
+        DateTimeFormat.monthDay(locale: Locale.parse('en-US')).format(dateTime),
         '12/20',
       ),
     );
     testWithFormatting(
       'ymd',
       () => expect(
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           yearStyle: YearStyle.full,
         ).format(dateTime),
@@ -54,7 +54,7 @@ void main() {
     testWithFormatting(
       'ymdt',
       () => expect(
-        DateTimeFormat.ymdt(
+        DateTimeFormat.yearMonthDayTime(
           locale: Locale.parse('en-US'),
           timePrecision: TimePrecision.hour,
           yearStyle: YearStyle.full,
@@ -65,7 +65,7 @@ void main() {
     testWithFormatting(
       'ymdet',
       () => expect(
-        DateTimeFormat.ymdet(
+        DateTimeFormat.yearMonthDayWeekdayTime(
           locale: Locale.parse('en-US'),
           timePrecision: TimePrecision.hour,
           yearStyle: YearStyle.full,
@@ -76,7 +76,7 @@ void main() {
     testWithFormatting(
       'time',
       () => expect(
-        DateTimeFormat.t(
+        DateTimeFormat.time(
           locale: Locale.parse('en-US'),
           timePrecision: TimePrecision.hour,
         ).format(dateTime),
@@ -87,7 +87,7 @@ void main() {
 
   group('timezone ymd', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
-    final ymd = DateTimeFormat.ymd(
+    final ymd = DateTimeFormat.yearMonthDay(
       locale: Locale.parse('en-US'),
       yearStyle: YearStyle.full,
     );
@@ -104,7 +104,7 @@ void main() {
     testWithFormatting(
       'short with era',
       () => expect(
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           yearStyle: YearStyle.withEra,
         ).withTimeZoneShort().format(dateTime, timeZone),
@@ -179,7 +179,7 @@ void main() {
 
   group('timezone ymdt', () {
     final dateTime = DateTime(2021, 12, 17, 3, 0, 42);
-    final ymdt = DateTimeFormat.ymdt(
+    final ymdt = DateTimeFormat.yearMonthDayTime(
       locale: Locale.parse('en-US'),
       timePrecision: TimePrecision.hour,
       yearStyle: YearStyle.full,
@@ -234,7 +234,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        DateTimeFormat.t(locale: Locale.parse('en-GB')).format(dateTime),
+        DateTimeFormat.time(locale: Locale.parse('en-GB')).format(dateTime),
         '4 at night',
       ),
     );
@@ -242,7 +242,7 @@ void main() {
     testWithFormatting(
       'narrow',
       () => expect(
-        DateTimeFormat.t(locale: Locale.parse('fr')).format(dateTime),
+        DateTimeFormat.time(locale: Locale.parse('fr')).format(dateTime),
         '4 mat.',
       ),
     );
@@ -250,7 +250,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        DateTimeFormat.t(locale: Locale.parse('fr')).format(dateTime),
+        DateTimeFormat.time(locale: Locale.parse('fr')).format(dateTime),
         '4 du matin',
       ),
     );
@@ -261,7 +261,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           length: DateTimeLength.short,
         ).format(dateTime),
@@ -271,7 +271,7 @@ void main() {
     testWithFormatting(
       'medium',
       () => expect(
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           length: DateTimeLength.medium,
         ).format(dateTime),
@@ -281,7 +281,7 @@ void main() {
     testWithFormatting(
       'long',
       () => expect(
-        DateTimeFormat.ymd(
+        DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           length: DateTimeLength.long,
         ).format(dateTime),
@@ -296,7 +296,7 @@ void main() {
     testWithFormatting(
       'short',
       () => expect(
-        DateTimeFormat.t(
+        DateTimeFormat.time(
           locale: Locale.parse('en-US'),
           timePrecision: TimePrecision.minute,
         ).format(dateTime),
@@ -306,7 +306,7 @@ void main() {
     testWithFormatting(
       'medium',
       () => expect(
-        DateTimeFormat.t(locale: Locale.parse('en-US')).format(dateTime),
+        DateTimeFormat.time(locale: Locale.parse('en-US')).format(dateTime),
         matches(r'^4:00:00\sAM$'),
       ),
     );
@@ -317,7 +317,9 @@ void main() {
     testWithFormatting(
       'medium short',
       () => expect(
-        DateTimeFormat.ymdt(locale: Locale.parse('en-US')).format(dateTime),
+        DateTimeFormat.yearMonthDayTime(
+          locale: Locale.parse('en-US'),
+        ).format(dateTime),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
@@ -330,7 +332,7 @@ void main() {
       testWithFormatting(
         'calendar - chinese',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
             ).withCalendar(Calendar.traditionalChinese),
@@ -342,7 +344,7 @@ void main() {
       testWithFormatting(
         'calendar - japanese',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse('en-US').withCalendar(Calendar.japanese),
           ).format(dateTime),
           '6/18/7 R',
@@ -352,7 +354,7 @@ void main() {
       testWithFormatting(
         'calendar - islamic',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse('ar').withCalendar(Calendar.hijriCivil),
           ).format(dateTime),
           // Dhu al-Hijjah 12, 1446 AH
@@ -365,7 +367,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - arab',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
             ).withNumberingSystem(NumberingSystem.arab),
@@ -377,7 +379,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - devanagari in locale',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
             ).withNumberingSystem(NumberingSystem.deva),
@@ -389,7 +391,7 @@ void main() {
       testWithFormatting(
         'numberingSystem - thai',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
             ).withNumberingSystem(NumberingSystem.thai),
@@ -403,7 +405,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 24-hour',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse(
               'en-US',
             ).withHourCycle(ClockStyle.zeroToTwentyThree),
@@ -416,7 +418,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
             timePrecision: TimePrecision.minute,
             length: DateTimeLength.medium,
@@ -429,7 +431,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour, startAtZero true (0 AM)',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
           ).format(DateTime(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
@@ -440,7 +442,7 @@ void main() {
       testWithFormatting(
         'clockstyle - 12-hour, startAtZero false (12 AM)',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
           ).format(DateTime(2025, 6, 18, 0, 30, 0)),
           '12:30 at night',
@@ -453,7 +455,7 @@ void main() {
       testWithFormatting(
         'year - numeric',
         () => expect(
-          DateTimeFormat.y(
+          DateTimeFormat.year(
             locale: Locale.parse('en-US'),
             yearStyle: YearStyle.full,
           ).format(dateTime),
@@ -464,7 +466,7 @@ void main() {
       testWithFormatting(
         'month - twodigit',
         () => expect(
-          DateTimeFormat.md(
+          DateTimeFormat.monthDay(
             locale: Locale.parse('en-US'),
           ).format(DateTime(2025, 6, 18)),
           '6/18',
@@ -474,7 +476,7 @@ void main() {
       testWithFormatting(
         'month - narrow',
         () => expect(
-          DateTimeFormat.md(
+          DateTimeFormat.monthDay(
             locale: Locale.parse('en-US'),
           ).format(DateTime(2025, 1, 18)), // January
           '1/18',
@@ -484,7 +486,7 @@ void main() {
       testWithFormatting(
         'day - twodigit',
         () => expect(
-          DateTimeFormat.md(
+          DateTimeFormat.monthDay(
             locale: Locale.parse('en-US'),
             alignment: DateTimeAlignment.column,
           ).format(DateTime(2025, 6, 8)),
@@ -495,7 +497,7 @@ void main() {
       testWithFormatting(
         'hour - twodigit',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
             timePrecision: TimePrecision.minute,
           ).format(DateTime(2025, 6, 18, 7, 30, 0)),
@@ -506,7 +508,7 @@ void main() {
       testWithFormatting(
         'minute - twodigit',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
             timePrecision: TimePrecision.minute,
           ).format(DateTime(2025, 6, 18, 7, 5, 0)),
@@ -519,7 +521,7 @@ void main() {
       testWithFormatting(
         'fractionalSecondDigits - 1 digit',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
             timePrecision: TimePrecision.subsecond1,
           ).format(DateTime(2025, 6, 18, 10, 30, 45, 123)),
@@ -530,7 +532,7 @@ void main() {
       testWithFormatting(
         'fractionalSecondDigits - 3 digits',
         () => expect(
-          DateTimeFormat.t(
+          DateTimeFormat.time(
             locale: Locale.parse('en-US'),
             timePrecision: TimePrecision.subsecond3,
           ).format(DateTime(2025, 6, 18, 10, 30, 45, 123)),
@@ -543,7 +545,7 @@ void main() {
       testWithFormatting(
         'formatMatcher - basic',
         () => expect(
-          DateTimeFormat.ymd(
+          DateTimeFormat.yearMonthDay(
             locale: Locale.parse('en-US'),
           ).format(DateTime(2025, 6, 18)),
           '6/18/25',
@@ -559,7 +561,7 @@ void main() {
       testWithFormatting(
         'timeZone long + hour numeric + minute twodigit',
         () => expect(
-          DateTimeFormat.t(locale: Locale.parse('en-US'))
+          DateTimeFormat.time(locale: Locale.parse('en-US'))
               .withTimeZoneLong()
               .format(DateTime.utc(2025, 6, 18, 10, 30, 0), 'America/New_York'),
           matches(r'^10:30\sAM Eastern Daylight Time$'),
@@ -571,7 +573,7 @@ void main() {
       testWithFormatting(
         'French locale - long date, short time',
         () => expect(
-          DateTimeFormat.ymdt(
+          DateTimeFormat.yearMonthDayTime(
             locale: Locale.parse('fr-FR'),
             length: DateTimeLength.long,
             timePrecision: TimePrecision.minute,
@@ -583,7 +585,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ECMA',
         () => expect(
-          DateTimeFormat.ymdet(
+          DateTimeFormat.yearMonthDayWeekdayTime(
             locale: Locale.parse('de-DE'),
             length: DateTimeLength.long,
           ).format(dateTime),
@@ -594,7 +596,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ICU4X',
         () => expect(
-          DateTimeFormat.ymdet(
+          DateTimeFormat.yearMonthDayWeekdayTime(
             locale: Locale.parse('de-DE'),
             length: DateTimeLength.long,
           ).format(dateTime),
@@ -604,7 +606,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ICU4X2',
         () => expect(
-          DateTimeFormat.ymdet(
+          DateTimeFormat.yearMonthDayWeekdayTime(
             locale: Locale.parse('de-DE'),
             length: DateTimeLength.long,
             timePrecision: TimePrecision.hour,
@@ -616,7 +618,7 @@ void main() {
       testWithFormatting(
         'German locale - full date, medium time, 24-hour clock ICU4X3',
         () => expect(
-          DateTimeFormat.ymdet(
+          DateTimeFormat.yearMonthDayWeekdayTime(
             locale: Locale.parse('de-DE'),
             length: DateTimeLength.short,
           ).format(dateTime),

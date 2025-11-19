@@ -15,7 +15,7 @@ import 'datetime_format_options.dart';
 ///   .format(dateTime); // Output: '4 mat.'
 /// ```
 class DateTimeFormat {
-  static DateTimeFormatter d({
+  static DateTimeFormatter day({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -23,7 +23,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).d(alignment: alignment, length: length);
 
-  static DateTimeFormatter m({
+  static DateTimeFormatter month({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -31,7 +31,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).m(alignment: alignment, length: length);
 
-  static DateTimeFormatter md({
+  static DateTimeFormatter monthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -39,7 +39,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).md(alignment: alignment, length: length);
 
-  static DateTimeFormatter y({
+  static DateTimeFormatter year({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -48,7 +48,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).y(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  static DateTimeFormatter ymd({
+  static DateTimeFormatter yearMonthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -57,7 +57,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).ymd(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  static DateTimeFormatter ymde({
+  static DateTimeFormatter yearMonthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -66,7 +66,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).ymde(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  static DateTimeFormatter mdt({
+  static DateTimeFormatter monthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -75,7 +75,7 @@ class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).mdt(alignment: alignment, length: length, timePrecision: timePrecision);
 
-  static DateTimeFormatter ymdt({
+  static DateTimeFormatter yearMonthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -88,7 +88,7 @@ class DateTimeFormat {
     yearStyle: yearStyle,
   );
 
-  static DateTimeFormatter ymdet({
+  static DateTimeFormatter yearMonthDayWeekdayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -101,7 +101,7 @@ class DateTimeFormat {
     yearStyle: yearStyle,
   );
 
-  static DateTimeFormatter t({
+  static DateTimeFormatter time({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
