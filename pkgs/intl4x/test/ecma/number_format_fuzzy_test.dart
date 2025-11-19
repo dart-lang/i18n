@@ -22,43 +22,6 @@ extension type NumberFormatJS._(JSObject _) implements JSObject {
 JSAny generateProperties(Map<String, Object> properties) => properties.jsify()!;
 
 void main() {
-  group('Some manual tests', () {
-    testWithFormatting('significantDigits', () {
-      final numberFormatOptions = NumberFormat(
-        locale: Locale.parse('en-US'),
-        digits: const Digits.withSignificantDigits(minimum: 1, maximum: 3),
-      );
-
-      expect(numberFormatOptions.format(3), '3');
-      expect(numberFormatOptions.format(3.1), '3.1');
-      expect(numberFormatOptions.format(3.12), '3.12');
-      expect(numberFormatOptions.format(3.123), '3.12');
-    });
-
-    testWithFormatting('fractionDigits', () {
-      String formatter(Object number) => NumberFormat(
-        locale: Locale.parse('en-US'),
-        minimumIntegerDigits: 3,
-        digits: const Digits.withFractionDigits(minimum: 4),
-      ).format(number);
-      expect(formatter(4.33), '004.3300');
-    });
-
-    testWithFormatting('percent', () {
-      expect(
-        NumberFormat.percent(locale: Locale.parse('en-US')).format(4.33),
-        '433%',
-      );
-    });
-
-    testWithFormatting('compact', () {
-      expect(
-        NumberFormat.compact(locale: Locale.parse('en-US')).format(4.33),
-        '4.3',
-      );
-    });
-  });
-
   testWithFormatting('Some fuzzy testing', () {
     final seed = Random().nextInt(1 << 31);
     print('Seed: $seed');

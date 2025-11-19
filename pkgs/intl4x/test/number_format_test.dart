@@ -169,4 +169,20 @@ void main() {
       );
     });
   });
+
+  group('Some manual tests', () {
+    testWithFormatting('percent', () {
+      expect(
+        NumberFormat.percent(locale: Locale.parse('en-US')).format(4.33),
+        '433%',
+      );
+    });
+
+    testWithFormatting('compact', () {
+      expect(
+        NumberFormat.compact(locale: Locale.parse('en-US')).format(4.33),
+        '4.3',
+      );
+    });
+  }, tags: ['icu4xUnimplemented']);
 }
