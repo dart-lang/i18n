@@ -1,7 +1,6 @@
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/plural_rules.dart';
 import 'package:test/test.dart';
 
@@ -9,9 +8,7 @@ import 'utils.dart';
 
 void main() {
   testWithFormatting('en-US simple', () {
-    final numberFormatOptions = Intl(
-      locale: Locale.parse('en-US'),
-    ).plural(PluralRulesOptions());
+    final numberFormatOptions = PluralRules(locale: Locale.parse('en-US'));
 
     expect(numberFormatOptions.select(0), PluralCategory.other);
     expect(numberFormatOptions.select(1), PluralCategory.one);
@@ -20,9 +17,7 @@ void main() {
   });
 
   testWithFormatting('ar-EG simple', () {
-    final numberFormatOptions = Intl(
-      locale: Locale.parse('ar-EG'),
-    ).plural(PluralRulesOptions());
+    final numberFormatOptions = PluralRules(locale: Locale.parse('ar-EG'));
 
     expect(numberFormatOptions.select(0), PluralCategory.zero);
     expect(numberFormatOptions.select(1), PluralCategory.one);
@@ -32,9 +27,10 @@ void main() {
   });
 
   testWithFormatting('en-US ordinal', () {
-    final numberFormatOptions = Intl(
+    final numberFormatOptions = PluralRules(
       locale: Locale.parse('en-US'),
-    ).plural(PluralRulesOptions(type: Type.ordinal));
+      type: PluralType.ordinal,
+    );
 
     expect(numberFormatOptions.select(0), PluralCategory.other);
     expect(numberFormatOptions.select(1), PluralCategory.one);

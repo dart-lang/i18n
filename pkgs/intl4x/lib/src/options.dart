@@ -4,28 +4,51 @@
 
 enum Calendar {
   buddhist,
-  chinese,
+  traditionalChinese('chinese'),
   coptic,
-  dangi,
+  traditionalKorean('dangi'),
   ethiopianAmeteAlem('ethioaa'),
   ethiopian('ethiopic'),
   gregorian('gregory'),
   hebrew,
   indian,
-  islamicUmalqura('islamic-umalqura'),
-  islamicTbla('islamic-tbla'),
-  islamicCivil('islamic-civil'),
-  islamicRgsa('islamic-rgsa'),
-  iso8601,
+  hijriUmalqura('islamic-umalqura'),
+  hijriTbla('islamic-tbla'),
+  hijriCivil('islamic-civil'),
   japanese,
   persian,
-  roc;
+  minguo('roc');
 
   String get jsName => _jsName ?? name;
 
   final String? _jsName;
 
   const Calendar([this._jsName]);
+}
+
+enum NumberingSystem {
+  arab,
+  arabext,
+  bali,
+  beng,
+  deva,
+  fullwide,
+  gujr,
+  guru,
+  hanidec,
+  khmr,
+  knda,
+  laoo,
+  latn,
+  limb,
+  mlym,
+  mong,
+  mymr,
+  orya,
+  tamldec,
+  telu,
+  thai,
+  tibt,
 }
 
 enum Style { narrow, short, long }

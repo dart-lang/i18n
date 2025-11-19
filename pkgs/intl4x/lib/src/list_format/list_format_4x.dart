@@ -17,18 +17,16 @@ class ListFormat4X extends ListFormatImpl {
     : _formatter = _getFormatter(locale, options);
 
   @override
-  String formatImpl(List<String> list) {
-    return _formatter.format(list);
-  }
+  String formatImpl(List<String> list) => _formatter.format(list);
 
   static icu.ListFormatter _getFormatter(
     Locale4x locale,
     ListFormatOptions options,
   ) {
     final constructor = switch (options.type) {
-      Type.and => icu.ListFormatter.andWithLength,
-      Type.or => icu.ListFormatter.orWithLength,
-      Type.unit => icu.ListFormatter.unitWithLength,
+      ListType.and => icu.ListFormatter.andWithLength,
+      ListType.or => icu.ListFormatter.orWithLength,
+      ListType.unit => icu.ListFormatter.unitWithLength,
     };
     return constructor(locale.get4X, options.style.toX);
   }
