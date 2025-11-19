@@ -17,6 +17,11 @@ import 'time_formatter.dart';
 DateTimeFormatImpl getDateTimeFormatter4X(Locale locale, Null options) =>
     DateTimeFormat4X(locale as Locale4x);
 
+/// Delegates either to an [DateFormatterX], a [DateTimeFormatterX], or the
+/// [TimeFormatterX].
+///
+/// This layer is needed as the [DateTimeFormatImpl] is implemented both for
+/// native and for ECMA, and it in turn delegates to the abovementioned classes.
 class DateTimeFormat4X extends DateTimeFormatImpl {
   DateTimeFormat4X(Locale4x super.locale);
 

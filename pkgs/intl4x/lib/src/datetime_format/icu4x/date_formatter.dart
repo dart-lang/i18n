@@ -8,6 +8,7 @@ import '../datetime_format_impl.dart';
 import '../datetime_format_options.dart';
 import 'datetime_format_4x.dart';
 
+/// Wraps an [icu.DateFormatter]
 class DateFormatterX extends FormatterImpl {
   final icu.DateFormatter formatter;
   final DateTimeFormatImpl impl;
@@ -118,6 +119,7 @@ class DateFormatterX extends FormatterImpl {
       DateFormatterZonedX.longGeneric(this);
 }
 
+/// Wraps an [icu.ZonedDateFormatter]
 class DateFormatterZonedX extends FormatterZonedImpl {
   final DateFormatterX dateFormatter;
   final icu.ZonedDateFormatter formatter;
