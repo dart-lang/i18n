@@ -1,3 +1,13 @@
+## 0.15.0
+
+- API overhaul:
+  - Getting rid of the Intl object, as it only served as a wrapper of Locale. So the ...Format objects are now the top-level things.
+  - Remove most ...Options objects from the public API, as they make it more verbose. Users now directly input the options to the top-level ...Format constructor.
+  - Use => instead of block bodies for methods where possible.
+  - Fix some imports
+  - Add documentation to some classes (more to follow!)
+  - Remove some methods which are not implemented in ICU4X
+
 ## 0.14.0
 
 - Change timezone API, adding a dependency on package:timezone.
