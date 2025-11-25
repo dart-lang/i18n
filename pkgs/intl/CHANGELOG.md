@@ -5,6 +5,8 @@
  * Fix parsing of locale strings containing script codes in `verifiedLocale`.
    For example, `zh-Hans-CN` would have been previously parsed as `zh`, but is
    now parsed as `zh_CN`.
+ * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`  
+   from "GHS" to "GH₵(U+20B5)".
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
