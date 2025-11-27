@@ -2,66 +2,111 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../datetime_format.dart';
-import 'datetime_format_impl.dart';
+import '../find_locale.dart';
+import '../locale/locale.dart' show Locale;
+import 'datetime_format_impl.dart' show DateTimeFormatImpl, DateTimeFormatter;
+import 'datetime_format_options.dart';
 
 /// `DateTime` formatting, for example:
 ///
 /// ```dart
 /// final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
-/// Intl(locale: Locale.parse('fr'))
-///     .datetimeFormat(const DateTimeFormatOptions(
-///       hour: TimeRepresentation.numeric,
-///       hourCycle: HourCycle.h12,
-///       dayPeriod: DayPeriod.narrow,
-///       timeZone: 'UTC',
-///     ))
-///     .format(date); // Output: '4 mat.'
+/// DateTimeFormat.t(locale: Locale.parse('fr'))
+///   .format(dateTime); // Output: '4 mat.'
 /// ```
-class DateTimeFormatBuilder {
-  final DateTimeFormatImpl _impl;
+class DateTimeFormat {
+  static DateTimeFormatter day({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).d(alignment: alignment, length: length);
 
-  DateTimeFormatBuilder._(this._impl);
+  static DateTimeFormatter month({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).m(alignment: alignment, length: length);
 
-  DateTimeFormatter d({DateFormatStyle? dateStyle}) =>
-      _impl.d(dateStyle: dateStyle);
+  static DateTimeFormatter monthDay({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).md(alignment: alignment, length: length);
 
-  DateTimeFormatter m({DateFormatStyle? dateStyle}) =>
-      _impl.m(dateStyle: dateStyle);
+  static DateTimeFormatter year({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).y(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  DateTimeFormatter y({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.y(dateStyle: dateStyle, withEra: withEra);
+  static DateTimeFormatter yearMonthDay({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).ymd(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  DateTimeFormatter md({DateFormatStyle? dateStyle}) =>
-      _impl.md(dateStyle: dateStyle);
+  static DateTimeFormatter yearMonthDayWeekday({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).ymde(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  DateTimeFormatter ymd({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.ymd(dateStyle: dateStyle, withEra: withEra);
+  static DateTimeFormatter monthDayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).mdt(alignment: alignment, length: length, timePrecision: timePrecision);
 
-  DateTimeFormatter ymde({DateFormatStyle? dateStyle, bool withEra = false}) =>
-      _impl.ymde(dateStyle: dateStyle, withEra: withEra);
+  static DateTimeFormatter yearMonthDayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdt(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
 
-  DateTimeFormatter mdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-  }) => _impl.mdt(timeStyle: timeStyle, dateStyle: dateStyle);
+  static DateTimeFormatter yearMonthDayWeekdayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdet(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
 
-  DateTimeFormatter ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) =>
-      _impl.ymdt(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
-
-  DateTimeFormatter ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra = false,
-  }) =>
-      _impl.ymdet(timeStyle: timeStyle, dateStyle: dateStyle, withEra: withEra);
-
-  DateTimeFormatter t({TimeFormatStyle? style}) => _impl.t(style: style);
+  static DateTimeFormatter time({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).t(alignment: alignment, length: length, timePrecision: timePrecision);
 }
-
-DateTimeFormatBuilder buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormatBuilder._(impl);

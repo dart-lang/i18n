@@ -9,16 +9,17 @@ A lightweight modular library for internationalization (i18n) functionality.
 * Formatting for dates, numbers, and lists. 
 * Collation.
 * Display names.
+* Plural rules.
 
 ## Status - experimental
 
 We're actively iterating on the API for this package (please provide feedback
 via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
-|   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules | Case mapping |
+|   | Number format | List format | Date format | Collation | Display names | Plural rules | Case mapping |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **ICU4X (web/native)**  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **ECMA402 (web)** | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| **ICU4X (web/native)**  | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ## Implementation and Goals
 

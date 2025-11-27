@@ -25,28 +25,18 @@ class Collation4X extends CollationImpl {
   int compareImpl(String a, String b) => _collator.compare(a, b);
 }
 
-const _numericExtensionKey = 'kn';
-final _caseFirstExtensionKey = 'kf';
-
 extension on icu.Locale {
   void setOptions(CollationOptions options) {
-    final icuNumeric = switch (options.numeric) {
-      true => icu.CollatorNumericOrdering.on,
-      false => icu.CollatorNumericOrdering.off,
-      null => null,
-    };
-    if (icuNumeric != null &&
-        getUnicodeExtension(_numericExtensionKey) != null) {
-      setUnicodeExtension(_numericExtensionKey, icuNumeric.name);
-    }
+    options.numeric?.map(
+      (numeric) => setUnicodeExtension('kn', numeric.toString()),
+    );
 
     options.caseFirst?.map(
-      (caseFirst) =>
-          setUnicodeExtension(_caseFirstExtensionKey, switch (caseFirst) {
-            CaseFirst.upper => caseFirst.name,
-            CaseFirst.lower => caseFirst.name,
-            CaseFirst.localeDependent => 'false',
-          }),
+      (caseFirst) => setUnicodeExtension('kf', switch (caseFirst) {
+        CaseFirst.upper => caseFirst.name,
+        CaseFirst.lower => caseFirst.name,
+        CaseFirst.localeDependent => 'false',
+      }),
     );
   }
 }

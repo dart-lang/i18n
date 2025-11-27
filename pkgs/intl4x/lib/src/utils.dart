@@ -11,9 +11,7 @@ T buildFormatter<T, Options>(
   Options options,
   T Function(Locale locales, Options options) builderECMA,
   T Function(Locale locales, Options options) builder4X,
-) {
-  return useBrowser ? builderECMA(locale, options) : builder4X(locale, options);
-}
+) => useBrowser ? builderECMA(locale, options) : builder4X(locale, options);
 
 extension Mapper<T extends Object> on T {
   R map<R>(R Function(T value) f) => f(this);

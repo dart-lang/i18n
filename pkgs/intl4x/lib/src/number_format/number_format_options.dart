@@ -17,7 +17,7 @@ class NumberFormatOptions {
   final SignDisplay signDisplay;
   final Notation notation;
   final Grouping useGrouping;
-  final String? numberingSystem;
+  final NumberingSystem? numberingSystem;
   final RoundingMode roundingMode;
   final TrailingZeroDisplay trailingZeroDisplay;
   final int minimumIntegerDigits;
@@ -40,23 +40,21 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
-      style: const PercentStyle(),
-      signDisplay: signDisplay,
-      notation: notation,
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-    );
-  }
+  }) => NumberFormatOptions.custom(
+    style: const PercentStyle(),
+    signDisplay: signDisplay,
+    notation: notation,
+    useGrouping: useGrouping,
+    numberingSystem: numberingSystem,
+    roundingMode: roundingMode,
+    trailingZeroDisplay: trailingZeroDisplay,
+    minimumIntegerDigits: minimumIntegerDigits,
+  );
 
   factory NumberFormatOptions.unit({
     required Unit unit,
@@ -65,24 +63,22 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
-      style: UnitStyle(unit: unit, unitDisplay: unitDisplay),
-      signDisplay: signDisplay,
-      notation: notation,
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-      digits: digits,
-    );
-  }
+  }) => NumberFormatOptions.custom(
+    style: UnitStyle(unit: unit, unitDisplay: unitDisplay),
+    signDisplay: signDisplay,
+    notation: notation,
+    useGrouping: useGrouping,
+    numberingSystem: numberingSystem,
+    roundingMode: roundingMode,
+    trailingZeroDisplay: trailingZeroDisplay,
+    minimumIntegerDigits: minimumIntegerDigits,
+    digits: digits,
+  );
 
   factory NumberFormatOptions.currency({
     required String currency,
@@ -92,29 +88,27 @@ class NumberFormatOptions {
     SignDisplay signDisplay = SignDisplay.auto,
     Notation notation = const StandardNotation(),
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
+  }) => NumberFormatOptions.custom(
+    currency: currency,
+    style: CurrencyStyle(
       currency: currency,
-      style: CurrencyStyle(
-        currency: currency,
-        display: currencyDisplay,
-        sign: currencySign,
-      ),
-      signDisplay: signDisplay,
-      notation: notation,
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-      digits: digits,
-    );
-  }
+      display: currencyDisplay,
+      sign: currencySign,
+    ),
+    signDisplay: signDisplay,
+    notation: notation,
+    useGrouping: useGrouping,
+    numberingSystem: numberingSystem,
+    roundingMode: roundingMode,
+    trailingZeroDisplay: trailingZeroDisplay,
+    minimumIntegerDigits: minimumIntegerDigits,
+    digits: digits,
+  );
 
   factory NumberFormatOptions.compact({
     CompactDisplay compactDisplay = CompactDisplay.short,
@@ -122,24 +116,22 @@ class NumberFormatOptions {
     FormatStyle style = const DecimalStyle(),
     SignDisplay signDisplay = SignDisplay.auto,
     Grouping useGrouping = Grouping.auto,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode roundingMode = RoundingMode.halfExpand,
     TrailingZeroDisplay trailingZeroDisplay = TrailingZeroDisplay.auto,
     int minimumIntegerDigits = 1,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
-      style: style,
-      signDisplay: signDisplay,
-      notation: CompactNotation(compactDisplay: compactDisplay),
-      useGrouping: useGrouping,
-      numberingSystem: numberingSystem,
-      roundingMode: roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits,
-      digits: digits,
-    );
-  }
+  }) => NumberFormatOptions.custom(
+    style: style,
+    signDisplay: signDisplay,
+    notation: CompactNotation(compactDisplay: compactDisplay),
+    useGrouping: useGrouping,
+    numberingSystem: numberingSystem,
+    roundingMode: roundingMode,
+    trailingZeroDisplay: trailingZeroDisplay,
+    minimumIntegerDigits: minimumIntegerDigits,
+    digits: digits,
+  );
 
   static Digits? getDigits(FormatStyle style, Digits? digits) {
     final fractionDigits = digits?.fractionDigits;
@@ -184,25 +176,23 @@ class NumberFormatOptions {
     SignDisplay? signDisplay,
     Notation? notation,
     Grouping? useGrouping,
-    String? numberingSystem,
+    NumberingSystem? numberingSystem,
     RoundingMode? roundingMode,
     TrailingZeroDisplay? trailingZeroDisplay,
     int? minimumIntegerDigits,
     Digits? digits,
-  }) {
-    return NumberFormatOptions.custom(
-      style: style ?? this.style,
-      currency: currency ?? this.currency,
-      signDisplay: signDisplay ?? this.signDisplay,
-      notation: notation ?? this.notation,
-      useGrouping: useGrouping ?? this.useGrouping,
-      numberingSystem: numberingSystem ?? this.numberingSystem,
-      roundingMode: roundingMode ?? this.roundingMode,
-      trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
-      minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
-      digits: digits ?? this.digits,
-    );
-  }
+  }) => NumberFormatOptions.custom(
+    style: style ?? this.style,
+    currency: currency ?? this.currency,
+    signDisplay: signDisplay ?? this.signDisplay,
+    notation: notation ?? this.notation,
+    useGrouping: useGrouping ?? this.useGrouping,
+    numberingSystem: numberingSystem ?? this.numberingSystem,
+    roundingMode: roundingMode ?? this.roundingMode,
+    trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
+    minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
+    digits: digits ?? this.digits,
+  );
 }
 
 /// Control how many fraction digits to use in number formatting.
