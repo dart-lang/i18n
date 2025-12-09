@@ -61,7 +61,7 @@ class Collation {
   /// for a string, or sorting a list of strings. The
   /// [CollationOptions.sensitivity] regulates how exact the comparison should
   /// be. Setting [CollationOptions.numeric] means that numbers are not sorted
-  /// alphbetically, but by their value. The
+  /// alphabetically, but by their value. The
   /// [CollationOptions.caseFirst] parameter sets if upper or lowercase letters
   /// should take preference.
   ///
