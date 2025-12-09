@@ -17,7 +17,7 @@ class Collation {
   /// The comparison rules are configured using the provided parameters:
   ///
   /// * [locale]: The specific locale to use for comparison. If `null`, the
-  ///   system's current locale is determined used.
+  ///   system's current locale is used.
   /// * [usage]: Specifies the primary intent for the comparison, either for
   ///   sorting a list or for searching within text (e.g., ignoring accents).
   ///   Defaults to [Usage.sort].
