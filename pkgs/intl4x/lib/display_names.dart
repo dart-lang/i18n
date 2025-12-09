@@ -27,13 +27,16 @@
 ///
 /// // Display the name of the region Germany in Spanish
 /// DisplayNames(locale: Locale.parse('es-419'))
-///   .ofLanguage(Locale.parse('de')); // Alemania
+///   .ofRegion('DE'); // Alemania
 /// ```
 ///
 ///
 library;
 
-import 'display_names.dart';
+// Imports for the doc comment.
+import 'src/display_names/display_names.dart';
+import 'src/display_names/display_names_options.dart';
+import 'src/locale/locale.dart';
 
 export 'src/display_names/display_names.dart' show DisplayNames;
 export 'src/display_names/display_names_options.dart'
