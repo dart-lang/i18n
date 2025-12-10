@@ -22,17 +22,11 @@ class ListFormatOptions {
 /// Indicates the type of grouping.
 enum ListType {
   /// For "and"-based grouping of the list items: "A, B, and C".
-  and('conjunction'),
+  and,
 
   /// For "or"-based grouping of the list items: "A, B, or C".
-  or('disjunction'),
+  or,
 
   /// Grouping the list items as a unit: "A, B, C".
-  unit;
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const ListType([this._jsName]);
+  unit,
 }

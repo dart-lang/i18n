@@ -30,7 +30,7 @@ class Locale4x implements Locale {
       Locale4x(_locale.clone()..setUnicodeExtension('nu', system.name));
 
   @override
-  Locale withHourCycle(ClockStyle clockStyle) => Locale4x(
+  Locale withClockStyle(ClockStyle clockStyle) => Locale4x(
     _locale.clone()
       ..setUnicodeExtension('hc', clockStyle.hourStyleExtensionString),
   );

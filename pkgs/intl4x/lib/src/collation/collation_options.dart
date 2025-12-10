@@ -41,7 +41,13 @@ class CollationOptions {
 ///
 /// Example: For the `de` locale, `['AE', 'Ä']` is the correct order for
 /// [Usage.search], but `['Ä', 'AE']` for [Usage.sort].
-enum Usage { search, sort }
+enum Usage {
+  /// The collation is used for searching for strings in an array.
+  search,
+
+  /// The collation is used for sorting an array of strings.
+  sort,
+}
 
 /// Which differences in the strings should lead to non-zero result values.
 /// The default is [Sensitivity.variant] for usage [Usage.sort]; it's locale
@@ -57,29 +63,22 @@ enum Sensitivity {
 
   /// Only strings that differ in base letters or case compare as
   /// unequal. Examples: a ≠ b, a = á, a ≠ A.
-  caseSensitivity('case'),
+  caseSensitivity,
 
   /// Strings that differ in base letters, accents and other diacritic
   /// marks, or case compare as unequal. Other differences may also be taken
   /// into consideration. Examples: a ≠ b, a ≠ á, a ≠ A.
-  variant;
-
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const Sensitivity([this._jsName]);
+  variant,
 }
 
 /// How upper case or lower case letters should be sorted.
 enum CaseFirst {
+  /// Sort upper case letters before lower case letters.
   upper,
+
+  /// Sort lower case letters before upper case letters.
   lower,
-  localeDependent('false');
 
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const CaseFirst([this._jsName]);
+  /// Sort based on the locale's default.
+  localeDependent,
 }

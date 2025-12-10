@@ -29,6 +29,19 @@ class DisplayNamesOptions {
 
 enum DisplayType { calendar, currency, dateTimeField, language, region, script }
 
-enum LanguageDisplay { dialect, standard }
+enum LanguageDisplay {
+  /// Display language names in their most common form, e.g., "English (US)".
+  dialect,
 
-enum Fallback { code, none }
+  /// Display language names in a more standardized form, e.g.,
+  /// "American English".
+  standard,
+}
+
+enum Fallback {
+  /// If a display name is not found, return the code itself.
+  code,
+
+  /// If a display name is not found, return null.
+  none,
+}

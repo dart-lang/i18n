@@ -67,9 +67,15 @@ class Collation {
   ///
   /// The return value is according to the [Comparable] interface.
   ///
-  /// Example:
   /// ```dart
-  /// ['a', 'ä', 'à'].sort(Collation().compare);
+  /// import 'package:intl4x/collation.dart';
+  ///
+  /// void main() {
+  ///   final collation = Collation(locale: Locale('de'));
+  ///   final list = ['a', 'ä', 'b'];
+  ///   list.sort(collation.compare);
+  ///   print(list); // Prints [a, b, ä]
+  /// }
   /// ```
   int compare(String a, String b) {
     if (isInTest) {

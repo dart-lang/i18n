@@ -47,18 +47,27 @@ class DisplayNames {
   ///
   /// Example:
   /// ```dart
-  /// DisplayNames(locale: Locale.parse('es')).ofLanguage(Locale.parse('en'));
+  /// import 'package:intl4x/display_names.dart';
+  ///
+  /// void main() {
+  ///   print(DisplayNames.ofLanguage(Locale.parse('de'))); // Prints 'German'
+  /// }
   /// ```
-  /// might return "inglés".
   String ofLanguage(Locale locale) => _of(locale, _impl.ofLanguage);
 
   /// Returns the localized display name for a given **region** code.
   ///
+  /// The resulting name is formatted according to the options configured in the
+  /// constructor.
+  ///
   /// Example:
   /// ```dart
-  /// DisplayNames(locale: Locale.parse('fr')).ofRegion('DE')
+  /// import 'package:intl4x/display_names.dart';
+  ///
+  /// void main() {
+  ///   print(DisplayNames.ofRegion('DE')); // Prints 'Germany'
+  /// }
   /// ```
-  /// might return "Allemagne".
   String ofRegion(String regionCode) => _of(regionCode, _impl.ofRegion);
 
   String _of<T>(T object, String Function(T field) implementation) {

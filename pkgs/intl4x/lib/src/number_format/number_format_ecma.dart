@@ -100,3 +100,15 @@ extension on NumberFormatOptions {
     }.jsify()!;
   }
 }
+
+/// Extension to provide a JavaScript-compatible name for the Unit enum.
+extension on Unit {
+  /// The JavaScript-compatible string representation of the unit.
+  String get jsName => switch (this) {
+    Unit.fluidOunce => 'fluid-ounce',
+    Unit.scandinavianMile => 'mile-scandinavian',
+    // Fallback to the enum's name for all other units (e.g., 'acre', 'bit',
+    // 'byte').
+    _ => name,
+  };
+}

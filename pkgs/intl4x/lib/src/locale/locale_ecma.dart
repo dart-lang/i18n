@@ -49,7 +49,7 @@ class LocaleEcma implements Locale {
   );
 
   @override
-  Locale withHourCycle(ClockStyle clockStyle) => LocaleEcma(
+  Locale withClockStyle(ClockStyle clockStyle) => LocaleEcma(
     LocaleJS.constructor(
       _locale.toString(),
       {

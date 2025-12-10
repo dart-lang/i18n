@@ -48,3 +48,14 @@ class _ListFormatECMA extends ListFormatImpl {
 extension on ListFormatOptions {
   JSAny toJsOptions() => {'type': type.jsName, 'style': style.name}.jsify()!;
 }
+
+/// Extension to provide a JavaScript-compatible name for the ListType enum.
+extension on ListType {
+  /// The JavaScript-compatible string representation of the list type.
+  String get jsName => switch (this) {
+    ListType.and => 'conjunction',
+    ListType.or => 'disjunction',
+    // Fallback to the enum's name for 'unit'.
+    _ => name,
+  };
+}

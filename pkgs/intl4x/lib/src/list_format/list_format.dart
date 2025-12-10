@@ -36,10 +36,12 @@ class ListFormat {
 
   /// Locale-dependant concatenation of lists.
   ///
-  /// For example:
   /// ```dart
-  /// ListFormat(locale: Locale.parse('en-US'), type: ListType.or)
-  ///   .format(['Dog', 'Cat']) == 'Dog or Cat'
+  /// import 'package:intl4x/list_format.dart';
+  ///
+  /// void main() {
+  ///   print(ListFormat.format(['Dog', 'Cat'])); // Prints 'Dog and Cat'
+  /// }
   /// ```
   String format(List<String> list) {
     if (isInTest) {

@@ -408,7 +408,7 @@ void main() {
           DateTimeFormat.time(
             locale: Locale.parse(
               'en-US',
-            ).withHourCycle(ClockStyle.zeroToTwentyThree),
+            ).withClockStyle(ClockStyle.zeroToTwentyThree),
             timePrecision: TimePrecision.minute,
           ).format(DateTime(2025, 6, 18, 15, 30, 0)),
           '15:30',

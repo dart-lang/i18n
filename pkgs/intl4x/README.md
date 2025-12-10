@@ -33,15 +33,10 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 The functionalities are called through getters on an `Intl` instance, i.e.
 
 ```dart
-import 'package:intl4x/ecma_policy.dart';
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 
 void main() {
-  final numberFormat = Intl(
-    : const AlwaysEcma(),
-    locale: Locale.parse('en-US'),
-  ).numberFormat(NumberFormatOptions.percent());
+  final numberFormat = NumberFormat.percent(locale: Locale.parse('en-US'));
 
   print(numberFormat.format(0.5)); // prints 50%
 }

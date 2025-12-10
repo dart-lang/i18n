@@ -60,3 +60,24 @@ extension on CollationOptions {
     if (collation != null) 'collation': collation,
   }.jsify()!;
 }
+
+extension on Sensitivity {
+  /// The JavaScript-compatible string representation of the sensitivity.
+  String get jsName => switch (this) {
+    // Map the single custom name.
+    Sensitivity.caseSensitivity => 'case',
+    // All other cases implicitly use the enum's name (e.g., 'base', 'accent',
+    // 'variant').
+    _ => name,
+  };
+}
+
+extension on CaseFirst {
+  /// The JavaScript-compatible string representation of the case first option.
+  String get jsName => switch (this) {
+    // Map the custom name 'localeDependent' to 'false'.
+    CaseFirst.localeDependent => 'false',
+    // All other cases implicitly use the enum's name (e.g., 'upper', 'lower').
+    _ => name,
+  };
+}

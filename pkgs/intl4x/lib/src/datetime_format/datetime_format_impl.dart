@@ -111,18 +111,39 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
 
 /// A base class for formatters that can format a [DateTime] into a string.
 sealed class DateTimeFormatter {
+  /// Formats the given [datetime] into a string according to the formatter's
+  /// configured locale and options.
   String format(DateTime datetime);
 
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short time zone name.
   ZonedDateTimeFormatter withTimeZoneShort();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long time zone name.
   ZonedDateTimeFormatter withTimeZoneLong();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short localized GMT format (e.g. "GMT-8").
   ZonedDateTimeFormatter withTimeZoneShortOffset();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long localized GMT format (e.g. "GMT-08:00").
   ZonedDateTimeFormatter withTimeZoneLongOffset();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short generic non-location format (e.g. "PT").
   ZonedDateTimeFormatter withTimeZoneShortGeneric();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long generic non-location format (e.g. "Pacific Time").
   ZonedDateTimeFormatter withTimeZoneLongGeneric();
 }
 
 /// A base class for formatters that can format a [DateTime] and time zone
 /// string into a string.
 sealed class ZonedDateTimeFormatter {
+  /// Formats the given [datetime] and [timeZone] into a string according to the
+  /// formatter's configured locale and options.
   String format(DateTime datetime, String timeZone);
 }
