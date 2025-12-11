@@ -370,7 +370,7 @@ void main() {
           DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
-            ).withNumberingSystem(NumberingSystem.arab),
+            ).withNumberingSystem(NumberingSystem.arabic),
           ).format(DateTime(2025, 6, 18)),
           '٦/١٨/٢٥', // 18/6/25 in Arabic numerals
         ),
@@ -382,7 +382,7 @@ void main() {
           DateTimeFormat.yearMonthDay(
             locale: Locale.parse(
               'en-US',
-            ).withNumberingSystem(NumberingSystem.deva),
+            ).withNumberingSystem(NumberingSystem.devanagari),
           ).format(DateTime(2025, 6, 18)),
           '६/१८/२५', // 18/6/25 in Devanagari numerals
         ),
