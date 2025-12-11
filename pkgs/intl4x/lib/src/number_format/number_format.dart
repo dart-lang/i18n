@@ -86,6 +86,8 @@ class NumberFormat {
 
   /// Creates a [NumberFormat] instance for compact number formatting.
   ///
+  /// WARNING: Not implemented on native yet.
+  ///
   /// Compact notation is a way to format numbers that are very large or very
   /// small in a more human-readable way, e.g., "1.2M" instead of "1,200,000".
   ///
@@ -116,6 +118,7 @@ class NumberFormat {
   ///   print(NumberFormat.compact().format(1234567)); // Prints '1.2M'
   /// }
   /// ```
+  //TODO: implement in ICU4X
   NumberFormat.compact({
     Locale? locale,
     CompactDisplay compactDisplay = CompactDisplay.short,
@@ -145,6 +148,8 @@ class NumberFormat {
 
   /// Creates a [NumberFormat] instance for percent formatting.
   ///
+  /// WARNING: Not implemented on native yet.
+  ///
   /// * [locale]: The locale to use for formatting. Defaults to the system
   ///   locale.
   /// * [signDisplay]: When to display the sign for the number. Defaults to
@@ -170,6 +175,7 @@ class NumberFormat {
   ///   print(NumberFormat.percent().format(0.5)); // Prints '50%'
   /// }
   /// ```
+  // TODO: Implement in ICU4X
   NumberFormat.percent({
     Locale? locale,
     SignDisplay signDisplay = SignDisplay.auto,
@@ -195,6 +201,8 @@ class NumberFormat {
        );
 
   /// Creates a [NumberFormat] instance for currency formatting.
+  ///
+  /// WARNING: Not implemented on native yet.
   ///
   /// * [locale]: The locale to use for formatting. Defaults to the system
   ///   locale.

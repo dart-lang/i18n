@@ -4,9 +4,6 @@
 
 /// Provides locale-sensitive string comparison.
 ///
-/// Available either as an extension on [String], or through the
-/// [Collation] class.
-///
 /// ```dart
 /// import 'package:intl4x/collation.dart';
 ///
@@ -21,6 +18,9 @@
 ///   print(list); // Prints [a, b, ä]
 /// }
 /// ```
+///
+/// Available either as an extension on [String], or through the
+/// [Collation] class.
 library;
 
 import 'src/collation/collation.dart' show Collation;

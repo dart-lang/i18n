@@ -50,3 +50,11 @@ dart pub add intl4x
 dart run ...
 ```
 This will download the binaries from Github
+
+## Limitations
+
+There are still some features missing:
+
+ * Compact, percent, unit, and currency formatting.
+ * Display names for calendar, currency, date time fields, and scripts.
+ 
