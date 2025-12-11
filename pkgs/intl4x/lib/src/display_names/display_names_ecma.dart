@@ -50,7 +50,7 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
       ).of(jsName);
 
   @override
-  String ofLanguage(Locale locale) =>
+  String ofLocale(Locale locale) =>
       of(options, DisplayType.language, locale.toLanguageTag());
 
   @override

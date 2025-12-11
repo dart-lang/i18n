@@ -24,7 +24,7 @@ class DisplayNames4X extends DisplayNamesImpl {
       _regionFormatter = icu.RegionDisplayNames(locale.get4X, options.toX);
 
   @override
-  String ofLanguage(Locale locale) => _formatter.of((locale as Locale4x).get4X);
+  String ofLocale(Locale locale) => _formatter.of((locale as Locale4x).get4X);
 
   @override
   String ofRegion(String regionCode) => _regionFormatter.of(regionCode);

@@ -50,10 +50,10 @@ class DisplayNames {
   /// import 'package:intl4x/display_names.dart';
   ///
   /// void main() {
-  ///   print(DisplayNames.ofLanguage(Locale.parse('de'))); // Prints 'German'
+  ///   print(DisplayNames.ofLocale(Locale.parse('de'))); // Prints 'German'
   /// }
   /// ```
-  String ofLanguage(Locale locale) => _of(locale, _impl.ofLanguage);
+  String ofLocale(Locale locale) => _of(locale, _impl.ofLocale);
 
   /// Returns the localized display name for a given **region** code.
   ///

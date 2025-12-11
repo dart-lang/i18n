@@ -12,47 +12,47 @@ void main() {
     expect(
       DisplayNames(
         locale: Locale.parse('en-US'),
-      ).ofLanguage(Locale.parse('de-DE')),
+      ).ofLocale(Locale.parse('de-DE')),
       'German (Germany)',
     );
   });
 
   group('language', () {
-    String ofLanguage(Locale locale, Locale language) =>
-        DisplayNames(locale: locale, style: Style.long).ofLanguage(language);
+    String ofLocale(Locale locale, Locale language) =>
+        DisplayNames(locale: locale, style: Style.long).ofLocale(language);
     final en = Locale.parse('en');
     final fr = Locale.parse('fr');
     final de = Locale.parse('de');
     final zh = Locale.parse('zh-Hant');
     testWithFormatting('French', () {
-      expect(ofLanguage(en, fr), 'French');
+      expect(ofLocale(en, fr), 'French');
     });
     testWithFormatting('German', () {
-      expect(ofLanguage(en, de), 'German');
+      expect(ofLocale(en, de), 'German');
     });
     testWithFormatting('French Canada', () {
-      expect(ofLanguage(en, Locale.parse('fr-CA')), 'Canadian French');
+      expect(ofLocale(en, Locale.parse('fr-CA')), 'Canadian French');
     });
     testWithFormatting('Trad Chinese', () {
-      expect(ofLanguage(en, zh), 'Traditional Mandarin Chinese');
+      expect(ofLocale(en, zh), 'Traditional Mandarin Chinese');
     }, tags: ['ecmaUnsupported']);
     testWithFormatting('US English', () {
-      expect(ofLanguage(en, Locale.parse('en-US')), 'American English');
+      expect(ofLocale(en, Locale.parse('en-US')), 'American English');
     });
     testWithFormatting('Taiwan Chinese', () {
       expect(
-        ofLanguage(en, Locale.parse('zh-TW')),
+        ofLocale(en, Locale.parse('zh-TW')),
         'Mandarin Chinese (Taiwan)',
       );
     }, tags: ['ecmaUnsupported']);
     testWithFormatting('French Chinese', () {
-      expect(ofLanguage(zh, fr), '法文');
+      expect(ofLocale(zh, fr), '法文');
     });
     testWithFormatting('Chinese', () {
-      expect(ofLanguage(zh, Locale.parse('zh')), '中文');
+      expect(ofLocale(zh, Locale.parse('zh')), '中文');
     });
     testWithFormatting('German chinese', () {
-      expect(ofLanguage(zh, de), '德文');
+      expect(ofLocale(zh, de), '德文');
     });
   });
 
@@ -60,7 +60,7 @@ void main() {
     String languageWith(LanguageDisplay display) => DisplayNames(
       locale: Locale.parse('en'),
       languageDisplay: display,
-    ).ofLanguage(Locale.parse('en-GB'));
+    ).ofLocale(Locale.parse('en-GB'));
 
     expect(languageWith(LanguageDisplay.dialect), 'British English');
     expect(languageWith(LanguageDisplay.standard), 'English (United Kingdom)');

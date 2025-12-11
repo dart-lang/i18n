@@ -12,11 +12,11 @@
 /// ```dart
 /// // Display the name of the language German in English
 /// DisplayNames(locale: Locale.parse('en-US'))
-///   .ofLanguage(Locale.parse('de-DE')); // German (Germany)
+///   .ofLocale(Locale.parse('de-DE')); // German (Germany)
 ///
 /// // Display the name of the language French in Chinese
 /// DisplayNames(locale: Locale.parse('zh-Hant'))
-///   .ofLanguage(Locale.parse('fr')); // 法文
+///   .ofLocale(Locale.parse('fr')); // 法文
 /// ```
 ///
 /// Regions:

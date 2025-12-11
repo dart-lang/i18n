@@ -50,19 +50,19 @@ enum Calendar {
 
 enum NumberingSystem {
   /// Arabic-Indic digits.
-  arab,
+  arabic,
 
   /// Extended Arabic-Indic digits.
-  arabext,
+  extendedarabicindic,
 
   /// Balinese digits.
-  bali,
+  balinese,
 
   /// Bengali digits.
-  beng,
+  bangla,
 
   /// Devanagari digits.
-  deva,
+  devanagari,
 
   /// Full-width digits.
   ///
@@ -71,55 +71,55 @@ enum NumberingSystem {
   /// (0-9) that take half the space, designed for compatibility in systems
   /// handling both narrow Latin and wide CJK (Chinese, Japanese, Korean) text,
   /// often used in forms or Japanese contexts for uniform alignment.
-  fullwide,
+  fullwidth,
 
   /// Gujarati digits.
-  gujr,
+  gujarati,
 
   /// Gurmukhi digits.
-  guru,
+  gurmukhi,
 
   /// Hanja decimal digits.
-  hanidec,
+  hanjadecimal,
 
   /// Khmer digits.
-  khmr,
+  khmer,
 
   /// Kannada digits.
-  knda,
+  kannada,
 
   /// Lao digits.
-  laoo,
+  lao,
 
   /// Latin digits.
-  latn,
+  latin,
 
   /// Limbu digits.
-  limb,
+  limbu,
 
   /// Malayalam digits.
-  mlym,
+  malayalam,
 
   /// Mongolian digits.
-  mong,
+  mongolian,
 
   /// Myanmar digits.
-  mymr,
+  myanmar,
 
   /// Oriya digits.
-  orya,
+  odia,
 
   /// Tamil decimal digits.
-  tamldec,
+  tamildecimal,
 
   /// Telugu digits.
-  telu,
+  telugu,
 
   /// Thai digits.
   thai,
 
   /// Tibetan digits.
-  tibt,
+  tibetan,
 }
 
 /// Used for multiple option types which confirm to the triad of

@@ -18,7 +18,7 @@ abstract class DisplayNamesImpl {
 
   DisplayNamesImpl(this.locale, this.options);
 
-  String ofLanguage(Locale locale);
+  String ofLocale(Locale locale);
 
   String ofRegion(String regionCode);
 
