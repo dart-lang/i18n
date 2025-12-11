@@ -221,7 +221,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(month: _monthStyleM(alignment, length)),
+        _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
         locale,
       );
 
@@ -246,7 +246,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
       minute: _style(timePrecision, TimePrecision.minute),
-      second: _style(timePrecision, TimePrecision.second, null),
+      second: _style(timePrecision, TimePrecision.second, _TimeStyle.numeric),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
     ),
     locale,
@@ -365,31 +365,24 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     _ => _TimeStyle.numeric,
   };
 
-  _TimeStyle _dayStyle(DateTimeAlignment? alignment, DateTimeLength? length) =>
-      switch ((alignment, length)) {
-        (DateTimeAlignment.column, _) => _TimeStyle.twodigit,
-        (_, DateTimeLength.long) => _TimeStyle.numeric,
-        _ => _TimeStyle.numeric,
-      };
-
-  _MonthStyle _monthStyleM(
+  _TimeStyle _dayStyle(
     DateTimeAlignment? alignment,
-    DateTimeLength? length,
-  ) => switch ((alignment, length)) {
-    (_, DateTimeLength.medium) => _MonthStyle.short,
-    (_, DateTimeLength.long) => _MonthStyle.long,
-    (DateTimeAlignment.column, _) => _MonthStyle.twodigit,
-    _ => _MonthStyle.numeric,
+    DateTimeLength? length, {
+    _TimeStyle defaultStyle = _TimeStyle.numeric,
+  }) => switch ((alignment, length)) {
+    (DateTimeAlignment.column, _) => _TimeStyle.twodigit,
+    (_, DateTimeLength.long) => _TimeStyle.numeric,
+    _ => defaultStyle,
   };
-
   _MonthStyle _monthStyle(
     DateTimeAlignment? alignment,
-    DateTimeLength? length,
-  ) => switch ((alignment, length)) {
+    DateTimeLength? length, {
+    _MonthStyle defaultStyle = _MonthStyle.numeric,
+  }) => switch ((alignment, length)) {
     (_, DateTimeLength.long) => _MonthStyle.long,
     (_, DateTimeLength.medium) => _MonthStyle.short,
     (DateTimeAlignment.column, _) => _MonthStyle.twodigit,
-    _ => _MonthStyle.numeric,
+    _ => defaultStyle,
   };
 
   int? _fractionalSeconds(TimePrecision? timePrecision) =>
