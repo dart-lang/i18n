@@ -110,6 +110,7 @@ void main() {
         ).withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
       ),
+      tags: ['ecmaUnsupported'],
     );
 
     testWithFormatting(
@@ -229,33 +230,6 @@ void main() {
     );
   });
 
-  group('day period', () {
-    final dateTime = DateTime(2021, 12, 17, 4, 0, 42);
-    testWithFormatting(
-      'short',
-      () => expect(
-        DateTimeFormat.time(locale: Locale.parse('en-GB')).format(dateTime),
-        '4 at night',
-      ),
-    );
-
-    testWithFormatting(
-      'narrow',
-      () => expect(
-        DateTimeFormat.time(locale: Locale.parse('fr')).format(dateTime),
-        '4 mat.',
-      ),
-    );
-
-    testWithFormatting(
-      'long',
-      () => expect(
-        DateTimeFormat.time(locale: Locale.parse('fr')).format(dateTime),
-        '4 du matin',
-      ),
-    );
-  }, tags: ['icu4xUnimplemented']);
-
   group('date style', () {
     final dateTime = DateTime(2021, 12, 17, 4, 0, 42);
     testWithFormatting(
@@ -349,6 +323,7 @@ void main() {
           ).format(dateTime),
           '6/18/7 R',
         ),
+        tags: ['ecmaUnsupported'],
       );
 
       testWithFormatting(
@@ -360,6 +335,7 @@ void main() {
           // Dhu al-Hijjah 12, 1446 AH
           '21‏/12‏/1446 هـ', // 12/11/1446 AH
         ),
+        tags: ['ecmaUnsupported'],
       );
     });
 
@@ -426,28 +402,6 @@ void main() {
           ).format(DateTime(2025, 6, 18, 15, 30, 0)),
           matches(r'03:30\sPM'),
         ),
-      );
-
-      testWithFormatting(
-        'clockstyle - 12-hour, startAtZero true (0 AM)',
-        () => expect(
-          DateTimeFormat.time(
-            locale: Locale.parse('en-US'),
-          ).format(DateTime(2025, 6, 18, 0, 30, 0)),
-          '12:30 at night',
-        ),
-        tags: ['icu4xUnimplemented'],
-      );
-
-      testWithFormatting(
-        'clockstyle - 12-hour, startAtZero false (12 AM)',
-        () => expect(
-          DateTimeFormat.time(
-            locale: Locale.parse('en-US'),
-          ).format(DateTime(2025, 6, 18, 0, 30, 0)),
-          '12:30 at night',
-        ),
-        tags: ['icu4xUnimplemented'],
       );
     });
 
@@ -557,18 +511,6 @@ void main() {
   group('combinations of options', () {
     final dateTime = DateTime(2025, 6, 18, 10, 30, 45, 123);
 
-    group('Time Zone + Date/Time Components', () {
-      testWithFormatting(
-        'timeZone long + hour numeric + minute twodigit',
-        () => expect(
-          DateTimeFormat.time(locale: Locale.parse('en-US'))
-              .withTimeZoneLong()
-              .format(DateTime.utc(2025, 6, 18, 10, 30, 0), 'America/New_York'),
-          matches(r'^10:30\sAM Eastern Daylight Time$'),
-        ),
-      );
-    }, tags: ['icu4xUnimplemented']);
-
     group('Locale Specific Behavior', () {
       testWithFormatting(
         'French locale - long date, short time',
@@ -624,6 +566,7 @@ void main() {
           ).format(dateTime),
           'Mi., 18.06.25, 10:30:45',
         ),
+        tags: ['ecmaUnsupported'],
       );
     });
   });

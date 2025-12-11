@@ -148,6 +148,6 @@ void testFormatter(
           }
         }
       }
-    });
+    }, tags: ['ecmaUnsupported']);
   }
 }

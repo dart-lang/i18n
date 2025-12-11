@@ -27,7 +27,7 @@ class Locale4x implements Locale {
 
   @override
   Locale withNumberingSystem(NumberingSystem system) =>
-      Locale4x(_locale.clone()..setUnicodeExtension('nu', system.name));
+      Locale4x(_locale.clone()..setUnicodeExtension('nu', system.jsName));
 
   @override
   Locale withClockStyle(ClockStyle clockStyle) => Locale4x(

@@ -44,7 +44,7 @@ class LocaleEcma implements Locale {
   Locale withNumberingSystem(NumberingSystem system) => LocaleEcma(
     LocaleJS.constructor(
       _locale.toString(),
-      {'numberingSystem': system.name}.jsify()!,
+      {'numberingSystem': system.jsName}.jsify()!,
     ),
   );
 

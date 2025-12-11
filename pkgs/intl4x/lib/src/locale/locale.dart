@@ -56,3 +56,31 @@ extension CalendarJsName on Calendar {
     _ => name,
   };
 }
+
+extension NumberingSystemJsName on NumberingSystem {
+  /// Returns the BCP 47/CLDR short name for the numbering system.
+  String get jsName => switch (this) {
+    NumberingSystem.arabic => 'arab',
+    NumberingSystem.extendedarabicindic => 'arabext',
+    NumberingSystem.balinese => 'bali',
+    NumberingSystem.bangla => 'beng',
+    NumberingSystem.devanagari => 'deva',
+    NumberingSystem.fullwidth => 'fullwide',
+    NumberingSystem.gujarati => 'gujr',
+    NumberingSystem.gurmukhi => 'guru',
+    NumberingSystem.hanjadecimal => 'hant',
+    NumberingSystem.khmer => 'khmr',
+    NumberingSystem.kannada => 'knda',
+    NumberingSystem.lao => 'laoo',
+    NumberingSystem.malayalam => 'mlym',
+    NumberingSystem.mongolian => 'mong',
+    NumberingSystem.myanmar => 'mymr',
+    NumberingSystem.odia => 'orya',
+    NumberingSystem.tamildecimal => 'taml',
+    NumberingSystem.telugu => 'telu',
+    NumberingSystem.thai => 'thai',
+    NumberingSystem.tibetan => 'tibt',
+    NumberingSystem.latin => 'latn',
+    NumberingSystem.limbu => 'limb',
+  };
+}

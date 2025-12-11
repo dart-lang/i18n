@@ -40,10 +40,7 @@ void main() {
       expect(ofLocale(en, Locale.parse('en-US')), 'American English');
     });
     testWithFormatting('Taiwan Chinese', () {
-      expect(
-        ofLocale(en, Locale.parse('zh-TW')),
-        'Mandarin Chinese (Taiwan)',
-      );
+      expect(ofLocale(en, Locale.parse('zh-TW')), 'Mandarin Chinese (Taiwan)');
     }, tags: ['ecmaUnsupported']);
     testWithFormatting('French Chinese', () {
       expect(ofLocale(zh, fr), '法文');

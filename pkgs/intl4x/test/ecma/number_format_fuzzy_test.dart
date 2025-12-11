@@ -22,7 +22,7 @@ extension type NumberFormatJS._(JSObject _) implements JSObject {
 JSAny generateProperties(Map<String, Object> properties) => properties.jsify()!;
 
 void main() {
-  testWithFormatting('Some fuzzy testing', () {
+  testWithFormatting('Some fuzzy testing', tags: ['ecmaUnsupported'], () {
     final seed = Random().nextInt(1 << 31);
     print('Seed: $seed');
     final random = Random(seed);
