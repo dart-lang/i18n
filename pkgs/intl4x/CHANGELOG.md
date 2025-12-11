@@ -5,7 +5,7 @@
   - Remove most ...Options objects from the public API, as they make it more verbose. Users now directly input the options to the top-level ...Format constructor.
   - Use => instead of block bodies for methods where possible.
   - Fix some imports
-  - Add documentation to some classes (more to follow!)
+  - Add documentation to some classes.
   - Remove some methods which are not implemented in ICU4X
 
 ## 0.14.0
