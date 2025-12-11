@@ -9,16 +9,17 @@ A lightweight modular library for internationalization (i18n) functionality.
 * Formatting for dates, numbers, and lists. 
 * Collation.
 * Display names.
+* Plural rules.
 
 ## Status - experimental
 
 We're actively iterating on the API for this package (please provide feedback
 via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 
-|   | Number format  | List format  | Date format  | Collation  | Display names | Plural Rules | Case mapping |
+|   | Number format | List format | Date format | Collation | Display names | Plural rules | Case mapping |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **ECMA402 (web)** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| **ICU4X (web/native)**  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| **ECMA402 (web)** | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
+| **ICU4X (web/native)**  | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ## Implementation and Goals
 
@@ -32,15 +33,10 @@ via our [issue tracker](https://github.com/dart-lang/i18n/issues)).
 The functionalities are called through getters on an `Intl` instance, i.e.
 
 ```dart
-import 'package:intl4x/ecma_policy.dart';
-import 'package:intl4x/intl4x.dart';
 import 'package:intl4x/number_format.dart';
 
 void main() {
-  final numberFormat = Intl(
-    : const AlwaysEcma(),
-    locale: Locale.parse('en-US'),
-  ).numberFormat(NumberFormatOptions.percent());
+  final numberFormat = NumberFormat.percent(locale: Locale.parse('en-US'));
 
   print(numberFormat.format(0.5)); // prints 50%
 }

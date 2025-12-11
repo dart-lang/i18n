@@ -33,21 +33,29 @@ class _ListFormatECMA extends ListFormatImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return ListFormat.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      ListFormat.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   @override
-  String formatImpl(List<String> list) {
-    return ListFormat(
-      [locale.toLanguageTag().toJS].toJS,
-      options.toJsOptions(),
-    ).format(list.map((e) => e.toJS).toList().toJS);
-  }
+  String formatImpl(List<String> list) => ListFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    options.toJsOptions(),
+  ).format(list.map((e) => e.toJS).toList().toJS);
 }
 
 extension on ListFormatOptions {
   JSAny toJsOptions() => {'type': type.jsName, 'style': style.name}.jsify()!;
+}
+
+/// Extension to provide a JavaScript-compatible name for the ListType enum.
+extension on ListType {
+  /// The JavaScript-compatible string representation of the list type.
+  String get jsName => switch (this) {
+    ListType.and => 'conjunction',
+    ListType.or => 'disjunction',
+    // Fallback to the enum's name for 'unit'.
+    _ => name,
+  };
 }

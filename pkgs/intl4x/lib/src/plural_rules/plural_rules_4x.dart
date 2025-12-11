@@ -17,8 +17,8 @@ class PluralRules4X extends PluralRulesImpl {
 
   PluralRules4X(Locale4x super.locale, super.options)
     : _pluralRules = switch (options.type) {
-        Type.cardinal => icu.PluralRules.cardinal(locale.get4X),
-        Type.ordinal => icu.PluralRules.ordinal(locale.get4X),
+        PluralType.cardinal => icu.PluralRules.cardinal(locale.get4X),
+        PluralType.ordinal => icu.PluralRules.ordinal(locale.get4X),
       };
 
   @override

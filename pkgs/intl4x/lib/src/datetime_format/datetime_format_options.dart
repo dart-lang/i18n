@@ -2,127 +2,69 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../options.dart';
+export '../options.dart' show Calendar, NumberingSystem;
 
-typedef WeekDayStyle = Style;
-typedef DayPeriod = Style;
+enum YearStyle {
+  /// The year is formatted with an appropriate length for the locale.
+  auto,
 
-/// DateTime formatting functionality of the browser.
-class DateTimeFormatOptions {
-  final Calendar? calendar;
+  /// The year is formatted with all digits.
+  full,
 
-  /// The formatting style used for day periods - only used when the
-  /// [clockstyle] parameter is true.
-  final DayPeriod? dayPeriod;
-  final NumberingSystem? numberingSystem;
-
-  /// Whether to use a 12- or 24-hour style clock.
-  final ClockStyle? clockstyle;
-  final TimeStyle? timestyle;
-
-  /// The number of digits used to represent fractions of a second.
-  final int? fractionalSecondDigits;
-
-  /// The localized representation of the time zone name.
-  final FormatMatcher formatMatcher;
-
-  const DateTimeFormatOptions({
-    this.calendar,
-    this.dayPeriod,
-    this.numberingSystem,
-    this.clockstyle,
-    this.timestyle,
-    this.fractionalSecondDigits,
-    this.formatMatcher = FormatMatcher.bestfit,
-  });
-
-  DateTimeFormatOptions copyWith({
-    Calendar? calendar,
-    DayPeriod? dayPeriod,
-    NumberingSystem? numberingSystem,
-    ClockStyle? clockstyle,
-    WeekDayStyle? weekday,
-    TimeStyle? timestyle,
-    int? fractionalSecondDigits,
-    FormatMatcher? formatMatcher,
-  }) {
-    return DateTimeFormatOptions(
-      calendar: calendar ?? this.calendar,
-      dayPeriod: dayPeriod ?? this.dayPeriod,
-      numberingSystem: numberingSystem ?? this.numberingSystem,
-      clockstyle: clockstyle ?? this.clockstyle,
-      timestyle: timestyle ?? this.timestyle,
-      fractionalSecondDigits:
-          fractionalSecondDigits ?? this.fractionalSecondDigits,
-      formatMatcher: formatMatcher ?? this.formatMatcher,
-    );
-  }
+  /// The year is formatted with the era (e.g., "AD").
+  withEra,
 }
 
-enum ClockStyle {
-  zeroToEleven,
-  oneToTwelve,
-  zeroToTwentyThree;
+enum TimePrecision {
+  /// Hour precision.
+  hour,
 
-  String get hourStyleExtensionString {
-    // The three possible values are h11, h12, and h23.
-    return switch (this) {
-      ClockStyle.zeroToEleven => 'h11',
-      ClockStyle.oneToTwelve => 'h12',
-      ClockStyle.zeroToTwentyThree => 'h23',
-    };
-  }
+  /// Minute precision.
+  minute,
+
+  /// Minute precision, with optional seconds if they are zero.
+  minuteOptional,
+
+  /// Second precision.
+  second,
+
+  /// First subsecond digit precision.
+  subsecond1,
+
+  /// Second subsecond digit precision.
+  subsecond2,
+
+  /// Third subsecond digit precision.
+  subsecond3,
 }
 
-enum TimeFormatStyle { full, long, medium, short }
+extension EnumComparisonOperators on TimePrecision {
+  bool operator <(TimePrecision other) => index < other.index;
 
-enum DateFormatStyle { full, long, medium, short }
+  bool operator <=(TimePrecision other) => index <= other.index;
 
-enum NumberingSystem {
-  arab,
-  arabext,
-  bali,
-  beng,
-  deva,
-  fullwide,
-  gujr,
-  guru,
-  hanidec,
-  khmr,
-  knda,
-  laoo,
-  latn,
-  limb,
-  mlym,
-  mong,
-  mymr,
-  orya,
-  tamldec,
-  telu,
-  thai,
-  tibt,
+  bool operator >(TimePrecision other) => index > other.index;
+
+  bool operator >=(TimePrecision other) => index >= other.index;
 }
 
-enum FormatMatcher {
-  basic,
-  bestfit('best fit');
+enum DateTimeAlignment {
+  /// The alignment of date time components is automatically determined.
+  auto,
 
-  final String? _jsName;
-
-  String? get jsName => _jsName ?? name;
-
-  const FormatMatcher([this._jsName]);
+  /// The alignment of date time components is columnar.
+  column,
 }
 
-enum TimeStyle {
-  numeric,
-  twodigit('2-digit');
+enum DateTimeLength {
+  /// Long format, e.g. "January 1, 2020"
+  long,
 
-  String get jsName => _jsName ?? name;
+  /// Medium format, e.g. "Jan 1, 2020"
+  medium,
 
-  final String? _jsName;
-
-  const TimeStyle([this._jsName]);
+  /// Short format, e.g. "1/1/20"
+  short,
 }
 
 enum TimeZoneType {
@@ -143,4 +85,25 @@ enum TimeZoneType {
 
   /// Example: `Pacific Time`
   longGeneric,
+}
+
+enum ClockStyle {
+  /// Clock style from 0 to 11 (e.g., 0 AM to 11 AM).
+  zeroToEleven,
+
+  /// Clock style from 1 to 12 (e.g., 1 AM to 12 PM).
+  oneToTwelve,
+
+  /// Clock style from 0 to 23 (e.g., 0:00 to 23:00).
+  zeroToTwentyThree;
+
+  // The three possible values are h11, h12, and h23.
+  String get hourStyleExtensionString => switch (this) {
+    ClockStyle.zeroToEleven => 'h11',
+    ClockStyle.oneToTwelve => 'h12',
+    ClockStyle.zeroToTwentyThree => 'h23',
+  };
+
+  bool get is12Hour =>
+      this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }

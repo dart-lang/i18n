@@ -2,17 +2,46 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../find_locale.dart' show findSystemLocale;
+import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
 import 'list_format_impl.dart';
+import 'list_format_options.dart';
 
+/// Joins a list of strings according to locale-specific rules.
+///
+/// This is typically used for joining items with appropriate conjunctions (like
+/// 'and' or 'or') or punctuation (like commas).
 class ListFormat {
   final ListFormatImpl _listFormatImpl;
 
-  const ListFormat._(this._listFormatImpl);
+  /// Creates a new list formatter.
+  ///
+  /// * [locale]: The locale defining the formatting rules (e.g., 'en-US',
+  ///   'es'). If `null`, uses the system locale.
+  /// * [type]: Specifies the type of list concatenation. Defaults to
+  ///   [ListType.and] (for conjunction) or can be [ListType.or] (for
+  ///   disjunction).
+  /// * [style]: The formatting style, such as [ListStyle.long] (e.g., "A, B,
+  ///   and C") or [ListStyle.short] (e.g., "A, B, & C"). Defaults to
+  ///   [ListStyle.long].
+  ListFormat({
+    Locale? locale,
+    ListType type = ListType.and,
+    ListStyle style = ListStyle.long,
+  }) : _listFormatImpl = ListFormatImpl.build(
+         locale ?? findSystemLocale(),
+         ListFormatOptions(type: type, style: style),
+       );
 
-  /// Locale-dependant concatenation of lists, for example in `en-US` locale:
+  /// Locale-dependant concatenation of lists.
+  ///
   /// ```dart
-  /// format(['A', 'B', 'C']) == 'A, B, and C'
+  /// import 'package:intl4x/list_format.dart';
+  ///
+  /// void main() {
+  ///   print(ListFormat.format(['Dog', 'Cat'])); // Prints 'Dog and Cat'
+  /// }
   /// ```
   String format(List<String> list) {
     if (isInTest) {
@@ -22,5 +51,3 @@ class ListFormat {
     }
   }
 }
-
-ListFormat buildListFormat(ListFormatImpl impl) => ListFormat._(impl);

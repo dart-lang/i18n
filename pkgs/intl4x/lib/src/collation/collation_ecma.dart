@@ -35,11 +35,10 @@ class CollationECMA extends CollationImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return Collator.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      Collator.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   @override
   int compareImpl(String a, String b) {
@@ -60,4 +59,25 @@ extension on CollationOptions {
     if (caseFirst != null) 'caseFirst': caseFirst!.jsName,
     if (collation != null) 'collation': collation,
   }.jsify()!;
+}
+
+extension on Sensitivity {
+  /// The JavaScript-compatible string representation of the sensitivity.
+  String get jsName => switch (this) {
+    // Map the single custom name.
+    Sensitivity.caseSensitivity => 'case',
+    // All other cases implicitly use the enum's name (e.g., 'base', 'accent',
+    // 'variant').
+    _ => name,
+  };
+}
+
+extension on CaseFirst {
+  /// The JavaScript-compatible string representation of the case first option.
+  String get jsName => switch (this) {
+    // Map the custom name 'localeDependent' to 'false'.
+    CaseFirst.localeDependent => 'false',
+    // All other cases implicitly use the enum's name (e.g., 'upper', 'lower').
+    _ => name,
+  };
 }

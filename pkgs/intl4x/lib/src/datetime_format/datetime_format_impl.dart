@@ -15,38 +15,63 @@ import 'datetime_format_stub_4x.dart'
 /// datetime formatting.
 abstract class DateTimeFormatImpl {
   final Locale locale;
-  final DateTimeFormatOptions options;
 
-  DateTimeFormatImpl(this.locale, this.options);
+  DateTimeFormatImpl(this.locale);
 
-  static DateTimeFormatImpl build(
-    Locale locale,
-    DateTimeFormatOptions options,
-  ) => buildFormatter(
+  static DateTimeFormatImpl build(Locale locale) => buildFormatter(
     locale,
-    options,
+    null,
     getDateTimeFormatterECMA,
     getDateTimeFormatter4X,
   );
 
-  FormatterImpl d({DateFormatStyle? dateStyle});
-  FormatterImpl m({DateFormatStyle? dateStyle});
-  FormatterImpl y({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl md({DateFormatStyle? dateStyle});
-  FormatterImpl ymd({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl ymde({DateFormatStyle? dateStyle, bool withEra});
-  FormatterImpl mdt({DateFormatStyle? dateStyle, TimeFormatStyle? timeStyle});
+  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
+
+  FormatterImpl y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+
+  FormatterImpl ymd({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+
+  FormatterImpl ymde({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+
+  FormatterImpl mdt({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  });
+
   FormatterImpl ymdt({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
   });
+
   FormatterImpl ymdet({
-    DateFormatStyle? dateStyle,
-    TimeFormatStyle? timeStyle,
-    bool withEra,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
   });
-  FormatterImpl t({TimeFormatStyle? style});
+
+  FormatterImpl t({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  });
 }
 
 abstract class FormatterImpl extends DateTimeFormatter {
@@ -86,18 +111,39 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
 
 /// A base class for formatters that can format a [DateTime] into a string.
 sealed class DateTimeFormatter {
+  /// Formats the given [datetime] into a string according to the formatter's
+  /// configured locale and options.
   String format(DateTime datetime);
 
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short time zone name.
   ZonedDateTimeFormatter withTimeZoneShort();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long time zone name.
   ZonedDateTimeFormatter withTimeZoneLong();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short localized GMT format (e.g. "GMT-8").
   ZonedDateTimeFormatter withTimeZoneShortOffset();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long localized GMT format (e.g. "GMT-08:00").
   ZonedDateTimeFormatter withTimeZoneLongOffset();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// short generic non-location format (e.g. "PT").
   ZonedDateTimeFormatter withTimeZoneShortGeneric();
+
+  /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
+  /// long generic non-location format (e.g. "Pacific Time").
   ZonedDateTimeFormatter withTimeZoneLongGeneric();
 }
 
 /// A base class for formatters that can format a [DateTime] and time zone
 /// string into a string.
 sealed class ZonedDateTimeFormatter {
+  /// Formats the given [datetime] and [timeZone] into a string according to the
+  /// formatter's configured locale and options.
   String format(DateTime datetime, String timeZone);
 }

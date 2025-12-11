@@ -5,7 +5,6 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'display_names_impl.dart';
 import 'display_names_options.dart';
 
@@ -39,11 +38,10 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
     );
   }
 
-  static List<Locale> supportedLocalesOf(Locale locale) {
-    return DisplayNames.supportedLocalesOf(
-      [locale.toLanguageTag().toJS].toJS,
-    ).toDart.whereType<String>().map(Locale.parse).toList();
-  }
+  static List<Locale> supportedLocalesOf(Locale locale) =>
+      DisplayNames.supportedLocalesOf(
+        [locale.toLanguageTag().toJS].toJS,
+      ).toDart.whereType<String>().map(Locale.parse).toList();
 
   String of(DisplayNamesOptions options, DisplayType type, String jsName) =>
       DisplayNames(
@@ -52,28 +50,12 @@ class _DisplayNamesECMA extends DisplayNamesImpl {
       ).of(jsName);
 
   @override
-  String ofCalendar(Calendar calendar) =>
-      of(options, DisplayType.calendar, calendar.jsName);
-
-  @override
-  String ofCurrency(String currencyCode) =>
-      of(options, DisplayType.currency, currencyCode);
-
-  @override
-  String ofDateTime(DateTimeField field) =>
-      of(options, DisplayType.dateTimeField, field.name);
-
-  @override
-  String ofLanguage(Locale locale) =>
+  String ofLocale(Locale locale) =>
       of(options, DisplayType.language, locale.toLanguageTag());
 
   @override
   String ofRegion(String regionCode) =>
       of(options, DisplayType.region, regionCode);
-
-  @override
-  String ofScript(String scriptCode) =>
-      of(options, DisplayType.script, scriptCode);
 }
 
 extension on DisplayNamesOptions {
