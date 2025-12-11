@@ -9,11 +9,11 @@
 ///
 /// ```dart
 /// import 'package:intl4x/datetime_format.dart';
-/// 
+///
 /// void main(List<String> arguments) {
 ///   final timeZone = 'Europe/Paris';
 ///   final dateTime = DateTime.parse('2024-07-01T08:50:07');
-/// 
+///
 ///   final formatter = DateTimeFormat.yearMonthDayTime(
 ///     locale: Locale.parse('en'),
 ///     length: DateTimeLength.long,

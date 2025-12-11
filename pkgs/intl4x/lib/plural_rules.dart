@@ -3,16 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 /// The appropriate locale-dependent plural form.
-/// 
+///
 /// The [PluralRules] object returns the [PluralCategory] of the input [num]
 /// to [PluralRules.select]. While English only uses 'one' and 'other', other
 /// languages have more plural forms. For example, Arabic uses 'zero', 'one',
 /// 'two', 'few', 'many', and 'other'.
-/// 
+///
 /// Example:
 /// ```dart
 /// import 'package:intl4x/plural_rules.dart';
-/// 
+///
 /// void main(List<String> arguments) {
 ///   final rules = PluralRules(locale: Locale.parse('en-US'));
 ///   print(rules.select(3));
