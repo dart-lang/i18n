@@ -48,7 +48,7 @@ Format `DateTime` objects into locale-sensitive strings for dates, times, and ti
 import 'package:intl4x/datetime_format.dart';
 
 void main() {
-  final dateTime = DateTime.utc(2024, 7, 1, 8, 50, 07);
+  final dateTime = DateTime(2024, 7, 1, 8, 50, 07);
   final germanLocale = Locale.parse('de-DE');
 
   final formatter = DateTimeFormat.yearMonthDayTime(
@@ -159,8 +159,12 @@ void main() {
   final tr = Locale.parse('tr');
   final en = Locale.parse('en');
 
-  // Turkish has special casing rules for "i".
-  print('İstanbul'.toLocaleLowerCase(tr)); // prints "istanbul"
-  print('İstanbul'.toLocaleLowerCase(en)); // prints "i̇stanbul"
+  final upper = 'TICKET';
+  print(upper.toLocaleLowerCase(en)); // ticket
+  print(upper.toLocaleLowerCase(tr)); // tıcket
+  
+  final lower = 'i';
+  print(lower.toLocaleUpperCase(en)); // I
+  print(lower.toLocaleUpperCase(tr)); // İ
 }
 ```

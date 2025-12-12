@@ -8,14 +8,20 @@
 /// based on the current locale.
 ///
 /// ```dart
-/// import 'package:intl4x/case_mapping.dart';
+///import 'package:intl4x/case_mapping.dart';
 ///
-/// void main() {
-///   print('i'.toLocaleUpperCase()); // Prints 'İ'
+///void main() {
+///  final tr = Locale.parse('tr');
+///  final en = Locale.parse('en');
 ///
-///   final caseMapping = CaseMapping(locale: Locale('tr'));
-///   print(caseMapping.toUpperCase('i')); // Prints 'İ'
-/// }
+///  final upper = 'TICKET';
+///  print(upper.toLocaleLowerCase(en)); // ticket
+///  print(upper.toLocaleLowerCase(tr)); // tıcket
+///  
+///  final lower = 'i';
+///  print(lower.toLocaleUpperCase(en)); // I
+///  print(lower.toLocaleUpperCase(tr)); // İ
+///}
 /// ```
 /// Available either as an extension on [String], or through the
 /// [CaseMapping] class.
