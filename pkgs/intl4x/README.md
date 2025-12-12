@@ -20,7 +20,7 @@ We're actively iterating on the API for this package. Please provide feedback vi
 This library uses different backends on different platforms:
 
 *   **ICU4X**: Wraps [ICU4X](https://github.com/unicode-org/icu4x) to provide i18n functionality on both native platforms.
-*   **ECMA / Browser**: Wraps the browser's built-in `Intl` functionalities for web-only applications, reducing bundle size.
+*   **ECMA / Browser**: Wraps the browser's built-in [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) functionalities for web-only applications, reducing bundle size.
 
 ## Installation
 
