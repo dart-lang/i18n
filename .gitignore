@@ -20,3 +20,4 @@ pkgs/intl/update_from_cldr_data.sh
 .vscode
 
 doc/
+build/
