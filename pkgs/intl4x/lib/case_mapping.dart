@@ -17,7 +17,7 @@
 ///  final upper = 'TICKET';
 ///  print(upper.toLocaleLowerCase(en)); // ticket
 ///  print(upper.toLocaleLowerCase(tr)); // tıcket
-///  
+///
 ///  final lower = 'i';
 ///  print(lower.toLocaleUpperCase(en)); // I
 ///  print(lower.toLocaleUpperCase(tr)); // İ
