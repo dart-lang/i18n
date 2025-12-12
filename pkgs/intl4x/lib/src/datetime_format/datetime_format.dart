@@ -18,7 +18,7 @@ import 'datetime_format_options.dart';
 /// import 'package:intl4x/datetime_format.dart';
 ///
 /// void main() {
-///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+///   final date = DateTime(2021, 12, 17, 4, 0, 42);
 ///   print(DateTimeFormat.time(locale: Locale.parse('fr')).format(date));
 ///   // Output: '04:00'
 /// }
@@ -31,7 +31,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.day().format(date)); // Output: '17'
   /// }
   /// ```
@@ -50,7 +50,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
   /// }
   /// ```
@@ -69,7 +69,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
   /// }
   /// ```
@@ -88,7 +88,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
   /// }
   /// ```
@@ -108,7 +108,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
   /// }
   /// ```
@@ -128,7 +128,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
   /// }
   /// ```
@@ -148,7 +148,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
   /// }
   /// ```
@@ -168,7 +168,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
@@ -192,7 +192,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
@@ -216,7 +216,7 @@ class DateTimeFormat {
   /// import 'package:intl4x/datetime_format.dart';
   ///
   /// void main() {
-  ///   final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
   ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
   /// }
   /// ```
