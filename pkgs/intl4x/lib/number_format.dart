@@ -10,13 +10,14 @@
 /// ```dart
 /// import 'package:intl4x/number_format.dart';
 ///
-/// void main(List<String> arguments) {
+/// void main() {
 ///   print(
 ///     NumberFormat(
+///       locale: Locale.parse('en'),
 ///       roundingMode: RoundingMode.ceil,
 ///       digits: const Digits.withFractionDigits(maximum: 1),
 ///     ).format(3.14),
-///   );
+///   ); // prints '3.2'
 /// }
 ///
 /// ```

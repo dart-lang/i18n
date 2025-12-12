@@ -175,7 +175,7 @@ class NumberFormat {
   ///   print(NumberFormat.percent().format(0.5)); // Prints '50%'
   /// }
   /// ```
-  // TODO: Implement in ICU4X
+  //TODO: Implement in ICU4X
   NumberFormat.percent({
     Locale? locale,
     SignDisplay signDisplay = SignDisplay.auto,

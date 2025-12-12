@@ -13,9 +13,9 @@
 /// ```dart
 /// import 'package:intl4x/plural_rules.dart';
 ///
-/// void main(List<String> arguments) {
+/// void main() {
 ///   final rules = PluralRules(locale: Locale.parse('en-US'));
-///   print(rules.select(3));
+///   print(rules.select(3)); // prints 'PluralCategory.other'
 /// }
 /// ```
 library;

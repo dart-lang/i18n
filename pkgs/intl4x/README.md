@@ -57,4 +57,3 @@ There are still some features missing:
 
  * Compact, percent, unit, and currency formatting.
  * Display names for calendar, currency, date time fields, and scripts.
- 
