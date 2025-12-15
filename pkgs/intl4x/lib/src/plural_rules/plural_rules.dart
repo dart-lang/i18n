@@ -12,7 +12,7 @@ import 'plural_rules_options.dart';
 ///
 /// This can be used to select the correct localized string (e.g., "1 cat" vs.
 /// "2 cat**s**").
-class PluralRules {
+final class PluralRules {
   final PluralRulesImpl _pluralRulesImpl;
 
   /// Creates a new plural rules selector.

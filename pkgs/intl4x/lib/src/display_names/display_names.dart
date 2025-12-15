@@ -12,7 +12,7 @@ import 'display_names_options.dart';
 ///
 /// This class uses the specified locale and options to format codes (like 'en',
 ///  'US') into human-readable strings (like 'English', 'United States').
-class DisplayNames {
+final class DisplayNames {
   final DisplayNamesImpl _impl;
 
   /// Creates a new display name formatter configured for a specific locale.

@@ -22,7 +22,7 @@ import 'case_mapping_impl.dart';
 /// ```
 ///
 /// Caution: During testing, the input is returned unchanged.
-class CaseMapping {
+final class CaseMapping {
   final CaseMappingImpl _caseMappingImpl;
 
   /// Constructs a [CaseMapping] instance for the given [locale].

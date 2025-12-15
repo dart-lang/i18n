@@ -9,7 +9,7 @@ import '../options.dart';
 typedef UnitDisplay = Style;
 
 /// Number formatting functionality of the browser.
-class NumberFormatOptions {
+final class NumberFormatOptions {
   final FormatStyle style;
   final String? currency;
 

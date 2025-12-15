@@ -23,7 +23,7 @@ import 'number_format_options.dart';
 ///   print(NumberFormat.format(123456.789)); // Prints '123,456.789'
 /// }
 /// ```
-class NumberFormat {
+final class NumberFormat {
   final NumberFormatImpl _impl;
 
   /// Creates a [NumberFormat] instance with custom formatting options.

@@ -23,7 +23,7 @@ import 'datetime_format_options.dart';
 ///   // Output: '04:00'
 /// }
 /// ```
-class DateTimeFormat {
+sealed class DateTimeFormat {
   /// Formatting just the day.
   ///
   /// Example:
