@@ -9,7 +9,7 @@ import 'collation_impl.dart';
 import 'collation_options.dart';
 
 /// Provides locale-sensitive string comparison.
-class Collation {
+final class Collation {
   final CollationImpl _collationImpl;
 
   /// Creates a new locale-sensitive string comparator.

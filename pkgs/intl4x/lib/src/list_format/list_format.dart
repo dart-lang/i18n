@@ -12,7 +12,7 @@ import 'list_format_options.dart';
 ///
 /// This is typically used for joining items with appropriate conjunctions (like
 /// 'and' or 'or') or punctuation (like commas).
-class ListFormat {
+final class ListFormat {
   final ListFormatImpl _listFormatImpl;
 
   /// Creates a new list formatter.
