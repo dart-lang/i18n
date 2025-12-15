@@ -78,7 +78,7 @@ extension on NumberFormatOptions {
       if (notation is CompactNotation)
         'compactDisplay': (notation as CompactNotation).compactDisplay.name,
       'notation': notation.name,
-      if (numberingSystem != null) 'numberingSystem': numberingSystem,
+      if (numberingSystem != null) 'numberingSystem': numberingSystem!.jsName,
       'signDisplay': signDisplay.name,
       'style': style.name,
       'useGrouping': useGrouping.jsName,
