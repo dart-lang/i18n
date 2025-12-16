@@ -25,49 +25,58 @@ abstract class DateTimeFormatImpl {
     getDateTimeFormatter4X,
   );
 
-  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length});
-  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
-  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterZoneableImpl d({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  });
+  FormatterUnzoneableImpl m({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  });
+  FormatterZoneableImpl md({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  });
 
-  FormatterImpl y({
+  FormatterUnzoneableImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
   });
 
-  FormatterImpl ymd({
+  FormatterZoneableImpl ymd({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
   });
 
-  FormatterImpl ymde({
+  FormatterZoneableImpl ymde({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
   });
 
-  FormatterImpl mdt({
+  FormatterZoneableImpl mdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
   });
 
-  FormatterImpl ymdt({
+  FormatterZoneableImpl ymdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
   });
 
-  FormatterImpl ymdet({
+  FormatterZoneableImpl ymdet({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
   });
 
-  FormatterImpl t({
+  FormatterZoneableImpl t({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
@@ -89,6 +98,16 @@ abstract class FormatterImpl extends DateTimeFormatter {
       return formatInternal(datetime);
     }
   }
+}
+
+abstract class FormatterZoneableImpl extends FormatterImpl
+    implements DateTimeFormatterZoneable {
+  FormatterZoneableImpl(super.impl);
+}
+
+abstract class FormatterUnzoneableImpl extends FormatterImpl
+    implements DateTimeFormatterUnzoneable {
+  FormatterUnzoneableImpl(super.impl);
 }
 
 abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
@@ -114,7 +133,9 @@ sealed class DateTimeFormatter {
   /// Formats the given [datetime] into a string according to the formatter's
   /// configured locale and options.
   String format(DateTime datetime);
+}
 
+sealed class DateTimeFormatterZoneable extends DateTimeFormatter {
   /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
   /// short time zone name.
   ZonedDateTimeFormatter withTimeZoneShort();
@@ -139,6 +160,8 @@ sealed class DateTimeFormatter {
   /// long generic non-location format (e.g. "Pacific Time").
   ZonedDateTimeFormatter withTimeZoneLongGeneric();
 }
+
+sealed class DateTimeFormatterUnzoneable extends DateTimeFormatter {}
 
 /// A base class for formatters that can format a [DateTime] and time zone
 /// string into a string.

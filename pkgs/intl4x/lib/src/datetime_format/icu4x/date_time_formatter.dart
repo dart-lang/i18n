@@ -9,7 +9,7 @@ import '../datetime_format_options.dart';
 import 'datetime_format_4x.dart';
 
 /// Wraps an [icu.DateTimeFormatter]
-class DateTimeFormatterX extends FormatterImpl {
+class DateTimeFormatterX extends FormatterZoneableImpl {
   final icu.DateTimeFormatter formatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;

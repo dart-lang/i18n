@@ -28,23 +28,23 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   icu.Locale get localeX => (super.locale as Locale4x).get4X;
 
   @override
-  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+  FormatterZoneableImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       DateFormatterX.d(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
-      DateFormatterX.m(this, localeX, alignment?.toX, length?.toX);
+  FormatterUnzoneableImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      DateFormatterUX.m(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+  FormatterZoneableImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       DateFormatterX.md(this, localeX, alignment?.toX, length?.toX);
 
   @override
-  FormatterImpl y({
+  FormatterUnzoneableImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => DateFormatterX.y(
+  }) => DateFormatterUX.y(
     this,
     localeX,
     alignment?.toX,
@@ -53,7 +53,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymd({
+  FormatterZoneableImpl ymd({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
@@ -66,7 +66,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymde({
+  FormatterZoneableImpl ymde({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
@@ -79,7 +79,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl mdt({
+  FormatterZoneableImpl mdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
@@ -92,7 +92,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymdt({
+  FormatterZoneableImpl ymdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
@@ -107,7 +107,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymdet({
+  FormatterZoneableImpl ymdet({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
@@ -122,7 +122,7 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl t({
+  FormatterZoneableImpl t({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,

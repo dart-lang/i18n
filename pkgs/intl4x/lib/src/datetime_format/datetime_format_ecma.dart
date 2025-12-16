@@ -107,13 +107,33 @@ enum _MonthStyle {
   const _MonthStyle([this._jsName]);
 }
 
-class _FormatterECMA extends FormatterImpl {
+class _FormatterUnzoneableECMA extends FormatterUnzoneableImpl {
+  final Locale locale;
+  final DateTimeFormatImpl impl;
+  final _DateTimeFormat dateTimeFormat;
+
+  _FormatterUnzoneableECMA._(
+    this.impl,
+    _DateTimeJSOptions _optionsJS,
+    this.locale,
+  ) : dateTimeFormat = _DateTimeFormat(
+        [locale.toLanguageTag().toJS].toJS,
+        _optionsJS,
+      ),
+      super(impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      dateTimeFormat.format(datetime.js);
+}
+
+class _FormatterZoneableECMA extends FormatterZoneableImpl {
   final Locale locale;
   final _DateTimeJSOptions _optionsJS;
   final DateTimeFormatImpl impl;
   final _DateTimeFormat dateTimeFormat;
 
-  _FormatterECMA._(this.impl, this._optionsJS, this.locale)
+  _FormatterZoneableECMA._(this.impl, this._optionsJS, this.locale)
     : dateTimeFormat = _DateTimeFormat(
         [locale.toLanguageTag().toJS].toJS,
         _optionsJS,
@@ -150,7 +170,7 @@ class _FormatterECMA extends FormatterImpl {
 }
 
 class _FormatterZonedECMA extends FormatterZonedImpl {
-  final _FormatterECMA _formatter;
+  final _FormatterZoneableECMA _formatter;
 
   _FormatterZonedECMA(TimeZoneType timeZoneType, this._formatter)
     : super(_formatter.impl, timeZoneType);
@@ -159,7 +179,7 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
   /// [formatter] together with the [timeZoneType] and [timeZone], which are
   /// new information.
   static _DateTimeFormat _dateTimeFormatterJS(
-    _FormatterECMA formatter,
+    _FormatterZoneableECMA formatter,
     TimeZoneType timeZoneType,
     String timeZone,
   ) {
@@ -210,38 +230,44 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   _DateTimeFormatECMA(super.locale);
 
   @override
-  FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
-      _FormatterECMA._(
-        this,
-        _DateTimeJSOptions.from(day: _dayStyleD(alignment)),
-        locale,
-      );
+  FormatterZoneableImpl d({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => _FormatterZoneableECMA._(
+    this,
+    _DateTimeJSOptions.from(day: _dayStyleD(alignment)),
+    locale,
+  );
 
   @override
-  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
-      _FormatterECMA._(
-        this,
-        _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
-        locale,
-      );
+  FormatterUnzoneableImpl m({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => _FormatterUnzoneableECMA._(
+    this,
+    _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
+    locale,
+  );
 
   @override
-  FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
-      _FormatterECMA._(
-        this,
-        _DateTimeJSOptions.from(
-          month: _monthStyle(alignment, length),
-          day: _dayStyle(alignment, length),
-        ),
-        locale,
-      );
+  FormatterZoneableImpl md({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => _FormatterZoneableECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      month: _monthStyle(alignment, length),
+      day: _dayStyle(alignment, length),
+    ),
+    locale,
+  );
 
   @override
-  FormatterImpl t({
+  FormatterZoneableImpl t({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
@@ -253,11 +279,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl y({
+  FormatterUnzoneableImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterUnzoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
@@ -267,11 +293,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymd({
+  FormatterZoneableImpl ymd({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
@@ -283,11 +309,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymde({
+  FormatterZoneableImpl ymde({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
@@ -300,11 +326,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl mdt({
+  FormatterZoneableImpl mdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
@@ -318,12 +344,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymdt({
+  FormatterZoneableImpl ymdt({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
@@ -339,12 +365,12 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl ymdet({
+  FormatterZoneableImpl ymdet({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterZoneableECMA._(
     this,
     _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
