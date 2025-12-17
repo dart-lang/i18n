@@ -33,7 +33,11 @@ import 'src/locale/locale.dart' show Locale;
 export 'src/case_mapping/case_mapping.dart' show CaseMapping;
 export 'src/locale/locale.dart' show Locale;
 
-extension CaseMappingWithIntl4X on String {
+/// Extension methods on [String] for locale-sensitive case mapping.
+///
+/// See [CaseMapping] for more details. This provides convenient methods
+/// directly on [String] instances.
+extension CaseMappingExt on String {
   /// Returns the string converted to lower case, taking the given [locale] into
   /// account.
   ///

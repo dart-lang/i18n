@@ -107,6 +107,26 @@ enum _MonthStyle {
   const _MonthStyle([this._jsName]);
 }
 
+class _FormatterStandaloneECMA extends FormatterStandaloneImpl {
+  final Locale locale;
+  final DateTimeFormatImpl impl;
+  final _DateTimeFormat dateTimeFormat;
+
+  _FormatterStandaloneECMA._(
+    this.impl,
+    _DateTimeJSOptions _optionsJS,
+    this.locale,
+  ) : dateTimeFormat = _DateTimeFormat(
+        [locale.toLanguageTag().toJS].toJS,
+        _optionsJS,
+      ),
+      super(impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      dateTimeFormat.format(datetime.js);
+}
+
 class _FormatterECMA extends FormatterImpl {
   final Locale locale;
   final _DateTimeJSOptions _optionsJS;
@@ -218,12 +238,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       );
 
   @override
-  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length}) =>
-      _FormatterECMA._(
-        this,
-        _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
-        locale,
-      );
+  FormatterStandaloneImpl m({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => _FormatterStandaloneECMA._(
+    this,
+    _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
+    locale,
+  );
 
   @override
   FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
@@ -253,11 +275,11 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   );
 
   @override
-  FormatterImpl y({
+  FormatterStandaloneImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => _FormatterECMA._(
+  }) => _FormatterStandaloneECMA._(
     this,
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),

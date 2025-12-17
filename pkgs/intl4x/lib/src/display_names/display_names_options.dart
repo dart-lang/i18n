@@ -15,20 +15,12 @@ class DisplayNamesOptions {
     required this.languageDisplay,
     required this.fallback,
   });
-
-  DisplayNamesOptions copyWith({
-    Style? style,
-    LanguageDisplay? languageDisplay,
-    Fallback? fallback,
-  }) => DisplayNamesOptions(
-    style: style ?? this.style,
-    languageDisplay: languageDisplay ?? this.languageDisplay,
-    fallback: fallback ?? this.fallback,
-  );
 }
 
+/// The types of display names that can be requested.
 enum DisplayType { calendar, currency, dateTimeField, language, region, script }
 
+/// How to display language names.
 enum LanguageDisplay {
   /// Display language names in their most common form, e.g., "English (US)".
   dialect,
@@ -38,6 +30,7 @@ enum LanguageDisplay {
   standard,
 }
 
+/// What to do if a display name is not found.
 enum Fallback {
   /// If a display name is not found, return the code itself.
   code,

@@ -4,7 +4,8 @@
 
 import '../find_locale.dart';
 import '../locale/locale.dart' show Locale;
-import 'datetime_format_impl.dart' show DateTimeFormatImpl, DateTimeFormatter;
+import 'datetime_format_impl.dart'
+    show DateTimeFormatImpl, DateTimeFormatter, DateTimeFormatterStandalone;
 import 'datetime_format_options.dart';
 
 /// `DateTime` formatting.
@@ -54,7 +55,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
   /// }
   /// ```
-  static DateTimeFormatter month({
+  static DateTimeFormatterStandalone month({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -92,7 +93,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
   /// }
   /// ```
-  static DateTimeFormatter year({
+  static DateTimeFormatterStandalone year({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,

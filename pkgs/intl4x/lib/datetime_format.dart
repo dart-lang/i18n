@@ -50,7 +50,7 @@ import 'src/datetime_format/datetime_format_impl.dart' show DateTimeFormatter;
 
 export 'src/datetime_format/datetime_format.dart' show DateTimeFormat;
 export 'src/datetime_format/datetime_format_impl.dart'
-    show DateTimeFormatter, ZonedDateTimeFormatter;
+    show DateTimeFormatter, DateTimeFormatterStandalone, ZonedDateTimeFormatter;
 export 'src/datetime_format/datetime_format_options.dart'
     show
         Calendar,

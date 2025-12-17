@@ -169,30 +169,6 @@ final class NumberFormatOptions {
     }
     return digits;
   }
-
-  NumberFormatOptions copyWith({
-    FormatStyle? style,
-    String? currency,
-    SignDisplay? signDisplay,
-    Notation? notation,
-    Grouping? useGrouping,
-    NumberingSystem? numberingSystem,
-    RoundingMode? roundingMode,
-    TrailingZeroDisplay? trailingZeroDisplay,
-    int? minimumIntegerDigits,
-    Digits? digits,
-  }) => NumberFormatOptions.custom(
-    style: style ?? this.style,
-    currency: currency ?? this.currency,
-    signDisplay: signDisplay ?? this.signDisplay,
-    notation: notation ?? this.notation,
-    useGrouping: useGrouping ?? this.useGrouping,
-    numberingSystem: numberingSystem ?? this.numberingSystem,
-    roundingMode: roundingMode ?? this.roundingMode,
-    trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
-    minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
-    digits: digits ?? this.digits,
-  );
 }
 
 /// Control how many fraction digits to use in number formatting.
@@ -484,6 +460,7 @@ final class CompactNotation extends Notation {
   final CompactDisplay compactDisplay;
 
   CompactNotation({this.compactDisplay = CompactDisplay.short});
+
   @override
   String get name => 'compact';
 }
@@ -491,6 +468,7 @@ final class CompactNotation extends Notation {
 /// Standard notation (e.g., 1,000,000).
 final class StandardNotation extends Notation {
   const StandardNotation();
+
   @override
   String get name => 'standard';
 }
@@ -554,6 +532,7 @@ final class UnitStyle extends FormatStyle {
   final UnitDisplay unitDisplay;
 
   const UnitStyle({required this.unit, this.unitDisplay = UnitDisplay.short});
+
   @override
   String get name => 'unit';
 }

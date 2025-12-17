@@ -16,7 +16,7 @@ class Locale4x implements Locale {
   icu.Locale get get4X => _locale;
 
   @override
-  String toLanguageTag([String separator = '-']) => _locale.language;
+  String toLanguageTag([String separator = '-']) => _locale.toString();
 
   @override
   String toString() => toLanguageTag();

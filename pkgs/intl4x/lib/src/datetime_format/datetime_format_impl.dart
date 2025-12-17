@@ -26,10 +26,15 @@ abstract class DateTimeFormatImpl {
   );
 
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length});
-  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
+
+  FormatterStandaloneImpl m({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  });
+
   FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
 
-  FormatterImpl y({
+  FormatterStandaloneImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
@@ -74,10 +79,10 @@ abstract class DateTimeFormatImpl {
   });
 }
 
-abstract class FormatterImpl extends DateTimeFormatter {
+abstract class FormatterStandaloneImpl extends DateTimeFormatterStandalone {
   final DateTimeFormatImpl _impl;
 
-  FormatterImpl(this._impl);
+  FormatterStandaloneImpl(this._impl);
 
   String formatInternal(DateTime datetime);
 
@@ -89,6 +94,11 @@ abstract class FormatterImpl extends DateTimeFormatter {
       return formatInternal(datetime);
     }
   }
+}
+
+abstract class FormatterImpl extends FormatterStandaloneImpl
+    implements DateTimeFormatter {
+  FormatterImpl(super.impl);
 }
 
 abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
@@ -110,11 +120,39 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
 }
 
 /// A base class for formatters that can format a [DateTime] into a string.
-sealed class DateTimeFormatter {
+///
+/// Most formatters are [DateTimeFormatter]s that can also format with time zone
+/// information. Only the formatters for year and month are standalone and do
+/// not support time zones, returning [DateTimeFormatterStandalone].
+///
+/// Example:
+/// ```dart
+/// import 'package:intl4x/datetime_format.dart';
+/// void main() {
+///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+/// }
+/// ```
+sealed class DateTimeFormatterStandalone {
   /// Formats the given [datetime] into a string according to the formatter's
   /// configured locale and options.
   String format(DateTime datetime);
+}
 
+/// Formatters that can format a [DateTime] with time zone information.
+///
+/// This class extends [DateTimeFormatterStandalone] and provides additional
+/// methods to format dates and times with time zone information.
+///
+/// Example:
+/// ```dart
+/// import 'package:intl4x/datetime_format.dart';
+/// void main() {
+///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+/// }
+/// ```
+sealed class DateTimeFormatter extends DateTimeFormatterStandalone {
   /// Returns a [ZonedDateTimeFormatter] that formats the datetime with a
   /// short time zone name.
   ZonedDateTimeFormatter withTimeZoneShort();
@@ -142,6 +180,22 @@ sealed class DateTimeFormatter {
 
 /// A base class for formatters that can format a [DateTime] and time zone
 /// string into a string.
+///
+/// Example
+/// ```dart
+/// import 'package:intl4x/datetime_format.dart';
+/// void main() {
+///   final timeZone = 'Europe/Paris';
+///   final dateTime = DateTime.parse('2024-07-01T08:50:07');
+///   final formatter = DateTimeFormat.yearMonthDayTime(
+///     locale: Locale.parse('en'),
+///     length: DateTimeLength.long,
+///   ).withTimeZoneShort();
+///   print(
+///     formatter.format(dateTime, timeZone),
+///   ); // prints 'July 1, 2024 at 8:50:07 AM GMT+2'
+/// }
+/// ```
 sealed class ZonedDateTimeFormatter {
   /// Formats the given [datetime] and [timeZone] into a string according to the
   /// formatter's configured locale and options.

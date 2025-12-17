@@ -119,6 +119,43 @@ class DateFormatterX extends FormatterImpl {
       DateFormatterZonedX.longGeneric(this);
 }
 
+/// Wraps an [icu.DateFormatter]
+class DateFormatterUX extends FormatterStandaloneImpl {
+  final icu.DateFormatter formatter;
+  final DateTimeFormatImpl impl;
+  final icu.Locale localeX;
+
+  DateFormatterUX.m(
+    this.impl,
+    this.localeX,
+    icu.DateTimeAlignment? alignment,
+    icu.DateTimeLength? length,
+  ) : formatter = icu.DateFormatter.m(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      super(impl);
+
+  DateFormatterUX.y(
+    this.impl,
+    this.localeX,
+    icu.DateTimeAlignment? alignment,
+    icu.DateTimeLength? length,
+    icu.YearStyle? yearStyle,
+  ) : formatter = icu.DateFormatter.y(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
+      super(impl);
+
+  @override
+  String formatInternal(DateTime datetime) =>
+      formatter.formatIso(datetime.toX.$1);
+}
+
 /// Wraps an [icu.ZonedDateFormatter]
 class DateFormatterZonedX extends FormatterZonedImpl {
   final DateFormatterX dateFormatter;

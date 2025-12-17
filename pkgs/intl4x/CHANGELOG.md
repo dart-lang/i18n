@@ -1,3 +1,7 @@
+## 0.17.0
+
+- Make `year` and `month` not zoneable, as this is a runtime error in ICU4X.
+
 ## 0.16.0
 
 - Add class modifiers.
