@@ -4,7 +4,8 @@
 
 import '../find_locale.dart';
 import '../locale/locale.dart' show Locale;
-import 'datetime_format_impl.dart' show DateTimeFormatImpl, DateTimeFormatter, DateTimeFormatterUnzoneable, DateTimeFormatterZoneable;
+import 'datetime_format_impl.dart'
+    show DateTimeFormatImpl, DateTimeFormatter, DateTimeFormatterStandalone;
 import 'datetime_format_options.dart';
 
 /// `DateTime` formatting.
@@ -35,7 +36,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.day().format(date)); // Output: '17'
   /// }
   /// ```
-  static DateTimeFormatterZoneable day({
+  static DateTimeFormatter day({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -54,7 +55,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
   /// }
   /// ```
-  static DateTimeFormatterUnzoneable month({
+  static DateTimeFormatterStandalone month({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -73,7 +74,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
   /// }
   /// ```
-  static DateTimeFormatterZoneable monthDay({
+  static DateTimeFormatter monthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -92,7 +93,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
   /// }
   /// ```
-  static DateTimeFormatterUnzoneable year({
+  static DateTimeFormatterStandalone year({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -112,7 +113,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
   /// }
   /// ```
-  static DateTimeFormatterZoneable yearMonthDay({
+  static DateTimeFormatter yearMonthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -132,7 +133,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
   /// }
   /// ```
-  static DateTimeFormatterZoneable yearMonthDayWeekday({
+  static DateTimeFormatter yearMonthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -152,7 +153,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
   /// }
   /// ```
-  static DateTimeFormatterZoneable monthDayTime({
+  static DateTimeFormatter monthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -172,7 +173,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
-  static DateTimeFormatterZoneable yearMonthDayTime({
+  static DateTimeFormatter yearMonthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -196,7 +197,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
-  static DateTimeFormatterZoneable yearMonthDayWeekdayTime({
+  static DateTimeFormatter yearMonthDayWeekdayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -220,7 +221,7 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
   /// }
   /// ```
-  static DateTimeFormatterZoneable time({
+  static DateTimeFormatter time({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
