@@ -460,6 +460,7 @@ final class CompactNotation extends Notation {
   final CompactDisplay compactDisplay;
 
   CompactNotation({this.compactDisplay = CompactDisplay.short});
+
   @override
   String get name => 'compact';
 }
@@ -467,6 +468,7 @@ final class CompactNotation extends Notation {
 /// Standard notation (e.g., 1,000,000).
 final class StandardNotation extends Notation {
   const StandardNotation();
+
   @override
   String get name => 'standard';
 }
@@ -530,6 +532,7 @@ final class UnitStyle extends FormatStyle {
   final UnitDisplay unitDisplay;
 
   const UnitStyle({required this.unit, this.unitDisplay = UnitDisplay.short});
+
   @override
   String get name => 'unit';
 }
