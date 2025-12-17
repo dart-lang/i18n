@@ -7,3 +7,4 @@ linter:
     - prefer_expression_function_bodies
     - document_ignores
     - parameter_assignments
+    - public_member_api_docs

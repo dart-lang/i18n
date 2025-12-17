@@ -19,6 +19,10 @@ export 'src/list_format/list_format.dart' show ListFormat;
 export 'src/list_format/list_format_options.dart' show ListStyle, ListType;
 export 'src/locale/locale.dart' show Locale;
 
+/// Extension methods on `List<String>` for locale-sensitive list formatting.
+///
+/// See [ListFormat] for more details. This provides convenient methods
+/// directly on `List<String>`.
 extension ListFormatIntl4x on List<String> {
   /// Join a list in a locale-dependent manner using `and`-based grouping.
   ///

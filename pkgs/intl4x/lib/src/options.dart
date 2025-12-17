@@ -1,6 +1,11 @@
 // Copyright (c) 2023, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
+
+/// Common options used across intl4x libraries.
+library;
+
+/// Calendar types for date and time formatting.
 enum Calendar {
   /// The Buddhist calendar.
   buddhist,
@@ -48,6 +53,7 @@ enum Calendar {
   minguo,
 }
 
+/// Numbering systems for number formatting.
 enum NumberingSystem {
   /// Arabic-Indic digits.
   arabic,

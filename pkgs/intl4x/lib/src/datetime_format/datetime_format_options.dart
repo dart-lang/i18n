@@ -4,6 +4,7 @@
 
 export '../options.dart' show Calendar, NumberingSystem;
 
+/// Styles for formatting the year component of a date.
 enum YearStyle {
   /// The year is formatted with an appropriate length for the locale.
   auto,
@@ -15,6 +16,7 @@ enum YearStyle {
   withEra,
 }
 
+/// Precision of time formatting.
 enum TimePrecision {
   /// Hour precision.
   hour,
@@ -38,16 +40,22 @@ enum TimePrecision {
   subsecond3,
 }
 
+/// Provides comparison operators for [TimePrecision] enum values.
 extension EnumComparisonOperators on TimePrecision {
+  /// Less-than operator for [TimePrecision].
   bool operator <(TimePrecision other) => index < other.index;
 
+  /// Less-than-or-equal operator for [TimePrecision].
   bool operator <=(TimePrecision other) => index <= other.index;
 
+  /// Greater-than operator for [TimePrecision].
   bool operator >(TimePrecision other) => index > other.index;
 
+  /// Greater-than-or-equal operator for [TimePrecision].
   bool operator >=(TimePrecision other) => index >= other.index;
 }
 
+/// Alignment of date/time formatting.
 enum DateTimeAlignment {
   /// The alignment of date time components is automatically determined.
   auto,
@@ -56,6 +64,7 @@ enum DateTimeAlignment {
   column,
 }
 
+/// Length of date/time formatting.
 enum DateTimeLength {
   /// Long format, e.g. "January 1, 2020"
   long,
@@ -67,6 +76,7 @@ enum DateTimeLength {
   short,
 }
 
+/// Types of time zone formatting.
 enum TimeZoneType {
   /// Example: `Pacific Standard Time`
   long,
@@ -87,6 +97,7 @@ enum TimeZoneType {
   longGeneric,
 }
 
+/// Clock styles for hour formatting.
 enum ClockStyle {
   /// Clock style from 0 to 11 (e.g., 0 AM to 11 AM).
   zeroToEleven,
@@ -97,13 +108,16 @@ enum ClockStyle {
   /// Clock style from 0 to 23 (e.g., 0:00 to 23:00).
   zeroToTwentyThree;
 
-  // The three possible values are h11, h12, and h23.
+  /// The extension string used in ICU locale identifiers for this clock style.
+  ///
+  /// The three possible values are h11, h12, and h23.
   String get hourStyleExtensionString => switch (this) {
     ClockStyle.zeroToEleven => 'h11',
     ClockStyle.oneToTwelve => 'h12',
     ClockStyle.zeroToTwentyThree => 'h23',
   };
 
+  /// Whether this clock style represents a 12-hour clock.
   bool get is12Hour =>
       this == ClockStyle.zeroToEleven || this == ClockStyle.oneToTwelve;
 }

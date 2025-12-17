@@ -31,6 +31,10 @@ export 'src/collation/collation_options.dart'
     show CaseFirst, Sensitivity, Usage;
 export 'src/locale/locale.dart' show Locale;
 
+/// Extension methods on [String] for locale-sensitive collation.
+///
+/// See [Collation] for more details. This provides convenient methods
+/// directly on [String] instances.
 extension CollationExt on String {
   /// Compares this string to [other] in a locale-dependent manner,
   /// following the conventions of a [Comparator].

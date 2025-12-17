@@ -18,22 +18,6 @@ class CollationOptions {
     this.caseFirst,
     this.collation,
   });
-
-  CollationOptions copyWith({
-    Usage? usage,
-    Sensitivity? sensitivity,
-    bool? ignorePunctuation,
-    bool? numeric,
-    CaseFirst? caseFirst,
-    String? collation,
-  }) => CollationOptions(
-    usage: usage ?? this.usage,
-    sensitivity: sensitivity ?? this.sensitivity,
-    ignorePunctuation: ignorePunctuation ?? this.ignorePunctuation,
-    numeric: numeric ?? this.numeric,
-    caseFirst: caseFirst ?? this.caseFirst,
-    collation: collation ?? this.collation,
-  );
 }
 
 /// Whether to use collation for searching for strings in an array, or rather
