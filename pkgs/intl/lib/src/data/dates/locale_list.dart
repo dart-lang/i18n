@@ -10,6 +10,7 @@ final availableLocalesForDateFormatting = const [
   'ar',
   'ar_DZ',
   'ar_EG',
+  'ar_TN',
   'as',
   'az',
   'be',
