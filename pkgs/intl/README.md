@@ -1,6 +1,11 @@
 [![Dart CI](https://github.com/dart-lang/i18n/actions/workflows/intl.yml/badge.svg)](https://github.com/dart-lang/i18n/actions/workflows/intl.yml)
 [![Pub](https://img.shields.io/pub/v/intl.svg)](https://pub.dev/packages/intl)
 
+> [!TIP]
+> Try out [package:intl4x](https://pub.dev/packages/intl4x) as a replacement for this package! This should provide a better experience with more features and fewer bugs.
+>
+> See also [the Github issue](https://github.com/dart-lang/i18n/issues/868) for background information.
+
 Provides internationalization and localization facilities,
 including message translation, plurals and genders, date/number formatting
 and parsing, and bidirectional text.

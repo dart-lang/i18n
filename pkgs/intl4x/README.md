@@ -15,6 +15,12 @@ A lightweight, modular library for internationalization (i18n) in Dart, providin
 
 We're actively iterating on the API for this package. Please provide feedback via our [issue tracker](https://github.com/dart-lang/i18n/issues).
 
+This package currently increases binary size in non-web builds significantly. To remedy, compile your app the experimental flag `record-use`
+```bash
+dart --enable-experiment=record-use build cli --target my-binary-name.dart
+```
+
+
 ## Backends
 
 This library uses different backends on different platforms:
