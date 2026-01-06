@@ -114,6 +114,25 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
       PERCENT_PATTERN: '#,##0%',
       CURRENCY_PATTERN: '\u200F#,##0.00\u00A0\u00A4',
       DEF_CURRENCY_CODE: 'EGP'),
+  // Number formatting symbols for locale ar_TN.
+  "ar_TN": new NumberSymbols(
+      NAME: "ar_TN",
+      DECIMAL_SEP: ',',
+      GROUP_SEP: '.',
+      PERCENT: '\u200E%\u200E',
+      ZERO_DIGIT: '0',
+      PLUS_SIGN: '\u200E+',
+      MINUS_SIGN: '\u200E-',
+      EXP_SYMBOL: 'E',
+      PERMILL: '\u2030',
+      INFINITY: '\u221E',
+      NAN: '\u0644\u064A\u0633\u00A0\u0631\u0642\u0645\u064B\u0627',
+      DECIMAL_PATTERN: '#,##0.###',
+      SCIENTIFIC_PATTERN: '#E0',
+      PERCENT_PATTERN: '#,##0%',
+      CURRENCY_PATTERN:
+          '\u200F#,##0.000\u00A0\u00A4;\u200F-#,##0.000\u00A0\u00A4',
+      DEF_CURRENCY_CODE: 'DT'),
   // Number formatting symbols for locale as.
   "as": new NumberSymbols(
       NAME: "as",
