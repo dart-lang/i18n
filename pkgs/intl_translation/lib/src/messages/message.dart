@@ -343,6 +343,16 @@ abstract class Message {
       '\v': r'\v',
       '\'': r"\'",
       r'$': r'\$',
+      // Escape text directional characters
+      '\u202a': r'\u{202a}',
+      '\u202b': r'\u{202b}',
+      '\u202c': r'\u{202c}',
+      '\u202d': r'\u{202d}',
+      '\u202e': r'\u{202e}',
+      '\u2066': r'\u{2066}',
+      '\u2067': r'\u{2067}',
+      '\u2068': r'\u{2068}',
+      '\u2069': r'\u{2069}',
     };
     return escapedBrackets.splitMapJoin(
       '',

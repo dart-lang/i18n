@@ -27,6 +27,12 @@ void main() {
     testEscaping('te{st}', r'te${st}');
     testEscaping("tes''t", "tes\\'t");
     testEscaping("t'e'''{st'}", "t\\'e\\'{st}");
+    testEscaping(
+      'Escapes: \u202a\u202b\u202c\u202d\u202e'
+          '\u2066\u2067\u2068\u2069',
+      r'Escapes: \u{202a}\u{202b}\u{202c}\u{202d}\u{202e}'
+          r'\u{2066}\u{2067}\u{2068}\u{2069}',
+    );
   });
 
   test('Gender', () {
