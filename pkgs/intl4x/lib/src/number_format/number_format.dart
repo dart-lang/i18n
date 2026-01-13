@@ -20,7 +20,7 @@ import 'number_format_options.dart';
 /// import 'package:intl4x/number_format.dart';
 ///
 /// void main() {
-///   print(NumberFormat.format(123456.789)); // Prints '123,456.789'
+///   print(NumberFormat().format(123456.789)); // Prints '123,456.789'
 /// }
 /// ```
 final class NumberFormat {
@@ -53,7 +53,13 @@ final class NumberFormat {
   /// import 'package:intl4x/number_format.dart';
   ///
   /// void main() {
-  ///   print(NumberFormat(locale: Locale('de'), style: DecimalStyle(digits: FractionDigits(2, 2))).format(1234.567)); // Prints '1.234,57'
+  ///   print(
+  ///     NumberFormat(
+  ///       locale: Locale.parse('de'),
+  ///       style: const DecimalStyle(),
+  ///       digits: const Digits.withFractionDigits(maximum: 2),
+  ///     ).format(1234.567),
+  ///   ); // Prints '1.234,57'
   /// }
   /// ```
   NumberFormat({

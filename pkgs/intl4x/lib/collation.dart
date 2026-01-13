@@ -9,10 +9,10 @@
 ///
 /// void main() {
 ///   print('a'.compareLocale('b')); // Prints -1
-///   print('ä'.compareLocale('z', locale: Locale('de'))); // Prints -1
-///   print('ä'.compareLocale('z', locale: Locale('sv'))); // Prints 1
+///   print('ä'.compareLocale('z', locale: Locale.parse('de'))); // Prints -1
+///   print('ä'.compareLocale('z', locale: Locale.parse('sv'))); // Prints 1
 ///
-///   final collation = Collation(locale: Locale('de'));
+///   final collation = Collation(locale: Locale.parse('de'));
 ///   final list = ['a', 'ä', 'b'];
 ///   list.sort(collation.compare);
 ///   print(list); // Prints [a, b, ä]
@@ -48,8 +48,8 @@ extension CollationExt on String {
   ///
   /// void main() {
   ///   print('a'.compareLocale('b')); // Prints -1
-  ///   print('ä'.compareLocale('z', locale: Locale('de'))); // Prints -1
-  ///   print('ä'.compareLocale('z', locale: Locale('sv'))); // Prints 1
+  ///   print('ä'.compareLocale('z', locale: Locale.parse('de'))); // Prints -1
+  ///   print('ä'.compareLocale('z', locale: Locale.parse('sv'))); // Prints 1
   /// }
   /// ```
   ///

@@ -45,7 +45,7 @@ extension CaseMappingExt on String {
   /// import 'package:intl4x/case_mapping.dart';
   ///
   /// void main() {
-  ///   print('İ'.toLocaleLowerCase(Locale('en', 'US'))); // Prints 'i̇'
+  ///   print('İ'.toLocaleLowerCase(Locale.parse('en-US'))); // Prints 'i̇'
   /// }
   /// ```
   String toLocaleLowerCase(Locale locale) =>
@@ -58,7 +58,7 @@ extension CaseMappingExt on String {
   /// import 'package:intl4x/case_mapping.dart';
   ///
   /// void main() {
-  ///   print('i'.toLocaleUpperCase(Locale('tr'))); // Prints 'İ'
+  ///   print('i'.toLocaleUpperCase(Locale.parse('tr'))); // Prints 'İ'
   /// }
   /// ```
   String toLocaleUpperCase(Locale locale) =>
