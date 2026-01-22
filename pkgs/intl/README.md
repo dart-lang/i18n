@@ -200,7 +200,7 @@ results need to be incorporated. The code for this is in the
 To extract messages, run the `extract_to_arb.dart` program.
 
 ```console
-> pub run intl_translation:extract_to_arb --output-dir=target/directory
+> dart run intl_translation:extract_to_arb --output-dir=target/directory
     my_program.dart more_of_my_program.dart
 ```
 
@@ -213,7 +213,7 @@ This expects to receive a series of files, one per
 locale.
 
 ```console
-> pub run intl_translation:generate_from_arb --generated_file_prefix=<prefix>
+> dart run intl_translation:generate_from_arb --generated_file_prefix=<prefix>
     <my_dart_files> <translated_ARB_files>
 ```
 
