@@ -33,46 +33,74 @@ void main() {
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200FILS');
     basic = intl.NumberFormat.currency(locale: 'he', symbol: '₪');
     expect(basic.format(1234), '\u200F1,234.00\u00A0\u200F₪');
-    expect(_ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
-        '\u200F1,234.00\u00A0\u200F₪');
+    expect(
+      _ecmaFormatNumber('he', 1234, style: 'currency', currency: 'ILS'),
+      '\u200F1,234.00\u00A0\u200F₪',
+    );
 
+    const nbsp = '\u00A0';
+    const rtlMark = '\u200E';
+    const ltrMark = '\u200F';
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
-    expect(compact.format(1234), 'ILS1.23K\u200F');
+    expect(
+      compact.format(1234),
+      '${ltrMark}1.23K${ltrMark}${nbsp}${ltrMark}ILS',
+    );
     compact = intl.NumberFormat.compactCurrency(locale: 'he', symbol: '₪');
-    expect(compact.format(1234), '₪1.23K\u200F');
+    expect(compact.format(1234), '${ltrMark}1.23K${ltrMark}$nbsp${ltrMark}₪');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
-        _ecmaFormatNumber('he', 1234,
-            style: 'currency', currency: 'ILS', notation: 'compact'),
-        '₪1.2K\u200F');
+      _ecmaFormatNumber(
+        'he',
+        1234,
+        style: 'currency',
+        currency: 'ILS',
+        notation: 'compact',
+      ),
+      '₪1.2K${ltrMark}',
+    );
     // short/long compactDisplay doesn't change anything here:
     expect(
-        _ecmaFormatNumber('he', 1234,
-            style: 'currency',
-            currency: 'ILS',
-            notation: 'compact',
-            compactDisplay: 'short'),
-        '₪1.2K\u200F');
+      _ecmaFormatNumber(
+        'he',
+        1234,
+        style: 'currency',
+        currency: 'ILS',
+        notation: 'compact',
+        compactDisplay: 'short',
+      ),
+      '₪1.2K\u200F',
+    );
     expect(
-        _ecmaFormatNumber('he', 1234,
-            style: 'currency',
-            currency: 'ILS',
-            notation: 'compact',
-            compactDisplay: 'long'),
-        '₪1.2K\u200F');
+      _ecmaFormatNumber(
+        'he',
+        1234,
+        style: 'currency',
+        currency: 'ILS',
+        notation: 'compact',
+        compactDisplay: 'long',
+      ),
+      '₪1.2K\u200F',
+    );
 
     var compactSimple = intl.NumberFormat.compactSimpleCurrency(locale: 'he');
-    expect(compactSimple.format(1234), '₪1.23K\u200F');
+    expect(
+      compactSimple.format(1234),
+      '${ltrMark}1.23K${ltrMark}${nbsp}${ltrMark}₪',
+    );
   });
 }
 
-String _ecmaFormatNumber(String locale, num number,
-    {String? style,
-    String? currency,
-    String? notation,
-    String? compactDisplay,
-    int? maximumSignificantDigits,
-    bool? useGrouping}) {
+String _ecmaFormatNumber(
+  String locale,
+  num number, {
+  String? style,
+  String? currency,
+  String? notation,
+  String? compactDisplay,
+  int? maximumSignificantDigits,
+  bool? useGrouping,
+}) {
   final options = JSObject();
   if (notation != null) options['notation'] = notation.toJS;
   if (compactDisplay != null) {
@@ -94,7 +122,7 @@ var _unsupportedChromeLocales = [
   'af', 'as', 'az', 'be', 'bm', 'br', 'bs', 'chr', 'cy', 'eu', 'fur', 'ga',
   'gl', 'gsw', 'haw', 'hy', 'is', 'ka', 'kk', 'km', 'ky', 'ln', 'lo', 'mg',
   'mk', 'mn', 'mt', 'my', 'ne', 'nyn', 'or', 'pa', 'si', 'sq', 'ur', 'uz', 'zu',
-  'ps'
+  'ps',
 ];
 
 var _skipLocalesShort = [
@@ -102,7 +130,9 @@ var _skipLocalesShort = [
   'it-CH', // Expected: '7.7 Mio', actual: '7.7 Mln'
   'en-IN', // Expected: '4.3K', actual: '4.3T'.
   'en-ZA', // Expected: '4,3K', actual: '4.3K'.
-  ..._unsupportedChromeLocales
+  'en-GB', // Expected: '4.3k', actual: '4.3K'.
+  'bn',
+  ..._unsupportedChromeLocales,
 ];
 
 var _skipLocalesLong = [
@@ -110,6 +140,8 @@ var _skipLocalesLong = [
   'es-419', // Expected: '1.4 billones', actual: '1.4 billón'.
   'es-US', // Expected: '1.4 billones', actual: '1.4 billón'.
   'ml', // Expected: '1.1 ബില്യൺ', actual: '1.1 ലക്ഷം കോടി'.
+  'en-IN', // Expected: '6.5 lakh', actual: '654 thousand'.
+  'sl', // Expected: '7,7 milijoni', actual: '7,7 milijone'.
   ..._unsupportedChromeLocales,
 ];
 
@@ -131,13 +163,14 @@ void _validateShort(String locale, List<List<String>> expected) {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(
-          _ecmaFormatNumber(
-            locale,
-            number,
-            notation: 'compact',
-            useGrouping: false,
-          ),
-          data[1]);
+        _ecmaFormatNumber(
+          locale,
+          number,
+          notation: 'compact',
+          useGrouping: false,
+        ),
+        data[1],
+      );
     }
   }, skip: skip);
 }
@@ -151,14 +184,15 @@ void _validateLong(String locale, List<List<String>> expected) {
     for (var data in expected) {
       var number = num.parse(data.first);
       expect(
-          _ecmaFormatNumber(
-            locale,
-            number,
-            notation: 'compact',
-            compactDisplay: 'long',
-            useGrouping: false,
-          ),
-          data[2]);
+        _ecmaFormatNumber(
+          locale,
+          number,
+          notation: 'compact',
+          compactDisplay: 'long',
+          useGrouping: false,
+        ),
+        data[2],
+      );
     }
   }, skip: skip);
 }
@@ -195,9 +229,6 @@ void _validateMore(more_testdata.CompactRoundingTestCase t) {
   }
 
   test(t.toString(), () {
-    expect(
-      t.number.toJS.toLocaleString('en-US', options),
-      t.expected,
-    );
+    expect(t.number.toJS.toLocaleString('en-US', options), t.expected);
   });
 }
