@@ -288,10 +288,14 @@ abstract class Message {
   static String? classPlusMethodName(MethodInvocation node, String? outerName) {
     String? name;
     for (AstNode? parent = node; parent != null; parent = parent.parent) {
-      if (parent is ClassDeclaration ||
-          parent is MixinDeclaration ||
-          parent is EnumDeclaration) {
-        name = (parent as NamedCompilationUnitMember).name.lexeme;
+      if (parent is ClassDeclaration) {
+        name = parent.namePart.typeName.lexeme;
+        break;
+      } else if (parent is EnumDeclaration) {
+        name = parent.namePart.typeName.lexeme;
+        break;
+      } else if (parent is MixinDeclaration) {
+        name = parent.name.lexeme;
         break;
       }
     }
