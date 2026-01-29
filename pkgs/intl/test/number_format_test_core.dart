@@ -38,13 +38,13 @@ Map<String, double> testNumbersWeCannotReadBack = {
   '-1.234': -1.2342,
   '-1.235': -1.2348,
   '1.234': 1.2342,
-  '1.235': 1.2348
+  '1.235': 1.2348,
 };
 
 Map<String, double> testExponential = const {
   '1E-3': 0.001,
   '1E-2': 0.01,
-  '1.23E0': 1.23
+  '1.23E0': 1.23,
 };
 
 // TODO(alanknight): Test against currency, which requires generating data
@@ -78,14 +78,16 @@ void runTests(Map<String, num> allTestNumbers) {
       testAgainstIcu(locale, testFormats, list);
     } else if (!numberFormatSymbols.containsKey(list.current)) {
       throw Exception(
-          'Test locale ${list.current} is lacking in numberFormatSymbols.');
+        'Test locale ${list.current} is lacking in numberFormatSymbols.',
+      );
     } else {
       print('No unit tests found in numberTestData for locale $locale.');
     }
   }
   if (mainList[0] != 'END') {
     throw Exception(
-        'Test locale ${mainList[0]} is lacking in numberFormatSymbols.');
+      'Test locale ${mainList[0]} is lacking in numberFormatSymbols.',
+    );
   }
 
   test('Simple set of numbers', () {
@@ -114,7 +116,7 @@ void runTests(Map<String, num> allTestNumbers) {
       '0,001',
       '00,001',
       '000,001',
-      '0,000,001'
+      '0,000,001',
     ];
     for (var i = 0; i < 7; i++) {
       var f = NumberFormat.decimalPattern();
@@ -135,8 +137,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.maximumIntegerDigits = i;
-      expect(f.format(9876543210), expected[i],
-          reason: 'maximumIntegerDigits: $i');
+      expect(
+        f.format(9876543210),
+        expected[i],
+        reason: 'maximumIntegerDigits: $i',
+      );
     }
   });
 
@@ -154,9 +159,13 @@ void runTests(Map<String, num> allTestNumbers) {
       var f = NumberFormat.decimalPattern();
       f.minimumFractionDigits = i;
       if (i > f.maximumFractionDigits) f.maximumFractionDigits = i;
-      expect(f.format(1), expected[i],
-          reason: 'minimumFractionDigits: $i, '
-              'maximumFractionDigits: ${f.maximumFractionDigits}');
+      expect(
+        f.format(1),
+        expected[i],
+        reason:
+            'minimumFractionDigits: $i, '
+            'maximumFractionDigits: ${f.maximumFractionDigits}',
+      );
     }
   });
 
@@ -178,8 +187,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.maximumFractionDigits = i;
-      expect(f.format(9.123456789), expected[i],
-          reason: 'maximumFractionDigits: $i');
+      expect(
+        f.format(9.123456789),
+        expected[i],
+        reason: 'maximumFractionDigits: $i',
+      );
     }
   });
 
@@ -194,12 +206,7 @@ void runTests(Map<String, num> allTestNumbers) {
   });
 
   test('Exponential form with minimumExponentDigits', () {
-    var expected = [
-      '3.21E3',
-      '3.21E3',
-      '3.21E03',
-      '3.21E003',
-    ];
+    var expected = ['3.21E3', '3.21E3', '3.21E03', '3.21E003'];
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat('#.###E0');
       f.minimumExponentDigits = i;
@@ -227,8 +234,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.significantDigits = i;
-      expect(f.format(9876543.21012), expected[i],
-          reason: 'significantDigits: $i');
+      expect(
+        f.format(9876543.21012),
+        expected[i],
+        reason: 'significantDigits: $i',
+      );
     }
   });
 
@@ -252,8 +262,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.significantDigits = i;
-      expect(f.format(9876543.21012), expected[i],
-          reason: 'significantDigits: $i');
+      expect(
+        f.format(9876543.21012),
+        expected[i],
+        reason: 'significantDigits: $i',
+      );
     }
   });
 
@@ -277,8 +290,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.minimumSignificantDigits = i;
-      expect(f.format(9876543.21012), expected[i],
-          reason: 'minimumSignificantDigits: $i');
+      expect(
+        f.format(9876543.21012),
+        expected[i],
+        reason: 'minimumSignificantDigits: $i',
+      );
     }
   });
 
@@ -302,8 +318,11 @@ void runTests(Map<String, num> allTestNumbers) {
     for (var i = 0; i < expected.length; i++) {
       var f = NumberFormat.decimalPattern();
       f.maximumSignificantDigits = i;
-      expect(f.format(9876543.21012), expected[i],
-          reason: 'maximumSignificantDigits: $i');
+      expect(
+        f.format(9876543.21012),
+        expected[i],
+        reason: 'maximumSignificantDigits: $i',
+      );
     }
   });
 
@@ -388,42 +407,29 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(formatted, '€1,000,000.32');
     var readBack = usConvention.parse(formatted);
     expect(readBack, amount);
-    // ignore: deprecated_member_use_from_same_package
     var swissConvention = NumberFormat.currencyPattern('de_CH', r'$');
     formatted = swissConvention.format(amount);
     var nbsp = String.fromCharCode(0xa0);
-    var backquote = String.fromCharCode(0x2019);
-    //ignore: prefer_interpolation_to_compose_strings
-    expect(
-        formatted,
-        //ignore: prefer_interpolation_to_compose_strings
-        r'$' + nbsp + '1' + backquote + '000' + backquote + '000.32');
+    var tick = "'";
+    expect(formatted, r'$' + nbsp + '1' + tick + '000' + tick + '000.32');
     readBack = swissConvention.parse(formatted);
     expect(readBack, amount);
 
-    // ignore: deprecated_member_use_from_same_package
     var italianSwiss = NumberFormat.currencyPattern('it_CH', r'$');
     formatted = italianSwiss.format(amount);
-    expect(
-        formatted,
-        //ignore: prefer_interpolation_to_compose_strings
-        r'$' + nbsp + '1' + backquote + '000' + backquote + '000.32');
+    expect(formatted, r'$' + nbsp + '1' + tick + '000' + tick + '000.32');
     readBack = italianSwiss.parse(formatted);
     expect(readBack, amount);
 
     /// Verify we can leave off the currency and it gets filled in.
     var plainSwiss = NumberFormat.currency(locale: 'de_CH');
     formatted = plainSwiss.format(amount);
-    expect(
-        formatted,
-        //ignore: prefer_interpolation_to_compose_strings
-        r'CHF' + nbsp + '1' + backquote + '000' + backquote + '000.32');
+    expect(formatted, r'CHF' + nbsp + '1' + tick + '000' + tick + '000.32');
     readBack = plainSwiss.parse(formatted);
     expect(readBack, amount);
 
     // Verify that we can pass null in order to specify the currency symbol
     // but use the default locale.
-    // ignore: deprecated_member_use_from_same_package
     var defaultLocale = NumberFormat.currencyPattern(null, 'Smurfs');
     formatted = defaultLocale.format(amount);
     // We don't know what the exact format will be, but it should have Smurfs.
@@ -460,7 +466,9 @@ void runTests(Map<String, num> allTestNumbers) {
     void expectDigits(String locale, List<String> expectations) {
       for (var index = 0; index < expectations.length; index++) {
         var format = NumberFormat.decimalPatternDigits(
-            locale: locale, decimalDigits: index);
+          locale: locale,
+          decimalDigits: index,
+        );
         expect(format.format(number), expectations[index]);
       }
     }
@@ -470,18 +478,15 @@ void runTests(Map<String, num> allTestNumbers) {
   });
 
   test('Decimal digits for currency', () {
-    const digitsCheck = [
-      '@4',
-      '@4.3',
-      '@4.32',
-      '@4.322',
-      '@4.3220',
-    ];
+    const digitsCheck = ['@4', '@4.3', '@4.32', '@4.322', '@4.3220'];
 
     var amount = 4.3219876;
     for (var index = 0; index < digitsCheck.length; index++) {
       var format = NumberFormat.currency(
-          locale: 'en_US', symbol: '@', decimalDigits: index);
+        locale: 'en_US',
+        symbol: '@',
+        decimalDigits: index,
+      );
       var formatted = format.format(amount);
       expect(formatted, digitsCheck[index]);
     }
@@ -489,8 +494,11 @@ void runTests(Map<String, num> allTestNumbers) {
     var formatted = defaultFormat.format(amount);
     expect(formatted, digitsCheck[2]);
 
-    var jpyUs =
-        NumberFormat.currency(locale: 'en_US', name: 'JPY', symbol: '@');
+    var jpyUs = NumberFormat.currency(
+      locale: 'en_US',
+      name: 'JPY',
+      symbol: '@',
+    );
     formatted = jpyUs.format(amount);
     expect(formatted, digitsCheck[0]);
 
@@ -502,8 +510,11 @@ void runTests(Map<String, num> allTestNumbers) {
     formatted = jpySimple.format(amount);
     expect(formatted, '¥4');
 
-    var jpyLower =
-        NumberFormat.currency(locale: 'en_US', name: 'jpy', symbol: '@');
+    var jpyLower = NumberFormat.currency(
+      locale: 'en_US',
+      name: 'jpy',
+      symbol: '@',
+    );
     formatted = jpyLower.format(amount);
     expect(formatted, digitsCheck[0]);
 
@@ -523,8 +534,10 @@ void runTests(Map<String, num> allTestNumbers) {
   // Exercise a custom pattern. There's not actually much logic here, so just
   // validate that the custom pattern is in fact being used.
   test('Custom currency pattern', () {
-    var format =
-        NumberFormat.currency(name: 'XYZZY', customPattern: '[\u00a4][#,##.#]');
+    var format = NumberFormat.currency(
+      name: 'XYZZY',
+      customPattern: '[\u00a4][#,##.#]',
+    );
     var text = format.format(12345.67);
     expect(text, '[XYZZY][1,23,45.67]');
   });
@@ -550,8 +563,11 @@ void runTests(Map<String, num> allTestNumbers) {
       for (var i = 0; i < expected.length; i++) {
         var f = NumberFormat.simpleCurrency(locale: 'en_US', name: 'USD');
         f.significantDigits = i;
-        expect(f.format(9876543.21012), expected[i],
-            reason: 'significantDigits: $i');
+        expect(
+          f.format(9876543.21012),
+          expected[i],
+          reason: 'significantDigits: $i',
+        );
       }
     });
 
@@ -575,8 +591,11 @@ void runTests(Map<String, num> allTestNumbers) {
       for (var i = 0; i < expected.length; i++) {
         var f = NumberFormat.simpleCurrency(locale: 'ja', name: 'JPY');
         f.significantDigits = i;
-        expect(f.format(9876543.21012), expected[i],
-            reason: 'significantDigits: $i');
+        expect(
+          f.format(9876543.21012),
+          expected[i],
+          reason: 'significantDigits: $i',
+        );
       }
     });
   });
@@ -652,14 +671,8 @@ void runTests(Map<String, num> allTestNumbers) {
   });
 
   test('Use script', () {
-    expect(
-      NumberFormat.currency(locale: 'zh_Hant_TW').format(12),
-      'TWD12.00',
-    );
-    expect(
-      NumberFormat.currency(locale: 'zh_Hant_CN').format(12),
-      'CNY12.00',
-    );
+    expect(NumberFormat.currency(locale: 'zh_Hant_TW').format(12), 'TWD12.00');
+    expect(NumberFormat.currency(locale: 'zh_Hant_CN').format(12), 'CNY12.00');
   });
 }
 
@@ -676,7 +689,10 @@ String stripExtras(String input) {
 }
 
 void testAgainstIcu(
-    String locale, List<NumberFormat> testFormats, Iterator<String> list) {
+  String locale,
+  List<NumberFormat> testFormats,
+  Iterator<String> list,
+) {
   test('Test against ICU data for $locale', () {
     for (var format in testFormats) {
       var formatted = format.format(123);
@@ -704,12 +720,14 @@ void testSimpleCurrencySymbols() {
   // a locale where that currency symbol is well understood. So we
   // expect Canadian dollars printed as $, even though our locale is
   // en_US, and this would confuse users.
-  var simple = currencies.map((currency) =>
-      NumberFormat.simpleCurrency(locale: 'en_US', name: currency));
+  var simple = currencies.map(
+    (currency) => NumberFormat.simpleCurrency(locale: 'en_US', name: currency),
+  );
   var expectedSimple = [r'$', r'$', '\u20ac', '\u20a1', r'$'];
   // These will always print as the global name, regardless of locale
   var global = currencies.map(
-      (currency) => NumberFormat.currency(locale: 'en_US', name: currency));
+    (currency) => NumberFormat.currency(locale: 'en_US', name: currency),
+  );
   var expectedGlobal = currencies.map((curr) => curr ?? 'USD').toList();
 
   testCurrencySymbolsFor(expectedGlobal, global, 'global');
@@ -717,10 +735,15 @@ void testSimpleCurrencySymbols() {
 }
 
 void testCurrencySymbolsFor(
-    List<String> expected, Iterable<NumberFormat> formats, String name) {
+  List<String> expected,
+  Iterable<NumberFormat> formats,
+  String name,
+) {
   var amount = 1000000.32;
-  Map<Object, NumberFormat>.fromIterables(expected, formats)
-      .forEach((expected, NumberFormat format) {
+  Map<Object, NumberFormat>.fromIterables(expected, formats).forEach((
+    expected,
+    NumberFormat format,
+  ) {
     test('Test $name ${format.currencyName}', () {
       // Allow for currencies with different fraction digits, e.g. CRC.
       var maxDigits = format.maximumFractionDigits;

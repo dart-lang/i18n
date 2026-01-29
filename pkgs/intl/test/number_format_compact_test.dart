@@ -16,11 +16,14 @@ import 'more_compact_number_test_data.dart' as more_testdata;
 /// A place to put a case that's causing a problem and have it run first when
 /// debugging
 Map<String, List<List<String>>> interestingCases = <String, List<List<String>>>{
-//  'mn' : [['4321', '4.32M', 'whatever']]
+  //  'mn' : [['4321', '4.32M', 'whatever']]
 };
+const nbsp = '\u00A0';
+const rtlMark = '\u200E';
+const ltrMark = '\u200F';
 
-Map<String, List<List<String>>> compactWithExplicitSign =
-    <String, List<List<String>>>{
+Map<String, List<List<String>>>
+compactWithExplicitSign = <String, List<List<String>>>{
   'en_US': [
     ['0', '+0', '+0'],
     ['0.012', '+0.012', '+0.012'],
@@ -54,22 +57,22 @@ Map<String, List<List<String>>> compactWithExplicitSign =
   ],
   'sw': [
     ['12', '+12', '+12'],
-    ['12341', 'elfu\u00A0+12.3', 'elfu +12.3'],
+    ['12341', 'elfu${nbsp}+12.3', 'elfu +12.3'],
     ['-12', '-12', '-12'],
-    ['-12341', 'elfu\u00A0-12.3', 'elfu -12.3'],
+    ['-12341', 'elfu${nbsp}-12.3', 'elfu -12.3'],
   ],
   'he': [
-    ['12', '\u200e+12', '\u200e+12'],
-    ['12341', '\u200e+12.3K\u200f', '\u200e+\u200f12.3 אלף'],
-    ['-12', '\u200e-12', '\u200e-12'],
-    ['-12341', '\u200e-12.3K\u200f', '\u200e-\u200f12.3 אלף'],
+    ['12', '${rtlMark}+12', '${rtlMark}+12'],
+    ['12341', '${rtlMark}+12.3K${ltrMark}', '${rtlMark}+${ltrMark}12.3 אלף'],
+    ['-12', '${rtlMark}-12', '${rtlMark}-12'],
+    ['-12341', '${rtlMark}-12.3K${ltrMark}', '${rtlMark}-${ltrMark}12.3 אלף'],
   ],
 };
 
 Map<String, List<List<String>>> parsingTestCases = <String, List<List<String>>>{
   'en_US': [
     ['1230', '1.23 K', '1.23  thousand'], // Random spaces.
-    ['1230', '1.23\u00a0K', '1.23\u00a0thousand'], // NO-BREAK SPACE.
+    ['1230', '1.23${nbsp}K', '1.23${nbsp}thousand'], // NO-BREAK SPACE.
     ['1230', '1.23\u202fK', '1.23\u202fthousand'], // NARROW NO-BREAK SPACE.
   ],
   'fi': [
@@ -85,22 +88,22 @@ Map<String, List<List<String>>> parsingTestCases = <String, List<List<String>>>{
       '123',
       // With locale numerals.
       '\u06F1\u06F2\u06F3',
-      '\u06F1\u06F2\u06F3'
+      '\u06F1\u06F2\u06F3',
     ],
     [
       '4320',
       // With locale numerals.
       '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631',
-      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631'
+      '\u06F4\u066B\u06F3\u06F2 \u0647\u0632\u0627\u0631',
     ],
     ['123', '123', '123'], // With roman numerals.
     [
       '4320',
       // With roman numerals.
       '4.32 \u0647\u0632\u0627\u0631',
-      '4.32 \u0647\u0632\u0627\u0631'
+      '4.32 \u0647\u0632\u0627\u0631',
     ],
-  ]
+  ],
 };
 
 void main() {
@@ -200,25 +203,59 @@ void main() {
   testCurrency(
     'ru',
     4420,
-    '4,42\u00A0тыс.\u00A0\u20BD',
-    '4\u00A0тыс.\u00A0\u20BD',
+    '4,42${nbsp}тыс.${nbsp}\u20BD',
+    '4${nbsp}тыс.${nbsp}\u20BD',
   );
 
   // Check for sign location when multiple patterns.
-  testCurrency('sw', 12341, 'TSh\u00A0elfu12.3', 'TSh\u00A0elfu12');
-  testCurrency('sw', -12341, 'TShelfu\u00A0-12.3', 'TShelfu\u00A0-12');
+  testCurrency(
+    'sw',
+    12341,
+    'TSh${nbsp}elfu${nbsp}12.3',
+    'TSh${nbsp}elfu${nbsp}12',
+  );
+  testCurrency(
+    'sw',
+    -12341,
+    'TSh${nbsp}elfu${nbsp}-12.3',
+    'TSh${nbsp}elfu${nbsp}-12',
+  );
 
   // Locales which don't have a suffix for thousands.
-  testCurrency('it', 442, '442\u00A0€', '442\u00A0€');
-  testCurrency('it', 4420, '4420\u00A0\$', '4420\u00A0\$', currency: 'CAD');
-  testCurrency('it', 4420000, '4,42\u00A0Mln\u00A0\$', '4\u00A0Mln\u00A0\$',
-      currency: 'USD');
-
-  testCurrency('he', 335, '\u200F335\u00A0\u200F₪', '\u200F335\u00A0\u200F₪');
+  testCurrency('it', 442, '442${nbsp}€', '442${nbsp}€');
+  testCurrency('it', 4420, '4,42K${nbsp}\$', '4K${nbsp}\$', currency: 'CAD');
   testCurrency(
-      'he', -335, '\u200F-335\u00A0\u200F₪', '\u200F-335\u00A0\u200F₪');
-  testCurrency('he', 12341, '₪12.3K\u200f', '₪12K\u200f');
-  testCurrency('he', -12341, '\u200e-₪12.3K\u200f', '\u200e-₪12K\u200f');
+    'it',
+    4420000,
+    '4,42${nbsp}Mln${nbsp}\$',
+    '4${nbsp}Mln${nbsp}\$',
+    currency: 'USD',
+  );
+
+  testCurrency(
+    'he',
+    335,
+    '${ltrMark}335${nbsp}${ltrMark}₪',
+    '${ltrMark}335${nbsp}${ltrMark}₪',
+  );
+  testCurrency(
+    'he',
+    -335,
+    '${ltrMark}-335${nbsp}${ltrMark}₪',
+    '${ltrMark}-335${nbsp}${ltrMark}₪',
+  );
+  testCurrency(
+    'he',
+    12341,
+    '${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
+    '${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+  );
+  testCurrency(
+    'he',
+    -12341,
+    '${rtlMark}-${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
+    '${rtlMark}-${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+  );
 
   group('Currency with minimumFractionDigits + significant digits', () {
     var expectedBase = <double, String>{
@@ -321,18 +358,36 @@ void main() {
 /// `compactSimpleCurrency`. The `expectedShort` string is compared to the
 /// output of the formatters with significantDigits set to `1`.
 void testCurrency(
-    String locale, num number, String expected, String expectedShort,
-    {String? currency, String? reason}) {
+  String locale,
+  num number,
+  String expected,
+  String expectedShort, {
+  String? currency,
+  String? reason,
+}) {
   test('Compact simple currency for $locale, $number', () {
-    var format =
-        NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
+    var format = NumberFormat.compactSimpleCurrency(
+      locale: locale,
+      name: currency,
+    );
     var result = format.format(number);
-    expect(result, expected, reason: '$reason');
-    var shortFormat =
-        NumberFormat.compactSimpleCurrency(locale: locale, name: currency);
+    expect(
+      result,
+      expected,
+      reason: '$reason ${result.codeUnits} ${expected.codeUnits}',
+    );
+    var shortFormat = NumberFormat.compactSimpleCurrency(
+      locale: locale,
+      name: currency,
+    );
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
-    expect(shortResult, expectedShort, reason: 'shortFormat: $reason');
+    expect(
+      shortResult,
+      expectedShort,
+      reason:
+          'shortFormat: $reason ${shortResult.codeUnits} ${expectedShort.codeUnits}',
+    );
   });
   test('Compact currency for $locale, $number', () {
     var symbols = {
@@ -343,15 +398,21 @@ void testCurrency(
       'he': '₪',
       'sw': 'TSh',
       'CAD': r'$',
-      'USD': r'$'
+      'USD': r'$',
     };
     var symbol = symbols[currency] ?? symbols[locale];
     var format = NumberFormat.compactCurrency(
-        locale: locale, name: currency, symbol: symbol);
+      locale: locale,
+      name: currency,
+      symbol: symbol,
+    );
     var result = format.format(number);
     expect(result, expected, reason: '$reason');
     var shortFormat = NumberFormat.compactCurrency(
-        locale: locale, name: currency, symbol: symbol);
+      locale: locale,
+      name: currency,
+      symbol: symbol,
+    );
     shortFormat.significantDigits = 1;
     var shortResult = shortFormat.format(number);
     expect(shortResult, expectedShort, reason: 'shortFormat: $reason');
@@ -415,14 +476,21 @@ void _validateNumber(dynamic number, NumberFormat format, String expected) {
   var numberDouble = number.toDouble();
   var formatted = format.format(number);
 
-  expect('$formatted ${formatted.codeUnits}', '$expected ${expected.codeUnits}',
-      reason: 'for number: $number');
+  expect(
+    '$formatted ${formatted.codeUnits}',
+    '$expected ${expected.codeUnits}',
+    reason: 'for number: $number',
+  );
 
   var parsed = format.parse(formatted);
-  var almostEquals = (number == 0 && parsed.abs() < 0.01) ||
+  var almostEquals =
+      (number == 0 && parsed.abs() < 0.01) ||
       ((parsed - numberDouble) / numberDouble).abs() < 0.1;
-  expect(almostEquals, isTrue,
-      reason: 'for number: $number (formatted: $formatted, parsed: $parsed)');
+  expect(
+    almostEquals,
+    isTrue,
+    reason: 'for number: $number (formatted: $formatted, parsed: $parsed)',
+  );
 }
 
 void _validateFancy(more_testdata.CompactRoundingTestCase t) {
@@ -465,13 +533,17 @@ void _validateWithExplicitSign(String locale, List<List<String>> expected) {
   for (var data in expected) {
     final input = num.parse(data[0]);
     test('Validate compact with $locale and explicit sign for $input', () {
-      final numberFormat =
-          NumberFormat.compact(locale: locale, explicitSign: true);
+      final numberFormat = NumberFormat.compact(
+        locale: locale,
+        explicitSign: true,
+      );
       expect(numberFormat.format(input), data[1]);
     });
     test('Validate compactLong with $locale and explicit sign for $input', () {
-      final numberFormat =
-          NumberFormat.compactLong(locale: locale, explicitSign: true);
+      final numberFormat = NumberFormat.compactLong(
+        locale: locale,
+        explicitSign: true,
+      );
       expect(numberFormat.format(input), data[2]);
     });
   }

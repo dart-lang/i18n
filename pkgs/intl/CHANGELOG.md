@@ -1,13 +1,14 @@
 ## 0.20.3-wip
- * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`  
-   from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the  
+ * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
+   from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
    official symbol introduced in 2012.
  * Fix parsing of locale strings containing script codes in `verifiedLocale`.
    For example, `zh-Hans-CN` would have been previously parsed as `zh`, but is
    now parsed as `zh_CN`.
- * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`  
+ * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`
    from "GHS" to "GH₵(U+20B5)".
  * Update the Georgian Lari (GEL) currency symbol in `simpleCurrencySymbols` from "GEL" to "₾" (U+20BE).
+ * Update to CLDR v48.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
