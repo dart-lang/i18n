@@ -20,7 +20,9 @@ import 'number_format_options.dart';
 /// import 'package:intl4x/number_format.dart';
 ///
 /// void main() {
-///   print(NumberFormat().format(123456.789)); // Prints '123,456.789'
+///   print(
+///     NumberFormat(locale: Locale.parse('en-US')).format(123456.789),
+///   ); // Prints '123,456.789'
 /// }
 /// ```
 final class NumberFormat {
