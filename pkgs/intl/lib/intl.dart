@@ -461,10 +461,7 @@ class Intl {
   /// can't actually identify if something is an enum or not.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String select(
-      Object choice,
-      // ignore: experimental_member_use
-      @mustBeConst Map<Object, String> cases,
+  static String select(Object choice, Map<Object, String> cases,
       {
       // ignore: experimental_member_use
       @mustBeConst String? desc,
