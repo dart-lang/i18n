@@ -13,6 +13,8 @@ library;
 
 import 'dart:async';
 
+import 'package:meta/meta.dart';
+
 import 'src/global_state.dart' as global_state;
 import 'src/intl/date_format.dart' show DateFormat;
 import 'src/intl_helpers.dart' as helpers;
@@ -158,13 +160,19 @@ class Intl {
   // messages, so it will eliminate the descriptions and other information
   // not needed at runtime.
   static String message(String messageText,
-          {String? desc = '',
-          Map<String, Object>? examples,
+          {
+          // ignore: experimental_member_use
+          @mustBeConst String? desc = '',
+          // ignore: experimental_member_use
+          @mustBeConst Map<String, Object>? examples,
           String? locale,
-          String? name,
+          // ignore: experimental_member_use
+          @mustBeConst String? name,
           List<Object>? args,
-          String? meaning,
-          bool? skip}) =>
+          // ignore: experimental_member_use
+          @mustBeConst String? meaning,
+          // ignore: experimental_member_use
+          @mustBeConst bool? skip}) =>
       _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
@@ -237,14 +245,19 @@ class Intl {
       String? few,
       String? many,
       required String other,
-      String? desc,
-      Map<String, Object>? examples,
+      // ignore: experimental_member_use
+      @mustBeConst String? desc,
+      // ignore: experimental_member_use
+      @mustBeConst Map<String, Object>? examples,
       String? locale,
       int? precision,
-      String? name,
+      // ignore: experimental_member_use
+      @mustBeConst String? name,
       List<Object>? args,
-      String? meaning,
-      bool? skip}) {
+      // ignore: experimental_member_use
+      @mustBeConst String? meaning,
+      // ignore: experimental_member_use
+      @mustBeConst bool? skip}) {
     // Call our internal method, dropping examples and desc because they're not
     // used at runtime and we want them to be optimized away.
     return _plural(howMany,
@@ -375,13 +388,18 @@ class Intl {
       {String? female,
       String? male,
       required String other,
-      String? desc,
-      Map<String, Object>? examples,
+      // ignore: experimental_member_use
+      @mustBeConst String? desc,
+      // ignore: experimental_member_use
+      @mustBeConst Map<String, Object>? examples,
       String? locale,
-      String? name,
+      // ignore: experimental_member_use
+      @mustBeConst String? name,
       List<Object>? args,
-      String? meaning,
-      bool? skip}) {
+      // ignore: experimental_member_use
+      @mustBeConst String? meaning,
+      // ignore: experimental_member_use
+      @mustBeConst bool? skip}) {
     // Call our internal method, dropping args and desc because they're not used
     // at runtime and we want them to be optimized away.
     return _gender(targetGender,
@@ -443,14 +461,23 @@ class Intl {
   /// can't actually identify if something is an enum or not.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String select(Object choice, Map<Object, String> cases,
-      {String? desc,
-      Map<String, Object>? examples,
+  static String select(
+      Object choice,
+      // ignore: experimental_member_use
+      @mustBeConst Map<Object, String> cases,
+      {
+      // ignore: experimental_member_use
+      @mustBeConst String? desc,
+      // ignore: experimental_member_use
+      @mustBeConst Map<String, Object>? examples,
       String? locale,
-      String? name,
+      // ignore: experimental_member_use
+      @mustBeConst String? name,
       List<Object>? args,
-      String? meaning,
-      bool? skip}) {
+      // ignore: experimental_member_use
+      @mustBeConst String? meaning,
+      // ignore: experimental_member_use
+      @mustBeConst bool? skip}) {
     return _select(choice, cases,
         locale: locale, name: name, args: args, meaning: meaning);
   }
