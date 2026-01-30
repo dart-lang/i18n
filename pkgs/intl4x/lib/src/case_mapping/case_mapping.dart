@@ -16,7 +16,7 @@ import 'case_mapping_impl.dart';
 /// import 'package:intl4x/case_mapping.dart';
 ///
 /// void main() {
-///   final caseMapping = CaseMapping(locale: Locale('tr'));
+///   final caseMapping = CaseMapping(locale: Locale.parse('tr'));
 ///   print(caseMapping.toUpperCase('i')); // Prints 'İ'
 /// }
 /// ```
@@ -39,7 +39,7 @@ final class CaseMapping {
   /// import 'package:intl4x/case_mapping.dart';
   ///
   /// void main() {
-  ///   final caseMapping = CaseMapping(locale: Locale('en', 'US'));
+  ///   final caseMapping = CaseMapping(locale: Locale.parse('en-US'));
   ///   print(caseMapping.toLowerCase('İ')); // Prints 'i̇'
   /// }
   /// ```
@@ -59,7 +59,7 @@ final class CaseMapping {
   /// import 'package:intl4x/case_mapping.dart';
   ///
   /// void main() {
-  ///   final caseMapping = CaseMapping(locale: Locale('tr'));
+  ///   final caseMapping = CaseMapping(locale: Locale.parse('tr'));
   ///   print(caseMapping.toUpperCase('i')); // Prints 'İ'
   /// }
   /// ```
