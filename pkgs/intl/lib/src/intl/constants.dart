@@ -82,7 +82,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'ZMK': 'ZWK',
   'AOA': 'Kz',
   'MMK': 'K',
-  'GEL': 'GEL',
+  'GEL': '\u20BE',
   'LVL': 'Ls',
   'ALL': 'Lek',
   'HNL': 'L',

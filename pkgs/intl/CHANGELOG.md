@@ -7,6 +7,7 @@
    now parsed as `zh_CN`.
  * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`
    from "GHS" to "GH₵(U+20B5)".
+ * Update the Georgian Lari (GEL) currency symbol in `simpleCurrencySymbols` from "GEL" to "₾" (U+20BE).
  * Update to CLDR v48.
 
 ## 0.20.2
