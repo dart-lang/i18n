@@ -1,3 +1,6 @@
+## 0.21.1-wip
+  * Escape text direction code points in generated code.
+
 ## 0.21.0
   * BREAKING CHANGE: Update `dart_style` to `^3.0.0`
   * Allow analyzer `>=6.3.0 <8.0.0`
