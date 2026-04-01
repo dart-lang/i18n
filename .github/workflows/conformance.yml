@@ -19,7 +19,7 @@ jobs:
       if: false 
       runs-on: ubuntu-latest
       steps:
-        - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
           with:
             sdk: dev
 
@@ -37,7 +37,7 @@ jobs:
         - name: Download Reference Exec Summary
           if: github.ref != 'refs/heads/main'
           continue-on-error: true
-          uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3
+          uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
           with:
             name: reference_exec_summary
 
