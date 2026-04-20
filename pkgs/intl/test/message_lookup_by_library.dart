@@ -26,7 +26,7 @@ void main() {
 
 class TestMessageLookupByLibrary extends MessageLookupByLibrary {
   @override
-  final Map<String, dynamic> messages;
+  final Map<String, Function> messages;
 
   @override
   final String localeName;

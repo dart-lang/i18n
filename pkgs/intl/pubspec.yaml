@@ -1,5 +1,5 @@
 name: intl
-version: 0.20.3-wip # This should follow semver to not break Flutter, where it is unpinned, see https://github.com/flutter/flutter/blob/main/pubspec.yaml
+version: 0.20.3 # This should follow semver to not break Flutter, where it is unpinned, see https://github.com/flutter/flutter/blob/main/pubspec.yaml
 description: >-
   Contains code to deal with internationalized/localized messages, date and
   number formatting and parsing, bi-directional text, and other
@@ -23,5 +23,5 @@ dev_dependencies:
   benchmark_harness: ^2.2.0
   ffi: ^2.1.3
   fixnum: ^1.0.0
-  lints: ^5.0.0
+  lints: ^6.1.0
   test: ^1.16.6

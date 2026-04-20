@@ -57,15 +57,15 @@ compactWithExplicitSign = <String, List<List<String>>>{
   ],
   'sw': [
     ['12', '+12', '+12'],
-    ['12341', 'elfu${nbsp}+12.3', 'elfu +12.3'],
+    ['12341', 'elfu$nbsp+12.3', 'elfu +12.3'],
     ['-12', '-12', '-12'],
-    ['-12341', 'elfu${nbsp}-12.3', 'elfu -12.3'],
+    ['-12341', 'elfu$nbsp-12.3', 'elfu -12.3'],
   ],
   'he': [
-    ['12', '${rtlMark}+12', '${rtlMark}+12'],
-    ['12341', '${rtlMark}+12.3K${ltrMark}', '${rtlMark}+${ltrMark}12.3 אלף'],
-    ['-12', '${rtlMark}-12', '${rtlMark}-12'],
-    ['-12341', '${rtlMark}-12.3K${ltrMark}', '${rtlMark}-${ltrMark}12.3 אלף'],
+    ['12', '$rtlMark+12', '$rtlMark+12'],
+    ['12341', '$rtlMark+12.3K$ltrMark', '$rtlMark+${ltrMark}12.3 אלף'],
+    ['-12', '$rtlMark-12', '$rtlMark-12'],
+    ['-12341', '$rtlMark-12.3K$ltrMark', '$rtlMark-${ltrMark}12.3 אלף'],
   ],
 };
 
@@ -203,8 +203,8 @@ void main() {
   testCurrency(
     'ru',
     4420,
-    '4,42${nbsp}тыс.${nbsp}\u20BD',
-    '4${nbsp}тыс.${nbsp}\u20BD',
+    '4,42$nbspтыс.$nbsp\u20BD',
+    '4$nbspтыс.$nbsp\u20BD',
   );
 
   // Check for sign location when multiple patterns.
@@ -217,44 +217,44 @@ void main() {
   testCurrency(
     'sw',
     -12341,
-    'TSh${nbsp}elfu${nbsp}-12.3',
-    'TSh${nbsp}elfu${nbsp}-12',
+    'TSh${nbsp}elfu$nbsp-12.3',
+    'TSh${nbsp}elfu$nbsp-12',
   );
 
   // Locales which don't have a suffix for thousands.
-  testCurrency('it', 442, '442${nbsp}€', '442${nbsp}€');
-  testCurrency('it', 4420, '4,42K${nbsp}\$', '4K${nbsp}\$', currency: 'CAD');
+  testCurrency('it', 442, '442$nbsp€', '442$nbsp€');
+  testCurrency('it', 4420, '4,42K$nbsp\$', '4K$nbsp\$', currency: 'CAD');
   testCurrency(
     'it',
     4420000,
-    '4,42${nbsp}Mln${nbsp}\$',
-    '4${nbsp}Mln${nbsp}\$',
+    '4,42${nbsp}Mln$nbsp\$',
+    '4${nbsp}Mln$nbsp\$',
     currency: 'USD',
   );
 
   testCurrency(
     'he',
     335,
-    '${ltrMark}335${nbsp}${ltrMark}₪',
-    '${ltrMark}335${nbsp}${ltrMark}₪',
+    '${ltrMark}335$nbsp$ltrMark₪',
+    '${ltrMark}335$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     -335,
-    '${ltrMark}-335${nbsp}${ltrMark}₪',
-    '${ltrMark}-335${nbsp}${ltrMark}₪',
+    '$ltrMark-335$nbsp$ltrMark₪',
+    '$ltrMark-335$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     12341,
-    '${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
-    '${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+    '${ltrMark}12.3K$ltrMark$nbsp$ltrMark₪',
+    '${ltrMark}12K$ltrMark$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     -12341,
-    '${rtlMark}-${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
-    '${rtlMark}-${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+    '$rtlMark-${ltrMark}12.3K$ltrMark$nbsp$ltrMark₪',
+    '$rtlMark-${ltrMark}12K$ltrMark$nbsp$ltrMark₪',
   );
 
   group('Currency with minimumFractionDigits + significant digits', () {

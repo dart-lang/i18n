@@ -181,9 +181,9 @@ class MessageGeneration {
     // 24356
     return '''
   @override
-  final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
+  final Map<String, Function> messages = _notInlinedMessages(_notInlinedMessages);
 
-  static Map<String, dynamic> _notInlinedMessages(Object? _) => {
+  static Map<String, Function> _notInlinedMessages(Object? _) => {
   ''';
   }
 

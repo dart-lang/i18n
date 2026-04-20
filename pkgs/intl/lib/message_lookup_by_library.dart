@@ -104,7 +104,7 @@ abstract class MessageLookupByLibrary {
       List<Object>? args, String? meaning,
       {MessageIfAbsent? ifAbsent}) {
     var actualName = computeMessageName(name, messageText, meaning);
-    Object? translation;
+    Function? translation;
     if (actualName != null) {
       translation = this[actualName];
     }
@@ -117,17 +117,17 @@ abstract class MessageLookupByLibrary {
   }
 
   /// Evaluate the translated message and return the translated string.
-  String? evaluateMessage(translation, List<dynamic> args) {
+  String? evaluateMessage(Function translation, List<dynamic> args) {
     return Function.apply(translation, args);
   }
 
   /// Return our message with the given name
-  dynamic operator [](String messageName) => messages[messageName];
+  Function? operator [](String messageName) => messages[messageName];
 
   /// Subclasses should override this to return a list of their message
   /// implementations. In this class these are functions, but subclasses may
   /// implement them differently.
-  Map<String, dynamic> get messages;
+  Map<String, Function> get messages;
 
   /// Subclasses should override this to return their locale, e.g. 'en_US'
   String get localeName;
@@ -137,6 +137,6 @@ abstract class MessageLookupByLibrary {
 
   /// Return a function that returns the given string.
   /// An optimization for dart2js, used from the generated code.
-  static String Function() simpleMessage(translatedString) =>
+  static String Function() simpleMessage(String translatedString) =>
       () => translatedString;
 }

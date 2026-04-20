@@ -451,7 +451,7 @@ class _CompactNumberFormat extends NumberFormat {
   /// Divide numbers that may not have a division operator (e.g. Int64).
   ///
   /// Only used for powers of 10, so we require an integer denominator.
-  static num _divide(numerator, int denominator) {
+  static num _divide(dynamic numerator, int denominator) {
     if (numerator is num) {
       return numerator / denominator;
     }
@@ -469,7 +469,7 @@ class _CompactNumberFormat extends NumberFormat {
     return integerPart + (remainder / denominator) + fraction;
   }
 
-  _CompactStyle _styleFor(number) {
+  _CompactStyle _styleFor(dynamic number) {
     if (number.abs() < 10) {
       // Cannot be compacted.
       return _defaultCompactStyle;

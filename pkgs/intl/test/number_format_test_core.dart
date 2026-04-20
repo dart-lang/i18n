@@ -162,8 +162,7 @@ void runTests(Map<String, num> allTestNumbers) {
       expect(
         f.format(1),
         expected[i],
-        reason:
-            'minimumFractionDigits: $i, '
+        reason: 'minimumFractionDigits: $i, '
             'maximumFractionDigits: ${f.maximumFractionDigits}',
       );
     }
@@ -411,20 +410,20 @@ void runTests(Map<String, num> allTestNumbers) {
     formatted = swissConvention.format(amount);
     var nbsp = String.fromCharCode(0xa0);
     var tick = "'";
-    expect(formatted, r'$' + nbsp + '1' + tick + '000' + tick + '000.32');
+    expect(formatted, '\$${nbsp}1${tick}000${tick}000.32');
     readBack = swissConvention.parse(formatted);
     expect(readBack, amount);
 
     var italianSwiss = NumberFormat.currencyPattern('it_CH', r'$');
     formatted = italianSwiss.format(amount);
-    expect(formatted, r'$' + nbsp + '1' + tick + '000' + tick + '000.32');
+    expect(formatted, '\$${nbsp}1${tick}000${tick}000.32');
     readBack = italianSwiss.parse(formatted);
     expect(readBack, amount);
 
     /// Verify we can leave off the currency and it gets filled in.
     var plainSwiss = NumberFormat.currency(locale: 'de_CH');
     formatted = plainSwiss.format(amount);
-    expect(formatted, r'CHF' + nbsp + '1' + tick + '000' + tick + '000.32');
+    expect(formatted, 'CHF${nbsp}1${tick}000${tick}000.32');
     readBack = plainSwiss.parse(formatted);
     expect(readBack, amount);
 

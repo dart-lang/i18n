@@ -39,15 +39,14 @@ void main() {
     );
 
     const nbsp = '\u00A0';
-    const rtlMark = '\u200E';
     const ltrMark = '\u200F';
     var compact = intl.NumberFormat.compactCurrency(locale: 'he');
     expect(
       compact.format(1234),
-      '${ltrMark}1.23K${ltrMark}${nbsp}${ltrMark}ILS',
+      '${ltrMark}1.23K$ltrMark$nbsp${ltrMark}ILS',
     );
     compact = intl.NumberFormat.compactCurrency(locale: 'he', symbol: '₪');
-    expect(compact.format(1234), '${ltrMark}1.23K${ltrMark}$nbsp${ltrMark}₪');
+    expect(compact.format(1234), '${ltrMark}1.23K$ltrMark$nbsp$ltrMark₪');
     // ECMAScript skips the RTL character for notation:'compact':
     expect(
       _ecmaFormatNumber(
@@ -57,7 +56,7 @@ void main() {
         currency: 'ILS',
         notation: 'compact',
       ),
-      '₪1.2K${ltrMark}',
+      '₪1.2K$ltrMark',
     );
     // short/long compactDisplay doesn't change anything here:
     expect(
@@ -86,7 +85,7 @@ void main() {
     var compactSimple = intl.NumberFormat.compactSimpleCurrency(locale: 'he');
     expect(
       compactSimple.format(1234),
-      '${ltrMark}1.23K${ltrMark}${nbsp}${ltrMark}₪',
+      '${ltrMark}1.23K$ltrMark$nbsp$ltrMark₪',
     );
   });
 }

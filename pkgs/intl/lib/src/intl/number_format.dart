@@ -526,7 +526,7 @@ class NumberFormat {
   }
 
   /// Format the main part of the number in the form dictated by the pattern.
-  void _formatNumber(number) {
+  void _formatNumber(dynamic number) {
     if (_useExponentialNotation) {
       _formatExponential(number);
     } else {
@@ -589,8 +589,8 @@ class NumberFormat {
 
   /// Helpers to check numbers that don't conform to the [num] interface,
   /// e.g. Int64
-  bool _isInfinite(number) => number is num ? number.isInfinite : false;
-  bool _isNaN(number) => number is num ? number.isNaN : false;
+  bool _isInfinite(dynamic number) => number is num ? number.isInfinite : false;
+  bool _isNaN(dynamic number) => number is num ? number.isNaN : false;
 
   /// Helper to get the floor of a number which might not be num. This should
   /// only ever be called with an argument which is positive, or whose abs()
@@ -815,7 +815,7 @@ class NumberFormat {
 
   /// Compute the raw integer digits which will then be printed with
   /// grouping and translated to localized digits.
-  String _integerDigits(integerPart, extraIntegerDigits) {
+  String _integerDigits(dynamic integerPart, dynamic extraIntegerDigits) {
     // If the integer part is larger than the maximum integer size
     // (2^52 on Javascript, 2^63 on the VM) it will lose precision,
     // so pad out the rest of it with zeros.
@@ -840,7 +840,7 @@ class NumberFormat {
   /// The digit string of the integer part. This is the empty string if the
   /// integer part is zero and otherwise is the toString() of the integer
   /// part, stripping off any minus sign.
-  String _mainIntegerDigits(integer) {
+  String _mainIntegerDigits(dynamic integer) {
     if (integer == 0) return '';
     var digits = integer.toString();
     if (significantDigitsInUse &&
@@ -944,11 +944,13 @@ class NumberFormat {
 
   /// Returns the prefix for [x] based on whether it's positive or negative.
   /// In en_US this would be '' and '-' respectively.
-  String _signPrefix(x) => x.isNegative ? negativePrefix : positivePrefix;
+  String _signPrefix(dynamic x) =>
+      x.isNegative ? negativePrefix : positivePrefix;
 
   /// Returns the suffix for [x] based on wether it's positive or negative.
   /// In en_US there are no suffixes for positive or negative.
-  String _signSuffix(x) => x.isNegative ? negativeSuffix : positiveSuffix;
+  String _signSuffix(dynamic x) =>
+      x.isNegative ? negativeSuffix : positiveSuffix;
 
   /// Explicitly turn off any grouping (e.g. by thousands) in this format.
   ///

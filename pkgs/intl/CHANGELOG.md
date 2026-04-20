@@ -1,4 +1,4 @@
-## 0.20.3-wip
+## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
    official symbol introduced in 2012.
@@ -8,6 +8,7 @@
  * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`
    from "GHS" to "GH₵(U+20B5)".
  * Update to CLDR v48.
+ * Update analysis to newest `package:lints`.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
