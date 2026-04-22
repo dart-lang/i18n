@@ -30,7 +30,7 @@ class MainMessage extends ComplexMessage {
   /// Verify that this looks like a correct Intl.message invocation.
   static void checkValidity(
     MethodInvocation node,
-    List<Expression> arguments,
+    List<Argument> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,
