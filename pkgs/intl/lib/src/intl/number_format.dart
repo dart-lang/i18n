@@ -10,6 +10,7 @@ import 'package:intl/number_symbols_data.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
 import 'package:intl/src/plural_rules.dart' as plural_rules;
 
+import '../data/currency_names_data.dart';
 import 'constants.dart' as constants;
 import 'number_format_parser.dart';
 import 'number_parser.dart';
@@ -173,6 +174,15 @@ class NumberFormat {
   /// The name of the currency to print, in ISO 4217 form.
   String? currencyName;
 
+  /// The full name of the currency to print, e.g. "US Dollars".
+  String? get currencyFullName {
+    if (_currencyFullName != null) return _currencyFullName;
+    return localizedCurrencyNames[_locale]?[currencyName];
+  }
+
+  set currencyFullName(String? value) => _currencyFullName = value;
+  String? _currencyFullName;
+
   /// The symbol to be used when formatting this as currency.
   ///
   /// For example, "$", "US$", or "€".
@@ -296,12 +306,14 @@ class NumberFormat {
           String? name,
           String? symbol,
           int? decimalDigits,
-          String? customPattern}) =>
+          String? customPattern,
+          String? fullName}) =>
       NumberFormat._forPattern(
           locale, (x) => customPattern ?? x.CURRENCY_PATTERN,
           name: name,
           currencySymbol: symbol,
           decimalDigits: decimalDigits,
+          fullName: fullName,
           isForCurrency: true);
 
   /// Creates a [NumberFormat] for currencies, using the simple symbol for the
@@ -362,6 +374,7 @@ class NumberFormat {
       {String? name,
       String? currencySymbol,
       int? decimalDigits,
+      String? fullName,
       bool lookupSimpleCurrencySymbol = false,
       bool isForCurrency = false}) {
     locale = helpers.verifiedLocale(locale, localeExists, null)!;
@@ -386,7 +399,8 @@ class NumberFormat {
         symbols,
         zeroOffset,
         NumberFormatParser.parse(symbols, pattern, isForCurrency,
-            currencySymbol, name, decimalDigits));
+            currencySymbol, name, decimalDigits,
+            currencyFullName: fullName));
   }
 
   NumberFormat._(
@@ -399,7 +413,8 @@ class NumberFormat {
       this._symbols,
       this._zeroOffset,
       NumberFormatParseResult result)
-      : positivePrefix = result.positivePrefix,
+      : _currencyFullName = result.currencyFullName,
+        positivePrefix = result.positivePrefix,
         negativePrefix = result.negativePrefix,
         positiveSuffix = result.positiveSuffix,
         negativeSuffix = result.negativeSuffix,

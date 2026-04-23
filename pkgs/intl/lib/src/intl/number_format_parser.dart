@@ -37,9 +37,11 @@ class NumberFormatParseResult {
   bool useExponentialNotation = false;
 
   int? decimalDigits;
+  String? currencyFullName;
 
   // [decimalDigits] is both input and output of parsing.
-  NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits)
+  NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits,
+      {this.currencyFullName})
       : negativePrefix = symbols.MINUS_SIGN;
 }
 
@@ -88,8 +90,10 @@ class NumberFormatParser {
   ///
   /// [decimalDigits] is optional, if specified it overrides the default.
   NumberFormatParser(this.symbols, String input, this.isForCurrency,
-      this.currencySymbol, this.currencyName, int? decimalDigits)
-      : result = NumberFormatParseResult(symbols, decimalDigits),
+      this.currencySymbol, this.currencyName, int? decimalDigits,
+      {String? currencyFullName})
+      : result = NumberFormatParseResult(symbols, decimalDigits,
+            currencyFullName: currencyFullName),
         pattern = StringStack(input);
 
   static NumberFormatParseResult parse(
@@ -98,11 +102,14 @@ class NumberFormatParser {
           bool isForCurrency,
           String currencySymbol,
           String currencyName,
-          int? decimalDigits) =>
+          int? decimalDigits,
+          {String? currencyFullName}) =>
       input == null
-          ? NumberFormatParseResult(symbols, decimalDigits)
+          ? NumberFormatParseResult(symbols, decimalDigits,
+              currencyFullName: currencyFullName)
           : (NumberFormatParser(symbols, input, isForCurrency, currencySymbol,
-                  currencyName, decimalDigits)
+                  currencyName, decimalDigits,
+                  currencyFullName: currencyFullName)
                 .._parse())
               .result;
 
@@ -191,9 +198,20 @@ class NumberFormatParser {
         case PATTERN_SEPARATOR:
           return false;
         case PATTERN_CURRENCY_SIGN:
-          // TODO(alanknight): Handle the local/global/portable currency signs
-          affix.write(currencySymbol);
-          break;
+          var count = 0;
+          while (pattern.peek() == PATTERN_CURRENCY_SIGN) {
+            count++;
+            pattern.pop();
+          }
+          if (count == 3) {
+            affix.write(result.currencyFullName ?? currencyName);
+          } else {
+            // TODO(alanknight): Handle the local/global/portable currency signs
+            for (var i = 0; i < count; i++) {
+              affix.write(currencySymbol);
+            }
+          }
+          return true;
         case PATTERN_PERCENT:
           if (result.multiplier != 1 && result.multiplier != PERCENT_SCALE) {
             throw const FormatException('Too many percent/permill');
