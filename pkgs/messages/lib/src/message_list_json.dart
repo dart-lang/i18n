@@ -13,12 +13,10 @@ class JsonPreamble extends Preamble {
     required int serializationVersion,
     required String locale,
     required String hash,
-    required bool hasIds,
   }) : _data = [
           serializationVersion,
           locale,
           hash,
-          hasIds ? 1 : 0,
         ];
 
   JsonPreamble.parse(this._data);
@@ -33,9 +31,6 @@ class JsonPreamble extends Preamble {
 
   @override
   String get hash => _data[2] as String;
-
-  @override
-  bool get hasIds => _data[3] == 1;
 }
 
 class MessageListJson extends MessageList {
@@ -59,12 +54,6 @@ class MessageListJson extends MessageList {
 
   factory MessageListJson.fromString(String string, PluralSelector intl) =>
       JsonDeserializer(string).deserialize(intl);
-
-  @override
-  String generateStringAtId(String id, List args) => messages
-      .where((element) => element.id == id)
-      .first
-      .generateString(args, locale: preamble.locale, pluralSelector: _selector);
 
   @override
   String generateStringAtIndex(int index, List args) =>

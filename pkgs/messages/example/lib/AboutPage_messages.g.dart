@@ -6,9 +6,6 @@
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
-import 'AboutPage_en_empty.g.dart' deferred as AboutPage_en_empty;
-import 'AboutPage_fr_empty.g.dart' deferred as AboutPage_fr_empty;
-
 class AboutPageMessages {
   AboutPageMessages(this._assetLoader);
 
@@ -27,13 +24,6 @@ class AboutPageMessages {
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
-    return _currentMessages.generateStringAtId(id, args);
-  }
-
   static Iterable<String> get knownLocales => _dataFiles.keys;
 
   Future<void> loadLocale(String locale) async {
@@ -43,12 +33,6 @@ class AboutPageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      if (locale == 'en') {
-        await AboutPage_en_empty.loadLibrary();
-      } else if (locale == 'fr') {
-        await AboutPage_fr_empty.loadLibrary();
-      }
-
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
