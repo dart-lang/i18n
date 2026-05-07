@@ -167,8 +167,7 @@ class Intl {
     List<Object>? args,
     String? meaning,
     bool? skip,
-  }) =>
-      _message(messageText, locale, name, args, meaning);
+  }) => _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
@@ -224,8 +223,7 @@ class Intl {
     String? newLocale,
     bool Function(String) localeExists, {
     String? Function(String)? onFailure,
-  }) =>
-      helpers.verifiedLocale(newLocale, localeExists, onFailure);
+  }) => helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
   static String shortLocale(String aLocale) =>
@@ -484,10 +482,16 @@ class Intl {
 
   /// Format a message differently depending on [choice].
   ///
-  /// We look up the value
-  /// of [choice] in [cases] and return the result, or an empty string if
-  /// it is not found. Normally used as part
-  /// of an Intl.message message that is to be translated.
+  /// We look up the value of [choice] in [cases] and return the
+  /// matching result. If no matching case is found, the `'other'`
+  /// case is used as a fallback.
+  ///
+  /// The [cases] map must contain an `'other'` entry, otherwise
+  /// this method throws an [ArgumentError] when [choice] does not
+  /// match any case.
+  ///
+  /// Normally used as part of an Intl.message message that is to
+  /// be translated.
   ///
   /// It is possible to use a Dart enum as the choice and as the
   /// key in cases, but note that we will process this by truncating
