@@ -167,7 +167,8 @@ class Intl {
     List<Object>? args,
     String? meaning,
     bool? skip,
-  }) => _message(messageText, locale, name, args, meaning);
+  }) =>
+      _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
@@ -223,7 +224,8 @@ class Intl {
     String? newLocale,
     bool Function(String) localeExists, {
     String? Function(String)? onFailure,
-  }) => helpers.verifiedLocale(newLocale, localeExists, onFailure);
+  }) =>
+      helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
   static String shortLocale(String aLocale) =>
