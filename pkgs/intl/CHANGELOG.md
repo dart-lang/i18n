@@ -11,6 +11,8 @@
  * Add `@pragma('wasm:prefer-inline')` to `Intl` methods that already have
    `@pragma('vm:prefer-inline')`, for the same reason: to help omit message
    descriptions from compiled output.
+ * Update `Intl.select` documentation to clarify `other` fallback behavior
+   and thrown `ArgumentError`.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
