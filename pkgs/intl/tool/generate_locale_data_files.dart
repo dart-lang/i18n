@@ -40,11 +40,12 @@ void writeLocaleList() {
   var file = File(path.join(dataDirectory, 'locale_list.dart'));
   var output = file.openWrite();
   output.write(
-      '// Copyright (c) 2012, the Dart project authors.  Please see the '
-      'AUTHORS file\n// for details. All rights reserved. Use of this source'
-      'code is governed by a\n// BSD-style license that can be found in the'
-      ' LICENSE file.\n\n'
-      '/// Hard-coded list of all available locales for dates.\n');
+    '// Copyright (c) 2012, the Dart project authors.  Please see the '
+    'AUTHORS file\n// for details. All rights reserved. Use of this source'
+    'code is governed by a\n// BSD-style license that can be found in the'
+    ' LICENSE file.\n\n'
+    '/// Hard-coded list of all available locales for dates.\n',
+  );
   output.writeln('final availableLocalesForDateFormatting = const [');
   var allLocales = DateFormat.allLocalesWithSymbols();
   for (var locale in allLocales) {

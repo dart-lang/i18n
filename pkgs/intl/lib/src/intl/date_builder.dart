@@ -133,10 +133,19 @@ class DateBuilder {
       // We have an ordinal date, compute the corresponding date for the result
       // and compare to that.
       var leapYear = date_computation.isLeapYear(date);
-      var correspondingDay =
-          date_computation.dayOfYear(date.month, date.day, leapYear);
+      var correspondingDay = date_computation.dayOfYear(
+        date.month,
+        date.day,
+        leapYear,
+      );
       _verify(
-          dayOfYear, correspondingDay, correspondingDay, 'dayOfYear', s, date);
+        dayOfYear,
+        correspondingDay,
+        correspondingDay,
+        'dayOfYear',
+        s,
+        date,
+      );
     } else {
       // We have the day of the month, compare directly.
       _verify(day, date.day, date.day, 'day', s, date);
@@ -144,8 +153,14 @@ class DateBuilder {
     _verify(_estimatedYear, date.year, date.year, 'year', s, date);
   }
 
-  void _verify(int value, int min, int max, String desc, String originalInput,
-      [DateTime? parsed]) {
+  void _verify(
+    int value,
+    int min,
+    int max,
+    String desc,
+    String originalInput, [
+    DateTime? parsed,
+  ]) {
     if (value < min || value > max) {
       var parsedDescription = parsed == null ? '' : ' Date parsed as $parsed.';
       var errorDescription =
@@ -167,14 +182,15 @@ class DateBuilder {
   /// invalid date (e.g. February 29 of a non-leap year).
   DateTime _offsetYear(DateTime dateTime, int offsetYears) =>
       _dateTimeConstructor(
-          dateTime.year + offsetYears,
-          dateTime.month,
-          dateTime.day,
-          dateTime.hour,
-          dateTime.minute,
-          dateTime.second,
-          dateTime.millisecond,
-          dateTime.isUtc);
+        dateTime.year + offsetYears,
+        dateTime.month,
+        dateTime.day,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+        dateTime.millisecond,
+        dateTime.isUtc,
+      );
 
   /// Return a date built using our values. If no date portion is set,
   /// use the 'Epoch' of January 1, 1970.
@@ -202,15 +218,15 @@ class DateBuilder {
 
   int get _estimatedYear {
     DateTime preliminaryResult(int year) => _dateTimeConstructor(
-          year,
-          month,
-          dayOrDayOfYear,
-          hour24,
-          minute,
-          second,
-          fractionalSecond,
-          utc,
-        );
+      year,
+      month,
+      dayOrDayOfYear,
+      hour24,
+      minute,
+      second,
+      fractionalSecond,
+      utc,
+    );
     int estimatedYear;
     if (_hasCentury) {
       estimatedYear = year;
@@ -278,8 +294,11 @@ class DateBuilder {
     }
 
     var leapYear = date_computation.isLeapYear(result);
-    var resultDayOfYear =
-        date_computation.dayOfYear(result.month, result.day, leapYear);
+    var resultDayOfYear = date_computation.dayOfYear(
+      result.month,
+      result.day,
+      leapYear,
+    );
 
     // Check for the UTC failure. Are we expecting to produce a local time, but
     // the result is UTC. However, the local time might happen to be the same as
@@ -331,8 +350,11 @@ class DateBuilder {
       // to 1:00 am because of a DST transition, and trying to go backwards 1
       // hour takes us back to 11:00pm the day before. In that case the 1:00am
       // answer on the correct date is preferable.
-      var adjustedDayOfYear =
-          date_computation.dayOfYear(adjusted.month, adjusted.day, leapYear);
+      var adjustedDayOfYear = date_computation.dayOfYear(
+        adjusted.month,
+        adjusted.day,
+        leapYear,
+      );
       if (adjustedDayOfYear != expectedDayOfYear) {
         return result;
       }
@@ -344,5 +366,14 @@ class DateBuilder {
 }
 
 /// Defines a function type for creating DateTime instances.
-typedef _DateTimeConstructor = DateTime Function(int year, int month, int day,
-    int hour24, int minute, int second, int fractionalSecond, bool utc);
+typedef _DateTimeConstructor =
+    DateTime Function(
+      int year,
+      int month,
+      int day,
+      int hour24,
+      int minute,
+      int second,
+      int fractionalSecond,
+      bool utc,
+    );

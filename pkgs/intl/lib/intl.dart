@@ -167,8 +167,7 @@ class Intl {
     List<Object>? args,
     String? meaning,
     bool? skip,
-  }) =>
-      _message(messageText, locale, name, args, meaning);
+  }) => _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
@@ -178,9 +177,7 @@ class Intl {
     String? name,
     List<Object>? args,
     String? meaning,
-  ) {
-    return _lookupMessage(messageText, locale, name, args, meaning)!;
-  }
+  ) => _lookupMessage(messageText, locale, name, args, meaning)!;
 
   static String? _lookupMessage(
     String? messageText,
@@ -188,15 +185,13 @@ class Intl {
     String? name,
     List<Object>? args,
     String? meaning,
-  ) {
-    return helpers.messageLookup.lookupMessage(
-      messageText,
-      locale,
-      name,
-      args,
-      meaning,
-    );
-  }
+  ) => helpers.messageLookup.lookupMessage(
+    messageText,
+    locale,
+    name,
+    args,
+    meaning,
+  );
 
   /// Return the locale for this instance. If none was set, the locale will
   /// be the default.
@@ -224,8 +219,7 @@ class Intl {
     String? newLocale,
     bool Function(String) localeExists, {
     String? Function(String)? onFailure,
-  }) =>
-      helpers.verifiedLocale(newLocale, localeExists, onFailure);
+  }) => helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
   static String shortLocale(String aLocale) =>

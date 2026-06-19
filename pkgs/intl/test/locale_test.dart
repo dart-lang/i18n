@@ -40,14 +40,19 @@ void main() {
 
   group('Locale.fromSubtags() FormatExceptions:', () {
     void testExceptionForSubtags(
-        String language, String? script, String? region) {
+      String language,
+      String? script,
+      String? region,
+    ) {
       test('fromSubtags: "$language / $script / $region"', () {
         expect(
-            () => Locale.fromSubtags(
-                languageCode: language,
-                scriptCode: script,
-                countryCode: region),
-            throwsFormatException);
+          () => Locale.fromSubtags(
+            languageCode: language,
+            scriptCode: script,
+            countryCode: region,
+          ),
+          throwsFormatException,
+        );
       });
     }
 
@@ -81,14 +86,22 @@ void main() {
     // Normalises tags, sorts subtags alphabetically, including variants[1]:
     // ICU is currently not sorting variants.
     // [1]: http://unicode.org/reports/tr35/#Unicode_locale_identifier
-    testParse('en-scouse-fonipa', 'en', null, null, ['fonipa', 'scouse'],
-        'en-fonipa-scouse');
+    testParse('en-scouse-fonipa', 'en', null, null, [
+      'fonipa',
+      'scouse',
+    ], 'en-fonipa-scouse');
 
     // Normalises tags, sorts subtags alphabetically and suppresses unneeded
     // "true" in u extension (ICU is currently not dropping -true):
     // http://unicode.org/reports/tr35/#u_Extension
-    testParse('en-u-Foo-bar-nu-thai-ca-buddhist-kk-true', 'en', null, null, [],
-        'en-u-bar-foo-ca-buddhist-kk-nu-thai');
+    testParse(
+      'en-u-Foo-bar-nu-thai-ca-buddhist-kk-true',
+      'en',
+      null,
+      null,
+      [],
+      'en-u-bar-foo-ca-buddhist-kk-nu-thai',
+    );
 
     // The specification does permit empty extensions for extensions other than
     // u- and t-.
@@ -100,14 +113,22 @@ void main() {
     testParse('en-t-iw-Bu', 'en', null, null, [], 'en-t-he-mm');
 
     test('en-u-ca is equivalent to en-u-ca-true', () {
-      expect(Locale.parse('en-u-ca').toLanguageTag(),
-          Locale.parse('en-u-ca-true').toLanguageTag());
+      expect(
+        Locale.parse('en-u-ca').toLanguageTag(),
+        Locale.parse('en-u-ca-true').toLanguageTag(),
+      );
     });
   });
 
   // Normalization: sorting of extension subtags:
-  testParse('en-z-abc-001-foo-fii-bar-u-cu-usd-co-phonebk', 'en', null, null,
-      [], 'en-u-co-phonebk-cu-usd-z-abc-001-foo-fii-bar');
+  testParse(
+    'en-z-abc-001-foo-fii-bar-u-cu-usd-co-phonebk',
+    'en',
+    null,
+    null,
+    [],
+    'en-u-co-phonebk-cu-usd-z-abc-001-foo-fii-bar',
+  );
 
   group('Locale.parse() throws FormatException:', () {
     void testExceptionForId(String x) {
@@ -191,29 +212,39 @@ void main() {
 
     l1 = Locale.parse('en-Shaw-ZA');
     l2 = Locale.fromSubtags(
-        languageCode: 'en', scriptCode: 'Shaw', countryCode: 'ZA');
+      languageCode: 'en',
+      scriptCode: 'Shaw',
+      countryCode: 'ZA',
+    );
     expect(l1, l2);
     expect(l1.hashCode, l2.hashCode);
 
     l1 = Locale.parse('en');
     l2 = Locale.fromSubtags(
-        languageCode: 'en', scriptCode: null, countryCode: null);
+      languageCode: 'en',
+      scriptCode: null,
+      countryCode: null,
+    );
     expect(l1, l2);
     expect(l1.hashCode, l2.hashCode);
   });
 }
 
 void testFromSubtags(
-    String language,
-    String? script,
-    String? region,
-    String? expectedLanguage,
-    String? expectedScript,
-    String? expectedRegion,
-    String? expectedTag) {
+  String language,
+  String? script,
+  String? region,
+  String? expectedLanguage,
+  String? expectedScript,
+  String? expectedRegion,
+  String? expectedTag,
+) {
   test('Locale.fromSubtags(...) with $language, $script, $region', () {
     var l = Locale.fromSubtags(
-        languageCode: language, scriptCode: script, countryCode: region);
+      languageCode: language,
+      scriptCode: script,
+      countryCode: region,
+    );
     expect(l.languageCode, expectedLanguage);
     expect(l.scriptCode, expectedScript);
     expect(l.countryCode, expectedRegion);
@@ -223,12 +254,13 @@ void testFromSubtags(
 }
 
 void testParse(
-    String bcp47Tag,
-    String expectedLanguage,
-    String? expectedScript,
-    String? expectedRegion,
-    Iterable<String> expectedVariants,
-    String? expectedTag) {
+  String bcp47Tag,
+  String expectedLanguage,
+  String? expectedScript,
+  String? expectedRegion,
+  Iterable<String> expectedVariants,
+  String? expectedTag,
+) {
   test('Locale.parse("$bcp47Tag");', () {
     var l = Locale.parse(bcp47Tag);
     expect(l.languageCode, expectedLanguage);
