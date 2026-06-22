@@ -21,10 +21,10 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'de';
 
   @override
-  final Map<String, Function> messages =
+  final Map<String, Object?> messages =
       _notInlinedMessages(_notInlinedMessages);
 
-  static Map<String, Function> _notInlinedMessages(Object? _) => {
+  static Map<String, Object?> _notInlinedMessages(Object? _) => {
         'aboutListTileTitle':
             MessageLookupByLibrary.simpleMessage('Über \$applicationName'),
         'alertDialogLabel':

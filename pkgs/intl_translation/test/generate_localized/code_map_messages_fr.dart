@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'fr';
 
-  String? evaluateMessage(dynamic translation, List<dynamic> args) {
+  String? evaluateMessage(Object? translation, List<dynamic> args) {
     return evaluateJsonTemplate(translation, args);
   }
 

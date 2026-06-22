@@ -123,7 +123,7 @@ abstract class MessageLookupByLibrary {
     MessageIfAbsent? ifAbsent,
   }) {
     var actualName = computeMessageName(name, messageText, meaning);
-    Function? translation;
+    Object? translation;
     if (actualName != null) {
       translation = this[actualName];
     }
@@ -136,17 +136,24 @@ abstract class MessageLookupByLibrary {
   }
 
   /// Evaluate the translated message and return the translated string.
-  String? evaluateMessage(Function translation, List<dynamic> args) {
+  String? evaluateMessage(Object? translation, List<dynamic> args) {
+    if (translation is! Function) {
+      throw ArgumentError.value(
+        translation,
+        'translation',
+        'Expected a function, but got ${translation.runtimeType}',
+      );
+    }
     return Function.apply(translation, args);
   }
 
   /// Return our message with the given name
-  Function? operator [](String messageName) => messages[messageName];
+  Object? operator [](String messageName) => messages[messageName];
 
   /// Subclasses should override this to return a list of their message
   /// implementations. In this class these are functions, but subclasses may
   /// implement them differently.
-  Map<String, Function> get messages;
+  Map<String, Object?> get messages;
 
   /// Subclasses should override this to return their locale, e.g. 'en_US'
   String get localeName;
