@@ -133,7 +133,7 @@ class MessageExtraction {
 
     final errors = List.of(result.errors)
       ..removeWhere(
-        (e) => ignoredErrorCodes.contains(e.diagnosticCode.name.toLowerCase()),
+        (e) => ignoredErrorCodes.contains(e.diagnosticCode.lowerCaseName),
       );
     if (errors.isNotEmpty) {
       print('Error in parsing $origin, no messages extracted.');

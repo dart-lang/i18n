@@ -23,8 +23,9 @@ void testTimezone(String timezoneName, {int? expectedUtcOffset}) {
   // the Intl package is the current directory.
   var packageDir = Platform.environment['PACKAGE_DIR'];
   var packageRelative = 'test/timezone_local_even_test_helper.dart';
-  var fileToSpawn =
-      packageDir == null ? packageRelative : '$packageDir/$packageRelative';
+  var fileToSpawn = packageDir == null
+      ? packageRelative
+      : '$packageDir/$packageRelative';
 
   test('Run tests in $timezoneName time zone', () async {
     var args = <String>[...vmArgs, fileToSpawn];
@@ -32,11 +33,14 @@ void testTimezone(String timezoneName, {int? expectedUtcOffset}) {
     if (expectedUtcOffset != null) {
       environment['EXPECTED_TZ_OFFSET_FOR_TEST'] = '$expectedUtcOffset';
     }
-    var result = await Process.run(dart, args,
-        stdoutEncoding: const Utf8Codec(),
-        stderrEncoding: const Utf8Codec(),
-        includeParentEnvironment: true,
-        environment: environment);
+    var result = await Process.run(
+      dart,
+      args,
+      stdoutEncoding: const Utf8Codec(),
+      stderrEncoding: const Utf8Codec(),
+      includeParentEnvironment: true,
+      environment: environment,
+    );
     // Because the actual tests are run in a spawned parocess their output isn't
     // directly visible here. To debug, it's necessary to look at the output of
     // that test, so we print it here for convenience.
@@ -44,7 +48,10 @@ void testTimezone(String timezoneName, {int? expectedUtcOffset}) {
     print(result.stderr);
     print('Spawned test in $timezoneName time zone has Stdout:');
     print(result.stdout);
-    expect(result.exitCode, 0,
-        reason: 'Spawned test failed. See the test log from stderr to debug');
+    expect(
+      result.exitCode,
+      0,
+      reason: 'Spawned test failed. See the test log from stderr to debug',
+    );
   }, testOn: 'linux && vm');
 }

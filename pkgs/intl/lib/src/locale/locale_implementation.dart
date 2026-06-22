@@ -10,28 +10,36 @@ import 'locale_extensions.dart';
 /// The primary implementation of the Locale interface.
 class LocaleImplementation extends Locale {
   /// Simple private constructor with asserts to check invariants.
-  LocaleImplementation._(this.languageCode, this.scriptCode, this.countryCode,
-      this.variants, this._extensions) {
+  LocaleImplementation._(
+    this.languageCode,
+    this.scriptCode,
+    this.countryCode,
+    this.variants,
+    this._extensions,
+  ) {
     ArgumentError.notNull(languageCode);
     // Debug-mode asserts to ensure all parameters are normalized and UTS #35
     // compliant.
     assert(
-        _normalizedLanguageRE.hasMatch(languageCode),
-        'languageCode must match RegExp/${_normalizedLanguageRE.pattern}/ '
-        'but is "$languageCode".');
+      _normalizedLanguageRE.hasMatch(languageCode),
+      'languageCode must match RegExp/${_normalizedLanguageRE.pattern}/ '
+      'but is "$languageCode".',
+    );
     assert(
-        scriptCode == null || _normalizedScriptRE.hasMatch(scriptCode!),
-        'scriptCode must match RegExp/${_normalizedScriptRE.pattern}/ '
-        'but is "$scriptCode".');
+      scriptCode == null || _normalizedScriptRE.hasMatch(scriptCode!),
+      'scriptCode must match RegExp/${_normalizedScriptRE.pattern}/ '
+      'but is "$scriptCode".',
+    );
     assert(
-        countryCode == null || _normalizedRegionRE.hasMatch(countryCode!),
-        'countryCode must match RegExp/${_normalizedRegionRE.pattern}/ '
-        'but is "$countryCode".');
+      countryCode == null || _normalizedRegionRE.hasMatch(countryCode!),
+      'countryCode must match RegExp/${_normalizedRegionRE.pattern}/ '
+      'but is "$countryCode".',
+    );
     assert(
-        variants is List<String> &&
-            variants.every(_normalizedVariantRE.hasMatch),
-        'each variant must match RegExp/${_normalizedVariantRE.pattern}/ '
-        'but variants are "$variants".');
+      variants is List<String> && variants.every(_normalizedVariantRE.hasMatch),
+      'each variant must match RegExp/${_normalizedVariantRE.pattern}/ '
+      'but variants are "$variants".',
+    );
   }
 
   /// For debug/assert-use only! Matches subtags considered valid for
@@ -76,23 +84,32 @@ class LocaleImplementation extends Locale {
         ? List.unmodifiable(variants.toList()..sort())
         : const [];
     return LocaleImplementation._(
-        languageCode, scriptCode, countryCode, variants, extensions);
+      languageCode,
+      scriptCode,
+      countryCode,
+      variants,
+      extensions,
+    );
   }
 
   /// Constructs a Locale instance that consists of only language, region and
   /// country subtags.
   ///
   /// Throws a [FormatException] if any subtag is syntactically invalid.
-  static LocaleImplementation fromSubtags(
-      {required String languageCode, String? scriptCode, String? countryCode}) {
+  static LocaleImplementation fromSubtags({
+    required String languageCode,
+    String? scriptCode,
+    String? countryCode,
+  }) {
     return LocaleImplementation._(
-        replaceDeprecatedLanguageSubtag(_normalizeLanguageCode(languageCode)),
-        scriptCode == null ? null : _normalizeScriptCode(scriptCode),
-        countryCode == null
-            ? null
-            : replaceDeprecatedRegionSubtag(_normalizeCountryCode(countryCode)),
-        const [],
-        null);
+      replaceDeprecatedLanguageSubtag(_normalizeLanguageCode(languageCode)),
+      scriptCode == null ? null : _normalizeScriptCode(scriptCode),
+      countryCode == null
+          ? null
+          : replaceDeprecatedRegionSubtag(_normalizeCountryCode(countryCode)),
+      const [],
+      null,
+    );
   }
 
   /// Performs case normalization on `languageCode`.

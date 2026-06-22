@@ -35,8 +35,10 @@ set dateTimeSymbols(dynamic symbols) {
   lastDateSymbolLocale = null;
 }
 
-dynamic _dateTimeSymbols =
-    UninitializedLocaleData('initializeDateFormatting(<locale>)', en_USSymbols);
+dynamic _dateTimeSymbols = UninitializedLocaleData(
+  'initializeDateFormatting(<locale>)',
+  en_USSymbols,
+);
 
 /// Cache the last used symbols to reduce repeated lookups.
 DateSymbols? cachedDateSymbols;
@@ -52,7 +54,9 @@ String? lastDateSymbolLocale;
 // TODO(alanknight): Have a valid type for this. Currently it can be an
 // UninitializedLocaleData, Map, or LazyLocaleData.
 dynamic dateTimePatterns = UninitializedLocaleData(
-    'initializeDateFormatting(<locale>)', en_USPatterns);
+  'initializeDateFormatting(<locale>)',
+  en_USPatterns,
+);
 
 /// Initialize the symbols dictionary. This should be passed a function that
 /// creates and returns the symbol data. We take a function so that if

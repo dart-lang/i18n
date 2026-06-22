@@ -146,9 +146,9 @@ class MessageFormat {
   /// The syntax is similar to the one used by ICU and is described in the
   /// grammar above.
   MessageFormat(String pattern, {String locale = 'en'})
-      : _locale = locale,
-        _pattern = pattern,
-        _numberFormat = NumberFormat.decimalPattern(locale);
+    : _locale = locale,
+      _pattern = pattern,
+      _numberFormat = NumberFormat.decimalPattern(locale);
 
   /// Returns a formatted message, treating '#' as a special placeholder.
   ///
@@ -228,7 +228,9 @@ class MessageFormat {
 
     while (_literals!.isNotEmpty) {
       message = message.replaceFirst(
-          _buildPlaceholder(_literals!), _literals!.removeLast());
+        _buildPlaceholder(_literals!),
+        _literals!.removeLast(),
+      );
     }
 
     return message;
@@ -245,10 +247,11 @@ class MessageFormat {
   /// Each formatting stage appends its product to the [result].
   /// It can be recursive, as plural / select contain full message patterns.
   void _formatBlock(
-      Queue<_BlockTypeAndVal> parsedBlocks,
-      Map<String, Object> namedParameters,
-      bool ignorePound,
-      Queue<String> result) {
+    Queue<_BlockTypeAndVal> parsedBlocks,
+    Map<String, Object> namedParameters,
+    bool ignorePound,
+    Queue<String> result,
+  ) {
     for (var currentPattern in parsedBlocks) {
       var patternValue = currentPattern._value;
       var patternType = currentPattern._type;
@@ -259,21 +262,36 @@ class MessageFormat {
           break;
         case _BlockType.simple:
           _formatSimplePlaceholder(
-              patternValue as String, namedParameters, result);
+            patternValue as String,
+            namedParameters,
+            result,
+          );
           break;
         case _BlockType.select:
-          _checkAndThrow(patternValue is Map<String, Object>,
-              'The value should be a map: $patternValue');
+          _checkAndThrow(
+            patternValue is Map<String, Object>,
+            'The value should be a map: $patternValue',
+          );
           var mapPattern = patternValue as Map<String, Object>;
           _formatSelectBlock(mapPattern, namedParameters, ignorePound, result);
           break;
         case _BlockType.plural:
-          _formatPluralOrdinalBlock(patternValue as Map<String, Object>,
-              namedParameters, _PluralRules.select, ignorePound, result);
+          _formatPluralOrdinalBlock(
+            patternValue as Map<String, Object>,
+            namedParameters,
+            _PluralRules.select,
+            ignorePound,
+            result,
+          );
           break;
         case _BlockType.ordinal:
-          _formatPluralOrdinalBlock(patternValue as Map<String, Object>,
-              namedParameters, _OrdinalRules.select, ignorePound, result);
+          _formatPluralOrdinalBlock(
+            patternValue as Map<String, Object>,
+            namedParameters,
+            _OrdinalRules.select,
+            ignorePound,
+            result,
+          );
           break;
         default:
           _checkAndThrow(false, 'Unrecognized block type: $patternType');
@@ -286,8 +304,11 @@ class MessageFormat {
   /// [parsedBlocks] is an object containing placeholder info.
   /// The [namedParameters] that are used as actual data.
   /// Each formatting stage appends its product to the [result].
-  void _formatSimplePlaceholder(String parsedBlocks,
-      Map<String, Object> namedParameters, Queue<String> result) {
+  void _formatSimplePlaceholder(
+    String parsedBlocks,
+    Map<String, Object> namedParameters,
+    Queue<String> result,
+  ) {
     var value = namedParameters[parsedBlocks];
     if (!_isDef(value)) {
       result.add('Undefined parameter - $parsedBlocks');
@@ -318,10 +339,11 @@ class MessageFormat {
   /// to the number (plural_variable - offset).
   /// Each formatting stage appends its product to the [result].
   void _formatSelectBlock(
-      Map<String, Object> parsedBlocks,
-      Map<String, Object> namedParameters,
-      bool ignorePound,
-      Queue<String> result) {
+    Map<String, Object> parsedBlocks,
+    Map<String, Object> namedParameters,
+    bool ignorePound,
+    Queue<String> result,
+  ) {
     var argumentName = parsedBlocks['argumentName'];
     if (!_isDef(namedParameters[argumentName])) {
       result.add('Undefined parameter - $argumentName');
@@ -332,8 +354,10 @@ class MessageFormat {
         parsedBlocks[namedParameters[argumentName]] as Queue<_BlockTypeAndVal>?;
     if (!_isDef(option)) {
       option = parsedBlocks[_other] as Queue<_BlockTypeAndVal>?;
-      _checkAndThrow(option != null,
-          'Invalid option or missing other option for select block.');
+      _checkAndThrow(
+        option != null,
+        'Invalid option or missing other option for select block.',
+      );
     }
 
     _formatBlock(option!, namedParameters, ignorePound, result);
@@ -352,11 +376,12 @@ class MessageFormat {
   /// to the number (plural_variable - offset).
   /// Each formatting stage appends its product to the [result].
   void _formatPluralOrdinalBlock(
-      Map<String, Object> parsedBlocks,
-      dynamic namedParameters,
-      Function(num, String) pluralSelector,
-      bool ignorePound,
-      Queue<String> result) {
+    Map<String, Object> parsedBlocks,
+    dynamic namedParameters,
+    Function(num, String) pluralSelector,
+    bool ignorePound,
+    Queue<String> result,
+  ) {
     var argumentName = parsedBlocks['argumentName'];
     var argumentOffset = parsedBlocks['argumentOffset'];
     var pluralValue = namedParameters[argumentName];
@@ -366,8 +391,9 @@ class MessageFormat {
       return;
     }
 
-    var numPluralValue =
-        pluralValue is num ? pluralValue : double.tryParse(pluralValue);
+    var numPluralValue = pluralValue is num
+        ? pluralValue
+        : double.tryParse(pluralValue);
     if (numPluralValue == null) {
       result.add('Invalid parameter - $argumentName');
       return;
@@ -387,8 +413,9 @@ class MessageFormat {
     var option =
         parsedBlocks[namedParameters[argumentName]] as Queue<_BlockTypeAndVal>?;
     if (!_isDef(option)) {
-      option = parsedBlocks[namedParameters[argumentName].toString()]
-          as Queue<_BlockTypeAndVal>?;
+      option =
+          parsedBlocks[namedParameters[argumentName].toString()]
+              as Queue<_BlockTypeAndVal>?;
     }
     if (!_isDef(option)) {
       var item = pluralSelector(diff.abs(), _locale);
@@ -401,8 +428,10 @@ class MessageFormat {
         option = parsedBlocks[_other] as Queue<_BlockTypeAndVal>?;
       }
 
-      _checkAndThrow(option != null,
-          'Invalid option or missing other option for plural block.');
+      _checkAndThrow(
+        option != null,
+        'Invalid option or missing other option for plural block.',
+      );
     }
 
     var pluralResult = Queue<String>();
@@ -480,7 +509,9 @@ class MessageFormat {
         if (braceStack.isEmpty) {
           // End of the block.
           var part = _ElementTypeAndVal(
-              _ElementType.block, pattern.substring(prevPos, pos));
+            _ElementType.block,
+            pattern.substring(prevPos, pos),
+          );
           results.add(part);
           prevPos = pos + 1;
         }
@@ -498,7 +529,9 @@ class MessageFormat {
 
     // Take care of the final string, and check if the braceStack is empty.
     _checkAndThrow(
-        braceStack.isEmpty, 'There are mismatched { or } in the pattern.');
+      braceStack.isEmpty,
+      'There are mismatched { or } in the pattern.',
+    );
 
     var substring = pattern.substring(prevPos);
     if (substring != '') {
@@ -511,14 +544,16 @@ class MessageFormat {
   /// A regular expression to parse the plural block.
   ///
   /// It extracts the argument index and offset (if any).
-  static final RegExp _pluralBlockRe =
-      RegExp(r'^\s*(\w+)\s*,\s*plural\s*,(?:\s*offset:(\d+))?');
+  static final RegExp _pluralBlockRe = RegExp(
+    r'^\s*(\w+)\s*,\s*plural\s*,(?:\s*offset:(\d+))?',
+  );
 
   /// A regular expression to parse the ordinal block.
   ///
   /// It extracts the argument index.
-  static final RegExp _ordinalBlockRe =
-      RegExp(r'^\s*(\w+)\s*,\s*selectordinal\s*,');
+  static final RegExp _ordinalBlockRe = RegExp(
+    r'^\s*(\w+)\s*,\s*selectordinal\s*,',
+  );
 
   /// A regular expression to parse the select block.
   ///
@@ -563,22 +598,30 @@ class MessageFormat {
         switch (blockType) {
           case _BlockType.select:
             block = _BlockTypeAndVal(
-                _BlockType.select, _parseSelectBlock(thePart._value));
+              _BlockType.select,
+              _parseSelectBlock(thePart._value),
+            );
             break;
           case _BlockType.plural:
             block = _BlockTypeAndVal(
-                _BlockType.plural, _parsePluralBlock(thePart._value));
+              _BlockType.plural,
+              _parsePluralBlock(thePart._value),
+            );
             break;
           case _BlockType.ordinal:
             block = _BlockTypeAndVal(
-                _BlockType.ordinal, _parseOrdinalBlock(thePart._value));
+              _BlockType.ordinal,
+              _parseOrdinalBlock(thePart._value),
+            );
             break;
           case _BlockType.simple:
             block = _BlockTypeAndVal(_BlockType.simple, thePart._value);
             break;
           default:
             _checkAndThrow(
-                false, 'Unknown block type for pattern: ${thePart._value}');
+              false,
+              'Unknown block type for pattern: ${thePart._value}',
+            );
         }
       } else {
         _checkAndThrow(false, 'Unknown part of the pattern.');
@@ -612,7 +655,9 @@ class MessageFormat {
 
       pos++;
       _checkAndThrow(
-          pos < parts.length, 'Missing or invalid select value element.');
+        pos < parts.length,
+        'Missing or invalid select value element.',
+      );
       thePart = parts.elementAt(pos);
 
       Queue<_BlockTypeAndVal>? value;
@@ -626,7 +671,9 @@ class MessageFormat {
     }
 
     _checkAndThrow(
-        result.containsKey(_other), 'Missing other key in select statement.');
+      result.containsKey(_other),
+      'Missing other key in select statement.',
+    );
     return result;
   }
 
@@ -649,7 +696,7 @@ class MessageFormat {
 
     var result = {
       'argumentName': argumentName,
-      'argumentOffset': argumentOffset
+      'argumentOffset': argumentOffset,
     };
 
     var parts = _extractParts(pattern);
@@ -661,7 +708,9 @@ class MessageFormat {
 
       pos++;
       _checkAndThrow(
-          pos < parts.length, 'Missing or invalid plural value element.');
+        pos < parts.length,
+        'Missing or invalid plural value element.',
+      );
       thePart = parts.elementAt(pos);
 
       Queue<_BlockTypeAndVal>? value;
@@ -678,7 +727,9 @@ class MessageFormat {
     }
 
     _checkAndThrow(
-        result.containsKey(_other), 'Missing other key in plural statement.');
+      result.containsKey(_other),
+      'Missing other key in plural statement.',
+    );
 
     return result;
   }
@@ -718,7 +769,9 @@ class MessageFormat {
 
       pos++;
       _checkAndThrow(
-          pos < parts.length, 'Missing or invalid ordinal value element.');
+        pos < parts.length,
+        'Missing or invalid ordinal value element.',
+      );
       thePart = parts.elementAt(pos);
 
       Queue<_BlockTypeAndVal>? value;
@@ -734,8 +787,10 @@ class MessageFormat {
       pos++;
     }
 
-    _checkAndThrow(result.containsKey(_other),
-        'Missing other key in selectordinal statement.');
+    _checkAndThrow(
+      result.containsKey(_other),
+      'Missing other key in selectordinal statement.',
+    );
 
     return result;
   }
@@ -778,15 +833,17 @@ class _OrdinalRules {
 // Simple mapping from Intl.pluralLogic to _PluralRules, to change later
 class _PluralRules {
   static String select(num n, String locale) {
-    return Intl.pluralLogic(n,
-        zero: 'zero',
-        one: 'one',
-        two: 'two',
-        few: 'few',
-        many: 'many',
-        other: 'other',
-        locale: locale,
-        useExplicitNumberCases: false);
+    return Intl.pluralLogic(
+      n,
+      zero: 'zero',
+      one: 'one',
+      two: 'two',
+      few: 'few',
+      many: 'many',
+      other: 'other',
+      locale: locale,
+      useExplicitNumberCases: false,
+    );
   }
 }
 

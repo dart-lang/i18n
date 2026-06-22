@@ -22,7 +22,10 @@ void main() {
   locales.addAll(requiredLocales);
   for (var locale in locales) {
     initializeDateFormattingCustom(
-        locale: locale, symbols: symbols[locale], patterns: patterns[locale]);
+      locale: locale,
+      symbols: symbols[locale],
+      patterns: patterns[locale],
+    );
   }
   runWith(() => locales, null, nullInitialization);
 }

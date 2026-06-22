@@ -138,14 +138,15 @@ class _CompactStyleWithNegative extends _CompactStyleBase {
 ///       _CompactStyle(pattern: '00K', divisor: 1000,
 ///           prefix: '', suffix: 'K');
 class _CompactStyle extends _CompactStyleBase {
-  _CompactStyle(
-      {this.pattern,
-      this.divisor = 1,
-      this.positivePrefix = '',
-      this.negativePrefix = '',
-      this.positiveSuffix = '',
-      this.negativeSuffix = '',
-      this.isDirectValue = false});
+  _CompactStyle({
+    this.pattern,
+    this.divisor = 1,
+    this.positivePrefix = '',
+    this.negativePrefix = '',
+    this.positiveSuffix = '',
+    this.negativeSuffix = '',
+    this.isDirectValue = false,
+  });
 
   /// The pattern on which this is based.
   ///
@@ -191,8 +192,12 @@ class _CompactStyle extends _CompactStyleBase {
 
   /// Creates a [_CompactStyle] instance for pattern with [normalizedExponent].
   static _CompactStyle createStyle(
-      NumberSymbols symbols, String pattern, int normalizedExponent,
-      {bool isSigned = false, bool explicitSign = false}) {
+    NumberSymbols symbols,
+    String pattern,
+    int normalizedExponent, {
+    bool isSigned = false,
+    bool explicitSign = false,
+  }) {
     var prefix = '';
     var suffix = '';
     var divisor = 1;
@@ -219,21 +224,24 @@ class _CompactStyle extends _CompactStyleBase {
       }
     }
 
-    final positivePrefix =
-        (explicitSign && !isSigned) ? '${symbols.PLUS_SIGN}$prefix' : prefix;
-    final negativePrefix =
-        (!isSigned) ? '${symbols.MINUS_SIGN}$prefix' : prefix;
+    final positivePrefix = (explicitSign && !isSigned)
+        ? '${symbols.PLUS_SIGN}$prefix'
+        : prefix;
+    final negativePrefix = (!isSigned)
+        ? '${symbols.MINUS_SIGN}$prefix'
+        : prefix;
     final positiveSuffix = suffix;
     final negativeSuffix = suffix;
 
     return _CompactStyle(
-        pattern: pattern,
-        positivePrefix: positivePrefix,
-        negativePrefix: negativePrefix,
-        positiveSuffix: positiveSuffix,
-        negativeSuffix: negativeSuffix,
-        divisor: divisor,
-        isDirectValue: isDirectValue);
+      pattern: pattern,
+      positivePrefix: positivePrefix,
+      negativePrefix: negativePrefix,
+      positiveSuffix: positiveSuffix,
+      negativeSuffix: negativeSuffix,
+      divisor: divisor,
+      isDirectValue: isDirectValue,
+    );
   }
 }
 
@@ -241,7 +249,7 @@ class _CompactStyle extends _CompactStyleBase {
 enum _CompactFormatType {
   COMPACT_DECIMAL_SHORT_PATTERN,
   COMPACT_DECIMAL_LONG_PATTERN,
-  COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN
+  COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN,
 }
 
 class _CompactNumberFormat extends NumberFormat {
@@ -254,16 +262,17 @@ class _CompactNumberFormat extends NumberFormat {
   // Whether positive sign should be explicitly printed.
   final bool _explicitSign;
 
-  factory _CompactNumberFormat(
-      {String? locale,
-      _CompactFormatType? formatType,
-      String? name,
-      String? currencySymbol,
-      String? Function(NumberSymbols) getPattern = _forDecimal,
-      int? decimalDigits,
-      bool explicitSign = false,
-      bool lookupSimpleCurrencySymbol = false,
-      bool isForCurrency = false}) {
+  factory _CompactNumberFormat({
+    String? locale,
+    _CompactFormatType? formatType,
+    String? name,
+    String? currencySymbol,
+    String? Function(NumberSymbols) getPattern = _forDecimal,
+    int? decimalDigits,
+    bool explicitSign = false,
+    bool lookupSimpleCurrencySymbol = false,
+    bool isForCurrency = false,
+  }) {
     // Initialization copied from `NumberFormat` constructor.
     // TODO(davidmorgan): deduplicate.
     locale = helpers.verifiedLocale(locale, NumberFormat.localeExists, null)!;
@@ -297,7 +306,8 @@ class _CompactNumberFormat extends NumberFormat {
         patterns = compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
       case _CompactFormatType.COMPACT_DECIMAL_LONG_PATTERN:
-        patterns = compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
+        patterns =
+            compactSymbols.COMPACT_DECIMAL_LONG_PATTERN ??
             compactSymbols.COMPACT_DECIMAL_SHORT_PATTERN;
         break;
       case _CompactFormatType.COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN:
@@ -315,31 +325,47 @@ class _CompactNumberFormat extends NumberFormat {
         style = _styleFromPattern(pattern, exponent, explicitSign, symbols);
       } else {
         style = _CompactStyleWithPlurals(
-            patterns.map((key, value) => MapEntry(key,
-                _styleFromPattern(value, exponent, explicitSign, symbols))),
-            exponent,
-            locale);
+          patterns.map(
+            (key, value) => MapEntry(
+              key,
+              _styleFromPattern(value, exponent, explicitSign, symbols),
+            ),
+          ),
+          exponent,
+          locale,
+        );
       }
       styles[exponent] = style;
     });
 
     return _CompactNumberFormat._(
-        name,
-        currencySymbol,
-        isForCurrency,
-        locale,
-        localeZero,
-        pattern,
+      name,
+      currencySymbol,
+      isForCurrency,
+      locale,
+      localeZero,
+      pattern,
+      symbols,
+      zeroOffset,
+      NumberFormatParser.parse(
         symbols,
-        zeroOffset,
-        NumberFormatParser.parse(symbols, pattern, isForCurrency,
-            currencySymbol, name, decimalDigits),
-        styles,
-        explicitSign);
+        pattern,
+        isForCurrency,
+        currencySymbol,
+        name,
+        decimalDigits,
+      ),
+      styles,
+      explicitSign,
+    );
   }
 
   static _CompactStyleBase _styleFromPattern(
-      String pattern, int exponent, bool explicitSign, NumberSymbols symbols) {
+    String pattern,
+    int exponent,
+    bool explicitSign,
+    NumberSymbols symbols,
+  ) {
     if (pattern.contains(';')) {
       var patterns = pattern.split(';');
       var positivePattern = patterns.first;
@@ -350,34 +376,49 @@ class _CompactNumberFormat extends NumberFormat {
           positivePattern ==
               negativePattern.replaceAll(symbols.MINUS_SIGN, '')) {
         // Re-use the negative pattern, with plus sign.
-        positivePattern =
-            negativePattern.replaceAll(symbols.MINUS_SIGN, symbols.PLUS_SIGN);
+        positivePattern = negativePattern.replaceAll(
+          symbols.MINUS_SIGN,
+          symbols.PLUS_SIGN,
+        );
       }
       return _CompactStyleWithNegative(
-          _CompactStyle.createStyle(symbols, positivePattern, exponent,
-              isSigned: positivePattern.contains(symbols.PLUS_SIGN)),
-          _CompactStyle.createStyle(symbols, negativePattern, exponent,
-              isSigned: true));
+        _CompactStyle.createStyle(
+          symbols,
+          positivePattern,
+          exponent,
+          isSigned: positivePattern.contains(symbols.PLUS_SIGN),
+        ),
+        _CompactStyle.createStyle(
+          symbols,
+          negativePattern,
+          exponent,
+          isSigned: true,
+        ),
+      );
     } else {
-      return _CompactStyle.createStyle(symbols, pattern, exponent,
-          explicitSign: explicitSign);
+      return _CompactStyle.createStyle(
+        symbols,
+        pattern,
+        exponent,
+        explicitSign: explicitSign,
+      );
     }
   }
 
   _CompactNumberFormat._(
-      String super.currencyName,
-      super.currencySymbol,
-      super.isForCurrency,
-      super.locale,
-      super.localeZero,
-      super.pattern,
-      super.symbols,
-      super.zeroOffset,
-      super.result,
-      // Fields introduced in this class.
-      this._styles,
-      this._explicitSign)
-      : super._() {
+    String super.currencyName,
+    super.currencySymbol,
+    super.isForCurrency,
+    super.locale,
+    super.localeZero,
+    super.pattern,
+    super.symbols,
+    super.zeroOffset,
+    super.result,
+    // Fields introduced in this class.
+    this._styles,
+    this._explicitSign,
+  ) : super._() {
     significantDigits = 3;
     turnOffGrouping();
   }
@@ -395,8 +436,8 @@ class _CompactNumberFormat extends NumberFormat {
   @override
   int get minimumFractionDigits =>
       _style != null && !_style!.isFallback && !_explicitMinimumFractionDigits
-          ? 0
-          : super.minimumFractionDigits;
+      ? 0
+      : super.minimumFractionDigits;
 
   /// The style in which we will format a particular number.
   ///
@@ -451,7 +492,7 @@ class _CompactNumberFormat extends NumberFormat {
   /// Divide numbers that may not have a division operator (e.g. Int64).
   ///
   /// Only used for powers of 10, so we require an integer denominator.
-  static num _divide(numerator, int denominator) {
+  static num _divide(dynamic numerator, int denominator) {
     if (numerator is num) {
       return numerator / denominator;
     }
@@ -461,7 +502,9 @@ class _CompactNumberFormat extends NumberFormat {
     var integerPart = divided.toInt();
     if (divided != integerPart) {
       throw FormatException(
-          'Number too big to use with compact format', numerator);
+        'Number too big to use with compact format',
+        numerator,
+      );
     }
     var remainder = numerator.remainder(denominator).toInt();
     var originalFraction = numerator - (numerator ~/ 1);
@@ -469,7 +512,7 @@ class _CompactNumberFormat extends NumberFormat {
     return integerPart + (remainder / denominator) + fraction;
   }
 
-  _CompactStyle _styleFor(number) {
+  _CompactStyle _styleFor(dynamic number) {
     if (number.abs() < 10) {
       // Cannot be compacted.
       return _defaultCompactStyle;
@@ -487,16 +530,17 @@ class _CompactNumberFormat extends NumberFormat {
         // and format 999999 as 1M rather than 1000K.
         fractionDigits =
             (maximumSignificantDigits ?? minimumSignificantDigits ?? 0) -
-                digitLength +
-                divisorLength -
-                1;
+            digitLength +
+            divisorLength -
+            1;
         if (maximumSignificantDigits == null) {
           // Keep all digits of the integer part.
           fractionDigits = max(0, fractionDigits);
         }
       }
       var fractionMultiplier = pow(10, fractionDigits);
-      rounded = (rounded * fractionMultiplier / divisor).round() *
+      rounded =
+          (rounded * fractionMultiplier / divisor).round() *
           divisor /
           fractionMultiplier;
       digitLength = NumberFormat.numberOfIntegerDigits(rounded);
@@ -545,12 +589,16 @@ class _CompactNumberFormat extends NumberFormat {
       if (!style.isFallback) {
         if (text.startsWith(negativePrefix) && text.endsWith(negativeSuffix)) {
           text = text.substring(
-              negativePrefix.length, text.length - negativeSuffix.length);
+            negativePrefix.length,
+            text.length - negativeSuffix.length,
+          );
           negative = true;
         } else if (text.startsWith(positivePrefix) &&
             text.endsWith(positiveSuffix)) {
           text = text.substring(
-              positivePrefix.length, text.length - positiveSuffix.length);
+            positivePrefix.length,
+            text.length - positiveSuffix.length,
+          );
         } else {
           continue;
         }
@@ -579,7 +627,9 @@ class _CompactNumberFormat extends NumberFormat {
     _style = null;
 
     throw FormatException(
-        "Cannot parse compact number in locale '$locale'", inputText);
+      "Cannot parse compact number in locale '$locale'",
+      inputText,
+    );
   }
 
   /// Returns text parsed into a number if possible, else returns null.

@@ -7,7 +7,7 @@
 ///
 /// It supports no operations other than being used for Intl number formatting.
 abstract class MicroMoney {
-  factory MicroMoney(micros) => _MicroMoney(micros);
+  factory MicroMoney(dynamic micros) => _MicroMoney(micros);
 }
 
 /// Used primarily for currency formatting, this stores millionths of a
@@ -29,39 +29,49 @@ class _MicroMoney implements MicroMoney {
   // Note that if this is done in a general way there's a risk of integer
   // overflow on JS when multiplying out the [other] parameter, which may be
   // an Int64. In formatting we only ever subtract out our own integer part.
-  _MicroMoney operator -(other) {
+  _MicroMoney operator -(dynamic other) {
     if (other is _MicroMoney) return _MicroMoney(_micros - other._micros);
     return _MicroMoney(_micros - (other * _multiplier));
   }
 
-  _MicroMoney operator +(other) {
+  _MicroMoney operator +(dynamic other) {
     if (other is _MicroMoney) return _MicroMoney(_micros + other._micros);
     return _MicroMoney(_micros + (other * _multiplier));
   }
 
-  _MicroMoney operator ~/(divisor) {
+  _MicroMoney operator ~/(dynamic divisor) {
     if (divisor is! int) {
       throw ArgumentError.value(
-          divisor, 'divisor', '_MicroMoney ~/ only supports int arguments.');
+        divisor,
+        'divisor',
+        '_MicroMoney ~/ only supports int arguments.',
+      );
     }
     return _MicroMoney((_integerPart ~/ divisor) * _multiplier);
   }
 
-  _MicroMoney operator *(other) {
+  _MicroMoney operator *(dynamic other) {
     if (other is! int) {
       throw ArgumentError.value(
-          other, 'other', '_MicroMoney * only supports int arguments.');
+        other,
+        'other',
+        '_MicroMoney * only supports int arguments.',
+      );
     }
     return _MicroMoney(
-        (_integerPart * other) * _multiplier + (_fractionPart * other));
+      (_integerPart * other) * _multiplier + (_fractionPart * other),
+    );
   }
 
   /// Note that this only really supports remainder from an int,
   /// not division by another MicroMoney
-  _MicroMoney remainder(other) {
+  _MicroMoney remainder(dynamic other) {
     if (other is! int) {
       throw ArgumentError.value(
-          other, 'other', '_MicroMoney.remainder only supports int arguments.');
+        other,
+        'other',
+        '_MicroMoney.remainder only supports int arguments.',
+      );
     }
     return _MicroMoney(_micros.remainder(other * _multiplier));
   }

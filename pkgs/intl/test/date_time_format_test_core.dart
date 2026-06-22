@@ -56,7 +56,7 @@ List<String> formatsToTest = const [
   //    DateFormat.HOUR_TZ,
   DateFormat.MINUTE,
   DateFormat.MINUTE_SECOND,
-  DateFormat.SECOND
+  DateFormat.SECOND,
   // ABBR_GENERIC_TZ,
   // GENERIC_TZ,
   // ABBR_SPECIFIC_TZ,
@@ -110,7 +110,7 @@ List<String> icuFormatNamesToTest = const [
   //    'HOUR_TZ',
   'MINUTE',
   'MINUTE_SECOND',
-  'SECOND'
+  'SECOND',
   // ABBR_GENERIC_TZ,
   // GENERIC_TZ,
   // ABBR_SPECIFIC_TZ,
@@ -123,20 +123,29 @@ List<String> icuFormatNamesToTest = const [
 /// expected result of formatting [date] according to that format in
 /// [localeName].
 void testLocale(
-    String localeName, Map<String, String> expectedResults, DateTime date) {
+  String localeName,
+  Map<String, String> expectedResults,
+  DateTime date,
+) {
   var intl = Intl(localeName);
   for (var i = 0; i < formatsToTest.length; i++) {
     var skeleton = formatsToTest[i];
     var format = intl.date(skeleton);
     var icuName = icuFormatNamesToTest[i];
     var actualResult = format.format(date);
-    expect(actualResult, expectedResults[icuName],
-        reason: 'Mismatch in $localeName, testing skeleton "$skeleton"');
+    expect(
+      actualResult,
+      expectedResults[icuName],
+      reason: 'Mismatch in $localeName, testing skeleton "$skeleton"',
+    );
   }
 }
 
-void testRoundTripParsing(String localeName, DateTime date,
-    [bool forceAscii = false]) {
+void testRoundTripParsing(
+  String localeName,
+  DateTime date, [
+  bool forceAscii = false,
+]) {
   // In order to test parsing, we can't just read back the date, because
   // printing in most formats loses information. But we can test that
   // what we parsed back prints the same as what we originally printed.
@@ -154,7 +163,7 @@ void testRoundTripParsing(String localeName, DateTime date,
     DateFormat.YEAR_MONTH,
     DateFormat.MONTH_WEEKDAY_DAY,
     DateFormat.NUM_MONTH_WEEKDAY_DAY,
-    DateFormat.ABBR_MONTH_WEEKDAY_DAY
+    DateFormat.ABBR_MONTH_WEEKDAY_DAY,
   ];
   for (var i = 0; i < formatsToTest.length; i++) {
     var skeleton = formatsToTest[i];
@@ -204,10 +213,14 @@ void runDateTests(SubsetFuncType subsetFunc) {
 
   test('Basic date format parsing', () {
     var dateFormat = DateFormat('d');
-    expect(dateFormat.parsePattern('hh:mm:ss').map((x) => x.pattern).toList(),
-        orderedEquals(['hh', ':', 'mm', ':', 'ss']));
-    expect(dateFormat.parsePattern('hh:mm:ss').map((x) => x.pattern).toList(),
-        orderedEquals(['hh', ':', 'mm', ':', 'ss']));
+    expect(
+      dateFormat.parsePattern('hh:mm:ss').map((x) => x.pattern).toList(),
+      orderedEquals(['hh', ':', 'mm', ':', 'ss']),
+    );
+    expect(
+      dateFormat.parsePattern('hh:mm:ss').map((x) => x.pattern).toList(),
+      orderedEquals(['hh', ':', 'mm', ':', 'ss']),
+    );
   });
 
   test('Two-digit years', () {
@@ -383,7 +396,7 @@ void runDateTests(SubsetFuncType subsetFunc) {
       'Q3',
       'Q4',
       'Q4',
-      'Q4'
+      'Q4',
     ];
     var quarterFormat = DateFormat.QQQ();
     for (var i = 0; i < 12; i++) {
@@ -401,7 +414,7 @@ void runDateTests(SubsetFuncType subsetFunc) {
       'QQ': '01',
       'QQQ': 'Q1',
       'QQQQ': '1st quarter',
-      'QQQQQ': '00001'
+      'QQQQQ': '00001',
     };
     formats.forEach((pattern, result) {
       expect(DateFormat(pattern, 'en_US').format(date), result);
@@ -445,8 +458,11 @@ void runDateTests(SubsetFuncType subsetFunc) {
       // cause the hour values to be different.
       expect(parsed.year, date.year);
       expect(parsed.month, date.month);
-      expect(parsed.day, date.day,
-          reason: 'Mismatch between parsed ($parsed) and original ($date)');
+      expect(
+        parsed.day,
+        date.day,
+        reason: 'Mismatch between parsed ($parsed) and original ($date)',
+      );
     });
   }
 
