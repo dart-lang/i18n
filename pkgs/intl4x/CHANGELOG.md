@@ -1,3 +1,7 @@
+## 1.0.1-alpha
+
+- Fix analysis issue.
+
 ## 1.0.0-alpha
 
 - Publish alpha version!
