@@ -102,6 +102,11 @@ jobs:
             Write-Host "Error: Windows executable size ($fileSize bytes) exceeds 10MB limit (10485760 bytes)."
             exit 1
           }
+      
+      - name: Check documentation examples for staleness
+        run: | 
+          dart pub global activate e282
+          dart pub global run e282
 
   docs:
     if: ${{ github.event_name == 'push' }}

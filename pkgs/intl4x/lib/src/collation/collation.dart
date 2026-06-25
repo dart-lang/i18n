@@ -71,7 +71,7 @@ final class Collation {
   /// import 'package:intl4x/collation.dart';
   ///
   /// void main() {
-  ///   final collation = Collation(locale: Locale('de'));
+  ///   final collation = Collation(locale: Locale.parse('de'));
   ///   final list = ['a', 'ä', 'b'];
   ///   list.sort(collation.compare);
   ///   print(list); // Prints [a, b, ä]

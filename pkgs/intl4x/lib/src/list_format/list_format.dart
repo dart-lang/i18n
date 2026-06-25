@@ -40,7 +40,9 @@ final class ListFormat {
   /// import 'package:intl4x/list_format.dart';
   ///
   /// void main() {
-  ///   print(ListFormat.format(['Dog', 'Cat'])); // Prints 'Dog and Cat'
+  ///  print(
+  ///   ListFormat(locale: Locale.parse('en-US')).format(['Dog', 'Cat']),
+  ///  ); // Prints 'Dog and Cat'
   /// }
   /// ```
   String format(List<String> list) {

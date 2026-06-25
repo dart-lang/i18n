@@ -50,7 +50,10 @@ final class DisplayNames {
   /// import 'package:intl4x/display_names.dart';
   ///
   /// void main() {
-  ///   print(DisplayNames.ofLocale(Locale.parse('de'))); // Prints 'German'
+  ///   print(
+  ///     DisplayNames(locale: Locale.parse('en-US'))
+  ///       .ofLocale(Locale.parse('de')),
+  ///   ); // Prints 'German'
   /// }
   /// ```
   String ofLocale(Locale locale) => _of(locale, _impl.ofLocale);
@@ -65,7 +68,9 @@ final class DisplayNames {
   /// import 'package:intl4x/display_names.dart';
   ///
   /// void main() {
-  ///   print(DisplayNames.ofRegion('DE')); // Prints 'Germany'
+  ///   print(
+  ///     DisplayNames(locale: Locale.parse('en-US')).ofRegion('DE'),
+  ///   ); // Prints 'Germany'
   /// }
   /// ```
   String ofRegion(String regionCode) => _of(regionCode, _impl.ofRegion);
