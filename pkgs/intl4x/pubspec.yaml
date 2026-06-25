@@ -25,7 +25,7 @@ dependencies:
   icu4x: ^2.1.0-dev.1
   meta: ^1.17.0
   record_use: ^0.4.2
-  timezone: ^0.10.1
+  timezone: ^0.11.0
 
 dev_dependencies:
   args: ^2.7.0
