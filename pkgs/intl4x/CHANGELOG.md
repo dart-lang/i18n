@@ -1,4 +1,4 @@
-## 1.0.2-alpha
+## 1.0.1-alpha
 
 - Update ICU4X to `2.2.0-dev.2` and other small fixes.
 
