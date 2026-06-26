@@ -1,6 +1,6 @@
-## 1.0.1-alpha
+## 1.0.2-alpha
 
-- Fix analysis issue.
+- Update ICU4X to `2.2.0-dev.2` and other small fixes.
 
 ## 1.0.0-alpha
 
