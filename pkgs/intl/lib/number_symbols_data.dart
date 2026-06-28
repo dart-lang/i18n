@@ -52,8 +52,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     EXP_SYMBOL: 'E',
     PERMILL: '\u2030',
     INFINITY: '\u221E',
-    NAN:
-        '\u1260\u1241\u1325\u122D\u00A0\u120A\u1308\u1208\u133D\u00A0\u12E8\u121B\u12ED\u127D\u120D',
+    NAN: '\u1260\u1241\u1325\u122D\u00A0\u120A\u1308\u1208\u133D\u00A0\u12E8\u121B\u12ED\u127D\u120D',
     DECIMAL_PATTERN: '#,##0.###',
     SCIENTIFIC_PATTERN: '#E0',
     PERCENT_PATTERN: '#,##0%',
@@ -1252,8 +1251,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     EXP_SYMBOL: 'E',
     PERMILL: '\u2030',
     INFINITY: '\u221E',
-    NAN:
-        '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
+    NAN: '\u10D0\u10E0\u00A0\u10D0\u10E0\u10D8\u10E1\u00A0\u10E0\u10D8\u10EA\u10EE\u10D5\u10D8',
     DECIMAL_PATTERN: '#,##0.###',
     SCIENTIFIC_PATTERN: '#E0',
     PERCENT_PATTERN: '#,##0%',
@@ -1386,8 +1384,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     EXP_SYMBOL: 'E',
     PERMILL: '\u2030',
     INFINITY: '\u221E',
-    NAN:
-        '\u0E9A\u0ECD\u0EC8\u200B\u0EC1\u0EA1\u0EC8\u0E99\u200B\u0EC2\u0E95\u200B\u0EC0\u0EA5\u0E81',
+    NAN: '\u0E9A\u0ECD\u0EC8\u200B\u0EC1\u0EA1\u0EC8\u0E99\u200B\u0EC2\u0E95\u200B\u0EC0\u0EA5\u0E81',
     DECIMAL_PATTERN: '#,##0.###',
     SCIENTIFIC_PATTERN: '#',
     PERCENT_PATTERN: '#,##0%',
@@ -1577,8 +1574,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     EXP_SYMBOL: 'E',
     PERMILL: '\u2030',
     INFINITY: '\u221E',
-    NAN:
-        '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
+    NAN: '\u1002\u100F\u1014\u103A\u1038\u1019\u101F\u102F\u1010\u103A\u101E\u1031\u102C',
     DECIMAL_PATTERN: '#,##0.###',
     SCIENTIFIC_PATTERN: '#E0',
     PERCENT_PATTERN: '#,##0%',
@@ -3014,34 +3010,25 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
       },
       4: {'other': '00 \u03C7\u03B9\u03BB\u03B9\u03AC\u03B4\u03B5\u03C2'},
       6: {
-        'one':
-            '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-        'other':
-            '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'one': '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+        'other': '0 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
       7: {
-        'other':
-            '00 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'other': '00 \u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
       9: {
-        'one':
-            '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-        'other':
-            '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'one': '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+        'other': '0 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
       10: {
-        'other':
-            '00 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'other': '00 \u03B4\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
       12: {
-        'one':
-            '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
-        'other':
-            '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'one': '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03BF',
+        'other': '0 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
       13: {
-        'other':
-            '00 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
+        'other': '00 \u03C4\u03C1\u03B9\u03C3\u03B5\u03BA\u03B1\u03C4\u03BF\u03BC\u03BC\u03CD\u03C1\u03B9\u03B1',
       },
     },
     COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
@@ -3459,8 +3446,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
       6: {'other': '0 \u0645\u06CC\u0644\u06CC\u0648\u0646'},
       9: {'other': '0 \u0645\u06CC\u0644\u06CC\u0627\u0631\u062F'},
       12: {
-        'other':
-            '0 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
+        'other': '0 \u0647\u0632\u0627\u0631\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
       },
     },
     COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
@@ -3470,12 +3456,10 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
             '\u200E\u00A4\u00A00\u00A0\u0645\u06CC\u0644\u06CC\u0648\u0646',
       },
       9: {
-        'other':
-            '\u200E\u00A4\u00A00\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
+        'other': '\u200E\u00A4\u00A00\u00A0\u0645\u06CC\u0644\u06CC\u0627\u0631\u062F',
       },
       12: {
-        'other':
-            '\u200E\u00A4\u00A00\u00A0\u062A\u0631\u06CC\u0644\u06CC\u0648\u0646',
+        'other': '\u200E\u00A4\u00A00\u00A0\u062A\u0631\u06CC\u0644\u06CC\u0648\u0646',
       },
     },
   ),
@@ -4481,8 +4465,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
       10: {'other': '\u100B\u1031\u00A00\u00A0\u1011\u00A0\u00A4'},
       11: {'other': '\u100B\u1031\u00A00\u00A0\u101E\u00A0\u00A4'},
       12: {
-        'other':
-            '\u100B\u1031\u00A00\u00A0\u101E\u102D\u1014\u103A\u1038\u00A0\u00A4',
+        'other': '\u100B\u1031\u00A00\u00A0\u101E\u102D\u1014\u103A\u1038\u00A0\u00A4',
       },
       13: {
         'other':
@@ -5135,8 +5118,7 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
       6: {'other': '0 \u0BAE\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'},
       9: {'other': '0 \u0BAA\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD'},
       12: {
-        'other':
-            '0 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD',
+        'other': '0 \u0B9F\u0BBF\u0BB0\u0BBF\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BA9\u0BCD',
       },
     },
     COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {
@@ -5174,12 +5156,10 @@ Map<String, CompactNumberSymbols> compactNumberSymbols = {
       },
       12: {
         'one': '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D',
-        'other':
-            '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
+        'other': '0 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
       },
       13: {
-        'other':
-            '00 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
+        'other': '00 \u0C1F\u0C4D\u0C30\u0C3F\u0C32\u0C3F\u0C2F\u0C28\u0C4D\u0C32\u0C41',
       },
     },
     COMPACT_DECIMAL_SHORT_CURRENCY_PATTERN: const {

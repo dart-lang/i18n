@@ -972,14 +972,13 @@ class DateFormat {
 }
 
 /// Defines a function type for creating DateTime instances.
-typedef _DateTimeConstructor =
-    DateTime Function(
-      int year,
-      int month,
-      int day,
-      int hour24,
-      int minute,
-      int second,
-      int fractionalSecond,
-      bool utc,
-    );
+typedef _DateTimeConstructor = DateTime Function(
+  int year,
+  int month,
+  int day,
+  int hour24,
+  int minute,
+  int second,
+  int fractionalSecond,
+  bool utc,
+);
