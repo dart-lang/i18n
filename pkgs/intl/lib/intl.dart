@@ -155,6 +155,7 @@ class Intl {
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
   @pragma('wasm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   // We want to try to inline these messages, but not inline the internal
   // messages, so it will eliminate the descriptions and other information
   // not needed at runtime.
