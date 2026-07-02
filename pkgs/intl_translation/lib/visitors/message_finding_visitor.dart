@@ -293,9 +293,9 @@ class MessageFindingVisitor extends GeneralizingAstVisitor {
     if (extract(message, arguments) == null) {
       return null;
     }
-    for (var namedExpr in arguments.whereType<NamedExpression>()) {
-      var name = namedExpr.name.label.name;
-      var exp = namedExpr.expression;
+    for (var namedExpr in arguments.whereType<NamedArgument>()) {
+      var name = namedExpr.name.lexeme;
+      var exp = namedExpr.argumentExpression;
       var basicValue = exp.accept(ConstantEvaluator());
       var value = basicValue == ConstantEvaluator.NOT_A_CONSTANT
           ? exp.toString()

@@ -66,40 +66,66 @@ void main() {
     });
 
     test('should fail when year is omitted (en_US)', () {
-      expect(() => DateFormat('yyyy-MM-dd').parseLoose('1/11'),
-          throwsFormatException);
+      expect(
+        () => DateFormat('yyyy-MM-dd').parseLoose('1/11'),
+        throwsFormatException,
+      );
     });
 
     test('should fail when year is omitted (ja)', () {
       initializeDateFormatting('ja', null);
-      expect(() => DateFormat.yMMMd('ja').parseLoose('12月12日'),
-          throwsFormatException);
-      expect(() => DateFormat.yMd('ja').parseLoose('12月12日'),
-          throwsFormatException);
-      expect(() => DateFormat.yMEd('ja').parseLoose('12月12日'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMEd('ja').parseLoose('12月12日'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMMd('ja').parseLoose('12月12日'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMMEEEEd('ja').parseLoose('12月12日'),
-          throwsFormatException);
+      expect(
+        () => DateFormat.yMMMd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMEd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMEd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMMd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMMEEEEd('ja').parseLoose('12月12日'),
+        throwsFormatException,
+      );
     });
 
     test('should fail when year is omitted (hu)', () {
       initializeDateFormatting('hu', null);
-      expect(() => DateFormat.yMMMd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
-      expect(() => DateFormat.yMd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
-      expect(() => DateFormat.yMEd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMEd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMMd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
-      expect(() => DateFormat.yMMMMEEEEd('hu').parseLoose('3. 17.'),
-          throwsFormatException);
+      expect(
+        () => DateFormat.yMMMd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMEd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMEd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMMd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
+      expect(
+        () => DateFormat.yMMMMEEEEd('hu').parseLoose('3. 17.'),
+        throwsFormatException,
+      );
     });
   });
 

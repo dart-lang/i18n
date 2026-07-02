@@ -15,7 +15,7 @@ environment:
   sdk: ^3.9.0
 
 dependencies:
-  analyzer: ^8.1.1
+  analyzer: ^13.3.0
   args: ^2.7.0
   dart_style: ^3.1.2
   intl: ^0.20.2
@@ -24,5 +24,5 @@ dependencies:
   pub_semver: ^2.2.0
 
 dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.26.3
+  lints: ^6.1.0
+  test: ^1.31.0

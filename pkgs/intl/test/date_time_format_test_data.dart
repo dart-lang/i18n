@@ -62,7 +62,7 @@ const english = {
   'YEAR_ABBR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + ABBR_SPECIFIC_TZ':
       'Fri, Jan 27, 2012 8:58:59${space}PM PST',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ': '8:58:59${space}PM PT',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}PM PST'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}PM PST',
 };
 
 const german = {
@@ -117,7 +117,7 @@ const german = {
       'Fr., 27. Jan 2012 20:58:59 GMT-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ':
       '20:58:59 Vereinigte Staaten Zeit (Los Angeles)',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00',
 };
 
 const austrian = {
@@ -172,7 +172,7 @@ const austrian = {
       'Fr., 27. Jän 2012 20:58:59 GMT-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ':
       '20:58:59 Vereinigte Staaten Zeit (Los Angeles)',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00',
 };
 
 const french = {
@@ -227,7 +227,7 @@ const french = {
       'ven. 27 janv. 2012 20:58:59 UTC-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ':
       '20:58:59 Heure : États-Unis (Los Angeles)',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 UTC-08:00'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 UTC-08:00',
 };
 
 const japanese = {
@@ -280,7 +280,7 @@ const japanese = {
   'YEAR_ABBR_MONTH_WEEKDAY_DAY + HOUR_MINUTE_SECOND + ABBR_SPECIFIC_TZ':
       '2012年1月27日(金) 20時58分59秒 GMT-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ': '20時58分59秒 アメリカ合衆国時間（ロサンゼルス）',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '20:58 GMT-08:00',
 };
 
 const greek = {
@@ -335,5 +335,5 @@ const greek = {
       'Παρ, 27 Ιαν 2012 8:58:59${space}μ.μ. GMT-08:00',
   'HOUR_MINUTE_SECOND + ABBR_GENERIC_TZ':
       '8:58:59${space}μ.μ. Ηνωμένες Πολιτείες της Αμερικής (Λος Άντζελες)',
-  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}μ.μ. GMT-08:00'
+  'HOUR_MINUTE + ABBR_SPECIFIC_TZ': '8:58${space}μ.μ. GMT-08:00',
 };

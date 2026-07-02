@@ -3,20 +3,25 @@
 // BSD-style license that can be found in the LICENSE file.
 
 class CompactRoundingTestCase {
-  CompactRoundingTestCase(this.number, this.expected,
-      {this.maximumIntegerDigits,
-      this.minimumIntegerDigits,
-      this.maximumFractionDigits,
-      this.minimumFractionDigits,
-      this.minimumExponentDigits,
-      int? significantDigits,
-      this.maximumSignificantDigits,
-      this.minimumSignificantDigits}) {
+  CompactRoundingTestCase(
+    this.number,
+    this.expected, {
+    this.maximumIntegerDigits,
+    this.minimumIntegerDigits,
+    this.maximumFractionDigits,
+    this.minimumFractionDigits,
+    this.minimumExponentDigits,
+    int? significantDigits,
+    this.maximumSignificantDigits,
+    this.minimumSignificantDigits,
+  }) {
     if (significantDigits != null) {
       if (maximumSignificantDigits != null ||
           minimumSignificantDigits != null) {
-        throw ArgumentError('Cannot specify both significantDigits and '
-            'maximumSignificantDigits/minimumSignificantDigits');
+        throw ArgumentError(
+          'Cannot specify both significantDigits and '
+          'maximumSignificantDigits/minimumSignificantDigits',
+        );
       }
       maximumSignificantDigits = significantDigits;
       minimumSignificantDigits = significantDigits;
@@ -34,7 +39,8 @@ class CompactRoundingTestCase {
   int? minimumSignificantDigits;
 
   @override
-  String toString() => 'CompactRoundingTestCase for $number, '
+  String toString() =>
+      'CompactRoundingTestCase for $number, '
       'maxIntDig: $maximumIntegerDigits, '
       'minIntDig: $minimumIntegerDigits, '
       'maxFracDig: $maximumFractionDigits, '
@@ -76,10 +82,18 @@ List<CompactRoundingTestCase> cldr35CompactNumTests = <CompactRoundingTestCase>[
   CompactRoundingTestCase(175000, '175K', significantDigits: 3),
   CompactRoundingTestCase(175000, '175.0K', significantDigits: 4),
 
-  CompactRoundingTestCase(1750, '01.750K',
-      minimumIntegerDigits: 2, minimumFractionDigits: 3),
-  CompactRoundingTestCase(1750, '01.8K',
-      minimumIntegerDigits: 2, maximumFractionDigits: 1),
+  CompactRoundingTestCase(
+    1750,
+    '01.750K',
+    minimumIntegerDigits: 2,
+    minimumFractionDigits: 3,
+  ),
+  CompactRoundingTestCase(
+    1750,
+    '01.8K',
+    minimumIntegerDigits: 2,
+    maximumFractionDigits: 1,
+  ),
 
   CompactRoundingTestCase(175, '175'),
   CompactRoundingTestCase(175, '175', maximumIntegerDigits: 1),

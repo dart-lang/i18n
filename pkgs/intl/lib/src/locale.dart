@@ -19,14 +19,15 @@ abstract class Locale {
   /// region subtags.
   ///
   /// Throws a [FormatException] if any subtag is syntactically invalid.
-  static Locale fromSubtags(
-          {required String languageCode,
-          String? scriptCode,
-          String? countryCode}) =>
-      LocaleImplementation.fromSubtags(
-          languageCode: languageCode,
-          scriptCode: scriptCode,
-          countryCode: countryCode);
+  static Locale fromSubtags({
+    required String languageCode,
+    String? scriptCode,
+    String? countryCode,
+  }) => LocaleImplementation.fromSubtags(
+    languageCode: languageCode,
+    scriptCode: scriptCode,
+    countryCode: countryCode,
+  );
 
   /// Parses [Unicode Locale Identifiers][localeIds] to produce [Locale]
   /// instances.
@@ -40,8 +41,10 @@ abstract class Locale {
     var parser = LocaleParser(localeIdentifier);
     var locale = parser.toLocale();
     if (locale == null) {
-      throw FormatException('Locale "$localeIdentifier": '
-          '${parser.problems.join("; ")}.');
+      throw FormatException(
+        'Locale "$localeIdentifier": '
+        '${parser.problems.join("; ")}.',
+      );
     }
     return locale;
   }
