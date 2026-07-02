@@ -1,5 +1,6 @@
 ## 0.21.1-wip
   * Upgrade analyzer to `^12.1.0`.
+  * Escape text direction code points in generated code.
 
 ## 0.21.0
   * BREAKING CHANGE: Update `dart_style` to `^3.0.0`
