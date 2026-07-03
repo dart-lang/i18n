@@ -40,8 +40,8 @@ class LazyLocaleData {
   /// [keys] lists the set of remotely available locale names so we know which
   /// things can be fetched without having to check remotely.
   LazyLocaleData(this._reader, this._creationFunction, this.availableLocales)
-      : map = {},
-        availableLocaleSet = Set.from(availableLocales);
+    : map = {},
+      availableLocaleSet = Set.from(availableLocales);
 
   ///  Tests if we have data for the locale available. Note that this returns
   /// true even if the data is known to be available remotely but not yet
@@ -58,8 +58,10 @@ class LazyLocaleData {
     if (containsKey(localeName)) {
       dynamic data = map[localeName];
       if (data == null) {
-        throw LocaleDataException('Locale $localeName has not been initialized.'
-            ' Call initializeDateFormatting($localeName, <data url>) first');
+        throw LocaleDataException(
+          'Locale $localeName has not been initialized.'
+          ' Call initializeDateFormatting($localeName, <data url>) first',
+        );
       } else {
         return data;
       }

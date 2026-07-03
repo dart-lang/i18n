@@ -25,15 +25,37 @@ class DateCreationTweaks {
 
   /// Create a DateTime, but if [firstTime] is true add [hoursWrong] to the
   /// result, simulating a flaky error in the hours on DateTime creation.
-  DateTime withFlakyErrors(int year, int month, int day, int hour24, int minute,
-      int second, int fractionalSecond, bool utc) {
+  DateTime withFlakyErrors(
+    int year,
+    int month,
+    int day,
+    int hour24,
+    int minute,
+    int second,
+    int fractionalSecond,
+    bool utc,
+  ) {
     DateTime date;
     if (utc) {
       date = DateTime.utc(
-          year, month, day, hour24, minute, second, fractionalSecond);
+        year,
+        month,
+        day,
+        hour24,
+        minute,
+        second,
+        fractionalSecond,
+      );
     } else {
-      date =
-          DateTime(year, month, day, hour24, minute, second, fractionalSecond);
+      date = DateTime(
+        year,
+        month,
+        day,
+        hour24,
+        minute,
+        second,
+        fractionalSecond,
+      );
       if (firstTime) {
         date = date.add(Duration(hours: hoursWrong));
       }
@@ -44,15 +66,37 @@ class DateCreationTweaks {
 
   /// Create a DateTime, but always add [hoursWrong] to it, simulating a time
   /// zone transition issue.
-  DateTime withTimeZoneTransition(int year, int month, int day, int hour24,
-      int minute, int second, int fractionalSecond, bool utc) {
+  DateTime withTimeZoneTransition(
+    int year,
+    int month,
+    int day,
+    int hour24,
+    int minute,
+    int second,
+    int fractionalSecond,
+    bool utc,
+  ) {
     DateTime date;
     if (utc) {
       date = DateTime.utc(
-          year, month, day, hour24, minute, second, fractionalSecond);
+        year,
+        month,
+        day,
+        hour24,
+        minute,
+        second,
+        fractionalSecond,
+      );
     } else {
-      date =
-          DateTime(year, month, day, hour24, minute, second, fractionalSecond);
+      date = DateTime(
+        year,
+        month,
+        day,
+        hour24,
+        minute,
+        second,
+        fractionalSecond,
+      );
       date = date.add(Duration(hours: hoursWrong));
     }
     return date;

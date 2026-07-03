@@ -22,52 +22,52 @@ const nbsp = '\u00A0';
 const rtlMark = '\u200E';
 const ltrMark = '\u200F';
 
-Map<String, List<List<String>>>
-compactWithExplicitSign = <String, List<List<String>>>{
-  'en_US': [
-    ['0', '+0', '+0'],
-    ['0.012', '+0.012', '+0.012'],
-    ['0.123', '+0.123', '+0.123'],
-    ['1.234', '+1.23', '+1.23'],
-    ['12', '+12', '+12'],
-    ['12.34', '+12.3', '+12.3'],
-    ['123.4', '+123', '+123'],
-    ['123.41', '+123', '+123'],
-    ['1234.1', '+1.23K', '+1.23 thousand'],
-    ['12341', '+12.3K', '+12.3 thousand'],
-    ['123412', '+123K', '+123 thousand'],
-    ['1234123', '+1.23M', '+1.23 million'],
-    ['12341234', '+12.3M', '+12.3 million'],
-    ['123412341', '+123M', '+123 million'],
-    ['1234123412', '+1.23B', '+1.23 billion'],
-    ['-0.012', '-0.012', '-0.012'],
-    ['-0.123', '-0.123', '-0.123'],
-    ['-1.234', '-1.23', '-1.23'],
-    ['-12', '-12', '-12'],
-    ['-12.34', '-12.3', '-12.3'],
-    ['-123.4', '-123', '-123'],
-    ['-123.41', '-123', '-123'],
-    ['-1234.1', '-1.23K', '-1.23 thousand'],
-    ['-12341', '-12.3K', '-12.3 thousand'],
-    ['-123412', '-123K', '-123 thousand'],
-    ['-1234123', '-1.23M', '-1.23 million'],
-    ['-12341234', '-12.3M', '-12.3 million'],
-    ['-123412341', '-123M', '-123 million'],
-    ['-1234123412', '-1.23B', '-1.23 billion'],
-  ],
-  'sw': [
-    ['12', '+12', '+12'],
-    ['12341', 'elfu${nbsp}+12.3', 'elfu +12.3'],
-    ['-12', '-12', '-12'],
-    ['-12341', 'elfu${nbsp}-12.3', 'elfu -12.3'],
-  ],
-  'he': [
-    ['12', '${rtlMark}+12', '${rtlMark}+12'],
-    ['12341', '${rtlMark}+12.3K${ltrMark}', '${rtlMark}+${ltrMark}12.3 אלף'],
-    ['-12', '${rtlMark}-12', '${rtlMark}-12'],
-    ['-12341', '${rtlMark}-12.3K${ltrMark}', '${rtlMark}-${ltrMark}12.3 אלף'],
-  ],
-};
+Map<String, List<List<String>>> compactWithExplicitSign =
+    <String, List<List<String>>>{
+      'en_US': [
+        ['0', '+0', '+0'],
+        ['0.012', '+0.012', '+0.012'],
+        ['0.123', '+0.123', '+0.123'],
+        ['1.234', '+1.23', '+1.23'],
+        ['12', '+12', '+12'],
+        ['12.34', '+12.3', '+12.3'],
+        ['123.4', '+123', '+123'],
+        ['123.41', '+123', '+123'],
+        ['1234.1', '+1.23K', '+1.23 thousand'],
+        ['12341', '+12.3K', '+12.3 thousand'],
+        ['123412', '+123K', '+123 thousand'],
+        ['1234123', '+1.23M', '+1.23 million'],
+        ['12341234', '+12.3M', '+12.3 million'],
+        ['123412341', '+123M', '+123 million'],
+        ['1234123412', '+1.23B', '+1.23 billion'],
+        ['-0.012', '-0.012', '-0.012'],
+        ['-0.123', '-0.123', '-0.123'],
+        ['-1.234', '-1.23', '-1.23'],
+        ['-12', '-12', '-12'],
+        ['-12.34', '-12.3', '-12.3'],
+        ['-123.4', '-123', '-123'],
+        ['-123.41', '-123', '-123'],
+        ['-1234.1', '-1.23K', '-1.23 thousand'],
+        ['-12341', '-12.3K', '-12.3 thousand'],
+        ['-123412', '-123K', '-123 thousand'],
+        ['-1234123', '-1.23M', '-1.23 million'],
+        ['-12341234', '-12.3M', '-12.3 million'],
+        ['-123412341', '-123M', '-123 million'],
+        ['-1234123412', '-1.23B', '-1.23 billion'],
+      ],
+      'sw': [
+        ['12', '+12', '+12'],
+        ['12341', 'elfu$nbsp+12.3', 'elfu +12.3'],
+        ['-12', '-12', '-12'],
+        ['-12341', 'elfu$nbsp-12.3', 'elfu -12.3'],
+      ],
+      'he': [
+        ['12', '$rtlMark+12', '$rtlMark+12'],
+        ['12341', '$rtlMark+12.3K$ltrMark', '$rtlMark+${ltrMark}12.3 אלף'],
+        ['-12', '$rtlMark-12', '$rtlMark-12'],
+        ['-12341', '$rtlMark-12.3K$ltrMark', '$rtlMark-${ltrMark}12.3 אלף'],
+      ],
+    };
 
 Map<String, List<List<String>>> parsingTestCases = <String, List<List<String>>>{
   'en_US': [
@@ -200,12 +200,7 @@ void main() {
   testCurrency('en_US', -1234, r'-$1.23K', r'-$1K');
 
   // Check for order of currency symbol when currency is a suffix.
-  testCurrency(
-    'ru',
-    4420,
-    '4,42${nbsp}тыс.${nbsp}\u20BD',
-    '4${nbsp}тыс.${nbsp}\u20BD',
-  );
+  testCurrency('ru', 4420, '4,42$nbspтыс.$nbsp\u20BD', '4$nbspтыс.$nbsp\u20BD');
 
   // Check for sign location when multiple patterns.
   testCurrency(
@@ -217,44 +212,44 @@ void main() {
   testCurrency(
     'sw',
     -12341,
-    'TSh${nbsp}elfu${nbsp}-12.3',
-    'TSh${nbsp}elfu${nbsp}-12',
+    'TSh${nbsp}elfu$nbsp-12.3',
+    'TSh${nbsp}elfu$nbsp-12',
   );
 
   // Locales which don't have a suffix for thousands.
-  testCurrency('it', 442, '442${nbsp}€', '442${nbsp}€');
-  testCurrency('it', 4420, '4,42K${nbsp}\$', '4K${nbsp}\$', currency: 'CAD');
+  testCurrency('it', 442, '442$nbsp€', '442$nbsp€');
+  testCurrency('it', 4420, '4,42K$nbsp\$', '4K$nbsp\$', currency: 'CAD');
   testCurrency(
     'it',
     4420000,
-    '4,42${nbsp}Mln${nbsp}\$',
-    '4${nbsp}Mln${nbsp}\$',
+    '4,42${nbsp}Mln$nbsp\$',
+    '4${nbsp}Mln$nbsp\$',
     currency: 'USD',
   );
 
   testCurrency(
     'he',
     335,
-    '${ltrMark}335${nbsp}${ltrMark}₪',
-    '${ltrMark}335${nbsp}${ltrMark}₪',
+    '${ltrMark}335$nbsp$ltrMark₪',
+    '${ltrMark}335$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     -335,
-    '${ltrMark}-335${nbsp}${ltrMark}₪',
-    '${ltrMark}-335${nbsp}${ltrMark}₪',
+    '$ltrMark-335$nbsp$ltrMark₪',
+    '$ltrMark-335$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     12341,
-    '${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
-    '${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+    '${ltrMark}12.3K$ltrMark$nbsp$ltrMark₪',
+    '${ltrMark}12K$ltrMark$nbsp$ltrMark₪',
   );
   testCurrency(
     'he',
     -12341,
-    '${rtlMark}-${ltrMark}12.3K${ltrMark}$nbsp${ltrMark}₪',
-    '${rtlMark}-${ltrMark}12K${ltrMark}$nbsp${ltrMark}₪',
+    '$rtlMark-${ltrMark}12.3K$ltrMark$nbsp$ltrMark₪',
+    '$rtlMark-${ltrMark}12K$ltrMark$nbsp$ltrMark₪',
   );
 
   group('Currency with minimumFractionDigits + significant digits', () {

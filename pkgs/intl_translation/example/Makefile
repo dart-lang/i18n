@@ -15,6 +15,7 @@ generate: $(MESSAGE_ARBS)
 	--output-dir $(OUTPUT_DIR) \
 	lib/example_messages.dart \
 	$(MESSAGE_ARBS)
+	dart format $(OUTPUT_DIR)
 
 clean:
 	rm $(OUTPUT_DIR)/*.dart

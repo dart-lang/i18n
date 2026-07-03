@@ -49,7 +49,11 @@ class LocaleParser {
         _otherExtensions != null ||
         _xExtensions != null) {
       extensions = LocaleExtensions(
-          _uExtensions, _tExtensions, _otherExtensions, _xExtensions);
+        _uExtensions,
+        _tExtensions,
+        _otherExtensions,
+        _xExtensions,
+      );
     }
     return LocaleImplementation.unsafe(
       _languageCode,
@@ -228,8 +232,9 @@ class LocaleParser {
         tlang.add(_accepted);
       }
       if (acceptRegion()) {
-        tlang.add(replaceDeprecatedRegionSubtag(_accepted.toUpperCase())
-            .toLowerCase());
+        tlang.add(
+          replaceDeprecatedRegionSubtag(_accepted.toUpperCase()).toLowerCase(),
+        );
       }
       acceptVariants();
       tlang.addAll(_acceptedList!);

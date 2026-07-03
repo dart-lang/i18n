@@ -12,12 +12,12 @@ void main() {
     // should find a way to force the system locale before the test is run
     // and then verify that it's actually the correct value.
     Intl.systemLocale = 'xx_YY';
-    var callback = expectAsync1(verifyLocale);
-    findSystemLocale().then(callback);
+    var callback = expectAsync0(verifyLocale);
+    findSystemLocale().then((value) => callback());
   });
 }
 
-void verifyLocale(_) {
+void verifyLocale() {
   expect(Intl.systemLocale, isNot(equals('xx_YY')));
   // Allow either en_US or just en type locales. Windows in particular may
   // give us just ru for ru_RU

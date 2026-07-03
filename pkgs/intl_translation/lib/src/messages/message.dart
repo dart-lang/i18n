@@ -99,7 +99,7 @@ abstract class Message {
 
   /// Verify that the args argument matches the method parameters and
   /// isn't, e.g. passing string names instead of the argument values.
-  static bool checkArgs(NamedExpression? args, List<String> parameterNames) {
+  static bool checkArgs(NamedArgument? args, List<String> parameterNames) {
     if (args == null) return true;
     // Detect cases where args passes invalid names, either literal strings
     // instead of identifiers, or in the wrong order, missing values, etc.
@@ -143,15 +143,15 @@ abstract class Message {
   /// for messages with parameters.
   static void checkValidity(
     MethodInvocation node,
-    List<Expression> arguments,
+    List<Argument> arguments,
     String? outerName,
     List<FormalParameter> outerArgs, {
     bool nameAndArgsGenerated = false,
     bool examplesRequired = false,
   }) {
     // If we have parameters, we must specify args and name.
-    var argsNamedExps = arguments.whereType<NamedExpression>().where(
-      (each) => each.name.label.name == 'args',
+    var argsNamedExps = arguments.whereType<NamedArgument>().where(
+      (each) => each.name.lexeme == 'args',
     );
     var args = argsNamedExps.isNotEmpty ? argsNamedExps.first : null;
     var parameterNames = outerArgs.map((x) => x.name!.lexeme).toList();
@@ -170,9 +170,9 @@ abstract class Message {
     }
 
     var nameNamedExps = arguments
-        .whereType<NamedExpression>()
-        .where((arg) => arg.name.label.name == 'name')
-        .map((e) => e.expression);
+        .whereType<NamedArgument>()
+        .where((arg) => arg.name.lexeme == 'name')
+        .map((e) => e.argumentExpression);
     String? messageName;
     String? givenName;
 
@@ -181,7 +181,7 @@ abstract class Message {
     if (nameNamedExps.isEmpty) {
       if (!hasParameters) {
         // No name supplied, no parameters. Use the message as the name.
-        var name = _evaluateAsString(arguments[0]);
+        var name = _evaluateAsString(arguments[0] as Expression);
         messageName = name;
         outerName = name;
       } else {
@@ -229,9 +229,9 @@ abstract class Message {
     }
 
     var values = arguments
-        .whereType<NamedExpression>()
-        .where((each) => ['desc', 'name'].contains(each.name.label.name))
-        .map((each) => each.expression)
+        .whereType<NamedArgument>()
+        .where((each) => ['desc', 'name'].contains(each.name.lexeme))
+        .map((each) => each.argumentExpression)
         .toList();
     for (var arg in values) {
       if (_evaluateAsString(arg) == null) {
@@ -243,9 +243,9 @@ abstract class Message {
 
     if (hasParameters) {
       var examples = arguments
-          .whereType<NamedExpression>()
-          .where((each) => each.name.label.name == 'examples')
-          .map((each) => each.expression);
+          .whereType<NamedArgument>()
+          .where((each) => each.name.lexeme == 'examples')
+          .map((each) => each.argumentExpression);
       if (examples.isEmpty && examplesRequired) {
         throw MessageExtractionException(
           'Examples must be provided for messages with parameters',
@@ -288,10 +288,14 @@ abstract class Message {
   static String? classPlusMethodName(MethodInvocation node, String? outerName) {
     String? name;
     for (AstNode? parent = node; parent != null; parent = parent.parent) {
-      if (parent is ClassDeclaration ||
-          parent is MixinDeclaration ||
-          parent is EnumDeclaration) {
-        name = (parent as NamedCompilationUnitMember).name.lexeme;
+      if (parent is ClassDeclaration) {
+        name = parent.namePart.typeName.lexeme;
+        break;
+      } else if (parent is EnumDeclaration) {
+        name = parent.namePart.typeName.lexeme;
+        break;
+      } else if (parent is MixinDeclaration) {
+        name = parent.name.lexeme;
         break;
       }
     }

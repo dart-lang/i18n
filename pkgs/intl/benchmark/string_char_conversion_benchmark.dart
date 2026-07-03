@@ -9,10 +9,9 @@ import 'package:benchmark_harness/benchmark_harness.dart';
 const int asciiZeroCodeUnit = 2;
 const int listlength = 10000;
 
-String string = String.fromCharCodes(Iterable.generate(
-  listlength,
-  (_) => Random().nextInt(80) + 15,
-));
+String string = String.fromCharCodes(
+  Iterable.generate(listlength, (_) => Random().nextInt(80) + 15),
+);
 
 /// This class tests the implementation speed of
 /// _DateFormatPatternField::nextInteger, which is assumed to be called often and
@@ -25,11 +24,13 @@ class NewMethod extends BenchmarkBase {
   @override
   void run() {
     var codeUnits = string.codeUnits;
-    result = String.fromCharCodes(List.generate(
-      codeUnits.length,
-      (index) => codeUnits[index] - zeroDigit + asciiZeroCodeUnit,
-      growable: false,
-    ));
+    result = String.fromCharCodes(
+      List.generate(
+        codeUnits.length,
+        (index) => codeUnits[index] - zeroDigit + asciiZeroCodeUnit,
+        growable: false,
+      ),
+    );
   }
 }
 
@@ -40,10 +41,9 @@ class OldMethod extends BenchmarkBase {
   OldMethod() : super('Old version of _DateFormatPatternField::nextInteger');
 
   @override
-  void setup() => string = String.fromCharCodes(Iterable.generate(
-        listlength,
-        (index) => Random().nextInt(80) + zeroDigit,
-      ));
+  void setup() => string = String.fromCharCodes(
+    Iterable.generate(listlength, (index) => Random().nextInt(80) + zeroDigit),
+  );
 
   @override
   void run() {
@@ -55,6 +55,7 @@ class OldMethod extends BenchmarkBase {
     result = String.fromCharCodes(newDigits);
   }
 }
+
 // THIS WILL BE REMOVED AFTER CR
 
 void main() {

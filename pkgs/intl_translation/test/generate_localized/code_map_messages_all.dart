@@ -16,7 +16,7 @@ export 'code_map_messages_all_locales.dart' show initializeMessages;
 ///   * ['Intl.gender', String gender, (templates for female, male, other)]
 ///   * ['Intl.select', String choice, { 'case' : template, ...} ]
 ///   * ['text alternating with ', 0 , ' indexes in the argument list']
-String? evaluateJsonTemplate(dynamic input, List<dynamic> args) {
+String? evaluateJsonTemplate(Object? input, List<dynamic> args) {
   if (input == null) return null;
   if (input is String) return input;
   if (input is int) {

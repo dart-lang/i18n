@@ -13,8 +13,8 @@ import 'date_time_format_test_core.dart';
 
 typedef TestListFunc = List<String> Function();
 
-typedef InitializeDateFormattingFunc = Future<void> Function(
-    String locale, String filePath);
+typedef InitializeDateFormattingFunc =
+    Future<void> Function(String locale, String filePath);
 
 /// Return only the odd-numbered locales. A simple way to divide the list into
 /// two roughly equal parts.
@@ -35,8 +35,11 @@ List<String> evenLocales() {
   return allLocales().where((x) => !(i++).isOdd).toList();
 }
 
-void runWith(TestListFunc getSubset, String? dir,
-    InitializeDateFormattingFunc initFunction) {
+void runWith(
+  TestListFunc getSubset,
+  String? dir,
+  InitializeDateFormattingFunc initFunction,
+) {
   var notNullDir = dir ?? '';
 
   // Initialize one locale just so we know what the list is.
@@ -49,14 +52,17 @@ void runWith(TestListFunc getSubset, String? dir,
     if (initialized) {
       return null;
     }
-    return initFunction('en_US', notNullDir).then((_) {
-      return Future.forEach(DateFormat.allLocalesWithSymbols(),
-          (String locale) {
-        return initFunction(locale, notNullDir);
-      });
-    }).then((_) {
-      initialized = true;
-    });
+    return initFunction('en_US', notNullDir)
+        .then((_) {
+          return Future.forEach(DateFormat.allLocalesWithSymbols(), (
+            String locale,
+          ) {
+            return initFunction(locale, notNullDir);
+          });
+        })
+        .then((_) {
+          initialized = true;
+        });
   });
 
   runDateTests(getSubset);

@@ -9,4 +9,5 @@
 library;
 
 Future<String> findSystemLocale() => throw UnimplementedError(
-    'This is a stub for either `intl_standalone` or `intl_browser`');
+  'This is a stub for either `intl_standalone` or `intl_browser`',
+);

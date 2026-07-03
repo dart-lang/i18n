@@ -154,31 +154,45 @@ class Intl {
   /// the placeholder automatically translated.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
+  @pragma('wasm:prefer-inline')
+  @pragma('wasm:prefer-inline')
   // We want to try to inline these messages, but not inline the internal
   // messages, so it will eliminate the descriptions and other information
   // not needed at runtime.
-  static String message(String messageText,
-          {String? desc = '',
-          Map<String, Object>? examples,
-          String? locale,
-          String? name,
-          List<Object>? args,
-          String? meaning,
-          bool? skip}) =>
-      _message(messageText, locale, name, args, meaning);
+  static String message(
+    String messageText, {
+    String? desc = '',
+    Map<String, Object>? examples,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+    bool? skip,
+  }) => _message(messageText, locale, name, args, meaning);
 
   /// Omit the compile-time only parameters so dart2js can see to drop them.
   @pragma('dart2js:noInline')
-  static String _message(String? messageText, String? locale, String? name,
-      List<Object>? args, String? meaning) {
-    return _lookupMessage(messageText, locale, name, args, meaning)!;
-  }
+  static String _message(
+    String? messageText,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+  ) => _lookupMessage(messageText, locale, name, args, meaning)!;
 
-  static String? _lookupMessage(String? messageText, String? locale,
-      String? name, List<Object>? args, String? meaning) {
-    return helpers.messageLookup
-        .lookupMessage(messageText, locale, name, args, meaning);
-  }
+  static String? _lookupMessage(
+    String? messageText,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+  ) => helpers.messageLookup.lookupMessage(
+    messageText,
+    locale,
+    name,
+    args,
+    meaning,
+  );
 
   /// Return the locale for this instance. If none was set, the locale will
   /// be the default.
@@ -203,9 +217,10 @@ class Intl {
   /// Can return `null` only if verification fails and `onFailure` returns
   /// null. Otherwise, throws instead.
   static String? verifiedLocale(
-          String? newLocale, bool Function(String) localeExists,
-          {String? Function(String)? onFailure}) =>
-      helpers.verifiedLocale(newLocale, localeExists, onFailure);
+    String? newLocale,
+    bool Function(String) localeExists, {
+    String? Function(String)? onFailure,
+  }) => helpers.verifiedLocale(newLocale, localeExists, onFailure);
 
   /// Return the short version of a locale name, e.g. 'en_US' => 'en'
   static String shortLocale(String aLocale) =>
@@ -230,50 +245,57 @@ class Intl {
   /// categories see http://cldr.unicode.org/index/cldr-spec/plural-rules
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String plural(num howMany,
-      {String? zero,
-      String? one,
-      String? two,
-      String? few,
-      String? many,
-      required String other,
-      String? desc,
-      Map<String, Object>? examples,
-      String? locale,
-      int? precision,
-      String? name,
-      List<Object>? args,
-      String? meaning,
-      bool? skip}) {
+  @pragma('wasm:prefer-inline')
+  static String plural(
+    num howMany, {
+    String? zero,
+    String? one,
+    String? two,
+    String? few,
+    String? many,
+    required String other,
+    String? desc,
+    Map<String, Object>? examples,
+    String? locale,
+    int? precision,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+    bool? skip,
+  }) {
     // Call our internal method, dropping examples and desc because they're not
     // used at runtime and we want them to be optimized away.
-    return _plural(howMany,
-        zero: zero,
-        one: one,
-        two: two,
-        few: few,
-        many: many,
-        other: other,
-        locale: locale,
-        precision: precision,
-        name: name,
-        args: args,
-        meaning: meaning);
+    return _plural(
+      howMany,
+      zero: zero,
+      one: one,
+      two: two,
+      few: few,
+      many: many,
+      other: other,
+      locale: locale,
+      precision: precision,
+      name: name,
+      args: args,
+      meaning: meaning,
+    );
   }
 
   @pragma('dart2js:noInline')
-  static String _plural(num howMany,
-      {String? zero,
-      String? one,
-      String? two,
-      String? few,
-      String? many,
-      required String other,
-      String? locale,
-      int? precision,
-      String? name,
-      List<Object>? args,
-      String? meaning}) {
+  static String _plural(
+    num howMany, {
+    String? zero,
+    String? one,
+    String? two,
+    String? few,
+    String? many,
+    required String other,
+    String? locale,
+    int? precision,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+  }) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var translated = _lookupMessage(null, locale, name, args, meaning);
@@ -281,30 +303,34 @@ class Intl {
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
     return translated ??
-        pluralLogic(howMany,
-            zero: zero,
-            one: one,
-            two: two,
-            few: few,
-            many: many,
-            other: other,
-            locale: locale,
-            precision: precision);
+        pluralLogic(
+          howMany,
+          zero: zero,
+          one: one,
+          two: two,
+          few: few,
+          many: many,
+          other: other,
+          locale: locale,
+          precision: precision,
+        );
   }
 
   /// Internal: Implements the logic for plural selection - use [plural] for
   /// normal messages.
-  static T pluralLogic<T>(num howMany,
-      {T? zero,
-      T? one,
-      T? two,
-      T? few,
-      T? many,
-      required T other,
-      String? locale,
-      int? precision,
-      String? meaning,
-      bool useExplicitNumberCases = true}) {
+  static T pluralLogic<T>(
+    num howMany, {
+    T? zero,
+    T? one,
+    T? two,
+    T? few,
+    T? many,
+    required T other,
+    String? locale,
+    int? precision,
+    String? meaning,
+    bool useExplicitNumberCases = true,
+  }) {
     ArgumentError.checkNotNull(other, 'other');
     ArgumentError.checkNotNull(howMany, 'howMany');
     // If we haven't specified precision and we have a float that is an integer
@@ -354,11 +380,16 @@ class Intl {
   static String? _cachedPluralLocale;
 
   static plural_rules.PluralRule _pluralRule(
-      String? locale, num howMany, int? precision) {
+    String? locale,
+    num howMany,
+    int? precision,
+  ) {
     plural_rules.startRuleEvaluation(howMany, precision);
     var verifiedLocale = Intl.verifiedLocale(
-        locale, plural_rules.localeHasPluralRules,
-        onFailure: (locale) => 'default');
+      locale,
+      plural_rules.localeHasPluralRules,
+      onFailure: (locale) => 'default',
+    );
     if (_cachedPluralLocale == verifiedLocale) {
       return _cachedPluralRule!;
     } else {
@@ -371,38 +402,45 @@ class Intl {
   /// Format a message differently depending on [targetGender].
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String gender(String targetGender,
-      {String? female,
-      String? male,
-      required String other,
-      String? desc,
-      Map<String, Object>? examples,
-      String? locale,
-      String? name,
-      List<Object>? args,
-      String? meaning,
-      bool? skip}) {
+  @pragma('wasm:prefer-inline')
+  static String gender(
+    String targetGender, {
+    String? female,
+    String? male,
+    required String other,
+    String? desc,
+    Map<String, Object>? examples,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+    bool? skip,
+  }) {
     // Call our internal method, dropping args and desc because they're not used
     // at runtime and we want them to be optimized away.
-    return _gender(targetGender,
-        male: male,
-        female: female,
-        other: other,
-        locale: locale,
-        name: name,
-        args: args,
-        meaning: meaning);
+    return _gender(
+      targetGender,
+      male: male,
+      female: female,
+      other: other,
+      locale: locale,
+      name: name,
+      args: args,
+      meaning: meaning,
+    );
   }
 
   @pragma('dart2js:noInline')
-  static String _gender(String targetGender,
-      {String? female,
-      String? male,
-      required String other,
-      String? locale,
-      String? name,
-      List<Object>? args,
-      String? meaning}) {
+  static String _gender(
+    String targetGender, {
+    String? female,
+    String? male,
+    required String other,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+  }) {
     // Look up our translation, but pass in a null message so we don't have to
     // eagerly evaluate calls that may not be necessary.
     var translated = _lookupMessage(null, locale, name, args, meaning);
@@ -410,14 +448,24 @@ class Intl {
     /// If there's a translation, return it, otherwise evaluate with our
     /// original text.
     return translated ??
-        genderLogic(targetGender,
-            female: female, male: male, other: other, locale: locale);
+        genderLogic(
+          targetGender,
+          female: female,
+          male: male,
+          other: other,
+          locale: locale,
+        );
   }
 
   /// Internal: Implements the logic for gender selection - use [gender] for
   /// normal messages.
-  static T genderLogic<T>(String targetGender,
-      {T? female, T? male, required T other, String? locale}) {
+  static T genderLogic<T>(
+    String targetGender, {
+    T? female,
+    T? male,
+    required T other,
+    String? locale,
+  }) {
     ArgumentError.checkNotNull(other, 'other');
     switch (targetGender) {
       case 'female':
@@ -443,21 +491,37 @@ class Intl {
   /// can't actually identify if something is an enum or not.
   @pragma('dart2js:tryInline')
   @pragma('vm:prefer-inline')
-  static String select(Object choice, Map<Object, String> cases,
-      {String? desc,
-      Map<String, Object>? examples,
-      String? locale,
-      String? name,
-      List<Object>? args,
-      String? meaning,
-      bool? skip}) {
-    return _select(choice, cases,
-        locale: locale, name: name, args: args, meaning: meaning);
+  @pragma('wasm:prefer-inline')
+  static String select(
+    Object choice,
+    Map<Object, String> cases, {
+    String? desc,
+    Map<String, Object>? examples,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+    bool? skip,
+  }) {
+    return _select(
+      choice,
+      cases,
+      locale: locale,
+      name: name,
+      args: args,
+      meaning: meaning,
+    );
   }
 
   @pragma('dart2js:noInline')
-  static String _select(Object choice, Map<Object, String> cases,
-      {String? locale, String? name, List<Object>? args, String? meaning}) {
+  static String _select(
+    Object choice,
+    Map<Object, String> cases, {
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning,
+  }) {
     if (choice is! String && args != null) {
       var stringChoice = '$choice'.split('.').last;
       args = args.map((a) => identical(a, choice) ? stringChoice : a).toList();
