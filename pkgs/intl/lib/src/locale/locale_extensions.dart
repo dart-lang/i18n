@@ -14,65 +14,69 @@ class LocaleExtensions {
   /// Keys in each of the maps passed to this contructor must be syntactically
   /// valid extension keys, and must already be normalized (correct case).
   LocaleExtensions(
-      Map<String, String>? uExtensions,
-      Map<String, String>? tExtensions,
-      Map<String, String>? otherExtensions,
-      this._xExtensions)
-      : _uExtensions = _sortedUnmodifiable(uExtensions),
-        _tExtensions = _sortedUnmodifiable(tExtensions),
-        _otherExtensions = _sortedUnmodifiable(otherExtensions) {
+    Map<String, String>? uExtensions,
+    Map<String, String>? tExtensions,
+    Map<String, String>? otherExtensions,
+    this._xExtensions,
+  ) : _uExtensions = _sortedUnmodifiable(uExtensions),
+      _tExtensions = _sortedUnmodifiable(tExtensions),
+      _otherExtensions = _sortedUnmodifiable(otherExtensions) {
     // Debug-mode asserts to ensure all parameters are normalized and UTS #35
     // compliant.
     assert(
-        uExtensions == null ||
-            uExtensions.entries.every((e) {
-              if (!_uExtensionsValidKeysRE.hasMatch(e.key)) return false;
-              // TODO(hugovdm) reconsider this representation: "true" values are
-              // suppressed in canonical Unicode BCP47 Locale Identifiers, but
-              // we may choose to represent them as "true" in memory.
-              if (e.value == '' && e.key != '') return true;
-              if (!_uExtensionsValidValuesRE.hasMatch(e.value)) return false;
-              return true;
-            }),
-        'uExtensions keys must match '
-        'RegExp/${_uExtensionsValidKeysRE.pattern}/. '
-        'uExtensions values must match '
-        'RegExp/${_uExtensionsValidValuesRE.pattern}/. '
-        'uExtensions.entries: ${uExtensions.entries}.');
+      uExtensions == null ||
+          uExtensions.entries.every((e) {
+            if (!_uExtensionsValidKeysRE.hasMatch(e.key)) return false;
+            // TODO(hugovdm) reconsider this representation: "true" values are
+            // suppressed in canonical Unicode BCP47 Locale Identifiers, but
+            // we may choose to represent them as "true" in memory.
+            if (e.value == '' && e.key != '') return true;
+            if (!_uExtensionsValidValuesRE.hasMatch(e.value)) return false;
+            return true;
+          }),
+      'uExtensions keys must match '
+      'RegExp/${_uExtensionsValidKeysRE.pattern}/. '
+      'uExtensions values must match '
+      'RegExp/${_uExtensionsValidValuesRE.pattern}/. '
+      'uExtensions.entries: ${uExtensions.entries}.',
+    );
     assert(
-        tExtensions == null ||
-            tExtensions.entries.every((e) {
-              if (!_tExtensionsValidKeysRE.hasMatch(e.key)) return false;
-              if (e.key == '') {
-                if (!_validTlangRE.hasMatch(e.value)) return false;
-              } else {
-                if (!_tExtensionsValidValuesRE.hasMatch(e.value)) return false;
-              }
-              return true;
-            }),
-        'tExtensions keys must match '
-        'RegExp/${_tExtensionsValidKeysRE.pattern}/. '
-        'tExtensions values other than tlang must match '
-        'RegExp/${_tExtensionsValidValuesRE.pattern}/. '
-        'Entries: ${tExtensions.entries}.');
+      tExtensions == null ||
+          tExtensions.entries.every((e) {
+            if (!_tExtensionsValidKeysRE.hasMatch(e.key)) return false;
+            if (e.key == '') {
+              if (!_validTlangRE.hasMatch(e.value)) return false;
+            } else {
+              if (!_tExtensionsValidValuesRE.hasMatch(e.value)) return false;
+            }
+            return true;
+          }),
+      'tExtensions keys must match '
+      'RegExp/${_tExtensionsValidKeysRE.pattern}/. '
+      'tExtensions values other than tlang must match '
+      'RegExp/${_tExtensionsValidValuesRE.pattern}/. '
+      'Entries: ${tExtensions.entries}.',
+    );
     assert(
-        otherExtensions == null ||
-            otherExtensions.entries.every((e) {
-              if (!_otherExtensionsValidKeysRE.hasMatch(e.key)) return false;
-              if (!_otherExtensionsValidValuesRE.hasMatch(e.value)) {
-                return false;
-              }
-              return true;
-            }),
-        'otherExtensions keys must match '
-        'RegExp/${_otherExtensionsValidKeysRE.pattern}. '
-        'otherExtensions values must match '
-        'RegExp/${_otherExtensionsValidValuesRE.pattern}. '
-        'Entries: ${otherExtensions.entries}.');
+      otherExtensions == null ||
+          otherExtensions.entries.every((e) {
+            if (!_otherExtensionsValidKeysRE.hasMatch(e.key)) return false;
+            if (!_otherExtensionsValidValuesRE.hasMatch(e.value)) {
+              return false;
+            }
+            return true;
+          }),
+      'otherExtensions keys must match '
+      'RegExp/${_otherExtensionsValidKeysRE.pattern}. '
+      'otherExtensions values must match '
+      'RegExp/${_otherExtensionsValidValuesRE.pattern}. '
+      'Entries: ${otherExtensions.entries}.',
+    );
     assert(
-        _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions),
-        '_xExtensions must match RegExp/${_validXExtensionsRE.pattern}/ '
-        'but is "$_xExtensions".');
+      _xExtensions == null || _validXExtensionsRE.hasMatch(_xExtensions),
+      '_xExtensions must match RegExp/${_validXExtensionsRE.pattern}/ '
+      'but is "$_xExtensions".',
+    );
   }
 
   /// For debug/assert-use only! Matches keys considered valid for
@@ -85,8 +89,9 @@ class LocaleExtensions {
   /// [_uExtensions], does not imply values are valid as per Unicode LDML spec!
   //
   // Must be static to get tree-shaken away in production code.
-  static final _uExtensionsValidValuesRE =
-      RegExp(r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$');
+  static final _uExtensionsValidValuesRE = RegExp(
+    r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$',
+  );
 
   /// For debug/assert-use only! Matches keys considered valid for
   /// [_tExtensions], does not imply keys are valid as per Unicode LDML spec!
@@ -99,8 +104,9 @@ class LocaleExtensions {
   /// per Unicode LDML spec!
   //
   // Must be static to get tree-shaken away in production code.
-  static final _tExtensionsValidValuesRE =
-      RegExp(r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$');
+  static final _tExtensionsValidValuesRE = RegExp(
+    r'^[a-z\d]{3,8}([-][a-z\d]{3,8})*$',
+  );
 
   /// For debug/assert-use only! Matches keys considered valid for
   /// [_otherExtensions], does not imply keys are valid as per Unicode LDML
@@ -114,36 +120,34 @@ class LocaleExtensions {
   /// spec!
   //
   // Must be static to get tree-shaken away in production code.
-  static final _otherExtensionsValidValuesRE =
-      RegExp(r'^[a-z\d]{2,8}([-][a-z\d]{2,8})*$');
+  static final _otherExtensionsValidValuesRE = RegExp(
+    r'^[a-z\d]{2,8}([-][a-z\d]{2,8})*$',
+  );
 
   /// For debug/assert-use only! Matches values valid for [_xExtensions].
   //
   // Must be static to get tree-shaken away in production code.
-  static final _validXExtensionsRE =
-      RegExp(r'^[a-z\d]{1,8}([-][a-z\d]{1,8})*$');
+  static final _validXExtensionsRE = RegExp(
+    r'^[a-z\d]{1,8}([-][a-z\d]{1,8})*$',
+  );
 
   /// For debug/assert-use only! Matches values valid for tlang.
   //
   // Must be static to get tree-shaken away in production code.
   static final _validTlangRE = RegExp(
-      // Full string match start
-      r'^'
-
-      // Language is required in a tlang identifier.
-      r'([a-z]{2,3}|[a-z]{5,8})' // Language
-
-      // Optional script
-      r'(-[a-z]{4})?'
-
-      // Optional region
-      r'(-[a-z]{2}|-\d{3})?'
-
-      // Any number of variant subtags
-      r'(-([a-z\d]{5,8}|\d[a-z\d]{3}))*'
-
-      // Full string match end
-      r'$');
+    // Full string match start
+    r'^'
+    // Language is required in a tlang identifier.
+    r'([a-z]{2,3}|[a-z]{5,8})' // Language
+    // Optional script
+    r'(-[a-z]{4})?'
+    // Optional region
+    r'(-[a-z]{2}|-\d{3})?'
+    // Any number of variant subtags
+    r'(-([a-z\d]{5,8}|\d[a-z\d]{3}))*'
+    // Full string match end
+    r'$',
+  );
 
   /// `-u-` extension, with keys in sorted order. Attributes are stored under
   /// the zero-length string as key. Keywords (consisting of `key` and `type`)

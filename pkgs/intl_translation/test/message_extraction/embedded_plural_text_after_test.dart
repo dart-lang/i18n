@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library embedded_plural_text_after_test;
+library;
 
 import 'package:test/test.dart';
 
@@ -14,9 +13,10 @@ void main() {
   test('Expect failure because of embedded plural with text after it', () {
     var specialFiles = <String>['embedded_plural_text_after.dart'];
     runTestWithWarnings(
-        warningsAreErrors: true,
-        expectedExitCode: 1,
-        embeddedPlurals: false,
-        sourceFiles: specialFiles);
+      warningsAreErrors: true,
+      expectedExitCode: 1,
+      embeddedPlurals: false,
+      sourceFiles: specialFiles,
+    );
   });
 }

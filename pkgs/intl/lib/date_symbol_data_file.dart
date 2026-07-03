@@ -22,16 +22,22 @@ export 'src/data/dates/locale_list.dart';
 /// for the platform.
 Future<void> initializeDateFormatting(String locale, String filePath) {
   var reader = FileDataReader(path.join(filePath, 'symbols'));
-  initializeDateSymbols(() => LazyLocaleData(
-      reader, _createDateSymbol, availableLocalesForDateFormatting));
+  initializeDateSymbols(
+    () => LazyLocaleData(
+      reader,
+      _createDateSymbol,
+      availableLocalesForDateFormatting,
+    ),
+  );
   var reader2 = FileDataReader(path.join(filePath, 'patterns'));
-  initializeDatePatterns(() =>
-      LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting));
+  initializeDatePatterns(
+    () => LazyLocaleData(reader2, (x) => x, availableLocalesForDateFormatting),
+  );
   return initializeIndividualLocaleDateFormatting((symbols, patterns) {
     return Future.wait(<Future<dynamic>>[
       /* LazyLocaleData */
       symbols.initLocale(locale),
-      patterns.initLocale(locale)
+      patterns.initLocale(locale),
     ]);
   });
 }

@@ -11,9 +11,9 @@ class PairMessage<T extends Message, S extends Message> extends Message {
   PairMessage(this.first, this.second, [Message? parent]) : super(parent);
 
   @override
-  String expanded(
-          [String Function(Message, Object) transform = nullTransform]) =>
-      [first, second].map((chunk) => transform(this, chunk)).join('');
+  String expanded([
+    String Function(Message, Object) transform = nullTransform,
+  ]) => [first, second].map((chunk) => transform(this, chunk)).join('');
 
   @override
   String toCode() => [first, second].map((each) => each.toCode()).join('');

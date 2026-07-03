@@ -1,3 +1,41 @@
+## 1.0.0-alpha.1
+
+- Update ICU4X to `2.2.0-dev.2` and other small fixes.
+
+## 1.0.0-alpha
+
+- Publish alpha version!
+
+## 0.17.0
+
+- Make `year` and `month` not zoneable, as this is a runtime error in ICU4X.
+
+## 0.16.0
+
+- Add class modifiers.
+
+## 0.15.0
+
+- API overhaul:
+  - Getting rid of the Intl object, as it only served as a wrapper of Locale. So the ...Format objects are now the top-level things.
+  - Remove most ...Options objects from the public API, as they make it more verbose. Users now directly input the options to the top-level ...Format constructor.
+  - Use => instead of block bodies for methods where possible.
+  - Fix some imports
+  - Add documentation to some classes.
+  - Remove some methods which are not implemented in ICU4X
+
+## 0.14.0
+
+- Change timezone API, adding a dependency on package:timezone.
+
+## 0.13.2
+
+- Add `withEra`.
+
+## 0.13.1
+
+- Fix casemapping on the web.
+
 ## 0.13.0
 
 - Add examples of extensions to `List` and `DateTime` formatting.
@@ -6,6 +44,7 @@
 - Make package compatible to run on Windows again.
 - Update to `native_toolchain_c` v0.17.1.
 - Move logic to package:icu4x.
+- Switch `DateTime` formatting API and more clean-ups.
 
 ## 0.12.2
 

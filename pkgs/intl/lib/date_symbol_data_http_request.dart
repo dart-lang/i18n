@@ -23,19 +23,19 @@ Future<void> initializeDateFormatting(String locale, String url) {
   // Initialize symbols
   var symbolReader = HttpRequestDataReader('${url}symbols/');
   LazyLocaleData symbolsInitializer() => LazyLocaleData(
-        symbolReader,
-        _createDateSymbol,
-        availableLocalesForDateFormatting,
-      );
+    symbolReader,
+    _createDateSymbol,
+    availableLocalesForDateFormatting,
+  );
   initializeDateSymbols(symbolsInitializer);
 
   // Initialize patterns
   var patternsReader = HttpRequestDataReader('${url}patterns/');
   LazyLocaleData patternsInitializer() => LazyLocaleData(
-        patternsReader,
-        (x) => x,
-        availableLocalesForDateFormatting,
-      );
+    patternsReader,
+    (x) => x,
+    availableLocalesForDateFormatting,
+  );
   initializeDatePatterns(patternsInitializer);
 
   var actualLocale = Intl.verifiedLocale(

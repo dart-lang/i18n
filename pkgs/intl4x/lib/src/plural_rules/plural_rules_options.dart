@@ -2,49 +2,33 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../number_format.dart';
+import '../number_format/number_format_options.dart';
+import 'plural_rules.dart' show PluralRules;
 
-typedef ListStyle = Style;
+export '../../number_format.dart'
+    show Digits, RoundingMode, TrailingZeroDisplay;
 
+/// Options for plural rules selection and number formatting in plural rules.
+///
+/// See [PluralRules] for more details.
 class PluralRulesOptions {
-  final Type type;
+  final PluralType type;
   final Digits? digits;
   final RoundingMode roundingMode;
   final int minimumIntegerDigits;
   final TrailingZeroDisplay trailingZeroDisplay;
 
-  final LocaleMatcher localeMatcher;
-
   PluralRulesOptions({
-    this.type = Type.cardinal,
+    this.type = PluralType.cardinal,
     Digits? digits,
     this.roundingMode = RoundingMode.halfExpand,
     this.minimumIntegerDigits = 1,
     this.trailingZeroDisplay = TrailingZeroDisplay.auto,
-    this.localeMatcher = LocaleMatcher.bestfit,
   }) : digits = NumberFormatOptions.getDigits(const DecimalStyle(), digits);
-
-  PluralRulesOptions copyWith({
-    Type? type,
-    Digits? digits,
-    RoundingMode? roundingMode,
-    int? minimumIntegerDigits,
-    TrailingZeroDisplay? trailingZeroDisplay,
-    LocaleMatcher? localeMatcher,
-  }) {
-    return PluralRulesOptions(
-      type: type ?? this.type,
-      digits: digits ?? this.digits,
-      roundingMode: roundingMode ?? this.roundingMode,
-      minimumIntegerDigits: minimumIntegerDigits ?? this.minimumIntegerDigits,
-      trailingZeroDisplay: trailingZeroDisplay ?? this.trailingZeroDisplay,
-      localeMatcher: localeMatcher ?? this.localeMatcher,
-    );
-  }
 }
 
 /// The number type to use.
-enum Type {
+enum PluralType {
   /// For cardinal numbers (referring to the quantity of things): One, two,
   /// three, four, five, etc.
   cardinal,

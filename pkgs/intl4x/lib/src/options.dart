@@ -2,55 +2,132 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Used to find the best match between a user's desired locales and an
-/// application's supported locales.
-///
-/// When receiving a list of locales for which there is no perfect match in the
-/// list of supported locales, it is probably not the best solution to return
-/// null or an empty string.
-/// Instead, the application "falls back" until it finds a matching language tag
-/// associated with a suitable piece of content to insert. The exact fallback
-/// algorithm is determined by this enum.
-enum LocaleMatcher {
-  /// See the algorithm in
-  /// https://datatracker.ietf.org/doc/html/rfc4647#section-3.4.
-  lookup,
+/// Common options used across intl4x libraries.
+library;
 
-  /// A matcher lets the runtime provide a locale that's at least, but possibly
-  /// more, suited for the request than the result of the [lookup] algorithm.
-  bestfit('best fit');
-
-  final String? _jsName;
-
-  String? get jsName => _jsName ?? name;
-
-  const LocaleMatcher([this._jsName]);
-}
-
+/// Calendar types for date and time formatting.
 enum Calendar {
+  /// The Buddhist calendar.
   buddhist,
-  chinese,
+
+  /// The traditional Chinese calendar.
+  traditionalChinese,
+
+  /// The Coptic calendar.
   coptic,
-  dangi,
-  ethiopianAmeteAlem('ethioaa'),
-  ethiopian('ethiopic'),
-  gregorian('gregory'),
+
+  /// The traditional Korean calendar (Dangi).
+  traditionalKorean,
+
+  /// The Ethiopic Amete Alem calendar.
+  ethiopianAmeteAlem,
+
+  /// The Ethiopic calendar.
+  ethiopian,
+
+  /// The Gregorian calendar.
+  gregorian,
+
+  /// The Hebrew calendar.
   hebrew,
+
+  /// The Indian national calendar.
   indian,
-  islamicUmalqura('islamic-umalqura'),
-  islamicTbla('islamic-tbla'),
-  islamicCivil('islamic-civil'),
-  islamicRgsa('islamic-rgsa'),
-  iso8601,
+
+  /// The Islamic Umm al-Qura calendar.
+  hijriUmalqura,
+
+  /// The Islamic tabular calendar.
+  hijriTbla,
+
+  /// The Islamic civil calendar.
+  hijriCivil,
+
+  /// The Japanese calendar.
   japanese,
+
+  /// The Persian calendar.
   persian,
-  roc;
 
-  String get jsName => _jsName ?? name;
-
-  final String? _jsName;
-
-  const Calendar([this._jsName]);
+  /// The Minguo (Republic of China) calendar.
+  minguo,
 }
 
+/// Numbering systems for number formatting.
+enum NumberingSystem {
+  /// Arabic-Indic digits.
+  arabic,
+
+  /// Extended Arabic-Indic digits.
+  extendedarabicindic,
+
+  /// Balinese digits.
+  balinese,
+
+  /// Bengali digits.
+  bangla,
+
+  /// Devanagari digits.
+  devanagari,
+
+  /// Full-width digits.
+  ///
+  /// Full-width digits (like ０１２３４５６７８９) are characters that occupy the full
+  /// square space of East Asian characters, unlike standard half-width digits
+  /// (0-9) that take half the space, designed for compatibility in systems
+  /// handling both narrow Latin and wide CJK (Chinese, Japanese, Korean) text,
+  /// often used in forms or Japanese contexts for uniform alignment.
+  fullwidth,
+
+  /// Gujarati digits.
+  gujarati,
+
+  /// Gurmukhi digits.
+  gurmukhi,
+
+  /// Hanja decimal digits.
+  hanjadecimal,
+
+  /// Khmer digits.
+  khmer,
+
+  /// Kannada digits.
+  kannada,
+
+  /// Lao digits.
+  lao,
+
+  /// Latin digits.
+  latin,
+
+  /// Limbu digits.
+  limbu,
+
+  /// Malayalam digits.
+  malayalam,
+
+  /// Mongolian digits.
+  mongolian,
+
+  /// Myanmar digits.
+  myanmar,
+
+  /// Oriya digits.
+  odia,
+
+  /// Tamil decimal digits.
+  tamildecimal,
+
+  /// Telugu digits.
+  telugu,
+
+  /// Thai digits.
+  thai,
+
+  /// Tibetan digits.
+  tibetan,
+}
+
+/// Used for multiple option types which confirm to the triad of
+/// narrow/short/long.
 enum Style { narrow, short, long }

@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library failed_extraction_test;
+library;
 
 import 'dart:io';
 
@@ -20,14 +19,15 @@ void main() {
 
 const List<String> defaultFiles = [
   'sample_with_messages.dart',
-  'part_of_sample_with_messages.dart'
+  'part_of_sample_with_messages.dart',
 ];
 
-Future<void> runTestWithWarnings(
-    {required bool warningsAreErrors,
-    int? expectedExitCode,
-    bool embeddedPlurals = true,
-    List<String> sourceFiles = defaultFiles}) async {
+Future<void> runTestWithWarnings({
+  required bool warningsAreErrors,
+  int? expectedExitCode,
+  bool embeddedPlurals = true,
+  List<String> sourceFiles = defaultFiles,
+}) async {
   void verify(ProcessResult result) {
     try {
       expect(result.exitCode, expectedExitCode);

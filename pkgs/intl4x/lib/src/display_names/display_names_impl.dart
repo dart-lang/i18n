@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'display_names_options.dart';
 import 'display_names_stub.dart'
@@ -19,27 +18,10 @@ abstract class DisplayNamesImpl {
 
   DisplayNamesImpl(this.locale, this.options);
 
-  String ofDateTime(DateTimeField field);
-
-  String ofLanguage(Locale locale);
+  String ofLocale(Locale locale);
 
   String ofRegion(String regionCode);
 
-  String ofScript(String scriptCode);
-
-  String ofCurrency(String currencyCode);
-
-  String ofCalendar(Calendar calendar);
-
-  static DisplayNamesImpl build(
-    Locale locale,
-    DisplayNamesOptions options,
-    LocaleMatcher localeMatcher,
-  ) => buildFormatter(
-    locale,
-    options,
-    localeMatcher,
-    getDisplayNamesECMA,
-    getDisplayNames4X,
-  );
+  static DisplayNamesImpl build(Locale locale, DisplayNamesOptions options) =>
+      buildFormatter(locale, options, getDisplayNamesECMA, getDisplayNames4X);
 }

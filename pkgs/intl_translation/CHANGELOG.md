@@ -1,3 +1,11 @@
+## 0.21.1-wip
+  * Upgrade analyzer to `^12.1.0`.
+
+## 0.21.0
+  * BREAKING CHANGE: Update `dart_style` to `^3.0.0`
+  * Allow analyzer `>=6.3.0 <8.0.0`
+  * Upgrade SDK constraint to `^3.9.0`.
+
 ## 0.20.1
   * Add topics to `pubspec.yaml`
   * Update to `dart_style `2.3.7`. `bin/make_examples_const.dart` and

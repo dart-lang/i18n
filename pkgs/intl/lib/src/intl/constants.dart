@@ -13,7 +13,7 @@ final Map<String, String> simpleCurrencySymbols = {
   'ETB': 'Birr',
   'VEF': 'Bs',
   'BOB': 'Bs',
-  'GHS': 'GHS',
+  'GHS': 'GH\u20B5',
   'CRC': '\u20a1',
   'NIO': r'C$',
   'GMD': 'GMD',

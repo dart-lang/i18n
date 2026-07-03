@@ -9,7 +9,7 @@
 ///    test/ or a sub-directory.
 ///   - running in root of this package, which is where the editor and bots will
 ///   run things by default
-library data_directory;
+library;
 
 import 'dart:io';
 
@@ -36,5 +36,6 @@ String get packageDirectory {
     dir = path.dirname(dir);
   }
   throw UnsupportedError(
-      'Cannot find the root directory of the `intl_translation` package.');
+    'Cannot find the root directory of the `intl_translation` package.',
+  );
 }

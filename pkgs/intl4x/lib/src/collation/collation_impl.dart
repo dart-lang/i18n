@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import '../utils.dart';
 import 'collation.dart';
 import 'collation_options.dart';
@@ -13,7 +12,6 @@ import 'collation_stub_4x.dart' if (dart.library.ffi) 'collation_4x.dart';
 /// Separated into a class to not clutter the public API with implementation
 /// details.
 abstract class CollationImpl {
-  /// The current locale, selected by the localematcher
   final Locale locale;
   final CollationOptions options;
 
@@ -21,17 +19,8 @@ abstract class CollationImpl {
 
   /// Factory to get the correct implementation, either calling on ICU4X or the
   /// in-built browser implementation.
-  static CollationImpl build(
-    Locale locale,
-    CollationOptions options,
-    LocaleMatcher localeMatcher,
-  ) => buildFormatter(
-    locale,
-    options,
-    localeMatcher,
-    getCollatorECMA,
-    getCollator4X,
-  );
+  static CollationImpl build(Locale locale, CollationOptions options) =>
+      buildFormatter(locale, options, getCollatorECMA, getCollator4X);
 
   /// Actual implementation of the [Collation.compare] method.
   int compareImpl(String a, String b);

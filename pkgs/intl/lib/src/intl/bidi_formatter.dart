@@ -71,14 +71,14 @@ class BidiFormatter {
   /// neutral or matches the context, so that the DOM structure of the output
   /// does not depend on the combination of directionalities.
   BidiFormatter.LTR([bool alwaysSpan = false])
-      : contextDirection = TextDirection.LTR,
-        _alwaysSpan = alwaysSpan;
+    : contextDirection = TextDirection.LTR,
+      _alwaysSpan = alwaysSpan;
   BidiFormatter.RTL([bool alwaysSpan = false])
-      : contextDirection = TextDirection.RTL,
-        _alwaysSpan = alwaysSpan;
+    : contextDirection = TextDirection.RTL,
+      _alwaysSpan = alwaysSpan;
   BidiFormatter.UNKNOWN([bool alwaysSpan = false])
-      : contextDirection = TextDirection.UNKNOWN,
-        _alwaysSpan = alwaysSpan;
+    : contextDirection = TextDirection.UNKNOWN,
+      _alwaysSpan = alwaysSpan;
 
   /// Is true if the known context direction for this formatter is RTL.
   bool get isRTL => contextDirection == TextDirection.RTL;
@@ -98,8 +98,12 @@ class BidiFormatter {
   /// directionality of [text] is opposite to the context directionality,
   /// a trailing unicode BiDi mark matching the context directionality is
   /// appended (LRM or RLM). If [isHtml] is false, we HTML-escape the [text].
-  String wrapWithSpan(String text,
-      {bool isHtml = false, bool resetDir = true, TextDirection? direction}) {
+  String wrapWithSpan(
+    String text, {
+    bool isHtml = false,
+    bool resetDir = true,
+    TextDirection? direction,
+  }) {
     direction ??= estimateDirection(text, isHtml: isHtml);
     String result;
     if (!isHtml) text = const HtmlEscape().convert(text);
@@ -133,8 +137,12 @@ class BidiFormatter {
   /// This function does *not* do HTML-escaping regardless of the value of
   /// [isHtml]. [isHtml] is used to designate if the text contains HTML (escaped
   /// or unescaped).
-  String wrapWithUnicode(String text,
-      {bool isHtml = false, bool resetDir = true, TextDirection? direction}) {
+  String wrapWithUnicode(
+    String text, {
+    bool isHtml = false,
+    bool resetDir = true,
+    TextDirection? direction,
+  }) {
     direction ??= estimateDirection(text, isHtml: isHtml);
     var result = text;
     if (contextDirection.isDirectionChange(direction)) {

@@ -264,7 +264,7 @@ class DateFormat {
   /// If [locale] does not exist in our set of supported locales then an
   /// [ArgumentError] is thrown.
   DateFormat([String? newPattern, String? locale])
-      : _locale = helpers.verifiedLocale(locale, localeExists, null)! {
+    : _locale = helpers.verifiedLocale(locale, localeExists, null)! {
     // TODO(alanknight): It should be possible to specify multiple skeletons eg
     // date, time, timezone all separately. Adding many or named parameters to
     // the constructor seems awkward, especially with the possibility of
@@ -282,16 +282,39 @@ class DateFormat {
   @visibleForTesting
   @Deprecated('clients should not depend on this internal field')
   // ignore: library_private_types_in_public_api
-  _DateTimeConstructor dateTimeConstructor = (int year, int month, int day,
-      int hour24, int minute, int second, int fractionalSecond, bool utc) {
-    if (utc) {
-      return DateTime.utc(
-          year, month, day, hour24, minute, second, fractionalSecond);
-    } else {
-      return DateTime(
-          year, month, day, hour24, minute, second, fractionalSecond);
-    }
-  };
+  _DateTimeConstructor dateTimeConstructor =
+      (
+        int year,
+        int month,
+        int day,
+        int hour24,
+        int minute,
+        int second,
+        int fractionalSecond,
+        bool utc,
+      ) {
+        if (utc) {
+          return DateTime.utc(
+            year,
+            month,
+            day,
+            hour24,
+            minute,
+            second,
+            fractionalSecond,
+          );
+        } else {
+          return DateTime(
+            year,
+            month,
+            day,
+            hour24,
+            minute,
+            second,
+            fractionalSecond,
+          );
+        }
+      };
 
   /// Return a string representing [date] formatted according to our locale
   /// and internal format.
@@ -404,7 +427,8 @@ class DateFormat {
     }
     if (!stack.atEnd) {
       throw FormatException(
-          'Characters remaining after date parsing in $inputString');
+        'Characters remaining after date parsing in $inputString',
+      );
     }
     dateFields.verify(inputString);
     return dateFields.asDate();
@@ -449,7 +473,8 @@ class DateFormat {
     }
     if (strict && !stack.atEnd) {
       throw FormatException(
-          'Characters remaining after date parsing in $inputString');
+        'Characters remaining after date parsing in $inputString',
+      );
     }
     if (strict) dateFields.verify(inputString);
     return dateFields.asDate();
@@ -739,14 +764,15 @@ class DateFormat {
     RegExp('^(?:G+|y+|M+|k+|S+|E+|a+|h+|K+|H+|c+|L+|Q+|d+|D+|m+|s+|v+|z+|Z+)'),
     // Everything else - A sequence that is not quotes or field characters.
     // e.g. in 'hh:mm:ss' will match the colons.
-    RegExp('^[^\'GyMkSEahKHcLQdDmsvzZ]+')
+    RegExp('^[^\'GyMkSEahKHcLQdDmsvzZ]+'),
   ];
 
   /// Set our pattern, appending it to any existing patterns. Also adds a single
   /// space to separate the two.
   void _appendPattern(String inputPattern, [String separator = ' ']) {
-    _pattern =
-        _pattern == null ? inputPattern : '$_pattern$separator$inputPattern';
+    _pattern = _pattern == null
+        ? inputPattern
+        : '$_pattern$separator$inputPattern';
   }
 
   /// Add [inputPattern] to this instance as a pattern.
@@ -888,9 +914,10 @@ class DateFormat {
   /// locale, defined by the digit for zero in that locale.
   RegExp _initDigitMatcher() {
     if (usesAsciiDigits) return regexp.asciiDigitMatcher;
-    var localeDigits = Iterable.generate(10, (i) => i)
-        .map((i) => localeZeroCodeUnit + i)
-        .toList();
+    var localeDigits = Iterable.generate(
+      10,
+      (i) => i,
+    ).map((i) => localeZeroCodeUnit + i).toList();
     var localeDigitsString = String.fromCharCodes(localeDigits);
     return RegExp('^[$localeDigitsString]+');
   }
@@ -903,11 +930,11 @@ class DateFormat {
   }
 
   static List<_DateFormatField Function(String, DateFormat)>
-      get _fieldConstructors => [
-            (pattern, parent) => _DateFormatQuotedField(pattern, parent),
-            (pattern, parent) => _DateFormatPatternField(pattern, parent),
-            (pattern, parent) => _DateFormatLiteralField(pattern, parent)
-          ];
+  get _fieldConstructors => [
+    (pattern, parent) => _DateFormatQuotedField(pattern, parent),
+    (pattern, parent) => _DateFormatPatternField(pattern, parent),
+    (pattern, parent) => _DateFormatLiteralField(pattern, parent),
+  ];
 
   /// Parse the template pattern and return a list of field objects.
   @visibleForTesting
@@ -924,8 +951,9 @@ class DateFormat {
     var matched = _match(pattern);
     if (matched == null) return [];
 
-    var parsed =
-        _parsePatternHelper(pattern.substring(matched.fullPattern().length));
+    var parsed = _parsePatternHelper(
+      pattern.substring(matched.fullPattern().length),
+    );
     parsed.add(matched);
     return parsed;
   }
@@ -944,5 +972,14 @@ class DateFormat {
 }
 
 /// Defines a function type for creating DateTime instances.
-typedef _DateTimeConstructor = DateTime Function(int year, int month, int day,
-    int hour24, int minute, int second, int fractionalSecond, bool utc);
+typedef _DateTimeConstructor =
+    DateTime Function(
+      int year,
+      int month,
+      int day,
+      int hour24,
+      int minute,
+      int second,
+      int fractionalSecond,
+      bool utc,
+    );

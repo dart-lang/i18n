@@ -4,3 +4,8 @@ tags:
       vm:
         skip: "Not implemented in ICU4X yet. Use -P force to force tests."
         presets: { force: { skip: false } }
+  ecmaUnsupported:
+    on_platform:
+      browser:
+        skip: "Either unimplemented or buggy on the browser."
+        presets: { force: { skip: false } }

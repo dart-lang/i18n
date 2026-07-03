@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'case_mapping_impl.dart';
 
-CaseMappingImpl getCaseMappingECMA(Locale locale, Null _, LocaleMatcher _) =>
+CaseMappingImpl getCaseMappingECMA(Locale locale, Null _) =>
     throw UnimplementedError('Cannot use ECMA outside of web environments.');

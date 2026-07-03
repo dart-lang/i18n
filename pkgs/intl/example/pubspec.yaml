@@ -1,12 +1,13 @@
 name: example
 
-environment:
-  sdk: ^3.0.0
+publish_to: none
 
-# Add regular dependencies here.
+environment:
+  sdk: ^3.3.0
+
 dependencies:
   intl:
     path: ../
 
 dev_dependencies:
-  lints: ^4.0.0
+  lints: ^6.0.0

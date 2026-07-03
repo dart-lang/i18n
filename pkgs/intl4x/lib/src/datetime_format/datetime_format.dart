@@ -2,77 +2,231 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
+import '../find_locale.dart';
+import '../locale/locale.dart' show Locale;
+import 'datetime_format_impl.dart'
+    show DateTimeFormatImpl, DateTimeFormatter, DateTimeFormatterStandalone;
+import 'datetime_format_options.dart';
 
-import '../../datetime_format.dart';
-import '../test_checker.dart';
-import 'datetime_format_impl.dart';
-
-/// `DateTime` formatting, for example:
+/// `DateTime` formatting.
+///
+/// This class provides static methods to create [DateTimeFormatter] instances
+/// for various common date and time formats.
+///
+/// Example:
 ///
 /// ```dart
-/// final date = DateTime.utc(2021, 12, 17, 4, 0, 42);
-/// Intl(locale: Locale.parse('fr'))
-///     .datetimeFormat(const DateTimeFormatOptions(
-///       hour: TimeRepresentation.numeric,
-///       hourCycle: HourCycle.h12,
-///       dayPeriod: DayPeriod.narrow,
-///       timeZone: 'UTC',
-///     ))
-///     .format(date); // Output: '4 mat.'
+/// import 'package:intl4x/datetime_format.dart';
+///
+/// void main() {
+///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+///   print(DateTimeFormat.time(locale: Locale.parse('fr')).format(date));
+///   // Output: '04:00'
+/// }
 /// ```
-class DateTimeFormat {
-  final DateTimeFormatImpl _impl;
+sealed class DateTimeFormat {
+  /// Formatting just the day.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.day().format(date)); // Output: '17'
+  /// }
+  /// ```
+  static DateTimeFormatter day({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).d(alignment: alignment, length: length);
 
-  DateTimeFormat._(this._impl);
+  /// Formatting just the month.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
+  /// }
+  /// ```
+  static DateTimeFormatterStandalone month({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).m(alignment: alignment, length: length);
 
-  String d(DateTime datetime) => _format(_impl.d, datetime, _impl);
-  String m(DateTime datetime) => _format(_impl.m, datetime, _impl);
-  String y(DateTime datetime) => _format(_impl.y, datetime, _impl);
-  String md(DateTime datetime) => _format(_impl.md, datetime, _impl);
+  /// Formatting the month and day.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
+  /// }
+  /// ```
+  static DateTimeFormatter monthDay({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).md(alignment: alignment, length: length);
 
-  String ymde(DateTime datetime) => _format(_impl.ymde, datetime, _impl);
+  /// Formatting just the year.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+  /// }
+  /// ```
+  static DateTimeFormatterStandalone year({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).y(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  String ymdet(DateTime datetime) => _format(_impl.ymdet, datetime, _impl);
+  /// Formatting the year, month, and day.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
+  /// }
+  /// ```
+  static DateTimeFormatter yearMonthDay({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).ymd(alignment: alignment, length: length, yearStyle: yearStyle);
 
-  static String _format(
-    String Function(DateTime datetime) format,
-    DateTime datetime,
-    DateTimeFormatImpl impl,
-  ) {
-    if (isInTest) {
-      return '$datetime//${impl.locale}';
-    } else {
-      return format(datetime);
-    }
-  }
+  /// Formatting the year, month, day, and weekday.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
+  /// }
+  /// ```
+  static DateTimeFormatter yearMonthDayWeekday({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).ymde(alignment: alignment, length: length, yearStyle: yearStyle);
+
+  /// Formatting the month, day, and time.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
+  /// }
+  /// ```
+  static DateTimeFormatter monthDayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).mdt(alignment: alignment, length: length, timePrecision: timePrecision);
+
+  /// Formatting the year, month, day, and time.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
+  /// }
+  /// ```
+  static DateTimeFormatter yearMonthDayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdt(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
+
+  /// Formatting the year, month, day, weekday, and time.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
+  /// }
+  /// ```
+  static DateTimeFormatter yearMonthDayWeekdayTime({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdet(
+    alignment: alignment,
+    length: length,
+    timePrecision: timePrecision,
+    yearStyle: yearStyle,
+  );
+
+  /// Formatting just the time.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
+  /// }
+  /// ```
+  static DateTimeFormatter time({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    TimePrecision? timePrecision,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).t(alignment: alignment, length: length, timePrecision: timePrecision);
 }
-
-extension DatetimeFormatExt on DateTimeFormat {
-  @RecordUse()
-  String ymdt(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymdt(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String ymd(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.ymd(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-
-  @RecordUse()
-  String time(DateTime datetime, {@mustBeConst TimeZone? timeZone}) =>
-      DateTimeFormat._format(
-        (datetime) => _impl.time(datetime, timeZone: timeZone),
-        datetime,
-        _impl,
-      );
-}
-
-DateTimeFormat buildDateTimeFormat(DateTimeFormatImpl impl) =>
-    DateTimeFormat._(impl);

@@ -3,8 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 @Timeout(Duration(seconds: 180))
-
-library really_fail_extraction_test;
+library;
 
 import 'package:test/test.dart';
 

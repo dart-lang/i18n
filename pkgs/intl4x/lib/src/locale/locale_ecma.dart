@@ -4,6 +4,8 @@
 
 import 'dart:js_interop';
 
+import '../datetime_format/datetime_format_options.dart' show ClockStyle;
+import '../options.dart';
 import 'locale.dart';
 
 @JS('Intl.Locale')
@@ -29,4 +31,31 @@ class LocaleEcma implements Locale {
 
   @override
   String toString() => toLanguageTag();
+
+  @override
+  Locale withCalendar(Calendar calendar) => LocaleEcma(
+    LocaleJS.constructor(
+      _locale.toString(),
+      {'calendar': calendar.jsName}.jsify()!,
+    ),
+  );
+
+  @override
+  Locale withNumberingSystem(NumberingSystem system) => LocaleEcma(
+    LocaleJS.constructor(
+      _locale.toString(),
+      {'numberingSystem': system.jsName}.jsify()!,
+    ),
+  );
+
+  @override
+  Locale withClockStyle(ClockStyle clockStyle) => LocaleEcma(
+    LocaleJS.constructor(
+      _locale.toString(),
+      {
+        'hour12': clockStyle.is12Hour,
+        'hourCycle': clockStyle.hourStyleExtensionString,
+      }.jsify()!,
+    ),
+  );
 }

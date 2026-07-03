@@ -25,12 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'fr';
 
-  String? evaluateMessage(dynamic translation, List<dynamic> args) {
+  String? evaluateMessage(Object? translation, List<dynamic> args) {
     return evaluateJsonTemplate(translation, args);
   }
 
   Map<String, dynamic> get messages => _constMessages;
   static const _constMessages = <String, Object?>{
-    "Hello from application": "Bonjour de l'application"
+    "Hello from application": <Object?>["Bonjour de l'application"],
   };
 }
