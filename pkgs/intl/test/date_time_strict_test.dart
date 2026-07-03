@@ -54,19 +54,25 @@ void main() {
     void check(s) => expect(() => format.parseStrict(s), throwsFormatException);
     check('-1:15:00 AM');
     expect(
-        format.parseStrict('0:15:00${space}AM'), DateTime(1970, 1, 1, 0, 15));
+      format.parseStrict('0:15:00${space}AM'),
+      DateTime(1970, 1, 1, 0, 15),
+    );
     check('24:00:00 PM');
     check('24:00:00 AM');
     check('25:00:00 PM');
     check('0:-1:00 AM');
     check('0:60:00 AM');
     expect(
-        format.parseStrict('0:59:00${space}AM'), DateTime(1970, 1, 1, 0, 59));
+      format.parseStrict('0:59:00${space}AM'),
+      DateTime(1970, 1, 1, 0, 59),
+    );
     check('0:0:-1 AM');
     check('0:0:60 AM');
     check('2:0:60 PM');
-    expect(format.parseStrict('2:0:59${space}PM'),
-        DateTime(1970, 1, 1, 14, 0, 59));
+    expect(
+      format.parseStrict('2:0:59${space}PM'),
+      DateTime(1970, 1, 1, 14, 0, 59),
+    );
   });
 
   test('Invalid times 24 hour', () {
@@ -129,20 +135,26 @@ void main() {
       var format = DateFormat.jms();
       void check(s) => expect(format.tryParseStrict(s), isNull);
       check('-1:15:00 AM');
-      expect(format.tryParseStrict('0:15:00${space}AM'),
-          DateTime(1970, 1, 1, 0, 15));
+      expect(
+        format.tryParseStrict('0:15:00${space}AM'),
+        DateTime(1970, 1, 1, 0, 15),
+      );
       check('24:00:00 PM');
       check('24:00:00 AM');
       check('25:00:00 PM');
       check('0:-1:00 AM');
       check('0:60:00 AM');
-      expect(format.tryParseStrict('0:59:00${space}AM'),
-          DateTime(1970, 1, 1, 0, 59));
+      expect(
+        format.tryParseStrict('0:59:00${space}AM'),
+        DateTime(1970, 1, 1, 0, 59),
+      );
       check('0:0:-1 AM');
       check('0:0:60 AM');
       check('2:0:60 PM');
-      expect(format.tryParseStrict('2:0:59${space}PM'),
-          DateTime(1970, 1, 1, 14, 0, 59));
+      expect(
+        format.tryParseStrict('2:0:59${space}PM'),
+        DateTime(1970, 1, 1, 14, 0, 59),
+      );
     });
 
     test('Invalid times 24 hour', () {

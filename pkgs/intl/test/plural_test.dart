@@ -161,28 +161,32 @@ const String expectedSr = '''
 25:Other
 ''';
 
-String plural(dynamic n, String? locale) => Intl.plural(n,
-    locale: locale,
-    name: 'plural',
-    desc: 'A simple plural test case',
-    examples: {'n': 1},
-    args: [n],
-    zero: '$n:Zero',
-    one: '$n:One',
-    few: '$n:Few',
-    many: '$n:Many',
-    other: '$n:Other');
+String plural(dynamic n, String? locale) => Intl.plural(
+  n,
+  locale: locale,
+  name: 'plural',
+  desc: 'A simple plural test case',
+  examples: {'n': 1},
+  args: [n],
+  zero: '$n:Zero',
+  one: '$n:One',
+  few: '$n:Few',
+  many: '$n:Many',
+  other: '$n:Other',
+);
 
-String pluralNoZero(dynamic n, String? locale) => Intl.plural(n,
-    locale: locale,
-    name: 'plural',
-    desc: 'A simple plural test case',
-    examples: {'n': 1},
-    args: [n],
-    one: '$n:One',
-    few: '$n:Few',
-    many: '$n:Many',
-    other: '$n:Other');
+String pluralNoZero(dynamic n, String? locale) => Intl.plural(
+  n,
+  locale: locale,
+  name: 'plural',
+  desc: 'A simple plural test case',
+  examples: {'n': 1},
+  args: [n],
+  one: '$n:One',
+  few: '$n:Few',
+  many: '$n:Many',
+  other: '$n:Other',
+);
 
 void main() {
   verifyLocaleDefinition();
@@ -242,11 +246,13 @@ void verify(String expectedValues, String locale, pluralFunction) {
 void verifyWithPrecision(String expected, String locale, num n, int precision) {
   test('verify_with_precision(howMany: $n, precision: $precision)', () {
     var nString = n.toStringAsFixed(precision);
-    var actual = Intl.plural(n,
-        locale: locale,
-        precision: precision,
-        one: '$nString dollar',
-        other: '$nString dollars');
+    var actual = Intl.plural(
+      n,
+      locale: locale,
+      precision: precision,
+      one: '$nString dollar',
+      other: '$nString dollars',
+    );
     expect(actual, expected);
   });
 }

@@ -12,5 +12,6 @@ library;
 /// the [Intl.systemLocale] variable.
 Future<String> findSystemLocale() {
   throw UnsupportedError(
-      'intl.findSystemLocale is not implemented on this platform.');
+    'intl.findSystemLocale is not implemented on this platform.',
+  );
 }

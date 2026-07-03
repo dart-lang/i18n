@@ -67,52 +67,63 @@ class Bidi {
   /// Determines if the first character in [text] with strong directionality is
   /// LTR. If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool startsWithLtr(String text, [bool isHtml = false]) {
-    return RegExp('^[^$_RTL_CHARS]*[$_LTR_CHARS]')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      '^[^$_RTL_CHARS]*[$_LTR_CHARS]',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the first character in [text] with strong directionality is
   /// RTL. If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool startsWithRtl(String text, [bool isHtml = false]) {
-    return RegExp('^[^$_LTR_CHARS]*[$_RTL_CHARS]')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      '^[^$_LTR_CHARS]*[$_RTL_CHARS]',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the exit directionality (ie, the last strongly-directional
   /// character in [text] is LTR. If [isHtml] is true, the text is HTML or
   /// HTML-escaped.
   static bool endsWithLtr(String text, [bool isHtml = false]) {
-    return RegExp('[$_LTR_CHARS][^$_RTL_CHARS]*\$')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      '[$_LTR_CHARS][^$_RTL_CHARS]*\$',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the exit directionality (ie, the last strongly-directional
   /// character in [text] is RTL. If [isHtml] is true, the text is HTML or
   /// HTML-escaped.
   static bool endsWithRtl(String text, [bool isHtml = false]) {
-    return RegExp('[$_RTL_CHARS][^$_LTR_CHARS]*\$')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      '[$_RTL_CHARS][^$_LTR_CHARS]*\$',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any LTR characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool hasAnyLtr(String text, [bool isHtml = false]) {
-    return RegExp(r'[' '$_LTR_CHARS' r']')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      r'['
+      '$_LTR_CHARS'
+      r']',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   /// Determines if the given [text] has any RTL characters in it.
   /// If [isHtml] is true, the text is HTML or HTML-escaped.
   static bool hasAnyRtl(String text, [bool isHtml = false]) {
-    return RegExp(r'[' '$_RTL_CHARS' r']')
-        .hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
+    return RegExp(
+      r'['
+      '$_RTL_CHARS'
+      r']',
+    ).hasMatch(isHtml ? stripHtmlIfNeeded(text) : text);
   }
 
   static final _rtlLocaleRegex = RegExp(
-      r'^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
-      r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
-      r'($|-|_)',
-      caseSensitive: false);
+    r'^(ar|ckb|dv|he|iw|fa|nqo|ps|sd|ug|ur|yi|.*[-_]'
+    r'(Arab|Hebr|Thaa|Nkoo|Tfng))(?!.*[-_](Latn|Cyrl)($|-|_))'
+    r'($|-|_)',
+    caseSensitive: false,
+  );
 
   static String? _lastLocaleCheckedForRtl;
   static bool? _lastRtlCheck;
@@ -205,10 +216,15 @@ class Bidi {
   /// RTL directionality, regardless of the estimated directionality.
   static String guardBracketInHtml(String str, [bool? isRtlContext]) {
     var useRtl = isRtlContext ?? hasAnyRtl(str);
-    var matchingBrackets =
-        RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)');
-    return _guardBracketHelper(str, matchingBrackets,
-        '<span dir=${useRtl ? "rtl" : "ltr"}>', '</span>');
+    var matchingBrackets = RegExp(
+      r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(&lt;.*?(&gt;)+)',
+    );
+    return _guardBracketHelper(
+      str,
+      matchingBrackets,
+      '<span dir=${useRtl ? "rtl" : "ltr"}>',
+      '</span>',
+    );
   }
 
   /// Apply bracket guard to [str] using LRM and RLM. This is to address the
@@ -221,7 +237,11 @@ class Bidi {
     var useRtl = isRtlContext ?? hasAnyRtl(str);
     var mark = useRtl ? RLM : LRM;
     return _guardBracketHelper(
-        str, RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(<.*?>+)'), mark, mark);
+      str,
+      RegExp(r'(\(.*?\)+)|(\[.*?\]+)|(\{.*?\}+)|(<.*?>+)'),
+      mark,
+      mark,
+    );
   }
 
   /// (Mostly) reimplements the $& functionality of "replace" in JavaScript.
@@ -230,8 +250,12 @@ class Bidi {
   /// `_guardBracketHelper('firetruck', new RegExp('truck'), 'hydrant', '!')`
   /// would return 'firehydrant!'.  // TODO(efortuna): Get rid of this once this
   /// is implemented in Dart.  // See Issue 2979.
-  static String _guardBracketHelper(String str, RegExp regexp,
-      [String? before, String? after]) {
+  static String _guardBracketHelper(
+    String str,
+    RegExp regexp, [
+    String? before,
+    String? after,
+  ]) {
     var buffer = StringBuffer();
     var startIndex = 0;
     for (var match in regexp.allMatches(str)) {
@@ -255,8 +279,10 @@ class Bidi {
   /// Otherwise, if any words are strongly or weakly LTR, returns LTR.
   /// Otherwise, returns UNKNOWN, which is used to mean `neutral`.
   /// Numbers and URLs are counted as weakly LTR.
-  static TextDirection estimateDirectionOfText(String text,
-      {bool isHtml = false}) {
+  static TextDirection estimateDirectionOfText(
+    String text, {
+    bool isHtml = false,
+  }) {
     text = isHtml ? stripHtmlIfNeeded(text) : text;
     var rtlCount = 0;
     var total = 0;

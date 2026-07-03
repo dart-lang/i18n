@@ -40,7 +40,7 @@ class NumberFormatParseResult {
 
   // [decimalDigits] is both input and output of parsing.
   NumberFormatParseResult(NumberSymbols symbols, this.decimalDigits)
-      : negativePrefix = symbols.MINUS_SIGN;
+    : negativePrefix = symbols.MINUS_SIGN;
 }
 
 /// Private class that parses the numeric formatting pattern and sets the
@@ -87,24 +87,33 @@ class NumberFormatParser {
   /// [input] pattern.
   ///
   /// [decimalDigits] is optional, if specified it overrides the default.
-  NumberFormatParser(this.symbols, String input, this.isForCurrency,
-      this.currencySymbol, this.currencyName, int? decimalDigits)
-      : result = NumberFormatParseResult(symbols, decimalDigits),
-        pattern = StringStack(input);
+  NumberFormatParser(
+    this.symbols,
+    String input,
+    this.isForCurrency,
+    this.currencySymbol,
+    this.currencyName,
+    int? decimalDigits,
+  ) : result = NumberFormatParseResult(symbols, decimalDigits),
+      pattern = StringStack(input);
 
   static NumberFormatParseResult parse(
-          NumberSymbols symbols,
-          String? input,
-          bool isForCurrency,
-          String currencySymbol,
-          String currencyName,
-          int? decimalDigits) =>
-      input == null
-          ? NumberFormatParseResult(symbols, decimalDigits)
-          : (NumberFormatParser(symbols, input, isForCurrency, currencySymbol,
-                  currencyName, decimalDigits)
-                .._parse())
-              .result;
+    NumberSymbols symbols,
+    String? input,
+    bool isForCurrency,
+    String currencySymbol,
+    String currencyName,
+    int? decimalDigits,
+  ) => input == null
+      ? NumberFormatParseResult(symbols, decimalDigits)
+      : (NumberFormatParser(
+          symbols,
+          input,
+          isForCurrency,
+          currencySymbol,
+          currencyName,
+          decimalDigits,
+        ).._parse()).result;
 
   /// For currencies, the default number of decimal places to use in
   /// formatting. Defaults to two for non-currencies or currencies where it's
@@ -130,7 +139,9 @@ class NumberFormatParser {
         var each = trunkStack.read();
         if (pattern.peek() != each && !pattern.atEnd) {
           throw FormatException(
-              'Positive and negative trunks must be the same', trunk);
+            'Positive and negative trunks must be the same',
+            trunk,
+          );
         }
         pattern.pop();
       }
@@ -250,8 +261,9 @@ class NumberFormatParser {
     }
     var totalDigits = digitLeftCount + zeroDigitCount + digitRightCount;
 
-    result.maximumFractionDigits =
-        decimalPos >= 0 ? totalDigits - decimalPos : 0;
+    result.maximumFractionDigits = decimalPos >= 0
+        ? totalDigits - decimalPos
+        : 0;
     if (decimalPos >= 0) {
       result.minimumFractionDigits =
           digitLeftCount + zeroDigitCount - decimalPos;
@@ -305,7 +317,8 @@ class NumberFormatParser {
       case PATTERN_ZERO_DIGIT:
         if (digitRightCount > 0) {
           throw FormatException(
-              'Unexpected "0" in pattern "${pattern.contents}');
+            'Unexpected "0" in pattern "${pattern.contents}',
+          );
         }
         zeroDigitCount++;
         if (groupingCount >= 0 && decimalPos < 0) {
@@ -322,7 +335,8 @@ class NumberFormatParser {
       case PATTERN_DECIMAL_SEPARATOR:
         if (decimalPos >= 0) {
           throw FormatException(
-              'Multiple decimal separators in pattern "$pattern"');
+            'Multiple decimal separators in pattern "$pattern"',
+          );
         }
         decimalPos = digitLeftCount + zeroDigitCount + digitRightCount;
         break;
@@ -330,7 +344,8 @@ class NumberFormatParser {
         trunk.write(ch);
         if (result.useExponentialNotation) {
           throw FormatException(
-              'Multiple exponential symbols in pattern "$pattern"');
+            'Multiple exponential symbols in pattern "$pattern"',
+          );
         }
         result.useExponentialNotation = true;
         result.minimumExponentDigits = 0;

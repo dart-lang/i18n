@@ -8,8 +8,13 @@ import 'package:test/test.dart';
 void main() {
   test('Resolves message successfully after unsuccessful lookup', () {
     final CompositeMessageLookup lookup = CompositeMessageLookup();
-    final lookupMessage =
-        lookup.lookupMessage('Hello', 'pt', 'greeting', null, null);
+    final lookupMessage = lookup.lookupMessage(
+      'Hello',
+      'pt',
+      'greeting',
+      null,
+      null,
+    );
     expect(lookupMessage, 'Hello');
 
     lookup.addLocale(
@@ -18,8 +23,13 @@ void main() {
           TestMessageLookupByLibrary('pt', {'greeting': () => 'Bom dia'}),
     );
 
-    final lookupMessage2 =
-        lookup.lookupMessage('Hello', 'pt', 'greeting', null, null);
+    final lookupMessage2 = lookup.lookupMessage(
+      'Hello',
+      'pt',
+      'greeting',
+      null,
+      null,
+    );
     expect(lookupMessage2, 'Bom dia');
   });
 }
