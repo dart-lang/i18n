@@ -6,11 +6,12 @@
 /// rather than confined to specific parts of it.
 library;
 
+import '../message_lookup_by_library.dart' show MessageLookupByLibrary;
 import 'global_state.dart' as global_state;
 
 /// Type for the callback action when a message translation is not found.
-typedef MessageIfAbsent = String? Function(
-    String? messageText, List<Object>? args);
+typedef MessageIfAbsent =
+    String? Function(String? messageText, List<Object>? args);
 
 /// This is used as a marker for a locale data map that hasn't been initialized,
 /// and will throw an exception on any usage that isn't the fallback
@@ -43,8 +44,9 @@ class UninitializedLocaleData<F> implements MessageLookup {
   void _reportErrors() {
     if (throwOnFallback && _badMessages.isNotEmpty) {
       throw StateError(
-          'The following messages were called before locale initialization:'
-          ' $_uninitializedMessages');
+        'The following messages were called before locale initialization:'
+        ' $_uninitializedMessages',
+      );
     }
   }
 
@@ -52,9 +54,14 @@ class UninitializedLocaleData<F> implements MessageLookup {
       (_badMessages.toSet().toList()..sort()).join('\n    ');
 
   @override
-  String? lookupMessage(String? messageText, String? locale, String? name,
-      List<Object>? args, String? meaning,
-      {MessageIfAbsent? ifAbsent}) {
+  String? lookupMessage(
+    String? messageText,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning, {
+    MessageIfAbsent? ifAbsent,
+  }) {
     if (throwOnFallback) {
       _badMessages.add((name ?? messageText)!);
     }
@@ -76,8 +83,10 @@ class UninitializedLocaleData<F> implements MessageLookup {
   }
 
   F _throwException() {
-    throw LocaleDataException('Locale data has not been initialized'
-        ', call $message.');
+    throw LocaleDataException(
+      'Locale data has not been initialized'
+      ', call $message.',
+    );
   }
 
   @override
@@ -85,10 +94,18 @@ class UninitializedLocaleData<F> implements MessageLookup {
 }
 
 abstract class MessageLookup {
-  String? lookupMessage(String? messageText, String? locale, String? name,
-      List<Object>? args, String? meaning,
-      {MessageIfAbsent? ifAbsent});
-  void addLocale(String localeName, Function findLocale);
+  String? lookupMessage(
+    String? messageText,
+    String? locale,
+    String? name,
+    List<Object>? args,
+    String? meaning, {
+    MessageIfAbsent? ifAbsent,
+  });
+  void addLocale(
+    String localeName,
+    MessageLookupByLibrary? Function(String) findLocale,
+  );
 }
 
 class LocaleDataException implements Exception {
@@ -106,8 +123,10 @@ abstract class LocaleDataReader {
 /// The internal mechanism for looking up messages. We expect this to be set
 /// by the implementing package so that we're not dependent on its
 /// implementation.
-MessageLookup messageLookup =
-    UninitializedLocaleData('initializeMessages(<locale>)', null);
+MessageLookup messageLookup = UninitializedLocaleData(
+  'initializeMessages(<locale>)',
+  null,
+);
 
 /// Initialize the message lookup mechanism. This is for internal use only.
 /// User applications should import `message_lookup_by_library.dart` and call
@@ -161,13 +180,13 @@ int _scriptSeparatorIndex(String region) {
 }
 
 String canonicalizedLocale(String? aLocale) {
-// Locales of length < 5 are presumably two-letter forms, or else malformed.
-// We return them unmodified and if correct they will be found.
-// Locales longer than 6 might be malformed, but also do occur. Do as
-// little as possible to them, but make the '-' be an '_' if it's there.
-// We treat C as a special case, and assume it wants en_ISO for formatting.
-// TODO(alanknight): en_ISO is probably not quite right for the C/Posix
-// locale for formatting. Consider adding C to the formats database.
+  // Locales of length < 5 are presumably two-letter forms, or else malformed.
+  // We return them unmodified and if correct they will be found.
+  // Locales longer than 6 might be malformed, but also do occur. Do as
+  // little as possible to them, but make the '-' be an '_' if it's there.
+  // We treat C as a special case, and assume it wants en_ISO for formatting.
+  // TODO(alanknight): en_ISO is probably not quite right for the C/Posix
+  // locale for formatting. Consider adding C to the formats database.
   if (aLocale == null) return global_state.getCurrentLocale();
   if (aLocale == 'C') return 'en_ISO';
   if (aLocale.length < 5) return aLocale;
@@ -183,16 +202,22 @@ String canonicalizedLocale(String? aLocale) {
   return '${language}_$region';
 }
 
-String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
-    String? Function(String)? onFailure) {
-// TODO(alanknight): Previously we kept a single verified locale on the Intl
-// object, but with different verification for different uses, that's more
-// difficult. As a result, we call this more often. Consider keeping
-// verified locales for each purpose if it turns out to be a performance
-// issue.
+String? verifiedLocale(
+  String? newLocale,
+  bool Function(String) localeExists,
+  String? Function(String)? onFailure,
+) {
+  // TODO(alanknight): Previously we kept a single verified locale on the Intl
+  // object, but with different verification for different uses, that's more
+  // difficult. As a result, we call this more often. Consider keeping
+  // verified locales for each purpose if it turns out to be a performance
+  // issue.
   if (newLocale == null) {
     return verifiedLocale(
-        global_state.getCurrentLocale(), localeExists, onFailure);
+      global_state.getCurrentLocale(),
+      localeExists,
+      onFailure,
+    );
   }
   if (localeExists(newLocale)) {
     return newLocale;
@@ -204,7 +229,7 @@ String? verifiedLocale(String? newLocale, bool Function(String) localeExists,
     deprecatedLocale,
     (locale) => deprecatedLocale(languageOnlyLocale(locale)),
     (locale) => deprecatedLocale(canonicalizedLocale(locale)),
-    (_) => 'fallback'
+    (_) => 'fallback',
   ];
   for (var option in fallbackOptions) {
     var localeFallback = option(newLocale);

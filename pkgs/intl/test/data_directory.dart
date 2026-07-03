@@ -40,7 +40,8 @@ String get intlDirectory {
   }
 
   throw UnsupportedError(
-      'Cannot find the root directory of the `intl` package.');
+    'Cannot find the root directory of the `intl` package.',
+  );
 }
 
 String get datesRelativeToIntl => path.join('lib', 'src', 'data', 'dates');

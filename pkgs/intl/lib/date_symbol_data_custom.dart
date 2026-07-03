@@ -19,8 +19,11 @@ import 'src/date_format_internal.dart';
 /// see date_time_patterns.dart.
 ///
 /// If data for this locale has already been initialized it will be overwritten.
-void initializeDateFormattingCustom(
-    {String? locale, DateSymbols? symbols, Map<String, String>? patterns}) {
+void initializeDateFormattingCustom({
+  String? locale,
+  DateSymbols? symbols,
+  Map<String, String>? patterns,
+}) {
   initializeDateSymbols(_emptySymbols);
   initializeDatePatterns(_emptyPatterns);
   if (symbols == null) {
@@ -30,8 +33,10 @@ void initializeDateFormattingCustom(
     throw ArgumentError('Missing DateTime formatting patterns');
   }
   if (locale != symbols.NAME) {
-    throw ArgumentError.value(
-        [locale, symbols.NAME], 'Locale does not match symbols.NAME');
+    throw ArgumentError.value([
+      locale,
+      symbols.NAME,
+    ], 'Locale does not match symbols.NAME');
   }
   dateTimeSymbols[symbols.NAME] = symbols;
   dateTimePatterns[symbols.NAME] = patterns;

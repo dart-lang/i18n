@@ -75,8 +75,7 @@ extension type _DateTimeJSOptions(JSObject _options) {
             if (hour != null) 'hour': hour.jsName,
             if (minute != null) 'minute': minute.jsName,
             if (second != null) 'second': second.jsName,
-            if (fractionalSecondDigits != null)
-              'fractionalSecondDigits': fractionalSecondDigits,
+            'fractionalSecondDigits': ?fractionalSecondDigits,
           }.jsify()!
           as JSObject;
 }

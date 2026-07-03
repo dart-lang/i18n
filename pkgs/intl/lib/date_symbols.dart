@@ -15,75 +15,55 @@
 class DateSymbols {
   String NAME;
   List<String>
-
       /// The short name of the era, e.g. 'BC' or 'AD'
       ERAS,
-
       /// The long name of the era, e.g. 'Before Christ' or 'Anno Domino'
       ERANAMES,
-
       /// Very short names of months, e.g. 'J'.
       NARROWMONTHS,
-
       /// Very short names of months as they would be written on their own,
       /// e.g. 'J'.
       STANDALONENARROWMONTHS,
-
       /// Full names of months, e.g. 'January'.
       MONTHS,
-
       /// Full names of months as they would be written on their own,
       /// e.g. 'January'.
       ///
       /// These are frequently the same as MONTHS, but for example might start
       /// with upper case where the names in MONTHS might not.
       STANDALONEMONTHS,
-
       /// Short names of months, e.g. 'Jan'.
       SHORTMONTHS,
-
       /// Short names of months as they would be written on their own,
       /// e.g. 'Jan'.
       STANDALONESHORTMONTHS,
-
       /// The days of the week, starting with Sunday.
       WEEKDAYS,
-
       /// The days of the week as they would be written on their own, starting
       /// with Sunday.
       /// Frequently the same as WEEKDAYS, but for example might
       /// start with upper case where the names in WEEKDAYS might not.
       STANDALONEWEEKDAYS,
-
       /// Short names for days of the week, starting with Sunday, e.g. 'Sun'.
       SHORTWEEKDAYS,
-
       /// Short names for days of the week as they would be written on their
       /// own, starting with Sunday, e.g. 'Sun'.
       STANDALONESHORTWEEKDAYS,
-
       /// Very short names for days of the week, starting with Sunday, e.g. 'S'.
       NARROWWEEKDAYS,
-
       /// Very short names for days of the week as they would be written on
       /// their own, starting with Sunday, e.g. 'S'.
       STANDALONENARROWWEEKDAYS,
-
       /// Names of the quarters of the year in a short form, e.g. 'Q1'.
       SHORTQUARTERS,
-
       /// Long names of the quartesr of the year, e.g. '1st Quarter'.
       QUARTERS,
-
       /// A list of length 2 with localized text for 'AM' and 'PM'.
       AMPMS,
-
       /// The supported date formats for this locale.
       DATEFORMATS,
-
       /// The supported time formats for this locale.
       TIMEFORMATS,
-
       /// The ways date and time formats can be combined for this locale.
       DATETIMEFORMATS;
   Map<String, String>? AVAILABLEFORMATS;
@@ -100,37 +80,38 @@ class DateSymbols {
 
   String? ZERODIGIT;
 
-  DateSymbols(
-      {required this.NAME,
-      required this.ERAS,
-      required this.ERANAMES,
-      required this.NARROWMONTHS,
-      required this.STANDALONENARROWMONTHS,
-      required this.MONTHS,
-      required this.STANDALONEMONTHS,
-      required this.SHORTMONTHS,
-      required this.STANDALONESHORTMONTHS,
-      required this.WEEKDAYS,
-      required this.STANDALONEWEEKDAYS,
-      required this.SHORTWEEKDAYS,
-      required this.STANDALONESHORTWEEKDAYS,
-      required this.NARROWWEEKDAYS,
-      required this.STANDALONENARROWWEEKDAYS,
-      required this.SHORTQUARTERS,
-      required this.QUARTERS,
-      required this.AMPMS,
-      this.ZERODIGIT,
-      // TODO(alanknight): These formats are taken from Closure,
-      // where there's only a fixed set of available formats.
-      // Here we have the patterns separately. These should
-      // either be used, or removed.
-      required this.DATEFORMATS,
-      required this.TIMEFORMATS,
-      this.AVAILABLEFORMATS,
-      required this.FIRSTDAYOFWEEK,
-      required this.WEEKENDRANGE,
-      required this.FIRSTWEEKCUTOFFDAY,
-      required this.DATETIMEFORMATS});
+  DateSymbols({
+    required this.NAME,
+    required this.ERAS,
+    required this.ERANAMES,
+    required this.NARROWMONTHS,
+    required this.STANDALONENARROWMONTHS,
+    required this.MONTHS,
+    required this.STANDALONEMONTHS,
+    required this.SHORTMONTHS,
+    required this.STANDALONESHORTMONTHS,
+    required this.WEEKDAYS,
+    required this.STANDALONEWEEKDAYS,
+    required this.SHORTWEEKDAYS,
+    required this.STANDALONESHORTWEEKDAYS,
+    required this.NARROWWEEKDAYS,
+    required this.STANDALONENARROWWEEKDAYS,
+    required this.SHORTQUARTERS,
+    required this.QUARTERS,
+    required this.AMPMS,
+    this.ZERODIGIT,
+    // TODO(alanknight): These formats are taken from Closure,
+    // where there's only a fixed set of available formats.
+    // Here we have the patterns separately. These should
+    // either be used, or removed.
+    required this.DATEFORMATS,
+    required this.TIMEFORMATS,
+    this.AVAILABLEFORMATS,
+    required this.FIRSTDAYOFWEEK,
+    required this.WEEKENDRANGE,
+    required this.FIRSTWEEKCUTOFFDAY,
+    required this.DATETIMEFORMATS,
+  });
 
   // TODO(alanknight): Replace this with use of a more general serialization
   // facility once one is available. Issue 4926.
@@ -178,32 +159,32 @@ class DateSymbols {
   }
 
   Map<String, dynamic> _serializeToMap() => {
-        'NAME': NAME,
-        'ERAS': ERAS,
-        'ERANAMES': ERANAMES,
-        'NARROWMONTHS': NARROWMONTHS,
-        'STANDALONENARROWMONTHS': STANDALONENARROWMONTHS,
-        'MONTHS': MONTHS,
-        'STANDALONEMONTHS': STANDALONEMONTHS,
-        'SHORTMONTHS': SHORTMONTHS,
-        'STANDALONESHORTMONTHS': STANDALONESHORTMONTHS,
-        'WEEKDAYS': WEEKDAYS,
-        'STANDALONEWEEKDAYS': STANDALONEWEEKDAYS,
-        'SHORTWEEKDAYS': SHORTWEEKDAYS,
-        'STANDALONESHORTWEEKDAYS': STANDALONESHORTWEEKDAYS,
-        'NARROWWEEKDAYS': NARROWWEEKDAYS,
-        'STANDALONENARROWWEEKDAYS': STANDALONENARROWWEEKDAYS,
-        'SHORTQUARTERS': SHORTQUARTERS,
-        'QUARTERS': QUARTERS,
-        'AMPMS': AMPMS,
-        'DATEFORMATS': DATEFORMATS,
-        'TIMEFORMATS': TIMEFORMATS,
-        'AVAILABLEFORMATS': AVAILABLEFORMATS,
-        'FIRSTDAYOFWEEK': FIRSTDAYOFWEEK,
-        'WEEKENDRANGE': WEEKENDRANGE,
-        'FIRSTWEEKCUTOFFDAY': FIRSTWEEKCUTOFFDAY,
-        'DATETIMEFORMATS': DATETIMEFORMATS,
-      };
+    'NAME': NAME,
+    'ERAS': ERAS,
+    'ERANAMES': ERANAMES,
+    'NARROWMONTHS': NARROWMONTHS,
+    'STANDALONENARROWMONTHS': STANDALONENARROWMONTHS,
+    'MONTHS': MONTHS,
+    'STANDALONEMONTHS': STANDALONEMONTHS,
+    'SHORTMONTHS': SHORTMONTHS,
+    'STANDALONESHORTMONTHS': STANDALONESHORTMONTHS,
+    'WEEKDAYS': WEEKDAYS,
+    'STANDALONEWEEKDAYS': STANDALONEWEEKDAYS,
+    'SHORTWEEKDAYS': SHORTWEEKDAYS,
+    'STANDALONESHORTWEEKDAYS': STANDALONESHORTWEEKDAYS,
+    'NARROWWEEKDAYS': NARROWWEEKDAYS,
+    'STANDALONENARROWWEEKDAYS': STANDALONENARROWWEEKDAYS,
+    'SHORTQUARTERS': SHORTQUARTERS,
+    'QUARTERS': QUARTERS,
+    'AMPMS': AMPMS,
+    'DATEFORMATS': DATEFORMATS,
+    'TIMEFORMATS': TIMEFORMATS,
+    'AVAILABLEFORMATS': AVAILABLEFORMATS,
+    'FIRSTDAYOFWEEK': FIRSTDAYOFWEEK,
+    'WEEKENDRANGE': WEEKENDRANGE,
+    'FIRSTWEEKCUTOFFDAY': FIRSTWEEKCUTOFFDAY,
+    'DATETIMEFORMATS': DATETIMEFORMATS,
+  };
 
   @override
   String toString() => NAME;
@@ -212,142 +193,133 @@ class DateSymbols {
 /// We hard-code the locale data for en_US here so that there's at least one
 /// locale always available.
 final DateSymbols en_USSymbols = DateSymbols(
-    NAME: 'en_US',
-    ERAS: const ['BC', 'AD'],
-    ERANAMES: const ['Before Christ', 'Anno Domini'],
-    NARROWMONTHS: const [
-      'J',
-      'F',
-      'M',
-      'A',
-      'M',
-      'J',
-      'J',
-      'A',
-      'S',
-      'O',
-      'N',
-      'D'
-    ],
-    STANDALONENARROWMONTHS: const [
-      'J',
-      'F',
-      'M',
-      'A',
-      'M',
-      'J',
-      'J',
-      'A',
-      'S',
-      'O',
-      'N',
-      'D'
-    ],
-    MONTHS: const [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ],
-    STANDALONEMONTHS: const [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ],
-    SHORTMONTHS: const [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ],
-    STANDALONESHORTMONTHS: const [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ],
-    WEEKDAYS: const [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday'
-    ],
-    STANDALONEWEEKDAYS: const [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday'
-    ],
-    SHORTWEEKDAYS: const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    STANDALONESHORTWEEKDAYS: const [
-      'Sun',
-      'Mon',
-      'Tue',
-      'Wed',
-      'Thu',
-      'Fri',
-      'Sat'
-    ],
-    NARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-    STANDALONENARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-    SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
-    QUARTERS: const [
-      '1st quarter',
-      '2nd quarter',
-      '3rd quarter',
-      '4th quarter'
-    ],
-    AMPMS: const ['AM', 'PM'],
-    DATEFORMATS: const ['EEEE, MMMM d, y', 'MMMM d, y', 'MMM d, y', 'M/d/yy'],
-    TIMEFORMATS: const ['h:mm:ss a zzzz', 'h:mm:ss a z', 'h:mm:ss a', 'h:mm a'],
-    FIRSTDAYOFWEEK: 6,
-    WEEKENDRANGE: const [5, 6],
-    FIRSTWEEKCUTOFFDAY: 5,
-    DATETIMEFORMATS: const [
-      '{1}, {0}',
-      '{1}, {0}',
-      '{1}, {0}',
-      '{1}, {0}',
-    ]);
+  NAME: 'en_US',
+  ERAS: const ['BC', 'AD'],
+  ERANAMES: const ['Before Christ', 'Anno Domini'],
+  NARROWMONTHS: const [
+    'J',
+    'F',
+    'M',
+    'A',
+    'M',
+    'J',
+    'J',
+    'A',
+    'S',
+    'O',
+    'N',
+    'D',
+  ],
+  STANDALONENARROWMONTHS: const [
+    'J',
+    'F',
+    'M',
+    'A',
+    'M',
+    'J',
+    'J',
+    'A',
+    'S',
+    'O',
+    'N',
+    'D',
+  ],
+  MONTHS: const [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  STANDALONEMONTHS: const [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  SHORTMONTHS: const [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  STANDALONESHORTMONTHS: const [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  WEEKDAYS: const [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ],
+  STANDALONEWEEKDAYS: const [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ],
+  SHORTWEEKDAYS: const ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  STANDALONESHORTWEEKDAYS: const [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ],
+  NARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+  STANDALONENARROWWEEKDAYS: const ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+  SHORTQUARTERS: const ['Q1', 'Q2', 'Q3', 'Q4'],
+  QUARTERS: const ['1st quarter', '2nd quarter', '3rd quarter', '4th quarter'],
+  AMPMS: const ['AM', 'PM'],
+  DATEFORMATS: const ['EEEE, MMMM d, y', 'MMMM d, y', 'MMM d, y', 'M/d/yy'],
+  TIMEFORMATS: const ['h:mm:ss a zzzz', 'h:mm:ss a z', 'h:mm:ss a', 'h:mm a'],
+  FIRSTDAYOFWEEK: 6,
+  WEEKENDRANGE: const [5, 6],
+  FIRSTWEEKCUTOFFDAY: 5,
+  DATETIMEFORMATS: const ['{1}, {0}', '{1}, {0}', '{1}, {0}', '{1}, {0}'],
+);
 
 // ignore: constant_identifier_names
 const Map<String, String> en_USPatterns = {
@@ -394,5 +366,5 @@ const Map<String, String> en_USPatterns = {
   'v': 'v', // ABBR_GENERIC_TZ
   'z': 'z', // ABBR_SPECIFIC_TZ
   'zzzz': 'zzzz', // SPECIFIC_TZ
-  'ZZZZ': 'ZZZZ' // ABBR_UTC_TZ
+  'ZZZZ': 'ZZZZ', // ABBR_UTC_TZ
 };

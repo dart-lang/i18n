@@ -19,7 +19,7 @@ abstract class _DateFormatField {
   final String _trimmedPattern;
 
   _DateFormatField(this.pattern, this.parent)
-      : _trimmedPattern = pattern.trim();
+    : _trimmedPattern = pattern.trim();
 
   /// Does this field potentially represent part of a Date, i.e. is not
   /// time-specific.
@@ -113,8 +113,8 @@ class _DateFormatQuotedField extends _DateFormatField {
   String fullPattern() => _fullPattern;
 
   _DateFormatQuotedField(String pattern, DateFormat parent)
-      : _fullPattern = pattern,
-        super(_patchQuotes(pattern), parent);
+    : _fullPattern = pattern,
+      super(_patchQuotes(pattern), parent);
 
   @override
   void parse(StringStack input, DateBuilder dateFields) {
@@ -149,8 +149,9 @@ class _LoosePatternField extends _DateFormatPatternField {
   /// Assumes that input is lower case.
   @override
   int parseEnumeratedString(StringStack input, List<String> possibilities) {
-    var lowercasePossibilities =
-        possibilities.map((x) => x.toLowerCase()).toList();
+    var lowercasePossibilities = possibilities
+        .map((x) => x.toLowerCase())
+        .toList();
     try {
       return super.parseEnumeratedString(input, lowercasePossibilities);
     } on FormatException {
@@ -188,7 +189,7 @@ class _LoosePatternField extends _DateFormatPatternField {
     }
     var possibilities = [
       symbols.STANDALONEWEEKDAYS,
-      symbols.STANDALONESHORTWEEKDAYS
+      symbols.STANDALONESHORTWEEKDAYS,
     ];
     for (var dayNames in possibilities) {
       var day = parseEnumeratedString(input, dayNames);
@@ -208,7 +209,7 @@ class _LoosePatternField extends _DateFormatPatternField {
     }
     var possibilities = [
       symbols.STANDALONEMONTHS,
-      symbols.STANDALONESHORTMONTHS
+      symbols.STANDALONESHORTMONTHS,
     ];
     for (var monthNames in possibilities) {
       var month = parseEnumeratedString(input, monthNames);
@@ -448,11 +449,13 @@ class _DateFormatPatternField extends _DateFormatField {
       // Trying to optimize this, as it might get called a lot. See the
       // benchmark at benchmark/intl_stream_benchmark.dart
       var codeUnits = string.codeUnits;
-      string = String.fromCharCodes(List.generate(
-        codeUnits.length,
-        (index) => codeUnits[index] - zeroDigit + constants.asciiZeroCodeUnit,
-        growable: false,
-      ));
+      string = String.fromCharCodes(
+        List.generate(
+          codeUnits.length,
+          (index) => codeUnits[index] - zeroDigit + constants.asciiZeroCodeUnit,
+          growable: false,
+        ),
+      );
     }
     return int.parse(string);
   }
@@ -469,7 +472,7 @@ class _DateFormatPatternField extends _DateFormatField {
   int parseEnumeratedString(StringStack input, List<String> possibilities) {
     var results = [
       for (var i = 0; i < possibilities.length; i++)
-        if (input.peek(possibilities[i].length) == possibilities[i]) i
+        if (input.peek(possibilities[i].length) == possibilities[i]) i,
     ];
     if (results.isEmpty) throwFormatException(input);
     var longestResult = results.first;
@@ -647,9 +650,13 @@ class _DateFormatPatternField extends _DateFormatField {
   }
 
   String formatDayOfYear(DateTime date) => padTo(
-      width,
-      date_computation.dayOfYear(
-          date.month, date.day, date_computation.isLeapYear(date)));
+    width,
+    date_computation.dayOfYear(
+      date.month,
+      date.day,
+      date_computation.isLeapYear(date),
+    ),
+  );
 
   /// See also http://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
   String formatDayOfWeek(DateTime date) {
@@ -665,8 +672,9 @@ class _DateFormatPatternField extends _DateFormatField {
       == 5 => symbols.NARROWWEEKDAYS,
 
       ///TODO(mosum): Introduce "Short" - `Tu` for en-US
-      >= 6 =>
-        throw UnsupportedError('"Short" weekdays are currently not supported.'),
+      >= 6 => throw UnsupportedError(
+        '"Short" weekdays are currently not supported.',
+      ),
       int() => throw AssertionError('unreachable'),
     }[(date.weekday) % 7];
   }

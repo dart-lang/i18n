@@ -49,8 +49,8 @@ abstract class SubMessage extends ComplexMessage {
   /// argument names and values.
   static Map<String, Expression> argumentsOfInterestFor(MethodInvocation node) {
     return {
-      for (var node in node.argumentList.arguments.whereType<NamedExpression>())
-        node.name.label.token.value() as String: node.expression,
+      for (var node in node.argumentList.arguments.whereType<NamedArgument>())
+        node.name.lexeme: node.argumentExpression,
     };
   }
 

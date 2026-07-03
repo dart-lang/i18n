@@ -120,7 +120,7 @@ class PluralAndGenderVisitor extends SimpleAstVisitor<void> {
       }
     });
     var mainArg = node.argumentList.arguments.firstWhere(
-      (each) => each is! NamedExpression,
+      (each) => each is! NamedArgument,
     );
     if (mainArg is SimpleStringLiteral) {
       message.mainArgument = mainArg.toString();
