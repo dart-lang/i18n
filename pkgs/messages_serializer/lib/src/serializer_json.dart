@@ -11,7 +11,7 @@ import 'serializer.dart';
 class JsonSerializer extends Serializer<String> {
   final List result = [];
 
-  JsonSerializer([super.writeIds = false]);
+  JsonSerializer();
 
   @override
   Serialization<String> serialize(
@@ -26,7 +26,6 @@ class JsonSerializer extends Serializer<String> {
       serializationVersion: serializationVersion,
       locale: locale,
       hash: hash,
-      hasIds: writeIds,
     );
 
     result.addAll(preamble.toJson());
@@ -80,11 +79,10 @@ class JsonSerializer extends Serializer<String> {
   ///   * List\<int\> | a pair of position in the string - number of the placeholder
   Object encodeString(StringMessage message, bool isVisible) {
     final containsArgs = message.argPositions.isNotEmpty;
-    if ((message.id == null || isVisible == false) && !containsArgs) {
+    if (isVisible == false && !containsArgs) {
       return message.value;
     }
     final m = <Object>[];
-    addId(message, m, isVisible);
     m.add(message.value);
     if (containsArgs) {
       final positions = message.argPositions
@@ -106,7 +104,6 @@ class JsonSerializer extends Serializer<String> {
   List encodeSelect(SelectMessage message, bool isVisible) {
     final m = <Object>[];
     m.add(SelectMessage.type);
-    addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
     final caseIndices = <String, Object>{};
@@ -129,7 +126,6 @@ class JsonSerializer extends Serializer<String> {
   List encodePlural(PluralMessage message, bool isVisible) {
     final m = <Object>[];
     m.add(PluralMessage.type);
-    addId(message, m, isVisible);
     m.add(message.argIndex);
     m.add(encodeMessage(message.other));
     final caseIndices = <Object>[];
@@ -163,16 +159,10 @@ class JsonSerializer extends Serializer<String> {
   List encodeCombined(CombinedMessage message, bool isVisible) {
     final m = <Object>[];
     m.add(CombinedMessage.type);
-    addId(message, m, isVisible);
     for (var submessage in message.messages) {
       m.add(encodeMessage(submessage));
     }
     return m;
-  }
-
-  /// Add a non-null ID iff `writeIds` is enabled
-  void addId(Message message, List<dynamic> m, bool isVisible) {
-    if (writeIds && message.id != null && isVisible) m.add(message.id!);
   }
 
   int addMessage(dynamic m) {

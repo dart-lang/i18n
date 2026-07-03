@@ -43,7 +43,7 @@ class MessageDataFileBuilder {
       final arbFileContents = await File.fromUri(arbFileUri).readAsString();
       final messageBundle = await parseMessageFile(arbFileContents, options);
 
-      final serializer = JsonSerializer(options.findById);
+      final serializer = JsonSerializer();
 
       final data = _arbToData(messageBundle, arbFilePath, serializer);
 
