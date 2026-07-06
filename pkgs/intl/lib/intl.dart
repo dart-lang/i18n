@@ -479,10 +479,16 @@ class Intl {
 
   /// Format a message differently depending on [choice].
   ///
-  /// We look up the value
-  /// of [choice] in [cases] and return the result, or an empty string if
-  /// it is not found. Normally used as part
-  /// of an Intl.message message that is to be translated.
+  /// Looks up the value of [choice] in [cases] and returns the
+  /// matching result. If no matching case is found, the `'other'`
+  /// case is used as a fallback.
+  ///
+  /// The [cases] map must contain an `'other'` entry. Throws an
+  /// [ArgumentError] if [choice] does not match any case and no
+  /// `'other'` case is provided.
+  ///
+  /// Normally used as part of an [Intl.message] message that is to
+  /// be translated.
   ///
   /// It is possible to use a Dart enum as the choice and as the
   /// key in cases, but note that we will process this by truncating

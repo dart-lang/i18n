@@ -12,6 +12,8 @@
    `@pragma('vm:prefer-inline')`, for the same reason: to help omit message
    descriptions from compiled output.
  * Update analysis to newest `package:lints`.
+ * Update `Intl.select` documentation to clarify `other` fallback behavior
+   and thrown `ArgumentError`.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
