@@ -5,6 +5,7 @@
 /// Support for Unicode locale identifiers.
 ///
 /// Use the [Locale] class to represent and manipulate locales.
+/// @docImport 'locale.dart';
 library;
 
 export 'src/locale/locale.dart' show Locale;
