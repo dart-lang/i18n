@@ -36,6 +36,26 @@ Add `intl4x` to your `pubspec.yaml`:
 dart pub add intl4x
 ```
 
+## Examples & Migration Guide
+
+For a comprehensive side-by-side comparison of `package:intl` and `package:intl4x` APIs, see [`example/intl_vs_intl4x.dart`](example/intl_vs_intl4x.dart).
+
+It demonstrates how to perform common internationalization tasks in `intl` vs. `intl4x`:
+* **Locale Handling**: `String` tags (`de_DE`) vs. strongly-typed `Locale.parse('de-DE')`.
+* **Number & Currency Formatting**: `NumberFormat.decimalPattern()` / `currency()` vs. `NumberFormat(...)` / `currency()`.
+* **Compact Number & Unit Formatting**: `NumberFormat.compact()` and `UnitStyle` (e.g. `Unit.meter`).
+* **Date & Time Formatting**: `DateFormat.yMMMMd()` vs. typed `DateTimeFormat.yearMonthDay()`.
+* **Plural Rules**: Message-based `Intl.plural()` vs. CLDR category selection via `PluralRules.select()`.
+* **List Formatting**: Manual `String` joining vs. `ListFormat` / `joinAnd()`.
+* **Display Names**: Localized language/region names with `DisplayNames`.
+* **Locale-Aware Collation**: `String.compareTo()` vs. `Collation`.
+* **Locale-Aware Case Mapping**: `String.toLowerCase()` vs. `CaseMapping` (e.g. Turkish dotless `i`).
+
+Run the example locally with:
+```shell
+dart run example/intl_vs_intl4x.dart
+```
+
 
 ## Limitations
 
