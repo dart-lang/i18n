@@ -28,6 +28,42 @@ This library uses different backends on different platforms:
 *   **ICU4X**: Wraps [ICU4X](https://github.com/unicode-org/icu4x) to provide i18n functionality on both native platforms.
 *   **ECMA / Browser**: Wraps the browser's built-in [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) functionalities for web-only applications, reducing bundle size.
 
+### ICU4X Build Modes
+
+When using the native ICU4X backend, `package:icu4x` uses `package:hooks` to locate or compile the native library. You can configure the build mode in your `pubspec.yaml` under `hooks.user_defines.icu4x`:
+
+*   **`fetch` (default)**: Downloads a pre-built static or dynamic binary from ICU4X GitHub releases.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: fetch
+    ```
+
+*   **`local`**: Uses a locally available pre-built binary.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: local
+          localPath: path/to/libicu4x.so
+    ```
+
+*   **`checkout`**: Builds a fresh native library from a local git checkout of ICU4X, allowing custom locale data or component selection.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: checkout
+          checkoutPath: path/to/icu4x
+    ```
+
+## Supported Locales
+
+By default (in `fetch` mode), the precompiled ICU4X native backend includes CLDR data for 174 base locales (Modern, Moderate, and Basic coverage levels), expanding to ~570 regional and script variants (e.g. `en-US`, `de-DE`, `zh-Hans`, `ar-EG`, `pt-BR`). Locales not explicitly compiled into the dataset automatically fall back to parent locales, likely subtags, or root (`und`).
+
+To include custom or additional locales, build ICU4X from source using [`buildMode: checkout`](#icu4x-build-modes). For details on generating custom data, see the [package:icu4x documentation](https://github.com/unicode-org/icu4x/tree/main/ffi/dart) and the [ICU4X Data Management Tutorial](https://github.com/unicode-org/icu4x/blob/main/tutorials/data-management.md).
+
 ## Installation
 
 Add `intl4x` to your `pubspec.yaml`:
@@ -36,7 +72,7 @@ Add `intl4x` to your `pubspec.yaml`:
 dart pub add intl4x
 ```
 
-## Examples & Migration Guide
+## Migration Guide from `package:intl`
 
 For a comprehensive side-by-side comparison of `package:intl` and `package:intl4x` APIs, see [`example/intl_vs_intl4x.dart`](example/intl_vs_intl4x.dart).
 
