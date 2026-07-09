@@ -6,21 +6,6 @@
 ///
 /// Use the [NumberFormat] class to format numbers in a locale-sensitive
 /// manner.
-///
-/// ```dart
-/// import 'package:intl4x/number_format.dart';
-///
-/// void main() {
-///   print(
-///     NumberFormat(
-///       locale: Locale.parse('en'),
-///       roundingMode: RoundingMode.ceil,
-///       digits: const Digits.withFractionDigits(maximum: 1),
-///     ).format(3.14),
-///   ); // prints '3.2'
-/// }
-///
-/// ```
 library;
 
 import 'src/number_format/number_format.dart' show NumberFormat;

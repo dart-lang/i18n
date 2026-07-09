@@ -1,3 +1,7 @@
+## 1.0.0-alpha.2-wip
+
+- Add migration guide
+
 ## 1.0.0-alpha.2
 
 - Add `locale.dart` entrypoint exposing only `Locale`.
