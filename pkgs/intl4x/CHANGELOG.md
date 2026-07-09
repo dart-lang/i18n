@@ -1,4 +1,4 @@
-## 1.0.0-alpha.2-wip
+## 1.0.0-alpha.2
 
 - Add `locale.dart` entrypoint exposing only `Locale`.
 - Update ICU4X to `2.2.0-dev.3`.
