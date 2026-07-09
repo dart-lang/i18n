@@ -10,13 +10,13 @@ library;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'package:intl4x/case_mapping.dart' as intl4x;
-import 'package:intl4x/collation.dart' as intl4x;
-import 'package:intl4x/datetime_format.dart' as intl4x;
-import 'package:intl4x/display_names.dart' as intl4x;
-import 'package:intl4x/list_format.dart' as intl4x;
-import 'package:intl4x/number_format.dart' as intl4x;
-import 'package:intl4x/plural_rules.dart' as intl4x;
+import 'package:intl4x/case_mapping.dart';
+import 'package:intl4x/collation.dart';
+import 'package:intl4x/datetime_format.dart';
+import 'package:intl4x/display_names.dart';
+import 'package:intl4x/list_format.dart';
+import 'package:intl4x/number_format.dart';
+import 'package:intl4x/plural_rules.dart';
 
 Future<void> main() async {
   print('====================================================');
@@ -30,7 +30,6 @@ Future<void> main() async {
   _exampleLocaleHandling();
   _exampleNumberFormatting();
   _exampleCurrencyFormatting();
-  _exampleCompactNumberFormatting();
   _exampleUnitFormatting();
   _exampleDateFormatting();
   _exampleTimeFormatting();
@@ -56,11 +55,18 @@ void _exampleLocaleHandling() {
 
   // NOW (intl4x): Strongly-typed Locale instances with BCP-47 tag parsing.
   // #docregion locale_handling
-  final intl4xLocale = intl4x.Locale.parse('de-DE');
+  final intl4xLocale = Locale.parse('de-DE');
   // #enddocregion locale_handling
   print(
     'intl4x (now): Locale object = $intl4xLocale '
     '(language tag: ${intl4xLocale.toLanguageTag()})',
+  );
+
+  // Unicode extensions / options (e.g. calendar, numbering system)
+  final localeWithCalendar = intl4xLocale.withCalendar(Calendar.buddhist);
+  print(
+    'intl4x (now) [NEW]: Locale with Unicode Extension (ca=buddhist): '
+    '$localeWithCalendar',
   );
   print('');
 }
@@ -78,11 +84,10 @@ void _exampleNumberFormatting() {
 
   // NOW (intl4x):
   // #docregion number_format
-  final intl4xFormatter = intl4x.NumberFormat(
-    locale: intl4x.Locale.parse('en-US'),
-  );
-  print(intl4xFormatter.format(1234567.89));
+  final intl4xFormatter = NumberFormat(locale: Locale.parse('en-US'));
+  final intl4xFormatted = intl4xFormatter.format(number);
   // #enddocregion number_format
+  print('intl4x (now):  $intl4xFormatted');
   print('');
 }
 
@@ -100,8 +105,8 @@ void _exampleCurrencyFormatting() {
 
   // NOW (intl4x):
   // #docregion currency_format
-  final intl4xCurrency = intl4x.NumberFormat.currency(
-    locale: intl4x.Locale.parse('en-US'),
+  final intl4xCurrency = NumberFormat.currency(
+    locale: Locale.parse('en-US'),
     currency: 'USD',
   ).format(amount);
   // #enddocregion currency_format
@@ -109,54 +114,30 @@ void _exampleCurrencyFormatting() {
   print('');
 }
 
-/// 4. Compact Number Formatting (e.g. 1.2M, 5K)
-void _exampleCompactNumberFormatting() {
-  print('--- 4. Compact Number Formatting ---');
-  const largeNumber = 1234567;
-
-  // BEFORE (intl):
-  final intlCompact = intl.NumberFormat.compact(
-    locale: 'en_US',
-  ).format(largeNumber);
-  print('intl (before): $intlCompact');
-
-  // NOW (intl4x):
-  // #docregion compact_number_format
-  final intl4xCompact = intl4x.NumberFormat.compact(
-    locale: intl4x.Locale.parse('en-US'),
-  ).format(largeNumber);
-  // #enddocregion compact_number_format
-  print('intl4x (now):  $intl4xCompact');
-  print('');
-}
-
-/// 5. Unit Formatting (e.g. 5 meters)
+/// 4. Unit Formatting (e.g. 5 meters)
 void _exampleUnitFormatting() {
-  print('--- 5. Unit Formatting ---');
+  print('--- 4. Unit Formatting [NEW IN INTL4X] ---');
   const value = 5;
 
   // BEFORE (intl): No direct unit formatting API; required custom string
   // formatting.
   final intlUnit = '$value meters';
-  print('intl (before): $intlUnit (manual concatenation)');
+  print('intl (before): Not supported ($intlUnit via manual concatenation)');
 
   // NOW (intl4x): Built-in Unit formatting with CLDR unit rules.
   // #docregion unit_format
-  final intl4xUnit = intl4x.NumberFormat(
-    locale: intl4x.Locale.parse('en-US'),
-    style: const intl4x.UnitStyle(
-      unit: intl4x.Unit.meter,
-      unitDisplay: intl4x.UnitDisplay.long,
-    ),
+  final intl4xUnit = NumberFormat(
+    locale: Locale.parse('en-US'),
+    style: const UnitStyle(unit: Unit.meter, unitDisplay: UnitDisplay.long),
   ).format(value);
   // #enddocregion unit_format
-  print('intl4x (now):  $intl4xUnit (using Unit.meter)');
+  print('intl4x (now) [NEW]: $intl4xUnit (using Unit.meter)');
   print('');
 }
 
-/// 6. Date Formatting
+/// 5. Date Formatting
 void _exampleDateFormatting() {
-  print('--- 6. Date Formatting ---');
+  print('--- 5. Date Formatting ---');
   final dateTime = DateTime(2026, 7, 9);
 
   // BEFORE (intl): Requires date pattern string or factory method + date
@@ -167,18 +148,18 @@ void _exampleDateFormatting() {
   // NOW (intl4x): Clean, typed date formatter API without pattern string
   // magic.
   // #docregion date_format
-  final intl4xDate = intl4x.DateTimeFormat.yearMonthDay(
-    locale: intl4x.Locale.parse('en-US'),
-    length: intl4x.DateTimeLength.long,
+  final intl4xDate = DateTimeFormat.yearMonthDay(
+    locale: Locale.parse('en-US'),
+    length: DateTimeLength.long,
   ).format(dateTime);
   // #enddocregion date_format
   print('intl4x (now):  $intl4xDate');
   print('');
 }
 
-/// 7. Time Formatting & TimeZones
+/// 6. Time Formatting & TimeZones
 void _exampleTimeFormatting() {
-  print('--- 7. Time & TimeZone Formatting ---');
+  print('--- 6. Time & TimeZone Formatting ---');
   final dateTime = DateTime.parse('2026-07-09T14:30:00');
   const timeZone = 'Europe/Paris';
 
@@ -188,18 +169,21 @@ void _exampleTimeFormatting() {
 
   // NOW (intl4x):
   // #docregion time_format
-  final intl4xTime = intl4x.DateTimeFormat.yearMonthDayTime(
-    locale: intl4x.Locale.parse('en-US'),
-    length: intl4x.DateTimeLength.long,
+  final intl4xTime = DateTimeFormat.yearMonthDayTime(
+    locale: Locale.parse('en-US'),
+    length: DateTimeLength.long,
   ).withTimeZoneLong().format(dateTime, timeZone);
   // #enddocregion time_format
   print('intl4x (now):  $intl4xTime');
   print('');
 }
 
-/// 8. Plurals & Plural Rules
+/// 7. Plurals & Plural Rules
 void _examplePlurals() {
-  print('--- 8. Plurals & Plural Categories ---');
+  print(
+    '--- 7. Plurals & Plural Categories '
+    '[NEW IN INTL4X: Direct CLDR Categories & Ordinals] ---',
+  );
   const count = 3;
 
   // BEFORE (intl): Message-based plural resolution.
@@ -213,94 +197,114 @@ void _examplePlurals() {
 
   // NOW (intl4x): Direct CLDR PluralCategory selection.
   // #docregion plurals
-  final category = intl4x.PluralRules(
-    locale: intl4x.Locale.parse('en-US'),
-  ).select(count);
+  final category = PluralRules(locale: Locale.parse('en-US')).select(count);
   // #enddocregion plurals
   print(
     'intl4x (now):  PluralCategory = $category '
-    '(category selection for count=$count)',
+    '(cardinal category for count=$count)',
+  );
+
+  // Ordinal plural rules (e.g. 1st, 2nd, 3rd, 4th)
+  final ordinalCategory = PluralRules(
+    locale: Locale.parse('en-US'),
+    type: PluralType.ordinal,
+  ).select(2);
+  print(
+    'intl4x (now) [NEW]: PluralCategory = $ordinalCategory '
+    '(ordinal category for 2 -> 2nd)',
   );
   print('');
 }
 
-/// 9. List Formatting (joining with 'and' / 'or')
+/// 8. List Formatting (joining with 'and' / 'or')
 void _exampleListFormatting() {
-  print('--- 9. List Formatting ---');
+  print('--- 8. List Formatting [NEW IN INTL4X] ---');
   final items = ['Apples', 'Oranges', 'Bananas'];
 
   // BEFORE (intl): No built-in list formatting API in intl; required custom
   // code or join.
   final intlList = items.join(', ');
-  print('intl (before): "$intlList" (standard join)');
+  print('intl (before): Not supported ("$intlList" via standard join)');
 
   // NOW (intl4x): Built-in locale-aware list formatting (conjunctions,
   // disjunctions, etc.).
   // #docregion list_format
-  final intl4xList = intl4x.ListFormat(
-    locale: intl4x.Locale.parse('en-US'),
-    type: intl4x.ListType.and,
+  final intl4xList = ListFormat(
+    locale: Locale.parse('en-US'),
+    type: ListType.and,
   ).format(items);
   // #enddocregion list_format
 
-  // Or extension method: items.joinAnd(locale: intl4x.Locale.parse('en-US'))
-  print('intl4x (now):  "$intl4xList" (or via items.joinAnd())');
+  // Or extension method: items.joinAnd(locale: Locale.parse('en-US'))
+  print(
+    'intl4x (now) [NEW]: "$intl4xList" (using ListType.and / items.joinAnd())',
+  );
   print('');
 }
 
-/// 10. Display Names (Language / Region Names)
+/// 9. Display Names (Language / Region Names)
 void _exampleDisplayNames() {
-  print('--- 10. Display Names ---');
+  print('--- 9. Display Names [NEW IN INTL4X] ---');
 
   // BEFORE (intl): No built-in display names API in intl package.
   print('intl (before): Not supported in package:intl');
 
   // NOW (intl4x): DisplayNames for localized language and region names.
   // #docregion display_names
-  final displayNames = intl4x.DisplayNames(
-    locale: intl4x.Locale.parse('en-US'),
-  );
-  final germanName = displayNames.ofLocale(intl4x.Locale.parse('de-DE'));
+  final displayNames = DisplayNames(locale: Locale.parse('en-US'));
+  final germanName = displayNames.ofLocale(Locale.parse('de-DE'));
   final regionName = displayNames.ofRegion('419');
   // #enddocregion display_names
-  print('intl4x (now):  Locale "de-DE" in en-US -> "$germanName"');
-  print('intl4x (now):  Region "419" in en-US   -> "$regionName"');
+  print('intl4x (now) [NEW]: Locale "de-DE" in en-US -> "$germanName"');
+  print('intl4x (now) [NEW]: Region "419" in en-US   -> "$regionName"');
   print('');
 }
 
-/// 11. String Collation / Locale Sorting
+/// 10. String Collation / Locale Sorting
 void _exampleCollation() {
-  print('--- 11. String Collation / Locale Sorting ---');
+  print('--- 10. String Collation / Locale Sorting [NEW IN INTL4X] ---');
 
   // BEFORE (intl): Standard String.compareTo (UTF-16 code unit ordering).
   final listIntl = ['a', 'ä', 'b']..sort((x, y) => x.compareTo(y));
-  print('intl (before): Standard String.sort() -> $listIntl');
+  print('intl (before): Not supported (Standard String.sort() -> $listIntl)');
 
   // NOW (intl4x): Locale-sensitive collation (e.g. in German 'ä' is sorted
   // near 'a', in Swedish after 'z').
   // #docregion collation
   final listIntl4x = ['a', 'ä', 'b'];
-  final collationDe = intl4x.Collation(locale: intl4x.Locale.parse('de'));
+  final collationDe = Collation(locale: Locale.parse('de'));
   listIntl4x.sort(collationDe.compare);
   // #enddocregion collation
-  print('intl4x (now):  Locale-aware sort (de) -> $listIntl4x');
+  print('intl4x (now) [NEW]: Locale-aware sort (de) -> $listIntl4x');
   print('');
 }
 
-/// 12. Case Mapping
+/// 11. Case Mapping
 void _exampleCaseMapping() {
-  print('--- 12. Case Mapping ---');
+  print('--- 11. Case Mapping [NEW IN INTL4X] ---');
   const upper = 'TICKET';
+  const word = 'istanbul';
 
-  // BEFORE (intl): Standard String.toLowerCase() (not locale-aware for Turkish
-  // dotless i, etc.).
-  print('intl (before): String.toLowerCase() -> "${upper.toLowerCase()}"');
+  // BEFORE (intl): Limited to toBeginningOfSentenceCase() for Turkish.
+  final intlSentenceCase = intl.toBeginningOfSentenceCase(word, 'tr');
+  print(
+    'intl (before): toBeginningOfSentenceCase("istanbul", "tr") -> '
+    '"$intlSentenceCase"',
+  );
 
-  // NOW (intl4x): Locale-sensitive case mapping.
+  // NOW (intl4x): Comprehensive locale-sensitive lower/uppercase mapping.
   // #docregion case_mapping
-  final trLocale = intl4x.Locale.parse('tr');
-  final lowerTr = intl4x.CaseMapping(locale: trLocale).toLowerCase(upper);
+  final trLocale = Locale.parse('tr');
+  final lowerTr = CaseMapping(locale: trLocale).toLowerCase(upper);
+  final upperTr = CaseMapping(locale: trLocale).toUpperCase(word);
   // #enddocregion case_mapping
-  print('intl4x (now):  CaseMapping (tr)    -> "$lowerTr" (Turkish dotless i)');
+  print(
+    'intl4x (now) [NEW]: CaseMapping(tr).toLowerCase("TICKET") -> '
+    '"$lowerTr" (dotless i)',
+  );
+  print(
+    'intl4x (now) [NEW]: CaseMapping(tr).toUpperCase("istanbul") -> '
+    '"$upperTr" (dotted İ)',
+  );
   print('');
 }
