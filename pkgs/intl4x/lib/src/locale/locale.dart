@@ -30,7 +30,7 @@ abstract class Locale {
   /// Returns a new `Locale` with the given [clockStyle].
   Locale withClockStyle(ClockStyle clockStyle);
 
-  /// The first day of the week for this locale (1 = Monday, 7 = Sunday).
+  /// The first day of the week for this locale.
   Weekday get firstDayOfWeek;
 
   /// The system's current locale.

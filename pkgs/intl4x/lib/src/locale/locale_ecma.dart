@@ -35,16 +35,15 @@ class LocaleEcma implements Locale {
   Weekday get firstDayOfWeek {
     final weekInfo = _locale.weekInfo;
     if (weekInfo != null) {
-      final firstDay = weekInfo.getProperty('firstDay'.toJS);
-      if (firstDay != null && firstDay.isA<JSNumber>()) {
-        try {
-          return Weekday.fromIsoIndex((firstDay as JSNumber).toDartInt);
-        } on ArgumentError {
-          // Fallback to default
+      final firstDayJS = weekInfo.getProperty('firstDay'.toJS);
+      if (firstDayJS != null && firstDayJS.isA<JSNumber>()) {
+        final firstDay = (firstDayJS as JSNumber).toDartInt;
+        if (firstDay >= 1 && firstDay <= 7) {
+          return Weekday.fromIsoIndex(firstDay);
         }
       }
     }
-    return Weekday.monday; // Default fallback to Monday (1)
+    return Weekday.monday;
   }
 
   @override

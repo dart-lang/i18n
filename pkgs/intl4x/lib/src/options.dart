@@ -6,26 +6,16 @@
 library;
 
 /// Weekdays
+///
+/// The [isoIndex] represents the ISO 8601 standard where Monday is 1 and Sunday
+/// is 7.
 enum Weekday {
-  /// Monday
   monday(1),
-
-  /// Tuesday
   tuesday(2),
-
-  /// Wednesday
   wednesday(3),
-
-  /// Thursday
   thursday(4),
-
-  /// Friday
   friday(5),
-
-  /// Saturday
   saturday(6),
-
-  /// Sunday
   sunday(7);
 
   final int isoIndex;
