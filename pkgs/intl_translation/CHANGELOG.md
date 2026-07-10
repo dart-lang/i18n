@@ -1,4 +1,4 @@
-## 0.21.1-wip
+## 0.21.1
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.
 
