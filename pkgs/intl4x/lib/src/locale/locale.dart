@@ -4,7 +4,7 @@
 
 import '../datetime_format/datetime_format_options.dart' show ClockStyle;
 import '../find_locale.dart';
-import '../options.dart' show Calendar, NumberingSystem;
+import '../options.dart' show Calendar, NumberingSystem, Weekday;
 import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
 
 /// Representing a Unicode locale identifier.
@@ -29,6 +29,9 @@ abstract class Locale {
 
   /// Returns a new `Locale` with the given [clockStyle].
   Locale withClockStyle(ClockStyle clockStyle);
+
+  /// The first day of the week for this locale (1 = Monday, 7 = Sunday).
+  Weekday get firstDayOfWeek;
 
   /// The system's current locale.
   static Locale get system => findSystemLocale();
