@@ -31,6 +31,9 @@ abstract class Locale {
   Locale withClockStyle(ClockStyle clockStyle);
 
   /// The first day of the week for this locale.
+  ///
+  /// For example, this is [Weekday.sunday] for "en-US" and [Weekday.monday]
+  /// for "fr-FR".
   Weekday get firstDayOfWeek;
 
   /// The system's current locale.
