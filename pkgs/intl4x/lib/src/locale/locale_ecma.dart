@@ -19,6 +19,7 @@ extension type LocaleJS._(JSObject _) implements JSObject {
   external String? get script;
   external String? get region;
   external JSObject? get weekInfo;
+  external JSObject? getWeekInfo();
 }
 
 Locale parseLocale(String s) => LocaleEcma(LocaleJS(s));
@@ -33,7 +34,15 @@ class LocaleEcma implements Locale {
 
   @override
   Weekday get firstDayOfWeek {
-    final weekInfo = _locale.weekInfo;
+    JSObject? weekInfo;
+    if (_locale.hasProperty('getWeekInfo'.toJS).toDart) {
+      // If the `getWeekInfo` method is available, use it to retrieve the week
+      // information.
+      weekInfo = _locale.getWeekInfo();
+    } else if (_locale.hasProperty('weekInfo'.toJS).toDart) {
+      // Otherwise, fall back to the `weekInfo` property if it exists.
+      weekInfo = _locale.weekInfo;
+    }
     if (weekInfo != null) {
       final firstDayJS = weekInfo.getProperty('firstDay'.toJS);
       if (firstDayJS != null && firstDayJS.isA<JSNumber>()) {
