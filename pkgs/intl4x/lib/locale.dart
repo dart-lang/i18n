@@ -10,4 +10,3 @@ library;
 
 export 'src/locale/locale.dart' show Locale;
 export 'src/options.dart' show Weekday;
-
