@@ -1,3 +1,9 @@
+## 1.0.0-alpha.3
+
+- Add `firstDayOfWeek` to `Locale`.
+- Make `Weekday` an enhanced enum with `isoIndex` (1-7) to follow ISO standard.
+- Export `Weekday` from `locale.dart`.
+
 ## 1.0.0-alpha.2
 
 - Add `locale.dart` entrypoint exposing only `Locale`.
