@@ -21,7 +21,7 @@ class Locale4x implements Locale {
   @override
   Weekday get firstDayOfWeek {
     final weekInfo = icu.WeekInformation(_locale);
-    return Weekday.values[weekInfo.firstWeekday.index + 1];
+    return Weekday.values[weekInfo.firstWeekday.index];
   }
 
   @override

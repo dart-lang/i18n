@@ -5,6 +5,45 @@
 /// Common options used across intl4x libraries.
 library;
 
+/// Weekdays
+enum Weekday {
+  /// Monday
+  monday(1),
+
+  /// Tuesday
+  tuesday(2),
+
+  /// Wednesday
+  wednesday(3),
+
+  /// Thursday
+  thursday(4),
+
+  /// Friday
+  friday(5),
+
+  /// Saturday
+  saturday(6),
+
+  /// Sunday
+  sunday(7);
+
+  final int isoIndex;
+
+  const Weekday(this.isoIndex);
+
+  factory Weekday.fromIsoIndex(int isoIndex) {
+    if (isoIndex < 1 || isoIndex > 7) {
+      throw ArgumentError.value(
+        isoIndex,
+        'isoIndex',
+        'Must be between 1 and 7',
+      );
+    }
+    return Weekday.values[isoIndex - 1];
+  }
+}
+
 /// Calendar types for date and time formatting.
 enum Calendar {
   /// The Buddhist calendar.
