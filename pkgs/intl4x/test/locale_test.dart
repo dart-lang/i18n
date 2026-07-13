@@ -2,45 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:intl4x/locale.dart';
+import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
-import 'utils.dart';
-
 void main() {
-  group('firstDayOfWeek', () {
-    testWithFormatting('en-US', () {
+  group('Locale', () {
+    test('parse and toLanguageTag', () {
       final locale = Locale.parse('en-US');
-      expect(locale.firstDayOfWeek, Weekday.sunday);
+      expect(locale.toLanguageTag(), 'en-US');
+      expect(locale.toString(), 'en-US');
     });
 
-    testWithFormatting('fr-FR', () {
-      final locale = Locale.parse('fr-FR');
-      expect(locale.firstDayOfWeek, Weekday.monday);
+    test('toLanguageTag', () {
+      final locale = Locale.parse('de-DE');
+      expect(locale.toLanguageTag(), 'de-DE');
     });
 
-    testWithFormatting('ar-EG', () {
-      final locale = Locale.parse('ar-EG');
-      expect(locale.firstDayOfWeek, Weekday.saturday);
-    });
-  });
-
-  group('Weekday ISO enum', () {
-    test('values', () {
-      expect(Weekday.monday.isoIndex, 1);
-      expect(Weekday.tuesday.isoIndex, 2);
-      expect(Weekday.wednesday.isoIndex, 3);
-      expect(Weekday.thursday.isoIndex, 4);
-      expect(Weekday.friday.isoIndex, 5);
-      expect(Weekday.saturday.isoIndex, 6);
-      expect(Weekday.sunday.isoIndex, 7);
+    test('withCalendar', () {
+      final locale = Locale.parse('en-US').withCalendar(Calendar.buddhist);
+      expect(locale.toLanguageTag(), 'en-US-u-ca-buddhist');
     });
 
-    test('fromIsoIndex', () {
-      expect(Weekday.fromIsoIndex(1), Weekday.monday);
-      expect(Weekday.fromIsoIndex(7), Weekday.sunday);
-      expect(() => Weekday.fromIsoIndex(0), throwsArgumentError);
-      expect(() => Weekday.fromIsoIndex(8), throwsArgumentError);
+    test('withNumberingSystem', () {
+      final locale = Locale.parse(
+        'en-US',
+      ).withNumberingSystem(NumberingSystem.arabic);
+      expect(locale.toLanguageTag(), 'en-US-u-nu-arab');
+    });
+
+    test('withClockStyle', () {
+      final locale = Locale.parse(
+        'en-US',
+      ).withClockStyle(ClockStyle.oneToTwelve);
+      expect(locale.toLanguageTag(), 'en-US-u-hc-h12');
     });
   });
 }

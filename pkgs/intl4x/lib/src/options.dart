@@ -2,13 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Common options used across intl4x libraries.
-library;
+import 'first_day_of_week/first_day_of_week.dart';
+import 'locale/locale.dart' show Locale;
 
-/// Weekdays
-///
-/// The [isoIndex] represents the ISO 8601 standard where Monday is 1 and Sunday
-/// is 7.
+/// Weekdays.
 enum Weekday {
   monday(1),
   tuesday(2),
@@ -18,20 +15,31 @@ enum Weekday {
   saturday(6),
   sunday(7);
 
+  /// The ISO 8601 standard index, where Monday is 1 and Sunday is 7.
   final int isoIndex;
 
   const Weekday(this.isoIndex);
 
-  factory Weekday.fromIsoIndex(int isoIndex) {
-    if (isoIndex < 1 || isoIndex > 7) {
-      throw ArgumentError.value(
-        isoIndex,
-        'isoIndex',
-        'Must be between 1 and 7',
-      );
-    }
-    return Weekday.values[isoIndex - 1];
-  }
+  /// Returns the first day of the week for the given [locale].
+  factory Weekday.firstDayOfWeek([Locale? locale]) =>
+      getFirstDayOfWeek(locale ?? Locale.system);
+
+  /// Returns the [Weekday] corresponding to the given ISO 8601 index (1 for
+  /// Monday, 7 for Sunday).
+  factory Weekday.fromIsoIndex(int isoIndex) => switch (isoIndex) {
+    1 => Weekday.monday,
+    2 => Weekday.tuesday,
+    3 => Weekday.wednesday,
+    4 => Weekday.thursday,
+    5 => Weekday.friday,
+    6 => Weekday.saturday,
+    7 => Weekday.sunday,
+    _ => throw ArgumentError.value(
+      isoIndex,
+      'isoIndex',
+      'Must be between 1 and 7',
+    ),
+  };
 }
 
 /// Calendar types for date and time formatting.

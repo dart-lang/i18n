@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:js_interop';
-import 'dart:js_interop_unsafe';
 
 import '../datetime_format/datetime_format_options.dart' show ClockStyle;
 import '../options.dart';
@@ -18,8 +17,6 @@ extension type LocaleJS._(JSObject _) implements JSObject {
   external String get language;
   external String? get script;
   external String? get region;
-  external JSObject? get weekInfo;
-  external JSObject? getWeekInfo();
 }
 
 Locale parseLocale(String s) => LocaleEcma(LocaleJS(s));
@@ -31,29 +28,6 @@ class LocaleEcma implements Locale {
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
-
-  @override
-  Weekday get firstDayOfWeek {
-    JSObject? weekInfo;
-    if (_locale.hasProperty('getWeekInfo'.toJS).toDart) {
-      // If the `getWeekInfo` method is available, use it to retrieve the week
-      // information.
-      weekInfo = _locale.getWeekInfo();
-    } else if (_locale.hasProperty('weekInfo'.toJS).toDart) {
-      // Otherwise, fall back to the `weekInfo` property if it exists.
-      weekInfo = _locale.weekInfo;
-    }
-    if (weekInfo != null) {
-      final firstDayJS = weekInfo.getProperty('firstDay'.toJS);
-      if (firstDayJS != null && firstDayJS.isA<JSNumber>()) {
-        final firstDay = (firstDayJS as JSNumber).toDartInt;
-        if (firstDay >= 1 && firstDay <= 7) {
-          return Weekday.fromIsoIndex(firstDay);
-        }
-      }
-    }
-    return Weekday.monday;
-  }
 
   @override
   String toString() => toLanguageTag();

@@ -2,10 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-/// Support for Unicode locale identifiers.
-///
-/// Use the [Locale] class to represent and manipulate locales.
-/// @docImport 'locale.dart';
-library;
+import '../locale/locale.dart';
+import '../options.dart';
 
-export 'src/locale/locale.dart' show Locale;
+Weekday getFirstDayOfWeek4X(Locale locale) =>
+    throw UnimplementedError('Cannot use ICU4X in web environments.');

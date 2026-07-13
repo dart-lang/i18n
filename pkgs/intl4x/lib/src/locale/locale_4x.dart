@@ -5,7 +5,7 @@
 import 'package:icu4x/icu4x.dart' as icu;
 
 import '../datetime_format/datetime_format_options.dart' show ClockStyle;
-import '../options.dart' show Calendar, NumberingSystem, Weekday;
+import '../options.dart' show Calendar, NumberingSystem;
 import 'locale.dart';
 
 class Locale4x implements Locale {
@@ -17,12 +17,6 @@ class Locale4x implements Locale {
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
-
-  @override
-  Weekday get firstDayOfWeek {
-    final weekInfo = icu.WeekInformation(_locale);
-    return Weekday.values[weekInfo.firstWeekday.index];
-  }
 
   @override
   String toString() => toLanguageTag();
