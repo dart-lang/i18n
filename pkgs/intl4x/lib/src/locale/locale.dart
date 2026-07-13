@@ -21,6 +21,16 @@ abstract class Locale {
   /// Constructs a [Locale] by parsing a BCP47 language tag.
   static Locale parse(String s) => parseLocale(s);
 
+  /// Constructs a [Locale] by parsing a BCP47 language tag, or returns `null`
+  /// if parsing fails.
+  static Locale? tryParse(String s) {
+    try {
+      return parse(s);
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// Returns a new `Locale` with the given `calendar`.
   Locale withCalendar(Calendar calendar);
 
