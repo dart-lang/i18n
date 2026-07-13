@@ -65,29 +65,20 @@ final class PluralRules {
 
   T selectFrom<T extends Object?>(
     num count, {
-    required Locale locale,
     T? zero,
     T? one,
     T? two,
     T? few,
     T? many,
     required T other,
-  }) {
-    switch (select(count)) {
-      case PluralCategory.zero:
-        return zero ?? other;
-      case PluralCategory.one:
-        return one ?? other;
-      case PluralCategory.two:
-        return two ?? other;
-      case PluralCategory.few:
-        return few ?? other;
-      case PluralCategory.many:
-        return many ?? other;
-      case PluralCategory.other:
-        return other;
-    }
-  }
+  }) => switch (select(count)) {
+    PluralCategory.zero => zero ?? other,
+    PluralCategory.one => one ?? other,
+    PluralCategory.two => two ?? other,
+    PluralCategory.few => few ?? other,
+    PluralCategory.many => many ?? other,
+    PluralCategory.other => other,
+  };
 }
 
 /// Defines the locale-specific grammatical categories for plural forms.
