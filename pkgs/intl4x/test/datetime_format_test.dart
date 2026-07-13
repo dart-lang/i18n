@@ -83,6 +83,37 @@ void main() {
         matches(r'3\sAM'),
       ),
     );
+    testWithFormatting(
+      'e',
+      () => expect(
+        DateTimeFormat.weekday(
+          locale: Locale.parse('en-US'),
+          length: DateTimeLength.long,
+        ).format(dateTime),
+        'Thursday',
+      ),
+    );
+    testWithFormatting(
+      'mde',
+      () => expect(
+        DateTimeFormat.monthDayWeekday(
+          locale: Locale.parse('en-US'),
+          length: DateTimeLength.long,
+        ).format(dateTime),
+        'Thursday, December 20',
+      ),
+    );
+    testWithFormatting(
+      'ym',
+      () => expect(
+        DateTimeFormat.yearMonth(
+          locale: Locale.parse('en-US'),
+          length: DateTimeLength.long,
+          yearStyle: YearStyle.full,
+        ).format(dateTime),
+        'December 2012',
+      ),
+    );
   });
 
   group('timezone ymd', () {
