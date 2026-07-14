@@ -1,3 +1,7 @@
+## 1.0.0-alpha.3-wip
+
+- Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
+
 ## 1.0.0-alpha.2
 
 - Add `locale.dart` entrypoint exposing only `Locale`.
