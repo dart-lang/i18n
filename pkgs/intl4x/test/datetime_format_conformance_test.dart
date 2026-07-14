@@ -108,7 +108,7 @@ void testFormatter(
     >
   >
   options,
-  DateTimeFormatterStandalone Function({
+  DateTimeFormat Function({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,

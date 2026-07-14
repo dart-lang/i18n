@@ -111,7 +111,7 @@ void main() {
 
 void writeFor(
   String type,
-  DateTimeFormatterStandalone Function({
+  DateTimeFormat Function({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
