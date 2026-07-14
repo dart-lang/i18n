@@ -1,6 +1,7 @@
 ## 1.0.0-alpha.3-wip
 
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
+- Add `selectFrom` to plurals.
 
 ## 1.0.0-alpha.2
 
