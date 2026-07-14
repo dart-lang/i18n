@@ -26,9 +26,7 @@ abstract class Locale {
   static Locale? tryParse(String s) {
     try {
       return parse(s);
-    } on Error {
-      rethrow;
-    } catch (_) {
+    } on Exception {
       return null;
     }
   }
