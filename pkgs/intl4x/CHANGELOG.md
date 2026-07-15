@@ -1,6 +1,7 @@
 ## 1.0.0-alpha.3-wip
 
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
+- Add more `DateTimeFormat`s.
 
 ## 1.0.0-alpha.2
 
