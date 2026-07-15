@@ -49,10 +49,7 @@ final class PluralRules {
   /// [other] if that category value is not specified.
   ///
   /// Example for English (`en-US`):
-  /// ```dart
-  /// rules.select(1, one: 'cat', other: 'cats') // returns 'cat'
-  /// rules.select(2, one: 'cat', other: 'cats') // returns 'cats'
-  /// ```
+  /// {@example ../../../example/docs/plural_rules.dart#plural_rules}
   T select<T extends Object?>(
     num count, {
     T? zero,

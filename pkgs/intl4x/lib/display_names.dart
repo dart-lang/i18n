@@ -9,27 +9,10 @@
 /// [Style], [LanguageDisplay], or [Fallback].
 ///
 /// Languages:
-/// ```dart
-/// // Display the name of the language German in English
-/// DisplayNames(locale: Locale.parse('en-US'))
-///   .ofLocale(Locale.parse('de-DE')); // German (Germany)
-///
-/// // Display the name of the language French in Chinese
-/// DisplayNames(locale: Locale.parse('zh-Hant'))
-///   .ofLocale(Locale.parse('fr')); // 法文
-/// ```
+/// {@example ../example/docs/display_names.dart#display_names_languages}
 ///
 /// Regions:
-/// ```dart
-/// // Display the name of the region es-419, Latin America, in English
-/// DisplayNames(locale: Locale.parse('en'))
-///   .ofRegion('419'); // Latin America
-///
-/// // Display the name of the region Germany in Spanish
-/// DisplayNames(locale: Locale.parse('es-419'))
-///   .ofRegion('DE'); // Alemania
-/// ```
-///
+/// {@example ../example/docs/display_names.dart#display_names_regions}
 ///
 library;
 

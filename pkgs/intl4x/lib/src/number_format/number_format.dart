@@ -111,13 +111,7 @@ final class NumberFormat {
   ///   significant digits.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/number_format.dart';
-  ///
-  /// void main() {
-  ///   print(NumberFormat.compact().format(1234567)); // Prints '1.2M'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/number_format.dart#number_format_compact}
   //TODO: implement in ICU4X
   NumberFormat.compact({
     Locale? locale,

@@ -4,20 +4,7 @@
 
 /// Provides locale-sensitive string comparison.
 ///
-/// ```dart
-/// import 'package:intl4x/collation.dart';
-///
-/// void main() {
-///   print('a'.compareLocale('b')); // Prints -1
-///   print('ä'.compareLocale('z', locale: Locale('de'))); // Prints -1
-///   print('ä'.compareLocale('z', locale: Locale('sv'))); // Prints 1
-///
-///   final collation = Collation(locale: Locale('de'));
-///   final list = ['a', 'ä', 'b'];
-///   list.sort(collation.compare);
-///   print(list); // Prints [a, b, ä]
-/// }
-/// ```
+/// {@example ../example/docs/collation.dart#collation}
 ///
 /// Available either as an extension on [String], or through the
 /// [Collation] class.
