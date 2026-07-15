@@ -1,5 +1,5 @@
 name: intl_translation
-version: 0.21.1-wip
+version: 0.22.0
 description: >-
   Contains code to deal with internationalized/localized messages,
   date and number formatting and parsing, bi-directional text, and
@@ -15,11 +15,11 @@ environment:
   sdk: ^3.9.0
 
 dependencies:
-  analyzer: ^13.3.0
+  analyzer: ^14.0.0
   args: ^2.7.0
   dart_style: ^3.1.2
   intl: ^0.20.2
-  package_config: ^2.2.0
+  package_config: ^3.0.0
   path: ^1.9.1
   pub_semver: ^2.2.0
 
