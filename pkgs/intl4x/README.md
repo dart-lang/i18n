@@ -136,7 +136,7 @@ void main() {
 
 ### Plural Rules
 
-Select the correct plural category for a given number based on locale rules (e.g., `one`, `few`, `many`).
+Select the correct plural form for a given number based on locale rules.
 
 ```dart
 import 'package:intl4x/plural_rules.dart';
@@ -147,10 +147,12 @@ void main() {
     type: PluralType.ordinal,
   );
 
-  print(rules.select(1)); // PluralCategory.one (st)
-  print(rules.select(2)); // PluralCategory.two (nd)
-  print(rules.select(3)); // PluralCategory.few (rd)
-  print(rules.select(4)); // PluralCategory.other (th)
+  String numberPlural(int i) => rules.select(i, one: 'st', two: 'nd', few: 'rd', other: 'th');
+
+  print(numberPlural(1)); // 'st'
+  print(numberPlural(2)); // 'nd'
+  print(numberPlural(3)); // 'rd'
+  print(numberPlural(4)); // 'th'
 }
 ```
 

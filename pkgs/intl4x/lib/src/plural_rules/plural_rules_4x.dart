@@ -5,7 +5,6 @@
 import 'package:icu4x/icu4x.dart' as icu;
 import '../locale/locale.dart';
 import '../locale/locale_4x.dart';
-import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 

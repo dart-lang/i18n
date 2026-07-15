@@ -5,7 +5,6 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
