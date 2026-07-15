@@ -42,27 +42,33 @@ final class PluralRules {
          ),
        );
 
-  /// Returns the appropriate [PluralCategory] for the given [number].
+  /// Returns the appropriate plural form for [count] among the options.
+  ///
+  /// Evaluates the locale's plural category for [count] and returns the
+  /// corresponding value ([zero], [one], [two], [few], [many]), falling back to
+  /// [other] if that category value is not specified.
   ///
   /// Example for English (`en-US`):
   /// ```dart
-  /// PluralRules(locale: Locale.parse('en-US'))
-  ///   .select(1) == PluralCategory.one
-  /// PluralRules(locale: Locale.parse('en-US'))
-  ///   .select(2) == PluralCategory.other
+  /// rules.select(1, one: 'cat', other: 'cats') // returns 'cat'
+  /// rules.select(2, one: 'cat', other: 'cats') // returns 'cats'
   /// ```
-  /// Example for a language like Polish (`pl`), which has a 'few' category:
-  /// ```dart
-  /// PluralRules(locale: Locale.parse('pl')).select(3) == PluralCategory.few
-  /// ```
-  PluralCategory select(num number) {
-    if (isInTest) {
-      return PluralCategory.other;
-    } else {
-      return _pluralRulesImpl.selectImpl(number);
-    }
-  }
+  T select<T extends Object?>(
+    num count, {
+    T? zero,
+    T? one,
+    T? two,
+    T? few,
+    T? many,
+    required T other,
+  }) => isInTest
+      ? other
+      : switch (_pluralRulesImpl.selectImpl(count)) {
+          PluralCategory.zero => zero ?? other,
+          PluralCategory.one => one ?? other,
+          PluralCategory.two => two ?? other,
+          PluralCategory.few => few ?? other,
+          PluralCategory.many => many ?? other,
+          PluralCategory.other => other,
+        };
 }
-
-/// Defines the locale-specific grammatical categories for plural forms.
-enum PluralCategory { zero, one, two, few, many, other }
