@@ -36,5 +36,18 @@ void main() {
       ).withClockStyle(ClockStyle.oneToTwelve);
       expect(locale.toLanguageTag(), 'en-US-u-hc-h12');
     });
+
+    group('tryParse', () {
+      test('valid locale', () {
+        final locale = Locale.tryParse('en-US');
+        expect(locale, isNotNull);
+        expect(locale?.toLanguageTag(), 'en-US');
+      });
+
+      test('invalid locale', () {
+        final locale = Locale.tryParse('invalid_locale_#@!');
+        expect(locale, isNull);
+      });
+    });
   });
 }
