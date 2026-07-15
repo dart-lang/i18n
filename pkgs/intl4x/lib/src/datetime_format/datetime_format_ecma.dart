@@ -8,7 +8,6 @@ import 'dart:js_interop_unsafe';
 import 'package:collection/collection.dart' show IterableExtension;
 
 import '../locale/locale.dart';
-import '../options.dart';
 import 'datetime_format_impl.dart';
 import 'datetime_format_options.dart';
 
@@ -237,9 +236,17 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       );
 
   @override
+  FormatterImpl e({DateTimeLength? length}) => _FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(weekday: _weekday(length)),
+    locale,
+  );
+
+  @override
   FormatterStandaloneImpl m({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
+    bool standalone = true,
   }) => _FormatterStandaloneECMA._(
     this,
     _DateTimeJSOptions.from(month: _monthStyle(alignment, length)),
@@ -253,6 +260,18 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
         _DateTimeJSOptions.from(
           month: _monthStyle(alignment, length),
           day: _dayStyle(alignment, length),
+        ),
+        locale,
+      );
+
+  @override
+  FormatterImpl mde({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      _FormatterECMA._(
+        this,
+        _DateTimeJSOptions.from(
+          month: _monthStyle(alignment, length),
+          day: _dayStyle(alignment, length),
+          weekday: _weekday(length),
         ),
         locale,
       );
@@ -283,6 +302,21 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
+    ),
+    locale,
+  );
+
+  @override
+  FormatterImpl ym({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => _FormatterECMA._(
+    this,
+    _DateTimeJSOptions.from(
+      year: _yearStyle(length, alignment, yearStyle),
+      yearStyle: yearStyle,
+      month: _monthStyle(alignment, length),
     ),
     locale,
   );
