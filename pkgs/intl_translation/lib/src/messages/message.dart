@@ -80,7 +80,7 @@ abstract class Message {
   static final _evaluator = ConstantEvaluator();
 
   static String? _evaluateAsString(Expression expression) {
-    var result = expression.accept(_evaluator);
+    var result = expression.accept2(_evaluator);
     if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! String) {
       return null;
     } else {
@@ -89,7 +89,7 @@ abstract class Message {
   }
 
   static Map? _evaluateAsMap(Expression expression) {
-    var result = expression.accept(_evaluator);
+    var result = expression.accept2(_evaluator);
     if (result == ConstantEvaluator.NOT_A_CONSTANT || result is! Map) {
       return null;
     } else {
