@@ -41,22 +41,22 @@ class TimeFormatterX extends FormatterImpl {
   TimeFormatterZonedX withTimeZoneShort() => TimeFormatterZonedX.short(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLong() => TimeFormatterZonedX.long(this);
+  ZonedDateTimeFormat withTimeZoneLong() => TimeFormatterZonedX.long(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShortOffset() =>
+  ZonedDateTimeFormat withTimeZoneShortOffset() =>
       TimeFormatterZonedX.shortOffset(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLongOffset() =>
+  ZonedDateTimeFormat withTimeZoneLongOffset() =>
       TimeFormatterZonedX.longOffset(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
+  ZonedDateTimeFormat withTimeZoneShortGeneric() =>
       TimeFormatterZonedX.shortGeneric(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
+  ZonedDateTimeFormat withTimeZoneLongGeneric() =>
       TimeFormatterZonedX.longGeneric(this);
 }
 

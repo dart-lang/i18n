@@ -22,21 +22,21 @@
 /// * [DateTimeFormat.time]
 ///
 /// and the zoned variants through
-/// * [ZonedDateTimeFormat.withTimeZoneShort]
-/// * [ZonedDateTimeFormat.withTimeZoneLong]
-/// * [ZonedDateTimeFormat.withTimeZoneShortOffset]
-/// * [ZonedDateTimeFormat.withTimeZoneLongOffset]
-/// * [ZonedDateTimeFormat.withTimeZoneShortGeneric]
-/// * [ZonedDateTimeFormat.withTimeZoneLongGeneric]
+/// * [ZoneableDateTimeFormat.withTimeZoneShort]
+/// * [ZoneableDateTimeFormat.withTimeZoneLong]
+/// * [ZoneableDateTimeFormat.withTimeZoneShortOffset]
+/// * [ZoneableDateTimeFormat.withTimeZoneLongOffset]
+/// * [ZoneableDateTimeFormat.withTimeZoneShortGeneric]
+/// * [ZoneableDateTimeFormat.withTimeZoneLongGeneric]
 library;
 
 import 'src/datetime_format/datetime_format.dart'
-    show DateTimeFormat, ZonedDateTimeFormat;
+    show DateTimeFormat, ZoneableDateTimeFormat;
 
 export 'src/datetime_format/datetime_format.dart'
-    show DateTimeFormat, ZonedDateTimeFormat;
+    show DateTimeFormat, ZoneableDateTimeFormat;
 export 'src/datetime_format/datetime_format_impl.dart'
-    show ZonedDateTimeFormatter;
+    show ZonedDateTimeFormat;
 export 'src/datetime_format/datetime_format_options.dart'
     show
         Calendar,

@@ -127,30 +127,30 @@ class DateFormatterX extends FormatterImpl {
       formatter.formatIso(datetime.toX.$1);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShort() => DateFormatterZonedX.short(this);
+  ZonedDateTimeFormat withTimeZoneShort() => DateFormatterZonedX.short(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLong() => DateFormatterZonedX.long(this);
+  ZonedDateTimeFormat withTimeZoneLong() => DateFormatterZonedX.long(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShortOffset() =>
+  ZonedDateTimeFormat withTimeZoneShortOffset() =>
       DateFormatterZonedX.shortOffset(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLongOffset() =>
+  ZonedDateTimeFormat withTimeZoneLongOffset() =>
       DateFormatterZonedX.longOffset(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
+  ZonedDateTimeFormat withTimeZoneShortGeneric() =>
       DateFormatterZonedX.shortGeneric(this);
 
   @override
-  ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
+  ZonedDateTimeFormat withTimeZoneLongGeneric() =>
       DateFormatterZonedX.longGeneric(this);
 }
 
 /// Wraps an [icu.DateFormatter]
-class DateFormatterUX extends FormatterStandaloneImpl {
+class DateFormatterUX extends FormatImpl {
   final icu.DateFormatter formatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
