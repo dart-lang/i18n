@@ -71,8 +71,7 @@ class DateTimeFormatterX extends FormatterImpl {
       DateTimeFormatterZonedX.short(this);
 
   @override
-  ZonedDateTimeFormat withTimeZoneLong() =>
-      DateTimeFormatterZonedX.long(this);
+  ZonedDateTimeFormat withTimeZoneLong() => DateTimeFormatterZonedX.long(this);
 
   @override
   ZonedDateTimeFormat withTimeZoneShortOffset() =>

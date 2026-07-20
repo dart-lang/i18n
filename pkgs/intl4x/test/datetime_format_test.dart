@@ -13,7 +13,7 @@ void main() {
     testWithFormatting('DateTimeFormat dot shorthand', () {
       // Showcase the dot shorthand
       // ignore: omit_local_variable_types
-      final DateTimeFormat formatter = .year(
+      final DateTimeFormat formatter = DateTimeFormat.year(
         locale: Locale.parse('en-US'),
         yearStyle: YearStyle.full,
       );
@@ -23,7 +23,7 @@ void main() {
     testWithFormatting(
       'DateTimeFormat dot shorthand for ZonedDateTimeFormat',
       () {
-        final DateTimeFormat formatter = .yearMonthDay(
+        final DateTimeFormat formatter = DateTimeFormat.yearMonthDay(
           locale: Locale.parse('en-US'),
           yearStyle: YearStyle.full,
         );

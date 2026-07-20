@@ -35,8 +35,7 @@ import 'src/datetime_format/datetime_format.dart'
 
 export 'src/datetime_format/datetime_format.dart'
     show DateTimeFormat, ZoneableDateTimeFormat;
-export 'src/datetime_format/datetime_format_impl.dart'
-    show ZonedDateTimeFormat;
+export 'src/datetime_format/datetime_format_impl.dart' show ZonedDateTimeFormat;
 export 'src/datetime_format/datetime_format_options.dart'
     show
         Calendar,
