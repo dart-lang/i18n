@@ -9,6 +9,6 @@ void main() {
   final collation = Collation(locale: Locale.parse('de'));
   final list = ['a', 'ä', 'b'];
   list.sort(collation.compare);
-  print(list); // Prints [a, b, ä]
+  print(list); // [a, b, ä]
   // #endregion collation
 }

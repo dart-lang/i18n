@@ -6,6 +6,6 @@ import 'package:intl4x/list_format.dart';
 
 void main() {
   // #region list_format
-  print(['A', 'B', 'C'].joinAnd()); // Prints 'A, B, and C'
+  print(['A', 'B', 'C'].joinAnd()); // A, B, and C
   // #endregion list_format
 }

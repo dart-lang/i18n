@@ -12,6 +12,8 @@ void main() {
     locale: Locale.parse('en'),
     length: DateTimeLength.long,
   ).withTimeZoneLong();
-  print(formatter.format(dateTime, timeZone));
+  print(
+    formatter.format(dateTime, timeZone),
+  ); // July 1, 2024 at 8:50:07 AM Central European Summer Time
   // #endregion datetime_format
 }

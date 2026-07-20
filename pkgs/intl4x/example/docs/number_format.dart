@@ -11,10 +11,10 @@ void main() {
     roundingMode: RoundingMode.ceil,
     digits: const Digits.withFractionDigits(maximum: 1),
   );
-  print(numberFormat.format(3.14)); // prints '3.2'
+  print(numberFormat.format(3.14)); // 3.2
   // #endregion number_format
 
   // #region number_format_compact
-  print(NumberFormat.compact().format(1234567));
+  print(NumberFormat.compact().format(1234567)); // 1.2M
   // #endregion number_format_compact
 }

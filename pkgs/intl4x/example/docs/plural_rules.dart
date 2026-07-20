@@ -7,6 +7,8 @@ import 'package:intl4x/plural_rules.dart';
 void main() {
   // #region plural_rules
   final rules = PluralRules(locale: Locale.parse('en-US'));
-  print(rules.select(3, one: 'item', other: 'items')); // prints 'items'
+  print(rules.select(2, one: 'message', other: 'messages')); // messages
+  print(rules.select(1, one: 'message', other: 'messages')); // message
+  print(rules.select(0, one: 'message', other: 'messages')); // messages
   // #endregion plural_rules
 }
