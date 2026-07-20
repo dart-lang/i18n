@@ -168,6 +168,23 @@ sealed class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).d(alignment: alignment, length: length);
 
+  /// Formatting just the weekday.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.weekday().format(date)); // Output: 'Friday'
+  /// }
+  /// ```
+  static ZonedDateTimeFormat weekday({
+    Locale? locale,
+    DateTimeLength? length,
+  }) =>
+      DateTimeFormatImpl.build(locale ?? findSystemLocale()).e(length: length);
+
   /// Formatting just the month.
   ///
   /// Example:
@@ -206,6 +223,25 @@ sealed class DateTimeFormat {
     locale ?? findSystemLocale(),
   ).md(alignment: alignment, length: length);
 
+  /// Formatting the month, day, and weekday.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.monthDayWeekday().format(date)); // Output: 'Fri, Dec 17'
+  /// }
+  /// ```
+  static ZonedDateTimeFormat monthDayWeekday({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).mde(alignment: alignment, length: length);
+
   /// Formatting just the year.
   ///
   /// Example:
@@ -225,6 +261,26 @@ sealed class DateTimeFormat {
   }) => DateTimeFormatImpl.build(
     locale ?? findSystemLocale(),
   ).y(alignment: alignment, length: length, yearStyle: yearStyle);
+
+  /// Formatting the year and month.
+  ///
+  /// Example:
+  /// ```dart
+  /// import 'package:intl4x/datetime_format.dart';
+  ///
+  /// void main() {
+  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
+  ///   print(DateTimeFormat.yearMonth().format(date)); // Output: 'Dec 2021'
+  /// }
+  /// ```
+  static ZonedDateTimeFormat yearMonth({
+    Locale? locale,
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateTimeFormatImpl.build(
+    locale ?? findSystemLocale(),
+  ).ym(alignment: alignment, length: length, yearStyle: yearStyle);
 
   /// Formatting the year, month, and day.
   ///
