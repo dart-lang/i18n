@@ -7,6 +7,8 @@
 /// This is typically used for joining items with appropriate conjunctions
 /// (like 'and' or 'or') or punctuation (like commas).
 ///
+/// {@example ../example/docs/list_format.dart#list_format}
+///
 /// Available either as an extension on `List<String>`, or through the
 /// [ListFormat] class.
 library;

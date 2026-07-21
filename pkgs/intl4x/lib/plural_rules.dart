@@ -10,15 +10,8 @@
 /// 'two', 'few', 'many', and 'other'.
 ///
 /// Example:
-/// ```dart
-/// import 'package:intl4x/plural_rules.dart';
-///
-/// void main() {
-///   final rules = PluralRules(locale: Locale.parse('en-US'));
-///   print(rules.select(3, one: 'item', other: 'items')); // prints 'items'
-/// }
-/// ```
-///@docImport 'src/plural_rules/plural_rules.dart';
+/// {@example ../example/docs/plural_rules.dart#plural_rules}
+/// @docImport 'src/plural_rules/plural_rules.dart';
 library;
 
 export 'src/locale/locale.dart' show Locale;

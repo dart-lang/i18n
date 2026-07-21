@@ -3,6 +3,7 @@
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
+- Add doc examples using dartdoc `{@example}` directive.
 
 ## 1.0.0-alpha.2
 

@@ -7,22 +7,7 @@
 /// Use the [DateTimeFormat] class to format dates and times in a
 /// locale-sensitive manner.
 ///
-/// ```dart
-/// import 'package:intl4x/datetime_format.dart';
-///
-/// void main() {
-///   final timeZone = 'Europe/Paris';
-///   final dateTime = DateTime.parse('2024-07-01T08:50:07');
-///
-///   final formatter = DateTimeFormat.yearMonthDayTime(
-///     locale: Locale.parse('en'),
-///     length: DateTimeLength.long,
-///   ).withTimeZoneShort();
-///   print(
-///     formatter.format(dateTime, timeZone),
-///   ); // prints 'July 1, 2024 at 8:50:07 AM GMT+2'
-/// }
-/// ```
+/// {@example ../example/docs/datetime_format.dart#datetime_format}
 ///
 /// The formatters are
 /// * [DateTimeFormat.day]
