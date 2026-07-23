@@ -13,23 +13,12 @@ void main() {
     testWithFormatting('DateTimeFormat dot shorthand', () {
       // Showcase the dot shorthand
       // ignore: omit_local_variable_types
-      final DateTimeFormat formatter = DateTimeFormat.year(
+      final DateTimeFormatUnzoneable formatter = DateTimeFormat.year(
         locale: Locale.parse('en-US'),
         yearStyle: YearStyle.full,
       );
       expect(formatter.format(dateTime), '2012');
     });
-
-    testWithFormatting(
-      'DateTimeFormat dot shorthand for ZonedDateTimeFormat',
-      () {
-        final DateTimeFormat formatter = DateTimeFormat.yearMonthDay(
-          locale: Locale.parse('en-US'),
-          yearStyle: YearStyle.full,
-        );
-        expect(formatter.format(dateTime), '12/20/2012');
-      },
-    );
   });
 
   group('Basic', () {

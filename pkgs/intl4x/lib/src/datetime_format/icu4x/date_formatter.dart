@@ -9,7 +9,7 @@ import '../datetime_format_options.dart';
 import 'datetime_format_4x.dart';
 
 /// Wraps an [icu.DateFormatter]
-class DateFormatterX extends FormatterImpl {
+class DateFormatterX implements FormatterImpl {
   final icu.DateFormatter formatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
@@ -23,8 +23,7 @@ class DateFormatterX extends FormatterImpl {
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.m(
     this.impl,
@@ -35,8 +34,7 @@ class DateFormatterX extends FormatterImpl {
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.md(
     this.impl,
@@ -47,12 +45,10 @@ class DateFormatterX extends FormatterImpl {
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.e(this.impl, this.localeX, icu.DateTimeLength? length)
-    : formatter = icu.DateFormatter.e(localeX, length),
-      super(impl);
+    : formatter = icu.DateFormatter.e(localeX, length);
 
   DateFormatterX.mde(
     this.impl,
@@ -63,8 +59,7 @@ class DateFormatterX extends FormatterImpl {
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.ym(
     this.impl,
@@ -77,8 +72,7 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.y(
     this.impl,
@@ -91,8 +85,7 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.ymd(
     this.impl,
@@ -105,8 +98,7 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   DateFormatterX.ymde(
     this.impl,
@@ -119,71 +111,21 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   @override
-  String formatInternal(DateTime datetime) =>
-      formatter.formatIso(datetime.toX.$1);
+  String format(DateTime datetime) => formatter.formatIso(datetime.toX.$1);
 
   @override
-  ZonedDateTimeFormat withTimeZoneShort() => DateFormatterZonedX.short(this);
-
-  @override
-  ZonedDateTimeFormat withTimeZoneLong() => DateFormatterZonedX.long(this);
-
-  @override
-  ZonedDateTimeFormat withTimeZoneShortOffset() =>
-      DateFormatterZonedX.shortOffset(this);
-
-  @override
-  ZonedDateTimeFormat withTimeZoneLongOffset() =>
-      DateFormatterZonedX.longOffset(this);
-
-  @override
-  ZonedDateTimeFormat withTimeZoneShortGeneric() =>
-      DateFormatterZonedX.shortGeneric(this);
-
-  @override
-  ZonedDateTimeFormat withTimeZoneLongGeneric() =>
-      DateFormatterZonedX.longGeneric(this);
-}
-
-/// Wraps an [icu.DateFormatter]
-class DateFormatterUX extends FormatImpl {
-  final icu.DateFormatter formatter;
-  final DateTimeFormatImpl impl;
-  final icu.Locale localeX;
-
-  DateFormatterUX.m(
-    this.impl,
-    this.localeX,
-    icu.DateTimeAlignment? alignment,
-    icu.DateTimeLength? length,
-  ) : formatter = icu.DateFormatter.m(
-        localeX,
-        alignment: alignment,
-        length: length ?? icu.DateTimeLength.short,
-      ),
-      super(impl);
-
-  DateFormatterUX.y(
-    this.impl,
-    this.localeX,
-    icu.DateTimeAlignment? alignment,
-    icu.DateTimeLength? length,
-    icu.YearStyle? yearStyle,
-  ) : formatter = icu.DateFormatter.y(
-        localeX,
-        alignment: alignment,
-        length: length ?? icu.DateTimeLength.short,
-        yearStyle: yearStyle,
-      ),
-      super(impl);
-
-  @override
-  String formatInternal(DateTime datetime) =>
-      formatter.formatIso(datetime.toX.$1);
+  ZonedDateTimeFormat withTimeZone(TimeZoneType timeZoneType) =>
+      switch (timeZoneType) {
+        TimeZoneType.short => DateFormatterZonedX.short(this),
+        TimeZoneType.long => DateFormatterZonedX.long(this),
+        TimeZoneType.shortOffset => DateFormatterZonedX.shortOffset(this),
+        TimeZoneType.longOffset => DateFormatterZonedX.longOffset(this),
+        TimeZoneType.shortGeneric => DateFormatterZonedX.shortGeneric(this),
+        TimeZoneType.longGeneric => DateFormatterZonedX.longGeneric(this),
+      };
 }
 
 /// Wraps an [icu.ZonedDateFormatter]

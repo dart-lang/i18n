@@ -30,13 +30,13 @@ abstract class DateTimeFormatImpl {
 
   FormatterImpl e({DateTimeLength? length});
 
-  FormatImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
+  FormatterImpl m({DateTimeAlignment? alignment, DateTimeLength? length});
 
   FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
 
   FormatterImpl mde({DateTimeAlignment? alignment, DateTimeLength? length});
 
-  FormatImpl y({
+  FormatterImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
@@ -87,26 +87,35 @@ abstract class DateTimeFormatImpl {
   });
 }
 
-abstract class FormatImpl extends DateTimeFormat {
-  final DateTimeFormatImpl _impl;
+abstract interface class FormatterImpl {
+  String format(DateTime datetime);
+  ZonedDateTimeFormat withTimeZone(TimeZoneType timeZoneType);
+}
 
-  FormatImpl(this._impl);
+abstract class DateTimeFormattable {
+  final FormatterImpl _impl;
+  final Locale _locale;
 
-  String formatInternal(DateTime datetime);
+  DateTimeFormattable(this._impl, this._locale);
 
-  @override
   String format(DateTime datetime) {
     if (isInTest) {
-      return '$datetime//${_impl.locale}';
+      return '$datetime//$_locale';
     } else {
-      return formatInternal(datetime);
+      return _impl.format(datetime);
     }
   }
 }
 
-abstract class FormatterImpl extends FormatImpl
-    implements ZoneableDateTimeFormat {
-  FormatterImpl(super.impl);
+mixin TimeZoneable {
+  ZonedDateTimeFormat withTimeZoneShort();
+  ZonedDateTimeFormat withTimeZoneLong();
+  ZonedDateTimeFormat withTimeZoneShortOffset();
+  ZonedDateTimeFormat withTimeZoneLongOffset();
+  ZonedDateTimeFormat withTimeZoneShortGeneric();
+  ZonedDateTimeFormat withTimeZoneLongGeneric();
+
+  ZonedDateTimeFormat withTZLong() => withTimeZoneLong();
 }
 
 abstract class FormatterZonedImpl extends ZonedDateTimeFormat {
@@ -129,9 +138,9 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormat {
 
 /// A base class for formatters that can format a [DateTime] into a string.
 ///
-/// Most formatters are [ZoneableDateTimeFormat]s that can also format with time
-/// zone information. Only the formatters for year and month are standalone and
-/// do not support time zones, returning [DateTimeFormat].
+/// Most formatters are [DateTimeFormat]s that can also format with time
+/// zone information. Formatters for year and month are
+/// [DateTimeFormatUnzoneable] and do not support time zones.
 ///
 /// Example:
 /// ```dart
@@ -141,10 +150,32 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormat {
 ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
 /// }
 /// ```
-sealed class DateTimeFormat {
-  /// Formats the given [datetime] into a string according to the formatter's
-  /// configured locale and options.
-  String format(DateTime datetime);
+class DateTimeFormat extends DateTimeFormattable with TimeZoneable {
+  DateTimeFormat._(super._impl, super._locale);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneShort() =>
+      _impl.withTimeZone(TimeZoneType.short);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneLong() =>
+      _impl.withTimeZone(TimeZoneType.long);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneShortOffset() =>
+      _impl.withTimeZone(TimeZoneType.shortOffset);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneLongOffset() =>
+      _impl.withTimeZone(TimeZoneType.longOffset);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneShortGeneric() =>
+      _impl.withTimeZone(TimeZoneType.shortGeneric);
+
+  @override
+  ZonedDateTimeFormat withTimeZoneLongGeneric() =>
+      _impl.withTimeZone(TimeZoneType.longGeneric);
 
   /// Formatting just the day.
   ///
@@ -157,13 +188,16 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.day().format(date)); // Output: '17'
   /// }
   /// ```
-  static ZoneableDateTimeFormat day({
+  static DateTimeFormat day({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
-  }) => DateTimeFormatImpl.build(
+  }) => DateTimeFormat._(
+    DateTimeFormatImpl.build(
+      locale ?? findSystemLocale(),
+    ).d(alignment: alignment, length: length),
     locale ?? findSystemLocale(),
-  ).d(alignment: alignment, length: length);
+  );
 
   /// Formatting just the weekday.
   ///
@@ -176,11 +210,11 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.weekday().format(date)); // Output: 'Friday'
   /// }
   /// ```
-  static ZoneableDateTimeFormat weekday({
-    Locale? locale,
-    DateTimeLength? length,
-  }) =>
-      DateTimeFormatImpl.build(locale ?? findSystemLocale()).e(length: length);
+  static DateTimeFormat weekday({Locale? locale, DateTimeLength? length}) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(impl.e(length: length), loc);
+  }
 
   /// Formatting just the month.
   ///
@@ -193,13 +227,18 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
   /// }
   /// ```
-  static DateTimeFormat month({
+  static DateTimeFormatUnzoneable month({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).m(alignment: alignment, length: length);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormatUnzoneable._(
+      impl.m(alignment: alignment, length: length),
+      loc,
+    );
+  }
 
   /// Formatting the month and day.
   ///
@@ -212,13 +251,15 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
   /// }
   /// ```
-  static ZoneableDateTimeFormat monthDay({
+  static DateTimeFormat monthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).md(alignment: alignment, length: length);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(impl.md(alignment: alignment, length: length), loc);
+  }
 
   /// Formatting the month, day, and weekday.
   ///
@@ -231,13 +272,18 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.monthDayWeekday().format(date)); // Output: 'Fri, Dec 17'
   /// }
   /// ```
-  static ZoneableDateTimeFormat monthDayWeekday({
+  static DateTimeFormat monthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).mde(alignment: alignment, length: length);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.mde(alignment: alignment, length: length),
+      loc,
+    );
+  }
 
   /// Formatting just the year.
   ///
@@ -250,14 +296,19 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
   /// }
   /// ```
-  static DateTimeFormat year({
+  static DateTimeFormatUnzoneable year({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).y(alignment: alignment, length: length, yearStyle: yearStyle);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormatUnzoneable._(
+      impl.y(alignment: alignment, length: length, yearStyle: yearStyle),
+      loc,
+    );
+  }
 
   /// Formatting the year and month.
   ///
@@ -270,14 +321,19 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonth().format(date)); // Output: 'Dec 2021'
   /// }
   /// ```
-  static ZoneableDateTimeFormat yearMonth({
+  static DateTimeFormat yearMonth({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).ym(alignment: alignment, length: length, yearStyle: yearStyle);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.ym(alignment: alignment, length: length, yearStyle: yearStyle),
+      loc,
+    );
+  }
 
   /// Formatting the year, month, and day.
   ///
@@ -290,14 +346,19 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
   /// }
   /// ```
-  static ZoneableDateTimeFormat yearMonthDay({
+  static DateTimeFormat yearMonthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).ymd(alignment: alignment, length: length, yearStyle: yearStyle);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.ymd(alignment: alignment, length: length, yearStyle: yearStyle),
+      loc,
+    );
+  }
 
   /// Formatting the year, month, day, and weekday.
   ///
@@ -310,14 +371,19 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
   /// }
   /// ```
-  static ZoneableDateTimeFormat yearMonthDayWeekday({
+  static DateTimeFormat yearMonthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).ymde(alignment: alignment, length: length, yearStyle: yearStyle);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.ymde(alignment: alignment, length: length, yearStyle: yearStyle),
+      loc,
+    );
+  }
 
   /// Formatting the month, day, and time.
   ///
@@ -330,14 +396,23 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
   /// }
   /// ```
-  static ZoneableDateTimeFormat monthDayTime({
+  static DateTimeFormat monthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).mdt(alignment: alignment, length: length, timePrecision: timePrecision);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.mdt(
+        alignment: alignment,
+        length: length,
+        timePrecision: timePrecision,
+      ),
+      loc,
+    );
+  }
 
   /// Formatting the year, month, day, and time.
   ///
@@ -350,18 +425,25 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
-  static ZoneableDateTimeFormat yearMonthDayTime({
+  static DateTimeFormat yearMonthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdt(
-    alignment: alignment,
-    length: length,
-    timePrecision: timePrecision,
-    yearStyle: yearStyle,
-  );
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.ymdt(
+        alignment: alignment,
+        length: length,
+        timePrecision: timePrecision,
+        yearStyle: yearStyle,
+      ),
+      loc,
+    );
+  }
 
   /// Formatting the year, month, day, weekday, and time.
   ///
@@ -374,18 +456,25 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
   /// }
   /// ```
-  static ZoneableDateTimeFormat yearMonthDayWeekdayTime({
+  static DateTimeFormat yearMonthDayWeekdayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
     YearStyle? yearStyle,
-  }) => DateTimeFormatImpl.build(locale ?? findSystemLocale()).ymdet(
-    alignment: alignment,
-    length: length,
-    timePrecision: timePrecision,
-    yearStyle: yearStyle,
-  );
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.ymdet(
+        alignment: alignment,
+        length: length,
+        timePrecision: timePrecision,
+        yearStyle: yearStyle,
+      ),
+      loc,
+    );
+  }
 
   /// Formatting just the time.
   ///
@@ -398,53 +487,27 @@ sealed class DateTimeFormat {
   ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
   /// }
   /// ```
-  static ZoneableDateTimeFormat time({
+  static DateTimeFormat time({
     Locale? locale,
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     TimePrecision? timePrecision,
-  }) => DateTimeFormatImpl.build(
-    locale ?? findSystemLocale(),
-  ).t(alignment: alignment, length: length, timePrecision: timePrecision);
+  }) {
+    final loc = locale ?? findSystemLocale();
+    final impl = DateTimeFormatImpl.build(loc);
+    return DateTimeFormat._(
+      impl.t(
+        alignment: alignment,
+        length: length,
+        timePrecision: timePrecision,
+      ),
+      loc,
+    );
+  }
 }
 
-/// Formatters that can format a [DateTime] with time zone information.
-///
-/// This class extends [DateTimeFormat] and provides additional
-/// methods to format dates and times with time zone information.
-///
-/// Example:
-/// ```dart
-/// import 'package:intl4x/datetime_format.dart';
-/// void main() {
-///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-///   print(DateTimeFormat.year().format(date)); // Output: '2021'
-/// }
-/// ```
-sealed class ZoneableDateTimeFormat extends DateTimeFormat {
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// short time zone name.
-  ZonedDateTimeFormat withTimeZoneShort();
-
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// long time zone name.
-  ZonedDateTimeFormat withTimeZoneLong();
-
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// short localized GMT format (e.g. "GMT-8").
-  ZonedDateTimeFormat withTimeZoneShortOffset();
-
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// long localized GMT format (e.g. "GMT-08:00").
-  ZonedDateTimeFormat withTimeZoneLongOffset();
-
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// short generic non-location format (e.g. "PT").
-  ZonedDateTimeFormat withTimeZoneShortGeneric();
-
-  /// Returns a [ZonedDateTimeFormat] that formats the datetime with a
-  /// long generic non-location format (e.g. "Pacific Time").
-  ZonedDateTimeFormat withTimeZoneLongGeneric();
+class DateTimeFormatUnzoneable extends DateTimeFormattable {
+  DateTimeFormatUnzoneable._(super._impl, super._locale);
 }
 
 /// A base class for formatters that can format a [DateTime] and time zone
