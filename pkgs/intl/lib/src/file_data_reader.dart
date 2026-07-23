@@ -21,7 +21,15 @@ class FileDataReader implements LocaleDataReader {
   /// Read the locale data found for [locale] on our [path].
   @override
   Future<String> read(String locale) {
-    var file = File(join(path, '$locale.json'));
+    var filePath = join(path, '$locale.json');
+    if (!isWithin(path, filePath)) {
+      throw ArgumentError.value(
+        locale,
+        'locale',
+        'Resolves outside the data directory',
+      );
+    }
+    var file = File(filePath);
     return file.readAsString();
   }
 }

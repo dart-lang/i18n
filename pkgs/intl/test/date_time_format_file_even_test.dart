@@ -16,4 +16,14 @@ import 'date_time_format_test_stub.dart';
 
 void main() {
   runWith(evenLocales, dataDirectory, initializeDateFormatting);
+
+  test(
+    'FileDataReader rejects locale paths resolving outside data directory',
+    () {
+      expect(
+        () => initializeDateFormatting('../../secret', dataDirectory),
+        throwsArgumentError,
+      );
+    },
+  );
 }
