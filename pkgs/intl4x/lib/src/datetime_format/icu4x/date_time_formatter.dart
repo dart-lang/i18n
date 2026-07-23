@@ -9,7 +9,7 @@ import '../datetime_format_options.dart';
 import 'datetime_format_4x.dart';
 
 /// Wraps an [icu.DateTimeFormatter]
-class DateTimeFormatterX extends FormatterImpl {
+class DateTimeFormatterX implements FormatterImpl {
   final icu.DateTimeFormatter formatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
@@ -25,8 +25,7 @@ class DateTimeFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
-      ),
-      super(impl);
+      );
 
   DateTimeFormatterX.ymdt(
     this.impl,
@@ -41,8 +40,7 @@ class DateTimeFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   DateTimeFormatterX.ymdet(
     this.impl,
@@ -57,38 +55,24 @@ class DateTimeFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
         yearStyle: yearStyle,
-      ),
-      super(impl);
+      );
 
   @override
-  String formatInternal(DateTime datetime) {
+  String format(DateTime datetime) {
     final (isoDate, time) = datetime.toX;
     return formatter.formatIso(isoDate, time);
   }
 
   @override
-  ZonedDateTimeFormatter withTimeZoneShort() =>
-      DateTimeFormatterZonedX.short(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLong() =>
-      DateTimeFormatterZonedX.long(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneShortOffset() =>
-      DateTimeFormatterZonedX.shortOffset(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLongOffset() =>
-      DateTimeFormatterZonedX.longOffset(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
-      DateTimeFormatterZonedX.shortGeneric(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
-      DateTimeFormatterZonedX.longGeneric(this);
+  ZonedDateTimeFormat withTimeZone(TimeZoneType timeZoneType) =>
+      switch (timeZoneType) {
+        TimeZoneType.short => DateTimeFormatterZonedX.short(this),
+        TimeZoneType.long => DateTimeFormatterZonedX.long(this),
+        TimeZoneType.shortOffset => DateTimeFormatterZonedX.shortOffset(this),
+        TimeZoneType.longOffset => DateTimeFormatterZonedX.longOffset(this),
+        TimeZoneType.shortGeneric => DateTimeFormatterZonedX.shortGeneric(this),
+        TimeZoneType.longGeneric => DateTimeFormatterZonedX.longGeneric(this),
+      };
 }
 
 /// Wraps an [icu.ZonedDateTimeFormatter]

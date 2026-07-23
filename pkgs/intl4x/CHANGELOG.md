@@ -4,6 +4,7 @@
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
 - Add doc examples using dartdoc `{@example}` directive.
+- Rename `DateTimeFormat` related classes.
 
 ## 1.0.0-alpha.2
 
