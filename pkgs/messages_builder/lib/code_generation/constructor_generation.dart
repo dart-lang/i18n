@@ -7,9 +7,9 @@ import 'package:code_builder/code_builder.dart';
 import '../generation_options.dart';
 
 class ConstructorGeneration {
-  final GenerationOptions options;
+  final PluralSelectorType pluralSelectorType;
 
-  ConstructorGeneration(this.options);
+  ConstructorGeneration(this.pluralSelectorType);
 
   List<Constructor> generate() {
     final nativeConstructor = Constructor((cb) => cb
@@ -19,7 +19,7 @@ class ConstructorGeneration {
             ..name = '_assetLoader'
             ..toThis = true,
         ),
-        if (options.pluralSelector == PluralSelectorType.custom)
+        if (pluralSelectorType == PluralSelectorType.custom)
           Parameter((pb) => pb
             ..name = 'pluralSelector'
             ..toThis = true),

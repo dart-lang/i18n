@@ -5,46 +5,47 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../located_message_file.dart';
+import '../parameterized_message.dart';
 import 'class_generation.dart';
 import 'constructor_generation.dart';
 import 'field_generation.dart';
 import 'method_generation.dart';
 
 class ClassesGeneration {
-  final GenerationOptions options;
   final String? context;
-  final LocatedMessageFile parent;
-  final Iterable<LocatedMessageFile> children;
-  final Map<String, String> emptyFiles;
+  final String initialLocale;
+  final List<ParameterizedMessage> messages;
+  final Iterable<({String locale, String path, String hash})> children;
+
+  final DeserializationType deserialization;
+  final PluralSelectorType pluralSelectorType;
 
   ClassesGeneration({
-    required this.options,
     required this.context,
-    required this.parent,
+    required this.initialLocale,
+    required this.messages,
     required this.children,
-    required this.emptyFiles,
+    required this.deserialization,
+    required this.pluralSelectorType,
   });
 
   List<Spec> generate() {
-    final constructors = ConstructorGeneration(options).generate();
+    final constructors = ConstructorGeneration(pluralSelectorType).generate();
 
     final fields = FieldGeneration(
-      options,
       children,
-      parent.locale,
+      initialLocale,
+      pluralSelectorType,
     ).generate();
 
     final methods = MethodGeneration(
-      options,
+      deserialization,
       context,
-      parent.file.messages,
-      emptyFiles,
+      messages,
     ).generate();
 
     final classes = ClassGeneration(
-      options,
-      parent.file.messages,
+      messages,
       context,
       constructors,
       fields,

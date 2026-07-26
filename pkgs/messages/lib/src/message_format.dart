@@ -23,9 +23,7 @@ abstract class Preamble {
 
   String get hash;
 
-  bool get hasIds;
-
-  static int length = 4;
+  static int length = 3;
 }
 
 abstract class MessageList {
@@ -33,8 +31,6 @@ abstract class MessageList {
   PluralSelector get pluralSelector;
 
   String generateStringAtIndex(int index, List args);
-
-  String generateStringAtId(String id, List args);
 }
 
 sealed class PluralMarker {

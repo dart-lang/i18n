@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:messages/messages.dart';
+
 import 'placeholder.dart';
 
 /// A wrapper class around a [Message], adding its [placeholders] and a [name].
@@ -26,11 +27,19 @@ import 'placeholder.dart';
 class ParameterizedMessage {
   final Message message;
   final String name;
+  final String? meaning;
+  final String? description;
   final List<Placeholder> placeholders;
 
   static final RegExp _dartName = RegExp(r'^[a-zA-Z][a-zA-Z_0-9]*$');
 
-  ParameterizedMessage(this.message, this.name, this.placeholders);
+  ParameterizedMessage({
+    required this.message,
+    required this.name,
+    this.meaning,
+    this.description,
+    this.placeholders = const [],
+  });
 
   bool get nameIsDartConform => _dartName.hasMatch(name);
 }

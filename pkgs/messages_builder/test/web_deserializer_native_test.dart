@@ -37,7 +37,7 @@ Message intlPluralSelector(
 void main() {
   test('generateMessageFile from Object json', () {
     final message = StringMessage('Hello World');
-    final message1 = ParameterizedMessage(message, 'helloWorld', []);
+    final message1 = ParameterizedMessage(message: message, name: 'helloWorld');
     final messageList = <ParameterizedMessage>[message1];
     final buffer = JsonSerializer()
         .serialize('', '', messageList.map((e) => e.message).toList())
