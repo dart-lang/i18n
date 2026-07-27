@@ -15,14 +15,14 @@ class ImportGeneration {
   List<Directive> generate() {
     final serializationImports = switch (options.deserialization) {
       DeserializationType.web => [
-          Directive.import('package:messages/messages_json.dart')
-        ],
+        Directive.import('package:messages/messages_json.dart'),
+      ],
     };
     final pluralImports = switch (options.pluralSelector) {
       PluralSelectorType.intl => [Directive.import('package:intl/intl.dart')],
       PluralSelectorType.intl4x => [
-          Directive.import('package:intl4x/intl4x.dart')
-        ],
+        Directive.import('package:intl4x/intl4x.dart'),
+      ],
       PluralSelectorType.custom => <Directive>[],
     };
 
@@ -30,10 +30,6 @@ class ImportGeneration {
       return Directive.importDeferredAs('$emptyFilePath.g.dart', emptyFilePath);
     });
 
-    return [
-      ...serializationImports,
-      ...pluralImports,
-      ...deferredImports,
-    ];
+    return [...serializationImports, ...pluralImports, ...deferredImports];
   }
 }

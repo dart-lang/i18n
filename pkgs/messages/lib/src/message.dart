@@ -28,15 +28,16 @@ final class CombinedMessage extends Message {
     required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
-  }) =>
-      messages
-          .map((e) => e.generateString(
-                allArgs,
-                pluralSelector: pluralSelector,
-                cleaner: cleaner,
-                locale: locale,
-              ))
-          .join();
+  }) => messages
+      .map(
+        (e) => e.generateString(
+          allArgs,
+          pluralSelector: pluralSelector,
+          cleaner: cleaner,
+          locale: locale,
+        ),
+      )
+      .join();
   static const int type = 6;
 }
 
@@ -50,7 +51,7 @@ final class StringMessage extends Message {
   final List<({int stringIndex, int argIndex})> argPositions;
 
   StringMessage(this.value, {this.argPositions = const [], String? id})
-      : super(id);
+    : super(id);
 
   static const int type = 1;
 
@@ -67,12 +68,14 @@ final class StringMessage extends Message {
       for (var i = 0; i < argPositions.length; i++) {
         final position = argPositions[i];
         sb.write(allArgs[position.argIndex]);
-        sb.write(value.substring(
-          position.stringIndex,
-          i + 1 < argPositions.length
-              ? argPositions[i + 1].stringIndex
-              : s.length,
-        ));
+        sb.write(
+          value.substring(
+            position.stringIndex,
+            i + 1 < argPositions.length
+                ? argPositions[i + 1].stringIndex
+                : s.length,
+          ),
+        );
       }
       return sb.toString();
     } else {
@@ -116,8 +119,12 @@ final class PluralMessage extends Message {
       few: few,
       many: many,
       other: other,
-    ).generateString(allArgs,
-        pluralSelector: pluralSelector, cleaner: cleaner, locale: locale);
+    ).generateString(
+      allArgs,
+      pluralSelector: pluralSelector,
+      cleaner: cleaner,
+      locale: locale,
+    );
   }
 }
 
@@ -125,12 +132,7 @@ final class SelectMessage extends Message {
   final Message other;
   final Map<String, Message> cases;
   final int argIndex;
-  SelectMessage(
-    this.other,
-    this.cases,
-    this.argIndex, [
-    super.id,
-  ]);
+  SelectMessage(this.other, this.cases, this.argIndex, [super.id]);
 
   static const int type = 4;
 

@@ -65,12 +65,11 @@ class MessageDataFileBuilder {
     MessageFile messageBundle,
     String arbFilePath,
     Serializer<String> serializer,
-  ) =>
-      serializer
-          .serialize(
-            messageBundle.hash,
-            messageBundle.locale ?? 'en_US',
-            messageBundle.messages.map((e) => e.message).toList(),
-          )
-          .data;
+  ) => serializer
+      .serialize(
+        messageBundle.hash,
+        messageBundle.locale ?? 'en_US',
+        messageBundle.messages.map((e) => e.message).toList(),
+      )
+      .data;
 }

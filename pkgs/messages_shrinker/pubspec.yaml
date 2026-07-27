@@ -4,8 +4,10 @@ version: 0.2.2-wip
 repository: https://github.com/dart-lang/i18n/pkgs/messages_shrinker
 issue_tracker: https://github.com/dart-lang/i18n/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Amessages_shrinker
 
+resolution: workspace
+
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.12.0
 
 # Add regular dependencies here.
 dependencies:

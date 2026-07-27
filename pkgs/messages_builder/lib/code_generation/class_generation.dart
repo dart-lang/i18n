@@ -40,15 +40,20 @@ class ClassGeneration {
       ),
     ];
     if (options.indexType == IndexType.enumerate) {
-      classes.add(Enum((cb) => cb
-        ..name = enumName(context)
-        ..values.addAll(List.generate(
-            messages.length,
-            (index) => messages[index].nameIsDartConform
-                ? EnumValue(
-                    (evb) => evb..name = messages[index].name,
-                  )
-                : null).whereType<EnumValue>())));
+      classes.add(
+        Enum(
+          (cb) => cb
+            ..name = enumName(context)
+            ..values.addAll(
+              List.generate(
+                messages.length,
+                (index) => messages[index].nameIsDartConform
+                    ? EnumValue((evb) => evb..name = messages[index].name)
+                    : null,
+              ).whereType<EnumValue>(),
+            ),
+        ),
+      );
     }
     return classes;
   }

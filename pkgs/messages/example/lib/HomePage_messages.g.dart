@@ -20,17 +20,14 @@ class HomePageMessages {
 
   static const _dataFiles = {
     'de': ('packages/example/assets/testarb_de.arb.json', 'hbDN1MhX'),
-    'en': ('packages/example/assets/testarb.arb.json', 'dr9Md951')
+    'en': ('packages/example/assets/testarb.arb.json', 'dr9Md951'),
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
+  String getById(String id, [List<dynamic> args = const []]) {
     return _currentMessages.generateStringAtId(id, args);
   }
 
@@ -52,8 +49,10 @@ class HomePageMessages {
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }
@@ -66,25 +65,16 @@ class HomePageMessages {
     }
   }
 
-  String helloAndWelcome(
-    String firstName,
-    String lastName,
-  ) =>
+  String helloAndWelcome(String firstName, String lastName) =>
       _currentMessages.generateStringAtIndex(0, [firstName, lastName]);
 
-  String helloAndWelcome2(
-    String firstName,
-    String lastName,
-  ) =>
+  String helloAndWelcome2(String firstName, String lastName) =>
       _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
 
   String newMessages(int newMessages) =>
       _currentMessages.generateStringAtIndex(2, [newMessages]);
 
-  String newMessages2(
-    String gender,
-    int newVar,
-  ) =>
+  String newMessages2(String gender, int newVar) =>
       _currentMessages.generateStringAtIndex(3, [gender, newVar]);
 }
 

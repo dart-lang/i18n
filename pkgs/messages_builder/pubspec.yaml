@@ -3,8 +3,10 @@ description: Build the messages for consumption by package:messages
 version: 0.3.0-wip
 repository: https://github.com/dart-lang/i18n/pkgs/messages_builder
 
+resolution: workspace
+
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.12.0
 
 publish_to: none
 

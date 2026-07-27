@@ -20,18 +20,19 @@ class MessageCallingCodeGenerator {
   final GenerationOptions options;
   final Map<String, String> mapping;
 
-  MessageCallingCodeGenerator({
-    required this.options,
-    required this.mapping,
-  });
+  MessageCallingCodeGenerator({required this.options, required this.mapping});
 
   Future<void> build() async {
     final messageFiles = await _parseMessageFiles();
 
     final families = messageFiles
         .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
-        .map((key, value) =>
-            MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
+        .map(
+          (key, value) => MapEntry(
+            key,
+            value.sortedBy((messageFile) => messageFile.locale),
+          ),
+        );
 
     var counter = 0;
 
@@ -40,9 +41,11 @@ class MessageCallingCodeGenerator {
 
       printIncludeFilesNotification(context, children.map((f) => f.path));
 
-      final dummyFilePaths = Map.fromEntries(children
-          .map((e) => e.locale)
-          .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))));
+      final dummyFilePaths = Map.fromEntries(
+        children
+            .map((e) => e.locale)
+            .map((e) => MapEntry(e, [context, e, 'empty'].join('_'))),
+      );
 
       final library = ClassesGeneration(
         options: options,
@@ -60,8 +63,12 @@ class MessageCallingCodeGenerator {
 
       final parentPath = Directory(options.generatedCodeFiles.path);
 
-      final mainFile = File(path.join(
-          parentPath.path, '${context ?? 'm${counter++}'}_messages.g.dart'));
+      final mainFile = File(
+        path.join(
+          parentPath.path,
+          '${context ?? 'm${counter++}'}_messages.g.dart',
+        ),
+      );
       await mainFile.create(recursive: true);
       await mainFile.writeAsString(code);
 
@@ -77,13 +84,16 @@ class MessageCallingCodeGenerator {
     }
   }
 
-  Future<List<LocatedMessageFile>> _parseMessageFiles() async =>
-      Future.wait(mapping.entries
-          .map((p) async => LocatedMessageFile(
-                path: path.relative(p.value, from: Directory.current.path),
-                file: await parseMessageFile(await getArbfile(p.key), options),
-              ))
-          .toList());
+  Future<List<LocatedMessageFile>> _parseMessageFiles() async => Future.wait(
+    mapping.entries
+        .map(
+          (p) async => LocatedMessageFile(
+            path: path.relative(p.value, from: Directory.current.path),
+            file: await parseMessageFile(await getArbfile(p.key), options),
+          ),
+        )
+        .toList(),
+  );
 
   Future<String> getArbfile(String path) async =>
       await File(path).readAsString();
@@ -96,12 +106,16 @@ class MessageCallingCodeGenerator {
     /// Try to infer by looking at which files contain metadata, which is a sign
     /// they might be the references for others in the same context.
     final filesInContext = messageFiles.where(
-        (messageFile) => messageFile.file.context == currentFile.file.context);
-    final potentialParent =
-        filesInContext.firstWhereOrNull((element) => element.file.hasMetadata);
+      (messageFile) => messageFile.file.context == currentFile.file.context,
+    );
+    final potentialParent = filesInContext.firstWhereOrNull(
+      (element) => element.file.hasMetadata,
+    );
     if (potentialParent == null && filesInContext.length > 1) {
-      throw ArgumentError('''
-The files $filesInContext have no metadata, so it is not clear which one is the main source of truth.''');
+      throw ArgumentError(
+        '''
+The files $filesInContext have no metadata, so it is not clear which one is the main source of truth.''',
+      );
     }
     return potentialParent ?? currentFile;
   }
@@ -112,11 +126,13 @@ The files $filesInContext have no metadata, so it is not clear which one is the 
     String? context,
     Iterable<String> fileList,
   ) {
-    final contextMessage =
-        context != null ? 'For the messages in $context, the' : 'The';
+    final contextMessage = context != null
+        ? 'For the messages in $context, the'
+        : 'The';
     final fileListJoined = fileList.map((e) => '\t$e').join('\n');
     print(
-        '''$contextMessage following files need to be declared in your assets:\n$fileListJoined''');
+      '''$contextMessage following files need to be declared in your assets:\n$fileListJoined''',
+    );
   }
 }
 

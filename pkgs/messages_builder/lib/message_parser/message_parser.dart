@@ -84,9 +84,9 @@ class MessageParser {
     final argPositions = <({int argIndex, int stringIndex})>[];
     final s = StringBuffer();
     for (var i = 0; i < submessages.length + 1; i++) {
-      placeholders
-          .where((element) => element.afterStringMessage == i)
-          .forEach((element) {
+      placeholders.where((element) => element.afterStringMessage == i).forEach((
+        element,
+      ) {
         argPositions.add((argIndex: element.argIndex, stringIndex: s.length));
       });
       if (i < submessages.length) {

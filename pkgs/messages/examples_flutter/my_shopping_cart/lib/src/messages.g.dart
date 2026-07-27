@@ -36,7 +36,7 @@ class ShoppingCartMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'en_US': ('packages/my_shopping_cart/assets/messages.arb.json', 'Nj229ee7')
+    'en_US': ('packages/my_shopping_cart/assets/messages.arb.json', 'Nj229ee7'),
   };
 
   String get currentLocale => _currentLocale;
@@ -55,8 +55,10 @@ class ShoppingCartMessages {
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }

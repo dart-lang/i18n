@@ -49,10 +49,7 @@ PluralMessage pluralMessage = PluralMessage(
 
 SelectMessage selectMessage = SelectMessage(
   StringMessage('Other'),
-  {
-    'case1': StringMessage('Case1'),
-    'case2': StringMessage('Case2'),
-  },
+  {'case1': StringMessage('Case1'), 'case2': StringMessage('Case2')},
   0,
   'selectMes',
 );
@@ -65,10 +62,12 @@ void main() {
       pluralMessage,
       selectMessage,
     ];
-    final serialized =
-        JsonSerializer(true).serialize('hash', 'locale', messages);
-    final deserialize =
-        JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
+    final serialized = JsonSerializer(
+      true,
+    ).serialize('hash', 'locale', messages);
+    final deserialize = JsonDeserializer(
+      serialized.data,
+    ).deserialize(intlPluralSelector);
     expect(
       deserialize.messages.map((e) => e.id),
       orderedEquals(messages.map((e) => e.id)),
@@ -82,10 +81,12 @@ void main() {
       pluralMessage,
       selectMessage,
     ];
-    final serialized =
-        JsonSerializer(true).serialize('hash', 'locale', messages, [1, 3]);
-    final deserialize =
-        JsonDeserializer(serialized.data).deserialize(intlPluralSelector);
+    final serialized = JsonSerializer(
+      true,
+    ).serialize('hash', 'locale', messages, [1, 3]);
+    final deserialize = JsonDeserializer(
+      serialized.data,
+    ).deserialize(intlPluralSelector);
     expect(
       deserialize.messages.map((e) => e.id),
       orderedEquals([messages[1], messages[3]].map((e) => e.id)),
@@ -95,16 +96,11 @@ void main() {
   test('First serialize, then deserialize again', () {
     final messageTypes = [
       [stringMessage],
-      [
-        stringMessage,
-        combinedMessage,
-        pluralMessage,
-        selectMessage,
-      ]
+      [stringMessage, combinedMessage, pluralMessage, selectMessage],
     ];
     final params = [
       for (var writeId in [true, false])
-        for (var messages in messageTypes) (writeId, messages)
+        for (var messages in messageTypes) (writeId, messages),
     ];
     for (final (writeId, messages) in params) {
       serializeThenDeserialize<String>(
@@ -151,16 +147,10 @@ void compareMessage(Message? original, Message? deserialized) {
   } else if (original is PluralMessage) {
     final deserialized2 = deserialized as PluralMessage;
     for (final key in original.wordCases.keys) {
-      compareMessage(
-        deserialized2.wordCases[key],
-        original.wordCases[key],
-      );
+      compareMessage(deserialized2.wordCases[key], original.wordCases[key]);
     }
     for (final key in original.numberCases.keys) {
-      compareMessage(
-        deserialized.numberCases[key],
-        original.numberCases[key],
-      );
+      compareMessage(deserialized.numberCases[key], original.numberCases[key]);
     }
     compareMessage(deserialized.few, original.few);
     compareMessage(deserialized.many, original.many);

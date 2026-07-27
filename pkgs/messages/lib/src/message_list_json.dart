@@ -14,12 +14,7 @@ class JsonPreamble extends Preamble {
     required String locale,
     required String hash,
     required bool hasIds,
-  }) : _data = [
-          serializationVersion,
-          locale,
-          hash,
-          hasIds ? 1 : 0,
-        ];
+  }) : _data = [serializationVersion, locale, hash, hasIds ? 1 : 0];
 
   JsonPreamble.parse(this._data);
 
@@ -68,8 +63,11 @@ class MessageListJson extends MessageList {
 
   @override
   String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args,
-          locale: preamble.locale, pluralSelector: _selector);
+      messages[getIndex(index)].generateString(
+        args,
+        locale: preamble.locale,
+        pluralSelector: _selector,
+      );
 
   int getIndex(int index) => messageIndices?[index] ?? index;
 }

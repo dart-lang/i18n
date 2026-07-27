@@ -9,13 +9,10 @@ import 'package:messages/messages_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 
 class MessageShrinker {
-  void shrink(
-    String dataFile,
-    String constInstancesFile,
-    String outputFile,
-  ) {
-    final constInstances =
-        _parseConstInstances(File(constInstancesFile).readAsStringSync());
+  void shrink(String dataFile, String constInstancesFile, String outputFile) {
+    final constInstances = _parseConstInstances(
+      File(constInstancesFile).readAsStringSync(),
+    );
 
     final file = File(dataFile);
     if (dataFile.endsWith('.json')) {
@@ -32,12 +29,20 @@ class MessageShrinker {
   /// message indices in [messagesToKeep].
   String shrinkJson(String buffer, List<int> messagesToKeep) {
     final sizeBefore = buffer.length;
-    final json = JsonDeserializer(buffer).deserialize(
-      (howMany, locale, {few, many, numberCases, required other, wordCases}) {
-        throw StateError('As the deserialized MessageList is not used, but '
-            'just immediately reserialized, this selector will not be called.');
-      },
-    );
+    final json = JsonDeserializer(buffer).deserialize((
+      howMany,
+      locale, {
+      few,
+      many,
+      numberCases,
+      required other,
+      wordCases,
+    }) {
+      throw StateError(
+        'As the deserialized MessageList is not used, but '
+        'just immediately reserialized, this selector will not be called.',
+      );
+    });
     final data = JsonSerializer(json.preamble.hasIds)
         .serialize(
           json.preamble.hash,

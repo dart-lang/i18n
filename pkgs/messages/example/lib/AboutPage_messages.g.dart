@@ -20,17 +20,14 @@ class AboutPageMessages {
 
   static const _dataFiles = {
     'en': ('packages/example/assets/testarbctx2.arb.json', 'QrwRSsOy'),
-    'fr': ('packages/example/assets/testarbctx2_fr.arb.json', '390XWry3')
+    'fr': ('packages/example/assets/testarbctx2_fr.arb.json', '390XWry3'),
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
+  String getById(String id, [List<dynamic> args = const []]) {
     return _currentMessages.generateStringAtId(id, args);
   }
 
@@ -52,8 +49,10 @@ class AboutPageMessages {
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }
@@ -69,19 +68,13 @@ class AboutPageMessages {
   String aboutMessage(String websitename) =>
       _currentMessages.generateStringAtIndex(0, [websitename]);
 
-  String helloAndWelcome(
-    String firstName,
-    int lastName,
-  ) =>
+  String helloAndWelcome(String firstName, int lastName) =>
       _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
 
   String newMessages(int newMessages) =>
       _currentMessages.generateStringAtIndex(2, [newMessages]);
 
-  String newMessages2(
-    String gender,
-    int newVar,
-  ) =>
+  String newMessages2(String gender, int newVar) =>
       _currentMessages.generateStringAtIndex(3, [gender, newVar]);
 
   String get otherMsg => _currentMessages.generateStringAtIndex(4, []);

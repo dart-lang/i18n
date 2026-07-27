@@ -20,12 +20,14 @@ class ArbParser {
     final context = arb['@@context'] as String?;
     final messages = arb.keys
         .where((key) => !key.startsWith('@'))
-        .map((key) => parseMessage(
-              arb[key] as String,
-              arb['@$key'] as Map<String, dynamic>?,
-              key,
-              '${context}_$locale',
-            ))
+        .map(
+          (key) => parseMessage(
+            arb[key] as String,
+            arb['@$key'] as Map<String, dynamic>?,
+            key,
+            '${context}_$locale',
+          ),
+        )
         .toList();
     messages.sort((a, b) => a.name.compareTo(b.name));
     return MessageFile(
@@ -55,12 +57,11 @@ class ArbParser {
       addId: addName,
     );
     final placeholdersMap = metadata?['placeholders'] as Map<String, dynamic>?;
-    final placeholdersWithMetadata = placeholdersMap?.map(
-          (name, metadata) {
-            final type = (metadata as Map<String, dynamic>)['type'] as String?;
-            return MapEntry(name, Placeholder(name, type ?? 'String'));
-          },
-        ) ??
+    final placeholdersWithMetadata =
+        placeholdersMap?.map((name, metadata) {
+          final type = (metadata as Map<String, dynamic>)['type'] as String?;
+          return MapEntry(name, Placeholder(name, type ?? 'String'));
+        }) ??
         <String, Placeholder>{};
 
     final placeholders = message.placeholders

@@ -23,7 +23,8 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
   MessageListJson deserialize(PluralSelector selector) {
     if (preamble.version != serializationVersion) {
       throw ArgumentError(
-          '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
+        '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''',
+      );
     }
     final mapping = _parsed[Preamble.length] as Map<String, dynamic>?;
     for (var i = Preamble.length + 1; i < _parsed.length; i++) {
@@ -33,10 +34,12 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       preamble,
       _messages,
       selector,
-      mapping?.map((key, value) => MapEntry(
-            int.parse(key, radix: serializationRadix),
-            int.parse(value as String, radix: serializationRadix),
-          )),
+      mapping?.map(
+        (key, value) => MapEntry(
+          int.parse(key, radix: serializationRadix),
+          int.parse(value as String, radix: serializationRadix),
+        ),
+      ),
     );
   }
 
@@ -116,17 +119,14 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     final argIndex = message[start] as int;
     final otherCase = getMessage(message[start + 1]);
     final submessages = message[start + 2] as Map;
-    final cases = submessages.map((caseName, caseMessage) => MapEntry(
-          caseName as String,
-          getMessage(caseMessage),
-        ));
+    final cases = submessages.map(
+      (caseName, caseMessage) =>
+          MapEntry(caseName as String, getMessage(caseMessage)),
+    );
     return SelectMessage(otherCase, cases, argIndex, id);
   }
 
   CombinedMessage _forCombined(List<dynamic> message, int start, String? id) {
-    return CombinedMessage(
-      id,
-      message.skip(start).map(getMessage).toList(),
-    );
+    return CombinedMessage(id, message.skip(start).map(getMessage).toList());
   }
 }

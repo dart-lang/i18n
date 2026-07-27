@@ -12,22 +12,16 @@ class FieldGeneration {
   final Iterable<LocatedMessageFile> messageFiles;
   final String initialLocale;
 
-  FieldGeneration(
-    this.options,
-    this.messageFiles,
-    this.initialLocale,
-  );
+  FieldGeneration(this.options, this.messageFiles, this.initialLocale);
 
   List<Field> generate() {
-    final loadingStrategy = Field(
-      (fb) {
-        final returnType = const Reference('Future<String>').symbol;
-        fb
-          ..name = '_assetLoader'
-          ..modifier = FieldModifier.final$
-          ..type = Reference('$returnType Function(String id)');
-      },
-    );
+    final loadingStrategy = Field((fb) {
+      final returnType = const Reference('Future<String>').symbol;
+      fb
+        ..name = '_assetLoader'
+        ..modifier = FieldModifier.final$
+        ..type = Reference('$returnType Function(String id)');
+    });
     final currentLocale = Field(
       (fb) => fb
         ..type = const Reference('String')
@@ -41,24 +35,25 @@ class FieldGeneration {
         ..name = '_messages'
         ..assignment = const Code('{}'),
     );
-    final dataFiles = Field(
-      (fb) {
-        final paths = messageFiles
-            .map((e) => """
-'${e.locale}' : ('${e.namespacedPath(options.packageName)}', '${e.hash}')""")
-            .join(',');
-        fb
-          ..name = '_dataFiles'
-          ..modifier = FieldModifier.constant
-          ..static = true
-          ..assignment = Code('{$paths}');
-      },
-    );
+    final dataFiles = Field((fb) {
+      final paths = messageFiles
+          .map(
+            (e) => """
+'${e.locale}' : ('${e.namespacedPath(options.packageName)}', '${e.hash}')""",
+          )
+          .join(',');
+      fb
+        ..name = '_dataFiles'
+        ..modifier = FieldModifier.constant
+        ..static = true
+        ..assignment = Code('{$paths}');
+    });
     final pluralSelector = Field(
       (fb) => fb
         ..name = 'pluralSelector'
         ..type = const Reference(
-            '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})'''),
+          '''Message Function(num howMany, {Map<int, Message>? numberCases, Map<int, Message>? wordCases, Message? few, Message? many, Message other, String? locale})''',
+        ),
     );
     final fields = [
       loadingStrategy,

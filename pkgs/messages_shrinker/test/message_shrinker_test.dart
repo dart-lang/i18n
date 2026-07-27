@@ -47,39 +47,35 @@ void main() {
     File(dataFile).writeAsStringSync(dataFileContents);
   });
 
-  String getMessage(int i, List<int> args) => JsonDeserializer(dataFileContents)
-      .deserialize(intlPluralSelector)
-      .generateStringAtIndex(i, args);
+  String getMessage(int i, List<int> args) => JsonDeserializer(
+    dataFileContents,
+  ).deserialize(intlPluralSelector).generateStringAtIndex(i, args);
 
   test('Shrink a json', () {
     final messageIndex = 1;
-    final output =
-        MessageShrinker().shrinkJson(dataFileContents, [messageIndex]);
-    final deserialize =
-        JsonDeserializer(output).deserialize(intlPluralSelector);
+    final output = MessageShrinker().shrinkJson(dataFileContents, [
+      messageIndex,
+    ]);
+    final deserialize = JsonDeserializer(
+      output,
+    ).deserialize(intlPluralSelector);
     final args = [2];
     final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
     expect(generateStringAtIndex, getMessage(messageIndex, args));
   });
-  test(
-    'Shrink a json with const from file',
-    () {
-      final outputFile = '/tmp/shrunkFile.json';
-      MessageShrinker().shrink(
-        dataFile,
-        'test/const_files.json',
-        outputFile,
-      );
+  test('Shrink a json with const from file', () {
+    final outputFile = '/tmp/shrunkFile.json';
+    MessageShrinker().shrink(dataFile, 'test/const_files.json', outputFile);
 
-      final dataFileContentsShrunk = File(outputFile).readAsStringSync();
-      expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
-      final deserialize =
-          JsonDeserializer(dataFileContentsShrunk).deserialize(intl);
-      final args = [2];
-      final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
-      expect(generateStringAtIndex, getMessage(1, args));
-    },
-  );
+    final dataFileContentsShrunk = File(outputFile).readAsStringSync();
+    expect(dataFileContentsShrunk.length, lessThan(dataFileContents.length));
+    final deserialize = JsonDeserializer(
+      dataFileContentsShrunk,
+    ).deserialize(intl);
+    final args = [2];
+    final generateStringAtIndex = deserialize.generateStringAtIndex(1, args);
+    expect(generateStringAtIndex, getMessage(1, args));
+  });
 }
 
 String readArbFileToDataFile() {

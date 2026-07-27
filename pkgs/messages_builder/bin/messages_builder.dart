@@ -16,9 +16,11 @@ import 'package:messages_builder/message_data_builder.dart';
 Future<void> main(List<String> args) async {
   final generationOptions = await _generationOptions();
   final inputFolder = Directory.fromUri(
-      Directory.current.uri.resolve('assets/').resolve('l10n/'));
-  final outputFolder =
-      Directory.fromUri(Directory.current.uri.resolve('assets/'));
+    Directory.current.uri.resolve('assets/').resolve('l10n/'),
+  );
+  final outputFolder = Directory.fromUri(
+    Directory.current.uri.resolve('assets/'),
+  );
 
   final mapping = await MessageDataFileBuilder(
     inputFolder: inputFolder,

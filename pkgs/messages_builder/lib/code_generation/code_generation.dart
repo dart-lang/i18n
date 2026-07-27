@@ -51,58 +51,58 @@ class CodeGenerator {
   //     required Message other,
   //     Map<int, Message>? wordCases}) intl;
   Method pluralSelector() => Method(
-        (mb) => mb
-          ..name = '_pluralSelector'
-          ..returns = const Reference('Message')
-          ..requiredParameters.addAll([
-            Parameter(
-              (pb) => pb
-                ..name = 'howMany'
-                ..type = const Reference('num')
-                ..named = false,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'locale'
-                ..type = const Reference('String')
-                ..named = false,
-            ),
-          ])
-          ..optionalParameters.addAll([
-            Parameter(
-              (pb) => pb
-                ..name = 'other'
-                ..type = const Reference('Message')
-                ..required = true
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'few'
-                ..type = const Reference('Message?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'many'
-                ..type = const Reference('Message?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'numberCases'
-                ..type = const Reference('Map<int, Message>?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'wordCases'
-                ..type = const Reference('Map<int, Message>?')
-                ..named = true,
-            ),
-          ])
-          ..body = pluralSelectorBody(),
-      );
+    (mb) => mb
+      ..name = '_pluralSelector'
+      ..returns = const Reference('Message')
+      ..requiredParameters.addAll([
+        Parameter(
+          (pb) => pb
+            ..name = 'howMany'
+            ..type = const Reference('num')
+            ..named = false,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'locale'
+            ..type = const Reference('String')
+            ..named = false,
+        ),
+      ])
+      ..optionalParameters.addAll([
+        Parameter(
+          (pb) => pb
+            ..name = 'other'
+            ..type = const Reference('Message')
+            ..required = true
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'few'
+            ..type = const Reference('Message?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'many'
+            ..type = const Reference('Message?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'numberCases'
+            ..type = const Reference('Map<int, Message>?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'wordCases'
+            ..type = const Reference('Map<int, Message>?')
+            ..named = true,
+        ),
+      ])
+      ..body = pluralSelectorBody(),
+  );
 
   Code pluralSelectorBody() {
     return switch (options.pluralSelector) {

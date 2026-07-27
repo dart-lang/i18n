@@ -22,12 +22,18 @@ class L10nException implements Exception {
 }
 
 class L10nParserException extends L10nException {
-  L10nParserException(this.error, this.fileName, this.messageId,
-      this.messageString, this.charNumber)
-      : super('''
+  L10nParserException(
+    this.error,
+    this.fileName,
+    this.messageId,
+    this.messageString,
+    this.charNumber,
+  ) : super(
+        '''
 $error
 [$fileName:$messageId] $messageString
-${List<String>.filled(4 + fileName.length + messageId.length + charNumber, ' ').join()}^''');
+${List<String>.filled(4 + fileName.length + messageId.length + charNumber, ' ').join()}^''',
+      );
 
   final String error;
   final String fileName;
@@ -83,7 +89,7 @@ Map<ST, List<List<ST>>> grammar = <ST, List<List<ST>>>{
       ST.plural,
       ST.comma,
       ST.pluralParts,
-      ST.closeBrace
+      ST.closeBrace,
     ],
   ],
   ST.pluralParts: <List<ST>>[
@@ -103,7 +109,7 @@ Map<ST, List<List<ST>>> grammar = <ST, List<List<ST>>>{
       ST.select,
       ST.comma,
       ST.selectParts,
-      ST.closeBrace
+      ST.closeBrace,
     ],
     <ST>[ST.other, ST.openBrace, ST.message, ST.closeBrace],
   ],
@@ -118,17 +124,17 @@ Map<ST, List<List<ST>>> grammar = <ST, List<List<ST>>>{
 };
 
 class Node {
-  Node(this.type, this.positionInMessage,
-      {this.expectedSymbolCount = 0, this.value, List<Node>? children})
-      : children = children ?? <Node>[];
+  Node(
+    this.type,
+    this.positionInMessage, {
+    this.expectedSymbolCount = 0,
+    this.value,
+    List<Node>? children,
+  }) : children = children ?? <Node>[];
 
   // Token constructors.
-  Node.openBrace(this.positionInMessage)
-      : type = ST.openBrace,
-        value = '{';
-  Node.closeBrace(this.positionInMessage)
-      : type = ST.closeBrace,
-        value = '}';
+  Node.openBrace(this.positionInMessage) : type = ST.openBrace, value = '{';
+  Node.closeBrace(this.positionInMessage) : type = ST.closeBrace, value = '}';
   Node.brace(this.positionInMessage, String this.value) {
     if (value == '{') {
       type = ST.openBrace;
@@ -139,28 +145,20 @@ class Node {
       throw L10nException('Provided value $value is not a brace.');
     }
   }
-  Node.equalSign(this.positionInMessage)
-      : type = ST.equalSign,
-        value = '=';
-  Node.comma(this.positionInMessage)
-      : type = ST.comma,
-        value = ',';
+  Node.equalSign(this.positionInMessage) : type = ST.equalSign, value = '=';
+  Node.comma(this.positionInMessage) : type = ST.comma, value = ',';
   Node.string(this.positionInMessage, String this.value) : type = ST.string;
   Node.number(this.positionInMessage, String this.value) : type = ST.number;
   Node.identifier(this.positionInMessage, String this.value)
-      : type = ST.identifier;
+    : type = ST.identifier;
   Node.pluralKeyword(this.positionInMessage)
-      : type = ST.plural,
-        value = 'plural';
+    : type = ST.plural,
+      value = 'plural';
   Node.selectKeyword(this.positionInMessage)
-      : type = ST.select,
-        value = 'select';
-  Node.otherKeyword(this.positionInMessage)
-      : type = ST.other,
-        value = 'other';
-  Node.empty(this.positionInMessage)
-      : type = ST.empty,
-        value = '';
+    : type = ST.select,
+      value = 'select';
+  Node.otherKeyword(this.positionInMessage) : type = ST.other, value = 'other';
+  Node.empty(this.positionInMessage) : type = ST.empty, value = '';
 
   String? value;
   late ST type;
@@ -320,8 +318,13 @@ class Parser {
             continue;
           }
           // This should only happen when there are special characters we are unable to match.
-          throw L10nParserException('ICU Lexing Error: Unexpected character.',
-              filename, messageId, messageString, startIndex);
+          throw L10nParserException(
+            'ICU Lexing Error: Unexpected character.',
+            filename,
+            messageId,
+            messageString,
+            startIndex,
+          );
         } else if (matchedType == ST.empty) {
           // Do not add whitespace as a token.
           startIndex = match.end;
@@ -348,10 +351,14 @@ class Parser {
       final grammarRule = grammar[nonterminal]![ruleIndex];
 
       // When we run out of tokens, just use -1 to represent the last index.
-      final positionInMessage =
-          tokens.isNotEmpty ? tokens.first.positionInMessage : -1;
-      final node = Node(nonterminal, positionInMessage,
-          expectedSymbolCount: grammarRule.length);
+      final positionInMessage = tokens.isNotEmpty
+          ? tokens.first.positionInMessage
+          : -1;
+      final node = Node(
+        nonterminal,
+        positionInMessage,
+        expectedSymbolCount: grammarRule.length,
+      );
       parsingStack.addAll(grammarRule.reversed);
 
       // For tree construction, add nodes to the parent until the parent has all
@@ -439,11 +446,12 @@ class Parser {
             parseAndConstructNode(ST.selectPart, 1);
           } else {
             throw L10nParserException(
-                'ICU Syntax Error: Select parts must be of the form "identifier { message }"',
-                filename,
-                messageId,
-                messageString,
-                tokens[0].positionInMessage);
+              'ICU Syntax Error: Select parts must be of the form "identifier { message }"',
+              filename,
+              messageId,
+              messageString,
+              tokens[0].positionInMessage,
+            );
           }
           break;
         // At this point, we are only handling terminal symbols.
@@ -551,11 +559,12 @@ class Parser {
         // Must have an "other" case.
         if (children.every((Node node) => node.children[0].type != ST.other)) {
           throw L10nParserException(
-              'ICU Syntax Error: Plural expressions must have an "other" case.',
-              filename,
-              messageId,
-              messageString,
-              syntaxTree.positionInMessage);
+            'ICU Syntax Error: Plural expressions must have an "other" case.',
+            filename,
+            messageId,
+            messageString,
+            syntaxTree.positionInMessage,
+          );
         }
         // Identifier must be one of "zero", "one", "two", "few", "many".
         for (final node in children) {
@@ -565,7 +574,7 @@ class Parser {
             'one',
             'two',
             'few',
-            'many'
+            'many',
           ];
           if (pluralPartFirstToken.type == ST.identifier &&
               !validIdentifiers.contains(pluralPartFirstToken.value)) {

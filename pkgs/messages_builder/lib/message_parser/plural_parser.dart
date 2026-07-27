@@ -24,14 +24,12 @@ class PluralParser {
     }
   }
 
-  Message? getNamed(
-    List<Node> parts,
-    String id,
-    List<String> arguments,
-  ) {
+  Message? getNamed(List<Node> parts, String id, List<String> arguments) {
     final messages = parts
-        .where((e) =>
-            e.children[0].type == ST.identifier && e.children[0].value == id)
+        .where(
+          (e) =>
+              e.children[0].type == ST.identifier && e.children[0].value == id,
+        )
         .map((e) => e.children.firstWhere((e) => e.type == ST.message))
         .map((e) => MessageParser.parseNode(e, arguments))
         .whereType<Message>();
@@ -41,8 +39,12 @@ class PluralParser {
     return null;
   }
 
-  PluralMessage parse(Node node, List<String> arguments,
-      [bool addId = false, String? name]) {
+  PluralMessage parse(
+    Node node,
+    List<String> arguments, [
+    bool addId = false,
+    String? name,
+  ]) {
     final identifier = node.children
         .firstWhere((element) => element.type == ST.identifier)
         .value!;
@@ -68,14 +70,18 @@ class PluralParser {
 
   Map<int, Message> getNumberCases(List<Node> parts, List<String> arguments) {
     final numberCases = parts
-        .where((node) =>
-            node.children[0].type == ST.equalSign &&
-            node.children[1].type == ST.number)
-        .map((node) => getPluralCaseFrom(
-              int.parse(node.children[1].value ?? ''),
-              node,
-              arguments,
-            ))
+        .where(
+          (node) =>
+              node.children[0].type == ST.equalSign &&
+              node.children[1].type == ST.number,
+        )
+        .map(
+          (node) => getPluralCaseFrom(
+            int.parse(node.children[1].value ?? ''),
+            node,
+            arguments,
+          ),
+        )
         .whereType<MapEntry<int, Message>>();
     return Map.fromEntries(numberCases);
   }
@@ -84,11 +90,13 @@ class PluralParser {
     final wordCases = parts
         .where((node) => node.children[0].type == ST.identifier)
         .where((node) => numbers.containsKey(node.children[0].value))
-        .map((node) => getPluralCaseFrom(
-              numbers[node.children[0].value!]!,
-              node,
-              arguments,
-            ))
+        .map(
+          (node) => getPluralCaseFrom(
+            numbers[node.children[0].value!]!,
+            node,
+            arguments,
+          ),
+        )
         .whereType<MapEntry<int, Message>>();
     return Map.fromEntries(wordCases);
   }

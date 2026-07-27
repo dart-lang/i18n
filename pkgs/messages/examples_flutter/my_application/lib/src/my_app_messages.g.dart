@@ -21,9 +21,9 @@ class MyAppMessages {
   static const _dataFiles = {
     'de_DE': (
       'packages/my_application/assets/messages_de.arb.json',
-      'xXViKglj'
+      'xXViKglj',
     ),
-    'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k')
+    'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k'),
   };
 
   String get currentLocale => _currentLocale;
@@ -48,8 +48,10 @@ class MyAppMessages {
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }

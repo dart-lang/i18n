@@ -36,8 +36,8 @@ class JsonSerializer extends Serializer<String> {
     for (var i = 0; i < messages.length; i++) {
       if (keepOnly?.contains(i) ?? true) {
         encodeMessage(messages[i], isVisible: true);
-        messageMapping[i.toRadixString(serializationRadix)] =
-            messageCounter.toRadixString(serializationRadix);
+        messageMapping[i.toRadixString(serializationRadix)] = messageCounter
+            .toRadixString(serializationRadix);
         messageCounter++;
       }
     }
