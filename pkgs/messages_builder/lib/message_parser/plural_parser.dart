@@ -39,12 +39,7 @@ class PluralParser {
     return null;
   }
 
-  PluralMessage parse(
-    Node node,
-    List<String> arguments, [
-    bool addId = false,
-    String? name,
-  ]) {
+  PluralMessage parse(Node node, List<String> arguments) {
     final identifier = node.children
         .firstWhere((element) => element.type == ST.identifier)
         .value!;
@@ -64,7 +59,6 @@ class PluralParser {
       many: getNamed(parts, 'many', arguments),
       other: getOther(parts, arguments)!,
       argIndex: arguments.indexOf(identifier),
-      id: addId ? name : null,
     );
   }
 

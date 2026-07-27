@@ -5,7 +5,5 @@ The options can be configured by setting configuring the following in the `pubsp
 ```yaml
 package_options:
   messages_builder:
-    generateMethods: true
-    generateFindById: true
-    generateFindBy: [enumerate | integer | none]
+    plural_selector: intl # [intl | intl4x | custom]
 ```

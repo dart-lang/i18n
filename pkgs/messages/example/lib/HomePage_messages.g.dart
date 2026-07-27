@@ -3,7 +3,7 @@
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: unused_import
 
-import 'package:intl/intl.dart';
+import 'package:intl4x/plural_rules.dart';
 import 'package:messages/messages_json.dart';
 
 import 'HomePage_de_empty.g.dart' deferred as HomePage_de_empty;
@@ -19,17 +19,13 @@ class HomePageMessages {
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'de': ('packages/example/assets/testarb_de.arb.json', 'hbDN1MhX'),
-    'en': ('packages/example/assets/testarb.arb.json', 'dr9Md951'),
+    'de': ('packages/messages_example/assets/testarb_de.arb.json', 'hbDN1MhX'),
+    'en': ('packages/messages_example/assets/testarb.arb.json', 'dr9Md951'),
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
-
-  String getById(String id, [List<dynamic> args = const []]) {
-    return _currentMessages.generateStringAtId(id, args);
-  }
 
   static Iterable<String> get knownLocales => _dataFiles.keys;
 
@@ -87,14 +83,14 @@ Message _pluralSelector(
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
 }) {
-  return Intl.pluralLogic(
+  Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
+  return PluralRules(locale: Locale.parse(locale)).select(
     howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
+    zero: getCase(0),
+    one: getCase(1),
+    two: getCase(2),
+    few: few ?? other,
+    many: many ?? other,
     other: other,
-    locale: locale,
   );
 }

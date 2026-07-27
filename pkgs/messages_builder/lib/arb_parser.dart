@@ -12,10 +12,7 @@ import 'parameterized_message.dart';
 import 'placeholder.dart';
 
 class ArbParser {
-  final bool addName;
-  ArbParser([this.addName = false]);
-
-  MessageFile parseMessageFile(Map<String, dynamic> arb) {
+  MessageFile parseMessageFile(Map<String, Object?> arb) {
     final locale = arb['@@locale'] as String?;
     final context = arb['@@context'] as String?;
     final messages = arb.keys
@@ -23,7 +20,7 @@ class ArbParser {
         .map(
           (key) => parseMessage(
             arb[key] as String,
-            arb['@$key'] as Map<String, dynamic>?,
+            arb['@$key'] as Map<String, Object?>?,
             key,
             '${context}_$locale',
           ),
@@ -39,27 +36,22 @@ class ArbParser {
     );
   }
 
-  String getHash(Map<String, dynamic> arb) {
+  String getHash(Map<String, Object?> arb) {
     final digest = sha1.convert(arb.toString().codeUnits);
     return base64Encode(digest.bytes).substring(0, 8);
   }
 
   ParameterizedMessage parseMessage(
     String messageContent,
-    Map<String, dynamic>? metadata,
+    Map<String, Object?>? metadata,
     String name,
     String debugString,
   ) {
-    final message = MessageParser.parse(
-      debugString,
-      messageContent,
-      name,
-      addId: addName,
-    );
-    final placeholdersMap = metadata?['placeholders'] as Map<String, dynamic>?;
+    final message = MessageParser.parse(debugString, messageContent, name);
+    final placeholdersMap = metadata?['placeholders'] as Map<String, Object?>?;
     final placeholdersWithMetadata =
         placeholdersMap?.map((name, metadata) {
-          final type = (metadata as Map<String, dynamic>)['type'] as String?;
+          final type = (metadata as Map<String, Object?>)['type'] as String?;
           return MapEntry(name, Placeholder(name, type ?? 'String'));
         }) ??
         <String, Placeholder>{};

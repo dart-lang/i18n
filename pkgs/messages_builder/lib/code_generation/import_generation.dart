@@ -21,7 +21,7 @@ class ImportGeneration {
     final pluralImports = switch (options.pluralSelector) {
       PluralSelectorType.intl => [Directive.import('package:intl/intl.dart')],
       PluralSelectorType.intl4x => [
-        Directive.import('package:intl4x/intl4x.dart'),
+        Directive.import('package:intl4x/plural_rules.dart'),
       ],
       PluralSelectorType.custom => <Directive>[],
     };

@@ -4,41 +4,18 @@
 
 import 'dart:math';
 
-import 'package:intl/intl.dart' as old_intl;
 import 'package:messages/messages_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:test/test.dart';
 
-Message intlPluralSelector(
-  num howMany,
-  String locale, {
-  Map<int, Message>? numberCases,
-  Map<int, Message>? wordCases,
-  Message? few,
-  Message? many,
-  required Message other,
-}) {
-  return old_intl.Intl.pluralLogic(
-    howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
-    other: other,
-    locale: locale,
-  );
-}
+StringMessage stringMessage = StringMessage('Hello World');
 
-StringMessage stringMessage = StringMessage('Hello World', id: 'hello_world');
-
-CombinedMessage combinedMessage = CombinedMessage('combined', [
+CombinedMessage combinedMessage = CombinedMessage([
   StringMessage('First '),
   StringMessage('Second'),
 ]);
 
 PluralMessage pluralMessage = PluralMessage(
-  id: 'pluralMes',
   few: StringMessage('few case'),
   many: StringMessage('many case'),
   numberCases: {1: StringMessage('oneNumber case')},
@@ -47,33 +24,12 @@ PluralMessage pluralMessage = PluralMessage(
   argIndex: 0,
 );
 
-SelectMessage selectMessage = SelectMessage(
-  StringMessage('Other'),
-  {'case1': StringMessage('Case1'), 'case2': StringMessage('Case2')},
-  0,
-  'selectMes',
-);
+SelectMessage selectMessage = SelectMessage(StringMessage('Other'), {
+  'case1': StringMessage('Case1'),
+  'case2': StringMessage('Case2'),
+}, 0);
 
 void main() {
-  test('Serialize with IDs', () {
-    final messages = [
-      stringMessage,
-      combinedMessage,
-      pluralMessage,
-      selectMessage,
-    ];
-    final serialized = JsonSerializer(
-      true,
-    ).serialize('hash', 'locale', messages);
-    final deserialize = JsonDeserializer(
-      serialized.data,
-    ).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages.map((e) => e.id),
-      orderedEquals(messages.map((e) => e.id)),
-    );
-  });
-
   test('Serialize partially', () {
     final messages = [
       stringMessage,
@@ -81,16 +37,12 @@ void main() {
       pluralMessage,
       selectMessage,
     ];
-    final serialized = JsonSerializer(
-      true,
-    ).serialize('hash', 'locale', messages, [1, 3]);
-    final deserialize = JsonDeserializer(
-      serialized.data,
-    ).deserialize(intlPluralSelector);
-    expect(
-      deserialize.messages.map((e) => e.id),
-      orderedEquals([messages[1], messages[3]].map((e) => e.id)),
-    );
+    final serialized = JsonSerializer().serialize('hash', 'locale', messages, [
+      1,
+      3,
+    ]);
+    final deserialize = JsonDeserializer(serialized.data).deserialize();
+    expect(deserialize.messages.length, 2);
   });
 
   test('First serialize, then deserialize again', () {
@@ -98,14 +50,10 @@ void main() {
       [stringMessage],
       [stringMessage, combinedMessage, pluralMessage, selectMessage],
     ];
-    final params = [
-      for (var writeId in [true, false])
-        for (var messages in messageTypes) (writeId, messages),
-    ];
-    for (final (writeId, messages) in params) {
+    for (final messages in messageTypes) {
       serializeThenDeserialize<String>(
         messages,
-        JsonSerializer(writeId),
+        JsonSerializer(),
         JsonDeserializer.new,
       );
     }
@@ -122,11 +70,11 @@ void serializeThenDeserialize<T>(
   final serialized = serializer.serialize(hash, locale, messages);
 
   final deserializer = deserializerBuilder(serialized.data);
-  final deserialized = deserializer.deserialize(intlPluralSelector);
+  final deserialized = deserializer.deserialize();
 
   expect(deserialized.preamble.hash, hash);
   expect(deserialized.preamble.locale, locale);
-  if (deserialized is MessageListJson) {
+  if (deserialized is MessageDataJson) {
     compareMessages(deserialized.messages, messages);
   }
 }

@@ -29,12 +29,11 @@ Message intlPluralSelector(
 
 void main() {
   test('JSON MessageList', () {
-    final MessageList messageList = MessageListJson(
+    final messageData = MessageDataJson(
       JsonPreamble.build(
         serializationVersion: serializationVersion,
         locale: 'en_US',
         hash: 'hash',
-        hasIds: false,
       ),
       [
         StringMessage('Hello World'),
@@ -59,11 +58,10 @@ void main() {
           ),
         }, 0),
       ],
-      intlPluralSelector,
       null,
     );
+    final messageList = MessageListJson(messageData, intlPluralSelector);
 
-    expect(messageList.preamble.hasIds, false);
     expect(messageList.preamble.locale, 'en_US');
     expect(messageList.generateStringAtIndex(0, []), 'Hello World');
     expect(messageList.generateStringAtIndex(1, ['case1']), 'Case case1');

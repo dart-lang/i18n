@@ -3,24 +3,22 @@ description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
 
+
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.12.0
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.19.0
-  messages:
-    path: ../../../messages
-  my_shopping_cart:
-    path: ../my_shopping_cart
+  intl: ^0.20.0
+  messages: ^0.3.0-wip
+  my_shopping_cart: ^0.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
-  messages_builder:
-    path: ../../../messages_builder
+  flutter_lints: ^6.0.0
+  messages_builder: ^0.3.0-wip
 
 flutter:
   uses-material-design: true

@@ -6,7 +6,6 @@ import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
 import '../parameterized_message.dart';
-import 'generation.dart';
 
 class ClassGeneration {
   final GenerationOptions options;
@@ -30,7 +29,7 @@ class ClassGeneration {
       _toCamelCase('${context ?? ''}Messages');
 
   List<Spec> generate() {
-    final classes = <Spec>[
+    return <Spec>[
       Class(
         (cb) => cb
           ..name = getClassName(context)
@@ -39,23 +38,6 @@ class ClassGeneration {
           ..methods.addAll(methods),
       ),
     ];
-    if (options.indexType == IndexType.enumerate) {
-      classes.add(
-        Enum(
-          (cb) => cb
-            ..name = enumName(context)
-            ..values.addAll(
-              List.generate(
-                messages.length,
-                (index) => messages[index].nameIsDartConform
-                    ? EnumValue((evb) => evb..name = messages[index].name)
-                    : null,
-              ).whereType<EnumValue>(),
-            ),
-        ),
-      );
-    }
-    return classes;
   }
 }
 

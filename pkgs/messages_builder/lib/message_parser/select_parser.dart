@@ -8,12 +8,7 @@ import 'icu_message_parser.dart';
 import 'message_parser.dart';
 
 class SelectParser {
-  SelectMessage parse(
-    Node node,
-    List<String> arguments, [
-    bool addId = false,
-    String? id,
-  ]) {
+  SelectMessage parse(Node node, List<String> arguments) {
     final identifier = node.children
         .firstWhere((element) => element.type == ST.identifier)
         .value!;
@@ -39,7 +34,6 @@ class SelectParser {
       cases.firstWhere((element) => element.key == 'other').value,
       caseMap,
       arguments.indexOf(identifier),
-      id,
     );
   }
 }

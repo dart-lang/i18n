@@ -42,14 +42,12 @@ void main() {
     final buffer = JsonSerializer()
         .serialize('', '', messageList.map((e) => e.message).toList())
         .data;
-    final messages = JsonDeserializer(
-      buffer,
-    ).deserialize(intlPluralSelector).messages;
+    final messages = JsonDeserializer(buffer).deserialize().messages;
     expect((messages[0] as StringMessage).value, message.value);
   });
 
   test('generateMessageFile from simple arb JSON', () {
-    final arb = <String, dynamic>{
+    final arb = <String, Object?>{
       '@@locale': 'en',
       'helloWorld': 'Hello World',
     };
@@ -57,13 +55,11 @@ void main() {
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
-    final messages = JsonDeserializer(
-      buffer,
-    ).deserialize(intlPluralSelector).messages;
+    final messages = JsonDeserializer(buffer).deserialize().messages;
     expect((messages[0] as StringMessage).value, 'Hello World');
   });
   test('generateMessageFile from simple arb JSON with placeholder', () {
-    final arb = <String, dynamic>{
+    final arb = <String, Object?>{
       '@@locale': 'en',
       'helloWorld': 'Hello {name}',
     };
@@ -71,16 +67,14 @@ void main() {
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
-    final messages = JsonDeserializer(
-      buffer,
-    ).deserialize(intlPluralSelector).messages;
+    final messages = JsonDeserializer(buffer).deserialize().messages;
     expect((messages[0] as StringMessage).value, 'Hello ');
     expect((messages[0] as StringMessage).argPositions, [
       (argIndex: 0, stringIndex: 6),
     ]);
   });
   test('generateMessageFile from simple arb JSON with only placeholders', () {
-    final arb = <String, dynamic>{
+    final arb = <String, Object?>{
       '@@locale': 'en',
       'helloWorld': '{greeting}{space}{name}',
     };
@@ -88,9 +82,7 @@ void main() {
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
-    final messages = JsonDeserializer(
-      buffer,
-    ).deserialize(intlPluralSelector).messages;
+    final messages = JsonDeserializer(buffer).deserialize().messages;
     expect((messages[0] as StringMessage).value, '');
     expect((messages[0] as StringMessage).argPositions, [
       (argIndex: 0, stringIndex: 0),
@@ -100,14 +92,12 @@ void main() {
   });
 
   test('generateMessageFile from complex arb JSON', () {
-    final arb = jsonDecode(arbFile) as Map<String, dynamic>;
+    final arb = jsonDecode(arbFile) as Map<String, Object?>;
     final parsed = ArbParser().parseMessageFile(arb);
     final buffer = JsonSerializer()
         .serialize('', '', parsed.messages.map((e) => e.message).toList())
         .data;
-    final messages = JsonDeserializer(
-      buffer,
-    ).deserialize(intlPluralSelector).messages;
+    final messages = JsonDeserializer(buffer).deserialize().messages;
     expect(
       messages[2].generateString([
         'female',

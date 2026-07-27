@@ -140,7 +140,6 @@ Future<MessageFile> parseMessageFile(
   String arbFile,
   GenerationOptions options,
 ) async {
-  final decoded = jsonDecode(arbFile) as Map;
-  final arb = Map.castFrom<dynamic, dynamic, String, dynamic>(decoded);
-  return ArbParser(options.findById).parseMessageFile(arb);
+  final decoded = (jsonDecode(arbFile) as Map).cast<String, Object?>();
+  return ArbParser().parseMessageFile(decoded);
 }
