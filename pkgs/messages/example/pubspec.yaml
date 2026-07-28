@@ -15,7 +15,7 @@ dependencies:
 dev_dependencies:
   dart_flutter_team_lints: ^3.1.0
   lints: ^6.0.0
-  messages_builder: ^0.3.0-wip
+  messages_builder: any
   path: ^1.8.3
   test: ^1.16.0
 

@@ -1,9 +1,7 @@
 name: my_shopping_cart
 description: "A new Flutter package project."
-version: 0.0.1
 
 publish_to: none
-
 
 environment:
   sdk: ^3.12.0
@@ -13,13 +11,15 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.20.0
-  messages: ^0.3.0-wip
+  messages:
+    path: ../..
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  messages_builder: ^0.3.0-wip
+  messages_builder:
+    path: ../../../messages_builder
 
 package_options:
   messages_builder:

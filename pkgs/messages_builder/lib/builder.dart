@@ -35,11 +35,11 @@ class MessageCallingCodeGenerator {
         );
 
     var counter = 0;
+    final familyFiles = <String?, List<String>>{};
 
     for (final MapEntry(key: parent, value: children) in families.entries) {
       final context = parent.file.context;
-
-      printIncludeFilesNotification(context, children.map((f) => f.path));
+      familyFiles[context] = children.map((f) => f.path).toList();
 
       final dummyFilePaths = Map.fromEntries(
         children
@@ -82,6 +82,8 @@ class MessageCallingCodeGenerator {
 ''');
       }
     }
+
+    printIncludeFilesNotification(familyFiles);
   }
 
   Future<List<LocatedMessageFile>> _parseMessageFiles() async => Future.wait(
@@ -123,16 +125,21 @@ The files $filesInContext have no metadata, so it is not clear which one is the 
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
   void printIncludeFilesNotification(
-    String? context,
-    Iterable<String> fileList,
+    Map<String?, List<String>> familyFiles,
   ) {
-    final contextMessage = context != null
-        ? 'For the messages in $context, the'
-        : 'The';
-    final fileListJoined = fileList.map((e) => '\t$e').join('\n');
-    print(
-      '''$contextMessage following files need to be declared in your assets:\n$fileListJoined''',
-    );
+    if (familyFiles.isEmpty) return;
+    print('Add the following to your pubspec.yaml:\n');
+    print('flutter:');
+    print('  assets:');
+    for (final MapEntry(key: context, value: files) in familyFiles.entries) {
+      if (context != null) {
+        print('    # $context');
+      }
+      final sortedFiles = files.toList()..sort();
+      for (final file in sortedFiles) {
+        print('    - $file');
+      }
+    }
   }
 }
 

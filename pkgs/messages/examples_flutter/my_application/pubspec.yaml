@@ -1,8 +1,7 @@
 name: my_application
 description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
 
+publish_to: none
 
 environment:
   sdk: ^3.12.0
@@ -11,14 +10,17 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.20.0
-  messages: ^0.3.0-wip
-  my_shopping_cart: ^0.0.1
+  messages:
+    path: ../..
+  my_shopping_cart:
+    path: ../my_shopping_cart
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  messages_builder: ^0.3.0-wip
+  messages_builder:
+    path: ../../../messages_builder
 
 flutter:
   uses-material-design: true
