@@ -115,7 +115,8 @@ class GenerationOptions {
       );
       if (matched == null) {
         throw ArgumentError(
-          'The message options contain the illegal target value "$targetString". Valid values are: flutter, dart, manual.',
+          'The message options contain the illegal target value '
+          '"$targetString". Valid values are: flutter, dart, manual.',
         );
       }
       return matched;

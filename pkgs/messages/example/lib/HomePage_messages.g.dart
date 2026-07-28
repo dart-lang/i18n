@@ -36,7 +36,6 @@ class HomePageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-
       String? data;
       if (locale == 'de') {
         await HomePage_de_data.loadLibrary();

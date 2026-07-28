@@ -48,7 +48,8 @@ package_options:
           emptyFilePaths: ['App_en_empty'],
         ).generate();
 
-        // Should require pluralSelector and _assetLoader parameters in constructor for manual target
+        // Should require pluralSelector and _assetLoader in constructor
+        // for manual target
         expect(
           code,
           contains('AppMessages(this._assetLoader, this.pluralSelector)'),
@@ -114,58 +115,56 @@ package_options:
       },
     );
 
-    test(
-      'generates rootBundle loading and optional _assetLoader for Flutter target',
-      () async {
-        const pubspec = '''
+    test('generates rootBundle loading and optional _assetLoader for '
+        'Flutter target', () async {
+      const pubspec = '''
 name: test_pkg
 package_options:
   messages_builder:
     plural_selector: custom
     target: flutter
 ''';
-        final options = await GenerationOptions.fromPubspec(pubspec);
+      final options = await GenerationOptions.fromPubspec(pubspec);
 
-        final arb = <String, dynamic>{
-          '@@locale': 'en',
-          '@@context': 'App',
-          'hello': 'Hello world',
-        };
-        final messageFile = ArbParser().parseMessageFile(arb);
-        final locatedFile = LocatedMessageFile(
-          path: 'assets/app_en.arb.json',
-          file: messageFile,
-        );
+      final arb = <String, dynamic>{
+        '@@locale': 'en',
+        '@@context': 'App',
+        'hello': 'Hello world',
+      };
+      final messageFile = ArbParser().parseMessageFile(arb);
+      final locatedFile = LocatedMessageFile(
+        path: 'assets/app_en.arb.json',
+        file: messageFile,
+      );
 
-        final classes = ClassesGeneration(
-          options: options,
-          context: 'App',
-          parent: locatedFile,
-          children: [locatedFile],
-          emptyFiles: {'en': 'App_en_empty'},
-        ).generate();
+      final classes = ClassesGeneration(
+        options: options,
+        context: 'App',
+        parent: locatedFile,
+        children: [locatedFile],
+        emptyFiles: {'en': 'App_en_empty'},
+      ).generate();
 
-        final code = CodeGenerator(
-          options: options,
-          classes: classes,
-          emptyFilePaths: ['App_en_empty'],
-        ).generate();
+      final code = CodeGenerator(
+        options: options,
+        classes: classes,
+        emptyFilePaths: ['App_en_empty'],
+      ).generate();
 
-        // Should import rootBundle
-        expect(
-          code,
-          contains("import 'package:flutter/services.dart' show rootBundle;"),
-        );
+      // Should import rootBundle
+      expect(
+        code,
+        contains("import 'package:flutter/services.dart' show rootBundle;"),
+      );
 
-        // Should load string via rootBundle when _assetLoader is null
-        expect(code, contains('rootBundle.loadString('));
+      // Should load string via rootBundle when _assetLoader is null
+      expect(code, contains('rootBundle.loadString('));
 
-        // Constructor should take pluralSelector and optional _assetLoader
-        expect(
-          code,
-          contains('AppMessages(this.pluralSelector, [this._assetLoader])'),
-        );
-      },
-    );
+      // Constructor should take pluralSelector and optional _assetLoader
+      expect(
+        code,
+        contains('AppMessages(this.pluralSelector, [this._assetLoader])'),
+      );
+    });
   });
 }

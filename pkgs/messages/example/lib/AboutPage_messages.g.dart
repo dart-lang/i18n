@@ -39,7 +39,6 @@ class AboutPageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-
       String? data;
       if (locale == 'en') {
         await AboutPage_en_data.loadLibrary();
