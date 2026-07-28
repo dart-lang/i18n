@@ -13,6 +13,9 @@ export 'message.dart';
 /// is a breaking change.
 const int serializationVersion = 0;
 
+/// Type definition for loading asset file contents by asset ID.
+typedef AssetLoader = Future<String> Function(String id);
+
 /// Metadata about the MessageList
 abstract class Preamble {
   int get version;

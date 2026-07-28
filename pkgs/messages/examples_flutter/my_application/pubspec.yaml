@@ -22,6 +22,14 @@ dev_dependencies:
   messages_builder:
     path: ../../../messages_builder
 
+dependency_overrides:
+  messages:
+    path: ../..
+  messages_builder:
+    path: ../../../messages_builder
+  messages_serializer:
+    path: ../../../messages_serializer
+
 flutter:
   uses-material-design: true
 

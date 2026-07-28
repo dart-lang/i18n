@@ -30,6 +30,16 @@ class ImportGeneration {
       return Directive.importDeferredAs('$emptyFilePath.g.dart', emptyFilePath);
     });
 
-    return [...serializationImports, ...pluralImports, ...deferredImports];
+    final targetImports = [
+      if (options.target == TargetEnvironment.flutter)
+        Directive.import('package:flutter/services.dart', show: ['rootBundle']),
+    ];
+
+    return [
+      ...serializationImports,
+      ...pluralImports,
+      ...targetImports,
+      ...deferredImports,
+    ];
   }
 }

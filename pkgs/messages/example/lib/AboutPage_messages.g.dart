@@ -6,13 +6,13 @@
 import 'package:intl4x/plural_rules.dart';
 import 'package:messages/messages_json.dart';
 
-import 'AboutPage_en_empty.g.dart' deferred as AboutPage_en_empty;
-import 'AboutPage_fr_empty.g.dart' deferred as AboutPage_fr_empty;
+import 'AboutPage_en_data.g.dart' deferred as AboutPage_en_data;
+import 'AboutPage_fr_data.g.dart' deferred as AboutPage_fr_data;
 
 class AboutPageMessages {
-  AboutPageMessages(this._assetLoader);
+  AboutPageMessages([this._assetLoader]);
 
-  final Future<String> Function(String id) _assetLoader;
+  final AssetLoader? _assetLoader;
 
   String _currentLocale = 'en';
 
@@ -39,13 +39,28 @@ class AboutPageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
+
+      String? data;
       if (locale == 'en') {
-        await AboutPage_en_empty.loadLibrary();
+        await AboutPage_en_data.loadLibrary();
+        data = AboutPage_en_data.data;
       } else if (locale == 'fr') {
-        await AboutPage_fr_empty.loadLibrary();
+        await AboutPage_fr_data.loadLibrary();
+        data = AboutPage_fr_data.data;
       }
 
-      final data = await _assetLoader(dataFile);
+      if (data == null) {
+        if (_assetLoader case final assetLoader?) {
+          final info = _dataFiles[locale];
+          final dataFile = info?.$1;
+          if (dataFile != null) {
+            data = await assetLoader(dataFile);
+          }
+        }
+      }
+      if (data == null) {
+        throw ArgumentError('Locale $locale is not in $knownLocales');
+      }
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError(

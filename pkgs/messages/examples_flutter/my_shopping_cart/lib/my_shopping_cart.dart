@@ -2,11 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:flutter/services.dart';
 import 'package:my_shopping_cart/src/shopping_cart_messages.g.dart';
 
 class MyShoppingCart {
-  final _messages = ShoppingCartMessages(rootBundle.loadString);
+  final _messages = ShoppingCartMessages();
   Future<void> loadLocales() async => await _messages.loadAllLocales();
 
   String itemsInCart(int number) => _messages.itemsInCart(number);

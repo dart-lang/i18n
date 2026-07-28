@@ -50,33 +50,31 @@ class MessageDataFileBuilder {
 
       final serializer = JsonSerializer();
 
-      final data = _arbToData(messageBundle, arbFilePath, serializer);
-
       final assetName = p.setExtension(
         p.basename(arbFilePath),
         '.arb${serializer.extension}',
       );
 
       final outputDataPath = outputFolder.uri.resolve(assetName);
-      final dataFile = File.fromUri(outputDataPath);
-      await dataFile.create();
-      await dataFile.writeAsString(data);
-      final relOutputFile = p.relative(outputDataPath.path);
-      _logger.info('Generated $relOutputFile');
+      if (options.target != TargetEnvironment.dart) {
+        final data = arbToData(messageBundle, serializer);
+        final dataFile = File.fromUri(outputDataPath);
+        await dataFile.create(recursive: true);
+        await dataFile.writeAsString(data);
+        final relOutputFile = p.relative(outputDataPath.path);
+        _logger.info('Generated $relOutputFile');
+      }
       mapping[arbFilePath] = outputDataPath.path;
     }
     return mapping;
   }
-
-  String _arbToData(
-    MessageFile messageBundle,
-    String arbFilePath,
-    Serializer<String> serializer,
-  ) => serializer
-      .serialize(
-        messageBundle.hash,
-        messageBundle.locale ?? 'en_US',
-        messageBundle.messages.map((e) => e.message).toList(),
-      )
-      .data;
 }
+
+String arbToData(MessageFile messageBundle, Serializer<String> serializer) =>
+    serializer
+        .serialize(
+          messageBundle.hash,
+          messageBundle.locale ?? 'en_US',
+          messageBundle.messages.map((e) => e.message).toList(),
+        )
+        .data;

@@ -12,22 +12,25 @@ class ConstructorGeneration {
   ConstructorGeneration(this.options);
 
   List<Constructor> generate() {
-    final nativeConstructor = Constructor(
-      (cb) => cb
+    final isManual = options.target == TargetEnvironment.manual;
+    final nativeConstructor = Constructor((cb) {
+      final assetLoader = Parameter(
+        (pb) => pb
+          ..name = '_assetLoader'
+          ..toThis = true,
+      );
+      cb
         ..requiredParameters.addAll([
-          Parameter(
-            (pb) => pb
-              ..name = '_assetLoader'
-              ..toThis = true,
-          ),
+          if (isManual) assetLoader,
           if (options.pluralSelector == PluralSelectorType.custom)
             Parameter(
               (pb) => pb
                 ..name = 'pluralSelector'
                 ..toThis = true,
             ),
-        ]),
-    );
+        ])
+        ..optionalParameters.addAll([if (!isManual) assetLoader]);
+    });
     return [nativeConstructor];
   }
 }

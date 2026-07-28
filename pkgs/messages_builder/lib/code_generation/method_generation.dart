@@ -53,22 +53,13 @@ class MethodGeneration {
       final selectorName = options.pluralSelector == PluralSelectorType.custom
           ? 'pluralSelector'
           : '_pluralSelector';
-      final loading = switch (options.deserialization) {
-        DeserializationType.web =>
-          '''
-          final data = await _assetLoader(dataFile);
-          final messageList = MessageListJson.fromString(data, $selectorName);''',
+
+      final loading = switch (options.target) {
+        TargetEnvironment.flutter => _flutterLoading(selectorName),
+        TargetEnvironment.dart => _dartLoading(selectorName),
+        TargetEnvironment.manual => _manualLoading(selectorName),
       };
-      final loadLibraries = emptyFiles.entries
-          .map(
-            (e) =>
-                '''
-if (locale == '${e.key}') {
- await ${e.value}.loadLibrary();
-}
-''',
-          )
-          .join(' else ');
+
       mb
         ..name = 'loadLocale'
         ..requiredParameters.add(
@@ -86,7 +77,6 @@ if (locale == '${e.key}') {
             if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
-            $loadLibraries
             $loading
             if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
@@ -143,5 +133,54 @@ if (locale == '${e.key}') {
       loadAllLocales,
       ...messageCalls,
     ];
+  }
+
+  String _dartLoading(String selectorName) {
+    return '''
+        String? data;
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+ data = ${e.value}.data;
+}
+''').join(' else ')}
+        if (data == null) {
+          if (_assetLoader case final assetLoader?) {
+            final info = _dataFiles[locale];
+            final dataFile = info?.\$1;
+            if (dataFile != null) {
+              data = await assetLoader(dataFile);
+            }
+          }
+        }
+        if (data == null) {
+          throw ArgumentError('Locale \$locale is not in \$knownLocales');
+        }
+        final messageList = MessageListJson.fromString(data, $selectorName);''';
+  }
+
+  String _flutterLoading(String selectorName) {
+    return '''          final String data;
+        if (_assetLoader case final assetLoader?) {
+          data = await assetLoader(dataFile);
+        } else {
+          data = await rootBundle.loadString(dataFile.substring('packages/${options.packageName}/'.length));
+        }
+        final messageList = MessageListJson.fromString(data, $selectorName);
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''').join(' else ')}''';
+  }
+
+  String _manualLoading(String selectorName) {
+    return '''          final data = await _assetLoader(dataFile);
+        final messageList = MessageListJson.fromString(data, $selectorName);
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''').join(' else ')}''';
   }
 }

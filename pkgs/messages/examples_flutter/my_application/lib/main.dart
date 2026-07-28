@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_application/src/my_app_messages.g.dart';
 import 'package:my_shopping_cart/my_shopping_cart.dart';
 
@@ -63,11 +62,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<MyAppMessages> initMyMessages() async {
-    var myAppMessages = MyAppMessages(
-      (id) => rootBundle.loadString(
-        id.substring('packages/my_application/'.length),
-      ),
-    );
+    var myAppMessages = MyAppMessages();
     await myAppMessages.loadLocale('en_US');
     return myAppMessages;
   }

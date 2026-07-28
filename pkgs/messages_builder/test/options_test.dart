@@ -51,6 +51,61 @@ package_options:
       expect(options.pluralSelector, PluralSelectorType.custom);
     });
 
+    test('parses target option correctly', () async {
+      const flutterPubspec = '''
+name: flutter_pkg
+package_options:
+  messages_builder:
+    target: flutter
+''';
+      final flutterOptions = await GenerationOptions.fromPubspec(
+        flutterPubspec,
+      );
+      expect(flutterOptions.target, TargetEnvironment.flutter);
+
+      const dartPubspec = '''
+name: dart_pkg
+package_options:
+  messages_builder:
+    target: dart
+''';
+      final dartOptions = await GenerationOptions.fromPubspec(dartPubspec);
+      expect(dartOptions.target, TargetEnvironment.dart);
+
+      const manualPubspec = '''
+name: manual_pkg
+package_options:
+  messages_builder:
+    target: manual
+''';
+      final manualOptions = await GenerationOptions.fromPubspec(manualPubspec);
+      expect(manualOptions.target, TargetEnvironment.manual);
+    });
+
+    test('throws ArgumentError on invalid target value', () async {
+      const invalidTargetPubspec = '''
+name: invalid_target_pkg
+package_options:
+  messages_builder:
+    target: invalid_value
+''';
+      expect(
+        () => GenerationOptions.fromPubspec(invalidTargetPubspec),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
+    test('auto-detects flutter dependency', () async {
+      const flutterPubspec = '''
+name: auto_flutter
+dependencies:
+  flutter:
+    sdk: flutter
+''';
+      final options = await GenerationOptions.fromPubspec(flutterPubspec);
+      expect(options.target, TargetEnvironment.flutter);
+    });
+
     test('throws ArgumentError on illegal key', () async {
       const pubspec = '''
 name: invalid_package

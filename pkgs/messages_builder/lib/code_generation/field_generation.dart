@@ -15,12 +15,13 @@ class FieldGeneration {
   FieldGeneration(this.options, this.messageFiles, this.initialLocale);
 
   List<Field> generate() {
+    final isManual = options.target == TargetEnvironment.manual;
     final loadingStrategy = Field((fb) {
-      final returnType = const Reference('Future<String>').symbol;
+      final typeAnnotation = 'AssetLoader${isManual ? '' : '?'}';
       fb
         ..name = '_assetLoader'
         ..modifier = FieldModifier.final$
-        ..type = Reference('$returnType Function(String id)');
+        ..type = Reference(typeAnnotation);
     });
     final currentLocale = Field(
       (fb) => fb

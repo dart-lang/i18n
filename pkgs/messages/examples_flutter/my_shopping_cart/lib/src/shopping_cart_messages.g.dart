@@ -3,15 +3,16 @@
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: unused_import
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
 import 'shopping_cart_en_US_empty.g.dart' deferred as shopping_cart_en_US_empty;
 
 class ShoppingCartMessages {
-  ShoppingCartMessages(this._assetLoader);
+  ShoppingCartMessages([this._assetLoader]);
 
-  final Future<String> Function(String id) _assetLoader;
+  final AssetLoader? _assetLoader;
 
   String _currentLocale = 'en_US';
 
@@ -38,7 +39,12 @@ class ShoppingCartMessages {
         await shopping_cart_en_US_empty.loadLibrary();
       }
 
-      final data = await _assetLoader(dataFile);
+      final String data;
+      if (_assetLoader case final assetLoader?) {
+        data = await assetLoader(dataFile);
+      } else {
+        data = await rootBundle.loadString(dataFile);
+      }
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError(
