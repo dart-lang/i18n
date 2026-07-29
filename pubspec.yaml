@@ -10,3 +10,5 @@ workspace:
   - pkgs/messages_builder
   - pkgs/messages_serializer
   - pkgs/messages_shrinker
+  - pkgs/messages_analyzer_plugin
+  

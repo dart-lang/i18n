@@ -21,4 +21,10 @@ Future<void> main(List<String> arguments) async {
   await messages.loadLocale('fr');
   print('AboutMessage fr:');
   print('\t${messages.aboutMessage('typesafe.fr')}');
+  print(getGreeting('Dart'));
+}
+
+String getGreeting(String name) {
+  // Try clicking on the string literal below to test "Extract to ARB"!
+  return 'Welcome back, $name!';
 }
