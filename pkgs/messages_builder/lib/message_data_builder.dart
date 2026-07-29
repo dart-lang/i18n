@@ -56,7 +56,7 @@ class MessageDataFileBuilder {
       );
 
       final outputDataPath = outputFolder.uri.resolve(assetName);
-      if (options.target != TargetEnvironment.dart) {
+      if (options.assetLoadingStyle != TargetEnvironment.dart) {
         final data = arbToData(messageBundle, serializer);
         final dataFile = File.fromUri(outputDataPath);
         await dataFile.create(recursive: true);

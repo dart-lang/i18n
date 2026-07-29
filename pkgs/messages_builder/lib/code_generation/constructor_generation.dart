@@ -12,7 +12,7 @@ class ConstructorGeneration {
   ConstructorGeneration(this.options);
 
   List<Constructor> generate() {
-    final isManual = options.target == TargetEnvironment.manual;
+    final isManual = options.assetLoadingStyle == TargetEnvironment.manual;
     final nativeConstructor = Constructor((cb) {
       final assetLoader = Parameter(
         (pb) => pb

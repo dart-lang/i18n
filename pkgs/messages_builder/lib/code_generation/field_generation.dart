@@ -15,7 +15,7 @@ class FieldGeneration {
   FieldGeneration(this.options, this.messageFiles, this.initialLocale);
 
   List<Field> generate() {
-    final isManual = options.target == TargetEnvironment.manual;
+    final isManual = options.assetLoadingStyle == TargetEnvironment.manual;
     final loadingStrategy = Field((fb) {
       final typeAnnotation = 'AssetLoader${isManual ? '' : '?'}';
       fb

@@ -19,7 +19,7 @@ name: test_pkg
 package_options:
   messages_builder:
     plural_selector: custom
-    target: manual
+    asset_loading_style: manual
 ''';
         final options = await GenerationOptions.fromPubspec(pubspec);
 
@@ -78,7 +78,7 @@ name: test_pkg
 package_options:
   messages_builder:
     plural_selector: custom
-    target: dart
+    asset_loading_style: dart
 ''';
         final options = await GenerationOptions.fromPubspec(pubspec);
 
@@ -122,7 +122,7 @@ name: test_pkg
 package_options:
   messages_builder:
     plural_selector: custom
-    target: flutter
+    asset_loading_style: flutter
 ''';
       final options = await GenerationOptions.fromPubspec(pubspec);
 

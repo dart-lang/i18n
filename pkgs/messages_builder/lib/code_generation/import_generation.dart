@@ -31,7 +31,7 @@ class ImportGeneration {
     });
 
     final targetImports = [
-      if (options.target == TargetEnvironment.flutter)
+      if (options.assetLoadingStyle == TargetEnvironment.flutter)
         Directive.import('package:flutter/services.dart', show: ['rootBundle']),
     ];
 

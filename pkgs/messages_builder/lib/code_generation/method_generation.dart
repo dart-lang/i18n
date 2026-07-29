@@ -54,7 +54,7 @@ class MethodGeneration {
           ? 'pluralSelector'
           : '_pluralSelector';
 
-      final loading = switch (options.target) {
+      final loading = switch (options.assetLoadingStyle) {
         TargetEnvironment.flutter => _flutterLoading(selectorName),
         TargetEnvironment.dart => _dartLoading(selectorName),
         TargetEnvironment.manual => _manualLoading(selectorName),

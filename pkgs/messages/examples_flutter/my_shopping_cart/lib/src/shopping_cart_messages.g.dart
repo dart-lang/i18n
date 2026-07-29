@@ -35,17 +35,19 @@ class ShoppingCartMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      if (locale == 'en_US') {
-        await shopping_cart_en_US_empty.loadLibrary();
-      }
-
       final String data;
       if (_assetLoader case final assetLoader?) {
         data = await assetLoader(dataFile);
       } else {
-        data = await rootBundle.loadString(dataFile);
+        data = await rootBundle.loadString(
+          dataFile.substring('packages/my_shopping_cart/'.length),
+        );
       }
       final messageList = MessageListJson.fromString(data, _pluralSelector);
+      if (locale == 'en_US') {
+        await shopping_cart_en_US_empty.loadLibrary();
+      }
+
       if (messageList.preamble.hash != info?.$2) {
         throw ArgumentError(
           '''

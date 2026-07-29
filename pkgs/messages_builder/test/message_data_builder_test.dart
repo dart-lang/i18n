@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:messages_builder/generation_options.dart';
@@ -33,67 +34,86 @@ void main() {
       await tempDir.delete(recursive: true);
     });
 
-    test('generates .arb.json asset files for flutter target', () async {
-      final options = await GenerationOptions.fromPubspec('''
+    test(
+      'generates .arb.json asset files for flutter asset loading style',
+      () async {
+        final options = await GenerationOptions.fromPubspec('''
 name: test_pkg
 package_options:
   messages_builder:
-    target: flutter
+    asset_loading_style: flutter
 ''');
 
-      final builder = MessageDataFileBuilder(
-        inputFolder: inputDir,
-        outputFolder: outputDir,
-        options: options,
-      );
+        final builder = MessageDataFileBuilder(
+          inputFolder: inputDir,
+          outputFolder: outputDir,
+          options: options,
+        );
 
-      final mapping = await builder.run();
-      expect(mapping, isNotEmpty);
+        final mapping = await builder.run();
+        expect(mapping, isNotEmpty);
 
-      final generatedAsset = File(path.join(outputDir.path, 'app_en.arb.json'));
-      expect(generatedAsset.existsSync(), isTrue);
-    });
+        final generatedAsset = File(
+          path.join(outputDir.path, 'app_en.arb.json'),
+        );
+        expect(generatedAsset.existsSync(), isTrue);
+        expect(
+          jsonDecode(generatedAsset.readAsStringSync()),
+          isA<List<dynamic>>(),
+        );
+      },
+    );
 
-    test('does NOT generate .arb.json asset files for dart target', () async {
-      final options = await GenerationOptions.fromPubspec('''
+    test(
+      'does NOT generate .arb.json asset files for dart asset loading style',
+      () async {
+        final options = await GenerationOptions.fromPubspec('''
 name: test_pkg
 package_options:
   messages_builder:
-    target: dart
+    asset_loading_style: dart
 ''');
 
-      final builder = MessageDataFileBuilder(
-        inputFolder: inputDir,
-        outputFolder: outputDir,
-        options: options,
-      );
+        final builder = MessageDataFileBuilder(
+          inputFolder: inputDir,
+          outputFolder: outputDir,
+          options: options,
+        );
 
-      final mapping = await builder.run();
-      expect(mapping, isNotEmpty);
+        final mapping = await builder.run();
+        expect(mapping, isNotEmpty);
 
-      final generatedAsset = File(path.join(outputDir.path, 'app_en.arb.json'));
-      expect(generatedAsset.existsSync(), isFalse);
-    });
+        final generatedAsset = File(
+          path.join(outputDir.path, 'app_en.arb.json'),
+        );
+        expect(generatedAsset.existsSync(), isFalse);
+      },
+    );
 
-    test('generates .arb.json asset files for manual target', () async {
-      final options = await GenerationOptions.fromPubspec('''
+    test(
+      'generates .arb.json asset files for manual asset loading style',
+      () async {
+        final options = await GenerationOptions.fromPubspec('''
 name: test_pkg
 package_options:
   messages_builder:
-    target: manual
+    asset_loading_style: manual
 ''');
 
-      final builder = MessageDataFileBuilder(
-        inputFolder: inputDir,
-        outputFolder: outputDir,
-        options: options,
-      );
+        final builder = MessageDataFileBuilder(
+          inputFolder: inputDir,
+          outputFolder: outputDir,
+          options: options,
+        );
 
-      final mapping = await builder.run();
-      expect(mapping, isNotEmpty);
+        final mapping = await builder.run();
+        expect(mapping, isNotEmpty);
 
-      final generatedAsset = File(path.join(outputDir.path, 'app_en.arb.json'));
-      expect(generatedAsset.existsSync(), isTrue);
-    });
+        final generatedAsset = File(
+          path.join(outputDir.path, 'app_en.arb.json'),
+        );
+        expect(generatedAsset.existsSync(), isTrue);
+      },
+    );
   });
 }
