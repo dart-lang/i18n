@@ -45,6 +45,11 @@ jobs:
 
       - run: dart test
 
+      - name: Verify ICU4X binary artifact attestations
+        run: |
+          find .dart_tool -name "*icu4x*" -type f -exec gh attestation verify {} --owner unicode-org --repo icu4x \;
+        continue-on-error: true
+
       - run: dart test -p chrome
 
       - run: dart --enable-experiment=record-use build cli --target example.dart
