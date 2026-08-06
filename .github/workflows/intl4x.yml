@@ -1,9 +1,5 @@
 name: package:intl4x
-permissions:
-  pull-requests: read # Changed to read, as we are only reading labels
-  contents: read # Added for checkout action
-  pages: write # For the dart doc page job
-  id-token: write
+permissions: read-all
 
 on:
   pull_request:
@@ -134,6 +130,9 @@ jobs:
 
   deploy:
     if: ${{ github.event_name == 'push' }}
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
