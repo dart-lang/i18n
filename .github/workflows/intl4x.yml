@@ -47,6 +47,8 @@ jobs:
 
       - run: dart test -p chrome
 
+      - run: dart test --platform chrome --compiler dart2wasm
+
       - run: dart --enable-experiment=record-use build cli --target example.dart
         working-directory: pkgs/intl4x/example
 
