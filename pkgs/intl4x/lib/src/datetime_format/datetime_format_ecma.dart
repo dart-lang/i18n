@@ -469,7 +469,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   static List<Locale> supportedLocalesOf(Locale locale) =>
       _DateTimeFormat.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   static DateTimeFormatImpl tryToBuild(Locale locale) {
     final supportedLocales = supportedLocalesOf(locale);
