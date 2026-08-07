@@ -36,5 +36,37 @@ void main() {
       ).withClockStyle(ClockStyle.oneToTwelve);
       expect(locale.toLanguageTag(), 'en-US-u-hc-h12');
     });
+
+    test('subtag getters (language, region, script)', () {
+      final enUS = Locale.parse('en-US');
+      expect(enUS.language, 'en');
+      expect(enUS.region, 'US');
+      expect(enUS.script, isNull);
+
+      final zhHantTW = Locale.parse('zh-Hant-TW');
+      expect(zhHantTW.language, 'zh');
+      expect(zhHantTW.script, 'Hant');
+      expect(zhHantTW.region, 'TW');
+
+      final srLatn = Locale.parse('sr-Latn');
+      expect(srLatn.language, 'sr');
+      expect(srLatn.script, 'Latn');
+      expect(srLatn.region, isNull);
+
+      final de = Locale.parse('de');
+      expect(de.language, 'de');
+      expect(de.region, isNull);
+      expect(de.script, isNull);
+    });
+
+    test('equality and hashCode', () {
+      final a1 = Locale.parse('en-US');
+      final a2 = Locale.parse('en-US');
+      final b = Locale.parse('en-GB');
+
+      expect(a1, equals(a2));
+      expect(a1.hashCode, equals(a2.hashCode));
+      expect(a1, isNot(equals(b)));
+    });
   });
 }

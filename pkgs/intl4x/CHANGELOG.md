@@ -1,6 +1,7 @@
 ## 1.0.0-alpha.3-wip
 
 - Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
+- Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.

@@ -15,6 +15,15 @@ import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
 /// Examples are `de-DE`, `es-419`, or `zh-Hant-TW`.
 //TODO(mosum): Add RecordUse here somehow to record which locales are used.
 abstract class Locale {
+  /// The language subtag (e.g. 'en', 'zh', 'und').
+  String get language;
+
+  /// The region subtag (e.g. 'US', '419'), or null if unspecified.
+  String? get region;
+
+  /// The script subtag (e.g. 'Hant', 'Latn'), or null if unspecified.
+  String? get script;
+
   /// Generate a language tag by joining the subtags with the [separator].
   String toLanguageTag([String separator = '-']);
 
@@ -32,6 +41,14 @@ abstract class Locale {
 
   /// The system's current locale.
   static Locale get system => findSystemLocale();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Locale && toLanguageTag() == other.toLanguageTag());
+
+  @override
+  int get hashCode => toLanguageTag().hashCode;
 
   @override
   String toString() => toLanguageTag();
