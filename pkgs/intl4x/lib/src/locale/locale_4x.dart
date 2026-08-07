@@ -19,19 +19,10 @@ class Locale4x implements Locale {
   String get language => _locale.language;
 
   @override
-  String get languageCode => language;
-
-  @override
   String? get region => _locale.region;
 
   @override
-  String? get countryCode => region;
-
-  @override
   String? get script => _locale.script;
-
-  @override
-  String? get scriptCode => script;
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();

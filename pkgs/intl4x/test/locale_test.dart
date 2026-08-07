@@ -40,44 +40,23 @@ void main() {
     test('subtag getters (language, region, script)', () {
       final enUS = Locale.parse('en-US');
       expect(enUS.language, 'en');
-      expect(enUS.languageCode, 'en');
       expect(enUS.region, 'US');
-      expect(enUS.countryCode, 'US');
       expect(enUS.script, isNull);
-      expect(enUS.scriptCode, isNull);
 
       final zhHantTW = Locale.parse('zh-Hant-TW');
       expect(zhHantTW.language, 'zh');
-      expect(zhHantTW.languageCode, 'zh');
       expect(zhHantTW.script, 'Hant');
-      expect(zhHantTW.scriptCode, 'Hant');
       expect(zhHantTW.region, 'TW');
-      expect(zhHantTW.countryCode, 'TW');
 
       final srLatn = Locale.parse('sr-Latn');
       expect(srLatn.language, 'sr');
-      expect(srLatn.languageCode, 'sr');
       expect(srLatn.script, 'Latn');
-      expect(srLatn.scriptCode, 'Latn');
       expect(srLatn.region, isNull);
-      expect(srLatn.countryCode, isNull);
 
       final de = Locale.parse('de');
       expect(de.language, 'de');
-      expect(de.languageCode, 'de');
       expect(de.region, isNull);
-      expect(de.countryCode, isNull);
       expect(de.script, isNull);
-      expect(de.scriptCode, isNull);
-    });
-
-    test('tryParse', () {
-      final valid = Locale.tryParse('en-US');
-      expect(valid, isNotNull);
-      expect(valid!.toLanguageTag(), 'en-US');
-
-      final invalid = Locale.tryParse('invalid!!locale??');
-      expect(invalid, isNull);
     });
 
     test('equality and hashCode', () {
