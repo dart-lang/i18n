@@ -15,11 +15,39 @@ import 'locale_4x.dart' if (dart.library.js_interop) 'locale_ecma.dart';
 /// Examples are `de-DE`, `es-419`, or `zh-Hant-TW`.
 //TODO(mosum): Add RecordUse here somehow to record which locales are used.
 abstract class Locale {
+  /// The language subtag (e.g. 'en', 'zh', 'und').
+  String get language;
+
+  /// An alias for [language].
+  String get languageCode => language;
+
+  /// The region/country subtag (e.g. 'US', '419'), or null if unspecified.
+  String? get region;
+
+  /// An alias for [region].
+  String? get countryCode => region;
+
+  /// The script subtag (e.g. 'Hant', 'Latn'), or null if unspecified.
+  String? get script;
+
+  /// An alias for [script].
+  String? get scriptCode => script;
+
   /// Generate a language tag by joining the subtags with the [separator].
   String toLanguageTag([String separator = '-']);
 
   /// Constructs a [Locale] by parsing a BCP47 language tag.
   static Locale parse(String s) => parseLocale(s);
+
+  /// Constructs a [Locale] by parsing a BCP47 language tag, or returns null if
+  /// parsing fails.
+  static Locale? tryParse(String s) {
+    try {
+      return parse(s);
+    } catch (_) {
+      return null;
+    }
+  }
 
   /// Returns a new `Locale` with the given `calendar`.
   Locale withCalendar(Calendar calendar);
@@ -32,6 +60,14 @@ abstract class Locale {
 
   /// The system's current locale.
   static Locale get system => findSystemLocale();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Locale && toLanguageTag() == other.toLanguageTag());
+
+  @override
+  int get hashCode => toLanguageTag().hashCode;
 
   @override
   String toString() => toLanguageTag();

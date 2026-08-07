@@ -27,7 +27,33 @@ class LocaleEcma implements Locale {
   LocaleEcma(this._locale);
 
   @override
+  String get language => _locale.language;
+
+  @override
+  String get languageCode => language;
+
+  @override
+  String? get region => _locale.region;
+
+  @override
+  String? get countryCode => region;
+
+  @override
+  String? get script => _locale.script;
+
+  @override
+  String? get scriptCode => script;
+
+  @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Locale && toLanguageTag() == other.toLanguageTag());
+
+  @override
+  int get hashCode => toLanguageTag().hashCode;
 
   @override
   String toString() => toLanguageTag();
