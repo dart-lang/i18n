@@ -41,7 +41,7 @@ class _NumberFormatECMA extends NumberFormatImpl {
   static List<Locale> supportedLocalesOf(Locale locale) =>
       NumberFormat.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   @override
   String formatImpl(Object number) {

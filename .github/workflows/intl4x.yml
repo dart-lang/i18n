@@ -1,9 +1,6 @@
 name: package:intl4x
 permissions:
-  pull-requests: read # Changed to read, as we are only reading labels
-  contents: read # Added for checkout action
-  pages: write # For the dart doc page job
-  id-token: write
+  contents: read
 
 on:
   pull_request:
@@ -46,6 +43,8 @@ jobs:
       - run: dart test
 
       - run: dart test -p chrome
+
+      - run: dart test --platform chrome --compiler dart2wasm
 
       - run: dart --enable-experiment=record-use build cli --target example.dart
         working-directory: pkgs/intl4x/example
@@ -132,6 +131,9 @@ jobs:
 
   deploy:
     if: ${{ github.event_name == 'push' }}
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
