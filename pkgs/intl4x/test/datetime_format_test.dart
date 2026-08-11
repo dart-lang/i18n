@@ -8,6 +8,19 @@ import 'package:test/test.dart';
 import 'utils.dart';
 
 void main() {
+  group('Dot shorthands and new types', () {
+    final dateTime = DateTime(2012, 12, 20, 3, 0, 0);
+    testWithFormatting('DateTimeFormat dot shorthand', () {
+      // Showcase the dot shorthand
+      // ignore: omit_local_variable_types
+      final DateTimeFormatUnzoneable formatter = DateTimeFormat.year(
+        locale: Locale.parse('en-US'),
+        yearStyle: YearStyle.full,
+      );
+      expect(formatter.format(dateTime), '2012');
+    });
+  });
+
   group('Basic', () {
     final dateTime = DateTime(2012, 12, 20, 3, 0, 0);
     testWithFormatting(

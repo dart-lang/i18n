@@ -8,7 +8,7 @@ import '../datetime_format_impl.dart';
 import '../datetime_format_options.dart';
 import 'datetime_format_4x.dart';
 
-class TimeFormatterX extends FormatterImpl {
+class TimeFormatterX implements FormatterImpl {
   final icu.TimeFormatter formatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
@@ -28,36 +28,24 @@ class TimeFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
-      ),
-      super(impl);
+      );
 
   @override
-  String formatInternal(DateTime datetime) {
+  String format(DateTime datetime) {
     final (_, time) = datetime.toX;
     return formatter.format(time);
   }
 
   @override
-  TimeFormatterZonedX withTimeZoneShort() => TimeFormatterZonedX.short(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLong() => TimeFormatterZonedX.long(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneShortOffset() =>
-      TimeFormatterZonedX.shortOffset(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLongOffset() =>
-      TimeFormatterZonedX.longOffset(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneShortGeneric() =>
-      TimeFormatterZonedX.shortGeneric(this);
-
-  @override
-  ZonedDateTimeFormatter withTimeZoneLongGeneric() =>
-      TimeFormatterZonedX.longGeneric(this);
+  ZonedDateTimeFormat withTimeZone(TimeZoneType timeZoneType) =>
+      switch (timeZoneType) {
+        TimeZoneType.short => TimeFormatterZonedX.short(this),
+        TimeZoneType.long => TimeFormatterZonedX.long(this),
+        TimeZoneType.shortOffset => TimeFormatterZonedX.shortOffset(this),
+        TimeZoneType.longOffset => TimeFormatterZonedX.longOffset(this),
+        TimeZoneType.shortGeneric => TimeFormatterZonedX.shortGeneric(this),
+        TimeZoneType.longGeneric => TimeFormatterZonedX.longGeneric(this),
+      };
 }
 
 class TimeFormatterZonedX extends FormatterZonedImpl {
