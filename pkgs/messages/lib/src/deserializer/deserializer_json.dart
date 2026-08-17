@@ -6,59 +6,52 @@ import 'dart:convert';
 
 import '../message_format.dart';
 import '../message_list_json.dart';
-import '../plural_selector.dart';
 import 'deserializer.dart';
 
-class JsonDeserializer extends Deserializer<MessageListJson> {
-  final List _parsed;
+class JsonDeserializer extends Deserializer<MessageDataJson> {
+  final List<Object?> _parsed;
   final List<int> messageOffsets = [];
   final List<Message> _messages = [];
   late final JsonPreamble preamble;
 
-  JsonDeserializer(String data) : _parsed = jsonDecode(data) as List {
+  JsonDeserializer(String data)
+    : _parsed = (jsonDecode(data) as List).cast<Object?>() {
     preamble = JsonPreamble.parse(_parsed);
   }
 
   @override
-  MessageListJson deserialize(PluralSelector selector) {
+  MessageDataJson deserialize() {
     if (preamble.version != serializationVersion) {
       throw ArgumentError(
-          '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''');
+        '''This message has version ${preamble.version}, while the deserializer has version $serializationVersion''',
+      );
     }
-    final mapping = _parsed[Preamble.length] as Map<String, dynamic>?;
+    final mappingList = _parsed[Preamble.length] as List<Object?>?;
     for (var i = Preamble.length + 1; i < _parsed.length; i++) {
-      _messages.add(getMessage(_parsed[i], true));
+      _messages.add(getMessage(_parsed[i]));
     }
-    return MessageListJson(
-      preamble,
-      _messages,
-      selector,
-      mapping?.map((key, value) => MapEntry(
-            int.parse(key, radix: serializationRadix),
-            int.parse(value as String, radix: serializationRadix),
-          )),
-    );
+    final messageIndices = mappingList != null
+        ? Map.fromEntries(
+            mappingList.cast<int>().indexed.map(
+              (entry) => MapEntry(entry.$2, entry.$1),
+            ),
+          )
+        : null;
+    return MessageDataJson(preamble, _messages, messageIndices);
   }
 
-  Message getMessage(dynamic message, [bool isTopLevel = false]) {
+  Message getMessage(Object? message) {
     if (message is List) {
       final typeOrId = message[0];
-      int start;
-      String? id;
-      if (isTopLevel && preamble.hasIds) {
-        start = 2;
-        id = message[1] as String;
-      } else {
-        start = 1;
-      }
+      final start = 1;
       if (typeOrId == PluralMessage.type) {
-        return _forPlural(message, start, id);
+        return _forPlural(message, start);
       } else if (typeOrId == SelectMessage.type) {
-        return _forSelect(message, start, id);
+        return _forSelect(message, start);
       } else if (typeOrId == CombinedMessage.type) {
-        return _forCombined(message, start, id);
+        return _forCombined(message, start);
       } else if (typeOrId is String) {
-        return _forString(message, start - 1, typeOrId);
+        return _forString(message, 0);
       }
     } else if (message is String) {
       return StringMessage(message);
@@ -66,26 +59,24 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
     throw ArgumentError();
   }
 
-  StringMessage _forString(List<dynamic> message, int start, String? id) {
+  StringMessage _forString(List<Object?> message, int start) {
     final value = message[start] as String;
     final argPositions = <({int stringIndex, int argIndex})>[];
     for (var i = start + 1; i < message.length; i++) {
-      final pair = message[i] as List;
-      final stringIndex = pair[0];
-      final argIndex = pair[1];
+      final [stringIndex as int, argIndex as int] = message[i] as List;
       argPositions.add((stringIndex: stringIndex, argIndex: argIndex));
     }
-    return StringMessage(value, argPositions: argPositions, id: id);
+    return StringMessage(value, argPositions: argPositions);
   }
 
-  PluralMessage _forPlural(List<dynamic> message, int start, String? id) {
+  PluralMessage _forPlural(List<Object?> message, int start) {
     final argIndex = message[start] as int;
     final otherMessage = getMessage(message[start + 1]);
     Message? fewMessage;
     Message? manyMessage;
     final numberCases = <int, Message>{};
     final wordCases = <int, Message>{};
-    final submessages = message[start + 2] as List;
+    final submessages = message[start + 2] as List<Object?>;
     for (var i = 0; i < submessages.length - 1; i += 2) {
       final msg = getMessage(submessages[i + 1]);
       final messageMarker = submessages[i];
@@ -108,25 +99,20 @@ class JsonDeserializer extends Deserializer<MessageListJson> {
       many: manyMessage,
       argIndex: argIndex,
       other: otherMessage,
-      id: id,
     );
   }
 
-  SelectMessage _forSelect(List<dynamic> message, int start, String? id) {
+  SelectMessage _forSelect(List<Object?> message, int start) {
     final argIndex = message[start] as int;
     final otherCase = getMessage(message[start + 1]);
-    final submessages = message[start + 2] as Map;
-    final cases = submessages.map((caseName, caseMessage) => MapEntry(
-          caseName as String,
-          getMessage(caseMessage),
-        ));
-    return SelectMessage(otherCase, cases, argIndex, id);
+    final submessages = message[start + 2] as Map<String, Object?>;
+    final cases = submessages.map(
+      (caseName, caseMessage) => MapEntry(caseName, getMessage(caseMessage)),
+    );
+    return SelectMessage(otherCase, cases, argIndex);
   }
 
-  CombinedMessage _forCombined(List<dynamic> message, int start, String? id) {
-    return CombinedMessage(
-      id,
-      message.skip(start).map(getMessage).toList(),
-    );
+  CombinedMessage _forCombined(List<Object?> message, int start) {
+    return CombinedMessage(message.skip(start).map(getMessage).toList());
   }
 }

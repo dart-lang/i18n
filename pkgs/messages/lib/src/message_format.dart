@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // ignore_for_file: non_constant_identifier_names
+import 'message.dart';
 import 'plural_selector.dart';
 
 export 'message.dart';
@@ -12,8 +13,8 @@ export 'message.dart';
 /// is a breaking change.
 const int serializationVersion = 0;
 
-/// Which radix to serialize messages with.
-const int serializationRadix = 36;
+/// Type definition for loading asset file contents by asset ID.
+typedef AssetLoader = Future<String> Function(String id);
 
 /// Metadata about the MessageList
 abstract class Preamble {
@@ -23,18 +24,23 @@ abstract class Preamble {
 
   String get hash;
 
-  bool get hasIds;
-
-  static int length = 4;
+  static int length = 3;
 }
 
+/// Deserialized static message data payload.
+abstract class MessageData {
+  Preamble get preamble;
+  List<Message> get messages;
+
+  int getIndex(int index);
+}
+
+/// Runtime message list wrapper bound to a [PluralSelector].
 abstract class MessageList {
   Preamble get preamble;
   PluralSelector get pluralSelector;
 
-  String generateStringAtIndex(int index, List args);
-
-  String generateStringAtId(String id, List args);
+  String generateStringAtIndex(int index, List<Object?> args);
 }
 
 sealed class PluralMarker {

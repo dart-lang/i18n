@@ -7,23 +7,17 @@ import 'message_format.dart';
 import 'plural_selector.dart';
 
 class JsonPreamble extends Preamble {
-  final List _data;
+  final List<Object?> _data;
 
   JsonPreamble.build({
     required int serializationVersion,
     required String locale,
     required String hash,
-    required bool hasIds,
-  }) : _data = [
-          serializationVersion,
-          locale,
-          hash,
-          hasIds ? 1 : 0,
-        ];
+  }) : _data = [serializationVersion, locale, hash];
 
   JsonPreamble.parse(this._data);
 
-  Iterable toJson() => _data;
+  Iterable<Object?> toJson() => _data;
 
   @override
   int get version => _data[0] as int;
@@ -33,43 +27,45 @@ class JsonPreamble extends Preamble {
 
   @override
   String get hash => _data[2] as String;
-
-  @override
-  bool get hasIds => _data[3] == 1;
 }
 
-class MessageListJson extends MessageList {
-  final List<Message> messages;
-  final PluralSelector _selector;
+/// Static deserialized data payload for JSON messages.
+class MessageDataJson implements MessageData {
   final JsonPreamble _preamble;
-  final Map<int, int>? messageIndices;
-
   @override
-  PluralSelector get pluralSelector => _selector;
+  final List<Message> messages;
+  final Map<int, int>? messageIndices;
 
   @override
   Preamble get preamble => _preamble;
 
-  MessageListJson(
-    this._preamble,
-    this.messages,
-    this._selector,
-    this.messageIndices,
-  );
+  MessageDataJson(this._preamble, this.messages, this.messageIndices);
 
-  factory MessageListJson.fromString(String string, PluralSelector intl) =>
-      JsonDeserializer(string).deserialize(intl);
+  factory MessageDataJson.fromString(String string) =>
+      JsonDeserializer(string).deserialize();
 
   @override
-  String generateStringAtId(String id, List args) => messages
-      .where((element) => element.id == id)
-      .first
-      .generateString(args, locale: preamble.locale, pluralSelector: _selector);
-
-  @override
-  String generateStringAtIndex(int index, List args) =>
-      messages[getIndex(index)].generateString(args,
-          locale: preamble.locale, pluralSelector: _selector);
-
   int getIndex(int index) => messageIndices?[index] ?? index;
+}
+
+/// Runtime message list wrapping [MessageData] and bound to a [PluralSelector].
+class MessageListJson extends MessageList {
+  final MessageData data;
+  final PluralSelector _selector;
+
+  @override
+  Preamble get preamble => data.preamble;
+
+  @override
+  PluralSelector get pluralSelector => _selector;
+
+  MessageListJson(this.data, this._selector);
+
+  factory MessageListJson.fromString(String string, PluralSelector selector) =>
+      MessageListJson(MessageDataJson.fromString(string), selector);
+
+  @override
+  String generateStringAtIndex(int index, List<Object?> args) => data
+      .messages[data.getIndex(index)]
+      .generateString(args, locale: preamble.locale, pluralSelector: _selector);
 }
