@@ -5,9 +5,7 @@
 import 'plural_selector.dart';
 
 sealed class Message {
-  final String? id;
-
-  Message(this.id);
+  Message();
 
   String generateString(
     List allArgs, {
@@ -20,7 +18,7 @@ sealed class Message {
 final class CombinedMessage extends Message {
   final List<Message> messages;
 
-  CombinedMessage(super.id, this.messages);
+  CombinedMessage(this.messages);
 
   @override
   String generateString(
@@ -49,8 +47,7 @@ final class StringMessage extends Message {
   /// This list is expected to be sorted by `argPositions.stringIndex`
   final List<({int stringIndex, int argIndex})> argPositions;
 
-  StringMessage(this.value, {this.argPositions = const [], String? id})
-      : super(id);
+  StringMessage(this.value, {this.argPositions = const [], String? id});
 
   static const int type = 1;
 
@@ -97,7 +94,7 @@ final class PluralMessage extends Message {
     required this.other,
     required this.argIndex,
     String? id,
-  }) : super(id);
+  });
 
   static const int type = 3;
 
@@ -125,12 +122,12 @@ final class SelectMessage extends Message {
   final Message other;
   final Map<String, Message> cases;
   final int argIndex;
+
   SelectMessage(
     this.other,
     this.cases,
-    this.argIndex, [
-    super.id,
-  ]);
+    this.argIndex,
+  );
 
   static const int type = 4;
 

@@ -5,17 +5,17 @@
 import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
-import '../located_message_file.dart';
 
 class FieldGeneration {
-  final GenerationOptions options;
-  final Iterable<LocatedMessageFile> messageFiles;
+  final Iterable<({String locale, String path, String hash})> messageFiles;
   final String initialLocale;
 
+  final PluralSelectorType pluralSelectorType;
+
   FieldGeneration(
-    this.options,
     this.messageFiles,
     this.initialLocale,
+    this.pluralSelectorType,
   );
 
   List<Field> generate() {
@@ -43,10 +43,8 @@ class FieldGeneration {
     );
     final dataFiles = Field(
       (fb) {
-        final paths = messageFiles
-            .map((e) => """
-'${e.locale}' : ('${e.namespacedPath(options.packageName)}', '${e.hash}')""")
-            .join(',');
+        final paths = messageFiles.map((e) => """
+'${e.locale}' : ('${e.path}', '${e.hash}')""").join(',');
         fb
           ..name = '_dataFiles'
           ..modifier = FieldModifier.constant
@@ -65,7 +63,7 @@ class FieldGeneration {
       currentLocale,
       messages,
       dataFiles,
-      if (options.pluralSelector == PluralSelectorType.custom) pluralSelector,
+      if (pluralSelectorType == PluralSelectorType.custom) pluralSelector,
     ];
     return fields;
   }
