@@ -1,5 +1,6 @@
-## 1.0.0-alpha.3-wip
+## 1.0.0
 
+- Update package status from experimental to preview.
 - Update `package:icu4x` to `2.3.1`.
 - Add `Locale.maximize`, `Locale.minimize`, and `Locale.canonicalize` methods.
 - Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
