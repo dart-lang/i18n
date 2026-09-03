@@ -1,6 +1,7 @@
 ## 1.0.0-alpha.3-wip
 
 - Update `package:icu4x` to `2.3.1`.
+- Add `Locale.maximize`, `Locale.minimize`, and `Locale.canonicalize` methods.
 - Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
 - Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
