@@ -32,7 +32,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: stable
+          sdk: dev
 
       - run: dart pub get --example
 
@@ -116,7 +116,7 @@ jobs:
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: stable
+          sdk: dev
 
       - name: Install dependencies
         run: dart pub get
