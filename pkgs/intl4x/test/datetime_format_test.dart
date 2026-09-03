@@ -608,19 +608,7 @@ void main() {
     final enUS = Locale.parse('en-US');
 
     testWithFormatting(
-      'yearMonthDay range ICU4X',
-      () => expect(
-        DateTimeFormat.yearMonthDay(
-          locale: enUS,
-          yearStyle: YearStyle.full,
-        ).formatRange(start, end),
-        matches(r'Jan 10\s–\s20,\s2023'),
-      ),
-      testOn: 'vm',
-    );
-
-    testWithFormatting(
-      'yearMonthDay range ECMA',
+      'yearMonthDay range',
       () => expect(
         DateTimeFormat.yearMonthDay(
           locale: enUS,
@@ -628,25 +616,25 @@ void main() {
         ).formatRange(start, end),
         matches(r'1/10/2023\s–\s1/20/2023'),
       ),
-      testOn: 'js || wasm',
     );
 
     testWithFormatting(
-      'monthDay range ICU4X',
-      () => expect(
-        DateTimeFormat.monthDay(locale: enUS).formatRange(start, end),
-        matches(r'Jan 10\s–\s20'),
-      ),
-      testOn: 'vm',
-    );
-
-    testWithFormatting(
-      'monthDay range ECMA',
+      'monthDay range',
       () => expect(
         DateTimeFormat.monthDay(locale: enUS).formatRange(start, end),
         matches(r'1/10\s–\s1/20'),
       ),
-      testOn: 'js || wasm',
+    );
+
+    testWithFormatting(
+      'monthDay range with medium length',
+      () => expect(
+        DateTimeFormat.monthDay(
+          locale: enUS,
+          length: DateTimeLength.medium,
+        ).formatRange(start, end),
+        matches(r'Jan 10\s–\s20'),
+      ),
     );
 
     testWithFormatting('time range on same day', () {

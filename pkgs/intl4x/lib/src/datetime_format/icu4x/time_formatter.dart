@@ -33,7 +33,7 @@ class TimeFormatterX extends FormatterImpl {
       rangeFormatter = icu.TimeRangeFormatter(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
       ),
       super(impl);
