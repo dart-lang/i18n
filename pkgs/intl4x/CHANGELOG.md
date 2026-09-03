@@ -15,6 +15,7 @@
   as `-0` or `+0`. The sign display is now applied after rounding, matching
   ECMA-402.
 - Add experimental `formatRange` method to `DateTimeFormat`.
+- Add `Locale.maximized`, `Locale.minimized`, and `Locale.canonicalized` getters.
 
 ## 1.0.1
 
