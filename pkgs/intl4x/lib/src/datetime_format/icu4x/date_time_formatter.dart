@@ -30,7 +30,7 @@ class DateTimeFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateTimeRangeFormatterGregorian.mdt(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
       ),
       super(impl);
@@ -52,7 +52,7 @@ class DateTimeFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateTimeRangeFormatterGregorian.ymdt(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
         yearStyle: yearStyle,
       ),
@@ -75,7 +75,7 @@ class DateTimeFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateTimeRangeFormatterGregorian.ymdet(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
         yearStyle: yearStyle,
       ),

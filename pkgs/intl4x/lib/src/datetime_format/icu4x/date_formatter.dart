@@ -28,7 +28,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.d(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
       ),
       super(impl);
 
@@ -45,7 +45,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.m(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
       ),
       super(impl);
 
@@ -62,7 +62,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.md(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
       ),
       super(impl);
 
@@ -84,7 +84,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.mde(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
       ),
       super(impl);
 
@@ -103,7 +103,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.ym(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
       super(impl);
@@ -123,7 +123,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.y(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
       super(impl);
@@ -143,7 +143,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.ymd(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
       super(impl);
@@ -163,7 +163,7 @@ class DateFormatterX extends FormatterImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.ymde(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
       super(impl);
@@ -219,7 +219,7 @@ class DateFormatterUX extends FormatterStandaloneImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.m(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
       ),
       super(impl);
 
@@ -238,7 +238,7 @@ class DateFormatterUX extends FormatterStandaloneImpl {
       rangeFormatter = icu.DateRangeFormatterGregorian.y(
         localeX,
         alignment: alignment,
-        length: length,
+        length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
       super(impl);
