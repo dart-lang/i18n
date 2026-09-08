@@ -1,8 +1,10 @@
 ## 1.0.0-alpha.3-wip
 
+- Update `package:icu4x` to `2.3.1`.
 - Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
 - Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
+- Add `formatRange` method to `DateTimeFormat`.
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
 - Add doc examples using dartdoc `{@example}` directive.

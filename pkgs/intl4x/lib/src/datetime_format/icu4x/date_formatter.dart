@@ -11,6 +11,7 @@ import 'datetime_format_4x.dart';
 /// Wraps an [icu.DateFormatter]
 class DateFormatterX extends FormatterImpl {
   final icu.DateFormatter formatter;
+  final icu.DateRangeFormatterGregorian rangeFormatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
 
@@ -20,6 +21,11 @@ class DateFormatterX extends FormatterImpl {
     icu.DateTimeAlignment? alignment,
     icu.DateTimeLength? length,
   ) : formatter = icu.DateFormatter.d(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.d(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -36,6 +42,11 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
       ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.m(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
       super(impl);
 
   DateFormatterX.md(
@@ -48,10 +59,16 @@ class DateFormatterX extends FormatterImpl {
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
       ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.md(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
       super(impl);
 
   DateFormatterX.e(this.impl, this.localeX, icu.DateTimeLength? length)
     : formatter = icu.DateFormatter.e(localeX, length),
+      rangeFormatter = icu.DateRangeFormatterGregorian.e(localeX, length),
       super(impl);
 
   DateFormatterX.mde(
@@ -60,6 +77,11 @@ class DateFormatterX extends FormatterImpl {
     icu.DateTimeAlignment? alignment,
     icu.DateTimeLength? length,
   ) : formatter = icu.DateFormatter.mde(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.mde(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -73,6 +95,12 @@ class DateFormatterX extends FormatterImpl {
     icu.DateTimeLength? length,
     icu.YearStyle? yearStyle,
   ) : formatter = icu.DateFormatter.ym(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.ym(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -92,6 +120,12 @@ class DateFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.y(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
       super(impl);
 
   DateFormatterX.ymd(
@@ -101,6 +135,12 @@ class DateFormatterX extends FormatterImpl {
     icu.DateTimeLength? length,
     icu.YearStyle? yearStyle,
   ) : formatter = icu.DateFormatter.ymd(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.ymd(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -120,11 +160,21 @@ class DateFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.ymde(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
       super(impl);
 
   @override
   String formatInternal(DateTime datetime) =>
       formatter.formatIso(datetime.toX.$1);
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) =>
+      rangeFormatter.formatIso(start.toX.$1, end.toX.$1);
 
   @override
   ZonedDateTimeFormatter withTimeZoneShort() => DateFormatterZonedX.short(this);
@@ -152,6 +202,7 @@ class DateFormatterX extends FormatterImpl {
 /// Wraps an [icu.DateFormatter]
 class DateFormatterUX extends FormatterStandaloneImpl {
   final icu.DateFormatter formatter;
+  final icu.DateRangeFormatterGregorian rangeFormatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
 
@@ -161,6 +212,11 @@ class DateFormatterUX extends FormatterStandaloneImpl {
     icu.DateTimeAlignment? alignment,
     icu.DateTimeLength? length,
   ) : formatter = icu.DateFormatter.m(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.m(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -179,11 +235,21 @@ class DateFormatterUX extends FormatterStandaloneImpl {
         length: length ?? icu.DateTimeLength.short,
         yearStyle: yearStyle,
       ),
+      rangeFormatter = icu.DateRangeFormatterGregorian.y(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
       super(impl);
 
   @override
   String formatInternal(DateTime datetime) =>
       formatter.formatIso(datetime.toX.$1);
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) =>
+      rangeFormatter.formatIso(start.toX.$1, end.toX.$1);
 }
 
 /// Wraps an [icu.ZonedDateFormatter]

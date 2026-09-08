@@ -601,4 +601,65 @@ void main() {
       );
     });
   });
+
+  group('formatRange', () {
+    final start = DateTime(2023, 1, 10, 10, 0);
+    final end = DateTime(2023, 1, 20, 16, 30);
+    final enUS = Locale.parse('en-US');
+
+    testWithFormatting(
+      'yearMonthDay range',
+      () => expect(
+        DateTimeFormat.yearMonthDay(
+          locale: enUS,
+          yearStyle: YearStyle.full,
+        ).formatRange(start, end),
+        matches(r'1/10/2023\s–\s1/20/2023'),
+      ),
+    );
+
+    testWithFormatting(
+      'monthDay range',
+      () => expect(
+        DateTimeFormat.monthDay(locale: enUS).formatRange(start, end),
+        matches(r'1/10\s–\s1/20'),
+      ),
+    );
+
+    testWithFormatting(
+      'monthDay range with medium length',
+      () => expect(
+        DateTimeFormat.monthDay(
+          locale: enUS,
+          length: DateTimeLength.medium,
+        ).formatRange(start, end),
+        matches(r'Jan 10\s–\s20'),
+      ),
+    );
+
+    testWithFormatting('time range on same day', () {
+      final sameDayEnd = DateTime(2023, 1, 10, 16, 30);
+      final formatter = DateTimeFormat.time(
+        locale: enUS,
+        timePrecision: TimePrecision.minute,
+      );
+      expect(
+        formatter.formatRange(start, sameDayEnd),
+        matches(r'10:00\sAM\s–\s4:30\sPM'),
+      );
+    });
+
+    testWithFormatting('year range', () {
+      final startYear = DateTime(2020, 1, 1);
+      final endYear = DateTime(2025, 1, 1);
+      final formatter = DateTimeFormat.year(
+        locale: enUS,
+        yearStyle: YearStyle.full,
+      );
+      expect(
+        formatter.formatRange(startYear, endYear),
+        matches(r'2020\s–\s2025'),
+      );
+    });
+  });
 }

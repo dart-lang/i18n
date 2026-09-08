@@ -10,6 +10,7 @@ import 'datetime_format_4x.dart';
 
 class TimeFormatterX extends FormatterImpl {
   final icu.TimeFormatter formatter;
+  final icu.TimeRangeFormatter rangeFormatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
 
@@ -29,12 +30,25 @@ class TimeFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
       ),
+      rangeFormatter = icu.TimeRangeFormatter(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        timePrecision: timePrecision,
+      ),
       super(impl);
 
   @override
   String formatInternal(DateTime datetime) {
     final (_, time) = datetime.toX;
     return formatter.format(time);
+  }
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) {
+    final (_, startTime) = start.toX;
+    final (_, endTime) = end.toX;
+    return rangeFormatter.format(startTime, endTime);
   }
 
   @override

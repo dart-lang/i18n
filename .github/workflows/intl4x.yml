@@ -32,7 +32,7 @@ jobs:
 
       - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: main
+          sdk: dev
 
       - run: dart pub get --example
 
@@ -46,7 +46,7 @@ jobs:
 
       - run: dart test --platform chrome --compiler dart2wasm
 
-      - run: dart --enable-experiment=record-use build cli --target example.dart
+      - run: dart build cli --target example.dart
         working-directory: pkgs/intl4x/example
 
       - run: tree . -a
@@ -116,7 +116,7 @@ jobs:
       - name: Setup Dart SDK
         uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260
         with:
-          sdk: main
+          sdk: dev
 
       - name: Install dependencies
         run: dart pub get
