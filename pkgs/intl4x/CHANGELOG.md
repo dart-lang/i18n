@@ -6,6 +6,8 @@
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
 - Add doc examples using dartdoc `{@example}` directive.
+- Add `-Dintl4x.brittle_i18n_testing=true` environment define to opt into
+  real i18n formatting in test environments (for golden tests).
 
 ## 1.0.0-alpha.2
 
