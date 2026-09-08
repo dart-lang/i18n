@@ -6,6 +6,8 @@
 ///
 /// Use the [NumberFormat] class to format numbers in a locale-sensitive
 /// manner.
+///
+/// {@example ../example/docs/number_format.dart#number_format}
 library;
 
 import 'src/number_format/number_format.dart' show NumberFormat;

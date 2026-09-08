@@ -7,22 +7,8 @@
 /// This class provides methods to convert strings to lowercase or uppercase
 /// based on the current locale.
 ///
-/// ```dart
-///import 'package:intl4x/case_mapping.dart';
+/// {@example ../example/docs/case_mapping.dart#case_mapping}
 ///
-///void main() {
-///  final tr = Locale.parse('tr');
-///  final en = Locale.parse('en');
-///
-///  final upper = 'TICKET';
-///  print(upper.toLocaleLowerCase(en)); // ticket
-///  print(upper.toLocaleLowerCase(tr)); // tıcket
-///
-///  final lower = 'i';
-///  print(lower.toLocaleUpperCase(en)); // I
-///  print(lower.toLocaleUpperCase(tr)); // İ
-///}
-/// ```
 /// Available either as an extension on [String], or through the
 /// [CaseMapping] class.
 library;

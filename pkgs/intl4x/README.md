@@ -74,14 +74,14 @@ dart pub add intl4x
 
 ## Migration Guide from `package:intl`
 
-For a comprehensive side-by-side comparison of `package:intl` and `package:intl4x` APIs, see [`example/intl_vs_intl4x.dart`](example/intl_vs_intl4x.dart).
+For a comprehensive side-by-side comparison of `package:intl` and `package:intl4x` APIs, see [`example/intl_to_intl4x.dart`](example/intl_to_intl4x.dart).
 
 It demonstrates how to perform common internationalization tasks in `intl` vs. `intl4x`:
 * **Locale Handling**: `String` tags (`de_DE`) vs. strongly-typed `Locale.parse('de-DE')`.
 * **Number & Currency Formatting**: `NumberFormat.decimalPattern()` / `currency()` vs. `NumberFormat(...)` / `currency()`.
 * **Compact Number & Unit Formatting**: `NumberFormat.compact()` and `UnitStyle` (e.g. `Unit.meter`).
 * **Date & Time Formatting**: `DateFormat.yMMMMd()` vs. typed `DateTimeFormat.yearMonthDay()`.
-* **Plural Rules**: Message-based `Intl.plural()` vs. CLDR category selection via `PluralRules.select()`.
+* **Plural Rules**: Message-based `Intl.plural()` vs. `PluralRules.select()`.
 * **List Formatting**: Manual `String` joining vs. `ListFormat` / `joinAnd()`.
 * **Display Names**: Localized language/region names with `DisplayNames`.
 * **Locale-Aware Collation**: `String.compareTo()` vs. `Collation`.
@@ -89,7 +89,7 @@ It demonstrates how to perform common internationalization tasks in `intl` vs. `
 
 Run the example locally with:
 ```shell
-dart run example/intl_vs_intl4x.dart
+dart run example/intl_to_intl4x.dart
 ```
 
 
@@ -192,7 +192,7 @@ void main() {
 
 ### Plural Rules
 
-Select the correct plural category for a given number based on locale rules (e.g., `one`, `few`, `many`).
+Select the correct plural form for a given number based on locale rules.
 
 ```dart
 import 'package:intl4x/plural_rules.dart';
@@ -203,10 +203,12 @@ void main() {
     type: PluralType.ordinal,
   );
 
-  print(rules.select(1)); // PluralCategory.one (st)
-  print(rules.select(2)); // PluralCategory.two (nd)
-  print(rules.select(3)); // PluralCategory.few (rd)
-  print(rules.select(4)); // PluralCategory.other (th)
+  String numberPlural(int i) => rules.select(i, one: 'st', two: 'nd', few: 'rd', other: 'th');
+
+  print(numberPlural(1)); // 'st'
+  print(numberPlural(2)); // 'nd'
+  print(numberPlural(3)); // 'rd'
+  print(numberPlural(4)); // 'th'
 }
 ```
 

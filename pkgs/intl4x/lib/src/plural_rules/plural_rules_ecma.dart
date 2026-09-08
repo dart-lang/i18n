@@ -5,7 +5,6 @@
 import 'dart:js_interop';
 
 import '../locale/locale.dart';
-import 'plural_rules.dart';
 import 'plural_rules_impl.dart';
 import 'plural_rules_options.dart';
 
@@ -39,7 +38,7 @@ class _PluralRulesECMA extends PluralRulesImpl {
   static List<Locale> supportedLocalesOf(Locale locale) =>
       PluralRules.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   @override
   PluralCategory selectImpl(num number) {

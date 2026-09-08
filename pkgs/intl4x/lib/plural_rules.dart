@@ -4,25 +4,17 @@
 
 /// The appropriate locale-dependent plural form.
 ///
-/// The [PluralRules] object returns the [PluralCategory] of the input [num]
-/// to [PluralRules.select]. While English only uses 'one' and 'other', other
+/// The [PluralRules] object selects a localized value based on input [num]
+/// using [PluralRules.select]. While English only uses 'one' and 'other', other
 /// languages have more plural forms. For example, Arabic uses 'zero', 'one',
 /// 'two', 'few', 'many', and 'other'.
 ///
 /// Example:
-/// ```dart
-/// import 'package:intl4x/plural_rules.dart';
-///
-/// void main() {
-///   final rules = PluralRules(locale: Locale.parse('en-US'));
-///   print(rules.select(3)); // prints 'PluralCategory.other'
-/// }
-/// ```
+/// {@example ../example/docs/plural_rules.dart#plural_rules}
+/// @docImport 'src/plural_rules/plural_rules.dart';
 library;
 
-import 'src/plural_rules/plural_rules.dart' show PluralCategory, PluralRules;
-
 export 'src/locale/locale.dart' show Locale;
-export 'src/plural_rules/plural_rules.dart' show PluralCategory, PluralRules;
+export 'src/plural_rules/plural_rules.dart' show PluralRules;
 export 'src/plural_rules/plural_rules_options.dart'
     show Digits, PluralType, RoundingMode, TrailingZeroDisplay;

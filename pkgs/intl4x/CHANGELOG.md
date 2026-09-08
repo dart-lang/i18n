@@ -1,6 +1,14 @@
-## 1.0.0-alpha.2-wip
+## 1.0.0-alpha.3-wip
 
-- Add migration guide
+- Add migration guide.
+- Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
+- Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
+- Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
+- Add more `DateTimeFormat`s.
+- Update `PluralRules.select` to select from plural form options.
+- Add doc examples using dartdoc `{@example}` directive.
+- Add `-Dintl4x.brittle_i18n_testing=true` environment define to opt into
+  real i18n formatting in test environments (for golden tests).
 
 ## 1.0.0-alpha.2
 

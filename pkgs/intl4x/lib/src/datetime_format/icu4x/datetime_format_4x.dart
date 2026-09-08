@@ -32,6 +32,10 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       DateFormatterX.d(this, localeX, alignment?.toX, length?.toX);
 
   @override
+  FormatterImpl e({DateTimeLength? length}) =>
+      DateFormatterX.e(this, localeX, length?.toX);
+
+  @override
   FormatterStandaloneImpl m({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -42,11 +46,28 @@ class DateTimeFormat4X extends DateTimeFormatImpl {
       DateFormatterX.md(this, localeX, alignment?.toX, length?.toX);
 
   @override
+  FormatterImpl mde({DateTimeAlignment? alignment, DateTimeLength? length}) =>
+      DateFormatterX.mde(this, localeX, alignment?.toX, length?.toX);
+
+  @override
   FormatterStandaloneImpl y({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
   }) => DateFormatterUX.y(
+    this,
+    localeX,
+    alignment?.toX,
+    length?.toX,
+    yearStyle?.toX,
+  );
+
+  @override
+  FormatterImpl ym({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  }) => DateFormatterX.ym(
     this,
     localeX,
     alignment?.toX,

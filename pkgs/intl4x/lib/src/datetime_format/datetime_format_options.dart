@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export '../options.dart' show Calendar, NumberingSystem;
+export '../options.dart' show Calendar, NumberingSystem, Style;
 
 /// Styles for formatting the year component of a date.
 enum YearStyle {

@@ -50,6 +50,36 @@ class DateFormatterX extends FormatterImpl {
       ),
       super(impl);
 
+  DateFormatterX.e(this.impl, this.localeX, icu.DateTimeLength? length)
+    : formatter = icu.DateFormatter.e(localeX, length),
+      super(impl);
+
+  DateFormatterX.mde(
+    this.impl,
+    this.localeX,
+    icu.DateTimeAlignment? alignment,
+    icu.DateTimeLength? length,
+  ) : formatter = icu.DateFormatter.mde(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+      ),
+      super(impl);
+
+  DateFormatterX.ym(
+    this.impl,
+    this.localeX,
+    icu.DateTimeAlignment? alignment,
+    icu.DateTimeLength? length,
+    icu.YearStyle? yearStyle,
+  ) : formatter = icu.DateFormatter.ym(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        yearStyle: yearStyle,
+      ),
+      super(impl);
+
   DateFormatterX.y(
     this.impl,
     this.localeX,

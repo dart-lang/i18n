@@ -8,35 +8,53 @@ import 'utils.dart';
 
 void main() {
   testWithFormatting('en-US simple', () {
-    final rules = PluralRules(locale: Locale.parse('en-US'));
+    final s = getRules(PluralRules(locale: Locale.parse('en-US')));
 
-    expect(rules.select(0), PluralCategory.other);
-    expect(rules.select(1), PluralCategory.one);
-    expect(rules.select(2), PluralCategory.other);
-    expect(rules.select(3), PluralCategory.other);
+    expect(s(0), 'other');
+    expect(s(1), 'one');
+    expect(s(2), 'other');
+    expect(s(3), 'other');
   });
 
   testWithFormatting('ar-EG simple', () {
-    final rules = PluralRules(locale: Locale.parse('ar-EG'));
+    final s = getRules(PluralRules(locale: Locale.parse('ar-EG')));
 
-    expect(rules.select(0), PluralCategory.zero);
-    expect(rules.select(1), PluralCategory.one);
-    expect(rules.select(2), PluralCategory.two);
-    expect(rules.select(6), PluralCategory.few);
-    expect(rules.select(18), PluralCategory.many);
+    expect(s(0), 'zero');
+    expect(s(1), 'one');
+    expect(s(2), 'two');
+    expect(s(6), 'few');
+    expect(s(18), 'many');
   });
 
   testWithFormatting('en-US ordinal', () {
-    final rules = PluralRules(
-      locale: Locale.parse('en-US'),
-      type: PluralType.ordinal,
+    final s = getRules(
+      PluralRules(locale: Locale.parse('en-US'), type: PluralType.ordinal),
     );
 
-    expect(rules.select(0), PluralCategory.other);
-    expect(rules.select(1), PluralCategory.one);
-    expect(rules.select(2), PluralCategory.two);
-    expect(rules.select(3), PluralCategory.few);
-    expect(rules.select(4), PluralCategory.other);
-    expect(rules.select(21), PluralCategory.one);
+    expect(s(0), 'other');
+    expect(s(1), 'one');
+    expect(s(2), 'two');
+    expect(s(3), 'few');
+    expect(s(4), 'other');
+    expect(s(21), 'one');
+  });
+
+  testWithFormatting('fallback to other', () {
+    final rules = PluralRules(locale: Locale.parse('ar-EG'));
+
+    expect(rules.select(0, other: 'fallback'), 'fallback');
+    expect(rules.select(1, other: 'fallback'), 'fallback');
+    expect(rules.select(2, other: 'fallback'), 'fallback');
   });
 }
+
+String Function(num n) getRules(PluralRules rules) =>
+    (num n) => rules.select(
+      n,
+      zero: 'zero',
+      one: 'one',
+      two: 'two',
+      few: 'few',
+      many: 'many',
+      other: 'other',
+    );

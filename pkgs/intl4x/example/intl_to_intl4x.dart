@@ -178,11 +178,11 @@ void _exampleTimeFormatting() {
   print('');
 }
 
-/// 7. Plurals & Plural Rules
+/// 7. Plurals & Plural Selection
 void _examplePlurals() {
   print(
-    '--- 7. Plurals & Plural Categories '
-    '[NEW IN INTL4X: Direct CLDR Categories & Ordinals] ---',
+    '--- 7. Plurals & Plural Selection '
+    '[NEW IN INTL4X: Direct Plural Selection & Ordinals] ---',
   );
   const count = 3;
 
@@ -195,22 +195,21 @@ void _examplePlurals() {
   );
   print('intl (before): "$intlPluralMessage" (string message template)');
 
-  // NOW (intl4x): Direct CLDR PluralCategory selection.
+  // NOW (intl4x): Direct plural selection with PluralRules.
   // #docregion plurals
-  final category = PluralRules(locale: Locale.parse('en-US')).select(count);
+  final intl4xPlural = PluralRules(
+    locale: Locale.parse('en-US'),
+  ).select(count, one: '1 item', other: '$count items');
   // #enddocregion plurals
-  print(
-    'intl4x (now):  PluralCategory = $category '
-    '(cardinal category for count=$count)',
-  );
+  print('intl4x (now):  "$intl4xPlural"');
 
   // Ordinal plural rules (e.g. 1st, 2nd, 3rd, 4th)
-  final ordinalCategory = PluralRules(
+  final ordinalSuffix = PluralRules(
     locale: Locale.parse('en-US'),
     type: PluralType.ordinal,
-  ).select(2);
+  ).select(2, one: 'st', two: 'nd', few: 'rd', other: 'th');
   print(
-    'intl4x (now) [NEW]: PluralCategory = $ordinalCategory '
+    'intl4x (now) [NEW]: "2$ordinalSuffix" '
     '(ordinal category for 2 -> 2nd)',
   );
   print('');

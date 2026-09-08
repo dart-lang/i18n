@@ -27,6 +27,8 @@ abstract class DateTimeFormatImpl {
 
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length});
 
+  FormatterImpl e({DateTimeLength? length});
+
   FormatterStandaloneImpl m({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
@@ -34,7 +36,15 @@ abstract class DateTimeFormatImpl {
 
   FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length});
 
+  FormatterImpl mde({DateTimeAlignment? alignment, DateTimeLength? length});
+
   FormatterStandaloneImpl y({
+    DateTimeAlignment? alignment,
+    DateTimeLength? length,
+    YearStyle? yearStyle,
+  });
+
+  FormatterImpl ym({
     DateTimeAlignment? alignment,
     DateTimeLength? length,
     YearStyle? yearStyle,
