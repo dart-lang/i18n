@@ -11,7 +11,7 @@ import 'dart:async';
 /// 2. Differences across browser / OS versions and engine implementations.
 ///
 /// Only use this for golden or snapshot tests where exact output is required.
-const bool _allowBrittleFormatting = bool.fromEnvironment(
+const bool allowBrittleFormatting = bool.fromEnvironment(
   'intl4x.brittle_test_formatting',
   defaultValue: false,
 );
@@ -21,6 +21,6 @@ const bool _allowBrittleFormatting = bool.fromEnvironment(
 /// `#test.allowFormatting` symbol or `-Dintl4x.brittle_test_formatting=true`
 /// can be used to override this.
 bool get isInTest =>
-    !_allowBrittleFormatting &&
+    !allowBrittleFormatting &&
     Zone.current[#test.declarer] != null &&
     !(Zone.current[#test.allowFormatting] as bool? ?? false);

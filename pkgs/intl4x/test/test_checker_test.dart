@@ -8,15 +8,10 @@ import 'package:test/test.dart';
 
 import 'utils.dart';
 
-const bool _allowBrittleFormatting = bool.fromEnvironment(
-  'intl4x.brittle_test_formatting',
-  defaultValue: false,
-);
-
 void main() {
   group('isInTest', () {
     test('reflects brittle formatting compile-time define', () {
-      if (_allowBrittleFormatting) {
+      if (allowBrittleFormatting) {
         expect(isInTest, isFalse);
       } else {
         expect(isInTest, isTrue);
@@ -34,7 +29,7 @@ void main() {
       final formatted = DateTimeFormat.day(
         locale: Locale.parse('en-US'),
       ).format(dateTime);
-      if (_allowBrittleFormatting) {
+      if (allowBrittleFormatting) {
         expect(formatted, '26');
       } else {
         expect(formatted, contains('//en-US'));
