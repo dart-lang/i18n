@@ -27,6 +27,7 @@ Future<void> main() async {
   await initializeDateFormatting('en_US', null);
   await initializeDateFormatting('de_DE', null);
 
+  _exampleInitialization();
   _exampleLocaleHandling();
   _exampleNumberFormatting();
   _exampleCurrencyFormatting();
@@ -38,11 +39,35 @@ Future<void> main() async {
   _exampleDisplayNames();
   _exampleCollation();
   _exampleCaseMapping();
+  _exampleParsingVsFormatting();
+  _exampleTestingBehavior();
 }
 
-/// 1. Locale Representation & Parsing
+/// 1. Zero Async Initialization
+void _exampleInitialization() {
+  print('--- 1. Zero Async Initialization ---');
+
+  // BEFORE (intl): Requires asynchronous locale data initialization before
+  // formatting dates or times in non-default locales:
+  //   await initializeDateFormatting('de_DE', null);
+  // Forgetting this throws `LocaleDataException`.
+  print(
+    'intl (before): Requires `await initializeDateFormatting(...)` '
+    'before formatting dates in non-default locales.',
+  );
+
+  // NOW (intl4x): Fully synchronous out-of-the-box with no setup required.
+  // Data is pre-bundled (native ICU4X) or provided by the browser (ECMA).
+  final formatted = DateTimeFormat.yearMonthDay(
+    locale: Locale.parse('de-DE'),
+  ).format(DateTime(2026, 7, 9));
+  print('intl4x (now):  Synchronous format with zero init: "$formatted"');
+  print('');
+}
+
+/// 2. Locale Representation & Parsing
 void _exampleLocaleHandling() {
-  print('--- 1. Locale Handling ---');
+  print('--- 2. Locale Handling ---');
 
   // BEFORE (intl): Locales are represented by String tags (e.g. 'en_US',
   // 'de_DE').
@@ -71,9 +96,9 @@ void _exampleLocaleHandling() {
   print('');
 }
 
-/// 2. Standard Number Formatting
+/// 3. Standard Number Formatting
 void _exampleNumberFormatting() {
-  print('--- 2. Number Formatting ---');
+  print('--- 3. Number Formatting ---');
   const number = 1234567.89;
 
   // BEFORE (intl):
@@ -91,9 +116,9 @@ void _exampleNumberFormatting() {
   print('');
 }
 
-/// 3. Currency Formatting
+/// 4. Currency Formatting
 void _exampleCurrencyFormatting() {
-  print('--- 3. Currency Formatting ---');
+  print('--- 4. Currency Formatting ---');
   const amount = 1234.56;
 
   // BEFORE (intl):
@@ -114,9 +139,9 @@ void _exampleCurrencyFormatting() {
   print('');
 }
 
-/// 4. Unit Formatting (e.g. 5 meters)
+/// 5. Unit Formatting (e.g. 5 meters)
 void _exampleUnitFormatting() {
-  print('--- 4. Unit Formatting [NEW IN INTL4X] ---');
+  print('--- 5. Unit Formatting [NEW IN INTL4X] ---');
   const value = 5;
 
   // BEFORE (intl): No direct unit formatting API; required custom string
@@ -135,9 +160,9 @@ void _exampleUnitFormatting() {
   print('');
 }
 
-/// 5. Date Formatting
+/// 6. Date Formatting
 void _exampleDateFormatting() {
-  print('--- 5. Date Formatting ---');
+  print('--- 6. Date Formatting ---');
   final dateTime = DateTime(2026, 7, 9);
 
   // BEFORE (intl): Requires date pattern string or factory method + date
@@ -157,9 +182,9 @@ void _exampleDateFormatting() {
   print('');
 }
 
-/// 6. Time Formatting & TimeZones
+/// 7. Time Formatting & TimeZones
 void _exampleTimeFormatting() {
-  print('--- 6. Time & TimeZone Formatting ---');
+  print('--- 7. Time & TimeZone Formatting ---');
   final dateTime = DateTime.parse('2026-07-09T14:30:00');
   const timeZone = 'Europe/Paris';
 
@@ -178,10 +203,10 @@ void _exampleTimeFormatting() {
   print('');
 }
 
-/// 7. Plurals & Plural Selection
+/// 8. Plurals & Plural Selection
 void _examplePlurals() {
   print(
-    '--- 7. Plurals & Plural Selection '
+    '--- 8. Plurals & Plural Selection '
     '[NEW IN INTL4X: Direct Plural Selection & Ordinals] ---',
   );
   const count = 3;
@@ -215,9 +240,9 @@ void _examplePlurals() {
   print('');
 }
 
-/// 8. List Formatting (joining with 'and' / 'or')
+/// 9. List Formatting (joining with 'and' / 'or')
 void _exampleListFormatting() {
-  print('--- 8. List Formatting [NEW IN INTL4X] ---');
+  print('--- 9. List Formatting [NEW IN INTL4X] ---');
   final items = ['Apples', 'Oranges', 'Bananas'];
 
   // BEFORE (intl): No built-in list formatting API in intl; required custom
@@ -241,9 +266,9 @@ void _exampleListFormatting() {
   print('');
 }
 
-/// 9. Display Names (Language / Region Names)
+/// 10. Display Names (Language / Region Names)
 void _exampleDisplayNames() {
-  print('--- 9. Display Names [NEW IN INTL4X] ---');
+  print('--- 10. Display Names [NEW IN INTL4X] ---');
 
   // BEFORE (intl): No built-in display names API in intl package.
   print('intl (before): Not supported in package:intl');
@@ -259,9 +284,9 @@ void _exampleDisplayNames() {
   print('');
 }
 
-/// 10. String Collation / Locale Sorting
+/// 11. String Collation / Locale Sorting
 void _exampleCollation() {
-  print('--- 10. String Collation / Locale Sorting [NEW IN INTL4X] ---');
+  print('--- 11. String Collation / Locale Sorting [NEW IN INTL4X] ---');
 
   // BEFORE (intl): Standard String.compareTo (UTF-16 code unit ordering).
   final listIntl = ['a', 'ä', 'b']..sort((x, y) => x.compareTo(y));
@@ -278,9 +303,9 @@ void _exampleCollation() {
   print('');
 }
 
-/// 11. Case Mapping
+/// 12. Case Mapping
 void _exampleCaseMapping() {
-  print('--- 11. Case Mapping [NEW IN INTL4X] ---');
+  print('--- 12. Case Mapping [NEW IN INTL4X] ---');
   const upper = 'TICKET';
   const word = 'istanbul';
 
@@ -304,6 +329,54 @@ void _exampleCaseMapping() {
   print(
     'intl4x (now) [NEW]: CaseMapping(tr).toUpperCase("istanbul") -> '
     '"$upperTr" (dotted İ)',
+  );
+  print('');
+}
+
+/// 13. Formatting vs. Parsing
+void _exampleParsingVsFormatting() {
+  print('--- 13. Formatting vs. Parsing ---');
+
+  // BEFORE (intl): Supported parsing strings back into numbers and dates.
+  final parsedNumber = intl.NumberFormat.decimalPattern(
+    'en_US',
+  ).parse('1,234.56');
+  final parsedDate = intl.DateFormat('yyyy-MM-dd').parse('2026-07-09');
+  print(
+    'intl (before): Parsing supported '
+    '(number: $parsedNumber, date: $parsedDate)',
+  );
+
+  // NOW (intl4x): Focuses strictly on locale-sensitive formatting.
+  // The only parsing method provided is `Locale.parse()` for BCP-47 language
+  // tags. String parsing for dates and numbers is not yet supported.
+  print(
+    'intl4x (now):  Formatting only (no DateFormat/NumberFormat.parse). '
+    'Locale.parse() parses language tags.',
+  );
+  print('');
+}
+
+/// 14. Testing Behavior in `dart test`
+void _exampleTestingBehavior() {
+  print('--- 14. Testing in `dart test` ---');
+
+  // BEFORE (intl): Tests run against real formatting, which can cause
+  // brittle assertion failures when platform ICU or CLDR data changes
+  // (e.g. non-breaking space vs ASCII space).
+  print(
+    'intl (before): Real formatting runs in tests, occasionally causing '
+    'brittle assertions across platforms and CLDR versions.',
+  );
+
+  // NOW (intl4x): In `dart test`, intl4x stubs formatting output by default
+  // to keep tests deterministic and prevent brittle failures.
+  // To enable real formatting (e.g. for golden tests), pass the compile-time
+  // flag:
+  //   dart test -Dintl4x.brittle_i18n_testing=true
+  print(
+    'intl4x (now):  Formatting is stubbed in `dart test` by default. '
+    'Pass `-Dintl4x.brittle_i18n_testing=true` to opt into real formatting.',
   );
   print('');
 }
