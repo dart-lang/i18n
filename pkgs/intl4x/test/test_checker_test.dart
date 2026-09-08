@@ -10,8 +10,8 @@ import 'utils.dart';
 
 void main() {
   group('isInTest', () {
-    test('reflects brittle formatting compile-time define', () {
-      if (allowBrittleFormatting) {
+    test('reflects brittle i18n testing compile-time define', () {
+      if (allowBrittleI18nTesting) {
         expect(isInTest, isFalse);
       } else {
         expect(isInTest, isTrue);
@@ -24,12 +24,12 @@ void main() {
       });
     });
 
-    test('formatting output respects brittle formatting flag', () {
+    test('formatting output respects brittle i18n testing flag', () {
       final dateTime = DateTime(2026, 3, 26);
       final formatted = DateTimeFormat.day(
         locale: Locale.parse('en-US'),
       ).format(dateTime);
-      if (allowBrittleFormatting) {
+      if (allowBrittleI18nTesting) {
         expect(formatted, '26');
       } else {
         expect(formatted, contains('//en-US'));
