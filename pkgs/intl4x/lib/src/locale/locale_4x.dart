@@ -25,6 +25,27 @@ class Locale4x implements Locale {
   String? get script => _locale.script;
 
   @override
+  Locale maximize() {
+    final copy = _locale.clone();
+    _expander.maximize(copy);
+    return Locale4x(copy);
+  }
+
+  @override
+  Locale minimize() {
+    final copy = _locale.clone();
+    _expander.minimize(copy);
+    return Locale4x(copy);
+  }
+
+  @override
+  Locale canonicalize() {
+    final copy = _locale.clone();
+    _canonicalizer.canonicalize(copy);
+    return Locale4x(copy);
+  }
+
+  @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
 
   @override
@@ -54,3 +75,7 @@ class Locale4x implements Locale {
 }
 
 Locale parseLocale(String s) => Locale4x(icu.Locale.fromString(s));
+
+final icu.LocaleExpander _expander = icu.LocaleExpander.extended();
+final icu.LocaleCanonicalizer _canonicalizer =
+    icu.LocaleCanonicalizer.extended();

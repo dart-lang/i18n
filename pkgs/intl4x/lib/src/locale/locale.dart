@@ -24,6 +24,25 @@ abstract class Locale {
   /// The script subtag (e.g. 'Hant', 'Latn'), or null if unspecified.
   String? get script;
 
+  /// Returns a new [Locale] with the most likely language, script, and region
+  /// subtags added based on CLDR likely subtags data.
+  ///
+  /// For example, `en` becomes `en-Latn-US`, `zh` becomes `zh-Hans-CN`, and
+  /// `sr` becomes `sr-Cyrl-RS`.
+  Locale maximize();
+
+  /// Returns a new [Locale] with subtags removed if they match the likely
+  /// subtags that would be added by [maximize].
+  ///
+  /// For example, `en-Latn-US` becomes `en`, and `zh-Hant-TW` becomes `zh-TW`.
+  Locale minimize();
+
+  /// Returns a new [Locale] in canonical BCP47 form.
+  ///
+  /// Replaces deprecated subtags with their preferred values (e.g. `in` ->
+  /// `id`, `iw` -> `he`, `mo` -> `ro`) and normalizes extensions.
+  Locale canonicalize();
+
   /// Generate a language tag by joining the subtags with the [separator].
   String toLanguageTag([String separator = '-']);
 

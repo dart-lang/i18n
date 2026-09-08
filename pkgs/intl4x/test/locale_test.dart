@@ -68,5 +68,62 @@ void main() {
       expect(a1.hashCode, equals(a2.hashCode));
       expect(a1, isNot(equals(b)));
     });
+
+    test('maximize', () {
+      final en = Locale.parse('en');
+      final enMax = en.maximize();
+      expect(enMax.toLanguageTag(), 'en-Latn-US');
+      expect(enMax.language, 'en');
+      expect(enMax.script, 'Latn');
+      expect(enMax.region, 'US');
+      // Original locale is not mutated
+      expect(en.toLanguageTag(), 'en');
+
+      final zh = Locale.parse('zh');
+      expect(zh.maximize().toLanguageTag(), 'zh-Hans-CN');
+
+      final sr = Locale.parse('sr');
+      expect(sr.maximize().toLanguageTag(), 'sr-Cyrl-RS');
+    });
+
+    test('minimize', () {
+      final enLatnUS = Locale.parse('en-Latn-US');
+      final enMin = enLatnUS.minimize();
+      expect(enMin.toLanguageTag(), 'en');
+      expect(enMin.language, 'en');
+      expect(enMin.script, isNull);
+      expect(enMin.region, isNull);
+      // Original locale is not mutated
+      expect(enLatnUS.toLanguageTag(), 'en-Latn-US');
+
+      final zhHansCN = Locale.parse('zh-Hans-CN');
+      expect(zhHansCN.minimize().toLanguageTag(), 'zh');
+
+      final zhHantTW = Locale.parse('zh-Hant-TW');
+      expect(zhHantTW.minimize().toLanguageTag(), 'zh-TW');
+
+      final withExtension = Locale.parse('en-Latn-US-u-ca-buddhist');
+      expect(withExtension.minimize().toLanguageTag(), 'en-u-ca-buddhist');
+    });
+
+    test('canonicalize', () {
+      final enUS = Locale.parse('en-US');
+      expect(enUS.canonicalize().toLanguageTag(), 'en-US');
+
+      final indonesian = Locale.parse('in');
+      expect(indonesian.canonicalize().toLanguageTag(), 'id');
+
+      final hebrew = Locale.parse('iw');
+      expect(hebrew.canonicalize().toLanguageTag(), 'he');
+
+      final moldavian = Locale.parse('mo');
+      expect(moldavian.canonicalize().toLanguageTag(), 'ro');
+
+      final withExtension = Locale.parse('en-US-u-ca-buddhist');
+      expect(
+        withExtension.canonicalize().toLanguageTag(),
+        'en-US-u-ca-buddhist',
+      );
+    });
   });
 }
