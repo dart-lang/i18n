@@ -88,7 +88,7 @@ It demonstrates how to perform common internationalization tasks in `intl` vs. `
 * **Display Names**: Localized language/region names with `DisplayNames`.
 * **Locale-Aware Collation**: `String.compareTo()` vs. `Collation`.
 * **Locale-Aware Case Mapping**: `String.toLowerCase()` vs. `CaseMapping` (e.g. Turkish dotless `i`).
-* **Testing in `dart test`**: Real formatting is disabled by default in `dart test` to prevent brittle tests across CLDR updates; opt in with `-Dintl4x.brittle_i18n_testing=true`.
+* **Testing in `dart test`**: Real formatting is disabled by default in `dart test` to prevent brittle tests across CLDR updates; opt in with `-Dintl4x.brittle_i18n_testing=true` or `#test.allowFormatting` zone inside tests. Never use `runZoned` with `#test.allowFormatting` outside of tests (e.g. in production code).
 
 Run the example locally with:
 ```shell

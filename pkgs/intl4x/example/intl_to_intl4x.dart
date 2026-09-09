@@ -387,12 +387,19 @@ void _exampleTestingBehavior() {
 
   // NOW (intl4x): In `dart test`, intl4x stubs formatting output by default
   // to keep tests deterministic and prevent brittle failures.
-  // To enable real formatting (e.g. for golden tests), pass the compile-time
-  // flag:
+  // To enable real formatting (e.g. for golden or screenshot tests), pass the
+  // compile-time flag:
   //   dart test -Dintl4x.brittle_i18n_testing=true
+  // or wrap specific test execution in a Zone with `#test.allowFormatting`:
+  //   runZoned(() => ..., zoneValues: {#test.allowFormatting: true});
+  //
+  // IMPORTANT: Never use `runZoned` with `#test.allowFormatting` outside of
+  // tests (e.g. in application or library production code). Production code
+  // should format normally; only test code should control test execution zones.
   print(
     'intl4x (now):  Formatting is stubbed in `dart test` by default. '
-    'Pass `-Dintl4x.brittle_i18n_testing=true` to opt into real formatting.',
+    'Pass `-Dintl4x.brittle_i18n_testing=true` or use `#test.allowFormatting` '
+    'inside tests. Never use `#test.allowFormatting` outside of tests.',
   );
   print('');
 }
