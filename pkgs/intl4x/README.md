@@ -28,12 +28,71 @@ This library uses different backends on different platforms:
 *   **ICU4X**: Wraps [ICU4X](https://github.com/unicode-org/icu4x) to provide i18n functionality on both native platforms.
 *   **ECMA / Browser**: Wraps the browser's built-in [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) functionalities for web-only applications, reducing bundle size.
 
+### ICU4X Build Modes
+
+When using the native ICU4X backend, `package:icu4x` uses `package:hooks` to locate or compile the native library. You can configure the build mode in your `pubspec.yaml` under `hooks.user_defines.icu4x`:
+
+*   **`fetch` (default)**: Downloads a pre-built static or dynamic binary from ICU4X GitHub releases.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: fetch
+    ```
+
+*   **`local`**: Uses a locally available pre-built binary.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: local
+          localPath: path/to/libicu_capi.so
+    ```
+
+*   **`checkout`**: Builds a fresh native library from a local git checkout of ICU4X, allowing custom locale data or component selection. This requires a Rust toolchain.
+    ```yaml
+    hooks:
+      user_defines:
+        icu4x:
+          buildMode: checkout
+          checkoutPath: path/to/icu4x
+    ```
+
+## Supported Locales
+
+By default (in `fetch` mode), the precompiled ICU4X native backend includes CLDR data for 174 base locales (Modern, Moderate, and Basic coverage levels), expanding to ~570 regional and script variants (e.g. `en-US`, `de-DE`, `zh-Hans`, `ar-EG`, `pt-BR`). Locales not explicitly compiled into the dataset automatically fall back to parent locales, likely subtags, or root (`und`).
+
+To include custom or additional locales, build ICU4X from source using [`buildMode: checkout`](#icu4x-build-modes). For details on generating custom data, see the [package:icu4x documentation](https://github.com/unicode-org/icu4x/tree/main/ffi/dart) and the [ICU4X Data Management Tutorial](https://github.com/unicode-org/icu4x/blob/main/tutorials/data-management.md).
+
 ## Installation
 
 Add `intl4x` to your `pubspec.yaml`:
 
 ```shell
 dart pub add intl4x
+```
+
+## Migration Guide from `package:intl`
+
+For a comprehensive side-by-side comparison of `package:intl` and `package:intl4x` APIs, see [`example/intl_to_intl4x.dart`](example/intl_to_intl4x.dart).
+
+It demonstrates how to perform common internationalization tasks in `intl` vs. `intl4x`:
+* **Zero Async Initialization**: No `await initializeDateFormatting(...)` needed; all formatting works synchronously out of the box with bundled or platform data.
+* **Locale Handling**: `String` tags (`de_DE`) vs. strongly-typed `Locale.parse('de-DE')`.
+* **Number & Currency Formatting**: `NumberFormat.decimalPattern()` / `currency()` vs. `NumberFormat(...)` / `currency()`.
+* **Compact Number & Unit Formatting**: `NumberFormat.compact()` and `UnitStyle` (e.g. `Unit.meter`).
+* **Date & Time Formatting**: `DateFormat.yMMMMd()` vs. typed `DateTimeFormat.yearMonthDay()`.
+* **Formatting vs. Parsing**: `intl` supports parsing dates and numbers from strings (`DateFormat.parse()`, `NumberFormat.parse()`); `intl4x` currently focuses on formatting only (with `Locale.parse()` for language tags).
+* **Plural Rules**: Message-based `Intl.plural()` vs. `PluralRules.select()`.
+* **List Formatting**: Manual `String` joining vs. `ListFormat` / `joinAnd()`.
+* **Display Names**: Localized language/region names with `DisplayNames`.
+* **Locale-Aware Collation**: `String.compareTo()` vs. `Collation`.
+* **Locale-Aware Case Mapping**: `String.toLowerCase()` vs. `CaseMapping` (e.g. Turkish dotless `i`).
+* **Testing in `dart test`**: Real formatting is disabled by default in `dart test` to prevent brittle tests across CLDR updates; opt in with `-Dintl4x.brittle_i18n_testing=true` or `#test.allowFormatting` zone inside tests. Never use `runZoned` with `#test.allowFormatting` outside of tests (e.g. in production code).
+
+Run the example locally with:
+```shell
+dart run example/intl_to_intl4x.dart
 ```
 
 

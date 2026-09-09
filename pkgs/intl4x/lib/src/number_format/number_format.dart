@@ -113,6 +113,7 @@ final class NumberFormat {
   /// Example:
   /// {@example ../../../example/docs/number_format.dart#number_format_compact}
   //TODO: implement in ICU4X
+  @Deprecated('Not implemented on native yet.')
   NumberFormat.compact({
     Locale? locale,
     CompactDisplay compactDisplay = CompactDisplay.short,
@@ -170,6 +171,7 @@ final class NumberFormat {
   /// }
   /// ```
   //TODO: Implement in ICU4X
+  @Deprecated('Not implemented on native yet.')
   NumberFormat.percent({
     Locale? locale,
     SignDisplay signDisplay = SignDisplay.auto,
