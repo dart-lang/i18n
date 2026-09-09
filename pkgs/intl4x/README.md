@@ -46,10 +46,10 @@ When using the native ICU4X backend, `package:icu4x` uses `package:hooks` to loc
       user_defines:
         icu4x:
           buildMode: local
-          localPath: path/to/libicu4x.so
+          localPath: path/to/libicu_capi.so
     ```
 
-*   **`checkout`**: Builds a fresh native library from a local git checkout of ICU4X, allowing custom locale data or component selection.
+*   **`checkout`**: Builds a fresh native library from a local git checkout of ICU4X, allowing custom locale data or component selection. This requires a Rust toolchain.
     ```yaml
     hooks:
       user_defines:

@@ -144,10 +144,15 @@ void _exampleUnitFormatting() {
   print('--- 5. Unit Formatting [NEW IN INTL4X] ---');
   const value = 5;
 
-  // BEFORE (intl): No direct unit formatting API; required custom string
-  // formatting.
-  final intlUnit = '$value meters';
-  print('intl (before): Not supported ($intlUnit via manual concatenation)');
+  // BEFORE (intl): No direct unit formatting API; required manually defining
+  // a plural message for each unit.
+  final intlUnit = intl.Intl.plural(
+    value,
+    one: '$value meter',
+    other: '$value meters',
+    locale: 'en_US',
+  );
+  print('intl (before): "$intlUnit" (via manual Intl.plural message)');
 
   // NOW (intl4x): Built-in Unit formatting with CLDR unit rules.
   // #docregion unit_format
@@ -186,13 +191,16 @@ void _exampleDateFormatting() {
 void _exampleTimeFormatting() {
   print('--- 7. Time & TimeZone Formatting ---');
   final dateTime = DateTime.parse('2026-07-09T14:30:00');
-  const timeZone = 'Europe/Paris';
+  const timeZone = 'Asia/Kathmandu';
 
-  // BEFORE (intl):
+  // BEFORE (intl): `package:intl` formats dates strictly in the ambient
+  // user/system time zone (or UTC); it does not support arbitrary IANA
+  // time zones without external packages.
   final intlTime = intl.DateFormat.jm('en_US').format(dateTime);
-  print('intl (before): $intlTime');
+  print('intl (before): $intlTime (ambient user time zone only)');
 
-  // NOW (intl4x):
+  // NOW (intl4x): Supports explicit IANA time zones, including niche ones
+  // (e.g. Nepal Time, UTC+5:45).
   // #docregion time_format
   final intl4xTime = DateTimeFormat.yearMonthDayTime(
     locale: Locale.parse('en-US'),
@@ -228,14 +236,22 @@ void _examplePlurals() {
   // #enddocregion plurals
   print('intl4x (now):  "$intl4xPlural"');
 
-  // Ordinal plural rules (e.g. 1st, 2nd, 3rd, 4th)
-  final ordinalSuffix = PluralRules(
-    locale: Locale.parse('en-US'),
-    type: PluralType.ordinal,
-  ).select(2, one: 'st', two: 'nd', few: 'rd', other: 'th');
+  // Ordinal plural rules (e.g. 1st, 2nd, 3rd, 4th, 152nd)
+  const ordinalCount = 152;
+  final ordinal =
+      PluralRules(
+        locale: Locale.parse('en-US'),
+        type: PluralType.ordinal,
+      ).select(
+        ordinalCount,
+        one: '${ordinalCount}st',
+        two: '${ordinalCount}nd',
+        few: '${ordinalCount}rd',
+        other: '${ordinalCount}th',
+      );
   print(
-    'intl4x (now) [NEW]: "2$ordinalSuffix" '
-    '(ordinal category for 2 -> 2nd)',
+    'intl4x (now) [NEW]: "$ordinal" '
+    '(ordinal category for $ordinalCount -> 152nd)',
   );
   print('');
 }
@@ -245,10 +261,10 @@ void _exampleListFormatting() {
   print('--- 9. List Formatting [NEW IN INTL4X] ---');
   final items = ['Apples', 'Oranges', 'Bananas'];
 
-  // BEFORE (intl): No built-in list formatting API in intl; required custom
-  // code or join.
-  final intlList = items.join(', ');
-  print('intl (before): Not supported ("$intlList" via standard join)');
+  // BEFORE (intl): No list formatting API in package:intl.
+  // Naive string concatenation via `items.join(', ')` is not localized
+  // (lacks conjunctions like "and"/"or", correct punctuation, and RTL support).
+  print('intl (before): Not supported in package:intl');
 
   // NOW (intl4x): Built-in locale-aware list formatting (conjunctions,
   // disjunctions, etc.).
@@ -258,11 +274,11 @@ void _exampleListFormatting() {
     type: ListType.and,
   ).format(items);
   // #enddocregion list_format
+  print('intl4x (now) [NEW]: "$intl4xList" (using ListFormat)');
 
-  // Or extension method: items.joinAnd(locale: Locale.parse('en-US'))
-  print(
-    'intl4x (now) [NEW]: "$intl4xList" (using ListType.and / items.joinAnd())',
-  );
+  // Or extension method on Iterable<String>:
+  final intl4xJoined = items.joinAnd(locale: Locale.parse('en-US'));
+  print('intl4x (now) [NEW]: "$intl4xJoined" (using items.joinAnd())');
   print('');
 }
 
