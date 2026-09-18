@@ -9,8 +9,9 @@ Future<void> main(List<String> args) async {
   stdout.write(runBuilder.stdout as String);
 
   final runBuilderStdErr = runBuilder.stderr as String;
-  final messagesBuilderNotInDeps =
-      runBuilderStdErr.contains('Could not find package `messages_builder`');
+  final messagesBuilderNotInDeps = runBuilderStdErr.contains(
+    'Could not find package `messages_builder`',
+  );
   if (messagesBuilderNotInDeps) {
     print('Adding `package:messages_builder` to dev dependencies...');
     final addBuilder = await runDart(['pub', 'add', 'dev:messages_builder']);

@@ -4,12 +4,15 @@
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 import 'package:path/path.dart' as p;
 
 import 'builder.dart';
 import 'generation_options.dart';
 import 'message_file.dart';
+
+final _logger = Logger('MessageDataFileBuilder');
 
 class MessageDataFileBuilder {
   final Directory inputFolder;
@@ -23,29 +26,29 @@ class MessageDataFileBuilder {
   });
 
   Future<Map<String, String>> run() async {
-    print('Starting to add arb files from $inputFolder to $outputFolder');
+    final relInput = p.relative(inputFolder.path);
+    final relOutput = p.relative(outputFolder.path);
+    _logger.info('Generating message data files from $relInput to $relOutput');
     final arbFiles = await inputFolder
         .list()
         .where((file) => file is File)
         .map((file) => file.path)
         .where((path) => p.extension(path) == '.arb')
         .toList();
+    arbFiles.sort();
 
     final mapping = <String, String>{};
     if (arbFiles.isEmpty) {
-      print('No `.arb` files found in $inputFolder.');
+      _logger.info('No `.arb` files found in $relInput.');
       return mapping;
     }
 
     for (final arbFilePath in arbFiles) {
-      print('Generating $arbFilePath, bundle this in your assets.');
       final arbFileUri = Uri.file(arbFilePath);
       final arbFileContents = await File.fromUri(arbFileUri).readAsString();
       final messageBundle = await parseMessageFile(arbFileContents, options);
 
-      final serializer = JsonSerializer(options.findById);
-
-      final data = _arbToData(messageBundle, arbFilePath, serializer);
+      final serializer = JsonSerializer();
 
       final assetName = p.setExtension(
         p.basename(arbFilePath),
@@ -53,24 +56,25 @@ class MessageDataFileBuilder {
       );
 
       final outputDataPath = outputFolder.uri.resolve(assetName);
-      final dataFile = File.fromUri(outputDataPath);
-      await dataFile.create();
-      await dataFile.writeAsString(data);
+      if (options.assetLoadingStyle != TargetEnvironment.dart) {
+        final data = arbToData(messageBundle, serializer);
+        final dataFile = File.fromUri(outputDataPath);
+        await dataFile.create(recursive: true);
+        await dataFile.writeAsString(data);
+        final relOutputFile = p.relative(outputDataPath.path);
+        _logger.info('Generated $relOutputFile');
+      }
       mapping[arbFilePath] = outputDataPath.path;
     }
     return mapping;
   }
-
-  String _arbToData(
-    MessageFile messageBundle,
-    String arbFilePath,
-    Serializer<String> serializer,
-  ) =>
-      serializer
-          .serialize(
-            messageBundle.hash,
-            messageBundle.locale ?? 'en_US',
-            messageBundle.messages.map((e) => e.message).toList(),
-          )
-          .data;
 }
+
+String arbToData(MessageFile messageBundle, Serializer<String> serializer) =>
+    serializer
+        .serialize(
+          messageBundle.hash,
+          messageBundle.locale ?? 'en_US',
+          messageBundle.messages.map((e) => e.message).toList(),
+        )
+        .data;

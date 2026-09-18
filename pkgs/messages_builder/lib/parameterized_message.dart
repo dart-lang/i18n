@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:messages/messages.dart';
+
 import 'placeholder.dart';
 
 /// A wrapper class around a [Message], adding its [placeholders] and a [name].

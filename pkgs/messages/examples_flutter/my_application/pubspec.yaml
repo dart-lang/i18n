@@ -1,26 +1,34 @@
 name: my_application
 description: "A new Flutter project."
-publish_to: 'none'
-version: 0.1.0
+
+publish_to: none
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.12.0
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.19.0
+  intl: ^0.20.0
   messages:
-    path: ../../../messages
+    path: ../..
   my_shopping_cart:
     path: ../my_shopping_cart
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   messages_builder:
     path: ../../../messages_builder
+
+dependency_overrides:
+  messages:
+    path: ../..
+  messages_builder:
+    path: ../../../messages_builder
+  messages_serializer:
+    path: ../../../messages_serializer
 
 flutter:
   uses-material-design: true
