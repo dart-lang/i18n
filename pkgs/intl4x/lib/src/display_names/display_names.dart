@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../find_locale.dart' show findSystemLocale;
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
@@ -12,6 +14,7 @@ import 'display_names_options.dart';
 ///
 /// This class uses the specified locale and options to format codes (like 'en',
 ///  'US') into human-readable strings (like 'English', 'United States').
+@experimental
 final class DisplayNames {
   final DisplayNamesImpl _impl;
 
