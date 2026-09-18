@@ -7,7 +7,6 @@ import 'package:meta/meta.dart';
 import '../options.dart' show Style;
 export '../options.dart' show Calendar, Style;
 
-@experimental
 class DisplayNamesOptions {
   final Style style;
   final LanguageDisplay languageDisplay;
