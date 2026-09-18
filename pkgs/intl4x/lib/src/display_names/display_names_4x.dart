@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// DisplayNames in ICU4X is still an experimental component; package:intl4x
+// forwards the @experimental annotation on its public DisplayNames API.
+// ignore_for_file: experimental_member_use
+
 import 'package:icu4x/icu4x.dart' as icu;
 
 import '../locale/locale.dart' show Locale;
