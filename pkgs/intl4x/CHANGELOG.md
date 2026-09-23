@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.
+
 ## 1.0.0
 
 - Update package status from experimental to preview.

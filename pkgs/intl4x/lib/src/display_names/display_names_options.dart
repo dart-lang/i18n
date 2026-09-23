@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../options.dart' show Style;
 export '../options.dart' show Calendar, Style;
 
@@ -18,9 +20,11 @@ class DisplayNamesOptions {
 }
 
 /// The types of display names that can be requested.
+@experimental
 enum DisplayType { calendar, currency, dateTimeField, language, region, script }
 
 /// How to display language names.
+@experimental
 enum LanguageDisplay {
   /// Display language names in their most common form, e.g., "English (US)".
   dialect,
@@ -31,6 +35,7 @@ enum LanguageDisplay {
 }
 
 /// What to do if a display name is not found.
+@experimental
 enum Fallback {
   /// If a display name is not found, return the code itself.
   code,
