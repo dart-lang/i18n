@@ -2,11 +2,11 @@ name: Health
 on:
   pull_request:
     branches: [ main ]
-    types: [opened, synchronize, reopened, labeled, unlabeled]
+    types: [opened, synchronize, reopened, edited, labeled, unlabeled]
 
 jobs:
   health:
-    uses: dart-lang/ecosystem/.github/workflows/health.yaml@main
+    uses: dart-lang/ecosystem/.github/workflows/health.yaml@1bdafd85bb97b331ddd683577f48a5dfa7f4cb49
     with:
       sdk: main
       ignore_license: "**.g.dart,pkgs/intl_translation/example/lib/generated/**,pkgs/intl_translation/test/generate_localized/**,pkgs/intl_translation/test/two_components/**"

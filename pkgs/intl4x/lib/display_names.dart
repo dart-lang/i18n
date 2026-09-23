@@ -14,7 +14,10 @@
 /// Regions:
 /// {@example ../example/docs/display_names.dart#display_names_regions}
 ///
+@experimental
 library;
+
+import 'package:meta/meta.dart';
 
 // Imports for the doc comment.
 import 'src/display_names/display_names.dart';
