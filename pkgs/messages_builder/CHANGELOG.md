@@ -1,5 +1,6 @@
 ## 0.3.0-wip
 
+- Adapt generated message loading code to binding `PluralSelector` to runtime `MessageListJson`.
 - Adapt to output data files to assets.
 
 ## 0.2.1

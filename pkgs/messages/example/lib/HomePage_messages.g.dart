@@ -3,36 +3,29 @@
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: unused_import
 
-import 'package:intl/intl.dart';
+import 'package:intl4x/plural_rules.dart';
 import 'package:messages/messages_json.dart';
 
-import 'HomePage_de_empty.g.dart' deferred as HomePage_de_empty;
-import 'HomePage_en_empty.g.dart' deferred as HomePage_en_empty;
+import 'HomePage_de_data.g.dart' deferred as HomePage_de_data;
+import 'HomePage_en_data.g.dart' deferred as HomePage_en_data;
 
 class HomePageMessages {
-  HomePageMessages(this._assetLoader);
+  HomePageMessages([this._assetLoader]);
 
-  final Future<String> Function(String id) _assetLoader;
+  final AssetLoader? _assetLoader;
 
   String _currentLocale = 'en';
 
   final Map<String, MessageList> _messages = {};
 
   static const _dataFiles = {
-    'de': ('packages/example/assets/testarb_de.arb.json', 'hbDN1MhX'),
-    'en': ('packages/example/assets/testarb.arb.json', 'dr9Md951')
+    'de': ('packages/messages_example/assets/testarb_de.arb.json', 'hbDN1MhX'),
+    'en': ('packages/messages_example/assets/testarb.arb.json', 'dr9Md951'),
   };
 
   String get currentLocale => _currentLocale;
 
   MessageList get _currentMessages => _messages[currentLocale]!;
-
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
-    return _currentMessages.generateStringAtId(id, args);
-  }
 
   static Iterable<String> get knownLocales => _dataFiles.keys;
 
@@ -43,17 +36,33 @@ class HomePageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
+      String? data;
       if (locale == 'de') {
-        await HomePage_de_empty.loadLibrary();
+        await HomePage_de_data.loadLibrary();
+        data = HomePage_de_data.data;
       } else if (locale == 'en') {
-        await HomePage_en_empty.loadLibrary();
+        await HomePage_en_data.loadLibrary();
+        data = HomePage_en_data.data;
       }
 
-      final data = await _assetLoader(dataFile);
+      if (data == null) {
+        if (_assetLoader case final assetLoader?) {
+          final info = _dataFiles[locale];
+          final dataFile = info?.$1;
+          if (dataFile != null) {
+            data = await assetLoader(dataFile);
+          }
+        }
+      }
+      if (data == null) {
+        throw ArgumentError('Locale $locale is not in $knownLocales');
+      }
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }
@@ -66,25 +75,16 @@ class HomePageMessages {
     }
   }
 
-  String helloAndWelcome(
-    String firstName,
-    String lastName,
-  ) =>
+  String helloAndWelcome(String firstName, String lastName) =>
       _currentMessages.generateStringAtIndex(0, [firstName, lastName]);
 
-  String helloAndWelcome2(
-    String firstName,
-    String lastName,
-  ) =>
+  String helloAndWelcome2(String firstName, String lastName) =>
       _currentMessages.generateStringAtIndex(1, [firstName, lastName]);
 
   String newMessages(int newMessages) =>
       _currentMessages.generateStringAtIndex(2, [newMessages]);
 
-  String newMessages2(
-    String gender,
-    int newVar,
-  ) =>
+  String newMessages2(String gender, int newVar) =>
       _currentMessages.generateStringAtIndex(3, [gender, newVar]);
 }
 
@@ -97,14 +97,14 @@ Message _pluralSelector(
   Map<int, Message>? numberCases,
   Map<int, Message>? wordCases,
 }) {
-  return Intl.pluralLogic(
+  Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
+  return PluralRules(locale: Locale.parse(locale)).select(
     howMany,
-    few: few,
-    many: many,
-    zero: numberCases?[0] ?? wordCases?[0],
-    one: numberCases?[1] ?? wordCases?[1],
-    two: numberCases?[2] ?? wordCases?[2],
+    zero: getCase(0),
+    one: getCase(1),
+    two: getCase(2),
+    few: few ?? other,
+    many: many ?? other,
     other: other,
-    locale: locale,
   );
 }

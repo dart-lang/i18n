@@ -1,0 +1,8 @@
+analyzer:
+  errors:
+    plugins_in_inner_options: ignore
+
+plugins:
+  messages_analyzer_plugin:
+    diagnostics:
+      literal_string_outside_l10n: true

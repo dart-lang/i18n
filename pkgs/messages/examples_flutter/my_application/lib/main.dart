@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_application/src/my_app_messages.g.dart';
 import 'package:my_shopping_cart/my_shopping_cart.dart';
 
@@ -25,30 +24,34 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: FutureBuilder<MyAppMessages>(
-          future: initMyMessages(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const LinearProgressIndicator();
-            }
-            final myAppMessages = snapshot.data!;
-            return FutureBuilder<MyShoppingCart>(
-                future: initShoppingCart(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const CircularProgressIndicator();
-                  }
-                  final myShoppingCart = snapshot.data!;
+        future: initMyMessages(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const LinearProgressIndicator();
+          }
+          final myAppMessages = snapshot.data!;
+          return FutureBuilder<MyShoppingCart>(
+            future: initShoppingCart(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
+              final myShoppingCart = snapshot.data!;
 
-                  return Scaffold(
-                    floatingActionButton: FloatingActionButton(
-                        onPressed: () => setState(() => counter++)),
-                    body: Center(
-                      child: Text(
-                          'Currently: ${sale(myAppMessages)}. ${myShoppingCart.itemsInCart(counter)}!'),
-                    ),
-                  );
-                });
-          }),
+              return Scaffold(
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => setState(() => counter++),
+                ),
+                body: Center(
+                  child: Text(
+                    'Currently: ${sale(myAppMessages)}. ${myShoppingCart.itemsInCart(counter)}!',
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -59,8 +62,7 @@ class _MainAppState extends State<MainApp> {
   }
 
   Future<MyAppMessages> initMyMessages() async {
-    var myAppMessages = MyAppMessages((id) =>
-        rootBundle.loadString(id.substring('packages/my_application/'.length)));
+    var myAppMessages = MyAppMessages();
     await myAppMessages.loadLocale('en_US');
     return myAppMessages;
   }

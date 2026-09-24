@@ -9,13 +9,10 @@ import 'package:messages/messages_json.dart';
 import 'package:messages_serializer/messages_serializer.dart';
 
 class MessageShrinker {
-  void shrink(
-    String dataFile,
-    String constInstancesFile,
-    String outputFile,
-  ) {
-    final constInstances =
-        _parseConstInstances(File(constInstancesFile).readAsStringSync());
+  void shrink(String dataFile, String constInstancesFile, String outputFile) {
+    final constInstances = _parseConstInstances(
+      File(constInstancesFile).readAsStringSync(),
+    );
 
     final file = File(dataFile);
     if (dataFile.endsWith('.json')) {
@@ -32,13 +29,8 @@ class MessageShrinker {
   /// message indices in [messagesToKeep].
   String shrinkJson(String buffer, List<int> messagesToKeep) {
     final sizeBefore = buffer.length;
-    final json = JsonDeserializer(buffer).deserialize(
-      (howMany, locale, {few, many, numberCases, required other, wordCases}) {
-        throw StateError('As the deserialized MessageList is not used, but '
-            'just immediately reserialized, this selector will not be called.');
-      },
-    );
-    final data = JsonSerializer(json.preamble.hasIds)
+    final json = JsonDeserializer(buffer).deserialize();
+    final data = JsonSerializer()
         .serialize(
           json.preamble.hash,
           json.preamble.locale,
@@ -72,10 +64,10 @@ class MessageShrinker {
   /// }
   /// ```
   List<int> _parseConstInstances(String fileContents) {
-    final decoded = jsonDecode(fileContents) as Map<String, dynamic>;
-    final instances = decoded['constantInstances'] as List;
+    final decoded = jsonDecode(fileContents) as Map<String, Object?>;
+    final instances = decoded['constantInstances'] as List<Object?>;
     return instances
-        .map((e) => e as Map<String, dynamic>)
+        .map((e) => e as Map<String, Object?>)
         .map((e) => e['index'] as int)
         .toList();
   }
