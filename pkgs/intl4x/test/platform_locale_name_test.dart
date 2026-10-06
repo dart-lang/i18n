@@ -34,6 +34,10 @@ void main() {
     'zh_Hant_TW': 'zh-Hant-TW',
     'en_US@calendar=japanese': 'en-US',
     'en_US@rg=dezzzz': 'en-US',
+    'en_US_POSIX': 'en-US-POSIX',
+    // Mixed separators, with the underscore before the hyphen.
+    'en_US-POSIX': 'en-US-POSIX',
+    'sr_Latn-RS': 'sr-Latn-RS',
   };
 
   group('platformLocaleNameToBcp47', () {
@@ -41,7 +45,9 @@ void main() {
       test('"$localeName" -> "$expected"', () {
         final tag = platformLocaleNameToBcp47(localeName);
         expect(tag, expected);
-        expect(Locale.parse(tag).toLanguageTag(), expected);
+        // Parsing canonicalizes the case of subtags, e.g. variants such as
+        // `POSIX` become lowercase.
+        expect(Locale.parse(tag).toLanguageTag(), equalsIgnoringCase(expected));
       });
     }
   });
