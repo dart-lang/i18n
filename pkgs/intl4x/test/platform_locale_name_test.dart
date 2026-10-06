@@ -45,9 +45,10 @@ void main() {
       test('"$localeName" -> "$expected"', () {
         final tag = platformLocaleNameToBcp47(localeName);
         expect(tag, expected);
-        // Parsing canonicalizes the case of subtags, e.g. variants such as
-        // `POSIX` become lowercase.
-        expect(Locale.parse(tag).toLanguageTag(), equalsIgnoringCase(expected));
+        // Only check that the tag is accepted, as the canonical form differs
+        // between backends: ICU4X turns `en-US-POSIX` into `en-US-posix`,
+        // while browsers turn it into `en-US-u-va-posix`.
+        expect(() => Locale.parse(tag), returnsNormally);
       });
     }
   });
