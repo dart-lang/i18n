@@ -5,10 +5,11 @@
 import 'dart:io';
 
 import 'locale/locale.dart';
+import 'locale/platform_locale_name.dart';
 
 Locale findSystemLocale() {
   try {
-    return Locale.parse(Platform.localeName);
+    return Locale.parse(platformLocaleNameToBcp47(Platform.localeName));
   } catch (e) {
     return Locale.parse('und');
   }

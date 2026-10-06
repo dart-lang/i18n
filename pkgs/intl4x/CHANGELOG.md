@@ -8,6 +8,11 @@
 - Fix `NumberFormat.percent` ignoring the `digits` argument.
 - Fix currency formatting throwing on web when `digits` sets a maximum number
   of fraction digits below 2 without a minimum.
+- Fix `Locale.system` returning `und` on Linux, and for some Windows and Apple
+  locale names, by converting `Platform.localeName` to a BCP47 tag. Handles
+  POSIX names such as `en_US.UTF-8` and `sr_RS@latin`, Windows sort orders
+  such as `de-DE_phoneb`, and Apple identifiers such as
+  `en_US@calendar=japanese`.
 
 ## 1.0.1
 

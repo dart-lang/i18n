@@ -40,6 +40,14 @@ abstract class Locale {
   Locale withClockStyle(ClockStyle clockStyle);
 
   /// The system's current locale.
+  ///
+  /// On the web, this is the browser's `navigator.language`. Elsewhere, it is
+  /// derived from `Platform.localeName`, falling back to `und` if that can not
+  /// be parsed.
+  ///
+  /// On Android, `Platform.localeName` does not reflect the device locale. In
+  /// Flutter apps, prefer passing the locale explicitly, for example
+  /// `Locale.parse(PlatformDispatcher.instance.locale.toLanguageTag())`.
   static Locale get system => findSystemLocale();
 
   @override
