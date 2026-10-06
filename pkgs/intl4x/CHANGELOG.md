@@ -6,7 +6,8 @@
   locale names, by converting `Platform.localeName` to a BCP47 tag. Handles
   POSIX names such as `en_US.UTF-8` and `sr_RS@latin`, Windows sort orders
   such as `de-DE_phoneb`, and Apple identifiers such as
-  `en_US@calendar=japanese`.
+  `en_US@calendar=japanese`. Preferences are kept as Unicode extensions, for
+  example `en-US-u-ca-japanese` or `de-DE-u-co-phonebk`.
 
 ## 1.0.1
 
