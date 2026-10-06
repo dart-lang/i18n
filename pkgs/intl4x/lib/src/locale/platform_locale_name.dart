@@ -25,6 +25,70 @@ final _posixLocalePattern = RegExp(r'^([^.@]*)(?:\.[^@]*)?(?:@(.*))?$');
 /// Windows, Apple) and `_` (POSIX, Apple's `CFLocale` identifiers).
 final _subtagSeparator = RegExp('[-_]');
 
+/// Matches a valid BCP47 Unicode extension type: one or more subtags of three
+/// to eight lowercase letters or digits, separated by hyphens, for example
+/// `japanese` or `islamic-civil`. Values that do not match, such as the
+/// `America/New_York` in `timezone=America/New_York`, are dropped.
+final _unicodeExtensionType = RegExp(r'^[a-z0-9]{3,8}(?:-[a-z0-9]{3,8})*$');
+
+/// Matches a BCP47 Unicode extension key: a letter or digit followed by a
+/// letter, for example `ca` or `rg`.
+final _unicodeExtensionKey = RegExp(r'^[a-z0-9][a-z]$');
+
+/// The Unicode extension keys for ICU's legacy keyword names, as used in
+/// Apple's `CFLocale` identifiers. Keywords that already use the BCP47 key,
+/// such as `rg` or `fw`, need no entry.
+const _legacyKeywordToKey = {
+  'calendar': 'ca',
+  'colalternate': 'ka',
+  'colbackwards': 'kb',
+  'colcasefirst': 'kf',
+  'colcaselevel': 'kc',
+  'collation': 'co',
+  'colnormalization': 'kk',
+  'colnumeric': 'kn',
+  'colreorder': 'kr',
+  'colstrength': 'ks',
+  'currency': 'cu',
+  'hours': 'hc',
+  'measure': 'ms',
+  'numbers': 'nu',
+  'timezone': 'tz',
+};
+
+/// The Unicode extension types for ICU's legacy keyword values, per key, where
+/// they differ. Boolean `yes` and `no` values are handled separately.
+const _legacyTypeToType = {
+  'ca': {'gregorian': 'gregory', 'ethiopic-amete-alem': 'ethioaa'},
+  'co': {
+    'dictionary': 'dict',
+    'gb2312han': 'gb2312',
+    'phonebook': 'phonebk',
+    'traditional': 'trad',
+  },
+  'ka': {'non-ignorable': 'noignore'},
+  'ks': {
+    'primary': 'level1',
+    'secondary': 'level2',
+    'tertiary': 'level3',
+    'quaternary': 'level4',
+    'identical': 'identic',
+  },
+  'ms': {'imperial': 'uksystem'},
+};
+
+/// The collation types for the alternative sort orders that Windows appends to
+/// locale names, such as the `phoneb` in `de-DE_phoneb`.
+///
+/// Hungarian `tchncl` and Georgian `modern` have no equivalent and are dropped.
+const _windowsSortOrderToCollation = {
+  'phoneb': 'phonebk',
+  'pronun': 'zhuyin',
+  'radstr': 'unihan',
+  'stroke': 'stroke',
+  'tradnl': 'trad',
+};
+
 /// Converts a locale name as returned by `Platform.localeName` into a BCP47
 /// language tag that can be passed to `Locale.parse`.
 ///
@@ -36,7 +100,13 @@ final _subtagSeparator = RegExp('[-_]');
 ///   optionally followed by a sort order such as `de-DE_phoneb`.
 /// * macOS and iOS return the user's first preferred language, such as
 ///   `zh-Hans-CN`, or else a `CFLocale` identifier such as
-///   `en_US@calendar=japanese`.
+///   `en_US@calendar=japanese;hours=h23`.
+///
+/// Preferences are kept as Unicode extensions where possible: Apple's
+/// keywords (`@calendar=japanese` becomes `-u-ca-japanese`), Windows sort
+/// orders (`_phoneb` becomes `-u-co-phonebk`), and glibc's `@euro` modifier
+/// (`-u-cu-eur`). Names that already are BCP47 tags, including any extensions,
+/// are returned unchanged.
 ///
 /// Returns `und` for the `C` and `POSIX` locales and for empty names.
 String platformLocaleNameToBcp47(String localeName) {
@@ -44,6 +114,9 @@ String platformLocaleNameToBcp47(String localeName) {
   final match = _posixLocalePattern.firstMatch(localeName)!;
   var base = match.group(1)!;
   final modifier = match.group(2);
+
+  // Unicode extension keys mapped to their types, for example `ca: japanese`.
+  final keywords = <String, String>{};
 
   // Windows appends an alternative sort order after an underscore to an
   // otherwise hyphenated tag, for example `de-DE_phoneb` or `es-ES_tradnl`.
@@ -53,7 +126,12 @@ String platformLocaleNameToBcp47(String localeName) {
   final hyphenIndex = base.indexOf('-');
   final underscoreIndex = base.indexOf('_');
   if (hyphenIndex != -1 && underscoreIndex > hyphenIndex) {
+    final sortOrder = base.substring(underscoreIndex + 1).toLowerCase();
     base = base.substring(0, underscoreIndex);
+    final collation = _windowsSortOrderToCollation[sortOrder];
+    if (collation != null) {
+      keywords['co'] = collation;
+    }
   }
 
   if (base.isEmpty || base == 'C' || base == 'POSIX') {
@@ -61,16 +139,59 @@ String platformLocaleNameToBcp47(String localeName) {
   }
 
   final subtags = base.split(_subtagSeparator);
-  // glibc uses the `@latin` and `@cyrillic` modifiers to select a script, for
-  // example `sr_RS@latin`. Other modifiers, such as `@euro` or Apple's
-  // `@calendar=...` keywords, are dropped.
-  final script = switch (modifier) {
-    'latin' => 'Latn',
-    'cyrillic' => 'Cyrl',
-    _ => null,
-  };
-  if (script != null) {
-    subtags.insert(1, script);
+  if (modifier != null && modifier.contains('=')) {
+    // ICU-style keywords, as in Apple's `en_US@calendar=japanese;hours=h23`.
+    _addLegacyKeywords(modifier, keywords);
+  } else {
+    // glibc modifiers. `@latin` and `@cyrillic` select a script, as in
+    // `sr_RS@latin`, and `@euro` selects the currency. Others are dropped.
+    switch (modifier) {
+      case 'latin':
+        subtags.insert(1, 'Latn');
+      case 'cyrillic':
+        subtags.insert(1, 'Cyrl');
+      case 'euro':
+        keywords['cu'] = 'eur';
+    }
+  }
+
+  // A name that already is a BCP47 tag may have its own extensions. Those are
+  // kept as they are, as a tag can only have one Unicode extension.
+  final hasExtensions = subtags.any((subtag) => subtag.length == 1);
+  if (keywords.isNotEmpty && !hasExtensions) {
+    subtags.add('u');
+    // Unicode extension keywords are sorted by key in canonical form.
+    for (final key in keywords.keys.toList()..sort()) {
+      subtags
+        ..add(key)
+        ..add(keywords[key]!);
+    }
   }
   return subtags.join('-');
+}
+
+/// Adds the Unicode extension keywords for ICU-style [keywords], such as
+/// `calendar=japanese;hours=h23`, to [result].
+///
+/// Unknown keys and values that are not valid Unicode extension types are
+/// dropped.
+void _addLegacyKeywords(String keywords, Map<String, String> result) {
+  for (final keyword in keywords.split(';')) {
+    final separatorIndex = keyword.indexOf('=');
+    if (separatorIndex == -1) continue;
+    final name = keyword.substring(0, separatorIndex).trim().toLowerCase();
+    final value = keyword.substring(separatorIndex + 1).trim().toLowerCase();
+
+    final key = _legacyKeywordToKey[name] ?? name;
+    if (!_unicodeExtensionKey.hasMatch(key)) continue;
+
+    final type = switch (value) {
+      'yes' => 'true',
+      'no' => 'false',
+      _ => _legacyTypeToType[key]?[value] ?? value,
+    };
+    if (!_unicodeExtensionType.hasMatch(type)) continue;
+
+    result.putIfAbsent(key, () => type);
+  }
 }
