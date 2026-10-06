@@ -47,6 +47,47 @@ void main() {
     });
   });
 
+  group('signDisplay', () {
+    // Expectations match ECMA-402 (`Intl.NumberFormat`): the sign display is
+    // evaluated on the *rounded* value, so -0.4 rounded to 0 fraction digits
+    // is negative zero.
+    String format(Object number, SignDisplay signDisplay) => NumberFormat(
+      locale: Locale.parse('en-US'),
+      signDisplay: signDisplay,
+      digits: const Digits.withFractionDigits(maximum: 0),
+    ).format(number);
+
+    testWithFormatting('auto', () {
+      expect(format(-0.4, SignDisplay.auto), '-0');
+      expect(format(0.4, SignDisplay.auto), '0');
+      expect(format(-1.5, SignDisplay.auto), '-2');
+    });
+
+    testWithFormatting('always', () {
+      expect(format(-0.4, SignDisplay.always), '-0');
+      expect(format(0.4, SignDisplay.always), '+0');
+      expect(format(3, SignDisplay.always), '+3');
+    });
+
+    testWithFormatting('exceptZero', () {
+      expect(format(-0.4, SignDisplay.exceptZero), '0');
+      expect(format(0.4, SignDisplay.exceptZero), '0');
+      expect(format(3, SignDisplay.exceptZero), '+3');
+      expect(format(-1.5, SignDisplay.exceptZero), '-2');
+    });
+
+    testWithFormatting('negative', () {
+      expect(format(-0.4, SignDisplay.negative), '0');
+      expect(format(-0.0, SignDisplay.negative), '0');
+      expect(format(-1.5, SignDisplay.negative), '-2');
+    });
+
+    testWithFormatting('never', () {
+      expect(format(-0.4, SignDisplay.never), '0');
+      expect(format(-1.5, SignDisplay.never), '2');
+    });
+  });
+
   group('digits', () {
     testWithFormatting('fractionDigits', () {
       String formatter(Object number) => NumberFormat(

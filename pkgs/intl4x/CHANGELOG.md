@@ -1,3 +1,10 @@
+## 1.0.2
+
+- Fix `SignDisplay.negative` and `SignDisplay.exceptZero` on native platforms
+  formatting numbers that round to zero (e.g. `-0.4` with no fraction digits)
+  as `-0` or `+0`. The sign display is now applied after rounding, matching
+  ECMA-402.
+
 ## 1.0.1
 
 - Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.

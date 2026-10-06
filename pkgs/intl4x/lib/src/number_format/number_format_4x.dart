@@ -38,8 +38,8 @@ class NumberFormat4X extends NumberFormatImpl {
       final String s => icu.Decimal.fromString(s),
       Object() => icu.Decimal.fromString(number.toString()),
     };
-    fixedDecimal.applySignDisplay(options.signDisplay.toX);
-    return _constructDouble(fixedDecimal);
+    return _constructDouble(fixedDecimal)
+      ..applySignDisplay(options.signDisplay.toX);
   }
 
   icu.Decimal _constructDouble(icu.Decimal fixedDecimal) {
