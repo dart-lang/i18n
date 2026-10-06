@@ -48,9 +48,12 @@ String platformLocaleNameToBcp47(String localeName) {
   // Windows appends an alternative sort order after an underscore to an
   // otherwise hyphenated tag, for example `de-DE_phoneb` or `es-ES_tradnl`.
   // This only has to be checked after removing the codeset, as codesets such
-  // as `UTF-8` contain a hyphen.
-  if (base.contains('-') && base.contains('_')) {
-    base = base.substring(0, base.indexOf('_'));
+  // as `UTF-8` contain a hyphen. Only an underscore after the first hyphen
+  // starts a sort order; one before it, as in `sr_Latn-RS`, is a separator.
+  final hyphenIndex = base.indexOf('-');
+  final underscoreIndex = base.indexOf('_');
+  if (hyphenIndex != -1 && underscoreIndex > hyphenIndex) {
+    base = base.substring(0, underscoreIndex);
   }
 
   if (base.isEmpty || base == 'C' || base == 'POSIX') {
