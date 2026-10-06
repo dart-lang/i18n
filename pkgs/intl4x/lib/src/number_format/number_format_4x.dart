@@ -38,8 +38,6 @@ class NumberFormat4X extends NumberFormatImpl {
       final String s => icu.Decimal.fromString(s),
       Object() => icu.Decimal.fromString(number.toString()),
     };
-    // Apply the sign display after rounding, so that numbers which round to
-    // zero (e.g. -0.4 with no fraction digits) are treated as negative zero.
     return _constructDouble(fixedDecimal)
       ..applySignDisplay(options.signDisplay.toX);
   }
