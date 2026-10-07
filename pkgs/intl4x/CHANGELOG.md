@@ -8,6 +8,8 @@
 - Fix `NumberFormat.percent` ignoring the `digits` argument.
 - Fix currency formatting throwing on web when `digits` sets a maximum number
   of fraction digits below 2 without a minimum.
+- Fix `TimePrecision.minuteOptional` on web (ECMA) to omit zero minutes in
+  12-hour clock formats, matching ICU4X.
 
 ## 1.0.1
 
