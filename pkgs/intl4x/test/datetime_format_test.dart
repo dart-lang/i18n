@@ -2,9 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:async';
+
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/datetime_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
@@ -328,43 +331,33 @@ void main() {
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
-    testWithFormatting('defaults match doc examples', () {
-      final en = Locale.parse('en-US');
-      final fr = Locale.parse('fr');
-      expect(DateTimeFormat.time(locale: fr).format(dateTime), '04:00:42');
-      expect(DateTimeFormat.day(locale: en).format(dateTime), '17');
-      expect(DateTimeFormat.weekday(locale: en).format(dateTime), 'Fri');
-      expect(DateTimeFormat.month(locale: en).format(dateTime), '12');
-      expect(DateTimeFormat.monthDay(locale: en).format(dateTime), '12/17');
-      expect(
-        DateTimeFormat.monthDayWeekday(locale: en).format(dateTime),
-        'Fri, 12/17',
+    testWithFormatting('doc examples', () async {
+      final prints = <String>[];
+      runZoned(
+        doc_examples.main,
+        zoneSpecification: ZoneSpecification(
+          print: (self, parent, zone, line) => prints.add(line),
+        ),
       );
-      expect(DateTimeFormat.year(locale: en).format(dateTime), '21');
-      expect(DateTimeFormat.yearMonth(locale: en).format(dateTime), '12/21');
+      final channel = spawnHybridCode('''
+        import 'dart:io';
+        import 'package:stream_channel/stream_channel.dart';
+
+        void hybridMain(StreamChannel<Object?> channel) {
+          channel.sink.add(
+            File('example/docs/datetime_format.dart').readAsStringSync(),
+          );
+          channel.sink.close();
+        }
+      ''');
+      final source = await channel.stream.first as String;
+      final expected = RegExp(
+        r'\);\s*//\s*(.+)$',
+        multiLine: true,
+      ).allMatches(source).map((m) => m.group(1)!).toList();
       expect(
-        DateTimeFormat.yearMonthDay(locale: en).format(dateTime),
-        '12/17/21',
-      );
-      expect(
-        DateTimeFormat.yearMonthDayWeekday(locale: en).format(dateTime),
-        'Fri, 12/17/21',
-      );
-      expect(
-        DateTimeFormat.monthDayTime(locale: en).format(dateTime),
-        matches(r'^12/17, 4:00:42\sAM$'),
-      );
-      expect(
-        DateTimeFormat.yearMonthDayTime(locale: en).format(dateTime),
-        matches(r'^12/17/21, 4:00:42\sAM$'),
-      );
-      expect(
-        DateTimeFormat.yearMonthDayWeekdayTime(locale: en).format(dateTime),
-        matches(r'^Fri, 12/17/21, 4:00:42\sAM$'),
-      );
-      expect(
-        DateTimeFormat.time(locale: en).format(dateTime),
-        matches(r'^4:00:42\sAM$'),
+        prints.map((s) => s.replaceAll(RegExp(r'\s'), ' ')).toList(),
+        expected.map((s) => s.replaceAll(RegExp(r'\s'), ' ')).toList(),
       );
     });
   });
