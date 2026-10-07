@@ -47,12 +47,21 @@ extension type _DateTimeJSOptions(JSObject _options) {
   _DateTimeJSOptions withoutMinute() =>
       _DateTimeJSOptions(_assign(JSObject(), _options)..delete('minute'.toJS));
 
-  _DateTimeJSOptions withTimeZone(TimeZoneType timeZoneType, String timeZone) =>
-      _DateTimeJSOptions(
-        _assign(JSObject(), _options)
-          ..setProperty('timeZone'.toJS, timeZone.toJS)
-          ..setProperty('timeZoneName'.toJS, timeZoneType.name.toJS),
-      );
+  _DateTimeJSOptions withTimeZone(
+    TimeZoneType timeZoneType,
+    String timeZone, {
+    bool omitMinute = false,
+  }) {
+    final cloned = _assign(JSObject(), _options);
+    if (omitMinute) {
+      cloned.delete('minute'.toJS);
+    }
+    return _DateTimeJSOptions(
+      cloned
+        ..setProperty('timeZone'.toJS, timeZone.toJS)
+        ..setProperty('timeZoneName'.toJS, timeZoneType.name.toJS),
+    );
+  }
 
   static JSObject _optionsFrom({
     YearStyle? yearStyle,
@@ -154,10 +163,12 @@ class _FormatterECMA extends FormatterImpl {
     _optionsJS.withoutMinute(),
   );
 
+  late final bool _is12Hour = dateTimeFormat.resolvedOptions().hour12 ?? false;
+
   bool _shouldOmitMinute(DateTime datetime) =>
       _timePrecision == TimePrecision.minuteOptional &&
       datetime.minute == 0 &&
-      (dateTimeFormat.resolvedOptions().hour12 ?? false);
+      _is12Hour;
 
   @override
   String formatInternal(DateTime datetime) =>
@@ -207,12 +218,13 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
     required bool omitMinute,
   }) {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
-    final options = omitMinute
-        ? formatter._optionsJS.withoutMinute()
-        : formatter._optionsJS;
     return _DateTimeFormat(
       localeJS,
-      options.withTimeZone(timeZoneType, timeZone),
+      formatter._optionsJS.withTimeZone(
+        timeZoneType,
+        timeZone,
+        omitMinute: omitMinute,
+      ),
     );
   }
 
