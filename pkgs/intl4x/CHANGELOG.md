@@ -1,3 +1,8 @@
+## 1.0.2-wip
+
+- Fix `TimePrecision.minuteOptional` on web (ECMA) to omit zero minutes in
+  12-hour clock formats, matching ICU4X.
+
 ## 1.0.1
 
 - Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.
