@@ -140,7 +140,7 @@ abstract class FormatterZonedImpl extends ZonedDateTimeFormatter {
 /// import 'package:intl4x/datetime_format.dart';
 /// void main() {
 ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+///   print(DateTimeFormat.year().format(date)); // Output: '21'
 /// }
 /// ```
 sealed class DateTimeFormatterStandalone {
@@ -159,7 +159,7 @@ sealed class DateTimeFormatterStandalone {
 /// import 'package:intl4x/datetime_format.dart';
 /// void main() {
 ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: '12/17/21'
 /// }
 /// ```
 sealed class DateTimeFormatter extends DateTimeFormatterStandalone {

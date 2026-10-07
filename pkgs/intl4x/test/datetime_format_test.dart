@@ -328,6 +328,45 @@ void main() {
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
+    testWithFormatting('defaults match doc examples', () {
+      final en = Locale.parse('en-US');
+      final fr = Locale.parse('fr');
+      expect(DateTimeFormat.time(locale: fr).format(dateTime), '04:00:42');
+      expect(DateTimeFormat.day(locale: en).format(dateTime), '17');
+      expect(DateTimeFormat.weekday(locale: en).format(dateTime), 'Fri');
+      expect(DateTimeFormat.month(locale: en).format(dateTime), '12');
+      expect(DateTimeFormat.monthDay(locale: en).format(dateTime), '12/17');
+      expect(
+        DateTimeFormat.monthDayWeekday(locale: en).format(dateTime),
+        'Fri, 12/17',
+      );
+      expect(DateTimeFormat.year(locale: en).format(dateTime), '21');
+      expect(DateTimeFormat.yearMonth(locale: en).format(dateTime), '12/21');
+      expect(
+        DateTimeFormat.yearMonthDay(locale: en).format(dateTime),
+        '12/17/21',
+      );
+      expect(
+        DateTimeFormat.yearMonthDayWeekday(locale: en).format(dateTime),
+        'Fri, 12/17/21',
+      );
+      expect(
+        DateTimeFormat.monthDayTime(locale: en).format(dateTime),
+        matches(r'^12/17, 4:00:42\sAM$'),
+      );
+      expect(
+        DateTimeFormat.yearMonthDayTime(locale: en).format(dateTime),
+        matches(r'^12/17/21, 4:00:42\sAM$'),
+      );
+      expect(
+        DateTimeFormat.yearMonthDayWeekdayTime(locale: en).format(dateTime),
+        matches(r'^Fri, 12/17/21, 4:00:42\sAM$'),
+      );
+      expect(
+        DateTimeFormat.time(locale: en).format(dateTime),
+        matches(r'^4:00:42\sAM$'),
+      );
+    });
   });
 
   group('individual options', () {

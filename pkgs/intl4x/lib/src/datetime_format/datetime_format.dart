@@ -21,7 +21,7 @@ import 'datetime_format_options.dart';
 /// void main() {
 ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
 ///   print(DateTimeFormat.time(locale: Locale.parse('fr')).format(date));
-///   // Output: '04:00'
+///   // Output: '04:00:42'
 /// }
 /// ```
 sealed class DateTimeFormat {
@@ -52,7 +52,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.weekday().format(date)); // Output: 'Friday'
+  ///   print(DateTimeFormat.weekday().format(date)); // Output: 'Fri'
   /// }
   /// ```
   static DateTimeFormatter weekday({Locale? locale, DateTimeLength? length}) =>
@@ -66,7 +66,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
+  ///   print(DateTimeFormat.month().format(date)); // Output: '12'
   /// }
   /// ```
   static DateTimeFormatterStandalone month({
@@ -85,7 +85,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
+  ///   print(DateTimeFormat.monthDay().format(date)); // Output: '12/17'
   /// }
   /// ```
   static DateTimeFormatter monthDay({
@@ -104,7 +104,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDayWeekday().format(date)); // Output: 'Fri, Dec 17'
+  ///   print(DateTimeFormat.monthDayWeekday().format(date)); // Output: 'Fri, 12/17'
   /// }
   /// ```
   static DateTimeFormatter monthDayWeekday({
@@ -123,7 +123,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
+  ///   print(DateTimeFormat.year().format(date)); // Output: '21'
   /// }
   /// ```
   static DateTimeFormatterStandalone year({
@@ -143,7 +143,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonth().format(date)); // Output: 'Dec 2021'
+  ///   print(DateTimeFormat.yearMonth().format(date)); // Output: '12/21'
   /// }
   /// ```
   static DateTimeFormatter yearMonth({
@@ -163,7 +163,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
+  ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: '12/17/21'
   /// }
   /// ```
   static DateTimeFormatter yearMonthDay({
@@ -183,7 +183,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
+  ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, 12/17/21'
   /// }
   /// ```
   static DateTimeFormatter yearMonthDayWeekday({
@@ -203,7 +203,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
+  ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: '12/17, 4:00:42 AM'
   /// }
   /// ```
   static DateTimeFormatter monthDayTime({
@@ -223,7 +223,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
+  ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: '12/17/21, 4:00:42 AM'
   /// }
   /// ```
   static DateTimeFormatter yearMonthDayTime({
@@ -247,7 +247,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
+  ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, 12/17/21, 4:00:42 AM'
   /// }
   /// ```
   static DateTimeFormatter yearMonthDayWeekdayTime({
@@ -271,7 +271,7 @@ sealed class DateTimeFormat {
   ///
   /// void main() {
   ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
+  ///   print(DateTimeFormat.time().format(date)); // Output: '4:00:42 AM'
   /// }
   /// ```
   static DateTimeFormatter time({
