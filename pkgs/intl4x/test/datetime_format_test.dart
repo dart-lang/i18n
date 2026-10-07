@@ -141,7 +141,6 @@ void main() {
         ).withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
       ),
-      tags: ['ecmaUnsupported'],
     );
 
     testWithFormatting(
@@ -271,6 +270,17 @@ void main() {
           length: DateTimeLength.short,
         ).format(dateTime),
         '12/17/21',
+      ),
+    );
+    testWithFormatting(
+      'short with era',
+      () => expect(
+        DateTimeFormat.yearMonthDay(
+          locale: Locale.parse('en-US'),
+          length: DateTimeLength.short,
+          yearStyle: YearStyle.withEra,
+        ).format(dateTime),
+        '12/17/2021 AD',
       ),
     );
     testWithFormatting(
