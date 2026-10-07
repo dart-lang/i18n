@@ -1,3 +1,8 @@
+## 1.0.2-wip
+
+- Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
+  full year when `length` is `DateTimeLength.short` or omitted.
+
 ## 1.0.1
 
 - Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.
