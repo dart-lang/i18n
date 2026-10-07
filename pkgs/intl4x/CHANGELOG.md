@@ -1,3 +1,8 @@
+## 1.0.2-wip
+
+- Fix `DateTimeFormat` doc comment output examples to match default formatting
+  options.
+
 ## 1.0.1
 
 - Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.
