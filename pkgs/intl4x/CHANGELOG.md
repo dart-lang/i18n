@@ -2,6 +2,8 @@
 
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
+- Canonicalize locales parsed via `Locale.parse` on native (ICU4X) using
+  `LocaleCanonicalizer` to match web (`Intl.Locale`) behavior.
 
 ## 1.0.1
 

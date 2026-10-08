@@ -53,4 +53,10 @@ class Locale4x implements Locale {
   );
 }
 
-Locale parseLocale(String s) => Locale4x(icu.Locale.fromString(s));
+final _canonicalizer = icu.LocaleCanonicalizer();
+
+Locale parseLocale(String s) {
+  final locale = icu.Locale.fromString(s);
+  _canonicalizer.canonicalize(locale);
+  return Locale4x(locale);
+}

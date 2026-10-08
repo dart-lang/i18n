@@ -68,5 +68,22 @@ void main() {
       expect(a1.hashCode, equals(a2.hashCode));
       expect(a1, isNot(equals(b)));
     });
+
+    test('canonicalization', () {
+      expect(Locale.parse('iw-IL').toLanguageTag(), 'he-IL');
+      expect(Locale.parse('in-ID').toLanguageTag(), 'id-ID');
+      expect(Locale.parse('eng-US').toLanguageTag(), 'en-US');
+      expect(Locale.parse('deu-DE').toLanguageTag(), 'de-DE');
+      expect(Locale.parse('en-UK').toLanguageTag(), 'en-GB');
+      expect(Locale.parse('de-DD').toLanguageTag(), 'de-DE');
+      expect(Locale.parse('no-BOKMAL').toLanguageTag(), 'nb');
+      expect(Locale.parse('no-NYNORSK').toLanguageTag(), 'nn');
+      expect(Locale.parse('sv-AALAND').toLanguageTag(), 'sv-AX');
+      expect(Locale.parse('el-POLYTONI').toLanguageTag(), 'el-polyton');
+      expect(
+        Locale.parse('ja-Latn-hepburn-heploc').toLanguageTag(),
+        'ja-Latn-alalc97',
+      );
+    });
   });
 }
