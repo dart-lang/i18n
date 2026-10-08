@@ -3,8 +3,10 @@ description: Build the messages for consumption by package:messages
 version: 0.3.0-wip
 repository: https://github.com/dart-lang/i18n/pkgs/messages_builder
 
+resolution: workspace
+
 environment:
-  sdk: ^3.0.0
+  sdk: ^3.12.0
 
 publish_to: none
 
@@ -12,14 +14,13 @@ dependencies:
   code_builder: ^4.3.0
   collection: ^1.18.0
   crypto: ^3.0.3
-  dart_style: ^2.2.4
-  intl: ^0.19.0
+  dart_style: ^3.0.0
+  intl: ^0.20.0
   logging: ^1.2.0
-  messages:
-    path: ../messages
-  messages_serializer:
-    path: ../messages_serializer
+  messages: ^0.3.0-wip
+  messages_serializer: ^0.3.0-wip
   path: ^1.8.2
+  pub_semver: ^2.2.0
   yaml: ^3.1.1
 
 dev_dependencies:

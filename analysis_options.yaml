@@ -1,0 +1,5 @@
+plugins:
+  messages_analyzer_plugin:
+    path: pkgs/messages_analyzer_plugin
+    diagnostics:
+      literal_string_outside_l10n: true

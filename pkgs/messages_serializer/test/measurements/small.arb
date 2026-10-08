@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appName": "My Sample Application",
+  "@appName": {
+    "description": "Application title"
+  },
+  "welcomeUser": "Welcome to the application!",
+  "@welcomeUser": {
+    "description": "Welcome message"
+  },
+  "goodbye": "Goodbye!",
+  "@goodbye": {
+    "description": "Goodbye message"
+  }
+}

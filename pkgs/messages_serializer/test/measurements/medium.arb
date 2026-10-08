@@ -1,0 +1,115 @@
+{
+  "@@locale": "en",
+  "title": "Shopping App",
+  "greeting": "Hello {name}!",
+  "@greeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "itemCount": "{count, plural, =0{No items for {name}} =1{1 item for {name}} other{{count} items for {name}}}",
+  "@itemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "genderSelect": "{gender, select, female{Her cart has {count, plural, =0{no items} =1{1 item} other{{count} items}}} male{His cart has {count, plural, =0{no items} =1{1 item} other{{count} items}}} other{Their cart has {count, plural, =0{no items} =1{1 item} other{{count} items}}}}",
+  "@genderSelect": {
+    "placeholders": {
+      "gender": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutButton": "Proceed to Checkout",
+  "cancelButton": "Cancel Order",
+  "itemAdded": "Added {itemName} to cart.",
+  "@itemAdded": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "itemRemoved": "Removed {itemName} from cart.",
+  "@itemRemoved": {
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "subtotalPrice": "Subtotal: ${price}",
+  "@subtotalPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "discountNotice": "Discount applied: {percent}% off!",
+  "@discountNotice": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "shippingStatus": "{status, select, shipped{Shipped on {date}} delivered{Delivered} pending{Order pending} other{Unknown status}}",
+  "@shippingStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewCount": "{reviews, plural, =0{No reviews yet} =1{1 review by {author}} few{{reviews} reviews} many{{reviews} reviews} other{{reviews} reviews by {author}}}",
+  "@reviewCount": {
+    "placeholders": {
+      "reviews": {
+        "type": "int"
+      },
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentMethod": "Payment method: {method}",
+  "@paymentMethod": {
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "thankYou": "Thank you for your purchase!",
+  "supportEmail": "Contact us at {email}",
+  "@supportEmail": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "versionInfo": "Version {version}",
+  "@versionInfo": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
+}
