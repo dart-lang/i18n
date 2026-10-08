@@ -24,7 +24,8 @@ enum TimePrecision {
   /// Minute precision.
   minute,
 
-  /// Minute precision, with optional seconds if they are zero.
+  /// Hour precision, with optional minutes if they are non-zero (or for
+  /// 24-hour clock formats).
   minuteOptional,
 
   /// Second precision.

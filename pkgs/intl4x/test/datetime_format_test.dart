@@ -319,6 +319,47 @@ void main() {
       ),
     );
     testWithFormatting(
+      'minuteOptional with zero minutes (12-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(dateTime),
+        matches(r'^4\sAM$'),
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional with non-zero minutes (12-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(DateTime(2021, 12, 17, 4, 30, 0)),
+        matches(r'^4:30\sAM$'),
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional with zero minutes (24-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('de-DE'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(DateTime(2021, 12, 17, 14, 0, 0)),
+        '14:00',
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional zoned with zero minutes',
+      () => expect(
+        DateTimeFormat.yearMonthDayTime(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+          yearStyle: YearStyle.full,
+        ).withTimeZoneShort().format(dateTime, 'America/Los_Angeles'),
+        matches(r'^12/17/2021[,]? 4\sAM PST$'),
+      ),
+    );
+    testWithFormatting(
       'medium',
       () => expect(
         DateTimeFormat.time(locale: Locale.parse('en-US')).format(dateTime),

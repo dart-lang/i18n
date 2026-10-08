@@ -2,6 +2,8 @@
 
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
+- Fix `TimePrecision.minuteOptional` on web (ECMA) to omit zero minutes in
+  12-hour clock formats, matching ICU4X.
 
 ## 1.0.1
 
