@@ -5,6 +5,7 @@
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/datetime_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
@@ -337,6 +338,11 @@ void main() {
         ).format(dateTime),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
+    );
+    testWithFormatting(
+      'doc examples',
+      doc_examples.main,
+      tags: ['ecmaUnsupported'],
     );
   });
 

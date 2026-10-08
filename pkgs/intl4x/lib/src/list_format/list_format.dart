@@ -36,13 +36,7 @@ final class ListFormat {
 
   /// Locale-dependant concatenation of lists.
   ///
-  /// ```dart
-  /// import 'package:intl4x/list_format.dart';
-  ///
-  /// void main() {
-  ///   print(ListFormat.format(['Dog', 'Cat'])); // Prints 'Dog and Cat'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/list_format.dart#format}
   String format(List<String> list) {
     if (isInTest) {
       return '${list.join(', ')}//${_listFormatImpl.locale}';

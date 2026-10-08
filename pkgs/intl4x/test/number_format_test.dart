@@ -6,9 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/number_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   group('grouping', () {
     testWithFormatting('always', () {
       final numberFormatOptions = NumberFormat(
@@ -171,6 +174,11 @@ void main() {
   });
 
   group('Some manual tests', () {
+    testWithFormatting(
+      'doc examples web only',
+      () => doc_examples.main(webOnly: true),
+    );
+
     testWithFormatting('percent', () {
       expect(
         NumberFormat.percent(locale: Locale.parse('en-US')).format(4.33),

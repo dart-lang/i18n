@@ -5,9 +5,12 @@
 import 'package:intl4x/list_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/list_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   final list = ['A', 'B', 'C'];
   final enUS = Locale.parse('en-US');
   group('List style options', () {
