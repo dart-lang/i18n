@@ -453,7 +453,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     DateTimeAlignment? alignment,
     YearStyle? yearStyle,
   ) => switch ((length, alignment, yearStyle)) {
-    (_, _, YearStyle.full) => _TimeStyle.numeric,
+    (_, _, YearStyle.full || YearStyle.withEra) => _TimeStyle.numeric,
     (DateTimeLength.medium, _, _) => _TimeStyle.numeric,
     (DateTimeLength.long, _, _) => _TimeStyle.numeric,
     (_, _, _) => _TimeStyle.twodigit,
