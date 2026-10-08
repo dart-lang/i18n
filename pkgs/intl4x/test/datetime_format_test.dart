@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:async';
-
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
@@ -331,35 +329,11 @@ void main() {
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
     );
-    testWithFormatting('doc examples', () async {
-      final prints = <String>[];
-      runZoned(
-        doc_examples.main,
-        zoneSpecification: ZoneSpecification(
-          print: (self, parent, zone, line) => prints.add(line),
-        ),
-      );
-      final channel = spawnHybridCode('''
-        import 'dart:io';
-        import 'package:stream_channel/stream_channel.dart';
-
-        void hybridMain(StreamChannel<Object?> channel) {
-          channel.sink.add(
-            File('example/docs/datetime_format.dart').readAsStringSync(),
-          );
-          channel.sink.close();
-        }
-      ''');
-      final source = await channel.stream.first as String;
-      final expected = RegExp(
-        r'\);\s*//\s*(.+)$',
-        multiLine: true,
-      ).allMatches(source).map((m) => m.group(1)!).toList();
-      expect(
-        prints.map((s) => s.replaceAll(RegExp(r'\s'), ' ')).toList(),
-        expected.map((s) => s.replaceAll(RegExp(r'\s'), ' ')).toList(),
-      );
-    });
+    testWithFormatting(
+      'doc examples',
+      doc_examples.main,
+      tags: ['ecmaUnsupported'],
+    );
   });
 
   group('individual options', () {
