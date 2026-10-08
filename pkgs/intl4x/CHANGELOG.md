@@ -2,8 +2,8 @@
 
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
-- Fix `DateTimeFormat` doc comment output examples to match default formatting
-  options.
+- Fix doc comment examples across the package and verify them in tests using
+  `{@example}`.
 
 ## 1.0.1
 

@@ -27,26 +27,14 @@ extension CaseMappingExt on String {
   /// Returns the string converted to lower case, taking the given [locale] into
   /// account.
   ///
-  /// ```dart
-  /// import 'package:intl4x/case_mapping.dart';
-  ///
-  /// void main() {
-  ///   print('İ'.toLocaleLowerCase(Locale('en', 'US'))); // Prints 'i̇'
-  /// }
-  /// ```
+  /// {@example ../example/docs/case_mapping.dart#to_locale_lower_case}
   String toLocaleLowerCase(Locale locale) =>
       CaseMapping(locale: locale).toLowerCase(this);
 
   /// Returns the string converted to upper case, taking the given [locale] into
   /// account.
   ///
-  /// ```dart
-  /// import 'package:intl4x/case_mapping.dart';
-  ///
-  /// void main() {
-  ///   print('i'.toLocaleUpperCase(Locale('tr'))); // Prints 'İ'
-  /// }
-  /// ```
+  /// {@example ../example/docs/case_mapping.dart#to_locale_upper_case}
   String toLocaleUpperCase(Locale locale) =>
       CaseMapping(locale: locale).toUpperCase(this);
 }
