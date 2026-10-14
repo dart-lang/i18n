@@ -565,6 +565,7 @@ Future<bool> initializeMessages(String? localeName) async {
     }
   }
 
+  // ignore: unnecessary_null_comparison
   if (message == null || message.isEmpty) {
     // On Android we include an empty string in the default locale resource,
     // otherwise loading all the other locales would fail. When we encounter an
