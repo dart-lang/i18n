@@ -1,3 +1,7 @@
+## 0.20.4-wip
+ * Share parsed `DateFormat` patterns between instances, so that a new
+   `DateFormat` does not parse its pattern again.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
