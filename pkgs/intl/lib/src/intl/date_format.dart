@@ -739,7 +739,7 @@ class DateFormat {
   List<_DateFormatField> get _formatFields {
     if (_formatFieldsPrivate == null) {
       if (_pattern == null) _useDefaultPattern();
-      _formatFieldsPrivate = parsePattern(_pattern!);
+      _formatFieldsPrivate = _fieldsFor(_splitPatternCached(_pattern!));
     }
     return _formatFieldsPrivate!;
   }
@@ -783,9 +783,6 @@ class DateFormat {
   /// for this locale.  If it's not, then treat [inputPattern] as an explicit
   /// pattern.
   DateFormat addPattern(String? inputPattern, [String separator = ' ']) {
-    // TODO(alanknight): This is an expensive operation. Caching recently used
-    // formats, or possibly introducing an entire 'locale' object that would
-    // cache patterns for that locale could be a good optimization.
     // If we have already parsed the format fields, reset them.
     _formatFieldsPrivate = null;
     if (inputPattern == null) return this;
@@ -929,46 +926,63 @@ class DateFormat {
     return dateTimeSymbols.containsKey(localeName);
   }
 
-  static List<_DateFormatField Function(String, DateFormat)>
-  get _fieldConstructors => [
+  /// Field constructors, in the same order as [_matchers].
+  static final List<_DateFormatField Function(String, DateFormat)>
+  _fieldConstructors = [
     (pattern, parent) => _DateFormatQuotedField(pattern, parent),
     (pattern, parent) => _DateFormatPatternField(pattern, parent),
     (pattern, parent) => _DateFormatLiteralField(pattern, parent),
+  ];
+
+  /// Results of [_splitPattern], shared by all instances.
+  ///
+  /// The entries hold only strings, so instances do not share field objects.
+  /// The map keeps insertion order, so the first key is the oldest entry.
+  static final Map<String, List<(int, String)>> _splitPatterns = {};
+
+  /// Patterns can be built at run time, so the cache has a limit. When it is
+  /// full, the oldest entry is removed.
+  static const _maxSplitPatterns = 256;
+
+  static List<(int, String)> _splitPatternCached(String pattern) {
+    var split = _splitPatterns[pattern];
+    if (split == null) {
+      if (_splitPatterns.length >= _maxSplitPatterns) {
+        _splitPatterns.remove(_splitPatterns.keys.first);
+      }
+      split = _splitPatterns[pattern] = _splitPattern(pattern);
+    }
+    return split;
+  }
+
+  /// Splits [pattern] into (index in [_matchers], matched text) pairs.
+  static List<(int, String)> _splitPattern(String pattern) {
+    var split = <(int, String)>[];
+    while (pattern.isNotEmpty) {
+      String? text;
+      var i = 0;
+      for (; i < _matchers.length; i++) {
+        text = _matchers[i].firstMatch(pattern)?.group(0);
+        if (text != null) break;
+      }
+      if (text == null) break;
+      split.add((i, text));
+      pattern = pattern.substring(text.length);
+    }
+    return split;
+  }
+
+  /// Creates the field objects for [split], with this instance as parent.
+  List<_DateFormatField> _fieldsFor(List<(int, String)> split) => [
+    for (var (kind, text) in split) _fieldConstructors[kind](text, this),
   ];
 
   /// Parse the template pattern and return a list of field objects.
   @visibleForTesting
   @Deprecated('clients should not depend on this internal method')
   // ignore: library_private_types_in_public_api
-  List<_DateFormatField> parsePattern(String pattern) {
-    return _parsePatternHelper(pattern).reversed.toList();
-  }
-
-  /// Recursive helper for parsing the template pattern.
-  List<_DateFormatField> _parsePatternHelper(String pattern) {
-    if (pattern.isEmpty) return [];
-
-    var matched = _match(pattern);
-    if (matched == null) return [];
-
-    var parsed = _parsePatternHelper(
-      pattern.substring(matched.fullPattern().length),
-    );
-    parsed.add(matched);
-    return parsed;
-  }
-
-  /// Find elements in a string that are patterns for specific fields.
-  _DateFormatField? _match(String pattern) {
-    for (var i = 0; i < _matchers.length; i++) {
-      var regex = _matchers[i];
-      var match = regex.firstMatch(pattern);
-      if (match != null) {
-        return _fieldConstructors[i](match.group(0)!, this);
-      }
-    }
-    return null;
-  }
+  List<_DateFormatField> parsePattern(String pattern) =>
+      _fieldsFor(_splitPattern(pattern));
 }
 
 /// Defines a function type for creating DateTime instances.
