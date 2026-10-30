@@ -7,18 +7,21 @@ import 'package:code_builder/code_builder.dart';
 import '../generation_options.dart';
 
 class ImportGeneration {
-  final GenerationOptions options;
-  final Iterable<String> emptyFiles;
+  final PluralSelectorType pluralSelectorType;
+  final DeserializationType deserialization;
 
-  ImportGeneration(this.options, this.emptyFiles);
+  ImportGeneration(
+    this.pluralSelectorType,
+    this.deserialization,
+  );
 
   List<Directive> generate() {
-    final serializationImports = switch (options.deserialization) {
+    final serializationImports = switch (deserialization) {
       DeserializationType.web => [
           Directive.import('package:messages/messages_json.dart')
         ],
     };
-    final pluralImports = switch (options.pluralSelector) {
+    final pluralImports = switch (pluralSelectorType) {
       PluralSelectorType.intl => [Directive.import('package:intl/intl.dart')],
       PluralSelectorType.intl4x => [
           Directive.import('package:intl4x/intl4x.dart')
@@ -26,14 +29,9 @@ class ImportGeneration {
       PluralSelectorType.custom => <Directive>[],
     };
 
-    final deferredImports = emptyFiles.map((emptyFilePath) {
-      return Directive.importDeferredAs('$emptyFilePath.g.dart', emptyFilePath);
-    });
-
     return [
       ...serializationImports,
       ...pluralImports,
-      ...deferredImports,
     ];
   }
 }

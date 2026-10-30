@@ -29,8 +29,9 @@
 class Placeholder {
   final String name;
   final String? type;
+  final String? example;
 
-  Placeholder(this.name, [this.type]);
+  Placeholder(this.name, [this.type, this.example]);
 
   @override
   String toString() {

@@ -9,18 +9,24 @@ import '../generation_options.dart';
 import 'import_generation.dart';
 
 class CodeGenerator {
-  final GenerationOptions options;
   final List<Spec> classes;
-  final Iterable<String> emptyFilePaths;
+
+  final PluralSelectorType pluralSelectorType;
+  final DeserializationType deserialization;
+  final String header;
 
   CodeGenerator({
-    required this.options,
     required this.classes,
-    required this.emptyFilePaths,
+    required this.pluralSelectorType,
+    required this.deserialization,
+    required this.header,
   });
 
   String generate() {
-    final imports = ImportGeneration(options, emptyFilePaths).generate();
+    final imports = ImportGeneration(
+      pluralSelectorType,
+      deserialization,
+    ).generate();
     final lib = Library(
       (p0) => p0
         ..ignoreForFile.addAll([
@@ -28,12 +34,11 @@ class CodeGenerator {
           'unused_import',
           'library_prefixes',
         ])
-        ..comments.add(options.header)
+        ..comments.add(header)
         ..directives.addAll(imports)
         ..body.addAll([
           ...classes,
-          if (options.pluralSelector != PluralSelectorType.custom)
-            pluralSelector(),
+          if (pluralSelectorType != PluralSelectorType.custom) pluralSelector(),
         ]),
     );
     final emitter = DartEmitter(orderDirectives: true);
@@ -105,7 +110,7 @@ class CodeGenerator {
       );
 
   Code pluralSelectorBody() {
-    return switch (options.pluralSelector) {
+    return switch (pluralSelectorType) {
       PluralSelectorType.intl => const Code('''
 return Intl.pluralLogic(
     howMany,

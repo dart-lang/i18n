@@ -11,9 +11,7 @@ class Serialization<T> {
 }
 
 abstract class Serializer<T> {
-  final bool writeIds;
-
-  Serializer(this.writeIds);
+  Serializer();
 
   String get extension;
 
