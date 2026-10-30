@@ -1,6 +1,7 @@
 ## 0.3.0-wip
 
 - Adapt to output data files to assets.
+- Allow `intl: ^0.20.0`.
 
 ## 0.2.1
 
