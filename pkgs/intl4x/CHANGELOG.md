@@ -5,6 +5,8 @@
 - Fix doc comment examples across the package and verify them in tests using
   `{@example}`.
 - Fix `NumberFormat.percent` ignoring the `digits` argument.
+- Fix currency formatting throwing on web when `digits` sets a maximum number
+  of fraction digits below 2 without a minimum.
 
 ## 1.0.1
 
