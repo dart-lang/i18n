@@ -186,6 +186,30 @@ void main() {
       );
     });
 
+    testWithFormatting('percent with digits', () {
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withFractionDigits(maximum: 1),
+        ).format(0.045),
+        '4.5%',
+      );
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withFractionDigits(minimum: 2),
+        ).format(0.5),
+        '50.00%',
+      );
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withSignificantDigits(maximum: 2),
+        ).format(0.01234),
+        '1.2%',
+      );
+    });
+
     testWithFormatting('compact', () {
       expect(
         NumberFormat.compact(locale: Locale.parse('en-US')).format(4.33),
