@@ -1,5 +1,6 @@
 ## 0.2.2-wip
 
+- Adapt deserialization and serialization calls for removal of `writeIds` and runtime `PluralSelector` binding.
 - Add license header.
 - Fixes related to API change in package:messages_builder.
 
