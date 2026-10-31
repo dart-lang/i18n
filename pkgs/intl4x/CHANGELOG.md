@@ -4,6 +4,7 @@
   full year when `length` is `DateTimeLength.short` or omitted.
 - Fix doc comment examples across the package and verify them in tests using
   `{@example}`.
+- Fix `NumberFormat.percent` ignoring the `digits` argument.
 
 ## 1.0.1
 
