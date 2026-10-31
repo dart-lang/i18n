@@ -213,7 +213,6 @@ $indent])''';
   }
 }
 
-RegExp unescapedString = RegExp(r'[^{}]+');
 RegExp brace = RegExp(r'{|}');
 
 RegExp whitespace = RegExp(r'\s+');
@@ -248,11 +247,13 @@ class Parser {
     return '${List<String>.filled(position, ' ').join()}^';
   }
 
-  // Lexes the message into a list of typed tokens. General idea is that
-  // every instance of "{" and "}" toggles the isString boolean and every
-  // instance of "'" toggles the isEscaped boolean (and treats a double
-  // single quote "''" as a single quote "'"). When !isString and !isEscaped
-  // delimit tokens by whitespace and special characters.
+  // Lexes the message into a list of typed tokens. Unquoted "{" and "}" toggle
+  // the isString boolean. Within literal text (isString), single quotes follow
+  // ICU MessagePattern ApostropheMode.DOUBLE_OPTIONAL:
+  // - "''" always produces a single literal "'".
+  // - "'" immediately preceding "{" or "}" starts quoted literal text until the
+  //   matching closing "'" (with "''" inside quoted text producing literal "'").
+  // - Any other "'" is treated as a literal "'".
   List<Node> lexIntoTokens() {
     final tokens = <Node>[];
     var isString = true;
@@ -265,39 +266,69 @@ class Parser {
     while (startIndex < messageString.length) {
       Match? match;
       if (isString) {
-        // TODO(thkim1011): Uncomment this when we add escaping as an option.
-        // See https://github.com/flutter/flutter/issues/113455.
-        // match = escapedString.matchAsPrefix(message, startIndex);
-        // if (match != null) {
-        //   final String string = match.group(0)!;
-        //   tokens.add(Node.string(startIndex, string == "''" ? "'" : string.substring(1, string.length - 1)));
-        //   startIndex = match.end;
-        //   continue;
-        // }
-        match = unescapedString.matchAsPrefix(messageString, startIndex);
-        if (match != null) {
-          tokens.add(Node.string(startIndex, match.group(0)!));
-          startIndex = match.end;
-          continue;
-        }
-        match = brace.matchAsPrefix(messageString, startIndex);
-        if (match != null) {
-          tokens.add(Node.brace(startIndex, match.group(0)!));
+        final currentChar = messageString[startIndex];
+        if (currentChar == '{' || currentChar == '}') {
+          tokens.add(Node.brace(startIndex, currentChar));
           isString = false;
-          startIndex = match.end;
+          startIndex += 1;
           continue;
         }
-        // Theoretically, we only reach this point because of unmatched single quotes because
-        // 1. If it begins with single quotes, then we match the longest string contained in single quotes.
-        // 2. If it begins with braces, then we match those braces.
-        // 3. Else the first character is neither single quote or brace so it is matched by RegExp "unescapedString"
-        throw L10nParserException(
-          'ICU Lexing Error: Unmatched single quotes.',
-          filename,
-          messageId,
-          messageString,
-          startIndex,
-        );
+        final tokenStart = startIndex;
+        final buffer = StringBuffer();
+        var inQuoted = false;
+        var quoteStart = -1;
+        while (startIndex < messageString.length) {
+          final ch = messageString[startIndex];
+          if (inQuoted) {
+            if (ch == "'") {
+              if (startIndex + 1 < messageString.length &&
+                  messageString[startIndex + 1] == "'") {
+                buffer.write("'");
+                startIndex += 2;
+              } else {
+                inQuoted = false;
+                startIndex += 1;
+              }
+            } else {
+              buffer.write(ch);
+              startIndex += 1;
+            }
+          } else {
+            if (ch == '{' || ch == '}') {
+              break;
+            } else if (ch == "'") {
+              final next = startIndex + 1 < messageString.length
+                  ? messageString[startIndex + 1]
+                  : null;
+              if (next == "'") {
+                buffer.write("'");
+                startIndex += 2;
+              } else if (next == '{' || next == '}') {
+                inQuoted = true;
+                quoteStart = startIndex;
+                buffer.write(next);
+                startIndex += 2;
+              } else {
+                buffer.write("'");
+                startIndex += 1;
+              }
+            } else {
+              buffer.write(ch);
+              startIndex += 1;
+            }
+          }
+        }
+        if (inQuoted) {
+          throw L10nParserException(
+            'ICU Lexing Error: Unmatched single quotes.',
+            filename,
+            messageId,
+            messageString,
+            quoteStart,
+          );
+        }
+        tokens.add(Node.string(tokenStart, buffer.toString()));
+        continue;
       } else {
         RegExp matcher;
         ST? matchedType;
@@ -479,6 +510,16 @@ class Parser {
             treeTraversalStack.removeLast();
           }
       }
+    }
+
+    if (tokens.isNotEmpty) {
+      throw L10nParserException(
+        'ICU Syntax Error: Unexpected "${tokens[0].value}".',
+        filename,
+        messageId,
+        messageString,
+        tokens[0].positionInMessage,
+      );
     }
 
     return syntaxTree.children[0];
