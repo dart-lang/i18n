@@ -1,3 +1,7 @@
+## 0.20.4-wip
+ * `NumberFormat.parse` now throws a `FormatException` when a percent or
+   permill symbol appears more than once or between digits, e.g. `'1%2'`.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the

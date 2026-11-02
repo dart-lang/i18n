@@ -80,14 +80,10 @@ abstract class NumberParserBase<R> {
     symbols.DECIMAL_SEP: () => '.',
     symbols.EXP_SYMBOL: () => 'E',
     symbols.GROUP_SEP: handleSpace,
-    symbols.PERCENT: () {
-      scale = NumberFormatParser.PERCENT_SCALE;
-      return '';
-    },
-    symbols.PERMILL: () {
-      scale = NumberFormatParser.PER_MILLE_SCALE;
-      return '';
-    },
+    symbols.PERCENT: () =>
+        handleScaleSymbol(symbols.PERCENT, NumberFormatParser.PERCENT_SCALE),
+    symbols.PERMILL: () =>
+        handleScaleSymbol(symbols.PERMILL, NumberFormatParser.PER_MILLE_SCALE),
     ' ': handleSpace,
     '\u00a0': handleSpace,
     '+': () => '+',
@@ -96,6 +92,29 @@ abstract class NumberParserBase<R> {
 
   void invalidFormat() =>
       throw FormatException('Invalid number: ${input.contents}');
+
+  /// Have we seen a digit yet.
+  bool gotDigit = false;
+
+  /// Have we already seen a percent or permill symbol.
+  bool gotScaleSymbol = false;
+
+  /// Whether any digit appears after the [symbol] at the current position.
+  bool digitFollows(String symbol) => input
+      .peekAll()
+      .substring(symbol.length)
+      .split('')
+      .any((char) => asDigit(char) != null);
+
+  /// Apply the percent or permill [symbol], which is at the current position,
+  /// by setting [scale] to [newScale]. The symbol is only valid once, and
+  /// only before or after the digits, e.g. '12%' or '%12' but not '1%2'.
+  String handleScaleSymbol(String symbol, int newScale) {
+    if (gotScaleSymbol || (gotDigit && digitFollows(symbol))) invalidFormat();
+    gotScaleSymbol = true;
+    scale = newScale;
+    return '';
+  }
 
   /// Replace a space in the number with the normalized form. If space is not
   /// a significant character (normally grouping) then it's just invalid. If it
@@ -222,6 +241,7 @@ abstract class NumberParserBase<R> {
       var digit = asDigit(input.peek());
       if (digit != null) {
         _normalized.writeCharCode(constants.asciiZeroCodeUnit + digit);
+        gotDigit = true;
         input.next();
       } else {
         processNonDigit();
