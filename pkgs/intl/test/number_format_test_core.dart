@@ -195,6 +195,40 @@ void runTests(Map<String, num> allTestNumbers) {
     }
   });
 
+  test('More fraction digits than the scaling factor can hold', () {
+    // Scaling by 10^fractionDigits used to run past what the platform integer
+    // holds, so the digits printed were whatever the broken factor produced.
+    // 19 is where a 64 bit int wraps and 21 is where a double turns into
+    // exponent notation. https://github.com/dart-lang/i18n/issues/440
+    for (var digits in [19, 20, 21, 25, 40, 100]) {
+      var f = NumberFormat.decimalPattern('en_US')
+        ..minimumFractionDigits = digits
+        ..maximumFractionDigits = digits;
+      expect(
+        f.format(0.1),
+        '0.${'1'.padRight(digits, '0')}',
+        reason: 'fractionDigits: $digits',
+      );
+      expect(
+        f.format(-123.5),
+        '-123.${'5'.padRight(digits, '0')}',
+        reason: 'fractionDigits: $digits',
+      );
+    }
+
+    // A pattern with more '#' than the scaling factor can hold, which is how
+    // the issue was originally reported.
+    expect(NumberFormat('#.${'#' * 40}', 'en_US').format(1), '1');
+
+    // The percent multiplier is folded into the scaling factor, so it eats
+    // into the digits available for scaling. A 64 bit int wraps two digits
+    // earlier here than it does above.
+    var percent = NumberFormat.percentPattern('en_US')
+      ..minimumFractionDigits = 17
+      ..maximumFractionDigits = 17;
+    expect(percent.format(0.001), '0.${'1'.padRight(17, '0')}%');
+  });
+
   test('Exponential form', () {
     var f = NumberFormat('#.###E0');
     for (var x in testExponential.keys) {
