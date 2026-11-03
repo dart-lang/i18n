@@ -1,3 +1,7 @@
+## 0.22.1-wip
+  * Declare `extract_to_arb`, `generate_from_arb`, `make_examples_const`, and
+    `rewrite_intl_messages` under `executables` in `pubspec.yaml`.
+
 ## 0.22.0
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.
