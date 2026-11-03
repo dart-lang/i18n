@@ -1,6 +1,9 @@
 ## 0.3.0-wip
 
 - Adapt to output data files to assets.
+- Apply the `cleaner` passed to `Message.generateString` to each literal
+  segment of a `StringMessage`, instead of ignoring it, or throwing, for
+  messages with arguments.
 
 ## 0.2.0
 

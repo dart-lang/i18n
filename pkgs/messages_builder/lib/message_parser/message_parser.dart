@@ -33,13 +33,30 @@ class MessageParser {
   ]) {
     final id = addId ? name : null;
     final submessages = <Message>[];
-    final placeholders = <({int argIndex, int afterStringMessage})>[];
+
+    // The text and placeholders since the last plural or select, which are
+    // combined into a single [StringMessage].
+    final text = StringBuffer();
+    final argPositions = <({int argIndex, int stringIndex})>[];
+    void addText() {
+      if (text.isNotEmpty || argPositions.isNotEmpty) {
+        submessages.add(StringMessage(
+          text.toString(),
+          argPositions: [...argPositions],
+          id: id,
+        ));
+        text.clear();
+        argPositions.clear();
+      }
+    }
+
     for (var child in node.children) {
       switch (child.type) {
         case ST.string:
-          submessages.add(StringMessage(child.value!, id: id));
+          text.write(child.value!);
           break;
         case ST.pluralExpr:
+          addText();
           submessages.add(PluralParser().parse(child, arguments, addId, name));
           break;
         case ST.placeholderExpr:
@@ -49,51 +66,25 @@ class MessageParser {
           if (!arguments.contains(identifier)) {
             arguments.add(identifier);
           }
-          placeholders.add((
+          argPositions.add((
             argIndex: arguments.indexOf(identifier),
-            afterStringMessage: submessages.length,
+            stringIndex: text.length,
           ));
           break;
         case ST.selectExpr:
+          addText();
           submessages.add(SelectParser().parse(child, arguments, addId, name));
           break;
         default:
           break;
       }
     }
-    if (submessages.isEmpty && placeholders.isEmpty) {
-      return null;
-    } else if (submessages.length == 1 && placeholders.isEmpty) {
-      return submessages.first;
-    } else if (submessages.every((message) => message is StringMessage)) {
-      return combineStringsAndPlaceholders(
-        submessages.whereType<StringMessage>().toList(),
-        id,
-        placeholders,
-      );
-    } else {
-      return CombinedMessage(id, submessages);
-    }
-  }
+    addText();
 
-  static StringMessage combineStringsAndPlaceholders(
-    List<StringMessage> submessages,
-    String? id,
-    List<({int afterStringMessage, int argIndex})> placeholders,
-  ) {
-    final argPositions = <({int argIndex, int stringIndex})>[];
-    final s = StringBuffer();
-    for (var i = 0; i < submessages.length + 1; i++) {
-      placeholders
-          .where((element) => element.afterStringMessage == i)
-          .forEach((element) {
-        argPositions.add((argIndex: element.argIndex, stringIndex: s.length));
-      });
-      if (i < submessages.length) {
-        final submessage = submessages[i];
-        s.write(submessage.value);
-      }
-    }
-    return StringMessage(s.toString(), argPositions: argPositions, id: id);
+    return switch (submessages) {
+      [] => null,
+      [final message] => message,
+      _ => CombinedMessage(id, submessages),
+    };
   }
 }
