@@ -5,10 +5,6 @@
 import 'plural_selector.dart';
 
 sealed class Message {
-  final String? id;
-
-  Message(this.id);
-
   String generateString(
     List allArgs, {
     required PluralSelector pluralSelector,
@@ -20,7 +16,7 @@ sealed class Message {
 final class CombinedMessage extends Message {
   final List<Message> messages;
 
-  CombinedMessage(super.id, this.messages);
+  CombinedMessage(this.messages);
 
   @override
   String generateString(
@@ -28,15 +24,16 @@ final class CombinedMessage extends Message {
     required PluralSelector pluralSelector,
     String Function(String p1)? cleaner,
     String? locale,
-  }) =>
-      messages
-          .map((e) => e.generateString(
-                allArgs,
-                pluralSelector: pluralSelector,
-                cleaner: cleaner,
-                locale: locale,
-              ))
-          .join();
+  }) => messages
+      .map(
+        (e) => e.generateString(
+          allArgs,
+          pluralSelector: pluralSelector,
+          cleaner: cleaner,
+          locale: locale,
+        ),
+      )
+      .join();
   static const int type = 6;
 }
 
@@ -49,8 +46,7 @@ final class StringMessage extends Message {
   /// This list is expected to be sorted by `argPositions.stringIndex`
   final List<({int stringIndex, int argIndex})> argPositions;
 
-  StringMessage(this.value, {this.argPositions = const [], String? id})
-      : super(id);
+  StringMessage(this.value, {this.argPositions = const []});
 
   static const int type = 1;
 
@@ -67,12 +63,14 @@ final class StringMessage extends Message {
       for (var i = 0; i < argPositions.length; i++) {
         final position = argPositions[i];
         sb.write(allArgs[position.argIndex]);
-        sb.write(value.substring(
-          position.stringIndex,
-          i + 1 < argPositions.length
-              ? argPositions[i + 1].stringIndex
-              : s.length,
-        ));
+        sb.write(
+          value.substring(
+            position.stringIndex,
+            i + 1 < argPositions.length
+                ? argPositions[i + 1].stringIndex
+                : value.length,
+          ),
+        );
       }
       return sb.toString();
     } else {
@@ -96,8 +94,7 @@ final class PluralMessage extends Message {
     this.many,
     required this.other,
     required this.argIndex,
-    String? id,
-  }) : super(id);
+  });
 
   static const int type = 3;
 
@@ -116,8 +113,12 @@ final class PluralMessage extends Message {
       few: few,
       many: many,
       other: other,
-    ).generateString(allArgs,
-        pluralSelector: pluralSelector, cleaner: cleaner, locale: locale);
+    ).generateString(
+      allArgs,
+      pluralSelector: pluralSelector,
+      cleaner: cleaner,
+      locale: locale,
+    );
   }
 }
 
@@ -125,12 +126,7 @@ final class SelectMessage extends Message {
   final Message other;
   final Map<String, Message> cases;
   final int argIndex;
-  SelectMessage(
-    this.other,
-    this.cases,
-    this.argIndex, [
-    super.id,
-  ]);
+  SelectMessage(this.other, this.cases, this.argIndex);
 
   static const int type = 4;
 

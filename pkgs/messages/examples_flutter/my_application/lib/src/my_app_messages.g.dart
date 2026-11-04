@@ -3,6 +3,7 @@
 // ignore_for_file: library_prefixes, non_constant_identifier_names
 // ignore_for_file: unused_import
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
@@ -10,9 +11,9 @@ import 'my_app_de_DE_empty.g.dart' deferred as my_app_de_DE_empty;
 import 'my_app_en_US_empty.g.dart' deferred as my_app_en_US_empty;
 
 class MyAppMessages {
-  MyAppMessages(this._assetLoader);
+  MyAppMessages([this._assetLoader]);
 
-  final Future<String> Function(String id) _assetLoader;
+  final AssetLoader? _assetLoader;
 
   String _currentLocale = 'en_US';
 
@@ -21,9 +22,9 @@ class MyAppMessages {
   static const _dataFiles = {
     'de_DE': (
       'packages/my_application/assets/messages_de.arb.json',
-      'xXViKglj'
+      'xXViKglj',
     ),
-    'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k')
+    'en_US': ('packages/my_application/assets/messages.arb.json', 'h/qGCx3k'),
   };
 
   String get currentLocale => _currentLocale;
@@ -39,17 +40,26 @@ class MyAppMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
+      final String data;
+      if (_assetLoader case final assetLoader?) {
+        data = await assetLoader(dataFile);
+      } else {
+        data = await rootBundle.loadString(
+          dataFile.substring('packages/my_application/'.length),
+        );
+      }
+      final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (locale == 'de_DE') {
         await my_app_de_DE_empty.loadLibrary();
       } else if (locale == 'en_US') {
         await my_app_en_US_empty.loadLibrary();
       }
 
-      final data = await _assetLoader(dataFile);
-      final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {
-        throw ArgumentError('''
-              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''');
+        throw ArgumentError(
+          '''
+              Messages file for locale $locale has different hash "${messageList.preamble.hash}" than generated code "${info?.$2}".''',
+        );
       }
       _messages[locale] = messageList;
     }
