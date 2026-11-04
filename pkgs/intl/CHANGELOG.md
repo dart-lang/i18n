@@ -1,4 +1,5 @@
 ## 0.20.3
+ * Validate locale paths in `FileDataReader` to ensure they remain inside the target data directory.
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
    official symbol introduced in 2012.
