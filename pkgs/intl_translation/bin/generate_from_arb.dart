@@ -32,6 +32,11 @@ import 'package:path/path.dart' as path;
 
 const jsonDecoder = JsonCodec();
 
+/// Permissive pattern for a Unicode locale identifier (BCP 47 tag with
+/// optional `@` keywords). Used to validate the `@@locale` value read from an
+/// ARB file before it is interpolated into generated Dart source.
+final _validLocale = RegExp(r'^[A-Za-z0-9_@.\-]{1,64}$');
+
 void main(List<String> args) {
   var targetDir = '.';
   var parser = ArgParser();
@@ -249,6 +254,12 @@ void loadData(
     print(
       'No @@locale or _locale field found in $name, '
       "assuming '$locale' based on the file name.",
+    );
+  }
+  if (!_validLocale.hasMatch(locale)) {
+    throw FormatException(
+      'Invalid locale "$locale" in $filename: a locale must contain only '
+      'ASCII letters, digits, and the characters "_", "-", "@", ".".',
     );
   }
   // Remove all metadata from the map
