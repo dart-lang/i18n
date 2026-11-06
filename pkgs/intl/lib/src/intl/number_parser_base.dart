@@ -100,11 +100,15 @@ abstract class NumberParserBase<R> {
   bool gotScaleSymbol = false;
 
   /// Whether any digit appears after the [symbol] at the current position.
-  bool digitFollows(String symbol) => input
-      .peekAll()
-      .substring(symbol.length)
-      .split('')
-      .any((char) => asDigit(char) != null);
+  bool digitFollows(String symbol) {
+    var rest = input.peekAll();
+    for (var i = symbol.length; i < rest.length; i++) {
+      if (asDigit(rest[i]) != null) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /// Apply the percent or permill [symbol], which is at the current position,
   /// by setting [scale] to [newScale]. The symbol is only valid once, and
