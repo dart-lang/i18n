@@ -27,6 +27,16 @@ class NumberSymbols {
       CURRENCY_PATTERN,
       DEF_CURRENCY_CODE;
 
+  /// The decimal separator used when formatting currency amounts.
+  ///
+  /// Corresponds to CLDR `currencyDecimal`. Defaults to [DECIMAL_SEP].
+  final String CURRENCY_DECIMAL_SEP;
+
+  /// The grouping separator used when formatting currency amounts.
+  ///
+  /// Corresponds to CLDR `currencyGroup`. Defaults to [GROUP_SEP].
+  final String CURRENCY_GROUP_SEP;
+
   const NumberSymbols({
     required this.NAME,
     required this.DECIMAL_SEP,
@@ -44,7 +54,10 @@ class NumberSymbols {
     required this.PERCENT_PATTERN,
     required this.CURRENCY_PATTERN,
     required this.DEF_CURRENCY_CODE,
-  });
+    String? CURRENCY_DECIMAL_SEP,
+    String? CURRENCY_GROUP_SEP,
+  }) : CURRENCY_DECIMAL_SEP = CURRENCY_DECIMAL_SEP ?? DECIMAL_SEP,
+       CURRENCY_GROUP_SEP = CURRENCY_GROUP_SEP ?? GROUP_SEP;
 
   @override
   String toString() => NAME;
