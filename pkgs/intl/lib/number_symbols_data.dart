@@ -13,6 +13,11 @@
 // to incorporate changes before we could correct CLDR. All manual
 // modification must be documented in this section, and should be
 // removed after those changes land to CLDR.
+//
+// CURRENCY_DECIMAL_SEP and CURRENCY_GROUP_SEP were added manually for the
+// locales whose CLDR `currencyDecimal` / `currencyGroup` differ from
+// `decimal` / `group` (fr_CH, de_AT), see
+// https://github.com/dart-lang/i18n/issues/1127.
 library;
 
 // MANUAL EDIT TO SUPPRESS WARNINGS IN GENERATED CODE
@@ -401,6 +406,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     PERCENT_PATTERN: '#,##0\u00A0%',
     CURRENCY_PATTERN: '\u00A4\u00A0#,##0.00',
     DEF_CURRENCY_CODE: 'EUR',
+    CURRENCY_GROUP_SEP: '.',
   ),
   // Number formatting symbols for locale de_CH.
   "de_CH": new NumberSymbols(
@@ -895,6 +901,7 @@ Map<String, NumberSymbols> numberFormatSymbols = <String, NumberSymbols>{
     PERCENT_PATTERN: '#,##0%',
     CURRENCY_PATTERN: '#,##0.00\u00A0\u00A4',
     DEF_CURRENCY_CODE: 'CHF',
+    CURRENCY_DECIMAL_SEP: '.',
   ),
   // Number formatting symbols for locale fur.
   "fur": new NumberSymbols(

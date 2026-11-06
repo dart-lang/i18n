@@ -1,3 +1,10 @@
+## 0.20.4-wip
+ * Add `CURRENCY_DECIMAL_SEP` and `CURRENCY_GROUP_SEP` to `NumberSymbols`
+   (CLDR `currencyDecimal` / `currencyGroup`), defaulting to `DECIMAL_SEP` /
+   `GROUP_SEP`. Currency formats now use them, which fixes the output for
+   `fr_CH` (e.g. `1 234 567.50 CHF`) and `de_AT` (e.g. `€ 1.234.567,50`).
+   Fixes [#1127](https://github.com/dart-lang/i18n/issues/1127).
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the

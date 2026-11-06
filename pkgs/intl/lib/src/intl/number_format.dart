@@ -9,6 +9,7 @@ import 'package:intl/number_symbols.dart';
 import 'package:intl/number_symbols_data.dart';
 import 'package:intl/src/intl_helpers.dart' as helpers;
 import 'package:intl/src/plural_rules.dart' as plural_rules;
+import 'package:meta/meta.dart';
 
 import 'constants.dart' as constants;
 import 'number_format_parser.dart';
@@ -523,6 +524,18 @@ class NumberFormat {
   /// repeated lookup.
   NumberSymbols get symbols => _symbols;
 
+  /// The decimal separator used by this format, which differs from
+  /// [NumberSymbols.DECIMAL_SEP] for currency formats in some locales.
+  @internal
+  String get decimalSeparator =>
+      _isForCurrency ? symbols.CURRENCY_DECIMAL_SEP : symbols.DECIMAL_SEP;
+
+  /// The grouping separator used by this format, which differs from
+  /// [NumberSymbols.GROUP_SEP] for currency formats in some locales.
+  @internal
+  String get groupSeparator =>
+      _isForCurrency ? symbols.CURRENCY_GROUP_SEP : symbols.GROUP_SEP;
+
   /// Format [number] according to our pattern and return the formatted string.
   String format(dynamic number) {
     if (_isNaN(number)) return symbols.NAN;
@@ -924,7 +937,7 @@ class NumberFormat {
   /// Print the decimal separator if appropriate.
   void _decimalSeparator(bool fractionPresent) {
     if (_decimalSeparatorAlwaysShown || fractionPresent) {
-      _add(symbols.DECIMAL_SEP);
+      _add(decimalSeparator);
     }
   }
 
@@ -977,10 +990,10 @@ class NumberFormat {
     var distanceFromEnd = totalLength - position;
     if (distanceFromEnd <= 1 || _groupingSize <= 0) return;
     if (distanceFromEnd == _finalGroupingSize + 1) {
-      _add(symbols.GROUP_SEP);
+      _add(groupSeparator);
     } else if ((distanceFromEnd > _finalGroupingSize) &&
         (distanceFromEnd - _finalGroupingSize) % _groupingSize == 1) {
-      _add(symbols.GROUP_SEP);
+      _add(groupSeparator);
     }
   }
 
