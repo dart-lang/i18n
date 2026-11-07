@@ -33,10 +33,11 @@ void initializeDateFormattingCustom({
     throw ArgumentError('Missing DateTime formatting patterns');
   }
   if (locale != symbols.NAME) {
-    throw ArgumentError.value([
-      locale,
-      symbols.NAME,
-    ], 'Locale does not match symbols.NAME');
+    throw ArgumentError.value(
+      [locale, symbols.NAME],
+      'locale',
+      'Locale does not match symbols.NAME',
+    );
   }
   dateTimeSymbols[symbols.NAME] = symbols;
   dateTimePatterns[symbols.NAME] = patterns;

@@ -1,3 +1,8 @@
+## 0.20.4-wip
+ * `initializeDateFormattingCustom` now names `locale` as the invalid argument
+   when the locale does not match `symbols.NAME`. The message used to be
+   passed in the place of the argument name.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
