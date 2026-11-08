@@ -54,6 +54,7 @@ final class NumberFormatOptions {
     roundingMode: roundingMode,
     trailingZeroDisplay: trailingZeroDisplay,
     minimumIntegerDigits: minimumIntegerDigits,
+    digits: digits,
   );
 
   factory NumberFormatOptions.unit({
