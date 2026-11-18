@@ -216,5 +216,24 @@ void main() {
         '4.3',
       );
     });
+
+    testWithFormatting('currency with only maximum fraction digits', () {
+      expect(
+        NumberFormat.currency(
+          locale: Locale.parse('en-US'),
+          currency: 'USD',
+          digits: const Digits.withFractionDigits(maximum: 0),
+        ).format(1.5),
+        r'$2',
+      );
+      expect(
+        NumberFormat.currency(
+          locale: Locale.parse('en-US'),
+          currency: 'USD',
+          digits: const Digits.withFractionDigits(maximum: 1),
+        ).format(1.25),
+        r'$1.3',
+      );
+    });
   }, tags: ['icu4xUnimplemented']);
 }
