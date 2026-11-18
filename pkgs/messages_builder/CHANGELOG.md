@@ -1,6 +1,7 @@
 ## 0.3.0-wip
 
 - Adapt to output data files to assets.
+- Support ICU single-quote escaping (`''` and quoted `{`/`}`) in `Parser`.
 
 ## 0.2.1
 
