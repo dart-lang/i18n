@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../locale/locale.dart';
 import '../test_checker.dart' show isInTest;
 import '../utils.dart';
@@ -155,6 +157,7 @@ sealed class DateTimeFormatterStandalone {
 
   /// Formats the given date range from [start] to [end] into a string according
   /// to the formatter's configured locale and options.
+  @experimental
   String formatRange(DateTime start, DateTime end);
 }
 

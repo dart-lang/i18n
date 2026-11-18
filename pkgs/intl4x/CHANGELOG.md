@@ -14,6 +14,7 @@
   formatting numbers that round to zero (e.g. `-0.4` with no fraction digits)
   as `-0` or `+0`. The sign display is now applied after rounding, matching
   ECMA-402.
+- Add experimental `formatRange` method to `DateTimeFormat`.
 
 ## 1.0.1
 
@@ -26,7 +27,6 @@
 - Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
 - Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
-- Add `formatRange` method to `DateTimeFormat`.
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
 - Add doc examples using dartdoc `{@example}` directive.
