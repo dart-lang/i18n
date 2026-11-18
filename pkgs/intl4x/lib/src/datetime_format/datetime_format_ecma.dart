@@ -127,16 +127,38 @@ class _FormatterStandaloneECMA extends FormatterStandaloneImpl {
 
 class _FormatterECMA extends FormatterImpl {
   final Locale locale;
-  final _DateTimeJSOptions Function(DateTime) _optionsJS;
+  final _DateTimeJSOptions Function(bool omitMinute) _optionsJS;
   final DateTimeFormatImpl impl;
+  final bool minuteOptional;
 
-  _FormatterECMA._(this.impl, this._optionsJS, this.locale) : super(impl);
+  _FormatterECMA._(
+    this.impl,
+    this._optionsJS,
+    this.locale, {
+    this.minuteOptional = false,
+  }) : super(impl);
+
+  late final _DateTimeFormat _dateTimeFormat = _DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    _optionsJS(false),
+  );
+
+  late final _DateTimeFormat _dateTimeFormatWithoutMinute = _DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    _optionsJS(true),
+  );
+
+  late final bool _is12Hour = _dateTimeFormat.resolvedOptions().hour12 ?? false;
+
+  bool _shouldOmitMinute(DateTime datetime) =>
+      minuteOptional && datetime.minute == 0 && _is12Hour;
 
   @override
-  String formatInternal(DateTime datetime) => _DateTimeFormat(
-    [locale.toLanguageTag().toJS].toJS,
-    _optionsJS(datetime),
-  ).format(datetime.js);
+  String formatInternal(DateTime datetime) =>
+      (_shouldOmitMinute(datetime)
+              ? _dateTimeFormatWithoutMinute
+              : _dateTimeFormat)
+          .format(datetime.js);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLong() =>
@@ -181,7 +203,9 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
     return _DateTimeFormat(
       localeJS,
-      formatter._optionsJS(datetime).withTimeZone(timeZoneType, timeZone),
+      formatter
+          ._optionsJS(formatter._shouldOmitMinute(datetime))
+          .withTimeZone(timeZoneType, timeZone),
     );
   }
 
@@ -225,13 +249,6 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
 
 class _DateTimeFormatECMA extends DateTimeFormatImpl {
   _DateTimeFormatECMA(super.locale);
-
-  late final bool _is12Hour =
-      _DateTimeFormat(
-        [locale.toLanguageTag().toJS].toJS,
-        _DateTimeJSOptions.from(hour: _TimeStyle.numeric),
-      ).resolvedOptions().hour12 ??
-      false;
 
   @override
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
@@ -289,13 +306,18 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimePrecision? timePrecision,
   }) => _FormatterECMA._(
     this,
-    (datetime) => _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute, datetime),
-      second: _style(timePrecision, TimePrecision.second, datetime),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
+      second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -367,15 +389,20 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimePrecision? timePrecision,
   }) => _FormatterECMA._(
     this,
-    (datetime) => _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute, datetime),
-      second: _style(timePrecision, TimePrecision.second, datetime),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
+      second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       month: _monthStyle(alignment, length),
       day: _dayStyle(alignment, length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -386,10 +413,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    (datetime) => _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute, datetime),
-      second: _style(timePrecision, TimePrecision.second, datetime),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
+      second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       yearStyle: yearStyle,
@@ -397,6 +428,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       day: _dayStyle(alignment, length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -407,10 +439,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    (datetime) => _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute, datetime),
-      second: _style(timePrecision, TimePrecision.second, datetime),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
+      second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       yearStyle: yearStyle,
@@ -419,6 +455,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       weekday: _weekday(length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   _TimeStyle _dayStyleD(DateTimeAlignment? alignment) => switch (alignment) {
@@ -467,13 +504,13 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
 
   _TimeStyle? _style(
     TimePrecision? timePrecision,
-    TimePrecision standard,
-    DateTime datetime, [
+    TimePrecision standard, {
+    bool omitMinute = false,
     _TimeStyle? defaultStyle = _TimeStyle.numeric,
-  ]) => switch ((timePrecision, standard)) {
+  }) => switch ((timePrecision, standard)) {
     (null, _) => defaultStyle,
-    (TimePrecision.minuteOptional, TimePrecision.minute) =>
-      datetime.minute == 0 && _is12Hour ? null : defaultStyle,
+    (TimePrecision.minuteOptional, TimePrecision.minute) when omitMinute =>
+      null,
     (final precision?, _) when precision >= standard => defaultStyle,
     _ => null,
   };
