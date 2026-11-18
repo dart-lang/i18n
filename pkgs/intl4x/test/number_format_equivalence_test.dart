@@ -4,7 +4,6 @@
 
 import 'dart:math';
 
-import 'package:intl4x/datetime_format.dart' show NumberingSystem;
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 

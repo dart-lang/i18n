@@ -1,5 +1,6 @@
 ## 1.0.2-wip
 
+- Export `NumberingSystem` from `package:intl4x/number_format.dart`.
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
 - Fix doc comment examples across the package and verify them in tests using
