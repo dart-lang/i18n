@@ -9,6 +9,8 @@ import 'package:path/path.dart' as p;
 
 import 'builder.dart';
 import 'generation_options.dart';
+import 'located_message_file.dart';
+import 'message_family.dart';
 import 'message_file.dart';
 
 class MessageDataFileBuilder {
@@ -37,33 +39,45 @@ class MessageDataFileBuilder {
       return mapping;
     }
 
-    for (final arbFilePath in arbFiles) {
-      print('Generating $arbFilePath, bundle this in your assets.');
-      final arbFileUri = Uri.file(arbFilePath);
-      final arbFileContents = await File.fromUri(arbFileUri).readAsString();
-      final messageBundle = await parseMessageFile(arbFileContents, options);
+    final messageFiles = [
+      for (final arbFilePath in arbFiles)
+        LocatedMessageFile(
+          path: arbFilePath,
+          file: await parseMessageFile(
+            await File.fromUri(Uri.file(arbFilePath)).readAsString(),
+            options,
+          ),
+        ),
+    ];
 
-      final serializer = JsonSerializer(options.findById);
+    // Translations are aligned with their template, so that the generated
+    // code finds the right message in every data file.
+    for (final family in groupIntoFamilies(messageFiles, warn: print)) {
+      for (final messageFile in family.files) {
+        final arbFilePath = messageFile.path;
+        print('Generating $arbFilePath, bundle this in your assets.');
 
-      final data = _arbToData(messageBundle, arbFilePath, serializer);
+        final serializer = JsonSerializer(options.findById);
 
-      final assetName = p.setExtension(
-        p.basename(arbFilePath),
-        '.arb${serializer.extension}',
-      );
+        final data = _arbToData(messageFile.file, serializer);
 
-      final outputDataPath = outputFolder.uri.resolve(assetName);
-      final dataFile = File.fromUri(outputDataPath);
-      await dataFile.create();
-      await dataFile.writeAsString(data);
-      mapping[arbFilePath] = outputDataPath.path;
+        final assetName = p.setExtension(
+          p.basename(arbFilePath),
+          '.arb${serializer.extension}',
+        );
+
+        final outputDataPath = outputFolder.uri.resolve(assetName);
+        final dataFile = File.fromUri(outputDataPath);
+        await dataFile.create();
+        await dataFile.writeAsString(data);
+        mapping[arbFilePath] = outputDataPath.path;
+      }
     }
     return mapping;
   }
 
   String _arbToData(
     MessageFile messageBundle,
-    String arbFilePath,
     Serializer<String> serializer,
   ) =>
       serializer

@@ -9,6 +9,10 @@ sealed class Message {
 
   Message(this.id);
 
+  /// Generates the string for this message, inserting [allArgs].
+  ///
+  /// If a [cleaner] is given, it is applied to the literal text of the
+  /// message, but not to the inserted arguments.
   String generateString(
     List allArgs, {
     required PluralSelector pluralSelector,
@@ -61,23 +65,21 @@ final class StringMessage extends Message {
     String Function(String p1)? cleaner,
     String? locale,
   }) {
-    final s = cleaner?.call(value) ?? value;
-    if (argPositions.isNotEmpty) {
-      final sb = StringBuffer(value.substring(0, argPositions[0].stringIndex));
-      for (var i = 0; i < argPositions.length; i++) {
-        final position = argPositions[i];
-        sb.write(allArgs[position.argIndex]);
-        sb.write(value.substring(
-          position.stringIndex,
-          i + 1 < argPositions.length
-              ? argPositions[i + 1].stringIndex
-              : s.length,
-        ));
-      }
-      return sb.toString();
-    } else {
-      return s;
+    String clean(String text) => cleaner?.call(text) ?? text;
+    if (argPositions.isEmpty) {
+      return clean(value);
     }
+    // Clean each literal segment on its own: the argument positions index into
+    // the original [value], and the arguments are inserted unchanged.
+    final sb = StringBuffer();
+    var start = 0;
+    for (final position in argPositions) {
+      sb.write(clean(value.substring(start, position.stringIndex)));
+      sb.write(allArgs[position.argIndex]);
+      start = position.stringIndex;
+    }
+    sb.write(clean(value.substring(start)));
+    return sb.toString();
   }
 }
 

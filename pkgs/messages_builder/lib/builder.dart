@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:path/path.dart' as path;
 
 import 'arb_parser.dart';
@@ -14,6 +13,7 @@ import 'code_generation/classes_generation.dart';
 import 'code_generation/code_generation.dart';
 import 'generation_options.dart';
 import 'located_message_file.dart';
+import 'message_family.dart';
 import 'message_file.dart';
 
 class MessageCallingCodeGenerator {
@@ -28,14 +28,10 @@ class MessageCallingCodeGenerator {
   Future<void> build() async {
     final messageFiles = await _parseMessageFiles();
 
-    final families = messageFiles
-        .groupListsBy((messageFile) => getParentFile(messageFiles, messageFile))
-        .map((key, value) =>
-            MapEntry(key, value.sortedBy((messageFile) => messageFile.locale)));
-
     var counter = 0;
 
-    for (final MapEntry(key: parent, value: children) in families.entries) {
+    for (final MessageFamily(template: parent, files: children)
+        in groupIntoFamilies(messageFiles)) {
       final context = parent.file.context;
 
       printIncludeFilesNotification(context, children.map((f) => f.path));
@@ -92,19 +88,8 @@ class MessageCallingCodeGenerator {
   static LocatedMessageFile getParentFile(
     List<LocatedMessageFile> messageFiles,
     LocatedMessageFile currentFile,
-  ) {
-    /// Try to infer by looking at which files contain metadata, which is a sign
-    /// they might be the references for others in the same context.
-    final filesInContext = messageFiles.where(
-        (messageFile) => messageFile.file.context == currentFile.file.context);
-    final potentialParent =
-        filesInContext.firstWhereOrNull((element) => element.file.hasMetadata);
-    if (potentialParent == null && filesInContext.length > 1) {
-      throw ArgumentError('''
-The files $filesInContext have no metadata, so it is not clear which one is the main source of truth.''');
-    }
-    return potentialParent ?? currentFile;
-  }
+  ) =>
+      findTemplate(messageFiles, currentFile);
 
   /// Display a notification to the user to include the newly generated files
   /// in their assets.
