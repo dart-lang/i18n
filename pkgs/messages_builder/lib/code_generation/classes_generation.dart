@@ -29,11 +29,7 @@ class ClassesGeneration {
   List<Spec> generate() {
     final constructors = ConstructorGeneration(options).generate();
 
-    final fields = FieldGeneration(
-      options,
-      children,
-      parent.locale,
-    ).generate();
+    final fields = FieldGeneration(options, children, parent.locale).generate();
 
     final methods = MethodGeneration(
       options,

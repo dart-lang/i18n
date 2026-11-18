@@ -6,7 +6,6 @@ import 'package:code_builder/code_builder.dart';
 
 import '../generation_options.dart';
 import '../parameterized_message.dart';
-import 'generation.dart';
 
 class MethodGeneration {
   final GenerationOptions options;
@@ -20,14 +19,11 @@ class MethodGeneration {
     if (!message.nameIsDartConform) {
       return null;
     }
-    final arguments =
-        message.placeholders.map((placeholder) => placeholder.name).join(', ');
+    final arguments = message.placeholders
+        .map((placeholder) => placeholder.name)
+        .join(', ');
 
-    final indexStr = options.indexType == IndexType.enumerate
-        ? '${enumName(context)}.${message.name}.index'
-        : index.toString();
-    final body =
-        '_currentMessages.generateStringAtIndex($indexStr, [$arguments])';
+    final body = '_currentMessages.generateStringAtIndex($index, [$arguments])';
     final methodType = message.placeholders.isEmpty ? MethodType.getter : null;
     return Method(
       (mb) => mb
@@ -49,47 +45,38 @@ class MethodGeneration {
   }
 
   List<Method> generate() {
-    Iterable<Method> messageCalls;
-    if (options.messageCalls) {
-      messageCalls = List.generate(
-        messages.length,
-        (i) => generateMessageCall(i, messages[i]),
-      ).whereType<Method>();
-    } else {
-      messageCalls = [];
-    }
-    final loadLocale = Method(
-      (mb) {
-        final loading = switch (options.deserialization) {
-          DeserializationType.web => '''
-          final data = await _assetLoader(dataFile);
-          final messageList = MessageListJson.fromString(data, _pluralSelector);''',
-        };
-        final loadLibraries = emptyFiles.entries
-            .map(
-              (e) => '''
-if (locale == '${e.key}') {
- await ${e.value}.loadLibrary();
-}
-''',
-            )
-            .join(' else ');
-        mb
-          ..name = 'loadLocale'
-          ..requiredParameters.add(Parameter(
+    final messageCalls = List.generate(
+      messages.length,
+      (i) => generateMessageCall(i, messages[i]),
+    ).whereType<Method>();
+    final loadLocale = Method((mb) {
+      final selectorName = options.pluralSelector == PluralSelectorType.custom
+          ? 'pluralSelector'
+          : '_pluralSelector';
+
+      final loading = switch (options.assetLoadingStyle) {
+        TargetEnvironment.flutter => _flutterLoading(selectorName),
+        TargetEnvironment.dart => _dartLoading(selectorName),
+        TargetEnvironment.manual => _manualLoading(selectorName),
+      };
+
+      mb
+        ..name = 'loadLocale'
+        ..requiredParameters.add(
+          Parameter(
             (p0) => p0
               ..name = 'locale'
               ..type = const Reference('String'),
-          ))
-          ..modifier = MethodModifier.async
-          ..body = Code('''
+          ),
+        )
+        ..modifier = MethodModifier.async
+        ..body = Code('''
           if (!_messages.containsKey(locale)) {
             final info = _dataFiles[locale];
             final dataFile = info?.\$1;
             if (dataFile == null) {
               throw ArgumentError('Locale \$locale is not in \$knownLocales');
             }
-            $loadLibraries
             $loading
             if (messageList.preamble.hash != info?.\$2) {
               throw ArgumentError(\'\'\'
@@ -99,22 +86,19 @@ if (locale == '${e.key}') {
           }
           _currentLocale = locale;
       ''')
-          ..returns = const Reference('Future<void>');
-      },
-    );
-    final loadAllLocales = Method(
-      (mb) {
-        mb
-          ..name = 'loadAllLocales'
-          ..returns = const Reference('Future<void>')
-          ..modifier = MethodModifier.async
-          ..body = const Code('''
+        ..returns = const Reference('Future<void>');
+    });
+    final loadAllLocales = Method((mb) {
+      mb
+        ..name = 'loadAllLocales'
+        ..returns = const Reference('Future<void>')
+        ..modifier = MethodModifier.async
+        ..body = const Code('''
           for (final locale in knownLocales) {
              await loadLocale(locale);
           }
       ''');
-      },
-    );
+    });
     final getKnownLocales = Method(
       (mb) => mb
         ..name = 'knownLocales'
@@ -140,53 +124,63 @@ if (locale == '${e.key}') {
         ..body = const Code('_currentLocale')
         ..returns = const Reference('String'),
     );
-    final getMessagebyId = Method((mb) => mb
-      ..name = 'getById'
-      ..requiredParameters.addAll([
-        Parameter(
-          (pb) => pb
-            ..name = 'id'
-            ..type = const Reference('String'),
-        )
-      ])
-      ..optionalParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'args'
-          ..type = const Reference('List<dynamic>')
-          ..defaultTo = const Code('const []'),
-      ))
-      ..body =
-          const Code('return _currentMessages.generateStringAtId(id, args);')
-      ..returns = const Reference('String'));
-    final findByEnum = Method((mb) => mb
-      ..name = 'getByEnum'
-      ..annotations
-          .add(const CodeExpression(Code("pragma('dart2js:noInline')")))
-      ..requiredParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'val'
-          ..type = Reference(enumName(context)),
-      ))
-      ..optionalParameters.add(Parameter(
-        (pb) => pb
-          ..name = 'args'
-          ..type = const Reference('List<dynamic>')
-          ..defaultTo = const Code('const []'),
-      ))
-      ..body =
-          const Code('_currentMessages.generateStringAtIndex(val.index, args)')
-      ..lambda = true
-      ..returns = const Reference('String'));
 
     return [
       getCurrentLocale,
       getCurrentMessages,
-      if (options.findById) getMessagebyId,
-      if (options.indexType == IndexType.enumerate) findByEnum,
       getKnownLocales,
       loadLocale,
       loadAllLocales,
       ...messageCalls,
     ];
+  }
+
+  String _dartLoading(String selectorName) {
+    return '''
+        String? data;
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+ data = ${e.value}.data;
+}
+''').join(' else ')}
+        if (data == null) {
+          if (_assetLoader case final assetLoader?) {
+            final info = _dataFiles[locale];
+            final dataFile = info?.\$1;
+            if (dataFile != null) {
+              data = await assetLoader(dataFile);
+            }
+          }
+        }
+        if (data == null) {
+          throw ArgumentError('Locale \$locale is not in \$knownLocales');
+        }
+        final messageList = MessageListJson.fromString(data, $selectorName);''';
+  }
+
+  String _flutterLoading(String selectorName) {
+    return '''          final String data;
+        if (_assetLoader case final assetLoader?) {
+          data = await assetLoader(dataFile);
+        } else {
+          data = await rootBundle.loadString(dataFile.substring('packages/${options.packageName}/'.length));
+        }
+        final messageList = MessageListJson.fromString(data, $selectorName);
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''').join(' else ')}''';
+  }
+
+  String _manualLoading(String selectorName) {
+    return '''          final data = await _assetLoader(dataFile);
+        final messageList = MessageListJson.fromString(data, $selectorName);
+        ${emptyFiles.entries.map((e) => '''
+if (locale == '${e.key}') {
+ await ${e.value}.loadLibrary();
+}
+''').join(' else ')}''';
   }
 }

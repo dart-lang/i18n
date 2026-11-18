@@ -4,6 +4,7 @@
 
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:pub_semver/pub_semver.dart' show Version;
 
 import '../generation_options.dart';
 import 'import_generation.dart';
@@ -38,7 +39,9 @@ class CodeGenerator {
     );
     final emitter = DartEmitter(orderDirectives: true);
     final source = '${lib.accept(emitter)}';
-    final code = DartFormatter().format(source);
+    final code = DartFormatter(
+      languageVersion: Version(3, 13, 0),
+    ).format(source);
     return code;
   }
 
@@ -51,58 +54,58 @@ class CodeGenerator {
   //     required Message other,
   //     Map<int, Message>? wordCases}) intl;
   Method pluralSelector() => Method(
-        (mb) => mb
-          ..name = '_pluralSelector'
-          ..returns = const Reference('Message')
-          ..requiredParameters.addAll([
-            Parameter(
-              (pb) => pb
-                ..name = 'howMany'
-                ..type = const Reference('num')
-                ..named = false,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'locale'
-                ..type = const Reference('String')
-                ..named = false,
-            ),
-          ])
-          ..optionalParameters.addAll([
-            Parameter(
-              (pb) => pb
-                ..name = 'other'
-                ..type = const Reference('Message')
-                ..required = true
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'few'
-                ..type = const Reference('Message?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'many'
-                ..type = const Reference('Message?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'numberCases'
-                ..type = const Reference('Map<int, Message>?')
-                ..named = true,
-            ),
-            Parameter(
-              (pb) => pb
-                ..name = 'wordCases'
-                ..type = const Reference('Map<int, Message>?')
-                ..named = true,
-            ),
-          ])
-          ..body = pluralSelectorBody(),
-      );
+    (mb) => mb
+      ..name = '_pluralSelector'
+      ..returns = const Reference('Message')
+      ..requiredParameters.addAll([
+        Parameter(
+          (pb) => pb
+            ..name = 'howMany'
+            ..type = const Reference('num')
+            ..named = false,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'locale'
+            ..type = const Reference('String')
+            ..named = false,
+        ),
+      ])
+      ..optionalParameters.addAll([
+        Parameter(
+          (pb) => pb
+            ..name = 'other'
+            ..type = const Reference('Message')
+            ..required = true
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'few'
+            ..type = const Reference('Message?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'many'
+            ..type = const Reference('Message?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'numberCases'
+            ..type = const Reference('Map<int, Message>?')
+            ..named = true,
+        ),
+        Parameter(
+          (pb) => pb
+            ..name = 'wordCases'
+            ..type = const Reference('Map<int, Message>?')
+            ..named = true,
+        ),
+      ])
+      ..body = pluralSelectorBody(),
+  );
 
   Code pluralSelectorBody() {
     return switch (options.pluralSelector) {
@@ -119,16 +122,17 @@ return Intl.pluralLogic(
   );
   '''),
       PluralSelectorType.intl4x => const Code('''
-    Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
-        return switch (Intl(locale: Locale.parse(locale)).plural().select(howMany)) {
-    PluralCategory.zero => getCase(0),
-    PluralCategory.one => getCase(1),
-    PluralCategory.two => getCase(2),
-    PluralCategory.few => few ?? other,
-    PluralCategory.many => many ?? other,
-    PluralCategory.other => other,
-        };
-        '''),
+  Message getCase(int i) => numberCases?[i] ?? wordCases?[i] ?? other;
+  return PluralRules(locale: Locale.parse(locale)).select(
+    howMany,
+    zero: getCase(0),
+    one: getCase(1),
+    two: getCase(2),
+    few: few ?? other,
+    many: many ?? other,
+    other: other,
+  );
+  '''),
       PluralSelectorType.custom => throw ArgumentError(),
     };
   }

@@ -1,0 +1,14 @@
+name: i18n_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+
+workspace:
+  - pkgs/messages
+  - pkgs/messages/example
+  - pkgs/messages_builder
+  - pkgs/messages_serializer
+  - pkgs/messages_shrinker
+  - pkgs/messages_analyzer_plugin
+  
