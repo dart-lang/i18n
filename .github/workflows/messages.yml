@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9
 
-      - uses: flutter-actions/setup-flutter@18c66a64fb6f6d3338c63cabbc5cd6da395e7f1d
+      - uses: flutter-actions/setup-flutter@adb607ae976a9e00473569facfc69813c637a060
         with:
           channel: beta
 

@@ -5,9 +5,12 @@
 import 'package:intl4x/collation.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/collation.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   test('Does not compare in tests', () {
     final unsorted = ['Z', 'a', 'z', 'ä'];
     final collationGerman = Collation(locale: Locale.parse('de-DE'));

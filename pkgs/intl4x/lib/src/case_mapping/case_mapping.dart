@@ -12,14 +12,7 @@ import 'case_mapping_impl.dart';
 /// This class provides methods to convert strings to lowercase or uppercase
 /// based on the current locale.
 ///
-/// ```dart
-/// import 'package:intl4x/case_mapping.dart';
-///
-/// void main() {
-///   final caseMapping = CaseMapping(locale: Locale('tr'));
-///   print(caseMapping.toUpperCase('i')); // Prints 'İ'
-/// }
-/// ```
+/// {@example ../../../example/docs/case_mapping.dart#to_upper_case}
 ///
 /// Caution: During testing, the input is returned unchanged.
 final class CaseMapping {
@@ -35,14 +28,7 @@ final class CaseMapping {
   ///
   /// This is done using the locale from the constructor.
   ///
-  /// ```dart
-  /// import 'package:intl4x/case_mapping.dart';
-  ///
-  /// void main() {
-  ///   final caseMapping = CaseMapping(locale: Locale('en', 'US'));
-  ///   print(caseMapping.toLowerCase('İ')); // Prints 'i̇'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/case_mapping.dart#to_lower_case}
   String toLowerCase(String input) {
     if (isInTest) {
       return input;
@@ -55,14 +41,7 @@ final class CaseMapping {
   ///
   /// This is done using the locale from the constructor.
   ///
-  /// ```dart
-  /// import 'package:intl4x/case_mapping.dart';
-  ///
-  /// void main() {
-  ///   final caseMapping = CaseMapping(locale: Locale('tr'));
-  ///   print(caseMapping.toUpperCase('i')); // Prints 'İ'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/case_mapping.dart#to_upper_case}
   String toUpperCase(String input) {
     if (isInTest) {
       return input;

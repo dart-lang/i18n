@@ -1,6 +1,7 @@
 ## 0.3.0-wip
 
 - Adapt to output data files to assets.
+- Migrate `examples_flutter` to `package:material_ui` and allow `intl: ^0.20.0`.
 
 ## 0.2.0
 

@@ -11,14 +11,10 @@ A lightweight, modular library for internationalization (i18n) in Dart, providin
 * Display names.
 * Plural rules.
 
-## Status - experimental
+## Status - preview
 
-We're actively iterating on the API for this package. Please provide feedback via our [issue tracker](https://github.com/dart-lang/i18n/issues).
-
-This package currently increases binary size in non-web builds significantly. To remedy, compile your app the experimental flag `record-use`
-```bash
-dart --enable-experiment=record-use build cli --target my-binary-name.dart
-```
+This package has now moved from experimental to preview. We will not ship any breaking changes, but are still iterating on some components.
+Please provide feedback via our [issue tracker](https://github.com/dart-lang/i18n/issues)!
 
 
 ## Backends
@@ -64,7 +60,7 @@ void main() {
 
   // Format with a specific timezone
   print(formatter.format(dateTime, 'Europe/Berlin')); 
-  // prints "1. Juli 2024 um 10:50:07 Mitteleuropäische Sommerzeit"
+  // prints "1. Juli 2024 um 08:50:07 Mitteleuropäische Sommerzeit"
 }
 ```
 

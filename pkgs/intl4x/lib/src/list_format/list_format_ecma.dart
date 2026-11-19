@@ -36,7 +36,7 @@ class _ListFormatECMA extends ListFormatImpl {
   static List<Locale> supportedLocalesOf(Locale locale) =>
       ListFormat.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   @override
   String formatImpl(List<String> list) => ListFormat(

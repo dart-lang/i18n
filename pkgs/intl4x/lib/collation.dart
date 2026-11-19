@@ -30,15 +30,7 @@ extension CollationExt on String {
   /// positive if this string is ordered after [other], and zero if
   /// this string and [other] are ordered equally.
   ///
-  /// ```dart
-  /// import 'package:intl4x/collation.dart';
-  ///
-  /// void main() {
-  ///   print('a'.compareLocale('b')); // Prints -1
-  ///   print('ä'.compareLocale('z', locale: Locale('de'))); // Prints -1
-  ///   print('ä'.compareLocale('z', locale: Locale('sv'))); // Prints 1
-  /// }
-  /// ```
+  /// {@example ../example/docs/collation.dart#compare_locale}
   ///
   /// For more options, use [Collation] directly.
   int compareLocale(String other, {Locale? locale}) =>

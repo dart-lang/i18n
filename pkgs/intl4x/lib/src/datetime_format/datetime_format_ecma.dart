@@ -127,20 +127,38 @@ class _FormatterStandaloneECMA extends FormatterStandaloneImpl {
 
 class _FormatterECMA extends FormatterImpl {
   final Locale locale;
-  final _DateTimeJSOptions _optionsJS;
+  final _DateTimeJSOptions Function(bool omitMinute) _optionsJS;
   final DateTimeFormatImpl impl;
-  final _DateTimeFormat dateTimeFormat;
+  final bool minuteOptional;
 
-  _FormatterECMA._(this.impl, this._optionsJS, this.locale)
-    : dateTimeFormat = _DateTimeFormat(
-        [locale.toLanguageTag().toJS].toJS,
-        _optionsJS,
-      ),
-      super(impl);
+  _FormatterECMA._(
+    this.impl,
+    this._optionsJS,
+    this.locale, {
+    this.minuteOptional = false,
+  }) : super(impl);
+
+  late final _DateTimeFormat _dateTimeFormat = _DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    _optionsJS(false),
+  );
+
+  late final _DateTimeFormat _dateTimeFormatWithoutMinute = _DateTimeFormat(
+    [locale.toLanguageTag().toJS].toJS,
+    _optionsJS(true),
+  );
+
+  late final bool _is12Hour = _dateTimeFormat.resolvedOptions().hour12 ?? false;
+
+  bool _shouldOmitMinute(DateTime datetime) =>
+      minuteOptional && datetime.minute == 0 && _is12Hour;
 
   @override
   String formatInternal(DateTime datetime) =>
-      dateTimeFormat.format(datetime.js);
+      (_shouldOmitMinute(datetime)
+              ? _dateTimeFormatWithoutMinute
+              : _dateTimeFormat)
+          .format(datetime.js);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLong() =>
@@ -178,13 +196,16 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
   /// new information.
   static _DateTimeFormat _dateTimeFormatterJS(
     _FormatterECMA formatter,
+    DateTime datetime,
     TimeZoneType timeZoneType,
     String timeZone,
   ) {
     final localeJS = [formatter.locale.toLanguageTag().toJS].toJS;
     return _DateTimeFormat(
       localeJS,
-      formatter._optionsJS.withTimeZone(timeZoneType, timeZone),
+      formatter
+          ._optionsJS(formatter._shouldOmitMinute(datetime))
+          .withTimeZone(timeZoneType, timeZone),
     );
   }
 
@@ -198,6 +219,7 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
       );
       return _dateTimeFormatterJS(
         _formatter,
+        datetime,
         timeZoneType,
         timeZone,
       ).format(adjustedDateTime.jsUtc);
@@ -206,6 +228,7 @@ class _FormatterZonedECMA extends FormatterZonedImpl {
       // to construct a localized 'UTC+?'
       final parts = _dateTimeFormatterJS(
         _formatter,
+        datetime,
         TimeZoneType.shortOffset,
         'UTC',
       ).formatToParts(datetime.jsUtc).toDart;
@@ -231,14 +254,14 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl d({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(day: _dayStyleD(alignment)),
+        (_) => _DateTimeJSOptions.from(day: _dayStyleD(alignment)),
         locale,
       );
 
   @override
   FormatterImpl e({DateTimeLength? length}) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(weekday: _weekday(length)),
+    (_) => _DateTimeJSOptions.from(weekday: _weekday(length)),
     locale,
   );
 
@@ -257,7 +280,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl md({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(
+        (_) => _DateTimeJSOptions.from(
           month: _monthStyle(alignment, length),
           day: _dayStyle(alignment, length),
         ),
@@ -268,7 +291,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
   FormatterImpl mde({DateTimeAlignment? alignment, DateTimeLength? length}) =>
       _FormatterECMA._(
         this,
-        _DateTimeJSOptions.from(
+        (_) => _DateTimeJSOptions.from(
           month: _monthStyle(alignment, length),
           day: _dayStyle(alignment, length),
           weekday: _weekday(length),
@@ -283,13 +306,18 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimePrecision? timePrecision,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute),
-      second: _style(timePrecision, TimePrecision.second, _TimeStyle.numeric),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
+      second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -313,7 +341,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (_) => _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
       month: _monthStyle(alignment, length),
@@ -328,7 +356,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (_) => _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
       month: _monthStyle(alignment, length),
@@ -344,7 +372,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (_) => _DateTimeJSOptions.from(
       year: _yearStyle(length, alignment, yearStyle),
       yearStyle: yearStyle,
       month: _monthStyle(alignment, length),
@@ -361,15 +389,20 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     TimePrecision? timePrecision,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
       second: _style(timePrecision, TimePrecision.second),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
       month: _monthStyle(alignment, length),
       day: _dayStyle(alignment, length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -380,9 +413,13 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
       second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
@@ -391,6 +428,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       day: _dayStyle(alignment, length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   @override
@@ -401,9 +439,13 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     YearStyle? yearStyle,
   }) => _FormatterECMA._(
     this,
-    _DateTimeJSOptions.from(
+    (omitMinute) => _DateTimeJSOptions.from(
       hour: _dayStyleD(alignment),
-      minute: _style(timePrecision, TimePrecision.minute),
+      minute: _style(
+        timePrecision,
+        TimePrecision.minute,
+        omitMinute: omitMinute,
+      ),
       second: _style(timePrecision, TimePrecision.second),
       year: _yearStyle(length, alignment, yearStyle),
       fractionalSecondDigits: _fractionalSeconds(timePrecision),
@@ -413,6 +455,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
       weekday: _weekday(length),
     ),
     locale,
+    minuteOptional: timePrecision == TimePrecision.minuteOptional,
   );
 
   _TimeStyle _dayStyleD(DateTimeAlignment? alignment) => switch (alignment) {
@@ -453,7 +496,7 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
     DateTimeAlignment? alignment,
     YearStyle? yearStyle,
   ) => switch ((length, alignment, yearStyle)) {
-    (_, _, YearStyle.full) => _TimeStyle.numeric,
+    (_, _, YearStyle.full || YearStyle.withEra) => _TimeStyle.numeric,
     (DateTimeLength.medium, _, _) => _TimeStyle.numeric,
     (DateTimeLength.long, _, _) => _TimeStyle.numeric,
     (_, _, _) => _TimeStyle.twodigit,
@@ -461,15 +504,21 @@ class _DateTimeFormatECMA extends DateTimeFormatImpl {
 
   _TimeStyle? _style(
     TimePrecision? timePrecision,
-    TimePrecision standard, [
+    TimePrecision standard, {
+    bool omitMinute = false,
     _TimeStyle? defaultStyle = _TimeStyle.numeric,
-  ]) =>
-      timePrecision == null || timePrecision >= standard ? defaultStyle : null;
+  }) => switch ((timePrecision, standard)) {
+    (null, _) => defaultStyle,
+    (TimePrecision.minuteOptional, TimePrecision.minute) when omitMinute =>
+      null,
+    (final precision?, _) when precision >= standard => defaultStyle,
+    _ => null,
+  };
 
   static List<Locale> supportedLocalesOf(Locale locale) =>
       _DateTimeFormat.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   static DateTimeFormatImpl tryToBuild(Locale locale) {
     final supportedLocales = supportedLocalesOf(locale);
@@ -531,6 +580,8 @@ extension type _DateTimeFormat._(JSObject _) implements JSObject {
   ]);
   external String format(Date num);
 
+  external _ResolvedDateTimeOptions resolvedOptions();
+
   external static JSArray<JSString> supportedLocalesOf(JSArray listOfLocales);
 
   external JSArray<JSObject> formatToParts(JSAny num);
@@ -541,6 +592,10 @@ extension type _DateTimeFormat._(JSObject _) implements JSObject {
     ).toDart.map(Part._).firstWhereOrNull((part) => part.isTimezoneName);
     return timezoneNameObject?.value;
   }
+}
+
+extension type _ResolvedDateTimeOptions._(JSObject _) implements JSObject {
+  external bool? get hour12;
 }
 
 @JS()

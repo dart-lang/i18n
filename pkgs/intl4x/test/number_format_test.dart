@@ -6,9 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:intl4x/number_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/number_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   group('grouping', () {
     testWithFormatting('always', () {
       final numberFormatOptions = NumberFormat(
@@ -171,6 +174,11 @@ void main() {
   });
 
   group('Some manual tests', () {
+    testWithFormatting(
+      'doc examples web only',
+      () => doc_examples.main(webOnly: true),
+    );
+
     testWithFormatting('percent', () {
       expect(
         NumberFormat.percent(locale: Locale.parse('en-US')).format(4.33),
@@ -178,10 +186,53 @@ void main() {
       );
     });
 
+    testWithFormatting('percent with digits', () {
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withFractionDigits(maximum: 1),
+        ).format(0.045),
+        '4.5%',
+      );
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withFractionDigits(minimum: 2),
+        ).format(0.5),
+        '50.00%',
+      );
+      expect(
+        NumberFormat.percent(
+          locale: Locale.parse('en-US'),
+          digits: const Digits.withSignificantDigits(maximum: 2),
+        ).format(0.01234),
+        '1.2%',
+      );
+    });
+
     testWithFormatting('compact', () {
       expect(
         NumberFormat.compact(locale: Locale.parse('en-US')).format(4.33),
         '4.3',
+      );
+    });
+
+    testWithFormatting('currency with only maximum fraction digits', () {
+      expect(
+        NumberFormat.currency(
+          locale: Locale.parse('en-US'),
+          currency: 'USD',
+          digits: const Digits.withFractionDigits(maximum: 0),
+        ).format(1.5),
+        r'$2',
+      );
+      expect(
+        NumberFormat.currency(
+          locale: Locale.parse('en-US'),
+          currency: 'USD',
+          digits: const Digits.withFractionDigits(maximum: 1),
+        ).format(1.25),
+        r'$1.3',
       );
     });
   }, tags: ['icu4xUnimplemented']);

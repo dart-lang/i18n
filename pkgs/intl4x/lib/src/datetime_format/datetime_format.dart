@@ -14,28 +14,12 @@ import 'datetime_format_options.dart';
 /// for various common date and time formats.
 ///
 /// Example:
-///
-/// ```dart
-/// import 'package:intl4x/datetime_format.dart';
-///
-/// void main() {
-///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-///   print(DateTimeFormat.time(locale: Locale.parse('fr')).format(date));
-///   // Output: '04:00'
-/// }
-/// ```
+/// {@example ../../../example/docs/datetime_format.dart#time_fr}
 sealed class DateTimeFormat {
   /// Formatting just the day.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.day().format(date)); // Output: '17'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#day}
   static DateTimeFormatter day({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -47,28 +31,14 @@ sealed class DateTimeFormat {
   /// Formatting just the weekday.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.weekday().format(date)); // Output: 'Friday'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#weekday}
   static DateTimeFormatter weekday({Locale? locale, DateTimeLength? length}) =>
       DateTimeFormatImpl.build(locale ?? findSystemLocale()).e(length: length);
 
   /// Formatting just the month.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.month().format(date)); // Output: 'Dec'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#month}
   static DateTimeFormatterStandalone month({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -80,14 +50,7 @@ sealed class DateTimeFormat {
   /// Formatting the month and day.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDay().format(date)); // Output: 'Dec 17'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#month_day}
   static DateTimeFormatter monthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -99,14 +62,7 @@ sealed class DateTimeFormat {
   /// Formatting the month, day, and weekday.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDayWeekday().format(date)); // Output: 'Fri, Dec 17'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#month_day_weekday}
   static DateTimeFormatter monthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -118,14 +74,7 @@ sealed class DateTimeFormat {
   /// Formatting just the year.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.year().format(date)); // Output: '2021'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year}
   static DateTimeFormatterStandalone year({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -138,14 +87,7 @@ sealed class DateTimeFormat {
   /// Formatting the year and month.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonth().format(date)); // Output: 'Dec 2021'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year_month}
   static DateTimeFormatter yearMonth({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -158,14 +100,7 @@ sealed class DateTimeFormat {
   /// Formatting the year, month, and day.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDay().format(date)); // Output: 'Dec 17, 2021'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year_month_day}
   static DateTimeFormatter yearMonthDay({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -178,14 +113,7 @@ sealed class DateTimeFormat {
   /// Formatting the year, month, day, and weekday.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayWeekday().format(date)); // Output: 'Fri, Dec 17, 2021'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year_month_day_weekday}
   static DateTimeFormatter yearMonthDayWeekday({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -198,14 +126,7 @@ sealed class DateTimeFormat {
   /// Formatting the month, day, and time.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.monthDayTime().format(date)); // Output: 'Dec 17, 4:00 AM'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#month_day_time}
   static DateTimeFormatter monthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -218,14 +139,7 @@ sealed class DateTimeFormat {
   /// Formatting the year, month, day, and time.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayTime().format(date)); // Output: 'Dec 17, 2021, 4:00 AM'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year_month_day_time}
   static DateTimeFormatter yearMonthDayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -242,14 +156,7 @@ sealed class DateTimeFormat {
   /// Formatting the year, month, day, weekday, and time.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.yearMonthDayWeekdayTime().format(date)); // Output: 'Fri, Dec 17, 2021, 4:00 AM'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#year_month_day_weekday_time}
   static DateTimeFormatter yearMonthDayWeekdayTime({
     Locale? locale,
     DateTimeAlignment? alignment,
@@ -266,14 +173,7 @@ sealed class DateTimeFormat {
   /// Formatting just the time.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/datetime_format.dart';
-  ///
-  /// void main() {
-  ///   final date = DateTime(2021, 12, 17, 4, 0, 42);
-  ///   print(DateTimeFormat.time().format(date)); // Output: '4:00 AM'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/datetime_format.dart#time}
   static DateTimeFormatter time({
     Locale? locale,
     DateTimeAlignment? alignment,

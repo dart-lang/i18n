@@ -11,10 +11,13 @@
 ///
 /// The formatters are
 /// * [DateTimeFormat.day]
+/// * [DateTimeFormat.weekday]
 /// * [DateTimeFormat.month]
 /// * [DateTimeFormat.monthDay]
+/// * [DateTimeFormat.monthDayWeekday]
 /// * [DateTimeFormat.monthDayTime]
 /// * [DateTimeFormat.year]
+/// * [DateTimeFormat.yearMonth]
 /// * [DateTimeFormat.yearMonthDay]
 /// * [DateTimeFormat.yearMonthDayTime]
 /// * [DateTimeFormat.yearMonthDayWeekday]

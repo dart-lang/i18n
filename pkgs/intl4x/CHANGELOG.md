@@ -1,9 +1,32 @@
-## 1.0.0-alpha.3-wip
+## 1.0.2-wip
 
+- Export `NumberingSystem` from `package:intl4x/number_format.dart`.
+- Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
+  full year when `length` is `DateTimeLength.short` or omitted.
+- Fix doc comment examples across the package and verify them in tests using
+  `{@example}`.
+- Fix `NumberFormat.percent` ignoring the `digits` argument.
+- Fix currency formatting throwing on web when `digits` sets a maximum number
+  of fraction digits below 2 without a minimum.
+- Fix `TimePrecision.minuteOptional` on web (ECMA) to omit zero minutes in
+  12-hour clock formats, matching ICU4X.
+
+## 1.0.1
+
+- Mark `DisplayNames` API as `@experimental` to match `package:icu4x`.
+
+## 1.0.0
+
+- Update package status from experimental to preview.
+- Update `package:icu4x` to `2.3.2`.
+- Fix ECMA `supportedLocalesOf` implementation for WebAssembly compatibility.
+- Expose `Locale` subtag getters (`language`, `region`, `script`) and equality.
 - Add `calendar.dart` entrypoint exposing `Calendar` and `Weekday` with `Weekday.firstDayOfWeek` API.
 - Add more `DateTimeFormat`s.
 - Update `PluralRules.select` to select from plural form options.
 - Add doc examples using dartdoc `{@example}` directive.
+- Add `-Dintl4x.brittle_i18n_testing=true` environment define to opt into
+  real i18n formatting in test environments (for golden tests).
 
 ## 1.0.0-alpha.2
 

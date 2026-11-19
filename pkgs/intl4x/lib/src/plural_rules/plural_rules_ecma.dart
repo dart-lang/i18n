@@ -38,7 +38,7 @@ class _PluralRulesECMA extends PluralRulesImpl {
   static List<Locale> supportedLocalesOf(Locale locale) =>
       PluralRules.supportedLocalesOf(
         [locale.toLanguageTag().toJS].toJS,
-      ).toDart.whereType<String>().map(Locale.parse).toList();
+      ).toDart.map((e) => Locale.parse(e.toDart)).toList();
 
   @override
   PluralCategory selectImpl(num number) {

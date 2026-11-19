@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../find_locale.dart' show findSystemLocale;
 import '../locale/locale.dart' show Locale;
 import '../test_checker.dart';
@@ -12,6 +14,7 @@ import 'display_names_options.dart';
 ///
 /// This class uses the specified locale and options to format codes (like 'en',
 ///  'US') into human-readable strings (like 'English', 'United States').
+@experimental
 final class DisplayNames {
   final DisplayNamesImpl _impl;
 
@@ -46,13 +49,7 @@ final class DisplayNames {
   /// constructor.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/display_names.dart';
-  ///
-  /// void main() {
-  ///   print(DisplayNames.ofLocale(Locale.parse('de'))); // Prints 'German'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/display_names.dart#display_names_languages}
   String ofLocale(Locale locale) => _of(locale, _impl.ofLocale);
 
   /// Returns the localized display name for a given **region** code.
@@ -61,13 +58,7 @@ final class DisplayNames {
   /// constructor.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/display_names.dart';
-  ///
-  /// void main() {
-  ///   print(DisplayNames.ofRegion('DE')); // Prints 'Germany'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/display_names.dart#display_names_regions}
   String ofRegion(String regionCode) => _of(regionCode, _impl.ofRegion);
 
   String _of<T>(T object, String Function(T field) implementation) {

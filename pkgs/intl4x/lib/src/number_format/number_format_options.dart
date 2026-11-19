@@ -54,6 +54,7 @@ final class NumberFormatOptions {
     roundingMode: roundingMode,
     trailingZeroDisplay: trailingZeroDisplay,
     minimumIntegerDigits: minimumIntegerDigits,
+    digits: digits,
   );
 
   factory NumberFormatOptions.unit({
@@ -138,13 +139,17 @@ final class NumberFormatOptions {
     if (fractionDigits != null) {
       final int newMin;
       if (fractionDigits.$1 == null) {
-        newMin = switch (style) {
+        final defaultMin = switch (style) {
           DecimalStyle() => 0,
           // TODO(mosum): get by ISO 4217 currency code list instead
           CurrencyStyle() => 2,
           PercentStyle() => 0,
           UnitStyle() => 0,
         };
+        // As in ECMA-402, the default minimum must not exceed an explicitly
+        // given maximum.
+        final maximum = fractionDigits.$2;
+        newMin = maximum == null ? defaultMin : min(defaultMin, maximum);
       } else {
         newMin = fractionDigits.$1!;
       }

@@ -30,13 +30,7 @@ extension ListFormatIntl4x on List<String> {
   ///
   /// Example: "A, B, and C". See also [ListType.and].
   ///
-  /// ```dart
-  /// import 'package:intl4x/list_format.dart';
-  ///
-  /// void main() {
-  ///   print(['A', 'B', 'C'].joinAnd()); // Prints 'A, B, and C'
-  /// }
-  /// ```
+  /// {@example ../example/docs/list_format.dart#join_and}
   ///
   /// For more options, use [ListFormat] directly.
   String joinAnd({Locale? locale}) =>
@@ -46,13 +40,7 @@ extension ListFormatIntl4x on List<String> {
   ///
   /// Example: "A, B, or C". See also [ListType.or].
   ///
-  /// ```dart
-  /// import 'package:intl4x/list_format.dart';
-  ///
-  /// void main() {
-  ///   print(['A', 'B', 'C'].joinOr()); // Prints 'A, B, or C'
-  /// }
-  /// ```
+  /// {@example ../example/docs/list_format.dart#join_or}
   ///
   /// For more options, use [ListFormat] directly.
   String joinOr({Locale? locale}) =>
@@ -62,13 +50,7 @@ extension ListFormatIntl4x on List<String> {
   ///
   /// Example: "A, B, C". See also [ListType.unit].
   ///
-  /// ```dart
-  /// import 'package:intl4x/list_format.dart';
-  ///
-  /// void main() {
-  ///   print(['A', 'B', 'C'].joinUnit()); // Prints 'A, B, C'
-  /// }
-  /// ```
+  /// {@example ../example/docs/list_format.dart#join_unit}
   ///
   /// For more options, use [ListFormat] directly.
   String joinUnit({Locale? locale}) =>

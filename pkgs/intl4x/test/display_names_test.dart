@@ -5,9 +5,12 @@
 import 'package:intl4x/display_names.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/display_names.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   testWithFormatting('basic', () {
     expect(
       DisplayNames(
