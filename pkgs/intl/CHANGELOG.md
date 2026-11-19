@@ -1,3 +1,8 @@
+## 0.20.4-wip
+ * Fix `DateFormat` parsing of fractional seconds (`S`): they are now read as
+   a fraction of a second, so `.7` is 700 ms rather than 7 ms, and digits past
+   milliseconds are dropped.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
