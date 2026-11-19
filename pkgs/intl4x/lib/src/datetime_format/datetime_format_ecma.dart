@@ -166,7 +166,10 @@ class _FormatterECMA extends FormatterImpl {
 
   @override
   String formatRangeInternal(DateTime start, DateTime end) =>
-      dateTimeFormat.formatRange(start.js, end.js);
+      (_shouldOmitMinute(start) && _shouldOmitMinute(end)
+              ? _dateTimeFormatWithoutMinute
+              : _dateTimeFormat)
+          .formatRange(start.js, end.js);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLong() =>
