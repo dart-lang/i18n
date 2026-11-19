@@ -670,6 +670,69 @@ void runTests(Map<String, num> allTestNumbers) {
     }
   });
 
+  group('Currency with different separators', () {
+    // Some locales use different separators for currency amounts than for
+    // plain numbers, see CLDR 'currencyDecimal' and 'currencyGroup'.
+    var amount = 1234567.5;
+
+    test('fr_CH uses "." as currency decimal separator', () {
+      var format = NumberFormat.currency(locale: 'fr_CH', name: 'CHF');
+      var formatted = format.format(amount);
+      expect(formatted, '1\u202F234\u202F567.50\u00A0CHF');
+    });
+
+    test('de_AT uses "." as currency group separator', () {
+      var format = NumberFormat.currency(locale: 'de_AT', name: 'CHF');
+      var formatted = format.format(amount);
+      expect(formatted, 'CHF\u00A01.234.567,50');
+      expect(format.parse(formatted), amount);
+    });
+
+    test('de_CH is unchanged', () {
+      var format = NumberFormat.currency(locale: 'de_CH', name: 'CHF');
+      expect(format.format(amount), "CHF\u00A01'234'567.50");
+    });
+
+    test('simpleCurrency uses currency separators', () {
+      expect(
+        NumberFormat.simpleCurrency(locale: 'fr_CH').format(amount),
+        '1\u202F234\u202F567.50\u00A0CHF',
+      );
+      expect(
+        NumberFormat.simpleCurrency(locale: 'de_AT').format(amount),
+        '€\u00A01.234.567,50',
+      );
+    });
+
+    test('compactCurrency uses currency separators', () {
+      expect(
+        NumberFormat.compactCurrency(locale: 'fr_CH').format(12.5),
+        '12.50\u00A0CHF',
+      );
+      expect(
+        NumberFormat.compactSimpleCurrency(locale: 'fr_CH').format(12.5),
+        '12.50\u00A0CHF',
+      );
+    });
+
+    test('Non-currency formats keep the number separators', () {
+      expect(
+        NumberFormat.decimalPattern('fr_CH').format(amount),
+        '1\u202F234\u202F567,5',
+      );
+      expect(
+        NumberFormat.decimalPattern('de_AT').format(amount),
+        '1\u00A0234\u00A0567,5',
+      );
+    });
+
+    test('Separators fall back to the number separators', () {
+      var symbols = numberFormatSymbols['en_US']!;
+      expect(symbols.CURRENCY_DECIMAL_SEP, symbols.DECIMAL_SEP);
+      expect(symbols.CURRENCY_GROUP_SEP, symbols.GROUP_SEP);
+    });
+  });
+
   test('Use script', () {
     expect(NumberFormat.currency(locale: 'zh_Hant_TW').format(12), 'TWD12.00');
     expect(NumberFormat.currency(locale: 'zh_Hant_CN').format(12), 'CNY12.00');

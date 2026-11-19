@@ -77,9 +77,9 @@ abstract class NumberParserBase<R> {
   Map<String, Function>? _replacements;
 
   Map<String, Function> _initializeReplacements() => {
-    symbols.DECIMAL_SEP: () => '.',
+    format.decimalSeparator: () => '.',
     symbols.EXP_SYMBOL: () => 'E',
-    symbols.GROUP_SEP: handleSpace,
+    format.groupSeparator: handleSpace,
     symbols.PERCENT: () {
       scale = NumberFormatParser.PERCENT_SCALE;
       return '';
@@ -107,8 +107,9 @@ abstract class NumberParserBase<R> {
   /// Determine if a space is a valid character in the number. See
   /// [handleSpace].
   bool get groupingIsNotASpaceOrElseItIsSpaceFollowedByADigit {
-    if (symbols.GROUP_SEP != '\u00a0' || symbols.GROUP_SEP != ' ') return true;
-    var peeked = input.peek(symbols.GROUP_SEP.length + 1);
+    var groupSeparator = format.groupSeparator;
+    if (groupSeparator != '\u00a0' || groupSeparator != ' ') return true;
+    var peeked = input.peek(groupSeparator.length + 1);
     return asDigit(peeked[peeked.length - 1]) != null;
   }
 
