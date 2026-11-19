@@ -19,6 +19,9 @@ extension type LocaleJS._(JSObject _) implements JSObject {
   external String? get region;
 }
 
+@JS('Intl.getCanonicalLocales')
+external JSArray<JSString> _getCanonicalLocales(JSString locales);
+
 Locale parseLocale(String s) => LocaleEcma(LocaleJS(s));
 
 class LocaleEcma implements Locale {
@@ -34,6 +37,18 @@ class LocaleEcma implements Locale {
 
   @override
   String? get script => _locale.script;
+
+  @override
+  Locale get maximized => LocaleEcma(_locale.maximize());
+
+  @override
+  Locale get minimized => LocaleEcma(_locale.minimize());
+
+  @override
+  Locale get canonicalized {
+    final canonicalTags = _getCanonicalLocales(_locale.toString().toJS);
+    return LocaleEcma(LocaleJS(canonicalTags.toDart.first.toDart));
+  }
 
   @override
   String toLanguageTag([String separator = '-']) => _locale.toString();
