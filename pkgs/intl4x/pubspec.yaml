@@ -27,6 +27,8 @@ dependencies:
 
 dev_dependencies:
   args: ^2.7.0
+  convert: ^3.1.2
   dart_flutter_team_lints: ^3.5.2
   dart_style: ^3.1.13
+  intl: ^0.20.3
   test: ^1.32.0

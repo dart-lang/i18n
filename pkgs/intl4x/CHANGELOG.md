@@ -1,5 +1,7 @@
 ## 1.0.2-wip
 
+- Add migration guide from `package:intl` (`README.md` and
+  `example/intl_to_intl4x.dart`).
 - Export `NumberingSystem` from `package:intl4x/number_format.dart`.
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
