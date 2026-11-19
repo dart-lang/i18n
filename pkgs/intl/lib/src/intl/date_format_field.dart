@@ -327,7 +327,7 @@ class _DateFormatPatternField extends _DateFormatField {
         case 'Q':
           break; // quarter
         case 'S':
-          handleNumericField(input, builder.setFractionalSecond);
+          parseFractionalSecond(input, builder);
           break;
         case 's':
           handleNumericField(input, builder.setSecond);
@@ -430,6 +430,26 @@ class _DateFormatPatternField extends _DateFormatField {
       parent.localeZeroCodeUnit,
     );
     setter(result + offset);
+  }
+
+  /// Parse fractional seconds as a fraction of a second.
+  ///
+  /// Fractional seconds are padded on the right when formatting, so `.7` is
+  /// 700 milliseconds and `.007` is 7. Digits past milliseconds are dropped.
+  void parseFractionalSecond(StringStack input, DateBuilder builder) {
+    var digits = parent.digitMatcher.stringMatch(input.peekAll())?.length ?? 0;
+    var value = _nextInteger(
+      input,
+      parent.digitMatcher,
+      parent.localeZeroCodeUnit,
+    );
+    for (; digits < 3; digits++) {
+      value *= 10;
+    }
+    for (; digits > 3; digits--) {
+      value ~/= 10;
+    }
+    builder.setFractionalSecond(value);
   }
 
   /// Read as much content as [digitMatcher] matches from the current position,
