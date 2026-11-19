@@ -452,6 +452,22 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(() => format.parse('-∞+1'), throwsFormatException);
   });
 
+  test('Percent and permill symbols only parse before or after the number', () {
+    // https://github.com/dart-lang/i18n/issues/1101
+    var currency = NumberFormat.currency(symbol: r'$');
+    expect(() => currency.parse(r'$4%5.5%‰'), throwsFormatException);
+
+    var percent = NumberFormat.percentPattern();
+    expect(() => percent.parse('4%5%.5%‰'), throwsFormatException);
+    expect(() => percent.parse('1%2'), throwsFormatException);
+    expect(() => percent.parse('12%%'), throwsFormatException);
+    expect(() => percent.parse('12%‰'), throwsFormatException);
+    expect(percent.parse('12%'), 0.12);
+    expect(percent.parse('-12%'), -0.12);
+    expect(NumberFormat.percentPattern('tr').parse('%12'), 0.12);
+    expect(NumberFormat('#,##0‰').parse('12‰'), 0.012);
+  });
+
   test('Invalid currency format returns null with tryParse', () {
     var format = NumberFormat.currency();
 
