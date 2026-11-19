@@ -15,14 +15,7 @@ import 'number_format_options.dart';
 /// based on the current locale and various formatting options.
 ///
 /// Example:
-///
-/// ```dart
-/// import 'package:intl4x/number_format.dart';
-///
-/// void main() {
-///   print(NumberFormat.format(123456.789)); // Prints '123,456.789'
-/// }
-/// ```
+/// {@example ../../../example/docs/number_format.dart#format}
 final class NumberFormat {
   final NumberFormatImpl _impl;
 
@@ -49,13 +42,7 @@ final class NumberFormat {
   ///   significant digits.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/number_format.dart';
-  ///
-  /// void main() {
-  ///   print(NumberFormat(locale: Locale('de'), style: DecimalStyle(digits: FractionDigits(2, 2))).format(1234.567)); // Prints '1.234,57'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/number_format.dart#custom}
   NumberFormat({
     Locale? locale,
     FormatStyle style = const DecimalStyle(),
@@ -162,13 +149,7 @@ final class NumberFormat {
   ///   significant digits.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/number_format.dart';
-  ///
-  /// void main() {
-  ///   print(NumberFormat.percent().format(0.5)); // Prints '50%'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/number_format.dart#number_format_percent}
   //TODO: Implement in ICU4X
   NumberFormat.percent({
     Locale? locale,
@@ -222,13 +203,7 @@ final class NumberFormat {
   ///   significant digits.
   ///
   /// Example:
-  /// ```dart
-  /// import 'package:intl4x/number_format.dart';
-  ///
-  /// void main() {
-  ///   print(NumberFormat.currency(currency: 'USD').format(123.45)); // Prints '$123.45'
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/number_format.dart#number_format_currency}
   NumberFormat.currency({
     Locale? locale,
     required String currency,

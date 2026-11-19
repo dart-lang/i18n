@@ -60,7 +60,7 @@ void main() {
 
   // Format with a specific timezone
   print(formatter.format(dateTime, 'Europe/Berlin')); 
-  // prints "1. Juli 2024 um 10:50:07 Mitteleuropäische Sommerzeit"
+  // prints "1. Juli 2024 um 08:50:07 Mitteleuropäische Sommerzeit"
 }
 ```
 

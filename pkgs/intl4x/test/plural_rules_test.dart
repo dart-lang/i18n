@@ -4,9 +4,12 @@
 import 'package:intl4x/plural_rules.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/plural_rules.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   testWithFormatting('en-US simple', () {
     final s = getRules(PluralRules(locale: Locale.parse('en-US')));
 

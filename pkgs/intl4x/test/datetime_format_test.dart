@@ -5,6 +5,7 @@
 import 'package:intl4x/datetime_format.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/datetime_format.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
@@ -141,7 +142,6 @@ void main() {
         ).withTimeZoneShort().format(dateTime, timeZone),
         matches(r'12/17/2021 AD[,]? PST'),
       ),
-      tags: ['ecmaUnsupported'],
     );
 
     testWithFormatting(
@@ -274,6 +274,17 @@ void main() {
       ),
     );
     testWithFormatting(
+      'short with era',
+      () => expect(
+        DateTimeFormat.yearMonthDay(
+          locale: Locale.parse('en-US'),
+          length: DateTimeLength.short,
+          yearStyle: YearStyle.withEra,
+        ).format(dateTime),
+        '12/17/2021 AD',
+      ),
+    );
+    testWithFormatting(
       'medium',
       () => expect(
         DateTimeFormat.yearMonthDay(
@@ -309,6 +320,47 @@ void main() {
       ),
     );
     testWithFormatting(
+      'minuteOptional with zero minutes (12-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(dateTime),
+        matches(r'^4\sAM$'),
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional with non-zero minutes (12-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(DateTime(2021, 12, 17, 4, 30, 0)),
+        matches(r'^4:30\sAM$'),
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional with zero minutes (24-hour)',
+      () => expect(
+        DateTimeFormat.time(
+          locale: Locale.parse('de-DE'),
+          timePrecision: TimePrecision.minuteOptional,
+        ).format(DateTime(2021, 12, 17, 14, 0, 0)),
+        '14:00',
+      ),
+    );
+    testWithFormatting(
+      'minuteOptional zoned with zero minutes',
+      () => expect(
+        DateTimeFormat.yearMonthDayTime(
+          locale: Locale.parse('en-US'),
+          timePrecision: TimePrecision.minuteOptional,
+          yearStyle: YearStyle.full,
+        ).withTimeZoneShort().format(dateTime, 'America/Los_Angeles'),
+        matches(r'^12/17/2021[,]? 4\sAM PST$'),
+      ),
+    );
+    testWithFormatting(
       'medium',
       () => expect(
         DateTimeFormat.time(locale: Locale.parse('en-US')).format(dateTime),
@@ -327,6 +379,11 @@ void main() {
         ).format(dateTime),
         matches(r'^12/17/21, 4:00:42\sAM$'),
       ),
+    );
+    testWithFormatting(
+      'doc examples',
+      doc_examples.main,
+      tags: ['ecmaUnsupported'],
     );
   });
 

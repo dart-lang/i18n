@@ -5,9 +5,12 @@
 import 'package:intl4x/case_mapping.dart';
 import 'package:test/test.dart';
 
+import '../example/docs/case_mapping.dart' as doc_examples;
 import 'utils.dart';
 
 void main() {
+  testWithFormatting('doc examples', doc_examples.main);
+
   testWithFormatting('test name', () {
     final enUS = Locale.parse('en-US');
     final trTR = Locale.parse('tr-TR');

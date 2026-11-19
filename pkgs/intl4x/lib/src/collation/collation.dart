@@ -67,16 +67,7 @@ final class Collation {
   ///
   /// The return value is according to the [Comparable] interface.
   ///
-  /// ```dart
-  /// import 'package:intl4x/collation.dart';
-  ///
-  /// void main() {
-  ///   final collation = Collation(locale: Locale('de'));
-  ///   final list = ['a', 'ä', 'b'];
-  ///   list.sort(collation.compare);
-  ///   print(list); // Prints [a, b, ä]
-  /// }
-  /// ```
+  /// {@example ../../../example/docs/collation.dart#collation}
   int compare(String a, String b) {
     if (isInTest) {
       return a.compareTo(b);
