@@ -1,9 +1,13 @@
 ## 1.0.2-wip
 
+- Export `NumberingSystem` from `package:intl4x/number_format.dart`.
 - Fix `YearStyle.withEra` on web (ECMA) formatting a 2-digit year instead of a
   full year when `length` is `DateTimeLength.short` or omitted.
 - Fix doc comment examples across the package and verify them in tests using
   `{@example}`.
+- Fix `NumberFormat.percent` ignoring the `digits` argument.
+- Fix currency formatting throwing on web when `digits` sets a maximum number
+  of fraction digits below 2 without a minimum.
 
 ## 1.0.1
 
