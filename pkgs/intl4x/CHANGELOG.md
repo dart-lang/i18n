@@ -10,6 +10,10 @@
   of fraction digits below 2 without a minimum.
 - Fix `TimePrecision.minuteOptional` on web (ECMA) to omit zero minutes in
   12-hour clock formats, matching ICU4X.
+- Fix `SignDisplay.negative` and `SignDisplay.exceptZero` on native platforms
+  formatting numbers that round to zero (e.g. `-0.4` with no fraction digits)
+  as `-0` or `+0`. The sign display is now applied after rounding, matching
+  ECMA-402.
 
 ## 1.0.1
 
