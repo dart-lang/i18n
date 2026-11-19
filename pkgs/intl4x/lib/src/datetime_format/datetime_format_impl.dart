@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import '../locale/locale.dart';
 import '../test_checker.dart' show isInTest;
 import '../utils.dart';
@@ -96,12 +98,23 @@ abstract class FormatterStandaloneImpl extends DateTimeFormatterStandalone {
 
   String formatInternal(DateTime datetime);
 
+  String formatRangeInternal(DateTime start, DateTime end);
+
   @override
   String format(DateTime datetime) {
     if (isInTest) {
       return '$datetime//${_impl.locale}';
     } else {
       return formatInternal(datetime);
+    }
+  }
+
+  @override
+  String formatRange(DateTime start, DateTime end) {
+    if (isInTest) {
+      return '$start//$end//${_impl.locale}';
+    } else {
+      return formatRangeInternal(start, end);
     }
   }
 }
@@ -141,6 +154,11 @@ sealed class DateTimeFormatterStandalone {
   /// Formats the given [datetime] into a string according to the formatter's
   /// configured locale and options.
   String format(DateTime datetime);
+
+  /// Formats the given date range from [start] to [end] into a string according
+  /// to the formatter's configured locale and options.
+  @experimental
+  String formatRange(DateTime start, DateTime end);
 }
 
 /// Formatters that can format a [DateTime] with time zone information.

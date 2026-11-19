@@ -14,6 +14,7 @@
   formatting numbers that round to zero (e.g. `-0.4` with no fraction digits)
   as `-0` or `+0`. The sign display is now applied after rounding, matching
   ECMA-402.
+- Add experimental `formatRange` method to `DateTimeFormat`.
 
 ## 1.0.1
 

@@ -2,6 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// Date range formatting in ICU4X is still an experimental component;
+// package:intl4x forwards the @experimental annotation on its public
+// formatRange API.
+// ignore_for_file: experimental_member_use
+
 import 'package:icu4x/icu4x.dart' as icu;
 
 import '../datetime_format_impl.dart';
@@ -11,6 +16,7 @@ import 'datetime_format_4x.dart';
 /// Wraps an [icu.DateTimeFormatter]
 class DateTimeFormatterX extends FormatterImpl {
   final icu.DateTimeFormatter formatter;
+  final icu.DateTimeRangeFormatterGregorian rangeFormatter;
   final DateTimeFormatImpl impl;
   final icu.Locale localeX;
 
@@ -26,6 +32,12 @@ class DateTimeFormatterX extends FormatterImpl {
         length: length ?? icu.DateTimeLength.short,
         timePrecision: timePrecision,
       ),
+      rangeFormatter = icu.DateTimeRangeFormatterGregorian.mdt(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        timePrecision: timePrecision,
+      ),
       super(impl);
 
   DateTimeFormatterX.ymdt(
@@ -36,6 +48,13 @@ class DateTimeFormatterX extends FormatterImpl {
     icu.TimePrecision? timePrecision,
     icu.YearStyle? yearStyle,
   ) : formatter = icu.DateTimeFormatter.ymdt(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        timePrecision: timePrecision,
+        yearStyle: yearStyle,
+      ),
+      rangeFormatter = icu.DateTimeRangeFormatterGregorian.ymdt(
         localeX,
         alignment: alignment,
         length: length ?? icu.DateTimeLength.short,
@@ -58,12 +77,31 @@ class DateTimeFormatterX extends FormatterImpl {
         timePrecision: timePrecision,
         yearStyle: yearStyle,
       ),
+      rangeFormatter = icu.DateTimeRangeFormatterGregorian.ymdet(
+        localeX,
+        alignment: alignment,
+        length: length ?? icu.DateTimeLength.short,
+        timePrecision: timePrecision,
+        yearStyle: yearStyle,
+      ),
       super(impl);
 
   @override
   String formatInternal(DateTime datetime) {
     final (isoDate, time) = datetime.toX;
     return formatter.formatIso(isoDate, time);
+  }
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) {
+    final (startIsoDate, startTime) = start.toX;
+    final (endIsoDate, endTime) = end.toX;
+    return rangeFormatter.formatIso(
+      startIsoDate,
+      startTime,
+      endIsoDate,
+      endTime,
+    );
   }
 
   @override

@@ -123,6 +123,10 @@ class _FormatterStandaloneECMA extends FormatterStandaloneImpl {
   @override
   String formatInternal(DateTime datetime) =>
       dateTimeFormat.format(datetime.js);
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) =>
+      dateTimeFormat.formatRange(start.js, end.js);
 }
 
 class _FormatterECMA extends FormatterImpl {
@@ -159,6 +163,13 @@ class _FormatterECMA extends FormatterImpl {
               ? _dateTimeFormatWithoutMinute
               : _dateTimeFormat)
           .format(datetime.js);
+
+  @override
+  String formatRangeInternal(DateTime start, DateTime end) =>
+      (_shouldOmitMinute(start) && _shouldOmitMinute(end)
+              ? _dateTimeFormatWithoutMinute
+              : _dateTimeFormat)
+          .formatRange(start.js, end.js);
 
   @override
   ZonedDateTimeFormatter withTimeZoneLong() =>
@@ -579,6 +590,7 @@ extension type _DateTimeFormat._(JSObject _) implements JSObject {
     _DateTimeJSOptions options,
   ]);
   external String format(Date num);
+  external String formatRange(Date startDate, Date endDate);
 
   external _ResolvedDateTimeOptions resolvedOptions();
 
