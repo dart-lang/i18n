@@ -6,9 +6,6 @@
 import 'package:intl/intl.dart';
 import 'package:messages/messages_json.dart';
 
-import 'HomePage_de_empty.g.dart' deferred as HomePage_de_empty;
-import 'HomePage_en_empty.g.dart' deferred as HomePage_en_empty;
-
 class HomePageMessages {
   HomePageMessages(this._assetLoader);
 
@@ -27,13 +24,6 @@ class HomePageMessages {
 
   MessageList get _currentMessages => _messages[currentLocale]!;
 
-  String getById(
-    String id, [
-    List<dynamic> args = const [],
-  ]) {
-    return _currentMessages.generateStringAtId(id, args);
-  }
-
   static Iterable<String> get knownLocales => _dataFiles.keys;
 
   Future<void> loadLocale(String locale) async {
@@ -43,12 +33,6 @@ class HomePageMessages {
       if (dataFile == null) {
         throw ArgumentError('Locale $locale is not in $knownLocales');
       }
-      if (locale == 'de') {
-        await HomePage_de_empty.loadLibrary();
-      } else if (locale == 'en') {
-        await HomePage_en_empty.loadLibrary();
-      }
-
       final data = await _assetLoader(dataFile);
       final messageList = MessageListJson.fromString(data, _pluralSelector);
       if (messageList.preamble.hash != info?.$2) {

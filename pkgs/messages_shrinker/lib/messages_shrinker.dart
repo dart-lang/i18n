@@ -38,7 +38,7 @@ class MessageShrinker {
             'just immediately reserialized, this selector will not be called.');
       },
     );
-    final data = JsonSerializer(json.preamble.hasIds)
+    final data = JsonSerializer()
         .serialize(
           json.preamble.hash,
           json.preamble.locale,
