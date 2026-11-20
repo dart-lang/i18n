@@ -1,4 +1,5 @@
 ## 0.22.0
+  * Validate locale identifiers in `generate_from_arb`.
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.
   * Upgrade analyzer to `^14.0.0`.
