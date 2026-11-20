@@ -27,9 +27,9 @@ Map<String, num> testNumbersWeCanReadBack = {
   '1,234': 1234.0,
   '1.234': 1.234,
   '1.23': 1.230,
-  'NaN': 0.0 / 0.0,
-  '∞': 1.0 / 0.0,
-  '-∞': -1.0 / 0.0,
+  'NaN': double.nan,
+  '∞': double.infinity,
+  '-∞': double.negativeInfinity,
 };
 
 /// Test numbers that we can't parse because we lose precision in formatting.

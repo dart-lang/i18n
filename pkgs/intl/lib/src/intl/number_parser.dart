@@ -20,11 +20,11 @@ class NumberParser extends NumberParserBase<num> {
   num scaled(num parsed, int scale) => parsed / scale;
 
   @override
-  num nan() => 0.0 / 0.0;
+  num nan() => double.nan;
 
   @override
-  num positiveInfinity() => 1.0 / 0.0;
+  num positiveInfinity() => double.infinity;
 
   @override
-  num negativeInfinity() => -1.0 / 0.0;
+  num negativeInfinity() => double.negativeInfinity;
 }
