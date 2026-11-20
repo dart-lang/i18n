@@ -164,7 +164,11 @@ class MainMessage extends ComplexMessage {
     } else if (chunk is Message) {
       return chunk.toCode();
     } else {
-      throw ArgumentError.value(chunk, 'Unexpected value in Intl.message');
+      throw ArgumentError.value(
+        chunk,
+        'chunk',
+        'Unexpected value in Intl.message',
+      );
     }
   }
 

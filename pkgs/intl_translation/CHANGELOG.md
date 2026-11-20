@@ -1,3 +1,7 @@
+## 0.22.1-wip
+ * Pass the argument name to the `ArgumentError` thrown for an unexpected
+   interpolation chunk, so the message is no longer shown in its place.
+
 ## 0.22.0
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.
