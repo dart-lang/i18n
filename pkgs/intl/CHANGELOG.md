@@ -15,6 +15,7 @@
  * Update analysis to newest `package:lints`.
  * Update `Intl.select` documentation to clarify `other` fallback behavior
    and thrown `ArgumentError`.
+ * Update to CLDR v49.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.
