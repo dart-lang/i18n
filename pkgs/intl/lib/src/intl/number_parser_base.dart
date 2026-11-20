@@ -159,6 +159,16 @@ abstract class NumberParserBase<R> {
     if (remainder == _negativeSuffix) gotNegativeSuffix = true;
   }
 
+  /// If the rest of our input is the suffix for the sign we've seen, skip
+  /// over it, e.g. the ' €' in '12,50 €'. Otherwise it would be treated as
+  /// part of the number and rejected.
+  void _skipSuffix() {
+    var suffix = gotNegative ? _negativeSuffix : _positiveSuffix;
+    if (suffix.isNotEmpty && input.peekAll() == suffix) {
+      input.pop(suffix.length);
+    }
+  }
+
   /// We've encountered a character that's not a digit. Go through our
   /// replacement rules looking for how to handle it. If we see something
   /// that's not a digit and doesn't have a replacement, then we're done
@@ -227,6 +237,7 @@ abstract class NumberParserBase<R> {
         processNonDigit();
       }
       checkSuffixes();
+      _skipSuffix();
     }
 
     var normalizedText = _normalized.toString();

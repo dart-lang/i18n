@@ -452,6 +452,27 @@ void runTests(Map<String, num> allTestNumbers) {
     expect(() => format.parse('-∞+1'), throwsFormatException);
   });
 
+  test('Parse currency with symbol as suffix', () {
+    // https://github.com/dart-lang/i18n/issues/829
+    var nbsp = '\u00a0';
+    var italian = NumberFormat.currency(locale: 'it_IT', symbol: '€');
+    expect(italian.format(12.5), '12,50$nbsp€');
+    expect(italian.parse('12,50$nbsp€'), 12.5);
+    expect(italian.parse('-12,50$nbsp€'), -12.5);
+    expect(italian.parse('1.234,50$nbsp€'), 1234.5);
+
+    // https://github.com/dart-lang/i18n/issues/413
+    var custom = NumberFormat.currency(
+      locale: 'de',
+      symbol: '€',
+      customPattern: '#,##0.00 \u00A4',
+    );
+    expect(custom.parse('463,00 €'), 463);
+
+    expect(() => italian.parse('12,50$nbsp€€'), throwsFormatException);
+    expect(() => italian.parse('12,50$nbsp€1'), throwsFormatException);
+  });
+
   test('Invalid currency format returns null with tryParse', () {
     var format = NumberFormat.currency();
 

@@ -1,3 +1,7 @@
+## 0.20.4-wip
+ * Fix `NumberFormat.parse` rejecting numbers with a suffix, such as a currency
+   symbol after the number, e.g. `'12,50 €'` for `it_IT`.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
