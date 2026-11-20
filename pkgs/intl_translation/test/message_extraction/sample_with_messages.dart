@@ -287,6 +287,7 @@ String badName = 'thisNameIsAVariable';
 String nonLiteralName(String x) => Intl.message(
   'Non string literal name for '
   'message: $x',
+  // ignore: non_const_argument_for_const_parameter
   name: badName,
   args: [x],
   desc: 'Non string literal name supplied',
@@ -304,6 +305,7 @@ String badDescriptionString = 'thisDescriptionIsAVariable';
 String badDescription(String x) => Intl.message(
   'Description must be a string literal: $x',
   name: 'badArgs',
+  // ignore: non_const_argument_for_const_parameter
   desc: badDescriptionString,
   args: [x],
   examples: const {'x': 3},
@@ -314,7 +316,7 @@ String badExamples(String x) => Intl.message(
   name: 'badExamples',
   desc: 'Examples must be const literal map.',
   args: [x],
-  examples: {'x': 3},
+  examples: const {'x': 3},
 );
 
 List<String> messageList() => <String>[
@@ -340,6 +342,7 @@ void printStuff(Intl locale) {
   // in the generated catalog and shouldn't get translated.
   if (locale.locale == 'fr') {
     var badName = 'thisNameIsNotInTheOriginal';
+    // ignore: non_const_argument_for_const_parameter
     var notInOriginal = Intl.message('foo', name: badName);
     if (notInOriginal != 'foo') {
       throw "You shouldn't be able to introduce a new message in a translation";
