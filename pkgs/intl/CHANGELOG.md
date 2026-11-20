@@ -1,3 +1,10 @@
+## 0.20.4-wip
+ * Update the Georgian Lari (GEL) currency symbol in `simpleCurrencySymbols`
+   from "GEL" to "₾" (U+20BE).
+ * Update `Intl.select` documentation to clarify `other` fallback behavior
+   and thrown `ArgumentError`.
+ * Add a note in `README.md` encouraging users to try out `package:intl4x`.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
@@ -7,14 +14,11 @@
    now parsed as `zh_CN`.
  * Update the Ghanaian Cedis (GHS) currency symbol in `simpleCurrencySymbols`
    from "GHS" to "GH₵(U+20B5)".
- * Update the Georgian Lari (GEL) currency symbol in `simpleCurrencySymbols` from "GEL" to "₾" (U+20BE).
  * Update to CLDR v48.
  * Add `@pragma('wasm:prefer-inline')` to `Intl` methods that already have
    `@pragma('vm:prefer-inline')`, for the same reason: to help omit message
    descriptions from compiled output.
  * Update analysis to newest `package:lints`.
- * Update `Intl.select` documentation to clarify `other` fallback behavior
-   and thrown `ArgumentError`.
 
 ## 0.20.2
  * Remove the dependency on `package:http`.

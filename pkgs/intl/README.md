@@ -5,6 +5,12 @@ Provides internationalization and localization facilities,
 including message translation, plurals and genders, date/number formatting
 and parsing, and bidirectional text.
 
+> **Note:** Looking for a modern, lightweight internationalization (i18n)
+> library? Try out [`package:intl4x`][intl4x] instead! It provides
+> locale-sensitive date, time, number, and list formatting, collation, plural
+> rules, and more, backed by ICU4X on native platforms and the browser's
+> built-in `Intl` API on the web.
+
 ## General
 The most important library is [intl][intl_lib]. It defines the [Intl][Intl]
 class, with the default locale and methods for accessing most of the
@@ -343,3 +349,4 @@ BidiFormatter.RTL().wrapWithSpan('xyz');
 [BidiFormatter.RTL]: https://pub.dev/documentation/intl/latest/intl/BidiFormatter/BidiFormatter.RTL.html
 [BidiFormatter.LTR]: https://pub.dev/documentation/intl/latest/intl/BidiFormatter/BidiFormatter.LTR.html
 [ARB]: https://github.com/google/app-resource-bundle
+[intl4x]: https://pub.dev/packages/intl4x
