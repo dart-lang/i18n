@@ -426,16 +426,6 @@ PluralCase _pl_rule() {
   return OTHER;
 }
 
-PluralCase _pt_rule() {
-  if (_i == 0 || _i == 1) {
-    return ONE;
-  }
-  if (!(_i == 0) && (_i % 1000000 == 0) && (_v == 0)) {
-    return MANY;
-  }
-  return OTHER;
-}
-
 PluralCase _mo_rule() {
   if ((_i == 1) && (_v == 0)) {
     return ONE;
@@ -544,7 +534,7 @@ final pluralRules = {
   'fr_CH': _fr_rule,
   'fur': _af_rule,
   'ga': _ga_rule,
-  'gl': _ast_rule,
+  'gl': _ca_rule,
   'gsw': _af_rule,
   'gu': _am_rule,
   'haw': _af_rule,
@@ -588,8 +578,8 @@ final pluralRules = {
   'pa': _ak_rule,
   'pl': _pl_rule,
   'ps': _af_rule,
-  'pt': _pt_rule,
-  'pt_BR': _pt_rule,
+  'pt': _fr_rule,
+  'pt_BR': _fr_rule,
   'pt_PT': _ca_rule,
   'ro': _mo_rule,
   'ru': _ru_rule,
@@ -609,7 +599,7 @@ final pluralRules = {
   'uk': _ru_rule,
   'ur': _ast_rule,
   'uz': _af_rule,
-  'vi': _default_rule,
+  'vi': _am_rule,
   'zh': _default_rule,
   'zh_CN': _default_rule,
   'zh_HK': _default_rule,

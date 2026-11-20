@@ -125,6 +125,7 @@ var _skipLocalesShort = [
   'en-ZA', // Expected: '4,3K', actual: '4.3K'.
   'en-GB', // Expected: '4.3k', actual: '4.3K'.
   'bn',
+  'ta', // Expected: '4.3K', actual: '4.3ஆ'.
   ..._unsupportedChromeLocales,
 ];
 
