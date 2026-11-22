@@ -345,7 +345,7 @@ MessageLookupByLibrary? _findGeneratedMessagesFor(String locale) {
     if (flutter) {
       output.write(
         "export '${generatedFilePrefix}messages_flutter.dart'\n"
-        "  if (dart.library.js) '${generatedFilePrefix}messages_all_locales.dart'\n"
+        "  if (dart.library.js_interop) '${generatedFilePrefix}messages_all_locales.dart'\n"
         '  show initializeMessages;\n\n',
       );
     } else {
