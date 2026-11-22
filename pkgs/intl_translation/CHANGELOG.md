@@ -1,3 +1,8 @@
+## 0.22.1
+  * Emit `if (dart.library.js_interop)` instead of `if (dart.library.js)` in
+    generated `messages_all.dart` files when `--flutter` is enabled.
+  * Remove redundant null check in generated `initializeMessages`.
+
 ## 0.22.0
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.
