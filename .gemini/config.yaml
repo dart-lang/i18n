@@ -6,7 +6,7 @@ code_review:
   comment_severity_threshold: MEDIUM
   max_review_comments: 100
   pull_request_opened:
-    help: true
+    help: false
     summary: true
     code_review: true
 ignore_patterns: []
