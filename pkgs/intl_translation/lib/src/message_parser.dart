@@ -55,7 +55,7 @@ class _ParserUtil {
   static final RegExp quotedBracketClose = RegExp(r"'(})'");
   static final RegExp doubleQuotes = RegExp(r"'(')");
   static final RegExp numberRegex = RegExp(r'\s*([0-9]+)\s*');
-  static final RegExp nonICURegex = RegExp(r'[^\{\}\<]');
+  static final RegExp nonICURegex = RegExp(r'[^\{\}]');
   static final RegExp idRegex = RegExp(r'\s*([a-zA-Z][a-zA-Z_0-9]*)\s*');
   static final RegExp commaWithWhitespace = RegExp(r'\s*(,)\s*');
   static final List<String> pluralKeywords = [

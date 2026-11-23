@@ -71,6 +71,8 @@ Map<String, String> french = {
   'pluralThatFailsParsing':
       '{noOfThings,plural, '
       '=1{1 chose:}other{{noOfThings} choses:}}',
+  'pluralWithMarkup':
+      '{n,plural, =1{<b>{n}</b> élément}other{<b>{n}</b> éléments}}',
   'nestedOuter':
       '{number,plural, other{'
       '{gen,select, male{{number} homme}other{{number} autre}}}}',
@@ -161,6 +163,8 @@ Map<String, String> german = {
   'pluralThatFailsParsing':
       '{noOfThings,plural, '
       '=1{eins:}other{{noOfThings} Dinge:}}',
+  'pluralWithMarkup':
+      '{n,plural, =1{<b>{n}</b> Element}other{<b>{n}</b> Elemente}}',
   'nestedOuter':
       '{number,plural, other{'
       '{gen,select, male{{number} Mann}other{{number} andere}}}}',

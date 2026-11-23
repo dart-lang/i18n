@@ -75,6 +75,8 @@ void verifyResult() {
   verify('2 Canadian dollars');
   verify('1 thing:');
   verify('2 things:');
+  verify('<b>1</b> item');
+  verify('<b>2</b> items');
   verify('Hello World');
   verify('Hello World');
   verify('rent');
@@ -158,6 +160,8 @@ void verifyResult() {
   verify('2 dollars Canadiens');
   verify('1 chose:');
   verify('2 choses:');
+  verify('<b>1</b> élément');
+  verify('<b>2</b> éléments');
   verify('Bonjour tout le monde');
   verify('Bonjour tout le monde');
   verify('louer');
@@ -244,6 +248,8 @@ void verifyResult() {
   verify('2 Kanadischen dollar');
   verify('eins:');
   verify('2 Dinge:');
+  verify('<b>1</b> Element');
+  verify('<b>2</b> Elemente');
   verify('Hallo Welt');
   verify('Hallo Welt');
   verify('mieten');
