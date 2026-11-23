@@ -126,6 +126,15 @@ String pluralThatFailsParsing(num noOfThings) => Intl.plural(
   desc: 'How many things are there?',
 );
 
+String pluralWithMarkup(num n) => Intl.plural(
+  n,
+  one: '<b>$n</b> item',
+  other: '<b>$n</b> items',
+  name: 'pluralWithMarkup',
+  args: [n],
+  desc: "A plural with '<' and markup in its clauses",
+);
+
 // A standalone gender message where we don't provide name or args. This should
 // be rejected by validation code.
 String invalidOuterGender(String g) =>
@@ -416,6 +425,8 @@ void printStuff(Intl locale) {
     printOut(nestedSelect('CDN', 2));
     printOut(pluralThatFailsParsing(1));
     printOut(pluralThatFailsParsing(2));
+    printOut(pluralWithMarkup(1));
+    printOut(pluralWithMarkup(2));
     printOut(differentNameSameContents());
     printOut(sameContentsDifferentName());
     printOut(rentAsVerb());

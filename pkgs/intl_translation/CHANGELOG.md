@@ -1,3 +1,7 @@
+## 0.22.1-wip
+  * Allow `<` in `plural`, `select` and `gender` clauses when generating code
+    from ARB files. Previously such messages were emitted as raw ICU strings.
+
 ## 0.22.0
   * Upgrade analyzer to `^12.1.0`.
   * Escape text direction code points in generated code.

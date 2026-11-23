@@ -120,6 +120,109 @@ void main() {
     ], null);
     expect(parsedMessage.toCode(), expectedMessage.toCode());
   });
+
+  group("'<' in clauses", () {
+    test('Plural with less than', () {
+      var input = '{count, plural, =1{<1 hour} other{{count} hours}}';
+      var parsedMessage = MessageParser(input).pluralGenderSelectParse();
+      expect(parsedMessage, isA<Plural>());
+      Message expectedMessage = Plural.from('count', [
+        ['=1', '<1 hour'],
+        [
+          'other',
+          CompositeMessage([
+            VariableSubstitution.named('count'),
+            LiteralString(' hours'),
+          ]),
+        ],
+      ], null);
+      expect(parsedMessage.toCode(), expectedMessage.toCode());
+    });
+
+    test('Plural with markup around placeholders', () {
+      var input =
+          '{count, plural, =1{<b>{count}</b> item} '
+          'other{<b>{count}</b> items, <a href="{url}">more</a>}}';
+      var parsedMessage = MessageParser(input).pluralGenderSelectParse();
+      expect(parsedMessage, isA<Plural>());
+      Message expectedMessage = Plural.from('count', [
+        [
+          '=1',
+          CompositeMessage([
+            LiteralString('<b>'),
+            VariableSubstitution.named('count'),
+            LiteralString('</b> item'),
+          ]),
+        ],
+        [
+          'other',
+          CompositeMessage([
+            LiteralString('<b>'),
+            VariableSubstitution.named('count'),
+            LiteralString('</b> items, <a href="'),
+            VariableSubstitution.named('url'),
+            LiteralString('">more</a>'),
+          ]),
+        ],
+      ], null);
+      expect(parsedMessage.toCode(), expectedMessage.toCode());
+    });
+
+    test('Select with markup around placeholders', () {
+      var input =
+          '{choice, select, a{<b>{name}</b>} '
+          'other{<a href="{url}">x</a>}}';
+      var parsedMessage = MessageParser(input).pluralGenderSelectParse();
+      expect(parsedMessage, isA<Select>());
+      Message expectedMessage = Select.from('choice', [
+        [
+          'a',
+          CompositeMessage([
+            LiteralString('<b>'),
+            VariableSubstitution.named('name'),
+            LiteralString('</b>'),
+          ]),
+        ],
+        [
+          'other',
+          CompositeMessage([
+            LiteralString('<a href="'),
+            VariableSubstitution.named('url'),
+            LiteralString('">x</a>'),
+          ]),
+        ],
+      ], null);
+      expect(parsedMessage.toCode(), expectedMessage.toCode());
+    });
+
+    test('Gender with markup around placeholders', () {
+      var input =
+          '{gender, select, female{<b>{name}</b> < 1} '
+          'male{<a href="{url}">x</a>} other{<i>they</i>}}';
+      var parsedMessage = MessageParser(input).pluralGenderSelectParse();
+      expect(parsedMessage, isA<Gender>());
+      Message expectedMessage = Gender.from('gender', [
+        [
+          'female',
+          CompositeMessage([
+            LiteralString('<b>'),
+            VariableSubstitution.named('name'),
+            LiteralString('</b> < 1'),
+          ]),
+        ],
+        [
+          'male',
+          CompositeMessage([
+            LiteralString('<a href="'),
+            VariableSubstitution.named('url'),
+            LiteralString('">x</a>'),
+          ]),
+        ],
+        ['other', '<i>they</i>'],
+      ], null);
+      expect(parsedMessage.toCode(), expectedMessage.toCode());
+    });
+  });
 }
 
 void testEscaping(String actual, String expected) {
