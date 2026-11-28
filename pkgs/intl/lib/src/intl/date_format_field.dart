@@ -15,11 +15,25 @@ abstract class _DateFormatField {
   /// The DateFormat that we are part of.
   DateFormat parent;
 
-  /// Trimmed version of [pattern].
+  /// [pattern] without [_bidiControls].
+  final String _unmarkedPattern;
+
+  /// Trimmed version of [_unmarkedPattern].
   final String _trimmedPattern;
 
+  /// Unicode bidirectional formatting characters (LRM, RLM, ALM, the
+  /// embedding/override and the isolate controls).
+  ///
+  /// CLDR puts some of them in patterns to steer display, e.g. an RLM (U+200F)
+  /// before each `/` in the Arabic `d/M/y`. They are invisible, so people don't
+  /// type them, and a literal that contains them is matched while ignoring them.
+  static final _bidiControls = RegExp(
+    '[\u200E\u200F\u061C\u202A-\u202E\u2066-\u2069]',
+  );
+
   _DateFormatField(this.pattern, this.parent)
-    : _trimmedPattern = pattern.trim();
+    : _unmarkedPattern = pattern.replaceAll(_bidiControls, ''),
+      _trimmedPattern = pattern.replaceAll(_bidiControls, '').trim();
 
   /// Does this field potentially represent part of a Date, i.e. is not
   /// time-specific.
@@ -51,10 +65,15 @@ abstract class _DateFormatField {
 
   /// Parse a literal field. We just look for the exact input.
   void parseLiteral(StringStack input) {
-    var found = input.read(width);
-    if (found != pattern) {
+    // Only a literal that carries bidi controls itself ignores them, any other
+    // literal still has to match exactly.
+    var ignoreBidi = _unmarkedPattern.length != pattern.length;
+    if (ignoreBidi) _skipBidiControls(input);
+    var found = input.read(_unmarkedPattern.length);
+    if (found != _unmarkedPattern) {
       throwFormatException(input);
     }
+    if (ignoreBidi) _skipBidiControls(input);
   }
 
   /// Parse a literal field. We accept either an exact match, or an arbitrary
@@ -68,12 +87,21 @@ abstract class _DateFormatField {
   void parseLiteralLoose(StringStack input) {
     _trimWhitespace(input);
 
+    var ignoreBidi = _unmarkedPattern.length != pattern.length;
+    if (ignoreBidi) _skipBidiControls(input);
     var found = input.peek(_trimmedPattern.length);
     if (found == _trimmedPattern) {
       input.pop(_trimmedPattern.length);
     }
+    if (ignoreBidi) _skipBidiControls(input);
 
     _trimWhitespace(input);
+  }
+
+  void _skipBidiControls(StringStack input) {
+    while (!input.atEnd && _bidiControls.hasMatch(input.peek())) {
+      input.pop();
+    }
   }
 
   void _trimWhitespace(StringStack input) {
