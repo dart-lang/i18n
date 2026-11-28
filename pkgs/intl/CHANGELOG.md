@@ -1,3 +1,8 @@
+## 0.20.4-wip
+ * Fix `DateFormat` parsing of Arabic dates typed without the right-to-left
+   marks that the `ar` patterns contain, e.g. `16/11/2023` for `yMd`. The marks
+   are now ignored when matching a literal that contains them.
+
 ## 0.20.3
  * Updated the Turkish Lira (TRY) currency symbol in `simpleCurrencySymbols`
    from "TL" to "₺" (U+20BA). This ensures accuracy and alignment with the
